@@ -1,0 +1,106 @@
+<div class=''>
+	<h4>{{'DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE'|translate}}</h4>
+	<div class='row'>
+		<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+			<div class='graph-container'>
+				<stream-components-real-time data='wsStatisticData'></stream-components-real-time>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+			<div class='panel-stream-realtime-statistics-time'>
+				<div class='panel-stream-realtime-statistics-time-title'>
+					<h5>{{'DASHBOARD_STREAM_WS_STATISTICS_TIME_TABLE_TITLE'|translate}}</h5>
+				</div>
+				<table class='table table-condensed table-supercondensed '>
+					<!-- <thead>
+					<tr>
+						<th>{{'DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_TIME'|translate}}</th>
+						<th>{{'DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_COUNT'|translate}}</th>
+					</tr>
+				</thead> -->
+					<tbody>
+						<tr ng-repeat="row in wsStatisticMessages">
+							<td>{{row[0]}}</td>
+							<td>{{row[1]}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div>
+	<h4>{{'DASHBOARD_STREAM_SYSTEM_STATUS'|translate}}</h4>
+
+	<div class='row'>
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class='panel-stream-realtime-statistics'>
+				<div class='panel-stream-realtime-statistics-title'>
+					<h4>{{'DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE'|translate}}</h4>
+				</div>
+				<table class="table table-supercondensed ">
+					<tbody>
+						<tr>
+							<td><strong>{{'STREAM_FIELD_STATUS'|translate}}</strong></td>
+							<td>{{stream.status}}</td>
+						</tr>
+						<tr>
+							<td><strong>{{'STREAM_FIELD_LASTUPDATE'|translate}}</strong></td>
+							<td>{{stream.lastupdate|date}}</td>
+						</tr>
+						<tr>
+							<td><strong>{{'STREAM_FIELD_NUM_EVENTS_QUEUED'|translate}}</strong></td>
+							<td>{{stream.num_events_queued}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6  col-sm-12 col-xs-12">
+			<div class='panel-stream-realtime-statistics'>
+				<div class='panel-stream-realtime-statistics-title'>
+					<h4>{{'STREAM_FIELD_MESSAGE_SIZE'|translate}}</h4>
+				</div>
+				<table class="table table-supercondensed ">
+					<tbody>
+						<tr>
+							<td><strong>{{'STREAM_FIELD_MESSAGE_SIZE_AVERAGE'|translate}}</strong></td>
+							<td>{{stream.message_size.average}}</td>
+						</tr>
+						<tr>
+							<td><strong>{{'STREAM_FIELD_MESSAGE_SIZE_MAX'|translate}}</strong></td>
+							<td>{{stream.message_size.max}}</td>
+						</tr>
+						<tr>
+							<td><strong>{{'STREAM_FIELD_MESSAGE_SIZE_MIN'|translate}}</strong></td>
+							<td>{{stream.message_size.min}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class=''>
+	<h4>{{'DASHBOARD_STREAM_WS_URL_TITLE'|translate}}</h4>
+	<div class="alert alert-warning" role="alert">
+		<p>ws://tst-sdnet-esbin1.sdp.csi.it/ws2/{{stream.tenants}}-{{stream.sensor}}-{{stream.id_stream}}</p>
+	</div>
+</div>
+
+<div class=''>
+	<h4>
+		{{'DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE'|translate}}
+		<button class='btn btn-default pull-right' ng-click="refreshLastMessage()">
+			<span class="glyphicon glyphicon-refresh"></span> {{'DASHBOARD_STREAM_WS_LASTMESSAGE_REFRESH_BUTTON'|translate}}
+		</button>
+	</h4>
+	<div>&nbsp;</div>
+	<pre pretty-json="wsLastMessageToShow" />
+
+</div>
+
+
+
+<!--  	<cr-d3-bars data='myData'></cr-d3-bars> -->

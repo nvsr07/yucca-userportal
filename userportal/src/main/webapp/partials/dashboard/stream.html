@@ -1,0 +1,22 @@
+<div ng-controller="DashboardStreamCtrl as streamsCtrl">
+	<!-- <h1 translate="{{'DASHBOARD_STREAM_TITLE'|translate:'{ stream_name: stream.id_stream }' }}"></h1> -->
+
+	<div class='title-container'>
+		<div class="container">
+			<h1>
+				{{'DASHBOARD_STREAM_TITLE'|translate}}<strong>{{stream.name}}</strong>
+			</h1>
+		</div>
+	</div>
+	<div class="container">
+
+		<div class="row">
+			<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+				<stream-realtime></stream-realtime>
+			</div>
+			<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+				<stream-card></stream-card>
+			</div>
+		</div>
+	</div>
+</div>
