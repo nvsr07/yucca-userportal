@@ -21,7 +21,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
   $routeProvider.when('/market', {templateUrl: 'partials/market/index.html', controller: 'MarketCtrl', activetab: 'market'});
   $routeProvider.otherwise({redirectTo: '/dashboard'});
   
-  $locationProvider.html5Mode(true).hashPrefix('!');
+ // $locationProvider.html5Mode(true).hashPrefix('!');
 }]);
 
 

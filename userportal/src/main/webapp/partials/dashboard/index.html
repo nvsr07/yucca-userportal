@@ -67,7 +67,7 @@
 					<tbody>
 						<tr ng-repeat="stream in streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 							<td>{{stream.tenant}}</td>
-							<td><a href="dashboard/stream/{{stream.id_stream}}">{{stream.name}}</a></td>
+							<td><a href="/#/dashboard/stream/{{stream.id_stream}}">{{stream.name}}</a></td>
 							<td>{{stream.registration_date|date}}</td>
 							<td>{{stream.num_events_last_halfhour}}</td>
 							<td>{{stream.lastupdate|date}}</td>
