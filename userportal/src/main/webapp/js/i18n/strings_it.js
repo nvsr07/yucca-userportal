@@ -17,7 +17,7 @@ var translations_it = {
 	DASHBOARD_STREAM_LIST_LASTUPDATE : 'Aggiornamento',
 	DASHBOARD_STREAM_LIST_STATUS : 'Stato',
 
-	DASHBOARD_STREAM_LIST_TENANT_FILTER: 'Filtra per azienda',
+	DASHBOARD_STREAM_LIST_TENANT_FILTER: 'Filtra per organizzazione',
 	DASHBOARD_STREAM_LIST_LASTUPDATE_FILTER: 'Filtra per aggiornamento',
 
 	//DASHBOARD_STREAM_TITLE: 'Flusso <strong>{{stream_name}}</strong>',

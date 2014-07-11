@@ -1,0 +1,94 @@
+package it.csi.sdp.userportal.service;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Properties;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+
+@WebServlet(description = "Configuration Parameter for clients", urlPatterns = { "/api/config" }, initParams = { @WebInitParam(name = "responseType", value = "angularJs"), }, asyncSupported = true)
+public class ClientConfigServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	static Logger log = Logger.getLogger(ClientConfigServlet.class);
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.debug("[ClientConfigServlet::doGet] - START");
+		try {
+			response.setContentType("text/javascript");
+			PrintWriter out = response.getWriter();
+
+			String responseType = request.getParameter("responseType");
+			if (responseType == null)
+				responseType = getServletConfig().getInitParameter("responseType");
+			log.debug("[ClientConfigServlet::doGet] - responseType: " + responseType);
+
+			Properties config = loadClientConfiguration();
+			String responseString = formatConfig(config, responseType);
+			out.println(responseString);
+			out.close();
+		} catch (IOException e) {
+			log.error("[ClientConfigServlet::doGet] - ERROR " + e.getMessage());
+			throw e;
+		} finally {
+			log.debug("[ClientConfigServlet::doGet] - END");
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.debug("[ClientConfigServlet::doPost] - START");
+		try {
+			doGet(request, response);
+		} finally {
+			log.debug("[ClientConfigServlet::doPost] - END");
+		}
+	}
+
+	private Properties loadClientConfiguration() throws IOException {
+		log.debug("[ClientConfigServlet::loadClientConfiguration] - START");
+		try {
+			Properties config = new Properties();
+			config.load(getServletContext().getResourceAsStream("/WEB-INF/config/client.properties"));
+			return config;
+		} finally {
+			log.debug("[ClientConfigServlet::loadClientConfiguration] - END");
+		}
+	}
+
+	private String formatConfig(Properties config, String responseType) {
+		log.debug("[ClientConfigServlet::formatConfig] - START");
+		try {
+			StringBuffer sb = new StringBuffer("");
+			if ("angularJs".equals(responseType)) {
+				sb.append("'use strict';\n\n");
+				sb.append("var appConfig = angular.module('userportal.config', []);\n\n");
+				for (String key : config.stringPropertyNames()) {
+					sb.append("appConfig.constant('" + key + "', '" + config.getProperty(key) + "');\n");
+				}
+
+				// appConfig.constant('DASHBOARD_API_STREAM_LIST_URL',
+				// 'http://dev-www.dati.piemonte.it/demo/sdp/streamsList.php?callback=JSON_CALLBACK');
+
+			}
+			else{
+				sb.append("\n\n*** WARNING: response type:'" + responseType +"' is actually NOT Supported ***\n\n");
+				for (String key : config.stringPropertyNames()) {
+					sb.append("" + key + "=" + config.getProperty(key) + ";\n");
+				}
+
+			}
+
+			return sb.toString();
+
+		} finally {
+			log.debug("[ClientConfigServlet::formatConfig] - END");
+		}
+	}
+
+}

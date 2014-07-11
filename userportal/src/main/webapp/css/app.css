@@ -11,8 +11,8 @@ table>thead>tr>th{color: #1dbbee; font-weight: 500; text-transform: uppercase;pa
 .logo-text-net{color: #707c7c;}
 
 .menu-flag-icon{display: block; height: 40px; width: 40px;}
-.menu-flag-icon-en{background: url("/img/flags/en.png") center center no-repeat; }
-.menu-flag-icon-it{background: url("/img/flags/it.png") center center no-repeat; }
+.menu-flag-icon-en{background: url("../img/flags/en.png") center center no-repeat; }
+.menu-flag-icon-it{background: url("../img/flags/it.png") center center no-repeat; }
 
 footer {   width: 100%; height: auto; }/*position: fixed; bottom: 0px;left: 0px; }*/
 footer{text-align: center;    background-color:#efefef; border-top:1px solid #e1e1e1; padding: 2em;}

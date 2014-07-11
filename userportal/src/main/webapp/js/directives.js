@@ -12,14 +12,14 @@ appDirectives.directive('appVersion', [ 'version', function(version) {
 appDirectives.directive('streamCard', function() {
 	return {
 		restrict : 'E',
-		templateUrl : '/partials/dashboard/stream-card.html'
+		templateUrl : 'partials/dashboard/stream-card.html'
 	};
 });
 
 appDirectives.directive('streamRealtime', function() {
 	return {
 		restrict : 'E',
-		templateUrl : '/partials/dashboard/stream-realtime.html'
+		templateUrl : 'partials/dashboard/stream-realtime.html'
 	};
 });
 
