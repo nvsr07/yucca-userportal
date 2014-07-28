@@ -1,23 +1,53 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>it.csi.sdp.userportal</groupId>
-  <artifactId>userportal</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <name>userportal</name>
- 
-  <dependencies>
-  	<dependency>
-  		<groupId>javax.servlet</groupId>
-  		<artifactId>javax.servlet-api</artifactId>
-  		<version>3.0.1</version>
-  		<scope>provided</scope>
-  	</dependency>
-  	<dependency>
-  		<groupId>log4j</groupId>
-  		<artifactId>log4j</artifactId>
-  		<version>1.2.16</version>
-  		<scope>provided</scope>
-  	</dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.csi.sdp.userportal</groupId>
+	<artifactId>userportal</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>userportal</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/local</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/dev</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
 </project>

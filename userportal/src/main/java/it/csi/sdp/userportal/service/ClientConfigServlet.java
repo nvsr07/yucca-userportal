@@ -54,7 +54,7 @@ public class ClientConfigServlet extends HttpServlet {
 		log.debug("[ClientConfigServlet::loadClientConfiguration] - START");
 		try {
 			Properties config = new Properties();
-			config.load(getServletContext().getResourceAsStream("/WEB-INF/config/client.properties"));
+			config.load(getServletContext().getResourceAsStream("/WEB-INF/classes/client.properties"));
 			return config;
 		} finally {
 			log.debug("[ClientConfigServlet::loadClientConfiguration] - END");
