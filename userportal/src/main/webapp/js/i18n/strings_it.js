@@ -1,4 +1,7 @@
 var translations_it = {
+	
+	LANG_KEY: 'it', 
+	
 	/* main menu */
 	MENU_DASHBOARD : 'Monitoraggio',
 	MENU_MANAGE : 'Manage',

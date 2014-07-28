@@ -1,4 +1,7 @@
 var translations_en = {
+		
+	LANG_KEY: 'en', 
+
 	/* main menu */
 	MENU_DASHBOARD : 'Dashboard',
 	MENU_MANAGE : 'Manage',

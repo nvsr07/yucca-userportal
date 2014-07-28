@@ -36,14 +36,15 @@ appControllers.controller('DashboardCtrl', [ '$scope', 'fabricAPIservice', funct
 		var keyword = new RegExp($scope.tenantsFilter, 'i');
 		return !$scope.tenantsFilter || keyword.test(stream.tenant);
 	};
-	
-	$scope.$watch('tenantsFilter', function (newTenant) {
-        $scope.currentPage = 1;
 
-    //   $scope.filteredStreamsList = $filter('filter')($scope.streamsList, $scope.tenant);
-        $scope.totalItems = $scope.filteredStreamsList.length;
-        console.log("newTenant", newTenant);
-    });
+	$scope.$watch('tenantsFilter', function(newTenant) {
+		$scope.currentPage = 1;
+
+		// $scope.filteredStreamsList = $filter('filter')($scope.streamsList,
+		// $scope.tenant);
+		$scope.totalItems = $scope.filteredStreamsList.length;
+		console.log("newTenant", newTenant);
+	});
 
 } ]);
 
