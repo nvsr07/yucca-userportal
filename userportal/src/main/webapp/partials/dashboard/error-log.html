@@ -1,0 +1,36 @@
+<div ng-controller="DashboardErrorLogCtrl as errorLogCtrl">
+	<div class='title-container'>
+		<div class="container">
+			<h1>
+				{{'DASHBOARD_ERROR_LOG_TITLE'|translate}}
+				<small>{{'DASHBOARD_ERROR_LOG_SUBTITLE'|translate}}</small>
+			</h1>
+		</div>
+	</div>
+	<div class="container">
+		<p>{{'DASHBOARD_ERROR_LOG_INTRO'|translate}}</p>
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<h4>
+					{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_TITLE'|translate}} 
+					<small>{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_SUBTITLE'|translate}}</small>
+				</h4>
+				<div class="list-group">
+				  	<a href="#" class="list-group-item">{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_ITEM'|translate}} <small class="text-muted"><i>Undefined tenant</i></small></a>
+				  	<a ng-repeat="tenant in tenantsList" href="#" class="list-group-item">{{tenant.name}}</a>
+				</div>
+			</div>
+			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+				<h4>
+					{{'DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE'|translate}}
+					<button class='btn btn-default pull-right' ng-click="refreshLastMessage()">
+						<span class="glyphicon glyphicon-refresh"></span> {{'DASHBOARD_STREAM_WS_LASTMESSAGE_REFRESH_BUTTON'|translate}}
+					</button>
+				</h4>
+				<div>&nbsp;</div>
+				<pre pretty-json="wsLastMessageToShow" />
+
+			</div>
+		</div>
+	</div>
+</div>

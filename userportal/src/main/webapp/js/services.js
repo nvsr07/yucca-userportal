@@ -8,7 +8,7 @@ appServices.value('version', '0.1');
 
 
 
-appServices.factory('fabricAPIservice', function($http,DASHBOARD_API_STREAM_LIST_URL,DASHBOARD_API_STREAM_URL) {
+appServices.factory('fabricAPIservice', function($http,DASHBOARD_API_STREAM_LIST_URL,DASHBOARD_API_STREAM_URL,DASHBOARD_API_TENANT_LIST_URL) {
 
 	var fabricAPI = {};
 
@@ -23,6 +23,13 @@ appServices.factory('fabricAPIservice', function($http,DASHBOARD_API_STREAM_LIST
 		return $http({
 			method : 'JSONP',
 			url : DASHBOARD_API_STREAM_URL + id_stream
+		});
+	};
+
+	fabricAPI.getTenants = function() {
+		return $http({
+			method : 'JSONP',
+			url : DASHBOARD_API_TENANT_LIST_URL
 		});
 	};
 

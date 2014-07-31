@@ -1,9 +1,23 @@
 <div class=''>
-	<h4>{{'DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE'|translate}}</h4>
 	<div class='row'>
 		<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+			<h4>{{'DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE'|translate}}</h4>
 			<div class='graph-container'>
-				<stream-components-real-time data='wsStatisticData'></stream-components-real-time>
+				<nvd3-line-chart 
+					data="nvWsStatisticData" 
+					id="nvStatisticData" 
+					width="600" 
+					height="300" 
+					showXAxis="true" 
+					showYAxis="true" 
+					tooltips="true" 
+					interactive="true" 
+					interpolate="basis"
+					objectEquality="true" 
+					> <svg></svg> 
+				</nvd3-line-chart>
+			
+			<!-- <stream-components-real-time data='wsStatisticData'></stream-components-real-time>  -->
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -12,14 +26,21 @@
 					<h5>{{'DASHBOARD_STREAM_WS_STATISTICS_TIME_TABLE_TITLE'|translate}}</h5>
 				</div>
 				<table class='table table-condensed table-supercondensed '>
-					<!-- <thead>
-					<tr>
-						<th>{{'DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_TIME'|translate}}</th>
-						<th>{{'DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_COUNT'|translate}}</th>
-					</tr>
-				</thead> -->
 					<tbody>
 						<tr ng-repeat="row in wsStatisticMessages">
+							<td>{{row[0]}}</td>
+							<td>{{row[1]}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class='panel-stream-realtime-errors-time'>
+				<div class='panel-stream-realtime-errors-time-title'>
+					<h5>{{'DASHBOARD_STREAM_WS_ERROR_TIME_TABLE_TITLE'|translate}}</h5>
+				</div>
+				<table class='table table-condensed table-supercondensed '>
+					<tbody>
+						<tr ng-repeat="row in wsErrorMessages">
 							<td>{{row[0]}}</td>
 							<td>{{row[1]}}</td>
 						</tr>
@@ -85,7 +106,7 @@
 <div class=''>
 	<h4>{{'DASHBOARD_STREAM_WS_URL_TITLE'|translate}}</h4>
 	<div class="alert alert-warning" role="alert">
-		<p>ws://tst-sdnet-esbin1.sdp.csi.it/ws2/{{stream.tenants}}-{{stream.sensor}}-{{stream.id_stream}}</p>
+		<p>{{wsUrl}}</p>
 	</div>
 </div>
 
@@ -100,6 +121,7 @@
 	<pre pretty-json="wsLastMessageToShow" />
 
 </div>
+
 
 
 
