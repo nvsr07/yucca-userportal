@@ -65,6 +65,7 @@ var translations_en = {
 	/* Stream List */
 	STREAM_LIST_TENANT_FILTER : 'Filter by tenant',
 	STREAM_LIST_NAME_FILTER : 'Filter by name',
+	STREAM_LIST_CODE_FILTER : 'Filter by code',
 	STREAM_LIST_STATUS_FILTER : 'Filter by status',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filter by lastupdate',
 
@@ -123,6 +124,8 @@ var translations_en = {
 	MANAGEMENT_STREAM_LIST_NEW_STREAM_INTERNAL : 'Internal',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM : 'Edit',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM : 'Delete',
+	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'To enable editing select a single stream',
+	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'To enable deleting select at least one stream',
 	
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Create',

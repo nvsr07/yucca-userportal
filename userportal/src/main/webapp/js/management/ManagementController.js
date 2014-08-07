@@ -11,10 +11,10 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", func
 appControllers.controller('ManagementCtrl', [ '$scope', function($scope) {
 } ]);
 
-appControllers.controller('ManagementStreamListCtrl', [ '$scope', 'fabricAPIservice', function($scope, fabricAPIservice, filterFilter) {
+appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$location', 'fabricAPIservice', function($scope, $location, fabricAPIservice, filterFilter) {
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
-	$scope.namesFilter = null;
+	$scope.codeFilter = null;
 	$scope.statusFilter = null;
 
 	$scope.currentPage = 1;
@@ -33,9 +33,9 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', 'fabricAPIserv
 		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
 
-	$scope.searchNamesFilter = function(stream) {
-		var keyword = new RegExp($scope.namesFilter, 'i');
-		return !$scope.namesFilter || keyword.test(stream.name);
+	$scope.searchCodeFilter = function(stream) {
+		var keyword = new RegExp($scope.codeFilter, 'i');
+		return !$scope.codeFilter || keyword.test(stream.codiceStream);
 	};
 
 	$scope.searchStatusFilter = function(stream) {
@@ -43,10 +43,10 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', 'fabricAPIserv
 		return !$scope.statusFilter || keyword.test(stream.status);
 	};
 
-	$scope.$watch('namesFilter', function(newName) {
+	$scope.$watch('codeFilter', function(newCode) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredStreamsList.length;
-		console.log("newName", newName);
+		console.log("newCode", newCode);
 	});
 
 	$scope.$watch('statusFilter', function(newStatus) {
@@ -55,7 +55,47 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', 'fabricAPIserv
 		console.log("newStatus", newStatus);
 	});
 
+	$scope.selectedStreams = [];
+	
+	$scope.isSelected = function(stream) {
+		 return $scope.selectedStreams.indexOf(stream) >= 0;
+	};
+		
+	$scope.updateSelection = function($event, stream) {
+		var checkbox = $event.target;
+		 var action = (checkbox.checked ? 'add' : 'remove');
+		  updateSelected(action, stream);
+	};	
+	var updateSelected = function(action, stream) {
+		if (action === 'add' && $scope.selectedStreams.indexOf(stream) === -1) {
+			$scope.selectedStreams.push(stream);
+		}
+		if (action === 'remove' && $scope.selectedStreams.indexOf(stream) !== -1) {
+			$scope.selectedStreams.splice($scope.selectedStreams.indexOf(stream), 1);
+		}
+	};
+	
+	$scope.editStream = function(){
+		if($scope.selectedStreams.length===1){
+			
+			$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+	$scope.deleteStream = function(){
+		if($scope.selectedStreams.length>0){
+			
+			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
 } ]);
+
+
 appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$location', 'fabricAPIservice', function($scope, $location, fabricAPIservice) {
 	$scope.tenantCode = 'TSTSTP01';
 	$scope.virtualEntitiesList = [];

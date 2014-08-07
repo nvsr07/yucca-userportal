@@ -9,8 +9,8 @@
 /* Config */
 var appConfig = angular.module('userportal.config', []);
 //appConfig.constant('API_BASE_URL', 'http://tst-sdnet-intapi1.sdp.csi.it/wso001/services/');
-//var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
-var API_BASE_URL = '/userportal/api/proxy/';
+var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
+//var API_BASE_URL = '/userportal/api/proxy/';
 appConfig.constant('DASHBOARD_API_STREAM_LIST_URL', API_BASE_URL+'streams/');
 appConfig.constant('DASHBOARD_API_STREAM_URL', API_BASE_URL+'streams/');
 

@@ -15,18 +15,18 @@
 						<li><a href="nuovo_flusso_interno.html">{{'MANAGEMENT_STREAM_LIST_NEW_STREAM_INTERNAL'|translate}}</a></li>
 			      	</ul>
 			    </div>
-				<a href="#" class="btn btn-default">
+				<button  href="javascript:void(0)" ng-click='editStream()' class="btn btn-default" ng-disabled="selectedStreams.length!=1" title="{{'MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT'|translate}}">
 					<span class="glyphicon glyphicon-pencil"></span> {{'MANAGEMENT_STREAM_LIST_EDIT_STREAM'|translate}}
-				</a>
-				<a href="#" class="btn btn-default">
+				</button>
+				<button href="javascript:void(0)" ng-click='deleteStream()'class="btn btn-default" ng-disabled="selectedStreams.length<1" title="{{'MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT'|translate}}">
 					<span class="glyphicon glyphicon-trash"></span> {{'MANAGEMENT_STREAM_LIST_DELETE_STREAM'|translate}}
-				</a>
+				</button>
 			</div>
 			<div class="btn-group pull-right">
 				<form class="form-inline" role="form">
 					<div class="form-group">
 						<div class="form-group">
-							<input type="text" class="form-control col-xs-2" ng-model="namesFilter" placeholder="{{'STREAM_LIST_NAME_FILTER'|translate}}" />
+							<input type="text" class="form-control col-xs-2" ng-model="codeFilter" placeholder="{{'STREAM_LIST_CODE_FILTER'|translate}}" />
 						</div>
 						<div class="form-group">
 							<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'STREAM_LIST_STATUS_FILTER'|translate}}" />
@@ -35,7 +35,6 @@
 				</form>
 			</div>
 		</div>
-		
 		<div class="table-responsive dashboard-streamList-table">
 			<table class="table table-striped">
 				<thead>
@@ -43,13 +42,13 @@
 						<th>
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'STREAM_FIELD_CODE'|translate}} 
-							<span ng-show="predicate=='name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'code'; reverse=!reverse">{{'STREAM_FIELD_CODE'|translate}} 
+							<span ng-show="predicate=='code' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='code' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'VIRTUALENTITY'|translate}} 
+							<a href="" ng-click="predicate = 'source'; reverse=!reverse">{{'VIRTUALENTITY'|translate}} 
 							<span ng-show="predicate=='source' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 							<span ng-show="predicate=='source' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
@@ -73,8 +72,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="stream in streamsList | filter: searchNamesFilter | filter: searchStatusFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
-						<td><input type="checkbox" />
+					<tr ng-repeat="stream in streamsList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+						<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/>
 						<td><a href="#/dashboard/stream/{{stream.id_stream}}">{{stream.codiceStream}}</a></td>
 						<td>{{stream.codiceVirtualEntity}}</td>
 						<td>{{stream.lastupdate|date}}</td>
