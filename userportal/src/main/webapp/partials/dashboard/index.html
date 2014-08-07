@@ -11,11 +11,11 @@
 
 			<!-- Single button -->
 			<div class="btn-group">
-				<input type="text" class="form-control col-xs-4" ng-model="tenantsFilter" placeholder="{{'DASHBOARD_STREAM_LIST_TENANT_FILTER'|translate}}" />
+				<input type="text" class="form-control col-xs-4" ng-model="tenantsFilter" placeholder="{{'STREAM_LIST_TENANT_FILTER'|translate}}" />
 			</div>
 			<!-- 
 			<div class="btn-group">
-				<input type="text" class="form-control col-xs-4" ng-model="streamsLastupdateFilter" placeholder="{{'DASHBOARD_STREAM_LIST_LASTUPDATE_FILTER'|translate}}" />
+				<input type="text" class="form-control col-xs-4" ng-model="streamsLastupdateFilter" placeholder="{{'STREAM_LIST_LASTUPDATE_FILTER'|translate}}" />
 			</div>
  -->
 			<div class="btn-group pull-right">
@@ -45,13 +45,6 @@
 							
 							</th>
 							<th>
-								<a href="" ng-click="predicate = 'num_events_last_halfhour'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_EVENTS'|translate}} 
-								<span ng-show="predicate=='num_events_last_halfhour' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='num_events_last_halfhour' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-							
-							</th>
-							
-							<th>
 								<a href="" ng-click="predicate = 'lastupdate'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_LASTUPDATE'|translate}} 
 								<span ng-show="predicate=='lastupdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 								<span ng-show="predicate=='lastupdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
@@ -66,12 +59,11 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="stream in streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
-							<td>{{stream.tenant}}</td>
-							<td><a href="#/dashboard/stream/{{stream.id_stream}}">{{stream.name}}</a></td>
+							<td>{{stream.nomeTenant}}</td>
+							<td><a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">{{stream.codiceStream}}</a></td>
 							<td>{{stream.registration_date|date}}</td>
-							<td>{{stream.num_events_last_halfhour}}</td>
-							<td>{{stream.lastupdate|date}}</td>
-							<td>{{stream.status}}</td>
+							<td>{{stream.lastUpdate|date}}</td>
+							<td>{{stream.statoStream}}</td>
 						</tr>
 					</tbody>
 				</table>

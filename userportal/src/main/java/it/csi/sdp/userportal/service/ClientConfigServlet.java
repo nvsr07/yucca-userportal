@@ -1,5 +1,7 @@
 package it.csi.sdp.userportal.service;
 
+import it.csi.sdp.userportal.utils.Config;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
@@ -29,7 +31,7 @@ public class ClientConfigServlet extends HttpServlet {
 				responseType = getServletConfig().getInitParameter("responseType");
 			log.debug("[ClientConfigServlet::doGet] - responseType: " + responseType);
 
-			Properties config = loadClientConfiguration();
+			Properties config = Config.loadClientConfiguration();
 			String responseString = formatConfig(config, responseType);
 			out.println(responseString);
 			out.close();
@@ -47,17 +49,6 @@ public class ClientConfigServlet extends HttpServlet {
 			doGet(request, response);
 		} finally {
 			log.debug("[ClientConfigServlet::doPost] - END");
-		}
-	}
-
-	private Properties loadClientConfiguration() throws IOException {
-		log.debug("[ClientConfigServlet::loadClientConfiguration] - START");
-		try {
-			Properties config = new Properties();
-			config.load(getServletContext().getResourceAsStream("/WEB-INF/classes/client.properties"));
-			return config;
-		} finally {
-			log.debug("[ClientConfigServlet::loadClientConfiguration] - END");
 		}
 	}
 

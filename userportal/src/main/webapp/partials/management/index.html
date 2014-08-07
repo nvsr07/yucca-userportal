@@ -4,17 +4,18 @@
 		<h1>{{'MANAGEMENT_TITLE'|translate}}</h1>
 	</div>
 </div>
-<div class="container">
+<div class="container"  ng-controller="ManagementNavigationCtrl as navigationCtrl">
 	<div class='row'>
 		<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
 			<ul class="nav  nav-pills nav-stacked">
-				<li ng-class="{active: $route.current.activeManagementTab == 'dashboard'}"><a href="#/management/dashboard">{{'MANAGEMENT_MENU_DASHBOARD'|translate}}</a></li>
-				<li ><a href="gestione.html">Dashboard</a></li>
-				<li class=""><a href="flussi/lista_flussi.html">Flussi</a></li>
-				<li class=""><a href="virtual_entity/lista_ve.html">Virtual entity</a></li>
-				<li class=""><a href="dataset/dataset.html">Dataset</a></li>
+				<li ng-class="{active: managementTab == 'dashboard'}"><a href="#/management/dashboard">{{'MANAGEMENT_MENU_DASHBOARD'|translate}}</a></li>
+				<li ng-class="{active: managementTab == 'streams'}"><a href="#/management/streams">{{'MANAGEMENT_MENU_STREAMS'|translate}}</a></li>
+				<li ng-class="{active: managementTab == 'virtualEntities'}"><a href="#/management/virtualEntities">{{'MANAGEMENT_MENU_VIRTUAL_ENTITIES'|translate}}</a></li>
+				<li ng-class="{active:  managementTab == 'dataset'}"><a href="#/management/dataset">{{'MANAGEMENT_MENU_DATASET'|translate}}</a></li>
 			</ul>
 		</div>
-
+		<div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
+			<ng-include src=" 'partials/management/' + managementTab+ '.html' "></ng-include>
+		</div>
 	</div>
 </div>

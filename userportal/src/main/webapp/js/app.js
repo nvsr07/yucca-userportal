@@ -17,10 +17,16 @@ var app = angular.module('userportal', [
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard/index.html', controller: 'DashboardCtrl', activetab: 'dashboard'});
-  $routeProvider.when("/dashboard/stream/:id_stream", {templateUrl: "partials/dashboard/stream.html", controller: "DashboardStreamCtrl"});
+  $routeProvider.when("/dashboard/stream/:tenant_code/:virtualentity_code/:stream_code", {templateUrl: "partials/dashboard/stream.html", controller: "DashboardStreamCtrl"});
   $routeProvider.when("/dashboard/error_log", {templateUrl: "partials/dashboard/error-log.html", controller: "DashboardStreamCtrl"});
   $routeProvider.when('/management', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
-  $routeProvider.when('/management/dashboard', {templateUrl: 'partials/management/dashboard.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'dashboard'});
+  $routeProvider.when('/management/:managementTab', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
+  $routeProvider.when('/management/:managementTab/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
+
+  //$routeProvider.when('/management/dashboard', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'dashboard'});
+  //$routeProvider.when('/management/streams', {templateUrl: 'partials/management/dashboard.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'streams'});
+  //$routeProvider.when('/management/virtualEntities', {templateUrl: 'partials/management/dashboard.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'virtualEntities'});
+  //$routeProvider.when('/management/dataset', {templateUrl: 'partials/management/dashboard.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'dataset'});
   $routeProvider.when('/market', {templateUrl: 'partials/market/index.html', controller: 'MarketCtrl', activetab: 'market'});
   $routeProvider.otherwise({redirectTo: '/dashboard'});
   
@@ -34,4 +40,11 @@ app.config(['$translateProvider', function ($translateProvider) {
 	.translations('it', translations_it)
 	.preferredLanguage('en');
 }]);
+
+app.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+}
+]);
+
 

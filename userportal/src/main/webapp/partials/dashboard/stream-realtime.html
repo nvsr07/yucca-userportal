@@ -52,9 +52,16 @@
 </div>
 <div>
 	<h4>{{'DASHBOARD_STREAM_SYSTEM_STATUS'|translate}}</h4>
-
 	<div class='row'>
-		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+			<p><strong>{{'STREAM_FIELD_STATUS'|translate}}</strong> {{stream.statoStream}}</p>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+			<p><strong>{{'STREAM_FIELD_LASTUPDATE'|translate}}</strong> {{stream.lastUpdate|date}}</p>
+		</div>
+	</div>
+	<div class='row hide'>
+		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
 			<div class='panel-stream-realtime-statistics'>
 				<div class='panel-stream-realtime-statistics-title'>
 					<h4>{{'DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE'|translate}}</h4>
@@ -63,15 +70,15 @@
 					<tbody>
 						<tr>
 							<td><strong>{{'STREAM_FIELD_STATUS'|translate}}</strong></td>
-							<td>{{stream.status}}</td>
+							<td>{{stream.statoStream}}</td>
 						</tr>
 						<tr>
 							<td><strong>{{'STREAM_FIELD_LASTUPDATE'|translate}}</strong></td>
-							<td>{{stream.lastupdate|date}}</td>
+							<td>{{stream.lastUpdate|date}}</td>
 						</tr>
 						<tr>
 							<td><strong>{{'STREAM_FIELD_NUM_EVENTS_QUEUED'|translate}}</strong></td>
-							<td>{{stream.num_events_queued}}</td>
+							<td>{{stream.num_events_queued}} <span class="label label-danger">nascondere ?</span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -82,7 +89,7 @@
 				<div class='panel-stream-realtime-statistics-title'>
 					<h4>{{'STREAM_FIELD_MESSAGE_SIZE'|translate}}</h4>
 				</div>
-				<table class="table table-supercondensed ">
+				<table class="table table-supercondensed">
 					<tbody>
 						<tr>
 							<td><strong>{{'STREAM_FIELD_MESSAGE_SIZE_AVERAGE'|translate}}</strong></td>

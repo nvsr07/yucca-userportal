@@ -5,47 +5,65 @@
 	</div>
 	<table class="table dashboard-table-stream-detail">
 		<tbody>
+			<tr><td colspan='2' class='row-title' class='row-title'>{{'STREAM'|translate}}</td></tr>
+			<tr>
+				<td>{{'STREAM_FIELD_CODE'|translate}}</td>
+				<td>{{stream.codiceStream}}</td>
+			</tr>
 			<tr>
 				<td>{{'STREAM_FIELD_NAME'|translate}}</td>
-				<td>{{stream.name}}</td>
+				<td>{{stream.nomeStream}}</td>
 			</tr>
+			<tr><td colspan='2' class='row-title'>{{'STREAM_FIELD_COMPONENTS'|translate}}</td></tr>
 			<tr>
-				<td>{{'STREAM_FIELD_TENANT'|translate}}</td>
-				<td>{{stream.tenant}}</td>
-			</tr>
-			<tr>
-				<td>{{'STREAM_FIELD_SENSOR'|translate}}</td>
-				<td>{{stream.sensor}}</td>
-			</tr>
-			<tr>
-				<td>{{'STREAM_FIELD_DESCRIPTION'|translate}}</td>
-				<td><span class='dashboard-stream-description' ng-bind-html="stream.description"></span></td>
-			</tr>
-			<tr>
-				<td>{{'STREAM_FIELD_COMPONENTS'|translate}}</td>
-				<td>
+				<td colspan='2'>
 					<table class='table-condensed table-supercondensed dashboard-table-components'>
 						<thead>
 							<tr>
 								<th>{{'STREAM_FIELD_COMPONENTS_DESCRIPTION'|translate}}</th>
-								<th>{{'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate}}</th>
 								<th>{{'STREAM_FIELD_COMPONENTS_DATA_TYPE'|translate}}</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="component in stream.components">
-								<td>{{component.description}}</td>
-								<td>{{component.unit_of_measurement}}</td>
-								<td>{{component.data_type}}</td>
+							<tr ng-repeat="component in stream.componenti.element">
+								<td>{{component.nome}}</td>
+								<td>{{component.tipo}}</td>
 							</tr>
 						</tbody>
 					</table>
 
 				</td>
 			</tr>
+			<tr><td colspan='2' class='row-title'>{{'VIRTUALENTITY'|translate}}</td></tr>
+			<tr>
+				<td>{{'STREAM_FIELD_VIRTUALENTITY_CODE'|translate}}</td>
+				<td>{{stream.codiceVirtualEntity}}</td>
+			</tr>
+			<tr>
+				<td>{{'STREAM_FIELD_VIRTUALENTITY_TYPE'|translate}}</td>
+				<td>{{stream.tipoVirtualEntity}}</td>
+			</tr>
+			<tr>
+				<td>{{'STREAM_FIELD_VIRTUALENTITY_NAME'|translate}}</td>
+				<td>{{stream.nomeVirtualEntity}}</td>
+			</tr>
+			<tr>
+				<td>{{'STREAM_FIELD_VIRTUALENTITY_DESCRIPTION'|translate}}</td>
+				<td>{{stream.descrizioneVirtualEntity}}</td>
+			</tr>			
+			<tr><td colspan='2' class='row-title'>{{'TENANT'|translate}}</td></tr>
+			<tr>
+				<td>{{'STREAM_FIELD_TENANT_NAME'|translate}}</td>
+				<td>{{stream.nomeTenant}}</td>
+			</tr>
+			<tr>
+				<td>{{'STREAM_FIELD_TENANT_CODE'|translate}}</td>
+				<td>{{stream.codiceTenant}}</td>
+			</tr>
+			<tr><td colspan='2' class='row-title'>{{'DASHBOARD_STREAM_DETAIL_OTHER_CONFIUGURATION'|translate}}</td></tr>
 			<tr>
 				<td>{{'STREAM_FIELD_DOMAIN'|translate}}</td>
-				<td>{{stream.domain}}</td>
+				<td>{{stream.domainStream}}</td>
 			</tr>
 			<tr>
 				<td>{{'STREAM_FIELD_LICENCE'|translate}}</td>
@@ -60,7 +78,7 @@
 				<td>{{stream.copyright}}</td>
 			</tr>
 			<tr>
-				<td>{{'STREAM_FIELD_VISIBIITY'|translate}}</td>
+				<td>{{'STREAM_FIELD_VISIBILITY'|translate}}</td>
 				<td>{{stream.visibiity}}</td>
 			</tr>
 			<tr>

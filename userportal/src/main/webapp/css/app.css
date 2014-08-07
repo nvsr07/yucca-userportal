@@ -25,7 +25,14 @@ footer ul li + li::before  { content: "|"; padding: 0 .5em; }
 
 .compact-panel{border: 2px solid #00963d; border-radius: 4px; margin-bottom: 1em;}
 .compact-panel-title{background-color: #00963d;overflow: auto; padding: 0 1em; color: white; }
+.compact-panel table .row-title{background-color: #efefef; font-weight: bold;}
 
+.data-summary-panel{border-color: #efefef;}
+.data-summary-panel tr{border-bottom: #efefef 1px solid;}
+.data-summary-panel tr:last-child{border-bottom: none;}
+.data-summary-panel td{padding-left: 1em!important;padding-right: 1em!important;}
+
+.label a{color: white;}
 
 /*.graph-container {
 position: relative;

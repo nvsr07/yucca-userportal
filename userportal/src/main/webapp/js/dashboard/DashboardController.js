@@ -16,7 +16,8 @@
 
 		fabricAPIservice.getStreams().success(function(response) {
 			// Dig into the responde to get the relevant data
-			$scope.streamsList = response.streams;
+			console.log("response", response);
+			$scope.streamsList = response.streams.stream;
 			$scope.totalItems = $scope.streamsList.length;
 			$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 		});
@@ -44,8 +45,9 @@
 	appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
 		function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
 			$scope.stream = null;
-			fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
-				$scope.stream = response.stream;
+			//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
+			fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+				$scope.stream = response.streams.stream;
 				connectWSStatistic();
 				connectWSClientData();
 				connectWSClientError();
@@ -102,9 +104,10 @@
 			
 							//$scope.wsStatisticData.push({ x : counter*2, y : numOfEvents });
 							
-							$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
+							//$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
+							$scope.nvWsStatisticData[0]["values"].push([timeCounter,Math.floor(Math.random() * 9) + 1]);
+							//$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
 							$scope.nvWsStatisticData[1]["values"].push([timeCounter,Math.floor(Math.random() * 6) + 1]);
-							
 							timeCounter +=2;
 			
 						});
