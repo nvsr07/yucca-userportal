@@ -19,15 +19,13 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
   $routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard/index.html', controller: 'DashboardCtrl', activetab: 'dashboard'});
   $routeProvider.when("/dashboard/stream/:tenant_code/:virtualentity_code/:stream_code", {templateUrl: "partials/dashboard/stream.html", controller: "DashboardStreamCtrl"});
   $routeProvider.when("/dashboard/error_log", {templateUrl: "partials/dashboard/error-log.html", controller: "DashboardStreamCtrl"});
-  $routeProvider.when('/management', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
-  $routeProvider.when('/management/:managementTab', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
+  $routeProvider.when('/management', {templateUrl: 'partials/management/choose_tenant.html', controller: 'ManagementCtrl', activetab: 'management'});
+  $routeProvider.when('/management/:managementTab', {templateUrl: 'partials/management/choose_tenant.html', controller: 'ManagementCtrl', activetab: 'management'});
+  $routeProvider.when('/management/:managementTab/:tenant_code', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
+  $routeProvider.when('/management/:managementTab/:tenant_code/:virtualentity_code', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
   $routeProvider.when('/management/:managementTab/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
-
-  //$routeProvider.when('/management/dashboard', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'dashboard'});
-  //$routeProvider.when('/management/streams', {templateUrl: 'partials/management/dashboard.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'streams'});
-  //$routeProvider.when('/management/virtualEntities', {templateUrl: 'partials/management/dashboard.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'virtualEntities'});
-  //$routeProvider.when('/management/dataset', {templateUrl: 'partials/management/dashboard.html', controller: 'ManagementCtrl', activetab: 'management', activeManagementTab: 'dataset'});
   $routeProvider.when('/market', {templateUrl: 'partials/market/index.html', controller: 'MarketCtrl', activetab: 'market'});
+  $routeProvider.when('/store', {templateUrl: 'partials/store/index.html', controller: 'StoreCtrl', activetab: 'store'});
   $routeProvider.otherwise({redirectTo: '/dashboard'});
   
  // $locationProvider.html5Mode(true).hashPrefix('!');

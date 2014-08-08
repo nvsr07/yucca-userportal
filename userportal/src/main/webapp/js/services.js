@@ -7,7 +7,7 @@ var appServices = angular.module('userportal.services', [ 'userportal.config' ])
 appServices.value('version', '0.1');
 
 appServices.factory('fabricAPIservice', function($http, $q, DASHBOARD_API_STREAM_LIST_URL, DASHBOARD_API_STREAM_URL, DASHBOARD_API_TENANT_LIST_URL,
-		DASHBOARD_API_VIRTUALENTITIY_LIST_URL) {
+		DASHBOARD_API_VIRTUALENTITY_LIST_URL, DASHBOARD_API_VIRTUALENTITY_URL , DASHBOARD_API_VIRTUALENTITY_CATEGORIES_URL, DASHBOARD_API_VIRTUALENTITY_TYPES_URL) {
 
 	var fabricAPI = {};
 	console.log("DASHBOARD_API_STREAM_LIST_URL", DASHBOARD_API_STREAM_LIST_URL);
@@ -16,6 +16,16 @@ appServices.factory('fabricAPIservice', function($http, $q, DASHBOARD_API_STREAM
 		return $http({
 			method : 'JSONP',
 			url : DASHBOARD_API_STREAM_LIST_URL + '?callback=JSON_CALLBACK'
+		});
+	};
+
+	fabricAPI.getStreams = function(tenant_code) {
+		var tenantUrl = '';
+		if(tenant_code)
+			tenantUrl = tenant_code + '/';
+		return $http({
+			method : 'JSONP',
+			url : DASHBOARD_API_STREAM_LIST_URL + tenantUrl  + '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -30,14 +40,14 @@ appServices.factory('fabricAPIservice', function($http, $q, DASHBOARD_API_STREAM
 	fabricAPI.getTenants = function() {
 		return $http({
 			method : 'JSONP',
-			url : DASHBOARD_API_TENANT_LIST_URL
+			url : DASHBOARD_API_TENANT_LIST_URL+ '?callback=JSON_CALLBACK'
 		});
 	};
 
-	fabricAPI.getVirtualEntities = function(tenant_code) {
+	fabricAPI.getVirtualentities = function(tenant_code) {
 		return $http({
 			method : 'JSONP',
-			url : DASHBOARD_API_VIRTUALENTITIY_LIST_URL + tenant_code + '/' + '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_VIRTUALENTITY_LIST_URL + tenant_code + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -85,6 +95,60 @@ appServices.factory('fabricAPIservice', function($http, $q, DASHBOARD_API_STREAM
 		return deferred.promise;
 	};
 
+	fabricAPI.getVirtualentityCategories = function() {
+		return $http({
+			method : 'JSONP',
+			url : DASHBOARD_API_VIRTUALENTITY_CATEGORIES_URL + '/' + '?callback=JSON_CALLBACK'
+		});
+	};
+
+	fabricAPI.getVirtualentityTypes = function() {
+		return $http({
+			method : 'JSONP',
+			url : DASHBOARD_API_VIRTUALENTITY_TYPES_URL + '/' + '?callback=JSON_CALLBACK'
+		});
+	};
+
+	fabricAPI.getVirtualentity = function(tenant_code, virtualentity_code) {
+		return $http({
+			method : 'JSONP',
+			url : DASHBOARD_API_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
+		});
+	};
+
+	fabricAPI.createVirtualentity = function(tenant_code, virtualentity_code, virtualentity) {
+		var deferred = $q.defer();
+		var resultData = null;
+		
+		$http.post(DASHBOARD_API_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity).success(function(responseData) {
+			resultData = {status: "ok", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+	          resultData = {status: "ko - "+responseStatus, data: responseData};
+	          deferred.reject(resultData);
+	    });
+		return deferred.promise;
+	};
+
+	fabricAPI.updateVirtualentity = function(tenant_code, virtualentity_code, virtualentity) {
+		var deferred = $q.defer();
+		var resultData = null;
+		
+		$http.put(DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity, {
+			crossDomain : true,
+		}).success(function(responseData) {
+			resultData = {status: "ok", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+	          resultData = {status: "ko - "+responseStatus, data: responseData};
+	          deferred.reject(resultData);
+	    });
+		return deferred.promise;
+	};
+	
+	
+	
+	
 	return fabricAPI;
 });
 

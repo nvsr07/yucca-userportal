@@ -1,2 +1,32 @@
-
-DASHBOARD
+<div ng-controller="ManagementDashboardCtrl as dashboardCtrl">
+	<h2>
+		{{'MANAGEMENT_DASHBOARD_SUBTITLE'|translate}}<small>{{tenant.nomeTenant}}</small>
+	</h2>
+	<div class="">
+		<div class="row">
+			<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+				<p>to be defined</p>
+			</div>
+			<div>
+				<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{'MANAGEMENT_DASHBOARD_TENANT_PANEL_TITLE'|translate}}</h3>
+						</div>
+						<div class="panel-body">
+							<p>
+								<strong>{{tenant.tenantName}}</strong>
+							</p>
+							<p>
+								{{tenant.tenantCode}}
+							</p>
+							<p>
+								<small>{{tenant.description}}</small>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

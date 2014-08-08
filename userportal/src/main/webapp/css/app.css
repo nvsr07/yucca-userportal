@@ -22,15 +22,19 @@ footer ul li + li::before  { content: "|"; padding: 0 .5em; }
 
 .title-container{ background-color:#efefef;  border-bottom:1px solid #e1e1e1; border-top:1px solid #e1e1e1; margin-bottom:1em; color: #333;	}
 
+.top-toolbar{margin-bottom: 1em;}
 
 .compact-panel{border: 2px solid #00963d; border-radius: 4px; margin-bottom: 1em;}
 .compact-panel-title{background-color: #00963d;overflow: auto; padding: 0 1em; color: white; }
 .compact-panel table .row-title{background-color: #efefef; font-weight: bold;}
 
 .data-summary-panel{border-color: #efefef;}
+.data-summary-panel table{width: 100%;}
 .data-summary-panel tr{border-bottom: #efefef 1px solid;}
 .data-summary-panel tr:last-child{border-bottom: none;}
 .data-summary-panel td{padding-left: 1em!important;padding-right: 1em!important;}
+
+
 
 .label a{color: white;}
 
@@ -74,6 +78,26 @@ height: 100%;
 
 .panel-stream-realtime-statistics{border: 1px solid #00963d; border-radius: 4px;}
 .panel-stream-realtime-statistics-title{background-color: #00963d;overflow: auto; padding: 0 .5em; color: white; }
+
+
+.form-label-separator{font-size: 1.2em; font-weight: bold; color: #bbb; border-bottom: 1px solid #ccc;margin: .5em 0;padding: .5em 0;}
+.form-toolbar{margin: .5em 0; padding: .4em; border-top: 1px solid #ccc;text-align: right;}
+
+.card-label-separator{font-size: 1.2em; font-weight: bold; color: #bbb; border-bottom: 1px solid #ccc;margin: .5em 0;padding: .5em 0;}
+.card-label{text-align: right;}
+.card-row{padding: .5em 0;}
+.card-toolbar{margin: .5em 0; padding: .4em; border-top: 1px solid #ccc;text-align: right;}
+.mute{color: #ccc;}
+
+.big-alert{
+	font-size: 2em;
+}
+
+.work-in-progress{}
+.work-in-progress-top{border-bottom: 1px solid  #ccc; margin:2em; padding: 2em;}
+.work-in-progress-logo{text-align: center;}
+.work-in-progress h1{font-weight: 900; font-size: 64pt; text-align: center; letter-spacing: .1em; color: #666; font-family: Arial;}
+.work-in-progress h2{font-weight: bold; font-size: 48pt; color: #ccc;text-align: center; margin-bottom: 1em;letter-spacing: .2em;}
 
 /* json custom color */
 /*

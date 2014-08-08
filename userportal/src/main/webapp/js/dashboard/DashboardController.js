@@ -28,7 +28,7 @@
 
 		$scope.searchTenantsFilter = function(stream) {
 			var keyword = new RegExp($scope.tenantsFilter, 'i');
-			return !$scope.tenantsFilter || keyword.test(stream.tenant);
+			return !$scope.tenantsFilter || keyword.test(stream.codiceTenant);
 		};
 
 		$scope.$watch('tenantsFilter', function(newTenant) {
@@ -45,9 +45,11 @@
 	appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
 		function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
 			$scope.stream = null;
+			$scope.wsUrl = "";
 			//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
 			fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 				$scope.stream = response.streams.stream;
+				$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream)
 				connectWSStatistic();
 				connectWSClientData();
 				connectWSClientError();
@@ -101,13 +103,12 @@
 			
 							$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
 							$scope.wsErrorMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), totalError]);
-			
 							//$scope.wsStatisticData.push({ x : counter*2, y : numOfEvents });
 							
-							//$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
-							$scope.nvWsStatisticData[0]["values"].push([timeCounter,Math.floor(Math.random() * 9) + 1]);
-							//$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
-							$scope.nvWsStatisticData[1]["values"].push([timeCounter,Math.floor(Math.random() * 6) + 1]);
+							$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
+							//$scope.nvWsStatisticData[0]["values"].push([timeCounter,Math.floor(Math.random() * 9) + 1]);
+							$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
+							//$scope.nvWsStatisticData[1]["values"].push([timeCounter,Math.floor(Math.random() * 6) + 1]);
 							timeCounter +=2;
 			
 						});
@@ -119,18 +120,20 @@
 			// last message
 			$scope.wsLastMessage = "";
 			$scope.wsLastMessageToShow = "";
-			$scope.wsUrl = "";
+			
 
 			$scope.wsClientData = webSocketService();
 			var connectWSClientData = function(){
 				$scope.wsClientData.connect(function(message) {
-					console.debug("message", message); //"/topic/ten1.flussoProva.raw"
+					//console.debug("message", message); //"/topic/ten1.flussoProva.raw"
 					$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
 					console.debug("subscribe wsUrl ", $scope.wsUrl);
 
 					$scope.wsClientData.subscribe($scope.wsUrl, function(message) {
 						console.debug("data message", message);
 						$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
+						console.debug("___________$scope.wsLastMessage", $scope.wsLastMessage);
+
 						if ($scope.wsLastMessageToShow == "")
 							$scope.wsLastMessageToShow = $scope.wsLastMessage;
 					});
@@ -143,6 +146,9 @@
 			var connectWSClientError = function(){
 				$scope.wsClientError.connect(function(message) {
 					console.debug("message", message); //"/topic/ten1.flussoProva.raw"
+					console.debug("$scope.stream", $scope.stream); //"/topic/ten1.flussoProva.raw"
+					console.debug("Helpers", Helpers); //"/topic/ten1.flussoProva.raw"
+
 					var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
 					console.debug("subscribe wsErrorUrl ", wsErrorUrl);
 
