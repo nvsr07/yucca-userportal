@@ -102,7 +102,34 @@ var translations_it = {
 	VIRTUALENTITY_FIELD_ADMIN_URI: 'URI Amministrazione',
 	VIRTUALENTITY_FIELD_SOFTWARE_VERSION: 'Versione Software',
 	
+	/* Stream tags */
+	AGRICULTURE: 'Agricoltura',
+	ENERGY: 'Energia',
+	ENVIRONMENT: 'Ambiente',
+	HEALTH: 'Salute',
+	SCHOOL: 'Scuola',
+	SECURITY: 'Sicurezza',
+	TRANSPORT: 'Trasporti',
 	
+	/* Stream domains */
+	AIR: 'Aria',
+	CARBON: 'Carbonio',
+	CONSUMPTION: 'Consumo',
+	DIOXIDE: 'Biossido',
+	FIRE: 'Fuoco',
+	FOREST: 'Foresta',
+	GLACIER: 'Ghiacciaio',
+	INDOOR: 'Indoor ',
+	LAKE: 'Lago',
+	LANDSLIDE: 'Frana',
+	MONOXIDE: 'Monossido',
+	NITROGEN: 'Azoto',
+	OZONE: 'Ozono',
+	POLLUTION: 'Inquinamento',
+	RAIN: 'Pioggia',
+	RIVER: 'Fiume',
+	SNOW: 'Neve',
+	WATER: 'Acqua',
 	
 	/* Virtual Entity List */
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filter by code',
@@ -191,11 +218,11 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_FINISH_BUTTON: 'Fine modifica', 
 	MANAGEMENT_EDIT_STREAM_INSTALL_BUTTON: 'Installa',
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Aggiungi tag', 
-	MANAGE_EDIT_STREAM_DATA_SAVED_INFO : 'Flusso salvato',
+	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Flusso salvato',
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni generali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
-	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
+	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (work in progress)',
     
 		/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Virtual Entities',

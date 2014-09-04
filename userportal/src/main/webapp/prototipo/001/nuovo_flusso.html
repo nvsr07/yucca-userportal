@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Data Platform</title>
+<!-- Bootstrap -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="css/stile.css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div role="navigation" class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a href="index.html" class="navbar-brand">Smart Data Platform</a> </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="gestione.html">Gestione</a></li>
+        <li><a href="monitoraggio.html">Monitoraggio</a></li>
+        <li><a href="#contact">Store</a></li>
+        <li><a href="#contact">Market</a></li>
+      </ul>
+    </div>
+    <!--/.nav-collapse --> 
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12"> 
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="gestione.html">Dashboard</a></li>
+          <li class="active"><a href="lista_flussi.html">Flussi</a></li>
+          <li><a href="lista_ve.html">Virtual entity</a></li>
+          <li><a href="#">Dataset</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
+      <h2>Nuovo flusso</h2>
+    </div>
+    <div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
+      <form role="form">
+      <div class="form-group">
+        <label for="cat_ve">Tipologia di flusso</label>
+        <select name="select" id="tipo_ve" class="form-control">
+          <option default selected>Seleziona tipologia</option>
+          <option>Flusso da sensore</option>
+          <option>Flusso interno</option>
+
+        </select>
+      </div>
+        <div class="form-group">
+          <label for="id_flusso">id</label>
+          <input type="text" class="form-control" id="id_flusso" placeholder="id">
+        </div>
+        <div class="form-group">
+          <label for="nome_flusso">Sensore / Applicazione </label>
+          <input type="text" class="form-control" id="nome_flusso" placeholder="Sensore / Applicazione">
+        </div>
+        <div class="table-responsive">
+         <h4>Componenti</h4>
+          <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Descrizione</th>
+              <th scope="col">Unità di misura</th>
+              <th scope="col">Tipo di dato</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><input type="text" name="textfield" id="textfield"></td>
+              <td><input type="text" name="textfield2" id="textfield2"></td>
+              <td><input type="text" name="textfield3" id="textfield3"> <span class="label label-success">aggiungi</span></td>
+            </tr>
+            </tbody>
+          </table>
+          <p>&nbsp;</p>
+        </div>
+        <div class="form-group">
+          <label for="nome_flusso">FPS</label>
+          <input type="text" class="form-control" id="nome_flusso" placeholder="FPS">
+        </div>
+                <div class="form-group">
+          <h4>Visibilità</h4>
+          <p>
+            <label>
+              <input type="radio" name="RadioGroup1" value="radio" id="RadioGroup1_0">
+              Pubblico</label>
+            <br/>
+            <label>
+              <input type="radio" name="RadioGroup1" value="radio" id="RadioGroup1_1">
+              Privato</label>
+          </p>
+        </div>
+        
+                <div class="form-group">
+          <h4>Salvataggio</h4>
+          <p>
+            <label>
+              <input type="radio" name="RadioGroup1" value="radio" id="RadioGroup1_0">
+              Salva</label>
+            <br/>
+            <label>
+              <input type="radio" name="RadioGroup1" value="radio" id="RadioGroup1_1">
+              Non salavare</label>
+          </p>
+        </div>
+        <div class="form-group">
+          <label for="desc_flusso">Descrizione</label>
+          <textarea type="text" class="form-control" id="desc_flusso" placeholder="Descrizione"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="tag_flusso">Tag</label>
+          <input type="text" class="form-control" id="tag_flusso" placeholder="tag">
+        </div>
+
+        <div class="form-group">
+          <label for="dominio_flusso">Dominio</label>
+          <input type="text" class="form-control" id="dominio_flusso" placeholder="dominio">
+        </div>
+        <div class="form-group">
+          <label for="licenza_flusso">Licenza</label>
+          <input type="text" class="form-control" id="licenza_flusso" placeholder="licenza">
+        </div>
+        <div class="form-group">
+          <label for="discl_flusso">Disclaimer</label>
+          <textarea type="text" class="form-control" id="discl_flusso" placeholder="Disclaimer"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="discl_flusso">Copyright</label>
+          <textarea type="text" class="form-control" id="copy_flusso" placeholder="Copyright"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-default">Salva</button>
+           <button type="submit" class="btn btn-default">Annulla</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> 
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<!-- Latest compiled and minified JavaScript --> 
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>

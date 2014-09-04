@@ -1,0 +1,32 @@
+@charset "iso-8859-1";
+/* CSS Document */
+
+.footer {
+    background-color: #F5F5F5;
+    bottom: 0;
+    height: 60px;
+    position: relative;
+	margin-top: 20px;
+    width: 100%;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+.text-muted {
+    color: #777;
+}
+
+.table-responsive{
+	margin-top: 20px;
+}
+
+#map{
+	height: 350px;
+}
+
+#dettaglio_ve #map{
+	width: 350px;
+	height: 250px;
+	float:right;
+	}

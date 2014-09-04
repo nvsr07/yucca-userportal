@@ -7,7 +7,8 @@ var appServices = angular.module('userportal.services', [ 'userportal.config' ])
 appServices.value('version', '0.1');
 
 appServices.factory('fabricAPIservice', function($http, $q, DASHBOARD_API_STREAM_LIST_URL, DASHBOARD_API_STREAM_URL, DASHBOARD_API_TENANT_LIST_URL,
-		DASHBOARD_API_VIRTUALENTITY_LIST_URL, DASHBOARD_API_VIRTUALENTITY_URL , DASHBOARD_API_VIRTUALENTITY_CATEGORIES_URL, DASHBOARD_API_VIRTUALENTITY_TYPES_URL) {
+		DASHBOARD_API_VIRTUALENTITY_LIST_URL, DASHBOARD_API_VIRTUALENTITY_URL , DASHBOARD_API_VIRTUALENTITY_CATEGORIES_URL,
+		DASHBOARD_API_VIRTUALENTITY_TYPES_URL, DASHBOARD_API_STREAM_TAGS_URL, DASHBOARD_API_STREAM_DOMAINS_URL) {
 
 	var fabricAPI = {};
 	console.log("DASHBOARD_API_STREAM_LIST_URL", DASHBOARD_API_STREAM_LIST_URL);
@@ -108,7 +109,25 @@ appServices.factory('fabricAPIservice', function($http, $q, DASHBOARD_API_STREAM
 			url : DASHBOARD_API_VIRTUALENTITY_TYPES_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
+	
+	fabricAPI.getStreamTags = function() {
+		//FIXME return real method when API will be ready
+		return ['AGRICULTURE','ENERGY','ENVIRONMENT','HEALTH','SCHOOL','SECURITY','TRANSPORT'];
+		/*return $http({
+			method : 'JSONP',
+			url : DASHBOARD_API_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
+		});*/
+	};
 
+	fabricAPI.getStreamDomains = function() {
+		//FIXME return real method when API will be ready
+		return ['AIR','CARBON','CONSUMPTION','DIOXIDE','FIRE','FOREST','GLACIER','INDOOR','LAKE','LANDSLIDE','MONOXIDE','NITROGEN','OZONE','POLLUTION','RAIN','RIVER','SNOW','WATER'];
+		/* return $http({
+			method : 'JSONP',
+			url : DASHBOARD_API_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
+		});*/
+	};
+	
 	fabricAPI.getVirtualentity = function(tenant_code, virtualentity_code) {
 		return $http({
 			method : 'JSONP',

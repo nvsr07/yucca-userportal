@@ -54,5 +54,15 @@
 				</resources>
 			</build>
 		</profile>
+		<profile>
+			<id>prod</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/prod</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
 	</profiles>
 </project>

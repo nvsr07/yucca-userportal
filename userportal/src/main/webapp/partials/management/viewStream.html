@@ -1,0 +1,100 @@
+<div ng-controller="ManagementStreamCtrl as streamCtrl">
+	<h2>
+		{{'STREAM'|translate}} <small>{{stream.codiceStream}} - {{stream.nomeStream}}</small>
+	</h2>
+	<div class='row'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_CODE'|translate}}</strong></div>
+				<div class="col-sm-10">{{stream.codiceStream}}</div>
+			</div>			
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_NAME'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.nomeStream}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.codiceVirtualEntity}} - {{stream.nomeVirtualEntity}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_VERSION'|translate}}</strong></div>
+				<div class='col-sm-10'>Version (TODO)</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_STATUS'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.statoStream}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_TAGS'|translate}}</strong></div>
+				<div class='col-sm-10'>
+					<ul class="list-inline">
+						<li ng-repeat="tag in stream.tags"><span class="label label-info">{{tag}}</span></li>
+					</ul>
+				</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_DOMAIN'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.domain}}</div>
+			</div>	
+			<div class='card-label-separator'>{{'MANAGEMENT_EDIT_STREAM_OTHER_INFO'|translate}}</div>
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_FPS'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.fps}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_LICENCE'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.licence}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_DISCLAIMER'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.disclaimer}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_COPYRIGHT'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.copyright}}</div>
+			</div>	
+			<div class='card-label-separator'>{{'STREAM_FIELD_COMPONENTS'|translate}}</div>
+			<table class='table-condensed table-supercondensed dashboard-table-components'>
+				<thead>
+					<tr>
+						<th>{{'STREAM_FIELD_COMPONENTS_DESCRIPTION'|translate}}</th>
+						<th>{{'STREAM_FIELD_COMPONENTS_DATA_TYPE'|translate}}</th>
+					</tr>	
+				</thead>
+				<tbody>
+					<tr ng-repeat="component in stream.componenti.element">
+						<td>{{component.nome}}</td>
+						<td>{{component.tipo}}</td>
+					</tr>	
+				</tbody>
+			</table>
+			<div class='card-label-separator'>{{'MANAGEMENT_EDIT_STREAM_SETTINGS'|translate}}</div>
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.saveData}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_VISIBILITY'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.visibility}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong>{{'MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE_LABEL'|translate}}</strong></div>
+				<div class='col-sm-10'>{{stream.publish}}</div>
+			</div>	
+			<div class="row card-toolbar">
+				<a  href='#' class="btn btn-default">
+					<span class="glyphicon glyphicon-time mute"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_HISTORICAL_BUTTON'|translate}}
+				</a>
+				<a  href='#' class="btn btn-default">
+					<span class="glyphicon glyphicon-trash mute"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON'|translate}}
+				</a>
+				<a  href='#/management/editStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default">
+					<span class="glyphicon glyphicon-pencil mute"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON'|translate}}
+				</a>
+				<a  href='#' class="btn btn-default">
+					<span class="glyphicon glyphicon-log-in mute"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_INSTALL_BUTTON'|translate}}
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

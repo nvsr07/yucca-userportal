@@ -202,6 +202,23 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.updateError = null;
 
 	$scope.dataTypeList = ['String', 'Number', 'Date'];
+
+	$scope.tagList = [];
+	$scope.tagList = fabricAPIservice.getStreamTags();
+	
+	/*fabricAPIservice.getStreamTags().success(function(response) {
+		$scope.tagList = response;
+	});*/
+
+	$scope.domainList = [];
+	$scope.domainList = fabricAPIservice.getStreamDomains();
+	
+	$scope.componentJsonExample = "{\"Stream\": \"....\",\n \"Sensor\": \"....\",\n \"Values\":\n  [{\"time\": \"....\",\n    \"components\":\n      { \"id\":\"1.4\"}\n  }]\n}";
+	/*fabricAPIservice.getStreamDomains().success(function(response) {
+		$scope.domainList = response;
+	});*/
+
+	
 	$scope.stream = null;
 	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 		$scope.stream = response.streams.stream;
@@ -209,6 +226,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.stream.tags = [];
 		if(!$scope.stream.componenti)
 			$scope.stream.componenti = [];
+		
+		// FIXME remove in future version
+		$scope.stream.saveData = 'false';
+		$scope.stream.visibiity = 'public';
+		$scope.stream.publish = 'false';		
 	});
 		
 	//$scope.virtualEntitiesList = [];
@@ -231,9 +253,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.newTag = null;
 	$scope.addTag = function(){
-		$scope.stream.tags.push($scope.newTag);
+		if($scope.newTag && $scope.stream.tags.indexOf($scope.newTag)==-1){
+			$scope.stream.tags.push($scope.newTag);
+		}
 		$scope.newTag = null;
 		return false;
+		
 	};
 	
 	$scope.removeTag = function(index){
@@ -391,9 +416,26 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	    };
 	})();
 	
+
+	
 	$scope.selectedType;
 	$scope.selectedCategory;
 	$scope.creationError = null;
+
+	$scope.isDevice = function() {
+		if(!$scope.selectedType)
+			return false;
+		return $scope.selectedType.idTipoVirtualEntity == 1;
+	};
+
+	
+	$scope.selectTypeChange = function() {
+		if(!$scope.selectedType || $scope.selectedType.idTipoVirtualEntity != 1){
+		   $scope.codeVirtualEntity = "";
+		   $scope.selectedCategory = "";
+	   }
+	   return false;
+	}
 	
 	$scope.createVirtualentity = function(virtualentity) {
 		console.log("virtualentity", virtualentity);
@@ -443,6 +485,13 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.cancel = function(){
 		$location.path('management/virtualentities');
 	};
+	
+	$scope.isDevice = function() {
+		if(!$scope.virtualentity.tipoVirtualEntity)
+			return false;
+		return $scope.virtualentity.tipoVirtualEntity == 'Device';
+	};
+
 	
 	$scope.updateStream = function() {
 		var newVirtualentity = new Object();
