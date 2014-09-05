@@ -22,7 +22,7 @@
 			</div>	
 			<div class="row card-row">
 				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_STATUS'|translate}}</strong></div>
-				<div class='col-sm-10'>{{stream.statoStream}}</div>
+				<div class='col-sm-10'>{{stream.statoStream|translate}}</div>
 			</div>	
 			<div class="row card-row">
 				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_TAGS'|translate}}</strong></div>
@@ -82,16 +82,16 @@
 				<div class='col-sm-10'>{{stream.publish}}</div>
 			</div>	
 			<div class="row card-toolbar">
-				<a  href='#' class="btn btn-default">
+				<a  href='#' class="btn btn-default disabled" title="{{'COMING_SOON'|translate}}">
 					<span class="glyphicon glyphicon-time mute"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_HISTORICAL_BUTTON'|translate}}
 				</a>
-				<a  href='#' class="btn btn-default">
+				<a  href='#' class="btn btn-default  disabled" title="{{'COMING_SOON'|translate}}">
 					<span class="glyphicon glyphicon-trash mute"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON'|translate}}
 				</a>
-				<a  href='#/management/editStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default">
+				<a  href='#/management/editStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default" ng-show="canEdit()">
 					<span class="glyphicon glyphicon-pencil mute"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON'|translate}}
 				</a>
-				<a  href='#' class="btn btn-default">
+				<a  href='javascript:void(0)' class="btn btn-default" ng-show="canInstall()" ng-click='requestInstallation()'>
 					<span class="glyphicon glyphicon-log-in mute"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_INSTALL_BUTTON'|translate}}
 				</a>
 			</div>

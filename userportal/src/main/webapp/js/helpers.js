@@ -29,6 +29,18 @@ Helpers.stream = {
 
 Helpers.util = {
 	isStringEmpty: 	function(str) {
-		    return (!str || 0 === str.length);
-		},
+	    return (!str || 0 === str.length);
+	},
+	initArrayZeroOneElements: function(obj){
+		var result = [];
+		if(obj){
+			if(obj instanceof Array){
+				result = obj;
+			}
+			else{
+				result.push(obj);
+			}
+		}
+		return result;
+	},
 };

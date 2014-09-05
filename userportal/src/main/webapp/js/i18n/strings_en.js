@@ -11,6 +11,7 @@ var translations_en = {
 	/*common */
 	CANCEL : 'Cancel',
 	SAVE: 'Save',
+	COMING_SOON: 'Coming soon...', 
 	
 	/* main menu */
 	MENU_DASHBOARD : 'Dashboard',
@@ -65,7 +66,7 @@ var translations_en = {
 	STREAM_FIELD_CODE_PLACEHOLDER : 'e.g. temperature',
 	STREAM_FIELD_NAME_PLACEHOLDER : 'e.g. dinner room temperature',
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'e.g. 1.4',
-	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'e.g. ...',
+	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'e.g. wind',
 	STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER: 'e.g. 12',
 	
 	/* Stream List */
@@ -138,6 +139,13 @@ var translations_en = {
 	SNOW: 'Snow',
 	WATER: 'Water',
 	
+	/* stream status */
+	draft:'draft',
+    req_inst:'installation in progress',
+    inst:'installed',
+    req_uninst:'uninstall in progress',
+    uninst:'uninstalled and historicized',
+	
 	/* Virtual Entity List */
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filter by code',
 	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filter by status',
@@ -196,8 +204,6 @@ var translations_en = {
 
 	/* Management Stream List */
 	MANAGEMENT_STREAM_LIST_NEW_STREAM: 'New',
-	MANAGEMENT_STREAM_LIST_NEW_STREAM_FROM_VIRTUALENTITY : 'From Virtual Entity',
-	MANAGEMENT_STREAM_LIST_NEW_STREAM_INTERNAL : 'Internal',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM : 'Edit',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM : 'Delete',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'To enable editing select a single stream',
@@ -209,8 +215,7 @@ var translations_en = {
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Create',
 	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Choose one Virtual Entity',
-	MANAGEMENT_NEW_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'New Stream from Virtual Entity',
-	MANAGEMENT_NEW_STREAM_FROM_INTERNAL_SUBTITLE: 'New Stream from Internal',
+	MANAGEMENT_NEW_STREAM_FROM_SUBTITLE: 'New Stream',
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Edit ', 
 	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Choose one or more tag...',
@@ -233,9 +238,13 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Add tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Stream saved',
 	
-	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
-	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
+	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info (coming soon)',
+	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info (coming soon)',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
+	
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Warning',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'The field \'code\' is required',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'The field \'code\' must be unique in a stream',
     
 		/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Virtual Entities',

@@ -62,10 +62,6 @@ public class ClientConfigServlet extends HttpServlet {
 				for (String key : config.stringPropertyNames()) {
 					sb.append("appConfig.constant('" + key + "', '" + config.getProperty(key) + "');\n");
 				}
-
-				// appConfig.constant('DASHBOARD_API_STREAM_LIST_URL',
-				// 'http://dev-www.dati.piemonte.it/demo/sdp/streamsList.php?callback=JSON_CALLBACK');
-
 			}
 			else{
 				sb.append("\n\n*** WARNING: response type:'" + responseType +"' is actually NOT Supported ***\n\n");

@@ -70,11 +70,13 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.predicate = '';
 
 	fabricAPIservice.getStreams(/*$scope.tenantCode*/).success(function(response) {
-		// FIXME remove when the new api will be ready
+		// FIXME remove when the new api with tenant parameterwill be ready
 		for (var i = 0; i < response.streams.stream.length; i++) {
-			console.log("i",response.streams.stream[i].codiceTenant);
-			if(response.streams.stream[i].codiceTenant == $scope.tenantCode)
+			if(response.streams.stream[i].codiceTenant == $scope.tenantCode){
+				if(!response.streams.stream[i].statoStream || response.streams.stream[i].statoStream == null)
+					response.streams.stream[i].statoStream = Constants.STREAM_STATUS_DRAFT;
 				$scope.streamsList.push(response.streams.stream[i]);
+			}
 		}
 		//$scope.streamsList = response.streams.stream;
 		$scope.totalItems = $scope.streamsList.length;
@@ -153,7 +155,14 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 	
 	$scope.virtualEntitiesList = [];
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
-		$scope.virtualEntitiesList = response.virtualEntities.virtualEntity;
+		console.log(response.virtualEntities.virtualEntity);
+		for (var int = 0; int < response.virtualEntities.virtualEntity.length; int++) {
+			var virtualentity = response.virtualEntities.virtualEntity[int];
+			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+				$scope.virtualEntitiesList.push(virtualentity);
+		}
+		// TODO: manage virtual entity type internal
+		//$scope.virtualEntitiesList = response.virtualEntities.virtualEntity;
 	});
 	$scope.creationError = null;
 	$scope.createStream = function(virtualentity, stream) {
@@ -200,6 +209,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.updateInfo = null;
 	$scope.updateError = null;
+	$scope.insertComponentError = null;
+	
 
 	$scope.dataTypeList = ['String', 'Number', 'Date'];
 
@@ -213,26 +224,35 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.domainList = [];
 	$scope.domainList = fabricAPIservice.getStreamDomains();
 	
-	$scope.componentJsonExample = "{\"Stream\": \"....\",\n \"Sensor\": \"....\",\n \"Values\":\n  [{\"time\": \"....\",\n    \"components\":\n      { \"id\":\"1.4\"}\n  }]\n}";
+	$scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
 	/*fabricAPIservice.getStreamDomains().success(function(response) {
 		$scope.domainList = response;
 	});*/
 
 	
 	$scope.stream = null;
-	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
-		$scope.stream = response.streams.stream;
-		if(!$scope.stream.tags)
-			$scope.stream.tags = [];
-		if(!$scope.stream.componenti)
-			$scope.stream.componenti = [];
+	$scope.loadStream = function(){
+		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+			$scope.stream = response.streams.stream;
+			if(!$scope.stream.tags)
+				$scope.stream.tags = [];
+			if($scope.stream.componenti == null)
+				$scope.stream.componenti = new Object();
+			console.log("--components");
+			$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
+			
+			// FIXME remove in future version
+			$scope.stream.saveData = 'false';
+			$scope.stream.visibiity = 'public';
+			$scope.stream.publish = 'false';	
+			if(!$scope.stream.statoStream || $scope.stream.statoStream == null)
+				$scope.stream.statoStream = Constants.STREAM_STATUS_DRAFT;
+
+		});
 		
-		// FIXME remove in future version
-		$scope.stream.saveData = 'false';
-		$scope.stream.visibiity = 'public';
-		$scope.stream.publish = 'false';		
-	});
-		
+	};
+	
+	$scope.loadStream();
 	//$scope.virtualEntitiesList = [];
 	//fabricAPIservice.getVirtualEntities($routeParams.tenant_code).success(function(response) {
 	//	$scope.virtualEntitiesList = response.virtualEntities.virtualEntity;
@@ -241,8 +261,36 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 	$scope.newComponent = null;
 	$scope.addComponent = function(){
-		$scope.stream.componenti.push($scope.newComponent);
-		$scope.newComponent = null;
+		$scope.insertComponentError = null;
+		if($scope.newComponent && $scope.newComponent.nome){
+			var found = false;
+			//console.log("$scope.stream.componenti.element prima",$scope.stream.componenti.element);
+			//$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
+			//console.log("$scope.stream.componenti.element dopo",$scope.stream.componenti.element);
+
+		/*	if(!$scope.stream.componenti.element)
+				$scope.stream.componenti.element = [];
+			if ($scope.stream.componenti.element !instanceof Array){
+				
+			}*/
+			for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
+				if($scope.stream.componenti.element[int].nome == $scope.newComponent.nome){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				console.log("$scope.stream.componenti.element ccc",$scope.stream.componenti);
+				$scope.stream.componenti.element.push($scope.newComponent);
+				$scope.newComponent = null;
+			}
+			else{
+				$scope.insertComponentError = 'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE';
+			}
+		}
+		else
+			$scope.insertComponentError = 'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED';
+
 		return false;
 	};
 	
@@ -266,6 +314,20 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		return false;
 	};
 
+	console.debug("$scope.stream", $scope.stream);
+
+	$scope.canInstall = function() {
+		if($scope.stream && $scope.stream.statoStream == Constants.STREAM_STATUS_DRAFT)
+			return true;
+		return false;
+	};
+
+	$scope.canEdit = function() {
+		if($scope.stream && $scope.stream.statoStream == Constants.STREAM_STATUS_DRAFT)
+			return true;
+		return false;
+	};
+
 	$scope.cancel = function(){
 		$location.path('management/streams');
 	};
@@ -274,20 +336,48 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		var newStream = new Object();
 		newStream.stream =  $scope.stream;
 		console.log("newStream", newStream);
-		var promise   = fabricAPIservice.updateStream($scope.tenantCode, $scope.codeVirtualEntity,  newStream);
+		//var promise   = fabricAPIservice.updateStream($scope.tenantCode, $scope.codeVirtualEntity,  newStream);
+		var promise   = fabricAPIservice.createComponents(newStream);
+		console.log("newStream");
+		
 		promise.then(function(result) {
 			console.log("result qui ", result);
 			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
 			$scope.updateInfo = {status: result.status};
+			$scope.loadStream();
+
 		}, function(result) {
 			$scope.updateError = angular.fromJson(result.data);
 			console.log("result.data ", result.data);
+			$scope.loadStream();
 		}, function(result) {
 			console.log('Got notification: ' + result);
 		});
 
 		
 	};	
+	
+	$scope.requestInstallation = function(){
+		$scope.stream.stato = Constants.STREAM_STATUS_REQ_INST;
+		$scope.stream.statoStream = Constants.STREAM_STATUS_REQ_INST;
+		
+		console.log("requestInstallation", $scope.stream);
+		var promise   = fabricAPIservice.updateStream($scope.tenantCode, $scope.codeVirtualEntity,  $scope.stream);
+		
+		promise.then(function(result) {
+			console.log("result qui ", result);
+			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
+			$scope.updateInfo = {status: result.status};
+			$scope.loadStream();
+
+		}, function(result) {
+			$scope.updateError = angular.fromJson(result.data);
+			console.log("result.data ", result.data);
+			$scope.loadStream();
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
+	};
 } ]);
 
 
@@ -390,7 +480,14 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	
 	$scope.typesList = [];
 	fabricAPIservice.getVirtualentityTypes().success(function(response) {
-		$scope.typesList = response.tipoVirtualEntity.element;
+		for (var int = 0; int < response.tipoVirtualEntity.element.length; int++) {
+			var virtualentity = response.tipoVirtualEntity.element[int];
+
+			if(virtualentity.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+				$scope.typesList.push(virtualentity);
+		}
+
+		//$scope.typesList = response.tipoVirtualEntity.element;
 	});
 	$scope.codeVirtualEntity;
 	$scope.generateUUID = function(virtualentity){
@@ -425,8 +522,21 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.isDevice = function() {
 		if(!$scope.selectedType)
 			return false;
-		return $scope.selectedType.idTipoVirtualEntity == 1;
+		return $scope.selectedType.idTipoVirtualEntity == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 	};
+	
+	$scope.isInternal = function() {
+		if(!$scope.selectedType)
+			return false;
+		return $scope.selectedType.idTipoVirtualEntity == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+	};
+	
+	$scope.isCodeRequired = function() {
+		if(!$scope.selectedType)
+			return false;
+		return $scope.selectedType.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+	};
+	
 
 	
 	$scope.selectTypeChange = function() {
@@ -474,10 +584,15 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.updateError = null;
 
 	$scope.virtualentity = null;
-	fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.virtualentity_code).success(function(response) {
-		$scope.virtualentity = response.virtualEntities.virtualEntity;
-	});
-		
+	
+	$scope.loadVirtualentity = function(){
+		fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.virtualentity_code).success(function(response) {
+			$scope.virtualentity = response.virtualEntities.virtualEntity;
+		});
+	};
+	
+	$scope.loadVirtualentity();
+
 	$scope.initDate = new Date();
 	$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 	$scope.format = $scope.formats[0];
@@ -489,11 +604,11 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.isDevice = function() {
 		if(!$scope.virtualentity.tipoVirtualEntity)
 			return false;
-		return $scope.virtualentity.tipoVirtualEntity == 'Device';
+		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 	};
 
 	
-	$scope.updateStream = function() {
+	$scope.updateVirtualentity = function() {
 		var newVirtualentity = new Object();
 		newVirtualentity.virtualentity =  $scope.virtualentity;
 		console.log("newVirtualentity", newVirtualentity);

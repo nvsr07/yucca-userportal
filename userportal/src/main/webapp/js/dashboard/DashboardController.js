@@ -49,7 +49,11 @@
 			//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
 			fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 				$scope.stream = response.streams.stream;
-				$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream)
+				if($scope.stream.componenti == null)
+					$scope.stream.componenti = new Object();
+				$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
+
+				$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
 				connectWSStatistic();
 				connectWSClientData();
 				connectWSClientError();

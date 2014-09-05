@@ -41,7 +41,7 @@
 				<div class="form-group">
 					<label for="inputStreamName" class="col-sm-2 control-label">{{'STREAM_FIELD_NAME'|translate}}</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME'|translate}}" required >
+						<input type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME'|translate}}" disabled >
 					</div>
 				</div>
 				<div class="form-group">
@@ -49,7 +49,10 @@
 					<div class="col-sm-10">
 						<p>
 							<span  ng-repeat="tag in stream.tags">
-								<span class="label label-info label-custom">{{tag|translate}} &nbsp;<a href="javascript:void(0)" ng-click='removeTag($index)'>&times;</a></span> &nbsp;
+								<span class="label label-info label-custom">{{tag|translate}} &nbsp;
+								<!-- FIXME enabled whet put method is released -->
+								<!--  <a href="javascript:void(0)" ng-click='removeTag($index)'>&times;</a> -->
+								</span> &nbsp;
 							</span>
 						</p>
 						<p>
@@ -60,22 +63,22 @@
 							      </span>
 	    					</div>-->
 							<div class="input-group">
-	    						<select class="input-sm form-control" ng-model="newTag" ng-options="tag as (tag|translate) for tag in tagList" >
+	    						<select class="input-sm form-control" ng-model="newTag" ng-options="tag as (tag|translate) for tag in tagList" disabled>
 	    							<option value="">{{'MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER'|translate}}</option>
 	    						</select>
 							    <span class="input-group-btn">
-							    	<a class="btn btn-success btn-sm"  href="javascript:void(0)" ng-click='addTag()' title="{{'MANAGEMENT_EDIT_STREAM_ADD_TAG'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a>
+									<!-- FIXME enabled whet put method is released -->
+							    	<!-- <a class="btn btn-success btn-sm"  href="javascript:void(0)" ng-click='addTag()' title="{{'MANAGEMENT_EDIT_STREAM_ADD_TAG'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a> -->
+							    	<a class="btn btn-success btn-sm disabled"  href="javascript:void(0)" title="{{'MANAGEMENT_EDIT_STREAM_ADD_TAG'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a>
 							    </span>
 	    					</div>
-	    					
-	    					
 						</p>
 					</div>
 				</div>			
 				<div class="form-group">
 					<label for="inputStreamDomain" class="col-sm-2 control-label">{{'STREAM_FIELD_DOMAIN'|translate}}</label>
 					<div class="col-sm-10">
-						<select class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList" >
+						<select class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList" disabled>
 	    					<option value="">{{'MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER'|translate}}</option>
 	    				</select>
 						
@@ -93,7 +96,6 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>{{'STREAM_FIELD_COMPONENTS_ID'|translate}}</th>
 									<th>{{'STREAM_FIELD_COMPONENTS_NAME'|translate}}</th>
 									<th>{{'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate}}</th>
 									<th>{{'STREAM_FIELD_COMPONENTS_TOLERANCE'|translate}}</th>
@@ -103,36 +105,46 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="component in stream.componenti">
-									<td>{{component.id}}</td>
-									<td>{{component.name}}</td>
+								<tr ng-repeat="component in stream.componenti.element">
+									<td><span style="display: none"> {{component.idComponente}}</span>{{component.nome}}</td>
 									<td>{{component.unitOfMeasurement.name}}</td>
 									<td>{{component.tolerance}}</td>
 									<td>{{component.phenomenom.name}}</td>
-									<td>{{component.dataType}}</td>
-									<td><a href="javascript:void(0)" ng-click='removeComponent($index)' class="btn btn-danger btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td>
+									<td>{{component.tipo}}</td>
+									<!--  <td><a href="javascript:void(0)" ng-click='removeComponent($index)' class="btn btn-danger btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td> -->
+									<td><a href="javascript:void(0)"  class="btn btn-danger btn-sm disabled" title="{{'COMING_SOON'|translate}}"><i class='glyphicon glyphicon-minus'></i></a></td>
 								</tr>
 								<tr>
-									 <td><input class="input-sm form-control"type="text" name="newComponentId" id="newComponentId" ng-model="newComponent.id" placeholder="{{'STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER'|translate}}"></td>
-	               					 <td><input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponent.name" placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
+	               					 <td ng-class="{ 'has-error': insertComponentError }">
+	               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponent.nome" 
+	               					 		 placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
 	             					 <td>
-	             					 	<select class="input-sm form-control" ng-model="newComponent.unitOfMeasurement" ng-options="unitOfMesaurement.name group by unitOfMesaurement.type for unitOfMesaurement in unitOfMesaurementList" >
-	             					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option>
+	             					 	<select class="input-sm form-control" ng-model="newComponent.unitOfMeasurement" 
+	             					 		ng-options="unitOfMesaurement.name group by unitOfMesaurement.type for unitOfMesaurement in unitOfMesaurementList" disabled  title="{{'COMING_SOON'|translate}}">
+	             					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option> 
 	             					 	</select>
 									</td>
-					                <td><input class="input-sm form-control" type="text" name="newComponentTolerance" id="newComponentTolerance" ng-model="newComponent.tolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}"></td>
-	             					 <td>
-	             					 	<select class="input-sm form-control" ng-model="newComponent.phenomenom" ng-options="phenomenom.name group by phenomenom.type for phenomenom in phenomenomList" >
+					                <td>
+					                	<input class="input-sm form-control" type="text" name="newComponentTolerance" id="newComponentTolerance" 
+					                		ng-model="newComponent.tolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}" disabled title="{{'COMING_SOON'|translate}}">
+					                </td>
+	             					<td>
+	             					 	<select class="input-sm form-control" ng-model="newComponent.phenomenom" ng-options="phenomenom.name group by phenomenom.type for phenomenom in phenomenomList" 
+	             					 		disabled  title="{{'COMING_SOON'|translate}}">
 	             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 	             					 	</select>
 									</td>
 	             					 <td>
-	             					 	<select class="input-sm form-control" ng-model="newComponent.dataType" ng-options="dataType for dataType in dataTypeList" />
+	             					 	<select class="input-sm form-control" ng-model="newComponent.tipo" ng-options="dataType for dataType in dataTypeList"/>
 									</td>
 	         						<td><a href="javascript:void(0)" ng-click='addComponent()' class="btn btn-success btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
 								</tr>
 							</tbody>
 						</table>
+						<div class="alert alert-danger" ng-show='insertComponentError'>
+							<strong>{{updateError.error_message}}</strong>
+							{{insertComponentError|translate}}
+						</div>
 					</div>
 				</div>
 				<div class='form-label-separator'>{{'MANAGEMENT_EDIT_STREAM_SETTINGS'|translate}}</div>
@@ -174,25 +186,25 @@
 				<div class="form-group">
 					<label for="inputStreamFps" class="col-sm-2 control-label">{{'STREAM_FIELD_FPS'|translate}}</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputStreamFps" placeholder="{{'STREAM_FIELD_FPS'|translate}}" ng-model="stream.fps">
+						<input type="text" class="form-control" id="inputStreamFps" placeholder="{{'STREAM_FIELD_FPS'|translate}}" ng-model="stream.fps" disabled>
 					</div>
 				</div>			
 				<div class="form-group">
 					<label for="v" class="col-sm-2 control-label">{{'STREAM_FIELD_LICENCE'|translate}}</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputStreamLicence" placeholder="{{'STREAM_FIELD_LICENCE'|translate}}" ng-model="stream.licence">
+						<input type="text" class="form-control" id="inputStreamLicence" placeholder="{{'STREAM_FIELD_LICENCE'|translate}}" ng-model="stream.licence" disabled>
 					</div>
 				</div>			
 				<div class="form-group">
 					<label for="inputStreamDisclaimer" class="col-sm-2 control-label">{{'STREAM_FIELD_DISCLAIMER'|translate}}</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputStreamDisclaimer" placeholder="{{'STREAM_FIELD_DISCLAIMER'|translate}}" ng-model="stream.disclaimer">
+						<input type="text" class="form-control" id="inputStreamDisclaimer" placeholder="{{'STREAM_FIELD_DISCLAIMER'|translate}}" ng-model="stream.disclaimer" disabled>
 					</div>
 				</div>			
 				<div class="form-group">
 					<label for="inputStreamCopyright" class="col-sm-2 control-label">{{'STREAM_FIELD_COPYRIGHT'|translate}}</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputStreamCopyright" placeholder="{{'STREAM_FIELD_COPYRIGHT'|translate}}" ng-model="stream.copyright">
+						<input type="text" class="form-control" id="inputStreamCopyright" placeholder="{{'STREAM_FIELD_COPYRIGHT'|translate}}" ng-model="stream.copyright" disabled>
 					</div>
 				</div>			
 				<div class='form-label-separator'></div>

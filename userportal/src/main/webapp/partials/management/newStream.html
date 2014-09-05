@@ -11,7 +11,8 @@
 			<div class="form-group">
 				<label for="inputVirtualEntity" class="col-sm-2 control-label">{{'VIRTUALENTITY'|translate}} <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-10">
-             		<select class="form-control" ng-model="virtualentity" ng-options="virtualEntity.nomeVirtualEntity group by virtualEntity.tipoVirtualEntity for virtualEntity in virtualEntitiesList" required >
+             		<select class="form-control" ng-model="virtualentity" 
+             		  ng-options="virtualEntity.nomeVirtualEntity group by virtualEntity.tipoVirtualEntity for virtualEntity in virtualEntitiesList" required >
              			<option value="" class='mute'>{{'MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER'|translate}}</option>
              		</select>
 				</div>

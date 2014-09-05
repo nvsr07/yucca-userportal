@@ -6,7 +6,9 @@ var appServices = angular.module('userportal.services', [ 'userportal.config' ])
 
 appServices.value('version', '0.1');
 
-appServices.factory('fabricAPIservice', function($http, $q) {
+appServices.factory('fabricAPIservice', function($http, $q, DASHBOARD_API_STREAM_URL, DASHBOARD_API_TENANT_LIST_URL,
+		DASHBOARD_API_VIRTUALENTITY_LIST_URL, DASHBOARD_API_VIRTUALENTITY_URL , DASHBOARD_API_VIRTUALENTITY_CATEGORIES_URL,
+		DASHBOARD_API_VIRTUALENTITY_TYPES_URL, DASHBOARD_API_STREAM_TAGS_URL, DASHBOARD_API_STREAM_DOMAINS_URL, DASHBOARD_API_STREAM_COMPONENT_URL) {
 
 	var fabricAPI = {};
 
@@ -31,28 +33,28 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	fabricAPI.getStream = function(tenant_code, virtualentity_code, stream_code) {
 		return $http({
 			method : 'JSONP',
-			url : Constants.DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/' + '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getTenants = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.DASHBOARD_API_TENANT_LIST_URL+ '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_TENANT_LIST_URL+ '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getVirtualentities = function(tenant_code) {
 		return $http({
 			method : 'JSONP',
-			url : Constants.DASHBOARD_API_VIRTUALENTITY_LIST_URL + tenant_code + '/' + '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_VIRTUALENTITY_LIST_URL + tenant_code + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.createStream = function(tenant_code, virtualentity_code, stream) {
 		// return $http({
 		// method: "POST",
-		// url: Constants.DASHBOARD_API_STREAM_URL + tenant_code + '/' +
+		// url: DASHBOARD_API_STREAM_URL + tenant_code + '/' +
 		// virtualentity_code + '/' + stream.stream.codiceStream+'/' ,
 		// data: stream,
 		// headers : { 'Content-Type': 'application/x-www-form-urlencoded;
@@ -65,7 +67,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		var deferred = $q.defer();
 		var resultData = null;
 		
-		$http.post(Constants.DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream.stream.codiceStream + '/', stream, {
+		$http.post(DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream.stream.codiceStream + '/', stream, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
@@ -81,7 +83,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		var deferred = $q.defer();
 		var resultData = null;
 		
-		$http.put(Constants.DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream.codiceStream + '/', stream, {
+		$http.put(DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream.stream.codiceStream + '/', stream, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
@@ -105,7 +107,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 				component.nomeAttributo = component.nome;
 				component.tipoAttributo = component.tipo;
 				var componentParam = {"componente": { "nomeAttributo": component.nome, "tipoAttributo": component.tipo }};
-				urlCalls.push($http.post(Constants.DASHBOARD_API_STREAM_COMPONENT_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', componentParam));
+				urlCalls.push($http.post(DASHBOARD_API_STREAM_COMPONENT_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', componentParam));
 			}
         }
 		
@@ -136,14 +138,14 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	fabricAPI.getVirtualentityCategories = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.DASHBOARD_API_VIRTUALENTITY_CATEGORIES_URL + '/' + '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_VIRTUALENTITY_CATEGORIES_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getVirtualentityTypes = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.DASHBOARD_API_VIRTUALENTITY_TYPES_URL + '/' + '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_VIRTUALENTITY_TYPES_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 	
@@ -152,7 +154,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		return ['AGRICULTURE','ENERGY','ENVIRONMENT','HEALTH','SCHOOL','SECURITY','TRANSPORT'];
 		/*return $http({
 			method : 'JSONP',
-			url : Constants.DASHBOARD_API_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
 		});*/
 	};
 
@@ -161,14 +163,14 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		return ['AIR','CARBON','CONSUMPTION','DIOXIDE','FIRE','FOREST','GLACIER','INDOOR','LAKE','LANDSLIDE','MONOXIDE','NITROGEN','OZONE','POLLUTION','RAIN','RIVER','SNOW','WATER'];
 		/* return $http({
 			method : 'JSONP',
-			url : Constants.DASHBOARD_API_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
 		});*/
 	};
 	
 	fabricAPI.getVirtualentity = function(tenant_code, virtualentity_code) {
 		return $http({
 			method : 'JSONP',
-			url : Constants.DASHBOARD_API_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
+			url : DASHBOARD_API_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -176,7 +178,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		var deferred = $q.defer();
 		var resultData = null;
 		
-		$http.post(Constants.DASHBOARD_API_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity).success(function(responseData) {
+		$http.post(DASHBOARD_API_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
 			deferred.resolve(resultData);
 		}).error(function(responseData, responseStatus) {
@@ -190,7 +192,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		var deferred = $q.defer();
 		var resultData = null;
 		
-		$http.put(Constants.DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity, {
+		$http.put(DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};

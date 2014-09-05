@@ -7,15 +7,9 @@
 			<!-- Single button -->
 			<div class='clearfix'>
 				<div class="pull-left">
-			        <div class="btn-group" dropdown is-open="status.isopen">
-	     				<a class="btn btn-default dropdown-toggle" ng-disabled="disabled">
-	        				<span class="glyphicon glyphicon-plus mute"></span> {{'MANAGEMENT_STREAM_LIST_NEW_STREAM'|translate}} <span class="caret"></span>
-	      				</a>
-				      	<ul class="dropdown-menu" role="menu">
-			       			<li><a href="#/management/newStream/{{tenantCode}}">{{'MANAGEMENT_STREAM_LIST_NEW_STREAM_FROM_VIRTUALENTITY'|translate}}</a></li>
-							<li><a href="#/management/newStreamInternal/{{tenantCode}}">{{'MANAGEMENT_STREAM_LIST_NEW_STREAM_INTERNAL'|translate}}</a></li>
-				      	</ul>
-				    </div>
+		        	<a  href="#/management/newStream/{{tenantCode}}" class="btn btn-default" >
+						<span class="glyphicon glyphicon-plus mute"></span> {{'MANAGEMENT_STREAM_LIST_NEW_STREAM'|translate}}
+					</a>
 					<button  href="javascript:void(0)" ng-click='editStream()' class="btn btn-default" ng-disabled="selectedStreams.length!=1" title="{{'MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT'|translate}}">
 						<span class="glyphicon glyphicon-pencil mute"></span> {{'MANAGEMENT_STREAM_LIST_EDIT_STREAM'|translate}}
 					</button>
@@ -78,7 +72,7 @@
 							<td><a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">{{stream.codiceStream}}</a></td>
 							<td>{{stream.codiceVirtualEntity}}</td>
 							<td>{{stream.lastupdate|date}}</td>
-							<td>{{stream.statoStream}}</td>
+							<td>{{stream.statoStream|translate}}</td>
 							<td>{{stream.installed_version|date}}</td>
 						</tr>
 					</tbody>
