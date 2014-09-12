@@ -11,6 +11,7 @@ var translations_it = {
 	/*common */
 	CANCEL : 'Annulla',
 	SAVE: 'Salva',
+	COMING_SOON: 'Coming soon...', 
 	
 	/* main menu */
 	MENU_DASHBOARD : 'Monitoraggio',
@@ -60,6 +61,13 @@ var translations_it = {
 	STREAM_FIELD_LASTUPDATE: 'Aggiornamento',
 	STREAM_FIELD_EVENTS : 'Eventi',
 	STREAM_FIELD_VERSION : 'Versione installata',
+	/* Stream placeholder */
+	
+	STREAM_FIELD_CODE_PLACEHOLDER : 'es. temperatura',
+	STREAM_FIELD_NAME_PLACEHOLDER : 'es. temperatura sala',
+	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'es. 1.4',
+	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'es. wind',
+	STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER: 'es. 12',
 	
 	/* Stream List */
 	STREAM_LIST_TENANT_FILTER : 'Filtra per organizzazione',
@@ -119,7 +127,7 @@ var translations_it = {
 	FIRE: 'Fuoco',
 	FOREST: 'Foresta',
 	GLACIER: 'Ghiacciaio',
-	INDOOR: 'Indoor ',
+	INDOOR: 'Indoor',
 	LAKE: 'Lago',
 	LANDSLIDE: 'Frana',
 	MONOXIDE: 'Monossido',
@@ -131,9 +139,16 @@ var translations_it = {
 	SNOW: 'Neve',
 	WATER: 'Acqua',
 	
+	/* stream status */
+	draft:'Bozza',
+    req_inst:'Installazione in corso',
+    inst:'Installato',
+    req_uninst:'Disistallazione in corso',
+    uninst:'Disistallato e storicizzato',
+	
 	/* Virtual Entity List */
-	VIRTUALENTITY_LIST_CODE_FILTER: 'Filter by code',
-	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filter by status',
+	VIRTUALENTITY_LIST_CODE_FILTER: 'Filtra per codice',
+	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filtra per stato',
 
 
 	/* Dashboard */
@@ -189,8 +204,6 @@ var translations_it = {
 
 	/* Management Stream List */
 	MANAGEMENT_STREAM_LIST_NEW_STREAM : 'Nuovo',
-	MANAGEMENT_STREAM_LIST_NEW_STREAM_FROM_VIRTUALENTITY : 'Flusso da Virtual Entity',
-	MANAGEMENT_STREAM_LIST_NEW_STREAM_INTERNAL : 'Flusso interno',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM : 'Modifica',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM : 'Elimina',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo flusso',
@@ -201,10 +214,15 @@ var translations_it = {
 
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Crea',
-	MANAGEMENT_NEW_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Nuovo Flusso da Virtual Entity',
-	MANAGEMENT_NEW_STREAM_FROM_INTERNAL_SUBTITLE: 'Nuovo Flusso da Internal',
+	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Scegli una Virtual Entity...',
+	MANAGEMENT_NEW_STREAM_FROM_SUBTITLE: 'Nuovo flusso',
 	
-	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ', 
+	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Edit ', 
+	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
+	MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
+	MANAGEMENT_EDIT_STREAM_COMPONENT_EXAMPLE_TITLE: 'Esempio',
+	MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER: 'Scegli...',
+	MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER: 'Scegli...',
 	MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON: 'Leggi da Flusso',
 	MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL: 'Salva dati',
 	MANAGEMENT_EDIT_STREAM_SAVE_DATA: 'Salva',
@@ -220,9 +238,13 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Aggiungi tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Flusso salvato',
 	
-	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni generali',
-	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
-	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (work in progress)',
+	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni generali (coming soon)',
+	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive (coming soon)',
+	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
+	
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'codice\' &ecute; obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'codice\' deve essere univoco per flusso ',
     
 		/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Virtual Entities',
@@ -241,6 +263,11 @@ var translations_it = {
 	MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE: 'Nuova Virtual Entity',
 	MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON: 'Crea Virtual Entity',
 	MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON: 'Genera',	
+	MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER: 'Scegli...', 
+	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER: 'Scegli...', 
+	MANAGEMENT_NEW_VIRTUALENTITY_CODE_HINT: 'Solo per i device', 
+	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT: 'Solo per i device', 
+	
 	/* Management edit Virtual Entity  */
 	MANAGEMENT_EDIT_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ',
 	MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO: 'Virtual Entity Salvata',
