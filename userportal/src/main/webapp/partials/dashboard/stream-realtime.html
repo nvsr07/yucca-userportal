@@ -54,7 +54,7 @@
 	<h4>{{'DASHBOARD_STREAM_SYSTEM_STATUS'|translate}}</h4>
 	<div class='row'>
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-			<p><strong>{{'STREAM_FIELD_STATUS'|translate}}</strong> {{stream.statoStream}}</p>
+			<p><strong>{{'STREAM_FIELD_STATUS'|translate}}</strong> {{stream.deploymentStatusDesc}}</p>
 		</div>
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
 			<p><strong>{{'STREAM_FIELD_LASTUPDATE'|translate}}</strong> {{stream.lastUpdate|date}}</p>
@@ -70,7 +70,7 @@
 					<tbody>
 						<tr>
 							<td><strong>{{'STREAM_FIELD_STATUS'|translate}}</strong></td>
-							<td>{{stream.statoStream}}</td>
+							<td>{{stream.deploymentStatusDesc}}</td>
 						</tr>
 						<tr>
 							<td><strong>{{'STREAM_FIELD_LASTUPDATE'|translate}}</strong></td>

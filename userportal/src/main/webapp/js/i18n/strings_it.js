@@ -118,6 +118,10 @@ var translations_it = {
 	SCHOOL: 'Scuola',
 	SECURITY: 'Sicurezza',
 	TRANSPORT: 'Trasporti',
+	/* TODO REMOVE */
+	ambiente: 'Ambiente',
+	agricoltura: 'Agricoltura',
+	qualita_aria: 'Aria',
 	
 	/* Stream domains */
 	AIR: 'Aria',
@@ -137,7 +141,11 @@ var translations_it = {
 	RAIN: 'Pioggia',
 	RIVER: 'Fiume',
 	SNOW: 'Neve',
+	/* TODO REMOVE */
 	WATER: 'Acqua',
+	dom001: 'Dominio 001',
+	dom002: 'Dominio 002',
+
 	
 	/* stream status */
 	draft:'Bozza',
@@ -154,7 +162,8 @@ var translations_it = {
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Area monitoraggio flussi',
 	
-	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Nome Flusso',
+	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Flusso',
+	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Virtual Entity',
 	DASHBOARD_STREAM_LIST_TENANT : 'Organizzazione',
 	DASHBOARD_STREAM_LIST_EVENTS : 'Num. eventi ultima mezz\'ora',
 	DASHBOARD_STREAM_LIST_REGISTRATION_DATE : 'Data registrazione',
@@ -215,7 +224,7 @@ var translations_it = {
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Crea',
 	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Scegli una Virtual Entity...',
-	MANAGEMENT_NEW_STREAM_FROM_SUBTITLE: 'Nuovo flusso',
+	MANAGEMENT_NEW_STREAM_SUBTITLE: 'Nuovo flusso',
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Edit ', 
 	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
@@ -227,8 +236,8 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL: 'Salva dati',
 	MANAGEMENT_EDIT_STREAM_SAVE_DATA: 'Salva',
 	MANAGEMENT_EDIT_STREAM_DONT_SAVE_DATA: 'Non salvare',
-	MANAGEMENT_EDIT_STREAM_VISIBIITY_PUBLIC: 'Pubblico',
-	MANAGEMENT_EDIT_STREAM_VISIBIITY_PRIVATE: 'Privato',
+	MANAGEMENT_EDIT_STREAM_VISIBILITY_PUBLIC: 'Pubblico',
+	MANAGEMENT_EDIT_STREAM_VISIBILITY_PRIVATE: 'Privato',
 	MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE_LABEL: 'Pubblicazione nello store',
 	MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE: 'Pubblica',
 	MANAGEMENT_EDIT_STREAM_NOT_PUBLISH_ON_STORE: 'Non Pubblicare',
@@ -238,8 +247,8 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Aggiungi tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Flusso salvato',
 	
-	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni generali (coming soon)',
-	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive (coming soon)',
+	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni generali',
+	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',

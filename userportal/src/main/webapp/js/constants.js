@@ -2,8 +2,8 @@ var Constants = Constants || {};
 
 
 /* Urls */
-//var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
-var API_BASE_URL = '/userportal/api/proxy/';
+var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
+//var API_BASE_URL = '/userportal/api/proxy/';
 
 Constants.DASHBOARD_API_STREAM_LIST_URL=API_BASE_URL+'streams/';
 Constants.DASHBOARD_API_STREAM_URL=API_BASE_URL+'streams/';
@@ -13,8 +13,14 @@ Constants.DASHBOARD_API_VIRTUALENTITY_URL=API_BASE_URL+'virtualentities/';
 
 Constants.DASHBOARD_API_VIRTUALENTITY_CATEGORIES_URL=API_BASE_URL+'misc/category/';
 Constants.DASHBOARD_API_VIRTUALENTITY_TYPES_URL=API_BASE_URL+'misc/types/';
-Constants.DASHBOARD_API_STREAM_TAGS_URL=API_BASE_URL+'misc/tags/';
-Constants.DASHBOARD_API_STREAM_DOMAINS_URL=API_BASE_URL+'misc/domains/';
+Constants.DASHBOARD_API_STREAM_TAGS_URL=API_BASE_URL+'misc/streamtags/';
+Constants.DASHBOARD_API_STREAM_DOMAINS_URL=API_BASE_URL+'misc/streamdomains/';
+Constants.DASHBOARD_API_STREAM_UNIT_OF_MESAUREMENT_URL=API_BASE_URL+'misc/measureunits/';
+Constants.DASHBOARD_API_STREAM_UNIT_OF_MESAUREMENT_URL=API_BASE_URL+'misc/measureunits/';
+Constants.DASHBOARD_API_STREAM_PHENOMENOM_URL=API_BASE_URL+'misc/phenomenon/';
+Constants.DASHBOARD_API_STREAM_DATATYPE_URL=API_BASE_URL+'misc/datatype/';
+
+
 Constants.DASHBOARD_API_TENANT_LIST_URL=API_BASE_URL+'tenants/';
 
 

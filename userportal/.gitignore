@@ -1,2 +1,6 @@
 /build/
 /target/
+/prod/
+/target_prod/
+/target_prod_old/
+/test/

@@ -64,7 +64,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		// });
 		var deferred = $q.defer();
 		var resultData = null;
-		
+		console.debug("Stream", stream);
 		$http.post(Constants.DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream.stream.codiceStream + '/', stream, {
 			crossDomain : true,
 		}).success(function(responseData) {
@@ -77,11 +77,11 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		return deferred.promise;
 	};
 
-	fabricAPI.updateStream = function(tenant_code, virtualentity_code, stream) {
+	fabricAPI.updateStream = function(stream) {
 		var deferred = $q.defer();
 		var resultData = null;
 		
-		$http.put(Constants.DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream.codiceStream + '/', stream, {
+		$http.put(Constants.DASHBOARD_API_STREAM_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', stream, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
@@ -149,22 +149,45 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	
 	fabricAPI.getStreamTags = function() {
 		//FIXME return real method when API will be ready
-		return ['AGRICULTURE','ENERGY','ENVIRONMENT','HEALTH','SCHOOL','SECURITY','TRANSPORT'];
-		/*return $http({
+		//return ['AGRICULTURE','ENERGY','ENVIRONMENT','HEALTH','SCHOOL','SECURITY','TRANSPORT'];
+		return $http({
 			method : 'JSONP',
 			url : Constants.DASHBOARD_API_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
-		});*/
+		});
 	};
 
 	fabricAPI.getStreamDomains = function() {
 		//FIXME return real method when API will be ready
-		return ['AIR','CARBON','CONSUMPTION','DIOXIDE','FIRE','FOREST','GLACIER','INDOOR','LAKE','LANDSLIDE','MONOXIDE','NITROGEN','OZONE','POLLUTION','RAIN','RIVER','SNOW','WATER'];
-		/* return $http({
+		//return ['AIR','CARBON','CONSUMPTION','DIOXIDE','FIRE','FOREST','GLACIER','INDOOR','LAKE','LANDSLIDE','MONOXIDE','NITROGEN','OZONE','POLLUTION','RAIN','RIVER','SNOW','WATER'];
+		console.debug("getStreamDomains", Constants.DASHBOARD_API_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK');
+		return $http({
 			method : 'JSONP',
 			url : Constants.DASHBOARD_API_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
-		});*/
+		});
 	};
 	
+	fabricAPI.getStreamPhenomenom = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.DASHBOARD_API_STREAM_PHENOMENOM_URL + '/' + '?callback=JSON_CALLBACK'
+		});
+	};
+	
+	fabricAPI.getStreamUnitOfMesaurement = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.DASHBOARD_API_STREAM_UNIT_OF_MESAUREMENT_URL + '/' + '?callback=JSON_CALLBACK'
+		});
+	};
+	
+	fabricAPI.getStreamDataType = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.DASHBOARD_API_STREAM_DATATYPE_URL + '/' + '?callback=JSON_CALLBACK'
+		});
+	};
+
+
 	fabricAPI.getVirtualentity = function(tenant_code, virtualentity_code) {
 		return $http({
 			method : 'JSONP',

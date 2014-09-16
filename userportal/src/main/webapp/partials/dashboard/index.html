@@ -39,6 +39,12 @@
 							
 							</th>
 							<th>
+								<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE'|translate}} 
+								<span ng-show="predicate=='name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
 								<a href="" ng-click="predicate = 'registration_date'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_REGISTRATION_DATE'|translate}} 
 								<span ng-show="predicate=='registration_date' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 								<span ng-show="predicate=='registration_date' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
@@ -60,10 +66,11 @@
 					<tbody>
 						<tr ng-repeat="stream in streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 							<td>{{stream.nomeTenant}}</td>
-							<td><a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">{{stream.codiceStream}}</a></td>
+							<td><a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}"><strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}</a></td>
+							<td><small>{{stream.codiceVirtualEntity}}</small></td>
 							<td>{{stream.registration_date|date}}</td>
 							<td>{{stream.lastUpdate|date}}</td>
-							<td>{{stream.statoStream}}</td>
+							<td>{{stream.deploymentStatusDesc}}</td>
 						</tr>
 					</tbody>
 				</table>

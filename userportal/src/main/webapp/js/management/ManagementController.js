@@ -71,14 +71,16 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 	fabricAPIservice.getStreams(/*$scope.tenantCode*/).success(function(response) {
 		// FIXME remove when the new api with tenant parameterwill be ready
-		for (var i = 0; i < response.streams.stream.length; i++) {
-			if(response.streams.stream[i].codiceTenant == $scope.tenantCode){
-				if(!response.streams.stream[i].statoStream || response.streams.stream[i].statoStream == null)
-					response.streams.stream[i].statoStream = Constants.STREAM_STATUS_DRAFT;
-				$scope.streamsList.push(response.streams.stream[i]);
+	
+		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+		for (var i = 0; i < responseList.length; i++) {
+			if(responseList[i].codiceTenant == $scope.tenantCode){
+				if(!responseList[i].statoStream || responseList[i].statoStream == null)
+					responseList[i].statoStream = Constants.STREAM_STATUS_DRAFT;
+				$scope.streamsList.push(responseList[i]);
 			}
 		}
-		//$scope.streamsList = response.streams.stream;
+		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
 		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
@@ -164,8 +166,20 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 		// TODO: manage virtual entity type internal
 		//$scope.virtualEntitiesList = response.virtualEntities.virtualEntity;
 	});
+	
+	// TODO put in cache
+	$scope.domainList = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+	
 	$scope.creationError = null;
 	$scope.createStream = function(virtualentity, stream) {
+		stream.fps = 0;
+		stream.saveData = 0;
+		stream.publish = 0;
 		var newStream = new Object();
 		newStream.stream = stream;
 		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
@@ -189,65 +203,71 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 
 appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', function($scope, $routeParams, fabricAPIservice) {
 	
-	$scope.unitOfMesaurementList = [
-	                                {name:'cm', type: 'Length'},
-	                                {name:'m', type: 'Length'},
-	                                {name:'km', type: 'Length'},
-	                                {name:'mg', type: 'Weight'},
-	                                {name:'g', type: 'Weight'},
-	                                {name:'kg', type: 'Weight'},
-	                               ];
-	
-	$scope.phenomenomList = [
-	                         {name:'Wind Speed', type: 'Type 1'},
-	                         {name:'Air Temperature', type: 'Type 1'},
-	                         {name:'Measure 03', type: 'Type 1'},
-	                         {name:'Measure 01', type: 'Type 2'},
-	                         {name:'Measure 02', type: 'Type 2'},
-	                         {name:'Measure 03', type: 'Type 2'},
-	                         ];
-
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 	$scope.insertComponentError = null;
 	
 
-	$scope.dataTypeList = ['String', 'Number', 'Date'];
 
 	$scope.tagList = [];
-	$scope.tagList = fabricAPIservice.getStreamTags();
-	
-	/*fabricAPIservice.getStreamTags().success(function(response) {
-		$scope.tagList = response;
-	});*/
-
+	// TODO put in cache
 	$scope.domainList = [];
-	$scope.domainList = fabricAPIservice.getStreamDomains();
+	fabricAPIservice.getStreamTags().success(function(response) {
+		for (var int = 0; int < response.streamTags.element.length; int++) {
+			$scope.tagList.push(response.streamTags.element[int].tagCode);
+		}
+	});
+	
+
+	// TODO put in cache
+	$scope.domainList = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.unitOfMesaurementList = [];
+	fabricAPIservice.getStreamUnitOfMesaurement().success(function(response) {
+		$scope.unitOfMesaurementList = response.measureUnit.element;
+	});
+
+	
+	$scope.phenomenomList = [];
+	fabricAPIservice.getStreamPhenomenom().success(function(response) {
+		$scope.phenomenomList = response.Phenomenon.element;
+	});
+
+	$scope.dataTypeList = [];
+	fabricAPIservice.getStreamDataType().success(function(response) {
+		$scope.dataTypeList = response.dataType.element;
+	});
+
+	
+	
 	
 	$scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
-	/*fabricAPIservice.getStreamDomains().success(function(response) {
-		$scope.domainList = response;
-	});*/
-
 	
 	$scope.stream = null;
 	$scope.loadStream = function(){
 		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 			$scope.stream = response.streams.stream;
-			if(!$scope.stream.tags)
-				$scope.stream.tags = [];
+			if(!$scope.stream.streamTags){
+				$scope.stream.streamTags = {};
+				$scope.stream.streamTags.tag = [];
+			}
 			if($scope.stream.componenti == null)
 				$scope.stream.componenti = new Object();
-			console.log("--components");
 			$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
 			
 			// FIXME remove in future version
-			$scope.stream.saveData = 'false';
-			$scope.stream.visibiity = 'public';
+			$scope.stream.saveData = '0';
+			$scope.stream.visibility = 'public';
 			$scope.stream.publish = 'false';	
 			if(!$scope.stream.statoStream || $scope.stream.statoStream == null)
 				$scope.stream.statoStream = Constants.STREAM_STATUS_DRAFT;
 
+			$scope.stream.domain = $scope.stream.domainStream;
 		});
 		
 	};
@@ -260,27 +280,41 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 	
 	$scope.newComponent = null;
+	$scope.newComponentUnitOfMeasurement = null;
+	$scope.newComponentPhenomenon = null;
+	$scope.newComponentDataType = null;
+	
 	$scope.addComponent = function(){
 		$scope.insertComponentError = null;
+		console.log("$scope.newComponent",$scope.newComponent);
+
 		if($scope.newComponent && $scope.newComponent.nome){
 			var found = false;
-			//console.log("$scope.stream.componenti.element prima",$scope.stream.componenti.element);
-			//$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
-			//console.log("$scope.stream.componenti.element dopo",$scope.stream.componenti.element);
 
-		/*	if(!$scope.stream.componenti.element)
-				$scope.stream.componenti.element = [];
-			if ($scope.stream.componenti.element !instanceof Array){
-				
-			}*/
 			for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
 				if($scope.stream.componenti.element[int].nome == $scope.newComponent.nome){
 					found = true;
 					break;
 				}
 			}
+			
 			if(!found){
 				console.log("$scope.stream.componenti.element ccc",$scope.stream.componenti);
+				if($scope.newComponentUnitOfMeasurement){
+					$scope.newComponent.idMeasureUnit = $scope.newComponentUnitOfMeasurement.idMeasureUnit;
+					$scope.newComponent.measureUnit = $scope.newComponentUnitOfMeasurement.measureUnit;
+					$scope.newComponent.measureUnitCategory = $scope.newComponentUnitOfMeasurement.measureUnitType;
+				}
+				if($scope.newComponentPhenomenom){
+					$scope.newComponent.idPhenomenon = $scope.newComponentPhenomenom.idPhenomenon;
+					$scope.newComponent.phenomenon = $scope.newComponentPhenomenom.phenomenon;
+					$scope.newComponent.phenomenonCategory = $scope.newComponentPhenomenom.phenomenonType;
+				}
+				if($scope.newComponentDataType){
+					$scope.newComponent.idDataType = $scope.newComponentDataType.idDataType;
+					$scope.newComponent.dataType = $scope.newComponentDataType.dataType;
+				}
+				
 				$scope.stream.componenti.element.push($scope.newComponent);
 				$scope.newComponent = null;
 			}
@@ -301,8 +335,19 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.newTag = null;
 	$scope.addTag = function(){
-		if($scope.newTag && $scope.stream.tags.indexOf($scope.newTag)==-1){
-			$scope.stream.tags.push($scope.newTag);
+		if($scope.newTag){
+			var found = false;	
+			for (var int = 0; int < $scope.stream.streamTags.tag.length; int++) {
+				var existingTag = $scope.stream.streamTags.tag[int];
+				if(existingTag.tagCode == $scope.newTag){
+					found = true;
+					break;
+				}
+				
+			}
+			//$scope.stream.tags.push($scope.newTag);
+			if(!found)
+				$scope.stream.streamTags.tag.push({"tagCode":$scope.newTag});
 		}
 		$scope.newTag = null;
 		return false;
@@ -310,7 +355,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 	
 	$scope.removeTag = function(index){
-		$scope.stream.tags.splice(index,1);
+		$scope.stream.streamTags.tag.splice(index,1);
 		return false;
 	};
 
@@ -336,10 +381,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		var newStream = new Object();
 		newStream.stream =  $scope.stream;
 		console.log("newStream", newStream);
-		//var promise   = fabricAPIservice.updateStream($scope.tenantCode, $scope.codeVirtualEntity,  newStream);
+		var promise   = fabricAPIservice.updateStream(newStream);
+		
+		/*
 		var promise   = fabricAPIservice.createComponents(newStream);
 		console.log("newStream");
-		
+		*/
 		promise.then(function(result) {
 			console.log("result qui ", result);
 			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready

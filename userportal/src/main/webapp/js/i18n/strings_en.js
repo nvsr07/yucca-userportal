@@ -118,6 +118,11 @@ var translations_en = {
 	SCHOOL: 'School',
 	SECURITY: 'Security',
 	TRANSPORT: 'Transport',
+	/* TODO REMOVE */
+	ambiente: 'Environment',
+	agricoltura: 'Agriculture',
+	qualita_aria: 'Air quality',
+
 	
 	/* Stream domains */
 	AIR: 'Air',
@@ -138,6 +143,9 @@ var translations_en = {
 	RIVER: 'River',
 	SNOW: 'Snow',
 	WATER: 'Water',
+	/* TODO REMOVE */
+	dom001: 'Domain 001',
+	dom002: 'Domain 002',
 	
 	/* stream status */
 	draft:'draft',
@@ -154,7 +162,8 @@ var translations_en = {
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Dashboard streams monitoring',
 	
-	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Stream Name',
+	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Stream',
+	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Virtual Entity',
 	DASHBOARD_STREAM_LIST_TENANT : 'Tenant',
 	DASHBOARD_STREAM_LIST_EVENTS : 'Events in the last 30 min.',
 	DASHBOARD_STREAM_LIST_REGISTRATION_DATE : 'Registration date',
@@ -215,7 +224,7 @@ var translations_en = {
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Create',
 	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Choose one Virtual Entity',
-	MANAGEMENT_NEW_STREAM_FROM_SUBTITLE: 'New Stream',
+	MANAGEMENT_NEW_STREAM_SUBTITLE: 'New Stream',
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Edit ', 
 	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Choose one or more tag...',
@@ -227,8 +236,8 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL: 'Save data',
 	MANAGEMENT_EDIT_STREAM_SAVE_DATA: 'Save',
 	MANAGEMENT_EDIT_STREAM_DONT_SAVE_DATA: 'Don\'t save',
-	MANAGEMENT_EDIT_STREAM_VISIBIITY_PUBLIC: 'Public',
-	MANAGEMENT_EDIT_STREAM_VISIBIITY_PRIVATE: 'Private',
+	MANAGEMENT_EDIT_STREAM_VISIBILITY_PUBLIC: 'Public',
+	MANAGEMENT_EDIT_STREAM_VISIBILITY_PRIVATE: 'Private',
 	MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE_LABEL: 'Publication in the Store',
 	MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE: 'Published',
 	MANAGEMENT_EDIT_STREAM_NOT_PUBLISH_ON_STORE: 'Not Published',
@@ -238,8 +247,8 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Add tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Stream saved',
 	
-	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info (coming soon)',
-	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info (coming soon)',
+	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
+	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Warning',

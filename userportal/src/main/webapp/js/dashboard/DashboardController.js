@@ -16,8 +16,7 @@
 
 		fabricAPIservice.getStreams().success(function(response) {
 			// Dig into the responde to get the relevant data
-			console.log("response", response);
-			$scope.streamsList = response.streams.stream;
+			$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 			$scope.totalItems = $scope.streamsList.length;
 			$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 		});
