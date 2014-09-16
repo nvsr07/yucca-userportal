@@ -2,8 +2,8 @@ var Constants = Constants || {};
 
 
 /* Urls */
-var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
-//var API_BASE_URL = '/userportal/api/proxy/';
+//var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
+var API_BASE_URL = '/userportal/api/proxy/';
 
 Constants.DASHBOARD_API_STREAM_LIST_URL=API_BASE_URL+'streams/';
 Constants.DASHBOARD_API_STREAM_URL=API_BASE_URL+'streams/';
