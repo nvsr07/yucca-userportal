@@ -4,7 +4,7 @@ var Constants = Constants || {};
 /* Urls */
 //var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
 var API_BASE_URL = '/userportal/api/proxy/';
-
+/*
 Constants.DASHBOARD_API_STREAM_LIST_URL=API_BASE_URL+'streams/';
 Constants.DASHBOARD_API_STREAM_URL=API_BASE_URL+'streams/';
 Constants.DASHBOARD_API_STREAM_COMPONENT_URL=API_BASE_URL+'streams/components/';
@@ -23,7 +23,7 @@ Constants.DASHBOARD_API_STREAM_DATATYPE_URL=API_BASE_URL+'misc/datatype/';
 
 Constants.DASHBOARD_API_TENANT_LIST_URL=API_BASE_URL+'tenants/';
 
-
+*/
 /* stream status */
 Constants.STREAM_STATUS_DRAFT='draft';
 Constants.STREAM_STATUS_REQ_INST='req_inst';

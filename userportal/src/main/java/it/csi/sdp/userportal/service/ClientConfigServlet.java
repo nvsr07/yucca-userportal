@@ -1,5 +1,6 @@
 package it.csi.sdp.userportal.service;
 
+import it.csi.sdp.userportal.info.ApiEntityEnum;
 import it.csi.sdp.userportal.utils.Config;
 
 import java.io.IOException;
@@ -32,8 +33,19 @@ public class ClientConfigServlet extends HttpServlet {
 			log.debug("[ClientConfigServlet::doGet] - responseType: " + responseType);
 
 			Properties config = Config.loadClientConfiguration();
+			// 
 			String responseString = formatConfig(config, responseType);
 			out.println(responseString);
+
+			Properties constants = new Properties();
+						
+			for (ApiEntityEnum apiEntity : ApiEntityEnum.values()) {
+				apiEntity.addPropertyForJs(constants);	
+			}
+			
+			String constantsString = formatConstants(constants, responseType);
+			
+			out.println(constantsString);
 			out.close();
 		} catch (IOException e) {
 			log.error("[ClientConfigServlet::doGet] - ERROR " + e.getMessage());
@@ -41,6 +53,32 @@ public class ClientConfigServlet extends HttpServlet {
 		} finally {
 			log.debug("[ClientConfigServlet::doGet] - END");
 		}
+	}
+
+	private String formatConstants(Properties constants, String responseType) {
+		log.debug("[ClientConfigServlet::formatConstants] - START");
+		try {
+			StringBuffer sb = new StringBuffer("");
+			if ("angularJs".equals(responseType)) {
+				sb.append("var Constants = Constants || {};\n\n");
+				for (String key : constants.stringPropertyNames()) {
+					sb.append("Constants." + key + "='" + constants.getProperty(key) + "';\n");
+				}
+			}
+			else{
+				sb.append("\n\n*** WARNING: response type:'" + responseType +"' is actually NOT Supported ***\n\n");
+				for (String key : constants.stringPropertyNames()) {
+					sb.append("" + key + "='" + constants.getProperty(key) + "';\n");
+				}
+
+			}
+
+			return sb.toString();
+
+		} finally {
+			log.debug("[ClientConfigServlet::formatConstants] - END");
+		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

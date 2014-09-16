@@ -1,5 +1,6 @@
 package it.csi.sdp.userportal.service;
 
+import it.csi.sdp.userportal.utils.AuthorizeUtils;
 import it.csi.sdp.userportal.utils.Config;
 
 import java.io.BufferedReader;
@@ -57,7 +58,7 @@ public class ApiProxyServlet extends HttpServlet {
 		log.debug("[ApiProxyServlet::doPost] START");
 		try {
 			//allowClientOrigin(response, request.getHeader("origin"), "POST");
-
+			
 			StringBuffer inBodyRequest = new StringBuffer();
 			String line = null;
 			try {
@@ -178,7 +179,7 @@ public class ApiProxyServlet extends HttpServlet {
 		path = path.replaceAll(request.getContextPath() + request.getServletPath(), "");
 		String apiBaseUrl = config.getProperty(Config.API_SERVICES_URL);
 
-		System.out.println("url taget: " + apiBaseUrl + path);
+		System.out.println("url target: " + apiBaseUrl + path);
 		return apiBaseUrl + path;
 
 	}

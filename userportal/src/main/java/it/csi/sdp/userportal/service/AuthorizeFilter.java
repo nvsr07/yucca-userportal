@@ -1,5 +1,7 @@
 package it.csi.sdp.userportal.service;
 
+import it.csi.sdp.userportal.utils.AuthorizeUtils;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-@WebFilter(filterName = "AuthorizationFilter", description = "Check if the session is valid", value = "/api", dispatcherTypes = { javax.servlet.DispatcherType.REQUEST })
+@WebFilter(filterName = "AuthorizationFilter", description = "Check if the session is valid", value = "/api/*", dispatcherTypes = { javax.servlet.DispatcherType.REQUEST })
 public class AuthorizeFilter implements Filter {
 
 	public static String API_URL = "http://www.ale.it/";
@@ -22,7 +24,6 @@ public class AuthorizeFilter implements Filter {
 	static Logger log = Logger.getLogger(AuthorizeFilter.class);
 
 	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -30,22 +31,24 @@ public class AuthorizeFilter implements Filter {
 		log.debug("[AuthorizeFilter::doFilter] - START ");
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
+		
 		try {
 
-			if (!request.isRequestedSessionIdValid()) {
-				response.sendRedirect("/auth/login.jsp");
-			} else {
-				response.sendRedirect(API_URL + request.getRequestURI());
+			if (AuthorizeUtils.isAPIRequest(request))
+			{
+				if (!AuthorizeUtils.verifyAPIRequest(request))
+				{
+					response.setStatus(response.SC_UNAUTHORIZED);
+					response.getWriter().append("{\"error_message\":\"Unauthorized access\"}");
+					response.getWriter().flush();
+					return;
+				}
+				
 			}
+			chain.doFilter(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.error("[AuthorizeFilter::doFilter] - ERROR " + e.getMessage());
-//			req.setAttribute("ERROR", "Request failed: " + e.getMessage());
-//			res.setStatus(HttpServletResponse.SC_ERROR);
-//			ServletContext context = getServletContext();
-//			RequestDispatcher dispatcher = context.getRequestDispatcher("/error.jsp");
-//			dispatcher.forward(req, resp);
-//			response.sendError(HttpServletResponse.SC_XPECTATION_FAILED);
 		} finally {
 			log.debug("[AuthorizeFilter::doFilter] - END ");
 
