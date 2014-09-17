@@ -32,6 +32,12 @@ public class AuthorizeFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		
+		if (request.getSession(true).getAttribute(AuthorizeUtils.TENANT_CODE)==null)
+		{
+			request.getSession().setAttribute(AuthorizeUtils.TENANT_CODE, AuthorizeUtils.SANDBOX);
+		}
+		
+		
 		try {
 
 			if (AuthorizeUtils.isAPIRequest(request))
