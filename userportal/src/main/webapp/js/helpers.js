@@ -22,7 +22,7 @@ Helpers.stream = {
 		return result;
 	},
 	wsErrorUrl: function(stream){
-		var result = Helpers.stream.wsOutputUrl(stream)+".err";
+		var result = Helpers.stream.wsOutputUrl(stream)+".errors";
 		return result;
 	},
 };
@@ -43,4 +43,12 @@ Helpers.util = {
 		}
 		return result;
 	},
+};
+
+Helpers.errors = {
+		wsErrorUrl : function(tenantCode){
+			var result  = "/topic/output."+tenantCode+".errors";
+			return result;
+		}
+		
 };

@@ -1,206 +1,288 @@
 /* Controllers */
 
- //var appControllers = angular.module('userportal.controllers', []);
+//var appControllers = angular.module('userportal.controllers', []);
 
- //appControllers.controller('DashboardCtrl', ['$scope', function($scope) {}]);
- 
- appControllers.controller('DashboardCtrl', [ '$scope', 'fabricAPIservice', function($scope, fabricAPIservice, filterFilter) {
-		$scope.streamsList = [];
-		$scope.filteredStreamsList = [];
-		$scope.tenantsFilter = null;
+//appControllers.controller('DashboardCtrl', ['$scope', function($scope) {}]);
 
-		$scope.currentPage = 1;
-		$scope.pageSize = 10;
+appControllers.controller('DashboardCtrl', [ '$scope', 'fabricAPIservice', function($scope, fabricAPIservice, filterFilter) {
+	$scope.streamsList = [];
+	$scope.filteredStreamsList = [];
+	$scope.tenantsFilter = null;
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 10;
+	$scope.totalItems = $scope.streamsList.length;
+	$scope.predicate = '';
+
+	fabricAPIservice.getStreams().success(function(response) {
+		// Dig into the responde to get the relevant data
+		$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
-		$scope.predicate = '';
+		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	});
 
-		fabricAPIservice.getStreams().success(function(response) {
-			// Dig into the responde to get the relevant data
-			$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
-			$scope.totalItems = $scope.streamsList.length;
-			$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
-		});
+	$scope.selectPage = function() {
+		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	};
 
-		$scope.selectPage = function() {
-			$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
-		};
+	$scope.searchTenantsFilter = function(stream) {
+		var keyword = new RegExp($scope.tenantsFilter, 'i');
+		return !$scope.tenantsFilter || keyword.test(stream.codiceTenant);
+	};
 
-		$scope.searchTenantsFilter = function(stream) {
-			var keyword = new RegExp($scope.tenantsFilter, 'i');
-			return !$scope.tenantsFilter || keyword.test(stream.codiceTenant);
-		};
+	$scope.$watch('tenantsFilter', function(newTenant) {
+		$scope.currentPage = 1;
 
-		$scope.$watch('tenantsFilter', function(newTenant) {
-			$scope.currentPage = 1;
+		// $scope.filteredStreamsList = $filter('filter')($scope.streamsList,
+		// $scope.tenant);
+		$scope.totalItems = $scope.filteredStreamsList.length;
+		console.log("newTenant", newTenant);
+	});
 
-			// $scope.filteredStreamsList = $filter('filter')($scope.streamsList,
-			// $scope.tenant);
-			$scope.totalItems = $scope.filteredStreamsList.length;
-			console.log("newTenant", newTenant);
-		});
+} ]);
 
-	} ]);
+appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
+                                                   function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
+	$scope.stream = null;
+	$scope.wsUrl = "";
+	//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
+	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+		$scope.stream = response.streams.stream;
+		if($scope.stream.componenti == null)
+			$scope.stream.componenti = new Object();
+		$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
 
-	appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
-		function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
-			$scope.stream = null;
-			$scope.wsUrl = "";
-			//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
-			fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
-				$scope.stream = response.streams.stream;
-				if($scope.stream.componenti == null)
-					$scope.stream.componenti = new Object();
-				$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
+		$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+		connectWSStatistic();
+		connectWSClientData();
+		connectWSClientError();
+	});
 
-				$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
-				connectWSStatistic();
-				connectWSClientData();
-				connectWSClientError();
-			});
+	var totalError = 0;
 
-			var totalError = 0;
+	var maxNumWsStatisticMessages = 3;
+	var maxNumWsErrorMessages = 2;
+	$scope.wsStatisticMessages = [ [ "-", "-" ], [ "-", "-" ], [ "-", "-" ]];
+	$scope.wsErrorMessages = [ [ "-", "-" ], [ "-", "-" ]];
+	var maxNumStatisticData = 30;
+	var counter = 0;
+	//	$scope.wsStatisticData = [ { x : counter, y : 0 } ];
+	//	for (counter = 1; counter < maxNumStatisticData; counter++)
+	//		$scope.wsStatisticData.push({ x : counter, y : 0 });
 
-			var maxNumWsStatisticMessages = 3;
-			var maxNumWsErrorMessages = 2;
-			$scope.wsStatisticMessages = [ [ "-", "-" ], [ "-", "-" ], [ "-", "-" ]];
-			$scope.wsErrorMessages = [ [ "-", "-" ], [ "-", "-" ]];
-			var maxNumStatisticData = 30;
-			var counter = 0;
-		//	$scope.wsStatisticData = [ { x : counter, y : 0 } ];
-		//	for (counter = 1; counter < maxNumStatisticData; counter++)
-		//		$scope.wsStatisticData.push({ x : counter, y : 0 });
 
-			
-			$scope.nvWsStatisticData = [{key: "Events", color: '#2980b9', values: []}, {key: "Errors",color: '#c0392b',  values: []}];
-			for (counter = 1; counter < maxNumStatisticData; counter++){
-				$scope.nvWsStatisticData[0]["values"].push([0,0]);
-				$scope.nvWsStatisticData[1]["values"].push([0,0]);
-			}
-			
-			$scope.wsClientStatistics = webSocketService();
+	$scope.nvWsStatisticData = [{key: "Events", color: '#2980b9', values: []}, {key: "Errors",color: '#c0392b',  values: []}];
+	for (counter = 1; counter < maxNumStatisticData; counter++){
+		$scope.nvWsStatisticData[0]["values"].push([0,0]);
+		$scope.nvWsStatisticData[1]["values"].push([0,0]);
+	}
 
-			var timeCounter = 0;
-			var connectWSStatistic = function(){
-					$scope.wsClientStatistics.connect(function(message) {
-						console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
-						var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
-						console.debug("subscribe wsStatUrl ", wsStatUrl);
-						$scope.wsClientStatistics.subscribe(wsStatUrl, function(message) {
-							console.debug("message", message);
-							counter++;
-							console.debug("wsStatisticMessages", $scope.wsStatisticMessages);
-			
-							if ($scope.wsStatisticMessages.length >= maxNumWsStatisticMessages) 
-								$scope.wsStatisticMessages.shift();
-							if ($scope.wsErrorMessages.length >= maxNumWsErrorMessages) 
-								$scope.wsErrorMessages.shift();
-							//if ($scope.wsStatisticData.length > maxNumStatisticData) $scope.wsStatisticData.shift();
-							
-							if ($scope.nvWsStatisticData[0]["values"].length > maxNumStatisticData){
-								$scope.nvWsStatisticData[0]["values"].shift();
-								$scope.nvWsStatisticData[1]["values"].shift();
-							}
-							
-			
-							var numOfEvents = angular.fromJson(message.body).event.payloadData.numEventsLast30Sec;
-			
-							$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
-							$scope.wsErrorMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), totalError]);
-							//$scope.wsStatisticData.push({ x : counter*2, y : numOfEvents });
-							
-							$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
-							//$scope.nvWsStatisticData[0]["values"].push([timeCounter,Math.floor(Math.random() * 9) + 1]);
-							$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
-							//$scope.nvWsStatisticData[1]["values"].push([timeCounter,Math.floor(Math.random() * 6) + 1]);
-							timeCounter +=2;
-			
-						});
-					}, function() {
-				}, '/');
-			};
-				
+	$scope.wsClientStatistics = webSocketService();
 
-			// last message
-			$scope.wsLastMessage = "";
-			$scope.wsLastMessageToShow = "";
-			
-
-			$scope.wsClientData = webSocketService();
-			var connectWSClientData = function(){
-				$scope.wsClientData.connect(function(message) {
-					//console.debug("message", message); //"/topic/ten1.flussoProva.raw"
-					$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
-					console.debug("subscribe wsUrl ", $scope.wsUrl);
-
-					$scope.wsClientData.subscribe($scope.wsUrl, function(message) {
-						console.debug("data message", message);
-						$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
-						console.debug("___________$scope.wsLastMessage", $scope.wsLastMessage);
-
-						if ($scope.wsLastMessageToShow == "")
-							$scope.wsLastMessageToShow = $scope.wsLastMessage;
-					});
-		
-				}, function() {
-				}, '/');
-			};
-
-			$scope.wsClientError = webSocketService();
-			var connectWSClientError = function(){
-				$scope.wsClientError.connect(function(message) {
-					console.debug("message", message); //"/topic/ten1.flussoProva.raw"
-					console.debug("$scope.stream", $scope.stream); //"/topic/ten1.flussoProva.raw"
-					console.debug("Helpers", Helpers); //"/topic/ten1.flussoProva.raw"
-
-					var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
-					console.debug("subscribe wsErrorUrl ", wsErrorUrl);
-
-					$scope.wsClientError.subscribe(wsErrorUrl, function(message) {
-						console.debug("Error message", message);
-						totalError++;
-					});
-		
-				}, function() {
-				}, '/');
-			};
-
-			$scope.refreshLastMessage = function() {
-				$scope.wsLastMessageToShow = $scope.wsLastMessage;
-			};
-
-			//$scope.lineData = [ { x : 1, y : 5 }, { x : 20, y : 20 }, { x : 40, y : 10 }, { x : 60, y : 40 }, { x : 80, y : 5 }, { x : 100, y : 60 } ];
-		} 
-	]);
-
-	appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
-		function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
-			$scope.tenant = null;
-			$scope.tenantsList = [];
-			fabricAPIservice.getTenants().success(function(response) {
-				$scope.tenantsList = response.tenants;
-			});
-
-	/*
-			// last message
-			$scope.wsLastMessage = "";
-			$scope.wsLastMessageToShow = "";
-
-			$scope.wsClientData = webSocketService();
-			$scope.wsClientData.connect(function(message) {
+	var timeCounter = 0;
+	var connectWSStatistic = function(){
+		$scope.wsClientStatistics.connect(function(message) {
+			console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
+			var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
+			console.debug("subscribe wsStatUrl ", wsStatUrl);
+			$scope.wsClientStatistics.subscribe(wsStatUrl, function(message) {
 				console.debug("message", message);
-				$scope.wsClientData.subscribe("/topic/ten1.flussoProva.raw", function(message) {
-					console.debug("data message", message);
-					$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
-					if ($scope.wsLastMessageToShow == "")
-						$scope.wsLastMessageToShow = $scope.wsLastMessage;
-				});
+				counter++;
+				console.debug("wsStatisticMessages", $scope.wsStatisticMessages);
 
-			}, function() {
-			}, '/');
+				if ($scope.wsStatisticMessages.length >= maxNumWsStatisticMessages) 
+					$scope.wsStatisticMessages.shift();
+				if ($scope.wsErrorMessages.length >= maxNumWsErrorMessages) 
+					$scope.wsErrorMessages.shift();
+				//if ($scope.wsStatisticData.length > maxNumStatisticData) $scope.wsStatisticData.shift();
 
-			$scope.refreshLastMessage = function() {
-				$scope.wsLastMessageToShow = $scope.wsLastMessage;
-			};
+				if ($scope.nvWsStatisticData[0]["values"].length > maxNumStatisticData){
+					$scope.nvWsStatisticData[0]["values"].shift();
+					$scope.nvWsStatisticData[1]["values"].shift();
+				}
+
+
+				var numOfEvents = angular.fromJson(message.body).event.payloadData.numEventsLast30Sec;
+
+				$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
+				$scope.wsErrorMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), totalError]);
+				//$scope.wsStatisticData.push({ x : counter*2, y : numOfEvents });
+
+				$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
+				//$scope.nvWsStatisticData[0]["values"].push([timeCounter,Math.floor(Math.random() * 9) + 1]);
+				$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
+				//$scope.nvWsStatisticData[1]["values"].push([timeCounter,Math.floor(Math.random() * 6) + 1]);
+				timeCounter +=2;
+
+			});
+		}, function() {
+		}, '/');
+	};
+
+
+	// last message
+	$scope.wsLastMessage = "";
+	$scope.wsLastMessageToShow = "";
+
+
+	$scope.wsClientData = webSocketService();
+	var connectWSClientData = function(){
+		$scope.wsClientData.connect(function(message) {
+			//console.debug("message", message); //"/topic/ten1.flussoProva.raw"
+			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+			console.debug("subscribe wsUrl ", $scope.wsUrl);
+
+			$scope.wsClientData.subscribe($scope.wsUrl, function(message) {
+				console.debug("data message", message);
+				$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
+				console.debug("___________$scope.wsLastMessage", $scope.wsLastMessage);
+
+				if ($scope.wsLastMessageToShow == "")
+					$scope.wsLastMessageToShow = $scope.wsLastMessage;
+			});
+
+		}, function() {
+		}, '/');
+	};
+
+	$scope.wsClientError = webSocketService();
+	var connectWSClientError = function(){
+		$scope.wsClientError.connect(function(message) {
+			console.debug("message", message); //"/topic/ten1.flussoProva.raw"
+			console.debug("$scope.stream", $scope.stream); //"/topic/ten1.flussoProva.raw"
+			console.debug("Helpers", Helpers); //"/topic/ten1.flussoProva.raw"
+
+			var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
+			console.debug("subscribe wsErrorUrl ", wsErrorUrl);
+
+			 $scope.wsClientError.subscribe(wsErrorUrl, function(message) {
+				console.debug("Error message", message);
+				totalError++;
+			});
+
+		}, function() {
+		}, '/');
+	};
+
+	$scope.refreshLastMessage = function() {
+		$scope.wsLastMessageToShow = $scope.wsLastMessage;
+	};
+	
+	
+
+	//$scope.lineData = [ { x : 1, y : 5 }, { x : 20, y : 20 }, { x : 40, y : 10 }, { x : 60, y : 40 }, { x : 80, y : 5 }, { x : 100, y : 60 } ];
+} 
+]);
+appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
+                                                     function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
+	$scope.tenant_sel = null;
+	$scope.tenant_sel_code = "*";
+	$scope.tenantsList = [];
+	$scope.errorList = [];
+	$scope.accordionOpenError = [];
+	//$scope.wsClientError = null;
+	$scope.openedIndex = true;
+	$scope.closeIndex = false;
+	$scope.wsClientSubsctiption = null;
+	$scope.wsClientError = webSocketService();
+	var connectWSClientError = function(){
+		$scope.wsClientError.connect(function(message) {
+			console.debug("message", message); //"/topic/ten1.flussoProva.raw"
+			console.debug("$scope.stream", $scope.tenant_sel_code); //"/topic/ten1.flussoProva.raw"
+			console.debug("Helpers", Helpers); //"/topic/ten1.flussoProva.raw"
+	
+			
+			subscribeWSClientError();
+//			$scope.wsClientSubsctiption = $scope.wsClientError.subscribe(wsErrorUrl, function(message) {
+//				$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
+//				$scope.errorList.unshift(JSON.parse(message.body));
+//				$scope.accordionOpenError.unshift($scope.closeIndex);
+//				
+//				//	$scope.errorList.slice(0,10); TODO uncomment
+//				//	$scope.accordionOpenError.slice(0,10);
+//				console.debug("Error $scope.errorList : ", $scope.errorList);				
+//			});
+		}, function() {
+		}, '/');
+	};
+	
+	
+	var subscribeWSClientError = function(){
+	
+		var wsErrorUrl = Helpers.errors.wsErrorUrl($scope.tenant_sel_code);
+		console.debug("subscribe wsErrorUrl ", wsErrorUrl);
+
+		$scope.wsClientSubsctiption = $scope.wsClientError.subscribe(wsErrorUrl, function(message) {
+			$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
+			$scope.errorList.unshift(JSON.parse(message.body));
+			$scope.accordionOpenError.unshift($scope.closeIndex);
+			
+			$scope.errorList= $scope.errorList.slice(0,Constants.MAX_NR_ERROR_LOGS); 
+			$scope.accordionOpenError=$scope.accordionOpenError.slice(0,Constants.MAX_NR_ERROR_LOGS);
+			console.debug("Error $scope.errorList : ", $scope.errorList);				
+		});
+	};
+	
+	$scope.oneAtATime = true;
+
+	$scope.selectTenant = function(tenant){
+		console.debug("tenant", tenant);
+		$scope.tenant_sel_code = tenant;
+
+		$scope.errorList = [];
+		$scope.wsClientSubsctiption.unsubscribe();
+		subscribeWSClientError();
+	};
+	
+	
+	fabricAPIservice.getTenants().success(function(response) {
+		console.debug("response", response.tenants);
+		$scope.tenantsList = response.tenants.tenant;		
+	
+	});
+	
+	//prendo tutti gli errori, se non ho selezionato un tenant
+	connectWSClientError();
+
+//	
+//	$scope.selectTenantFilter = function(errore) {
+//		var keyword = new RegExp($scope.tenant_sel_code, 'i');
+//		console.debug("keyword", keyword);
+//		return !$scope.tenant_sel_code || keyword.test(errore.output);
+//	};
+
+	
+	
+	/*
+	var erroreProva = {
+			"error_name":"Tenant unknown",
+			"error_code":"E001",
+			"output":"output.platform.errors",
+			"message":{
+				"sensor":"cc1bfe50-491c-560d-a235-0e4134bbdc23",
+				"values":{
+					"validity":"unknown",
+					"components":{
+						"longitude":57.1,
+						"latitude":57.2,
+						"altitude":57.3,
+						"speed":57.4
+					},
+					"time":"2014-09-03T06:40:00Z"
+				},
+				"stream":"position"
+			}
+	};
 	*/
-		} 
-	]);
+	
+	
+
+		// FIXME fare disconnect prima di riconetersi
+//		$scope.wsClientError.disconnect(function() {
+//		    console.debug("See you next time!");
+//		  });
+//		
+//		
+
+} 
+]);

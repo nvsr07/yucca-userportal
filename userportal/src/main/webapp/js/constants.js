@@ -34,3 +34,8 @@ Constants.STREAM_STATUS_UNINST='uninst';
 /* virtual entity */
 Constants.VIRTUALENTITY_TYPE_INTERNAL_ID = 0;
 Constants.VIRTUALENTITY_TYPE_DEVICE_ID = 1;
+
+/* Numero di elementi nella Error Log */
+Constants.MAX_NR_ERROR_LOGS = 30;
+
+
