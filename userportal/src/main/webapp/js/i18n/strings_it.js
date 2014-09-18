@@ -111,7 +111,7 @@ var translations_it = {
 	VIRTUALENTITY_FIELD_SUPPLY_NETWORK: 'Network',
 	VIRTUALENTITY_FIELD_ADMIN_URI: 'URI Amministrazione',
 	VIRTUALENTITY_FIELD_SOFTWARE_VERSION: 'Versione Software',
-	
+		
 	/* Stream tags */
 	AGRICULTURE: 'Agricoltura',
 	ENERGY: 'Energia',
@@ -124,6 +124,7 @@ var translations_it = {
 	ambiente: 'Ambiente',
 	agricoltura: 'Agricoltura',
 	qualita_aria: 'Aria',
+
 	
 	/* Stream domains */
 	AIR: 'Aria',
@@ -143,17 +144,13 @@ var translations_it = {
 	RAIN: 'Pioggia',
 	RIVER: 'Fiume',
 	SNOW: 'Neve',
-	/* TODO REMOVE */
 	WATER: 'Acqua',
-	dom001: 'Dominio 001',
-	dom002: 'Dominio 002',
-
+	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Solo numeri interi',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Solo numeri decimali',
 	VALIDATION_PATTERN_UUID_TOOLTIP: 'Il codice inserito non &ecute; conforme al pattern: 8-4-4-4-12 numeri esadecimali',
 	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'Valore troppo lungo',
-
 	
 	/* stream status */
 	draft:'Bozza',
@@ -234,13 +231,20 @@ var translations_it = {
 	
 	/* view stream */
 	MANAGEMENT_VIEW_STREAM: 'Flusso',
+	MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON: 'Richiedi Installazione',
+	MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON: 'Richiedi Disinstallazione',
+	MANAGEMENT_VIEW_STREAM_NEWVERSION_BUTTON: 'Crea Nuova Versione',
+	MANAGEMENT_VIEW_STREAM_HISTORICAL_BUTTON: 'Storico',
+	MANAGEMENT_VIEW_STREAM_DELETE_BUTTON: 'Elimina',
+	MANAGEMENT_VIEW_STREAM_EDIT_BUTTON: 'Modifica',
+	MANAGEMENT_VIEW_STREAM_LIFECYCLE_OK_INFO: 'Ok',
 
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Crea',
 	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Scegli una Virtual Entity...',
 	MANAGEMENT_NEW_STREAM_SUBTITLE: 'Nuovo flusso',
 	
-	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Edit ', 
+	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ', 
 	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
 	MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
 	MANAGEMENT_EDIT_STREAM_COMPONENT_EXAMPLE_TITLE: 'Esempio',
@@ -257,7 +261,6 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_NOT_PUBLISH_ON_STORE: 'Non Pubblicare',
 	MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON: 'Salva come bozza',
 	MANAGEMENT_EDIT_STREAM_FINISH_BUTTON: 'Fine modifica', 
-	MANAGEMENT_EDIT_STREAM_INSTALL_BUTTON: 'Installa',
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Aggiungi tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Flusso salvato',
 	
@@ -305,7 +308,7 @@ var translations_it = {
 	MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON: 'Elimina',
 	MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_VIRTUALENTITY_INSTALL_BUTTON: 'Installa',
-	
+
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',
 	MANAGEMENT_CHOOSE_TENANT_WARNING: 'Pagina temporanea in attesa del sistema di autenticazione',

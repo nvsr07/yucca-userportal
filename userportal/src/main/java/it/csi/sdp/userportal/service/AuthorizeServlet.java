@@ -5,8 +5,6 @@ import it.csi.sdp.userportal.utils.AuthorizeUtils;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

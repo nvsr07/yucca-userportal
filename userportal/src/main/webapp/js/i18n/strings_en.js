@@ -145,9 +145,6 @@ var translations_en = {
 	RIVER: 'River',
 	SNOW: 'Snow',
 	WATER: 'Water',
-	/* TODO REMOVE */
-	dom001: 'Domain 001',
-	dom002: 'Domain 002',
 	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Only integer number',
@@ -211,8 +208,6 @@ var translations_en = {
 	DASHBOARD_ERROR_LIST_NAME : 'Error Name',
 	DASHBOARD_ERROR_LIST_TENANT : 'Tenant',
 	DASHBOARD_ERROR_LIST_DATE : 'Date',
-	
-	
 
 	/* Management */
 	MANAGEMENT_TITLE: 'Management',
@@ -266,9 +261,6 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_NOT_PUBLISH_ON_STORE: 'Not Published',
 	MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON: 'Save as draft',
 	MANAGEMENT_EDIT_STREAM_FINISH_BUTTON: 'Finish editing', 
-	//MANAGEMENT_EDIT_STREAM_INSTALL_BUTTON: 'Reqeust Installation',
-	//MANAGEMENT_EDIT_STREAM_UNINSTALL_BUTTON: 'Request Unistallation',
-	//MANAGEMENT_VIEW_VIRTUALENTITY_NEWVERSION_BUTTON: 'Create New Version',
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Add tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Stream saved',
 	

@@ -1,6 +1,5 @@
 package it.csi.sdp.userportal.service;
 
-import it.csi.sdp.userportal.utils.AuthorizeUtils;
 import it.csi.sdp.userportal.utils.Config;
 
 import java.io.BufferedReader;

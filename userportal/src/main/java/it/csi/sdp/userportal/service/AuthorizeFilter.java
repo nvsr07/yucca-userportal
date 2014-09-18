@@ -44,7 +44,7 @@ public class AuthorizeFilter implements Filter {
 			{
 				if (!AuthorizeUtils.verifyAPIRequest(request))
 				{
-					response.setStatus(response.SC_UNAUTHORIZED);
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 					response.getWriter().append("{\"error_message\":\"Unauthorized access\"}");
 					response.getWriter().flush();
 					return;

@@ -59,12 +59,12 @@ small pre{font-size: 11px;padding: 4px;}
 .help-bullet{color: #1cbcee;}
 
 /* button colors */
-.action-new{color: #00a693;}
-.action-edit{color: #19aeff;}
+.action-new{color: #19aeff;}
+.action-edit{color: #edd400;}
 .action-delete{color: #b50000;}
 .action-install{color: #9ade00;}
 .action-uninstall{color: #d49725;}
-.action-historical{color: #edd400;}
+.action-historical{color: #9955bb;}
 
 /* dashboard */
 .dashboard-streamList-table{margin-top: 20px;}
