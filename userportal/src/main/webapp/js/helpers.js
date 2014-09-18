@@ -58,7 +58,7 @@ Helpers.util = {
 	},
 	
 	scrollTo: function(elementId){
-		var top= 0
+		var top= 0;
 		if(elementId)
 			top= $('#'+elementId).offset().top;
 		
@@ -68,9 +68,8 @@ Helpers.util = {
 };
 
 Helpers.errors = {
-		wsErrorUrl : function(tenantCode){
-			var result  = "/topic/output."+tenantCode+".errors";
-			return result;
-		}
-		
+	wsErrorUrl : function(tenantCode){
+		var result  = "/topic/output."+tenantCode+".errors";
+		return result;
+	}
 };

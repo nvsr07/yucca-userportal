@@ -4,7 +4,7 @@ var Constants = Constants || {};
 /* Urls */
 //var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
 var API_BASE_URL = '/userportal/api/proxy/';
-
+/*
 Constants.DASHBOARD_API_STREAM_LIST_URL=API_BASE_URL+'streams/';
 Constants.DASHBOARD_API_STREAM_URL=API_BASE_URL+'streams/';
 Constants.DASHBOARD_API_STREAM_COMPONENT_URL=API_BASE_URL+'streams/components/';
@@ -26,6 +26,7 @@ Constants.DASHBOARD_API_LIFECYCLE_STREAM_REQ_UNINST=API_BASE_URL+'lifecycle/stre
 
 Constants.DASHBOARD_API_TENANT_LIST_URL=API_BASE_URL+'tenants/';
 
+*/
 
 /* stream status */
 Constants.STREAM_STATUS_DRAFT='draft';
@@ -37,7 +38,6 @@ Constants.STREAM_STATUS_UNINST='uninst';
 /* virtual entity */
 Constants.VIRTUALENTITY_TYPE_INTERNAL_ID = 0;
 Constants.VIRTUALENTITY_TYPE_DEVICE_ID = 1;
-
 
 /* Lifecycle */
 Constants.LIFECYCLE_STREAM_REQ_INST = 'LIFECYCLE_STREAM_REQ_INST';
@@ -53,6 +53,5 @@ Constants.VALIDATION_PATTERN_UUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{
 
 /* Numero di elementi nella Error Log */
 Constants.MAX_NR_ERROR_LOGS = 30;
-
 
 

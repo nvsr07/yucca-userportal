@@ -2,8 +2,7 @@
 	<div class='title-container'>
 		<div class="container">
 			<h1>
-				{{'DASHBOARD_ERROR_LOG_TITLE'|translate}}
-				<small>{{'DASHBOARD_ERROR_LOG_SUBTITLE'|translate}}</small>
+				{{'DASHBOARD_ERROR_LOG_TITLE'|translate}} <small>{{'DASHBOARD_ERROR_LOG_SUBTITLE'|translate}}</small>
 			</h1>
 		</div>
 	</div>
@@ -12,17 +11,19 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<h4>
-					{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_TITLE'|translate}} 
-					<small>{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_SUBTITLE'|translate}}</small>
+					{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_TITLE'|translate}} <small>{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_SUBTITLE'|translate}}</small>
 				</h4>
 				<div class="list-group">
-				  	<a href="#" class="list-group-item">{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_ITEM'|translate}} <small class="text-muted"><i>Undefined tenant</i></small></a>
-				  	<a ng-repeat="tenant in tenantsList" href="#" class="list-group-item">{{tenant.name}}</a>
+					<a  ng-click='selectTenant("*");' class="list-group-item">{{'DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_ITEM'|translate}}
+						<small class="text-muted"><i>Undefined tenant</i></small>
+					</a> <a ng-repeat="tenant in tenantsList" ng-click=" selectTenant(tenant.tenantCode);"	class="list-group-item">{{tenant.tenantName}}</a>
 				</div>
 			</div>
-			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+
+			<!-- div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 				<h4>
-					{{'DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE'|translate}}
+					{{'DASHBOARD_STREAM_WS_LASTERROR_PANEL_TITLE'|translate}}
 					<button class='btn btn-default pull-right' ng-click="refreshLastMessage()">
 						<span class="glyphicon glyphicon-refresh"></span> {{'DASHBOARD_STREAM_WS_LASTMESSAGE_REFRESH_BUTTON'|translate}}
 					</button>
@@ -30,7 +31,54 @@
 				<div>&nbsp;</div>
 				<pre pretty-json="wsLastMessageToShow" />
 
+			</div-->
+			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+				<div class="table-responsive dashboard-streamList-table">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th><a>{{'DASHBOARD_ERROR_LIST_CODE'|translate}} </a></th>
+								<th><a>{{'DASHBOARD_ERROR_LIST_NAME'|translate}} </a></th>
+								<th><a>{{'DASHBOARD_ERROR_LIST_TENANT'|translate}} </a></th>
+								<th><a>{{'DASHBOARD_ERROR_LIST_DATE'|translate}} </a></th>
+							</tr>
+						</thead>
+					</table>
+					<!-- pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+				></pagination-->
+				</div>
+
+				<accordion close-others="true">
+				 <accordion-group ng-repeat="errore in errorList track by $index"  is-open="accordionOpenError[$index]">
+				<accordion-heading>		
+				<div >
+				<span>
+				<span class="span-errors">
+				{{$index}}
+				</span>
+				<span class="span-errors">
+				{{errore.error_code}}
+				</span>
+				<span class="span-errors">
+				{{errore.error_name}}
+				</span>
+				<span class="span-errors">
+				{{errore.output}}
+				</span>
+				<span class="span-errors">
+				{{errore.message.values.time}}
+				</span>	
+				<span>
+				<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': accordionOpenError[$index], 'glyphicon-chevron-right': !accordionOpenError[$index]}"></i>
+				</span></span>	
+				</div>	
+								
+				</accordion-heading> <pre pretty-json="errore" /> </accordion-group> </accordion>
+
+
 			</div>
 		</div>
+
 	</div>
 </div>

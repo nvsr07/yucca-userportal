@@ -299,6 +299,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	NGStomp.prototype.disconnect = function(callback) {
 		this.stompClient.disconnect(function() {
 			var args = arguments;
+			console.debug("arguments : ",arguments);
 			$rootScope.$apply(function() {
 				callback.apply(args);
 			});
