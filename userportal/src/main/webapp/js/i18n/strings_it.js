@@ -98,10 +98,12 @@ var translations_it = {
 	VIRTUALENTITY_FIELD_LONGITUDE: 'Longitudine',
 	VIRTUALENTITY_FIELD_ELEVATION: 'Altitudine', 
 	VIRTUALENTITY_FIELD_ESPOSITION: 'Esposizione',
+	VIRTUALENTITY_FIELD_ESPOSITION_INDOOR_ADDITIONAL: 'Interno',
 	VIRTUALENTITY_FIELD_ESPOSITION_INDOOR: 'Interno',
 	VIRTUALENTITY_FIELD_ESPOSITION_OUTDOOR: 'Esterno',
 	VIRTUALENTITY_FIELD_INDOOR_BUILDING: 'Edificio',
 	VIRTUALENTITY_FIELD_INDOOR_ROOM: 'Stanza',
+	VIRTUALENTITY_FIELD_INDOOR_FLOOR: 'Piano', 
 	VIRTUALENTITY_FIELD_CREATION_DATE: 'Data creazione',
 	VIRTUALENTITY_FIELD_MODEL: 'Modello',
 	VIRTUALENTITY_FIELD_SUPPLY: 'Alimentazione',
@@ -145,6 +147,12 @@ var translations_it = {
 	WATER: 'Acqua',
 	dom001: 'Dominio 001',
 	dom002: 'Dominio 002',
+
+	/* Validations */
+	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Solo numeri interi',
+	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Solo numeri decimali',
+	VALIDATION_PATTERN_UUID_TOOLTIP: 'Il codice inserito non &ecute; conforme al pattern: 8-4-4-4-12 numeri esadecimali',
+	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'Valore troppo lungo',
 
 	
 	/* stream status */

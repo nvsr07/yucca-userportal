@@ -7,13 +7,13 @@
 		<div class='clearfix'>
 			<div class="pull-left">
 				<a  href="#/management/newVirtualentity/{{tenantCode}}" class="btn btn-default" >
-					<span class="glyphicon glyphicon-plus mute"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY'|translate}}
+					<span class="glyphicon glyphicon-plus action-new"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY'|translate}}
 				</a>
 				<button  href="javascript:void(0)" ng-click='editVirtualentity()' class="btn btn-default" ng-disabled="selectedVirtualentities.length!=1" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT'|translate}}">
-					<span class="glyphicon glyphicon-pencil mute"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY'|translate}}
+					<span class="glyphicon glyphicon-pencil action-edit"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY'|translate}}
 				</button>
 				<button href="javascript:void(0)" ng-click='deleteVirtualentity()'class="btn btn-default" ng-disabled="selectedVirtualentities.length<1" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT'|translate}}">
-					<span class="glyphicon glyphicon-trash mute"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY'|translate}}
+					<span class="glyphicon glyphicon-trash action-delete"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY'|translate}}
 				</button>
 			</div>
 			<div class="btn-group pull-right">
@@ -68,12 +68,12 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="virtualentity in virtualentitiesList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
-						<td><input type="checkbox" name="selected" ng-checked="isSelected(virtualentity)"  ng-click="updateSelection($event, virtualentity)"/>
+						<td><input type="checkbox" name="selected" ng-checked="isSelected(virtualentity)"  ng-click="updateSelection($event, virtualentity)" ng-show="!isInternal(virtualentity)"/>
 						<td><a href="#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}">{{virtualentity.codeVirtualEntity}}</a></td>
-						<td>{{virtualentity.nomeVirtualEntity}}</td>
+						<td>{{virtualentity.virtualEntityName}}</td>
 						<td># TBD</td>
 						<td>{{virtualentity.lastupdate|date}}</td>
-						<td>{{virtualentity.statoVirtualentity}}</td>
+						<td>{{virtualentity.deploymentStatusDesc}}</td>
 					</tr>
 				</tbody>
 			</table>

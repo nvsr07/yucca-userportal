@@ -209,11 +209,11 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		return deferred.promise;
 	};
 
-	fabricAPI.updateVirtualentity = function(tenant_code, virtualentity_code, virtualentity) {
+	fabricAPI.updateVirtualentity = function(virtualentity) {
 		var deferred = $q.defer();
 		var resultData = null;
-		
-		$http.put(Constants.DASHBOARD_API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity, {
+		console.debug("updateVirtualEntity url", Constants.DASHBOARD_API_STREAM_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/');
+		$http.put(Constants.DASHBOARD_API_VIRTUALENTITY_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/', virtualentity, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
@@ -226,6 +226,36 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	};
 	
 	
+	fabricAPI.lifecycleStream = function(action, stream) {
+		var deferred = $q.defer();
+		var resultData = null;
+		var urlAction = null;
+		
+		var lifecyclerequest = {"lifecyclerequest": 
+			{
+	         "codTenant":stream.codiceTenant,
+	         "codVirtualEntity":stream.codiceVirtualEntity,
+	         "codStream":stream.codiceStream,
+			}
+		};
+		
+		if(action == Constants.LIFECYCLE_STREAM_REQ_INST)
+			urlAction = Constants.DASHBOARD_API_LIFECYCLE_STREAM_REQ_INST;
+		else if(action == Constants.LIFECYCLE_STREAM_NEW_VERSION)
+			urlAction = Constants.DASHBOARD_API_LIFECYCLE_STREAM_NEW_VERSION;
+		else if(action == Constants.LIFECYCLE_STREAM_REQ_UNINST)
+			urlAction = Constants.DASHBOARD_API_LIFECYCLE_STREAM_REQ_UNINST;
+
+		$http.post(urlAction, lifecyclerequest).success(function(responseData) {
+			resultData = {status: "ok", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+	          resultData = {status: "ko - "+responseStatus, data: responseData};
+	          deferred.reject(resultData);
+	    });
+		return deferred.promise;
+		
+	}
 	
 	
 	return fabricAPI;
@@ -239,7 +269,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	}
 
 	NGStomp.prototype.subscribe = function(queue, callback) {
-		this.stompClient.subscribe(queue, function() {
+		return this.stompClient.subscribe(queue, function() {
 			var args = arguments;
 			$rootScope.$apply(function() {
 				callback(args[0]);

@@ -23,3 +23,25 @@ appDirectives.directive('ngEnter', function () {
     };
 });
 
+
+appDirectives.directive('scrollOnClick', function() {
+	return {
+	    restrict: 'A',
+	    link: function(scope, $elm, attrs) {
+	    	var idToScroll = attrs.href;
+	    	console.log("idToScroll",idToScroll);
+	    	$elm.on('click', function() {
+	    		var $target;
+	    		if (idToScroll && idToScroll!='javascript:void(0)') {
+	    			$target = $(idToScroll);
+	    		} else {
+	    			$target = $elm;
+	    		}
+	    		console.debug("target ",$target);
+	    		$("body").animate({scrollTop: $target.offset().top}, "slow");
+	    	});
+	    }
+	 }
+});
+
+

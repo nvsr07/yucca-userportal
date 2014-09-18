@@ -75,8 +75,8 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
 			if(responseList[i].codiceTenant == $scope.tenantCode){
-				if(!responseList[i].statoStream || responseList[i].statoStream == null)
-					responseList[i].statoStream = Constants.STREAM_STATUS_DRAFT;
+				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
+					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 				$scope.streamsList.push(responseList[i]);
 			}
 		}
@@ -264,8 +264,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.stream.saveData = '0';
 			$scope.stream.visibility = 'public';
 			$scope.stream.publish = 'false';	
-			if(!$scope.stream.statoStream || $scope.stream.statoStream == null)
-				$scope.stream.statoStream = Constants.STREAM_STATUS_DRAFT;
+			if(!$scope.stream.deploymentStatusCode || $scope.stream.deploymentStatusCode == null)
+				$scope.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 
 			$scope.stream.domain = $scope.stream.domainStream;
 		});
@@ -359,19 +359,31 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		return false;
 	};
 
-	console.debug("$scope.stream", $scope.stream);
 
 	$scope.canInstall = function() {
-		if($scope.stream && $scope.stream.statoStream == Constants.STREAM_STATUS_DRAFT)
+		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_DRAFT)
+			return true;
+		return false;
+	};
+
+	$scope.canUnistall = function() {
+		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_INST)
 			return true;
 		return false;
 	};
 
 	$scope.canEdit = function() {
-		if($scope.stream && $scope.stream.statoStream == Constants.STREAM_STATUS_DRAFT)
+		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_DRAFT)
 			return true;
 		return false;
 	};
+	
+	$scope.canCreateNewVersion = function() {
+		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_INST)
+			return true;
+		return false;
+	};
+
 
 	$scope.cancel = function(){
 		$location.path('management/streams');
@@ -381,6 +393,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		var newStream = new Object();
 		newStream.stream =  $scope.stream;
 		console.log("newStream", newStream);
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+		Helpers.util.scrollTo();
 		var promise   = fabricAPIservice.updateStream(newStream);
 		
 		/*
@@ -405,18 +420,29 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};	
 	
 	$scope.requestInstallation = function(){
-		$scope.stream.stato = Constants.STREAM_STATUS_REQ_INST;
-		$scope.stream.statoStream = Constants.STREAM_STATUS_REQ_INST;
-		
-		console.log("requestInstallation", $scope.stream);
-		var promise   = fabricAPIservice.updateStream($scope.tenantCode, $scope.codeVirtualEntity,  $scope.stream);
-		
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
+	}
+	
+	$scope.requestUnistallation = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST);
+	}
+	
+	$scope.createNewVersion = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION);
+	}
+	
+	var updateLifecycle = function(action) {
+		console.log("updateLifecycle stream", $scope.stream);
+		console.log("updateLifecycle action", action);
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+		Helpers.util.scrollTo();
+		var promise   = fabricAPIservice.lifecycleStream(action, $scope.stream);
 		promise.then(function(result) {
-			console.log("result qui ", result);
+			console.log("result updateLifecycle ", result);
 			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
 			$scope.updateInfo = {status: result.status};
 			$scope.loadStream();
-
 		}, function(result) {
 			$scope.updateError = angular.fromJson(result.data);
 			console.log("result.data ", result.data);
@@ -484,6 +510,10 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 	$scope.isSelected = function(virtualentity) {
 		 return $scope.selectedVirtualentities.indexOf(virtualentity) >= 0;
 	};
+	
+	$scope.isInternal = function(virtualentity) {
+		return virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+	};
 		
 	$scope.updateSelection = function($event, virtualentity) {
 		var checkbox = $event.target;
@@ -548,19 +578,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 		$scope.codeVirtualEntity = uuid;
 	};
 	
-	$scope.uuidPattern = (function() {
-	    var regexp = '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/';
-	    return {
-	        test: function(value) {
-	        	console.log("UUID TEST");
-	        	console.log("value",value);
-	        	console.log("test",regexp.test(value));
-	           return regexp.test(value);
-	        }
-	    };
-	})();
-	
-
+	$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
 	
 	$scope.selectedType;
 	$scope.selectedCategory;
@@ -632,9 +650,21 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 	$scope.virtualentity = null;
 	
+	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
+	$scope.validationPatternInteger = Constants.VALIDATION_PATTERN_INTEGER;
+
+	
 	$scope.loadVirtualentity = function(){
 		fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.virtualentity_code).success(function(response) {
 			$scope.virtualentity = response.virtualEntities.virtualEntity;
+			if(!$scope.virtualentity.virtualEntityPositions)
+				$scope.virtualentity.virtualEntityPositions = {};
+			$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
+			if($scope.virtualentity.virtualEntityPositions.position.length == 0)
+				$scope.virtualentity.virtualEntityPositions.position.push({});
+
+			$scope.virtualentity.virtualEntityPositions.position[0].room = 9;
+			Helpers.util.cleanNilInField($scope.virtualentity);
 		});
 	};
 	
@@ -649,17 +679,27 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	};
 	
 	$scope.isDevice = function() {
-		if(!$scope.virtualentity.tipoVirtualEntity)
+		if(!$scope.virtualentity || !$scope.virtualentity.tipoVirtualEntity)
 			return false;
 		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 	};
 
+	$scope.isInternal = function() {
+		if(!$scope.virtualentity || !$scope.virtualentity.tipoVirtualEntity)
+			return false;
+		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+	};
+
 	
 	$scope.updateVirtualentity = function() {
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+		Helpers.util.scrollTo();
+
 		var newVirtualentity = new Object();
-		newVirtualentity.virtualentity =  $scope.virtualentity;
+		newVirtualentity.virtualEntity =  $scope.virtualentity;
 		console.log("newVirtualentity", newVirtualentity);
-		var promise   = fabricAPIservice.updateVirtualentity($scope.tenantCode, $scope.codeVirtualEntity,  newVirtualentity);
+		var promise   = fabricAPIservice.updateVirtualentity(newVirtualentity);
 		promise.then(function(result) {
 			console.log("result qui ", result);
 			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready

@@ -22,7 +22,7 @@ Helpers.stream = {
 		return result;
 	},
 	wsErrorUrl: function(stream){
-		var result = Helpers.stream.wsOutputUrl(stream)+".err";
+		var result = Helpers.stream.wsOutputUrl(stream)+".errors";
 		return result;
 	},
 };
@@ -43,4 +43,34 @@ Helpers.util = {
 		}
 		return result;
 	},
+	
+	cleanNilInField: function(obj){
+		if(obj){
+			for (var property in obj) {
+			    if (obj.hasOwnProperty(property)){
+			    	if(typeof(obj[property]) === 'object' && obj[property] !=null && obj[property]["@nil"]){
+			    		obj[property] = null;
+			    	}
+			    }
+			}
+
+		}
+	},
+	
+	scrollTo: function(elementId){
+		var top= 0
+		if(elementId)
+			top= $('#'+elementId).offset().top;
+		
+		$('html,body').animate({scrollTop:top}, 500);
+
+	}
+};
+
+Helpers.errors = {
+		wsErrorUrl : function(tenantCode){
+			var result  = "/topic/output."+tenantCode+".errors";
+			return result;
+		}
+		
 };

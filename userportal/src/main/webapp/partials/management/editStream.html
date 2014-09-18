@@ -21,7 +21,7 @@
 			</div>			
 			<div class="row card-row">
 				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY'|translate}}</strong></div>
-				<div class="col-sm-10">{{stream.codiceVirtualEntity}} - {{stream.nomeVirtualEntity}}</div>
+				<div class="col-sm-10">{{stream.codiceVirtualEntity}} - {{stream.virtualEntityName}}</div>
 			</div>			
 			<div class="row card-row">
 				<div class="col-sm-2 card-label"><strong>{{'STREAM_FIELD_VERSION'|translate}}</strong></div>
@@ -36,7 +36,7 @@
 	<div class='row'>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-			<form class="form-horizontal" role="form">
+			<form class="form-horizontal" role="form" name="editStreamForm">
 				<div class='form-label-separator'>{{'MANAGEMENT_EDIT_STREAM_GENERAL_INFO'|translate}}</div>
 				<div class="form-group">
 					<label for="inputStreamName" class="col-sm-2 control-label">{{'STREAM_FIELD_NAME'|translate}}</label>
@@ -210,7 +210,7 @@
 				<div class="row">
 					<div class=" col-sm-12 form-toolbar">
 						<a  href='#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default">{{'MANAGEMENT_EDIT_STREAM_FINISH_BUTTON'|translate}}</a>
-						<a  ng-click='updateStream()'  class="btn btn-primary">{{'MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON'|translate}}</a>
+						<a  ng-click='updateStream()'  class="btn btn-primary" ng-disabled="editStreamForm.$invalid">{{'MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON'|translate}}</a>
 					</div>
 				</div>
 			</form>

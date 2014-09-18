@@ -7,7 +7,7 @@
 			<strong>{{creationError.error_message}}</strong>
 			{{creationError.error_detail}}
 		</div>
-		<form class="form-horizontal" role="form" name="form">
+		<form class="form-horizontal" role="form" name="newVirtualentityForm">
 			<div class="form-group">
 				<label for="inputType" class="col-sm-2 control-label">{{'VIRTUALENTITY_FIELD_TYPE'|translate}} <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-10">
@@ -17,13 +17,17 @@
 					</select>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group  has-feedback">
 				<label for="inputVirtualentityCode" class="col-sm-2 control-label">
-					{{'VIRTUALENTITY_FIELD_CODE'|translate}} <span class='required-asterisk'>*</span> <abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CODE_HINT'|translate}}"><strong>&#x25cf;</strong></abbr>
+					{{'VIRTUALENTITY_FIELD_CODE'|translate}} <span class='required-asterisk'>*</span> 
+					<abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CODE_HINT'|translate}}"><strong>&#x25cf;</strong></abbr>
 				</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" ng-model="codeVirtualEntity"  id="inputVirtualentityCode" 
-						placeholder="{{'STREAM_FIELD_CODE'|translate}}" ng-required="isCodeRequired()" ngPattern="uuidPattern" ng-disabled="!isCodeRequired()">
+						placeholder="{{'STREAM_FIELD_CODE'|translate}}" ng-required="isCodeRequired()" ng-disabled="!isCodeRequired()"  name="inputVirtualentityCode"
+							maxlength="38" ng-pattern="validationPatternUUID">
+						<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_UUID_TOOLTIP'|translate}}"
+							ng-show="newVirtualentityForm.inputVirtualentityCode.$error.pattern && updateVirtualentityForm.inputVirtualentityCode.$dirty"></span>
 				</div>
 				<div class="col-sm-2">
 					<a ng-click='generateUUID()' class="btn btn-primary" ng-disabled="!isCodeRequired()">{{'MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON'|translate}}</a>
@@ -56,7 +60,7 @@
 			<div class="row">
 				<div class="col-sm-12 form-toolbar">
 					<a ng-click='cancel()' class="btn btn-default">{{'CANCEL'|translate}}</a>
-					<a ng-click='createVirtualentity(virtualentity)' class="btn btn-primary" ng-disabled="form.$invalid">{{'MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON'|translate}}</a>
+					<a ng-click='createVirtualentity(virtualentity)' class="btn btn-primary" ng-disabled="newVirtualentityForm.$invalid">{{'MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON'|translate}}</a>
 				</div>
 			</div>
 		</form>

@@ -49,10 +49,22 @@ footer ul li + li::before  { content: "|"; padding: 0 .5em; }
 
 small pre{font-size: 11px;padding: 4px;}
 
+/* validation */
+.ng-dirty.ng-invalid{border-color: #b50000;}
+.error-validation-icon{color: #b50000;}
+
 /* help */
 .help-panel{border:5px solid #DBDB01; color:#000000;}
 .help-title{color: #666666;}
 .help-bullet{color: #1cbcee;}
+
+/* button colors */
+.action-new{color: #00a693;}
+.action-edit{color: #19aeff;}
+.action-delete{color: #b50000;}
+.action-install{color: #9ade00;}
+.action-uninstall{color: #d49725;}
+.action-historical{color: #edd400;}
 
 /* dashboard */
 .dashboard-streamList-table{margin-top: 20px;}
@@ -93,6 +105,12 @@ small pre{font-size: 11px;padding: 4px;}
 .work-in-progress h1{font-weight: bold; font-size: 48pt; text-align: center; letter-spacing: .1em; color: #666; font-family: Arial;}
 .work-in-progress h2{font-weight: bold; font-size: 42pt; color: #ccc;text-align: center; margin-bottom: 1em;letter-spacing: .2em;}
 
+
+
+.span-errors{
+	margin-left:30px;
+	
+}
 /* json custom color */
 /*
 pre{outline:1px solid #f5f5f5;padding:5px;margin:5px;width:100%;height:100%; background-color: #f5f5f5; color: white;}

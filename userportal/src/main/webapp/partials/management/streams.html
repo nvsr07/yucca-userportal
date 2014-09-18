@@ -8,13 +8,13 @@
 			<div class='clearfix'>
 				<div class="pull-left">
 		        	<a  href="#/management/newStream/{{tenantCode}}" class="btn btn-default" >
-						<span class="glyphicon glyphicon-plus mute"></span> {{'MANAGEMENT_STREAM_LIST_NEW_STREAM'|translate}}
+						<span class="glyphicon glyphicon-plus action-new"></span> {{'MANAGEMENT_STREAM_LIST_NEW_STREAM'|translate}}
 					</a>
 					<button  href="javascript:void(0)" ng-click='editStream()' class="btn btn-default" ng-disabled="selectedStreams.length!=1" title="{{'MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT'|translate}}">
-						<span class="glyphicon glyphicon-pencil mute"></span> {{'MANAGEMENT_STREAM_LIST_EDIT_STREAM'|translate}}
+						<span class="glyphicon glyphicon-pencil action-edit"></span> {{'MANAGEMENT_STREAM_LIST_EDIT_STREAM'|translate}}
 					</button>
 					<button href="javascript:void(0)" ng-click='deleteStream()'class="btn btn-default" ng-disabled="selectedStreams.length<1" title="{{'MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT'|translate}}">
-						<span class="glyphicon glyphicon-trash mute"></span> {{'MANAGEMENT_STREAM_LIST_DELETE_STREAM'|translate}}
+						<span class="glyphicon glyphicon-trash action-delete"></span> {{'MANAGEMENT_STREAM_LIST_DELETE_STREAM'|translate}}
 					</button>
 				</div>
 				<div class="btn-group pull-right">
