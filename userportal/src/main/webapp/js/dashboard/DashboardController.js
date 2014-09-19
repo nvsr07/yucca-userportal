@@ -185,24 +185,23 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 	$scope.closeIndex = false;
 	$scope.wsClientSubsctiption = null;
 	$scope.wsClientError = webSocketService();
+	
+//	$scope.wsClientError.WebSocketClass = ReconnectingWebSocketProvider(10000);
+//	console.debug("Stomp",$scope.wsClientError.WebSocketClass);
 	var connectWSClientError = function(){
+		
 		$scope.wsClientError.connect(function(message) {
 			console.debug("message", message); //"/topic/ten1.flussoProva.raw"
 			console.debug("$scope.stream", $scope.tenant_sel_code); //"/topic/ten1.flussoProva.raw"
 			console.debug("Helpers", Helpers); //"/topic/ten1.flussoProva.raw"
-	
-			
+			$scope.errorList = [];
+			$scope.accordionOpenError = [];
 			subscribeWSClientError();
-//			$scope.wsClientSubsctiption = $scope.wsClientError.subscribe(wsErrorUrl, function(message) {
-//				$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
-//				$scope.errorList.unshift(JSON.parse(message.body));
-//				$scope.accordionOpenError.unshift($scope.closeIndex);
-//				
-//				//	$scope.errorList.slice(0,10); TODO uncomment
-//				//	$scope.accordionOpenError.slice(0,10);
-//				console.debug("Error $scope.errorList : ", $scope.errorList);				
-//			});
-		}, function() {
+
+		}, function(message) {
+			console.debug("on Stomp Error Message");
+			$scope.wsClientSubsctiption.unsubscribe();
+			subscribeWSClientError();
 		}, '/');
 	};
 	
@@ -230,6 +229,7 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 		$scope.tenant_sel_code = tenant;
 
 		$scope.errorList = [];
+		$scope.accordionOpenError = [];
 		$scope.wsClientSubsctiption.unsubscribe();
 		subscribeWSClientError();
 	};
@@ -243,46 +243,6 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 	
 	//prendo tutti gli errori, se non ho selezionato un tenant
 	connectWSClientError();
-
-//	
-//	$scope.selectTenantFilter = function(errore) {
-//		var keyword = new RegExp($scope.tenant_sel_code, 'i');
-//		console.debug("keyword", keyword);
-//		return !$scope.tenant_sel_code || keyword.test(errore.output);
-//	};
-
-	
-	
-	/*
-	var erroreProva = {
-			"error_name":"Tenant unknown",
-			"error_code":"E001",
-			"output":"output.platform.errors",
-			"message":{
-				"sensor":"cc1bfe50-491c-560d-a235-0e4134bbdc23",
-				"values":{
-					"validity":"unknown",
-					"components":{
-						"longitude":57.1,
-						"latitude":57.2,
-						"altitude":57.3,
-						"speed":57.4
-					},
-					"time":"2014-09-03T06:40:00Z"
-				},
-				"stream":"position"
-			}
-	};
-	*/
-	
-	
-
-		// FIXME fare disconnect prima di riconetersi
-//		$scope.wsClientError.disconnect(function() {
-//		    console.debug("See you next time!");
-//		  });
-//		
-//		
 
 } 
 ]);

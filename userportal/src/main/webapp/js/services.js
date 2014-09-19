@@ -267,6 +267,9 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	var stompClient = {};
 
 	function NGStomp() {
+		Stomp.WebSocketClass = ReconnectingWebSocket;
+//		Stomp.WebSocketClass.debugAll =true;
+		console.debug("Stomp",Stomp);
 		this.stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
 	}
 
@@ -289,11 +292,14 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 		this.stompClient.connect(user, password, function(frame) {
 			console.log("frame: ", frame);
 			$rootScope.$apply(function() {
+				console.log(" connect frame: ", frame);
 				on_connect.apply(stompClient, frame);
 			});
 		}, function(frame) {
+			console.debug("service.js on_error function!");
 			$rootScope.$apply(function() {
-				on_error.apply(stompClient, frame);
+				console.log(" on_error frame: ", frame);
+				on_error.apply(frame);
 			});
 		}, vhost);
 	};
