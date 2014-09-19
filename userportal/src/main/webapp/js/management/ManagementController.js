@@ -131,6 +131,18 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		}
 	};
 	
+	$scope.canEdit = function() {
+		if($scope.selectedStreams.length==1 && $scope.selectedStreams[0].deploymentStatusCode == Constants.STREAM_STATUS_DRAFT){
+			console.debug("canEdit true")
+			return true;
+		}
+		console.debug("canEdit false")
+		return false;
+	};
+
+	
+	
+	
 	$scope.editStream = function(){
 		if($scope.selectedStreams.length===1){
 			
@@ -252,10 +264,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.loadStream = function(){
 		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 			$scope.stream = response.streams.stream;
-			if(!$scope.stream.streamTags){
-				$scope.stream.streamTags = {};
-				$scope.stream.streamTags.tag = [];
-			}
+			if(!$scope.stream.streamTags)
+				$scope.stream.streamTags = new Object();
+				$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
+			
 			if($scope.stream.componenti == null)
 				$scope.stream.componenti = new Object();
 			$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
@@ -421,15 +433,15 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 	$scope.requestInstallation = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
-	}
+	};
 	
 	$scope.requestUnistallation = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST);
-	}
+	};
 	
 	$scope.createNewVersion = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION);
-	}
+	};
 	
 	var updateLifecycle = function(action) {
 		console.log("updateLifecycle stream", $scope.stream);
@@ -610,7 +622,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 		   $scope.selectedCategory = "";
 	   }
 	   return false;
-	}
+	};
 	
 	$scope.createVirtualentity = function(virtualentity) {
 		console.log("virtualentity", virtualentity);
@@ -697,6 +709,23 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		Helpers.util.scrollTo();
 
 		var newVirtualentity = new Object();
+		// FIXME remove when api will be updated
+		if($scope.virtualentity.virtualEntityPositions && 
+				$scope.virtualentity.virtualEntityPositions.position &&
+				$scope.virtualentity.virtualEntityPositions.position.length>0){
+			if(!$scope.virtualentity.virtualEntityPositions.position[0].lon)
+				$scope.virtualentity.virtualEntityPositions.position[0].lon = 0;
+			if(!$scope.virtualentity.virtualEntityPositions.position[0].lat)
+				$scope.virtualentity.virtualEntityPositions.position[0].lat = 0;
+			if(!$scope.virtualentity.virtualEntityPositions.position[0].elevation)
+				$scope.virtualentity.virtualEntityPositions.position[0].elevation = 0;
+			if(!$scope.virtualentity.virtualEntityPositions.position[0].floor)
+				$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
+
+		}
+		else{
+		}
+		
 		newVirtualentity.virtualEntity =  $scope.virtualentity;
 		console.log("newVirtualentity", newVirtualentity);
 		var promise   = fabricAPIservice.updateVirtualentity(newVirtualentity);

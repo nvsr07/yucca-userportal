@@ -19,8 +19,6 @@ import org.apache.log4j.Logger;
 @WebFilter(filterName = "AuthorizationFilter", description = "Check if the session is valid", value = "/api/*", dispatcherTypes = { javax.servlet.DispatcherType.REQUEST })
 public class AuthorizeFilter implements Filter {
 
-	public static String API_URL = "http://www.ale.it/";
-
 	static Logger log = Logger.getLogger(AuthorizeFilter.class);
 
 	public void init(FilterConfig arg0) throws ServletException {

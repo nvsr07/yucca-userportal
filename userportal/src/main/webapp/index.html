@@ -37,7 +37,8 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="NavigationCtrl as navigation">
 				<ul class="nav navbar-nav">
 					<li ng-class="{active: $route.current.activetab == 'dashboard'}"><a href="#/dashboard">{{'MENU_DASHBOARD'|translate}}</a></li>
-					<li ng-class="{active: $route.current.activetab == 'management'}"><a href="#/management/dashboard">{{'MENU_MANAGEMENT'|translate}}</a></li>
+					<!-- <li ng-class="{active: $route.current.activetab == 'management'}"><a href="#/management/dashboard">{{'MENU_MANAGEMENT'|translate}}</a></li> -->
+					<li ng-class="{active: $route.current.activetab == 'management'}"><a href="{{managementUrl}}">{{'MENU_MANAGEMENT'|translate}}</a></li>
 					<!-- <li ng-class="{active: $route.current.activetab == 'market'}"><a href="#/market">{{'MENU_MARKET'|translate}}</a></li>
 					<li ng-class="{active: $route.current.activetab == 'store'}"><a href="#/store">{{'MENU_STORE'|translate}}</a></li>
 					-->

@@ -9,6 +9,13 @@ appServices.value('version', '0.1');
 appServices.factory('fabricAPIservice', function($http, $q) {
 
 	var fabricAPI = {};
+	
+	fabricAPI.getInfo = function() {
+		return $http({
+			method : 'JSONP',
+			url : '/userportal/api/info?callback=JSON_CALLBACK'
+		});
+	};
 
 	fabricAPI.getStreams = function() {
 		return $http({
@@ -148,8 +155,6 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	};
 	
 	fabricAPI.getStreamTags = function() {
-		//FIXME return real method when API will be ready
-		//return ['AGRICULTURE','ENERGY','ENVIRONMENT','HEALTH','SCHOOL','SECURITY','TRANSPORT'];
 		return $http({
 			method : 'JSONP',
 			url : Constants.API_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
@@ -157,9 +162,6 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	};
 
 	fabricAPI.getStreamDomains = function() {
-		//FIXME return real method when API will be ready
-		//return ['AIR','CARBON','CONSUMPTION','DIOXIDE','FIRE','FOREST','GLACIER','INDOOR','LAKE','LANDSLIDE','MONOXIDE','NITROGEN','OZONE','POLLUTION','RAIN','RIVER','SNOW','WATER'];
-		console.debug("getStreamDomains", Constants.API_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK');
 		return $http({
 			method : 'JSONP',
 			url : Constants.API_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
@@ -255,7 +257,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	    });
 		return deferred.promise;
 		
-	}
+	};
 	
 	
 	return fabricAPI;

@@ -74,14 +74,14 @@ public enum ApiEntityEnum {
 		}
 	},
 
-	API_STREAM_PHENOMENOM_URL("API_STREAM_DOMAINS_URL", "/userportal/api/proxy/misc/phenomenon/") {
+	API_STREAM_PHENOMENOM_URL("API_STREAM_PHENOMENOM_URL", "/userportal/api/proxy/misc/phenomenon/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
 
-	API_STREAM_DATATYPE_URL("API_STREAM_DOMAINS_URL", "/userportal/api/proxy/misc/datatype/") {
+	API_STREAM_DATATYPE_URL("API_STREAM_DATATYPE_URL", "/userportal/api/proxy/misc/datatype/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
@@ -98,21 +98,24 @@ public enum ApiEntityEnum {
 	LIFECYCLE_STREAM_REQ_INST("API_LIFECYCLE_STREAM_REQ_INST", "/userportal/api/proxy/lifecycle/streams/reqinst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
+//			String tenant = request.getParameter("codTenant") == null? "":request.getParameter("codTenant") ;
+//			return AuthorizeUtils.isReadMethod(request)
+//					|| tenant.equals(request.getSession().getAttribute(AuthorizeUtils.TENANT_CODE));
+			return true;
 		}
 	},
 
 	LIFECYCLE_STREAM_NEW_VERSION("API_LIFECYCLE_STREAM_NEW_VERSION", "/userportal/api/proxy/lifecycle/streams/newversion/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
+			return true;
 		}
 	},
 
 	LIFECYCLE_STREAM_REQ_UNINST("API_LIFECYCLE_STREAM_REQ_UNINST", "/userportal/api/proxy/lifecycle/streams/requninst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
+			return true;
 		}
 	};
 
