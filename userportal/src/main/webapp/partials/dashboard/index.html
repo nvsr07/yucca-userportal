@@ -64,7 +64,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stream in streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+						<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 							<td>{{stream.nomeTenant}}</td>
 							<td><a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}"><strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}</a></td>
 							<td><small>{{stream.codiceVirtualEntity}}</small></td>
@@ -74,7 +74,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+				<pagination boundary-links="true" total-items="filteredStreamsList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
 					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 				></pagination>
 

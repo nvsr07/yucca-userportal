@@ -82,11 +82,11 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		}
 		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
-		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
 
 	$scope.selectPage = function() {
-		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
 
 	$scope.searchCodeFilter = function(stream) {
@@ -486,14 +486,13 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 		// Dig into the responde to get the relevant data
 		console.log("response", response);
 		$scope.virtualentitiesList = response.virtualEntities.virtualEntity;
-		console.log("$scope.virtualentitiesList", $scope.virtualentitiesList);
 
 		$scope.totalItems = $scope.virtualentitiesList.length;
-		$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
 
 	$scope.selectPage = function() {
-		$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
 
 	$scope.searchCodeFilter = function(virtualentity) {
@@ -508,14 +507,12 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 
 	$scope.$watch('codeFilter', function(newCode) {
 		$scope.currentPage = 1;
-		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
-		console.log("newCode", newCode);
+//		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
 	});
 
 	$scope.$watch('statusFilter', function(newStatus) {
 		$scope.currentPage = 1;
-		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
-		console.log("newStatus", newStatus);
+//		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
 	});
 
 	$scope.selectedVirtualentities = [];

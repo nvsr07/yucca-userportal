@@ -67,7 +67,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stream in streamsList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+						<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 							<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/>
 							<td><a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">{{stream.codiceStream}}</a></td>
 							<td>{{stream.codiceVirtualEntity}}</td>
@@ -77,7 +77,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+				<pagination boundary-links="true" total-items="filteredStreamsList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
 					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 				></pagination>
 	

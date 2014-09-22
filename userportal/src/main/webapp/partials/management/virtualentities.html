@@ -67,7 +67,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="virtualentity in virtualentitiesList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+					<tr ng-repeat="virtualentity in filteredVirtualentitiesList = ( virtualentitiesList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse  )  |startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
 						<td><input type="checkbox" name="selected" ng-checked="isSelected(virtualentity)"  ng-click="updateSelection($event, virtualentity)" ng-show="!isInternal(virtualentity)"/>
 						<td><a href="#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}">{{virtualentity.codeVirtualEntity}}</a></td>
 						<td>{{virtualentity.virtualEntityName}}</td>
@@ -77,7 +77,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+			<pagination boundary-links="true" total-items="filteredVirtualentitiesList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
 				next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 			></pagination>
 
