@@ -153,6 +153,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		}
 	};
 	$scope.deleteStream = function(){
+		alert("Funzionalita non ancora abilitata!");
 		if($scope.selectedStreams.length>0){
 			
 			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
@@ -550,8 +551,21 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 		}
 	};
 	$scope.deleteStream = function(){
+		//FIXME forse codice morto!!
+		alert("Funzionalita non ancora abilitata!");
 		if($scope.selectedVirtualentities.length>0){
-			
+			console.debug("delete Stream");
+			//$location.path('management/editStream/'+$scope.selectedVirtualentities[0].codiceTenant +'/'+$scope.selectedVirtualentities[0].codiceVirtualEntity+'/'+$scope.selectedVirtualentities[0].codiceStream);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+	
+	$scope.deleteVirtualentity = function(){
+		alert("Funzionalita non ancora abilitata!");
+		if($scope.selectedVirtualentities.length>0){
+			console.debug("delete VE");
 			//$location.path('management/editStream/'+$scope.selectedVirtualentities[0].codiceTenant +'/'+$scope.selectedVirtualentities[0].codiceVirtualEntity+'/'+$scope.selectedVirtualentities[0].codiceStream);
 		}
 		else{
