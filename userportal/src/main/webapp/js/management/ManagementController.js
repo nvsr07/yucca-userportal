@@ -607,7 +607,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
 	
 	$scope.selectedType;
-	$scope.selectedCategory;
+	$scope.selectedCategory =$scope.categoriesList[0];
 	$scope.creationError = null;
 
 	$scope.isDevice = function() {
@@ -633,7 +633,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.selectTypeChange = function() {
 		if(!$scope.selectedType || $scope.selectedType.idTipoVirtualEntity != 1){
 		   $scope.codeVirtualEntity = "";
-		   $scope.selectedCategory = "";
+		   $scope.selectedCategory = $scope.categoriesList[0];
 	   }
 	   return false;
 	};
@@ -644,6 +644,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 			virtualentity = new Object();
 		
 		virtualentity.idTipoVe = $scope.selectedType.idTipoVirtualEntity;
+	//	$scope.selectedCategory.idCategoria != null ? virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria : "999";
 		virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria;
 		
 		var newVirtualentity = new Object();

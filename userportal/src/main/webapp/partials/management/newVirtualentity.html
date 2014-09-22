@@ -39,7 +39,7 @@
 				</label>
 				<div class="col-sm-10">
 					<select id='inputCategory' class="form-control" ng-model="selectedCategory"  ng-options="category.descrizioneCategoria for category in categoriesList track by category.idCategoria" 
-						 ng-required="isDevice()"  ng-disabled="!isDevice()">
+						 ng-required="isDevice()" ng-disabled="!isDevice()">
 						<option value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER'|translate}}</option>
 					</select>
 				</div>
