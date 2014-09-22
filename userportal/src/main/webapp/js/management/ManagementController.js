@@ -96,7 +96,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 	$scope.searchStatusFilter = function(stream) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(stream.status);
+		return !$scope.statusFilter || keyword.test(stream.deploymentStatusDesc);
 	};
 
 	$scope.$watch('codeFilter', function(newCode) {
@@ -502,7 +502,7 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 
 	$scope.searchStatusFilter = function(virtualentity) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(virtualentity.status);
+		return !$scope.statusFilter || keyword.test(virtualentity.deploymentStatusDesc);
 	};
 
 	$scope.$watch('codeFilter', function(newCode) {
