@@ -78,11 +78,11 @@ appControllers.controller('DashboardCtrl', [ '$scope', 'fabricAPIservice', funct
 		// Dig into the responde to get the relevant data
 		$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
-		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
 
 	$scope.selectPage = function() {
-		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
 
 	$scope.searchTenantsFilter = function(stream) {

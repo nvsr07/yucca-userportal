@@ -8,12 +8,12 @@
 			{{creationError.error_detail}}
 		</div>
 		<form class="form-horizontal" role="form" name="newVirtualentityForm">
-			<div class="form-group">
-				<label for="inputType" class="col-sm-2 control-label">{{'VIRTUALENTITY_FIELD_TYPE'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="form-group">
+				<label for="inputType" class="col-sm-2 control-label">{{'VIRTUALENTITY_FIELD_TYPE'|translate}}  <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-10">
-					<select id='inputType' class="form-control" ng-model="selectedType"  ng-options="type.descrizioneTipoVirtualEntity for type in typesList track by type.idTipoVirtualEntity" 
-						ng-change="selectTypeChange()" required>
-						<option value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER'|translate}}</option>
+					<select id='inputType' class="form-control"	required>
+						<option ng-click="selectTypeChange()"  value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER'|translate}}</option>
+						<option ng-click="selectTypeChange(type)" ng-disabled="type.idTipoVirtualEntity==3" ng-repeat="type in typesList track by type.idTipoVirtualEntity">{{type.descrizioneTipoVirtualEntity}}</option>
 					</select>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 				</label>
 				<div class="col-sm-10">
 					<select id='inputCategory' class="form-control" ng-model="selectedCategory"  ng-options="category.descrizioneCategoria for category in categoriesList track by category.idCategoria" 
-						 ng-required="isDevice()"  ng-disabled="!isDevice()">
+						 ng-required="isDevice()" ng-disabled="!isDevice()">
 						<option value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER'|translate}}</option>
 					</select>
 				</div>
@@ -53,7 +53,7 @@
 			<div class="form-group">
 				<label for="inputVirtualentityDescription" class="col-sm-2 control-label">{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}</label>
 				<div class="col-sm-10">
-					<textarea class="form-control" rows="2" id="inputVirtualentityDescription" placeholder="{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}" ng-model="virtualentity.description"></textarea>
+					<textarea class="form-control" rows="2" id="inputVirtualentityDescription" placeholder="{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}" ng-model="virtualentity.virtualEntityDescription"></textarea>
 				</div>
 			</div>	
 

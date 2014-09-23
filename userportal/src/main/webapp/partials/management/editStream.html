@@ -89,7 +89,7 @@
 						<small><pre pretty-json="componentJsonExample"/></small>
 					</div>
 					<div class="col-sm-10">
-						<a class="btn btn-success btn-xs">{{'MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON'|translate}}</a>
+						<a class="btn btn-success btn-xs"  ng-disabled="true">{{'MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON'|translate}}</a>
 						<table class="table table-striped">
 							<thead>
 								<tr>
@@ -108,8 +108,8 @@
 									<td>{{component.tolerance}}</td>
 									<td>{{component.phenomenonCategory}}: {{component.phenomenon}}</td>
 									<td>{{component.dataType}}</td>
-									<!--  <td><a href="javascript:void(0)" ng-click='removeComponent($index)' class="btn btn-danger btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td> -->
-									<td><a href="javascript:void(0)"  class="btn btn-danger btn-sm disabled" title="{{'COMING_SOON'|translate}}"><i class='glyphicon glyphicon-minus'></i></a></td>
+									<td><a href="javascript:void(0)" ng-click='removeComponent($index)' class="btn btn-danger btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td> 
+									<!--  <td><a href="javascript:void(0)"  class="btn btn-danger btn-sm disabled" title="{{'COMING_SOON'|translate}}"><i class='glyphicon glyphicon-minus'></i></a></td>-->
 								</tr>
 								<tr>
 	               					 <td ng-class="{ 'has-error': insertComponentError }">

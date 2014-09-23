@@ -12,7 +12,7 @@
 				<button  href="javascript:void(0)" ng-click='editVirtualentity()' class="btn btn-default btn-edit" ng-disabled="selectedVirtualentities.length!=1" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT'|translate}}">
 					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY'|translate}}
 				</button>
-				<button href="javascript:void(0)" ng-click='deleteVirtualentity()'class="btn btn-default btn-delete" ng-disabled="selectedVirtualentities.length<1" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT'|translate}}">
+				<button href="javascript:void(0)" ng-click='deleteVirtualentity()'class="btn btn-default btn-delete" ng-disabled="true" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT'|translate}}">
 					<span class="glyphicon glyphicon-trash"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY'|translate}}
 				</button>
 			</div>
@@ -36,15 +36,21 @@
 						<th>
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'code'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_CODE'|translate}} 
-							<span ng-show="predicate=='code' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='code' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'codeVirtualEntity'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_CODE'|translate}} 
+							<span ng-show="predicate=='codeVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='codeVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_NAME'|translate}} 
-							<span ng-show="predicate=='name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'virtualEntityName'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_NAME'|translate}} 
+							<span ng-show="predicate=='virtualEntityName' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='virtualEntityName' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+						
+						</th>
+						<th>
+							<a href="" ng-click="predicate = 'tipoVirtualEntity'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_TYPE'|translate}} 
+							<span ng-show="predicate=='tipoVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='tipoVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
@@ -54,30 +60,31 @@
 						
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'creationdate'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_CREATION_DATE'|translate}} 
-							<span ng-show="predicate=='creationdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='creationdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'lastupdate'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_CREATION_DATE'|translate}} 
+							<span ng-show="predicate=='lastupdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='lastupdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'status'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_STATUS'|translate}} 
-							<span ng-show="predicate=='status' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='status' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'deploymentStatusDesc'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_STATUS'|translate}} 
+							<span ng-show="predicate=='deploymentStatusDesc' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='deploymentStatusDesc' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="virtualentity in virtualentitiesList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+					<tr ng-repeat="virtualentity in filteredVirtualentitiesList = ( virtualentitiesList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse  )  |startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
 						<td><input type="checkbox" name="selected" ng-checked="isSelected(virtualentity)"  ng-click="updateSelection($event, virtualentity)" ng-show="!isInternal(virtualentity)"/>
 						<td><a href="#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}">{{virtualentity.codeVirtualEntity}}</a></td>
 						<td>{{virtualentity.virtualEntityName}}</td>
+							<td>{{virtualentity.tipoVirtualEntity}}</td>
 						<td># TBD</td>
 						<td>{{virtualentity.lastupdate|date}}</td>
 						<td>{{virtualentity.deploymentStatusDesc}}</td>
 					</tr>
 				</tbody>
 			</table>
-			<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+			<pagination boundary-links="true" total-items="filteredVirtualentitiesList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
 				next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 			></pagination>
 

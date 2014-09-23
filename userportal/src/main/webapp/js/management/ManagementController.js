@@ -82,11 +82,11 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		}
 		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
-		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
 
 	$scope.selectPage = function() {
-		$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
 
 	$scope.searchCodeFilter = function(stream) {
@@ -96,7 +96,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 	$scope.searchStatusFilter = function(stream) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(stream.status);
+		return !$scope.statusFilter || keyword.test(stream.deploymentStatusDesc);
 	};
 
 	$scope.$watch('codeFilter', function(newCode) {
@@ -153,6 +153,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		}
 	};
 	$scope.deleteStream = function(){
+		//alert("Funzionalita non ancora abilitata!");
 		if($scope.selectedStreams.length>0){
 			
 			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
@@ -341,7 +342,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 	
 	$scope.removeComponent = function(index){
-		$scope.stream.componenti.splice(index,1);
+		console.debug("$scope.stream.componenti",$scope.stream.componenti);
+		$scope.stream.componenti.element.splice(index,1);
 		return false;
 	};
 
@@ -485,14 +487,13 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 		// Dig into the responde to get the relevant data
 		console.log("response", response);
 		$scope.virtualentitiesList = response.virtualEntities.virtualEntity;
-		console.log("$scope.virtualentitiesList", $scope.virtualentitiesList);
 
 		$scope.totalItems = $scope.virtualentitiesList.length;
-		$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
 
 	$scope.selectPage = function() {
-		$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
 
 	$scope.searchCodeFilter = function(virtualentity) {
@@ -502,19 +503,17 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 
 	$scope.searchStatusFilter = function(virtualentity) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(virtualentity.status);
+		return !$scope.statusFilter || keyword.test(virtualentity.deploymentStatusDesc);
 	};
 
 	$scope.$watch('codeFilter', function(newCode) {
 		$scope.currentPage = 1;
-		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
-		console.log("newCode", newCode);
+//		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
 	});
 
 	$scope.$watch('statusFilter', function(newStatus) {
 		$scope.currentPage = 1;
-		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
-		console.log("newStatus", newStatus);
+//		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
 	});
 
 	$scope.selectedVirtualentities = [];
@@ -550,8 +549,21 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 		}
 	};
 	$scope.deleteStream = function(){
+		//FIXME forse codice morto!!
+//		alert("Funzionalita non ancora abilitata!");
 		if($scope.selectedVirtualentities.length>0){
-			
+			console.debug("delete Stream");
+			//$location.path('management/editStream/'+$scope.selectedVirtualentities[0].codiceTenant +'/'+$scope.selectedVirtualentities[0].codiceVirtualEntity+'/'+$scope.selectedVirtualentities[0].codiceStream);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+	
+	$scope.deleteVirtualentity = function(){
+//		alert("Funzionalita non ancora abilitata!");
+		if($scope.selectedVirtualentities.length>0){
+			console.debug("delete VE");
 			//$location.path('management/editStream/'+$scope.selectedVirtualentities[0].codiceTenant +'/'+$scope.selectedVirtualentities[0].codiceVirtualEntity+'/'+$scope.selectedVirtualentities[0].codiceStream);
 		}
 		else{
@@ -593,7 +605,8 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
 	
 	$scope.selectedType;
-	$scope.selectedCategory;
+	$scope.selectedFeedTweetType=false;
+	$scope.selectedCategory =$scope.categoriesList[0];
 	$scope.creationError = null;
 
 	$scope.isDevice = function() {
@@ -616,13 +629,17 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	
 
 	
-	$scope.selectTypeChange = function() {
-		if(!$scope.selectedType || $scope.selectedType.idTipoVirtualEntity != 1){
+	$scope.selectTypeChange = function(newType) {
+			$scope.selectedType=newType;
+	
+	if(!$scope.selectedType || $scope.selectedType.idTipoVirtualEntity != 1){
 		   $scope.codeVirtualEntity = "";
-		   $scope.selectedCategory = "";
+		   $scope.selectedCategory = $scope.categoriesList[0];
 	   }
-	   return false;
+		return false;
 	};
+	
+	
 	
 	$scope.createVirtualentity = function(virtualentity) {
 		console.log("virtualentity", virtualentity);
@@ -675,7 +692,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			if($scope.virtualentity.virtualEntityPositions.position.length == 0)
 				$scope.virtualentity.virtualEntityPositions.position.push({});
 
-			$scope.virtualentity.virtualEntityPositions.position[0].room = 9;
+			$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
 			Helpers.util.cleanNilInField($scope.virtualentity);
 		});
 	};
