@@ -231,7 +231,7 @@ var translations_en = {
 	
 	/* view stream */
 	MANAGEMENT_VIEW_STREAM: 'Stream',
-	MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON: 'Reqeust Installation',
+	MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON: 'Request Installation',
 	MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON: 'Request Unistallation',
 	MANAGEMENT_VIEW_STREAM_NEWVERSION_BUTTON: 'Create New Version',
 	MANAGEMENT_VIEW_STREAM_HISTORICAL_BUTTON: 'Historical',
