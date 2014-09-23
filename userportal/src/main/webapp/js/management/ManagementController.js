@@ -604,6 +604,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
 	
 	$scope.selectedType;
+	$scope.selectedFeedTweetType=false;
 	$scope.selectedCategory =$scope.categoriesList[0];
 	$scope.creationError = null;
 
@@ -627,13 +628,17 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	
 
 	
-	$scope.selectTypeChange = function() {
-		if(!$scope.selectedType || $scope.selectedType.idTipoVirtualEntity != 1){
+	$scope.selectTypeChange = function(newType) {
+			$scope.selectedType=newType;
+	
+	if(!$scope.selectedType || $scope.selectedType.idTipoVirtualEntity != 1){
 		   $scope.codeVirtualEntity = "";
 		   $scope.selectedCategory = $scope.categoriesList[0];
 	   }
-	   return false;
+		return false;
 	};
+	
+	
 	
 	$scope.createVirtualentity = function(virtualentity) {
 		console.log("virtualentity", virtualentity);
