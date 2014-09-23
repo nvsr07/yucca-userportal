@@ -117,6 +117,13 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
+	},
+
+	API_INFO("API_INFO_URL", "/userportal/api/info") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
 	};
 
 	private String nameEntity;

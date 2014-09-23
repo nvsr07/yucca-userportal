@@ -12,7 +12,8 @@ var translations_en = {
 	CANCEL : 'Cancel',
 	SAVE: 'Save',
 	COMING_SOON: 'Coming soon...', 
-	
+	WARNING: 'Warning', 
+
 	/* main menu */
 	MENU_DASHBOARD : 'Dashboard',
 	MENU_MANAGEMENT : 'Management',
@@ -75,7 +76,7 @@ var translations_en = {
 	STREAM_LIST_CODE_FILTER : 'Filter by code',
 	STREAM_LIST_STATUS_FILTER : 'Filter by status',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filter by lastupdate',
-	
+
 	/* Virtual Entity */
 	VIRTUALENTITY_FIELD_ID: 'ID Virtual Entity',
 	VIRTUALENTITY_FIELD_CODE: 'Code',
@@ -167,6 +168,11 @@ var translations_en = {
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Dashboard streams monitoring',
 	
+	DASHBOARD_SECTION_SUMMARY: 'Summary',
+	DASHBOARD_SECTION_TRAFFIC: 'Traffic',
+	
+	DASHBOARD_SECTION_TENANT_NO_DASHBOARD_ERROR: 'Tenant not configured', 
+
 	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Stream',
 	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Virtual Entity',
 	DASHBOARD_STREAM_LIST_TENANT : 'Tenant',
@@ -174,6 +180,11 @@ var translations_en = {
 	DASHBOARD_STREAM_LIST_REGISTRATION_DATE : 'Registration date',
 	DASHBOARD_STREAM_LIST_LASTUPDATE : 'Lastupdate',
 	DASHBOARD_STREAM_LIST_STATUS : 'Status',
+	
+	/* Dashboard home */
+	DASHBOARD_DASHBOARD_BUTTON: 'Dashboard',
+	DASHBOARD_STREAMS_BUTTON: 'Streams list',
+	DASHBOARD_ERROR_LOG_BUTTON: 'Error log', 
 
 	// DASHBOARD_STREAM_TITLE: 'Stream <strong>{{stream_name}}</strong>',
 	DASHBOARD_STREAM_TITLE : 'Stream ',

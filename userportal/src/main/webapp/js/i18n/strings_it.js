@@ -12,7 +12,8 @@ var translations_it = {
 	CANCEL : 'Annulla',
 	SAVE: 'Salva',
 	COMING_SOON: 'Coming soon...', 
-	
+	WARNING: 'Attenzione', 
+
 	/* main menu */
 	MENU_DASHBOARD : 'Monitoraggio',
 	MENU_MANAGEMENT : 'Gestione',
@@ -42,7 +43,7 @@ var translations_it = {
 	STREAM_FIELD_VIRTUALENTITY_CODE: 'Codice', 
 	STREAM_FIELD_VIRTUALENTITY_NAME: 'Nome', 
 	STREAM_FIELD_VIRTUALENTITY_TYPE: 'Tipo', 
-	STREAM_FIELD_DESCRIPTION: 'Descrizione',
+	STREAM_FIELD_VIRTUALENTITY_DESCRIPTION : 'Descrizione',
 	STREAM_FIELD_COMPONENTS: 'Componenti',
 	STREAM_FIELD_COMPONENTS_ID: 'ID',
 	STREAM_FIELD_COMPONENTS_NAME: 'Nome',
@@ -75,7 +76,7 @@ var translations_it = {
 	STREAM_LIST_CODE_FILTER : 'Filter per codice',
 	STREAM_LIST_STATUS_FILTER : 'Filtra per stato',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filtra per aggiornamento',
-	
+
 	/* Virtual Entity */
 	VIRTUALENTITY_FIELD_ID: 'ID Virtual Entity',
 	VIRTUALENTITY_FIELD_CODE: 'Codice',
@@ -167,6 +168,11 @@ var translations_it = {
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Area monitoraggio flussi',
 	
+	DASHBOARD_SECTION_SUMMARY: 'Summary',
+	DASHBOARD_SECTION_TRAFFIC: 'Traffic',
+	
+	DASHBOARD_SECTION_TENANT_NO_DASHBOARD_ERROR: 'Tenant not configured', 
+
 	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Flusso',
 	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Virtual Entity',
 	DASHBOARD_STREAM_LIST_TENANT : 'Organizzazione',
@@ -174,6 +180,11 @@ var translations_it = {
 	DASHBOARD_STREAM_LIST_REGISTRATION_DATE : 'Data registrazione',
 	DASHBOARD_STREAM_LIST_LASTUPDATE : 'Aggiornamento',
 	DASHBOARD_STREAM_LIST_STATUS : 'Stato',
+	
+	/* Dashboard home */
+	DASHBOARD_DASHBOARD_BUTTON: 'Dashboard',
+	DASHBOARD_STREAMS_BUTTON: 'Lista flussi',
+	DASHBOARD_ERROR_LOG_BUTTON: 'Error log', 
 
 	//DASHBOARD_STREAM_TITLE: 'Flusso <strong>{{stream_name}}</strong>',
 	DASHBOARD_STREAM_TITLE: 'Flusso ',

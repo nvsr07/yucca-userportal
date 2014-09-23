@@ -16,6 +16,13 @@ appDirectives.directive('streamRealtime', function() {
 	};
 });
 
+appDirectives.directive('dashboardMenu', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/dashboard/dashboard-menu.html',
+	};
+});
+
 
 /** Example real time chart with 3djs - not used, use instead nv3d */
 /*

@@ -13,7 +13,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	fabricAPI.getInfo = function() {
 		return $http({
 			method : 'JSONP',
-			url : '/userportal/api/info?callback=JSON_CALLBACK'
+			url : Constants.API_INFO_URL + '?callback=JSON_CALLBACK'
 		});
 	};
 

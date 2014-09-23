@@ -4,6 +4,66 @@
 
 //appControllers.controller('DashboardCtrl', ['$scope', function($scope) {}]);
 
+
+appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'fabricAPIservice', function($scope, $route, fabricAPIservice) {
+	$scope.tenantsList = null;
+	
+	fabricAPIservice.getTenants().success(function(response) {
+		console.debug("response", response.tenants);
+		$scope.tenantsList = response.tenants.tenant;		
+	});
+	
+	
+	$scope.currentPanel  = 'main';
+	if($route.current.templateUrl.indexOf("streams")>-1)
+		$scope.currentPanel  = 'streams';
+	else if($route.current.templateUrl.indexOf("error-log")>-1)
+		$scope.currentPanel  = 'error_log';
+} ]);
+
+
+
+appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIservice', function($scope, $route, fabricAPIservice) {
+	
+	$scope.dashboard = $route.current.params.dashboard;
+	$scope.tenantWithNoDashboardError = null;
+	if(!$scope.dashboard)
+		$scope.dashboard = "summary";
+	
+	fabricAPIservice.getTenants().success(function(response) {
+		console.debug("response", response.tenants);
+		$scope.tenantsList = response.tenants.tenant;		
+	
+	});
+	
+	
+
+	freeboard.initialize(false);
+	$.ajax({
+	    url: "js/dashboard/freeboard/"+$scope.dashboard+"-dashboard.json",
+	    dataType: 'json',
+	    success: function(json) {
+		    console.log(json); 
+		    freeboard.loadDashboard(json, new function(){
+			    	freeboard.showLoadingIndicator(false);
+			    });
+		    },
+	    error: function(){
+	    	$scope.tenantWithNoDashboardError = 'DASHBOARD_SECTION_TENANT_NO_DASHBOARD_ERROR';
+	    }
+	});
+
+//	$.getJSON("js/dashboard/freeboard/"+$scope.dashboard+"-dashboard.json", function(json) {
+//	    console.log(json); 
+//	    freeboard.loadDashboard(json, new function(){
+//	    	freeboard.showLoadingIndicator(false);
+//	    });
+//	});
+	freeboard.showLoadingIndicator(false);
+
+} ]);
+
+
 appControllers.controller('DashboardCtrl', [ '$scope', 'fabricAPIservice', function($scope, fabricAPIservice, filterFilter) {
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
