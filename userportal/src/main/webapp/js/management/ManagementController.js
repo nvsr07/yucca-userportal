@@ -641,7 +641,6 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 			virtualentity = new Object();
 		
 		virtualentity.idTipoVe = $scope.selectedType.idTipoVirtualEntity;
-	//	$scope.selectedCategory.idCategoria != null ? virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria : "999";
 		virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria;
 		
 		var newVirtualentity = new Object();
