@@ -342,7 +342,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 	
 	$scope.removeComponent = function(index){
-		$scope.stream.componenti.splice(index,1);
+		console.debug("$scope.stream.componenti",$scope.stream.componenti);
+		$scope.stream.componenti.element.splice(index,1);
 		return false;
 	};
 
@@ -691,7 +692,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			if($scope.virtualentity.virtualEntityPositions.position.length == 0)
 				$scope.virtualentity.virtualEntityPositions.position.push({});
 
-			$scope.virtualentity.virtualEntityPositions.position[0].room = 9;
+			$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
 			Helpers.util.cleanNilInField($scope.virtualentity);
 		});
 	};
