@@ -689,10 +689,10 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			if(!$scope.virtualentity.virtualEntityPositions)
 				$scope.virtualentity.virtualEntityPositions = {};
 			$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
-			if($scope.virtualentity.virtualEntityPositions.position.length == 0)
+			if($scope.virtualentity.virtualEntityPositions.position.length == 0){
 				$scope.virtualentity.virtualEntityPositions.position.push({});
-
-			$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+				$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+			}
 			Helpers.util.cleanNilInField($scope.virtualentity);
 		});
 	};
