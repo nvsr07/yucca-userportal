@@ -147,6 +147,17 @@ var translations_it = {
 	RIVER: 'Fiume',
 	SNOW: 'Neve',
 	WATER: 'Acqua',
+	POWDERS: 'Polveri',
+	QUALITY: 'Qualit&agrave;',
+	NOISE: 'Rumore',
+	OUTDOOR: 'Esterno',
+	PRODUCTION: 'Produzione',
+	STORM: 'Tempesta',
+	GROUND: 'Suolo',
+	TRAFFIC: 'Traffico',
+	WIND: 'Vento',
+	SULPHUR: 'Zolfo',
+	VINEYARD: 'Vigneto',
 	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Solo numeri interi',

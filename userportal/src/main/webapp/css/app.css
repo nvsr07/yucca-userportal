@@ -43,7 +43,7 @@ footer ul li + li::before  { content: "|"; padding: 0 .5em; }
 
 .graph-container-svg{ width: 600px; height: 300px;}
 
-.table-supercondensed{font-size: 9pt; line-height: auto; border-spacing: 1px;margin-bottom: 0px;}
+.table-supercondensed{font-size: 8pt; line-height: auto; border-spacing: 1px;margin-bottom: 0px;}
 .table-noborder>tbody>tr>td{border-top: none;}
 
 

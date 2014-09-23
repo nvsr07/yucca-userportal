@@ -147,6 +147,17 @@ var translations_en = {
 	RIVER: 'River',
 	SNOW: 'Snow',
 	WATER: 'Water',
+	POWDERS: 'Powders',
+	QUALITY: 'Quality',
+	NOISE: 'Noise',
+	OUTDOOR: 'Outdoor',
+	PRODUCTION: 'Production',
+	STORM: 'Storm',
+	GROUND: 'Ground',
+	TRAFFIC: 'Traffic',
+	WIND: 'Wind',
+	SULPHUR: 'Sulphur',
+	VINEYARD: 'Vineyard',
 	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Only integer number',

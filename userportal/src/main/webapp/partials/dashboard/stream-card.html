@@ -20,18 +20,24 @@
 					<table class='table-condensed table-supercondensed dashboard-table-components'>
 						<thead>
 							<tr>
-								<th>{{'STREAM_FIELD_COMPONENTS_DESCRIPTION'|translate}}</th>
+								<th>{{'STREAM_FIELD_COMPONENTS_NAME'|translate}}</th>
+								<th>{{'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate}}</th>
+								<th>{{'STREAM_FIELD_COMPONENTS_TOLERANCE'|translate}}</th>
+								<th>{{'STREAM_FIELD_COMPONENTS_PHENOMENON'|translate}}</th>
 								<th>{{'STREAM_FIELD_COMPONENTS_DATA_TYPE'|translate}}</th>
-							</tr>
+		
+							</tr>	
 						</thead>
 						<tbody>
 							<tr ng-repeat="component in stream.componenti.element">
-								<td>{{component.nome}}</td>
-								<td>{{component.tipo}}</td>
-							</tr>
+								<td><span style="display: none"> {{component.idComponente}}</span>{{component.nome}}</td>
+								<td>{{component.measureUnitCategory}}: {{component.measureUnit}}</td>
+								<td>{{component.tolerance}}</td>
+								<td>{{component.phenomenonCategory}}: {{component.phenomenon}}</td>
+								<td>{{component.dataType}}</td>
+							</tr>	
 						</tbody>
 					</table>
-
 				</td>
 			</tr>
 			<tr><td colspan='2' class='row-title'>{{'VIRTUALENTITY'|translate}}</td></tr>
@@ -85,7 +91,7 @@
 				<td>{{'STREAM_FIELD_TAGS'|translate}}</td>
 				<td>
 					<ul class="list-inline">
-						<li ng-repeat="tag in stream.tags"><span class="label label-info">{{tag}}</span></li>
+						<li ng-repeat="tag in stream.streamTags.tag"><span class="label label-info label-custom">{{tag.tagCode|translate}}</span></li>
 					</ul>
 				</td>
 			</tr>
