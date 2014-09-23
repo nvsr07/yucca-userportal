@@ -48,6 +48,12 @@
 						
 						</th>
 						<th>
+							<a href="" ng-click="predicate = 'tipoVirtualEntity'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_TYPE'|translate}} 
+							<span ng-show="predicate=='tipoVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='tipoVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+						
+						</th>
+						<th>
 							<a href="" ng-click="predicate = 'streamsCount'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_STREAMS_COUNT'|translate}} 
 							<span ng-show="predicate=='streamsCount' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 							<span ng-show="predicate=='streamsCount' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
@@ -71,6 +77,7 @@
 						<td><input type="checkbox" name="selected" ng-checked="isSelected(virtualentity)"  ng-click="updateSelection($event, virtualentity)" ng-show="!isInternal(virtualentity)"/>
 						<td><a href="#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}">{{virtualentity.codeVirtualEntity}}</a></td>
 						<td>{{virtualentity.virtualEntityName}}</td>
+							<td>{{virtualentity.tipoVirtualEntity}}</td>
 						<td># TBD</td>
 						<td>{{virtualentity.lastupdate|date}}</td>
 						<td>{{virtualentity.deploymentStatusDesc}}</td>
