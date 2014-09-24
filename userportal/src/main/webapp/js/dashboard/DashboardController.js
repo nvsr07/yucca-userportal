@@ -240,14 +240,11 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 	$scope.tenantsList = [];
 	$scope.errorList = [];
 	$scope.accordionOpenError = [];
-	//$scope.wsClientError = null;
 	$scope.openedIndex = true;
 	$scope.closeIndex = false;
 	$scope.wsClientSubsctiption = null;
 	$scope.wsClientError = webSocketService();
 	
-//	$scope.wsClientError.WebSocketClass = ReconnectingWebSocketProvider(10000);
-//	console.debug("Stomp",$scope.wsClientError.WebSocketClass);
 	var connectWSClientError = function(){
 		
 		$scope.wsClientError.connect(function(message) {
@@ -257,11 +254,9 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 			$scope.errorList = [];
 			$scope.accordionOpenError = [];
 			subscribeWSClientError();
-
 		}, function(message) {
-			console.debug("on Stomp Error Message");
-			$scope.wsClientSubsctiption.unsubscribe();
-			subscribeWSClientError();
+			console.debug("Can't Connect on WebSocket");
+			//alert("Can't Connect on WebSocket");
 		}, '/');
 	};
 	
@@ -290,8 +285,8 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 
 		$scope.errorList = [];
 		$scope.accordionOpenError = [];
-		$scope.wsClientSubsctiption.unsubscribe();
-		subscribeWSClientError();
+		//$scope.wsClientSubsctiption.unsubscribe();
+		connectWSClientError();
 	};
 	
 	
