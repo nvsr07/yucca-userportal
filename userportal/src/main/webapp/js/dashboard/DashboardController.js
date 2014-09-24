@@ -28,7 +28,7 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	$scope.dashboard = $route.current.params.dashboard;
 	$scope.tenantWithNoDashboardError = null;
 	if(!$scope.dashboard)
-		$scope.dashboard = "summary";
+		$scope.dashboard = "overview";
 	
 	fabricAPIservice.getTenants().success(function(response) {
 		console.debug("response", response.tenants);
