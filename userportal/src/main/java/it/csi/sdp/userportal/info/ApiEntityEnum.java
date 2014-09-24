@@ -124,6 +124,13 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
+	},
+
+	VIRTUALENTITY_GEO("VIRTUALENTITY_GEO_URL", "/userportal/api/proxy/virtualentitiesgeo") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
 	};
 
 	private String nameEntity;

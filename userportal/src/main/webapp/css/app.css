@@ -1,4 +1,4 @@
-body{font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, Sans-Serif;font-size: 14px;line-height: 20px;font-weight: 100;}
+body{font-family: Helvetica, Arial, Sans-Serif;font-size: 14px;line-height: 20px;font-weight: 100;}
 
 table>thead>tr>th{color: #1dbbee; font-weight: 500; text-transform: uppercase;padding: 4px 5px;}
 
@@ -121,11 +121,21 @@ small pre{font-size: 11px;padding: 4px;}
 
 /* freeboard */
 #freeboard-container{overflow: hidden; min-height: 400px;}
+/* dark */
+/*
 #freeboard-container .gridster{color: #abaaaa;}
 #freeboard-container .gridster .gs_w { background: #474747; border-radius: 6px;border: solid 1px #373737;}
 #freeboard-container .gridster header {background-color: #373737; color: #abaaaa;}
 #freeboard-container .sub-section {border-bottom: solid 1px #373737;}
+*/
 
+#freeboard-container .gridster{color: #5e8292;}
+#freeboard-container .gridster .gs_w { background: #e5ebee; border-radius: 6px;border: solid 1px #8ca6b2;}
+#freeboard-container .gridster header {background-color: #8ca6b2; color: #fdfdfd;}
+#freeboard-container .sub-section {border-bottom: solid 1px #8ca6b2;}
+#freeboard-container a{color: #01796f;}
+
+.jqstooltip { -webkit-box-sizing: content-box; -moz-box-sizing: content-box;  box-sizing: content-box;}
 
 
 /* json custom color */
