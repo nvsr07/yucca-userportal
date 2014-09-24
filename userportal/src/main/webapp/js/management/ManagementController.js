@@ -606,13 +606,12 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	
 	$scope.selectedType;
 	$scope.selectedFeedTweetType=false;
-	$scope.selectedCategory =$scope.categoriesList[0];
+	$scope.selectedCategory = null;
 	$scope.creationError = null;
-	$scope.codeRequiredFlag=false;
 	$scope.isDevice = function() {
 		if(!$scope.selectedType)
 			return false;
-		return $scope.selectedType.idTipoVirtualEntity == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 	};
 	
 	$scope.isInternal = function() {
@@ -624,23 +623,25 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.isCodeRequired = function() {
 		console.debug("isCodeRequired function $scope.selectedType ::",$scope.selectedType);
 		if(!$scope.selectedType){
-			$scope.codeRequiredFlag=false;
 			return false;
 		}
-		$scope.codeRequiredFlag=true;
-		return $scope.selectedType.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+		return $scope.selectedType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
 	
+	
+	$scope.isCategoryRequired= function() {
+		console.debug("isCategoryRequired function $scope.selectedType ::",$scope.selectedType);
+		if(!$scope.selectedType){
+			return false;
+		}
+		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+	};
 
 	
-	$scope.selectTypeChange = function(newType) {
-		console.debug("selectTypeChange function $scope.selectedType ::",$scope.selectedType);
-		$scope.selectedType=newType;
-			$scope.isCodeRequired();
-	if(!$scope.selectedType || $scope.selectedType.idTipoVirtualEntity != 1){
-		   $scope.codeVirtualEntity = "";
-		   $scope.selectedCategory = $scope.categoriesList[0];
-	   }
+	$scope.selectTypeChange = function() {
+		console.debug("selectTypeChange function $scope.selectedType ::", $scope.selectedType);
+		$scope.codeVirtualEntity = "";
+		$scope.selectedCategory = null;
 		return true;
 	};
 	
@@ -651,8 +652,9 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 		if(!virtualentity)
 			virtualentity = new Object();
 		
-		virtualentity.idTipoVe = $scope.selectedType.idTipoVirtualEntity;
-		virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria;
+		virtualentity.idTipoVe = $scope.selectedType;
+		if($scope.selectedCategory)
+			virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria;
 		
 		var newVirtualentity = new Object();
 		newVirtualentity.codeVirtualEntity = $scope.codeVirtualEntity;
