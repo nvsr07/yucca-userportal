@@ -58,7 +58,19 @@ DatasourceModel = function(theFreeboardModel, datasourcePlugins) {
 			// Do we need to load any external scripts?
 			if(datasourceType.external_scripts)
 			{
-				head.js(datasourceType.external_scripts.slice(0), finishLoad); // Need to clone the array because head.js adds some weird functions to it
+				head.js(datasourceType.external_scripts.slice(0), finishLoad); // Need
+																				// to
+																				// clone
+																				// the
+																				// array
+																				// because
+																				// head.js
+																				// adds
+																				// some
+																				// weird
+																				// functions
+																				// to
+																				// it
 			}
 			else
 			{
@@ -440,7 +452,9 @@ function FreeboardModel(datasourcePlugins, widgetPlugins, freeboardUI)
 			freeboardUI.processResize(true);
 		}
 
-		// This could have been self.plugins(object.plugins), but for some weird reason head.js was causing a function to be added to the list of plugins.
+		// This could have been self.plugins(object.plugins), but for some weird
+		// reason head.js was causing a function to be added to the list of
+		// plugins.
 		_.each(object.plugins, function(plugin)
 		{
 			self.addPluginSource(plugin);
@@ -939,12 +953,16 @@ function FreeboardUI()
 
 		if(show)
 		{
-			$(".pane-tools").fadeIn(animateLength);//.css("display", "block").animate({opacity: 1.0}, animateLength);
+			$(".pane-tools").fadeIn(animateLength);// .css("display",
+													// "block").animate({opacity:
+													// 1.0}, animateLength);
 			$("#column-tools").fadeIn(animateLength);
 		}
 		else
 		{
-			$(".pane-tools").fadeOut(animateLength);//.animate({opacity: 0.0}, animateLength).css("display", "none");//, function()
+			$(".pane-tools").fadeOut(animateLength);// .animate({opacity: 0.0},
+													// animateLength).css("display",
+													// "none");//, function()
 			$("#column-tools").fadeOut(animateLength);
 		}
 	}
@@ -976,7 +994,10 @@ function FreeboardUI()
 	{
 		var cols = grid.cols;
 
-		if(_.isNumber(paneModel.row) && _.isNumber(paneModel.col)) // Support for legacy format
+		if(_.isNumber(paneModel.row) && _.isNumber(paneModel.col)) // Support
+																	// for
+																	// legacy
+																	// format
 		{
 			var obj = {};
 			obj[cols] = paneModel.row;
@@ -993,11 +1014,16 @@ function FreeboardUI()
 
 		for(var columnIndex in paneModel.col)
 		{
-			if(columnIndex == cols)	 // If we already have a position defined for this number of columns, return that position
+			if(columnIndex == cols)	 // If we already have a position defined
+										// for this number of columns, return
+										// that position
 			{
 				return {row: paneModel.row[columnIndex], col: paneModel.col[columnIndex]};
 			}
-			else if(paneModel.col[columnIndex] > cols) // If it's greater than our display columns, put it in the last column
+			else if(paneModel.col[columnIndex] > cols) // If it's greater than
+														// our display columns,
+														// put it in the last
+														// column
 			{
 				newColumnIndex = cols;
 			}
@@ -1733,7 +1759,8 @@ ValueEditor = function(theFreeboardModel)
 					options.push({value: datasource.name(), follow_char: "\"][\""});
 				});
 			}
-			else if(match[1] != "" && _.isUndefined(match[2])) // List partial datasources
+			else if(match[1] != "" && _.isUndefined(match[2])) // List partial
+																// datasources
 			{
 				replacementString = match[1];
 
@@ -1852,7 +1879,21 @@ ValueEditor = function(theFreeboardModel)
 			}
 
 			var inputString = $(element).val().substring(0, $(element).getCaretPosition());
-			inputString = inputString.replace(String.fromCharCode(160), " "); // Weird issue where the textarea box was putting in ASCII (non breaking space) for spaces.
+			inputString = inputString.replace(String.fromCharCode(160), " "); // Weird
+																				// issue
+																				// where
+																				// the
+																				// textarea
+																				// box
+																				// was
+																				// putting
+																				// in
+																				// ASCII
+																				// (non
+																				// breaking
+																				// space)
+																				// for
+																				// spaces.
 
 			_autocompleteFromDatasource(inputString, theFreeboardModel.datasources());
 
@@ -1940,7 +1981,9 @@ ValueEditor = function(theFreeboardModel)
 
 				if(dropdown)
 				{
-					if(event.keyCode == 38 || event.keyCode == 40) // Handle Arrow keys
+					if(event.keyCode == 38 || event.keyCode == 40) // Handle
+																	// Arrow
+																	// keys
 					{
 						event.preventDefault();
 
@@ -2039,7 +2082,19 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 			// Do we need to load any external scripts?
 			if(widgetType.external_scripts)
 			{
-				head.js(widgetType.external_scripts.slice(0), finishLoad); // Need to clone the array because head.js adds some weird functions to it
+				head.js(widgetType.external_scripts.slice(0), finishLoad); // Need
+																			// to
+																			// clone
+																			// the
+																			// array
+																			// because
+																			// head.js
+																			// adds
+																			// some
+																			// weird
+																			// functions
+																			// to
+																			// it
 			}
 			else
 			{
@@ -2100,7 +2155,8 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 			{
 				var rawValue = self.settings()[settingName];
 
-				// If there is a reference error and the value just contains letters and numbers, then
+				// If there is a reference error and the value just contains
+				// letters and numbers, then
 				if(e instanceof ReferenceError && (/^\w+$/).test(rawValue))
 				{
 					returnValue = rawValue;
@@ -2160,7 +2216,8 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 					{
 						var literalText = currentSettings[settingDef.name].replace(/"/g, '\\"').replace(/[\r\n]/g, ' \\\n');
 
-						// If the value function cannot be created, then go ahead and treat it as literal text
+						// If the value function cannot be created, then go
+						// ahead and treat it as literal text
 						valueFunction = new Function("datasources", "return \"" + literalText + "\";");
 					}
 
@@ -2236,14 +2293,18 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 	}
 }
 
-// â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”� \\
-// â”‚ F R E E B O A R D                                                  â”‚ \\
-// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ \\
-// â”‚ Copyright Â© 2013 Jim Heising (https://github.com/jheising)         â”‚ \\
-// â”‚ Copyright Â© 2013 Bug Labs, Inc. (http://buglabs.net)               â”‚ \\
-// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ \\
-// â”‚ Licensed under the MIT license.                                    â”‚ \\
-// â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ \\
+// â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”�
+// \\
+// â”‚ F R E E B O A R D â”‚ \\
+// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+// \\
+// â”‚ Copyright Â© 2013 Jim Heising (https://github.com/jheising) â”‚ \\
+// â”‚ Copyright Â© 2013 Bug Labs, Inc. (http://buglabs.net) â”‚ \\
+// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+// \\
+// â”‚ Licensed under the MIT license. â”‚ \\
+// â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+// \\
 
 // Jquery plugin to watch for attribute changes
 (function($)
@@ -2288,11 +2349,12 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 				if(!attributes['style'])
 				{
 					attributes['style'] = {};
-				} //initialize
+				} // initialize
 				var keys = e.attributeName.split('.');
 				e.attributeName = keys[0];
-				e.oldValue = attributes['style'][keys[1]]; //old value
-				e.newValue = keys[1] + ':' + this.prop("style")[$.camelCase(keys[1])]; //new value
+				e.oldValue = attributes['style'][keys[1]]; // old value
+				e.newValue = keys[1] + ':' + this.prop("style")[$.camelCase(keys[1])]; // new
+																						// value
 				attributes['style'][keys[1]] = e.newValue;
 			}
 			else
@@ -2302,11 +2364,12 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 				attributes[e.attributeName] = e.newValue;
 			}
 
-			this.data('attr-old-value', attributes); //update the old value object
+			this.data('attr-old-value', attributes); // update the old value
+														// object
 		}
 	}
 
-	//initialize Mutation Observer
+	// initialize Mutation Observer
 	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
 	$.fn.attrchange = function(o)
@@ -2317,7 +2380,7 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 			callback   : $.noop
 		};
 
-		//for backward compatibility
+		// for backward compatibility
 		if(typeof o === "function")
 		{
 			cfg.callback = o;
@@ -2328,7 +2391,7 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 		}
 
 		if(cfg.trackValues)
-		{ //get attributes old value
+		{ // get attributes old value
 			$(this).each(function(i, el)
 			{
 				var attributes = {};
@@ -2343,10 +2406,10 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 		}
 
 		if(MutationObserver)
-		{ //Modern Browsers supporting MutationObserver
+		{ // Modern Browsers supporting MutationObserver
 			/*
-			 Mutation Observer is still new and not supported by all browsers.
-			 http://lists.w3.org/Archives/Public/public-webapps/2011JulSep/1622.html
+			 * Mutation Observer is still new and not supported by all browsers.
+			 * http://lists.w3.org/Archives/Public/public-webapps/2011JulSep/1622.html
 			 */
 			var mOptions = {
 				subtree          : false,
@@ -2360,13 +2423,15 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 				{
 					var _this = e.target;
 
-					//get new value if trackValues is true
+					// get new value if trackValues is true
 					if(cfg.trackValues)
 					{
 						/**
-						 * @KNOWN_ISSUE: The new value is buggy for STYLE attribute as we don't have
-						 * any additional information on which style is getting updated.
-						 * */
+						 * @KNOWN_ISSUE: The new value is buggy for STYLE
+						 *               attribute as we don't have any
+						 *               additional information on which style
+						 *               is getting updated.
+						 */
 						e.newValue = $(_this).attr(e.attributeName);
 					}
 
@@ -2380,26 +2445,30 @@ function WidgetModel(theFreeboardModel, widgetPlugins)
 			});
 		}
 		else if(isDOMAttrModifiedSupported())
-		{ //Opera
-			//Good old Mutation Events but the performance is no good
-			//http://hacks.mozilla.org/2012/05/dom-mutationobserver-reacting-to-dom-changes-without-killing-browser-performance/
+		{ // Opera
+			// Good old Mutation Events but the performance is no good
+			// http://hacks.mozilla.org/2012/05/dom-mutationobserver-reacting-to-dom-changes-without-killing-browser-performance/
 			return this.on('DOMAttrModified', function(event)
 			{
 				if(event.originalEvent)
 				{
 					event = event.originalEvent;
-				} //jQuery normalization is not required for us
-				event.attributeName = event.attrName; //property names to be consistent with MutationObserver
-				event.oldValue = event.prevValue; //property names to be consistent with MutationObserver
+				} // jQuery normalization is not required for us
+				event.attributeName = event.attrName; // property names to be
+														// consistent with
+														// MutationObserver
+				event.oldValue = event.prevValue; // property names to be
+													// consistent with
+													// MutationObserver
 				cfg.callback.call(this, event);
 			});
 		}
 		else if('onpropertychange' in document.body)
-		{ //works only in IE
+		{ // works only in IE
 			return this.on('propertychange', function(e)
 			{
 				e.attributeName = window.event.propertyName;
-				//to set the attr old value
+				// to set the attr old value
 				checkAttributes.call($(this), cfg.trackValues, e);
 				cfg.callback.call(this, e);
 			});
@@ -2452,7 +2521,8 @@ var freeboard = (function()
 	var currentStyle = {
 		values: {
 			"font-family": '"HelveticaNeue-UltraLight", "Helvetica Neue Ultra Light", "Helvetica Neue", sans-serif',
-			"color"      : "#d3d4d4",
+			// "color" : "#d3d4d4",
+			"color"      : "#5e8292",
 			"font-weight": 100
 		}
 	};
@@ -2670,7 +2740,7 @@ var freeboard = (function()
 	}
 
 	$(function()
-	{ //DOM Ready
+	{ // DOM Ready
 		// Show the loading indicator when we first load
 		freeboardUI.showLoadingIndicator(true);
 
@@ -2694,7 +2764,8 @@ var freeboard = (function()
 		{
 			ko.applyBindings(theFreeboardModel);
 
-			// Check to see if we have a query param called load. If so, we should load that dashboard initially
+			// Check to see if we have a query param called load. If so, we
+			// should load that dashboard initially
 			var freeboardLocation = getParameterByName("load");
 
 			if(freeboardLocation != "")
@@ -2781,7 +2852,8 @@ var freeboard = (function()
 			widgetPlugins[plugin.type_name] = plugin;
 			theFreeboardModel._widgetTypes.valueHasMutated();
 		},
-		// To be used if freeboard is going to load dynamic assets from a different root URL
+		// To be used if freeboard is going to load dynamic assets from a
+		// different root URL
 		setAssetRoot        : function(assetRoot)
 		{
 			jsEditor.setAssetRoot(assetRoot);
@@ -2886,14 +2958,18 @@ var freeboard = (function()
 
 $.extend(freeboard, jQuery.eventEmitter);
 
-// â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”� \\
-// â”‚ F R E E B O A R D                                                  â”‚ \\
-// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ \\
-// â”‚ Copyright Â© 2013 Jim Heising (https://github.com/jheising)         â”‚ \\
-// â”‚ Copyright Â© 2013 Bug Labs, Inc. (http://buglabs.net)               â”‚ \\
-// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ \\
-// â”‚ Licensed under the MIT license.                                    â”‚ \\
-// â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ \\
+// â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”�
+// \\
+// â”‚ F R E E B O A R D â”‚ \\
+// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+// \\
+// â”‚ Copyright Â© 2013 Jim Heising (https://github.com/jheising) â”‚ \\
+// â”‚ Copyright Â© 2013 Bug Labs, Inc. (http://buglabs.net) â”‚ \\
+// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+// \\
+// â”‚ Licensed under the MIT license. â”‚ \\
+// â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+// \\
 
 (function () {
 	var jsonDatasource = function (settings, updateCallback) {
@@ -2918,7 +2994,11 @@ $.extend(freeboard, jQuery.eventEmitter);
 		updateRefresh(currentSettings.refresh * 1000);
 
 		this.updateNow = function () {
-			if ((errorStage > 1 && !currentSettings.use_thingproxy) || errorStage > 2) // We've tried everything, let's quit
+			if ((errorStage > 1 && !currentSettings.use_thingproxy) || errorStage > 2) // We've
+																						// tried
+																						// everything,
+																						// let's
+																						// quit
 			{
 				return; // TODO: Report an error
 			}
@@ -2965,7 +3045,9 @@ $.extend(freeboard, jQuery.eventEmitter);
 				},
 				error: function (xhr, status, error) {
 					if (!lockErrorStage) {
-						// TODO: Figure out a way to intercept CORS errors only. The error message for CORS errors seems to be a standard 404.
+						// TODO: Figure out a way to intercept CORS errors only.
+						// The error message for CORS errors seems to be a
+						// standard 404.
 						errorStage++;
 						self.updateNow();
 					}
@@ -3174,7 +3256,7 @@ $.extend(freeboard, jQuery.eventEmitter);
 		this.updateNow = function () {
 			dweetio.get_latest_dweet_for(currentSettings.thing_id, function (err, dweet) {
 				if (err) {
-					//onNewDweet({});
+					// onNewDweet({});
 				}
 				else {
 					onNewDweet(dweet[0].content);
@@ -3383,14 +3465,18 @@ $.extend(freeboard, jQuery.eventEmitter);
 	});
 
 }());
-// â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”� \\
-// â”‚ F R E E B O A R D                                                  â”‚ \\
-// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ \\
-// â”‚ Copyright Â© 2013 Jim Heising (https://github.com/jheising)         â”‚ \\
-// â”‚ Copyright Â© 2013 Bug Labs, Inc. (http://buglabs.net)               â”‚ \\
-// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤ \\
-// â”‚ Licensed under the MIT license.                                    â”‚ \\
-// â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ \\
+// â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”�
+// \\
+// â”‚ F R E E B O A R D â”‚ \\
+// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+// \\
+// â”‚ Copyright Â© 2013 Jim Heising (https://github.com/jheising) â”‚ \\
+// â”‚ Copyright Â© 2013 Bug Labs, Inc. (http://buglabs.net) â”‚ \\
+// â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+// \\
+// â”‚ Licensed under the MIT license. â”‚ \\
+// â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+// \\
 
 (function () {
     var SPARKLINE_HISTORY_LENGTH = 100;
@@ -3452,14 +3538,19 @@ $.extend(freeboard, jQuery.eventEmitter);
             height: "100%",
             width: "100%",
             fillColor: false,
-            lineColor: "#FF9900",
+            // lineColor: "#FF9900",
+            lineColor: "#9f124b",
             lineWidth: 2,
             spotRadius: 3,
             spotColor: false,
-            minSpotColor: "#78AB49",
-            maxSpotColor: "#78AB49",
-            highlightSpotColor: "#9D3926",
-            highlightLineColor: "#9D3926"
+            // minSpotColor: "#78AB49",
+            // maxSpotColor: "#78AB49",
+            minSpotColor: "#19aeff",
+            maxSpotColor: "#19aeff",
+            highlightSpotColor: "#125775",
+            highlightLineColor: "#125775"
+            //highlightSpotColor: "#9D3926",
+            //highlightLineColor: "#9D3926"
         });
     }
 
@@ -3514,7 +3605,11 @@ $.extend(freeboard, jQuery.eventEmitter);
 
 		function updateValueSizing()
 		{
-			if(!_.isUndefined(currentSettings.units) && currentSettings.units != "") // If we're displaying our units
+			if(!_.isUndefined(currentSettings.units) && currentSettings.units != "") // If
+																						// we're
+																						// displaying
+																						// our
+																						// units
 			{
 				valueElement.css("max-width", (displayElement.innerWidth() - unitsElement.outerWidth(true)) + "px");
 			}
@@ -3714,7 +3809,9 @@ $.extend(freeboard, jQuery.eventEmitter);
                 max: (_.isUndefined(currentSettings.max_value) ? 0 : currentSettings.max_value),
                 label: currentSettings.units,
                 showInnerShadow: false,
-                valueFontColor: "#d3d4d4"
+               // valueFontColor: "#d3d4d4"
+                 valueFontColor: "#5e8292",
+                 gaugeColor: "#fcfcfd"
             });
         }
 
@@ -3860,7 +3957,7 @@ $.extend(freeboard, jQuery.eventEmitter);
         function polygonPath(points) {
             if (!points || points.length < 2)
                 return [];
-            var path = []; //will use path object type
+            var path = []; // will use path object type
             path.push(['m', points[0], points[1]]);
             for (var i = 2; i < points.length; i += 2) {
                 path.push(['l', points[i], points[i + 1]]);
@@ -3899,7 +3996,7 @@ $.extend(freeboard, jQuery.eventEmitter);
                     var oppositeCurrent = currentValue + 180;
 
                     if (oppositeCurrent < newValue) {
-                        //direction = "l";
+                        // direction = "l";
                     }
 
                     triangle.animate({transform: "r" + newValue + "," + (width / 2) + "," + (height / 2)}, 250, "bounce");
@@ -4148,65 +4245,69 @@ $.extend(freeboard, jQuery.eventEmitter);
             function initializeMap() {
                 var mapOptions = {
                     zoom: 13,
-                    center: new google.maps.LatLng(37.235, -115.811111),
+                    // center: new google.maps.LatLng(37.235, -115.811111),
+                    center: new google.maps.LatLng(45.0706029, 7.6867102),
                     disableDefaultUI: true,
                     draggable: false,
-                    styles: [
-                        {"featureType": "water", "elementType": "geometry", "stylers": [
-                            {"color": "#2a2a2a"}
-                        ]},
-                        {"featureType": "landscape", "elementType": "geometry", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 20}
-                        ]},
-                        {"featureType": "road.highway", "elementType": "geometry.fill", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 17}
-                        ]},
-                        {"featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 29},
-                            {"weight": 0.2}
-                        ]},
-                        {"featureType": "road.arterial", "elementType": "geometry", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 18}
-                        ]},
-                        {"featureType": "road.local", "elementType": "geometry", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 16}
-                        ]},
-                        {"featureType": "poi", "elementType": "geometry", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 21}
-                        ]},
-                        {"elementType": "labels.text.stroke", "stylers": [
-                            {"visibility": "on"},
-                            {"color": "#000000"},
-                            {"lightness": 16}
-                        ]},
-                        {"elementType": "labels.text.fill", "stylers": [
-                            {"saturation": 36},
-                            {"color": "#000000"},
-                            {"lightness": 40}
-                        ]},
-                        {"elementType": "labels.icon", "stylers": [
-                            {"visibility": "off"}
-                        ]},
-                        {"featureType": "transit", "elementType": "geometry", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 19}
-                        ]},
-                        {"featureType": "administrative", "elementType": "geometry.fill", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 20}
-                        ]},
-                        {"featureType": "administrative", "elementType": "geometry.stroke", "stylers": [
-                            {"color": "#000000"},
-                            {"lightness": 17},
-                            {"weight": 1.2}
-                        ]}
-                    ]
+// styles: [
+// {"featureType": "water", "elementType": "geometry", "stylers": [
+// {"color": "#2a2a2a"}
+// ]},
+// {"featureType": "landscape", "elementType": "geometry", "stylers": [
+// {"color": "#000000"},
+// {"lightness": 20}
+// ]},
+// {"featureType": "road.highway", "elementType": "geometry.fill", "stylers": [
+// {"color": "#000000"},
+// {"lightness": 17}
+// ]},
+// {"featureType": "road.highway", "elementType": "geometry.stroke", "stylers":
+// [
+// {"color": "#000000"},
+// {"lightness": 29},
+// {"weight": 0.2}
+// ]},
+// {"featureType": "road.arterial", "elementType": "geometry", "stylers": [
+// {"color": "#000000"},
+// {"lightness": 18}
+// ]},
+// {"featureType": "road.local", "elementType": "geometry", "stylers": [
+// {"color": "#000000"},
+// {"lightness": 16}
+// ]},
+// {"featureType": "poi", "elementType": "geometry", "stylers": [
+// {"color": "#000000"},
+// {"lightness": 21}
+// ]},
+// {"elementType": "labels.text.stroke", "stylers": [
+// {"visibility": "on"},
+// {"color": "#000000"},
+// {"lightness": 16}
+// ]},
+// {"elementType": "labels.text.fill", "stylers": [
+// {"saturation": 36},
+// {"color": "#000000"},
+// {"lightness": 40}
+// ]},
+// {"elementType": "labels.icon", "stylers": [
+// {"visibility": "off"}
+// ]},
+// {"featureType": "transit", "elementType": "geometry", "stylers": [
+// {"color": "#000000"},
+// {"lightness": 19}
+// ]},
+// {"featureType": "administrative", "elementType": "geometry.fill", "stylers":
+// [
+// {"color": "#000000"},
+// {"lightness": 20}
+// ]},
+// {"featureType": "administrative", "elementType": "geometry.stroke",
+// "stylers": [
+// {"color": "#000000"},
+// {"lightness": 17},
+// {"weight": 1.2}
+// ]}
+// ]
                 };
 
                 map = new google.maps.Map(element, mapOptions);
