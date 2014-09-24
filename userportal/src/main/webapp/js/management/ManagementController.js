@@ -608,7 +608,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.selectedFeedTweetType=false;
 	$scope.selectedCategory =$scope.categoriesList[0];
 	$scope.creationError = null;
-
+	$scope.codeRequiredFlag=false;
 	$scope.isDevice = function() {
 		if(!$scope.selectedType)
 			return false;
@@ -622,21 +622,26 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	};
 	
 	$scope.isCodeRequired = function() {
-		if(!$scope.selectedType)
+		console.debug("isCodeRequired function $scope.selectedType ::",$scope.selectedType);
+		if(!$scope.selectedType){
+			$scope.codeRequiredFlag=false;
 			return false;
+		}
+		$scope.codeRequiredFlag=true;
 		return $scope.selectedType.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
 	
 
 	
 	$scope.selectTypeChange = function(newType) {
-			$scope.selectedType=newType;
-	
+		console.debug("selectTypeChange function $scope.selectedType ::",$scope.selectedType);
+		$scope.selectedType=newType;
+			$scope.isCodeRequired();
 	if(!$scope.selectedType || $scope.selectedType.idTipoVirtualEntity != 1){
 		   $scope.codeVirtualEntity = "";
 		   $scope.selectedCategory = $scope.categoriesList[0];
 	   }
-		return false;
+		return true;
 	};
 	
 	
@@ -689,10 +694,10 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			if(!$scope.virtualentity.virtualEntityPositions)
 				$scope.virtualentity.virtualEntityPositions = {};
 			$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
-			if($scope.virtualentity.virtualEntityPositions.position.length == 0)
+			if($scope.virtualentity.virtualEntityPositions.position.length == 0){
 				$scope.virtualentity.virtualEntityPositions.position.push({});
-
-			$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+				$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+			}
 			Helpers.util.cleanNilInField($scope.virtualentity);
 		});
 	};
