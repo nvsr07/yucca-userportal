@@ -282,7 +282,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 		}, function(frame) {			 
 		      if (count<5) {
 		       console.debug("connectTheSocket count ::::::::::::: ",count);
-		       setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count);},5000);
+		       setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count);},count*1000);
 		       console.debug("awake.. ");		         	       
 		      } else{
 		    	  console.debug("service.js on_error function!");
@@ -297,7 +297,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	
 	function NGStomp() {
 		console.debug("Stomp",Stomp);
-		this.count=0;
+		this.count=1;
 		this.stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
 		
 	}
@@ -317,7 +317,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 
 	
 	NGStomp.prototype.connect = function(on_connect, on_error, vhost) {
-		this.count=0;
+		this.count=1;
 		new ConnectTheSocket(on_connect, on_error, vhost,this.count);
 	};
 
