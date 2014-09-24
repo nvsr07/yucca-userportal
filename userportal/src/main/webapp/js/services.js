@@ -264,15 +264,44 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 });
 
 appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL, WEB_SOCKET_USER, WEB_SOCKET_SECRET) {
-	var stompClient = {};
-
+	var stompClient = {};	
+	var self = this;
+	
+	function ConnectTheSocket(on_connect, on_error, vhost,count){
+		self.stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+		console.debug("in function connectTheSocket ");
+		var user = WEB_SOCKET_USER;
+		var password = WEB_SOCKET_SECRET;
+		
+		self.stompClient.connect(user, password, function(frame) {
+			console.log("frame: ", frame);
+			$rootScope.$apply(function() {
+				console.log(" connect frame: ", frame);
+				on_connect.apply(stompClient, frame);
+			});
+		}, function(frame) {			 
+		      if (count<5) {
+		       console.debug("connectTheSocket count ::::::::::::: ",count);
+		       setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count);},count*1000);
+		       console.debug("awake.. ");		         	       
+		      } else{
+		    	  console.debug("service.js on_error function!");
+					$rootScope.$apply(function() {
+						console.log(" on_error frame: ", frame);
+						on_error.apply(frame);
+					});
+		      }			
+		}, vhost);
+	};
+	
+	
 	function NGStomp() {
-		Stomp.WebSocketClass = ReconnectingWebSocket;
-//		Stomp.WebSocketClass.debugAll =true;
 		console.debug("Stomp",Stomp);
+		this.count=1;
 		this.stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+		
 	}
-
+	
 	NGStomp.prototype.subscribe = function(queue, callback) {
 		return this.stompClient.subscribe(queue, function() {
 			var args = arguments;
@@ -286,22 +315,10 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 		this.stompClient.send(queue, headers, data);
 	};
 
+	
 	NGStomp.prototype.connect = function(on_connect, on_error, vhost) {
-		var user = WEB_SOCKET_USER;
-		var password = WEB_SOCKET_SECRET;
-		this.stompClient.connect(user, password, function(frame) {
-			console.log("frame: ", frame);
-			$rootScope.$apply(function() {
-				console.log(" connect frame: ", frame);
-				on_connect.apply(stompClient, frame);
-			});
-		}, function(frame) {
-			console.debug("service.js on_error function!");
-			$rootScope.$apply(function() {
-				console.log(" on_error frame: ", frame);
-				on_error.apply(frame);
-			});
-		}, vhost);
+		this.count=1;
+		new ConnectTheSocket(on_connect, on_error, vhost,this.count);
 	};
 
 	NGStomp.prototype.disconnect = function(callback) {
@@ -318,4 +335,5 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 		return new NGStomp(url);
 	};
 });
+
 
