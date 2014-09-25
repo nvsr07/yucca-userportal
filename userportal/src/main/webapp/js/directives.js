@@ -41,7 +41,8 @@ appDirectives.directive('scrollOnClick', function() {
 	    		$("body").animate({scrollTop: $target.offset().top}, "slow");
 	    	});
 	    }
-	 }
+	 };
 });
+
 
 

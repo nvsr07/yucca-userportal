@@ -31,9 +31,7 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 		$scope.dashboard = "example";
 	
 	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);
-		$scope.tenantsList = response.tenants.tenant;		
-	
+		console.debug("response", response.tenants);	
 	});
 	
 	
@@ -77,6 +75,10 @@ appControllers.controller('DashboardCtrl', [ '$scope', 'fabricAPIservice', funct
 	fabricAPIservice.getStreams().success(function(response) {
 		// Dig into the responde to get the relevant data
 		$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+		for (var i = 0; i < $scope.streamsList.length; i++) {
+			$scope.streamsList[i].statusIcon = Helpers.stream.statusIcon($scope.streamsList[i]);;
+		}
+
 		$scope.totalItems = $scope.streamsList.length;
 	//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});

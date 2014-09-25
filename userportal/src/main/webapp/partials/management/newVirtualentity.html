@@ -60,7 +60,7 @@
 			<div class="row">
 				<div class="col-sm-12 form-toolbar">
 					<a ng-click='cancel()' class="btn btn-default">{{'CANCEL'|translate}}</a>
-					<a ng-click='createVirtualentity(virtualentity)' class="btn btn-primary" ng-disabled="newVirtualentityForm.$invalid">{{'MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON'|translate}}</a>
+					<a ng-click='createVirtualentity(virtualentity)' class="btn btn-primary" ng-disabled="!isOwner() || newVirtualentityForm.$invalid">{{'MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON'|translate}}</a>
 				</div>
 			</div>
 		</form>

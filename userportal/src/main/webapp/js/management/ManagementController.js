@@ -56,7 +56,7 @@ appControllers.controller('ManagementDashboardCtrl',[ '$scope', '$route', 'fabri
 
 
 
-appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', function($scope, $route, $location, fabricAPIservice, filterFilter) {
+appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 
 	$scope.streamsList = [];
@@ -68,6 +68,12 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.streamsList.length;
 	$scope.predicate = '';
+	
+	console.log("isOwner", info.isOwner( $scope.tenantCode));
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
 
 	fabricAPIservice.getStreams(/*$scope.tenantCode*/).success(function(response) {
 		// FIXME remove when the new api with tenant parameterwill be ready
@@ -77,6 +83,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 			if(responseList[i].codiceTenant == $scope.tenantCode){
 				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
 					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
+				responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
 				$scope.streamsList.push(responseList[i]);
 			}
 		}
@@ -84,6 +91,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		$scope.totalItems = $scope.streamsList.length;
 	//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
+	
 
 	$scope.selectPage = function() {
 		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
@@ -133,10 +141,8 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	
 	$scope.canEdit = function() {
 		if($scope.selectedStreams.length==1 && $scope.selectedStreams[0].deploymentStatusCode == Constants.STREAM_STATUS_DRAFT){
-			console.debug("canEdit true")
 			return true;
 		}
-		console.debug("canEdit false")
 		return false;
 	};
 
@@ -165,9 +171,13 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 } ]);
 
 
-appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', function($scope, $route, $location, fabricAPIservice) {
+appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
 	$scope.virtualEntitiesList = [];
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
 		console.log(response.virtualEntities.virtualEntity);
@@ -187,6 +197,8 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
 		}
 	});
+	
+	
 	
 	$scope.creationError = null;
 	$scope.createStream = function(virtualentity, stream) {
@@ -214,8 +226,14 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', function($scope, $routeParams, fabricAPIservice) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', function($scope, $routeParams, fabricAPIservice, info) {
+	$scope.tenantCode = $routeParams.tenant_code;
 	
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 	$scope.insertComponentError = null;
@@ -470,8 +488,15 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 /* VIRTUAL ENTITY */
 
-appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', function($scope, $route, $location, fabricAPIservice, filterFilter) {
-	$scope.tenantCode =  $route.current.params.tenant_code;
+appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
+	$scope.tenantCode = $route.current.params.tenant_code;
+	
+	console.log("info.isOwner( $scope.tenantCode);", info.isOwner( $scope.tenantCode));
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+
 	$scope.virtualentitiesList = [];
 	$scope.filteredVirtualentitiesList = [];
 	$scope.codeFilter = null;
@@ -572,8 +597,14 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 	};
 } ]);
 
-appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', function($scope, $route, $location, fabricAPIservice) {
+appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
+	
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+
 	$scope.categoriesList = [];
 	fabricAPIservice.getVirtualentityCategories().success(function(response) {
 		$scope.categoriesList = response.categoriaVirtualEntity.element;
@@ -679,8 +710,14 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	};
 } ]);
 
-appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', function($scope, $routeParams, fabricAPIservice) {
+appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', function($scope, $routeParams, fabricAPIservice, info) {
+	$scope.tenantCode = $routeParams.tenant_code;
 	
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 

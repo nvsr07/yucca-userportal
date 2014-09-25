@@ -47,4 +47,32 @@ app.config(['$httpProvider', function($httpProvider) {
 }
 ]);
 
+app.factory('info',  function() {
+    var info = {};
+    var infoService = {};
+    
+    infoService.getInfo = function(item) {
+        return info;
+    };
+
+    infoService.setInfo = function(info) {
+        this.info = info;
+    };
+    
+    infoService.getTenantCode = function(){
+    	if(this.info && this.info.tenant)
+    		return this.info.tenant.tenantCode;
+    	return null;
+    };
+    
+    infoService.isOwner = function(tenantCode){
+    	if(tenantCode)
+    		return infoService.getTenantCode() == tenantCode;
+    	return false;
+    };
+
+    return infoService;
+});
+
+
 

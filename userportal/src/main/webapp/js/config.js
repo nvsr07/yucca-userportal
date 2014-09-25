@@ -10,17 +10,17 @@
 var appConfig = angular.module('userportal.config', []);
 
 
-//appConfig.constant('WEB_SOCKET_BASE_URL', 'ws://tst-stream.smartdatanet.it/ws/');
-//appConfig.constant('WEB_SOCKET_USER', 'guest');
-//appConfig.constant('WEB_SOCKET_SECRET', 'guest');
-
-appConfig.constant('WEB_SOCKET_BASE_URL', 'ws://stream.smartdatanet.it/ws/');
+var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
+appConfig.constant('WEB_SOCKET_BASE_URL', 'ws://tst-stream.smartdatanet.it/ws/');
 appConfig.constant('WEB_SOCKET_USER', 'guest');
-appConfig.constant('WEB_SOCKET_SECRET', 'Aekieh6F');
+appConfig.constant('WEB_SOCKET_SECRET', 'guest');
+
+//var API_BASE_URL = 'http://userportal.smartdatanet.it/userportal/api/proxy/';
+//appConfig.constant('WEB_SOCKET_BASE_URL', 'ws://stream.smartdatanet.it/ws/');
+//appConfig.constant('WEB_SOCKET_USER', 'guest');
+//appConfig.constant('WEB_SOCKET_SECRET', 'Aekieh6F');
 
 var Constants = Constants || {};
-//var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
-var API_BASE_URL = 'http://userportal.smartdatanet.it/userportal/api/proxy/';
 
 Constants.API_STREAM_TAGS_URL=API_BASE_URL+'misc/streamtags/';
 Constants.API_TENANT_LIST_URL=API_BASE_URL+'tenants/';

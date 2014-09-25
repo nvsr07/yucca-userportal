@@ -7,10 +7,10 @@
 			<!-- Single button -->
 			<div class='clearfix'>
 				<div class="pull-left">
-		        	<a  href="#/management/newStream/{{tenantCode}}" class="btn btn-default btn-new" >
+		        	<a  href="#/management/newStream/{{tenantCode}}" class="btn btn-default btn-new" ng-disabled="!isOwner()">
 						<span class="glyphicon glyphicon-plus "></span> {{'MANAGEMENT_STREAM_LIST_NEW_STREAM'|translate}}
 					</a>
-					<button  href="javascript:void(0)" ng-click='editStream()' class="btn btn-default btn-edit" ng-disabled="!canEdit()" title="{{'MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT'|translate}}">
+					<button  href="javascript:void(0)" ng-click='editStream()' class="btn btn-default btn-edit" ng-disabled="!isOwner() || !canEdit()" title="{{'MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT'|translate}}">
 						<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_STREAM_LIST_EDIT_STREAM'|translate}}
 					</button>
 					<button href="javascript:void(0)" ng-click='deleteStream()'class="btn btn-default btn-delete" ng-disabled="true" title="{{'MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT'|translate}}">
@@ -71,9 +71,9 @@
 							<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/>
 							<td><a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">{{stream.codiceStream}}</a></td>
 							<td>{{stream.codiceVirtualEntity}}</td>
-							<td>{{stream.lastupdate|date}}</td>
-							<td>{{stream.deploymentStatusDesc|translate}}</td>
-							<td>{{stream.installed_version|date}}</td>
+							<td>{{stream.lastUpdate|date}}</td>
+							<td><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
+							<td>{{stream.installed_version}}</td>
 						</tr>
 					</tbody>
 				</table>

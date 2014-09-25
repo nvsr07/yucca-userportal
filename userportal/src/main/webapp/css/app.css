@@ -61,6 +61,7 @@ small pre{font-size: 11px;padding: 4px;}
 /* button colors */
 .action-new{color: #19aeff;}
 .action-edit{color: #edd400;}
+.action-request-installation{color: #ff9900;}
 .action-delete{color: #b50000;}
 .action-install{color: #9ade00;}
 .action-uninstall{color: #d49725;}

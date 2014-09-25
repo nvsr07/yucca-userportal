@@ -29,12 +29,12 @@ Helpers.stream = {
 		var icon = "";
 		if(stream.deploymentStatusDesc){
 			var cssClass = "";
-			switch (stream.deploymentStatusDesc) {
+			switch (stream.deploymentStatusCode) {
 			    case "draft":
 			    	cssClass = "glyphicon-pencil action-edit";
 			        break;
 			    case "req_inst":
-			    	cssClass = "glyphicon-cog action-edit";
+			    	cssClass = "glyphicon-cog action-request-installation";
 			        break;
 			    case "inst":
 			    	cssClass = "glyphicon-save action-install";
