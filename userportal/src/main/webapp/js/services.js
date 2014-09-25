@@ -277,7 +277,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 			console.log("frame: ", frame);
 			$rootScope.$apply(function() {
 				console.log(" connect frame: ", frame);
-				on_connect.apply(stompClient, frame);
+				on_connect.apply(self.stompClient, frame);
 			});
 		}, function(frame) {			 
 		      if (count<5) {

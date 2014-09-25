@@ -256,7 +256,6 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 			subscribeWSClientError();
 		}, function(message) {
 			console.debug("Can't Connect on WebSocket");
-			//alert("Can't Connect on WebSocket");
 		}, '/');
 	};
 	
