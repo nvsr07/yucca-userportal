@@ -25,6 +25,32 @@ Helpers.stream = {
 		var result = Helpers.stream.wsOutputUrl(stream)+".errors";
 		return result;
 	},
+	statusIcon: function(stream){
+		var icon = "";
+		if(stream.deploymentStatusDesc){
+			var cssClass = "";
+			switch (stream.deploymentStatusDesc) {
+			    case "draft":
+			    	cssClass = "glyphicon-pencil action-edit";
+			        break;
+			    case "req_inst":
+			    	cssClass = "glyphicon-cog action-edit";
+			        break;
+			    case "inst":
+			    	cssClass = "glyphicon-save action-install";
+			        break;
+			    case "req_uninst":
+			    	cssClass = "glyphicon-cog action-uninstall";
+			        break;
+			    case "uninst":
+			    	cssClass = "glyphicon-time action-historical";
+			        break;
+			}
+			icon = "<span class='glyphicon " + cssClass + "'></span>";
+		}
+		
+		return icon;
+	}
 };
 
 Helpers.util = {

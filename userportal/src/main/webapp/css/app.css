@@ -66,14 +66,14 @@ small pre{font-size: 11px;padding: 4px;}
 .action-uninstall{color: #d49725;}
 .action-historical{color: #9955bb;}
 
-.btn-new{color: white; background-color: #19aeff;border-color: #06a8ff;}
-.btn-edit{color: white; background-color: #edd400;border-color: #bda900;}
-.btn-delete{color: white; background-color: #ff4141;border-color: #f31010;}
-.btn-install{color: white; background-color: #9ade00;border-color: #7ab100;}
-.btn-uninstall{color: white; background-color: #d49725;border-color: #a87412;}
-.btn-historical{color: white; background-color: #9955bb;border-color: #7f37a3;}
+.btn-new{color: white; background-color: #19aeff;border-color: #0aa9ff;}
+.btn-edit{color: white; background-color: #edd400;border-color: #e0ca00;}
+.btn-delete{color: white; background-color: #ff4141;border-color: #ff3333;}
+.btn-install{color: white; background-color: #9ade00;border-color: #8fcc00;}
+.btn-uninstall{color: white; background-color: #d49725;border-color: #bf8822;}
+.btn-historical{color: white; background-color: #9955bb;border-color: #8c46af;}
 
-.btn-default.disabled,.btn-default[disabled]{background-color: #ddd; color: #888;border-color: #585858;}
+.btn-default.disabled,.btn-default[disabled]{background-color: #ddd; color: #888;border-color: #ccc;}
 
 /* dashboard */
 .dashboard-streamList-table{margin-top: 20px;}
