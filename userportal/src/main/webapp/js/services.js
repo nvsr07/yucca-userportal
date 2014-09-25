@@ -263,6 +263,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	return fabricAPI;
 });
 
+
 appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL, WEB_SOCKET_USER, WEB_SOCKET_SECRET) {
 	var stompClient = {};	
 	var self = this;
@@ -277,7 +278,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 			console.log("frame: ", frame);
 			$rootScope.$apply(function() {
 				console.log(" connect frame: ", frame);
-				on_connect.apply(self.stompClient, frame);
+				on_connect.apply(stompClient, frame);
 			});
 		}, function(frame) {			 
 		      if (count<5) {
@@ -335,5 +336,3 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 		return new NGStomp(url);
 	};
 });
-
-

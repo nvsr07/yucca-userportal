@@ -28,7 +28,7 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	$scope.dashboard = $route.current.params.dashboard;
 	$scope.tenantWithNoDashboardError = null;
 	if(!$scope.dashboard)
-		$scope.dashboard = "overview";
+		$scope.dashboard = "example";
 	
 	fabricAPIservice.getTenants().success(function(response) {
 		console.debug("response", response.tenants);
@@ -113,9 +113,10 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 		$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
 
 		$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
-		connectWSStatistic();
-		connectWSClientData();
-		connectWSClientError();
+		connectWS();
+//		connectWSStatistic();
+//		connectWSClientData();
+//		connectWSClientError();
 	});
 
 	var totalError = 0;
@@ -137,6 +138,97 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 		$scope.nvWsStatisticData[1]["values"].push([0,0]);
 	}
 
+	
+	var wsClient = webSocketService();
+	var timeCounter = 0;
+	
+	// last message
+	$scope.wsLastMessage = "";
+	$scope.wsLastMessageToShow = "";
+
+
+	var connectWS = function(){
+		wsClient.connect(function(message) {
+			console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
+			
+			var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
+			console.debug("subscribe wsStatUrl ", wsStatUrl);
+
+			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+			console.debug("subscribe wsUrl ", $scope.wsUrl);
+
+			var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
+			console.debug("subscribe wsErrorUrl ", wsErrorUrl);
+
+			wsClient.subscribe(wsStatUrl, statisticCallback);
+			wsClient.subscribe($scope.wsUrl, dataCallback);
+			wsClient.subscribe(wsErrorUrl, errorCallback);
+			
+		}, function() {
+		}, '/');
+	};
+	
+	function statisticCallback(message) {
+		console.debug("message", message);
+		counter++;
+		console.debug("wsStatisticMessages", $scope.wsStatisticMessages);
+
+		if ($scope.wsStatisticMessages.length >= maxNumWsStatisticMessages) 
+			$scope.wsStatisticMessages.shift();
+		if ($scope.wsErrorMessages.length >= maxNumWsErrorMessages) 
+			$scope.wsErrorMessages.shift();
+		//if ($scope.wsStatisticData.length > maxNumStatisticData) $scope.wsStatisticData.shift();
+
+		if ($scope.nvWsStatisticData[0]["values"].length > maxNumStatisticData){
+			$scope.nvWsStatisticData[0]["values"].shift();
+			$scope.nvWsStatisticData[1]["values"].shift();
+		}
+
+
+		var numOfEvents = angular.fromJson(message.body).event.payloadData.numEventsLast30Sec;
+
+		$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
+		$scope.wsErrorMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), totalError]);
+
+		$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
+		$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
+		timeCounter +=2;
+
+	};
+	
+	function dataCallback(message) {
+		console.debug("data message", message);
+		$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
+		console.debug("$scope.wsLastMessage", $scope.wsLastMessage);
+
+		if ($scope.wsLastMessageToShow == "")
+			$scope.wsLastMessageToShow = $scope.wsLastMessage;
+	};
+	
+	
+	function errorCallback(message) {
+		console.debug("Error message", message);
+		totalError++;
+	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	
 	$scope.wsClientStatistics = webSocketService();
 
 	var timeCounter = 0;
@@ -223,6 +315,8 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 		}, function() {
 		}, '/');
 	};
+	
+	*/
 
 	$scope.refreshLastMessage = function() {
 		$scope.wsLastMessageToShow = $scope.wsLastMessage;
@@ -256,6 +350,7 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 			subscribeWSClientError();
 		}, function(message) {
 			console.debug("Can't Connect on WebSocket");
+					//alert("Can't Connect on WebSocket");
 		}, '/');
 	};
 	
