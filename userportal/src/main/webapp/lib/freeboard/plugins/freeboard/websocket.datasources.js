@@ -1,3 +1,66 @@
+var WebsocketStompSingleton = (function(){
+             
+			  var clientInstance; //private variable to hold the
+                               //only instance of client that will exits.
+ 
+			  
+			  var SubscriptionList = [];
+              var connectedClient = false;
+            
+              var createClient = function(settings){
+                   
+            	  var intSettings = settings;	                    
+                  var client = Stomp.client(intSettings.ws_url);
+                  console.debug(':::: connesso::::',intSettings.ws_url,intSettings);
+                    client.connect(intSettings.ws_user,intSettings.ws_pwd,
+          			function(frame) { //success Callback
+              			  console.debug(':::: connesso::::');
+              			  for(var i =0; i< SubscriptionList.length ; i++){
+              				  var widget = SubscriptionList[i];
+              				  console.debug(':::: connesso in For subscribe for ::::', widget);
+              				  client.subscribe(widget.keyTopic,widget.keyCallback);
+        					}
+              			  connectedClient=true;
+    					},
+    					function(frame) //error Callback
+    					{
+  						console.debug(':::: Impossibile connettersi::::');
+    					});
+                    
+                    
+                  return {
+                	  getWebClient: function(){               		 
+                		  
+                		  return client;
+                	  },
+                	  addSubscription : function(topic,callback){
+                		  console.debug(':::: addSubscription::::',topic,callback);
+                		  if(connectedClient){
+                			  console.debug(':::: addSubscription Client connesso::::');
+                			  client.subscribe(topic,callback);
+                		  }else{
+                			  console.debug(':::: addSubscription Client NON connesso Add to SubscriptionList::::');
+                			  SubscriptionList.push({
+                				  keyTopic:topic,
+                				  keyCallback:callback
+                			  });
+                		  }
+                	  }
+                  };                         
+              };
+ 
+              return {
+                    getInstance: function(settings){
+                          if(!clientInstance){
+                        	  console.debug("::::  New Stomp Client Created ::::");
+                        	  clientInstance = createClient(settings);
+                        	  
+                          }
+                          return clientInstance;
+                    }
+              };
+})();
+
 (function()
 {
 	freeboard.loadDatasourcePlugin({
@@ -43,37 +106,44 @@
 		{
 			var self = this;
 			var currentSettings = settings;
-			Stomp.WebSocketClass = ReconnectingWebSocket;
-			var client = Stomp.client(settings.ws_url);
-			var cont = 0;
+			console.debug("::::::: Settings:::::",settings);
+		//	Stomp.WebSocketClass = ReconnectingWebSocket;
+			var clientSingleton = WebsocketStompSingleton.getInstance(currentSettings);
+			var client = clientSingleton.getWebClient();
+//			var cont = 0;
 			
-			function createConnection(intSettings, intUpdateCallback,intClient)
-			{
-				client = intClient;
-				intClient.connect(intSettings.ws_user,intSettings.ws_pwd,function(frame) 
-					{
-					subscribe(intSettings.ws_topic,intClient);
-					},
-					function(frame) 
-					{
-//						cont = cont +1;
-//						if (cont<5) {
-//							intClient = Stomp.client(settings.ws_url);
-//							createConnection(intSettings, intUpdateCallback,intClient);
-//						} else 
-						//ert('Impossibile connettersi');
-					});
-			}
+			clientSingleton.addSubscription(currentSettings.ws_topic,
+					function(message) {
+				jsonMessage = JSON.parse(message.body);
+				updateCallback(jsonMessage);
+			});
+//			function createConnection(intSettings, intUpdateCallback,intClient)
+//			{
+//				client = intClient;
+//				intClient.connect(intSettings.ws_user,intSettings.ws_pwd,function(frame) 
+//					{
+//					subscribe(intSettings.ws_topic,intClient);
+//					},
+//					function(frame) 
+//					{
+////						cont = cont +1;
+////						if (cont<5) {
+////							intClient = Stomp.client(settings.ws_url);
+////							createConnection(intSettings, intUpdateCallback,intClient);
+////						} else 
+//						//ert('Impossibile connettersi');
+//					});
+//			}
 			
-			function subscribe(wstopic,intClient)
-			{
-						intClient.subscribe(wstopic,
-									function(message) {
-										jsonMessage = JSON.parse(message.body);
-										updateCallback(jsonMessage);
-									}
-						);
-			}
+//			function subscribe(wstopic,intClient)
+//			{
+//						intClient.subscribe(wstopic,
+//									function(message) {
+//										jsonMessage = JSON.parse(message.body);
+//										updateCallback(jsonMessage);
+//									}
+//						);
+//			}
 			
 			self.onSettingsChanged = function(newSettings)
 			{
@@ -81,13 +151,17 @@
 			}
 			self.updateNow = function()
 			{
-				createConnection(currentSettings,updateCallback,client);
+//				createConnection(currentSettings,updateCallback,client);
 			}
 			self.onDispose = function()
 			{
 				client.disconnect();
 			}
-			createConnection(currentSettings,updateCallback,client);
+			
+			//add Callback to Queue for subscription once Connected
+		
+
+//			createConnection(currentSettings,updateCallback);
 			
 		}
 }());

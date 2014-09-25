@@ -31,7 +31,9 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 		$scope.dashboard = "example";
 	
 	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);	
+		console.debug("response", response.tenants);
+		$scope.tenantsList = response.tenants.tenant;		
+	
 	});
 	
 	
@@ -352,7 +354,7 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 			subscribeWSClientError();
 		}, function(message) {
 			console.debug("Can't Connect on WebSocket");
-			//alert("Can't Connect on WebSocket");
+					//alert("Can't Connect on WebSocket");
 		}, '/');
 	};
 	
