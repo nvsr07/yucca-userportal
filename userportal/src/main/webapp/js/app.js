@@ -21,7 +21,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 	$routeProvider.when('/dashboard/streams', {templateUrl: 'partials/dashboard/streams.html', controller: 'DashboardCtrl', activetab: 'dashboard'});
 	$routeProvider.when("/dashboard/stream/:tenant_code/:virtualentity_code/:stream_code", {templateUrl: "partials/dashboard/stream.html", controller: "DashboardStreamCtrl"});
 	$routeProvider.when("/dashboard/error_log", {templateUrl: "partials/dashboard/error-log.html", controller: "DashboardStreamCtrl"});
-	$routeProvider.when('/management', {templateUrl: 'partials/management/choose_tenant.html', controller: 'ManagementCtrl', activetab: 'management',unSubscribeWebSocket:'true'});
+	$routeProvider.when('/management', {templateUrl: 'partials/management/choose_tenant.html', controller: 'ManagementCtrl', activetab: 'management'});
 	$routeProvider.when('/management/:managementTab', {templateUrl: 'partials/management/choose_tenant.html', controller: 'ManagementCtrl', activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code/:virtualentity_code', {templateUrl: 'partials/management/index.html', controller: 'ManagementCtrl', activetab: 'management'});

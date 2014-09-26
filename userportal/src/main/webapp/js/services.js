@@ -268,6 +268,12 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	var stompClient = {};	
 //	var self = this;
 	var root = $rootScope;
+	
+	//TODO 
+	/*
+	 * Crea un modello singleton...
+	 * Ogni volta che arriva una connect fai la disconnect
+	 */ 
 	function ConnectTheSocket(on_connect, on_error, vhost,count){
 		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
 		console.debug("in function connectTheSocket ");
@@ -321,6 +327,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	
 	NGStomp.prototype.connect = function(on_connect, on_error, vhost) {
 		this.count=1;
+		console.debug("NGStomp.prototype.connect : ");
 		new ConnectTheSocket(on_connect, on_error, vhost,this.count);
 	};
 

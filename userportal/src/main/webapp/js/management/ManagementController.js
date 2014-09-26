@@ -208,7 +208,7 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 	};	
 	
 	$scope.cancel = function(){
-		$location.path('management/streams');
+		$location.path('management/streams'+'/'+$scope.tenantCode);
 	};
 } ]);
 
@@ -674,8 +674,8 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 		});
 	};	
 	
-	$scope.cancel = function(){
-		$location.path('management/virtualEntities');
+	$scope.cancel = function(){    
+		$location.path('management/virtualentities'+'/'+$scope.tenantCode);
 	};
 } ]);
 
