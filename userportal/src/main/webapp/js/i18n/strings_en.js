@@ -78,6 +78,7 @@ var translations_en = {
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filter by lastupdate',
 	
 	/* Creator of Stream */
+	USER_APPLICANT:'Applicant',
 	USER_FIELD_NAME:'Username',
 	USER_FIELD_SURNAME:'Surname',
 	USER_FIELD_EMAIL : 'Email',
