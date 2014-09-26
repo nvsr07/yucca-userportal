@@ -1,0 +1,116 @@
+<style>
+#map_canvas{
+  height:300px;
+  margin-left: auto ;
+  margin-right: auto ;
+  background-color: #efefef;
+  text-align: center ;
+  background: url(' http://maps.googleapis.com/maps/api/staticmap?center=45.0706029,7.6867102&zoom=12&size=1200x400&scale=2') no-repeat center center;
+ 
+}
+</style>
+<div id='homepage' ng-controller="HomeCtrl as homeController">
+	<div class='container'>
+		<header>
+			<img src="img/logosdp_header.png" alt="logo" class=''/>
+			<ul class="list-inline pull-right">
+				<li><a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it"></a></li>
+				<li><a href="#"  ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en"></a></li>
+			</ul>
+			
+		</header>
+		<h1 class=''>Yucca Platform </h1>
+		<h2 class='slogan'><small >{{'HOME_SUBTITLE'|translate}}</small></h2>
+		<div class="row tile-row">
+			<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+				<div class=' map-container'>
+					<div id="map_canvas"></div>
+				</div>
+			</div>
+		</div>
+		<div class='row-separator'></div>
+		<div class="row tile-row">
+			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 dashboard-menu' >
+				<div class='tile'>
+					<div class='tile-main'>
+						<div class="glyphicon glyphicon-dashboard main-icon"></div>
+						<h3>{{'MENU_DASHBOARD'|translate}}</h3>
+					</div>
+				
+					<div class='tile-menuitem'><a href="#/dashboard/main/example">{{'DASHBOARD_DASHBOARD_BUTTON'|translate}}</a></div>
+					<div class='tile-menuitem'><a href="#/dashboard/streams">{{'DASHBOARD_STREAMS_BUTTON'|translate}}</a></div>
+					<div class='tile-menuitem'><a href="#/dashboard/error_log">{{'DASHBOARD_ERROR_LOG_BUTTON'|translate}}</a></div>
+				</div>
+			</div>	
+			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 management-menu' >
+				<div class='tile'>
+					<div class='tile-main'>
+						<div class="glyphicon glyphicon-wrench main-icon"></div>
+						<h3>{{'MENU_MANAGEMENT'|translate}}</h3>
+					</div>
+				
+					<div class='tile tile-menuitem'><a href="#/management/virtualentities/{{tenant}}">{{'MANAGEMENT_MENU_VIRTUAL_ENTITIES'|translate}}</a></div>
+					<div class='tile tile-menuitem'><a href="#/management/streams/{{tenant}}">{{'MANAGEMENT_MENU_STREAMS'|translate}}</a></div>
+					<div class='tile tile-menuitem'><a href="#/management/dataset/{{tenant}}">{{'MANAGEMENT_MENU_DATASET'|translate}}</a></div>
+				</div>
+			</div>	
+
+			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6'>
+				<div class="row">
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  tenant-menu'>
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class='tile-counter'>{{tenantsCount}}</div>
+							</div>
+							<div class='tile-subtitle'>{{'HOME_TENANT_TITLE'|translate}}</div>
+							
+						</div>
+					</div>
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  virtualentity-menu'>
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class='tile-counter'>{{virtualentitiesCount}}</div>
+							</div>
+							<div class='tile-subtitle'>{{'HOME_VIRTUALENTITY_TITLE'|translate}}</div>
+							
+						</div>
+					</div>
+				</div>	
+				<div class="row">
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  stream-menu'>
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class='tile-counter'>{{streamsCount}}</div>
+							</div>
+							<div class='tile-subtitle'>{{'HOME_STREAM_TITLE'|translate}}</div>
+							
+						</div>
+					</div>
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  about-menu'>
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class='tile-counter'><span class='glyphicon glyphicon-globe'></span></div>
+							</div>
+							<div class='tile-subtitle-link'><a href="http://www.smartdatanet.it" target="_blank">smartdatanet.it</a></div>
+							
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<div class='row-separator'></div>
+		<h2>{{'HOME_HOWTO_TITLE'|translate}}</h2>
+		<div class='desc clearfix'>
+			<ul class="list-unstyled">
+				<span ng-bind-html="'HOME_HOWTO_TEXT_HTML'|translate"></span>
+			</ul>
+		</div>
+		<div class='row-separator'></div>
+
+	
+		
+		
+	</div>
+	
+</div>
+
