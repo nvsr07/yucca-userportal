@@ -76,6 +76,20 @@ var translations_it = {
 	STREAM_LIST_CODE_FILTER : 'Filter per codice',
 	STREAM_LIST_STATUS_FILTER : 'Filtra per stato',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filtra per aggiornamento',
+	
+	/* Creator of Stream */
+	USER_FIELD_NAME:'Nome Richiedente',
+	USER_FIELD_SURNAME:'Cognome Richiedente',
+	USER_FIELD_EMAIL : 'Email Richiedente',
+	USER_FIELD_ACCEPT:'Accetto i Termini',
+	
+	USER_FIELD_ACCEPT_YES:'Accetto ',
+	USER_FIELD_ACCEPT_NO:'Non Accetto ',
+	
+	/* Creator of Stream PlaceHolder */
+	USER_FIELD_NAME_PLACEHOLDER:'Nome',
+	USER_FIELD_SURNAME_PLACEHOLDER:'Cognome',
+	USER_FIELD_EMAIL_PLACEHOLDER : 'Tua@Email',
 
 	/* Virtual Entity */
 	VIRTUALENTITY_FIELD_ID: 'ID Virtual Entity',

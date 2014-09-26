@@ -1,65 +1,87 @@
-var WebsocketStompSingleton = (function(){
-             
-			  var clientInstance; //private variable to hold the
-                               //only instance of client that will exits.
- 
-			  
-			  var SubscriptionList = [];
-              var connectedClient = false;
-            
-              var createClient = function(settings){
-                   
-            	  var intSettings = settings;	                    
-                  var client = Stomp.client(intSettings.ws_url);
-                  console.debug(':::: connesso::::',intSettings.ws_url,intSettings);
-                    client.connect(intSettings.ws_user,intSettings.ws_pwd,
-          			function(frame) { //success Callback
-              			  console.debug(':::: connesso::::');
-              			  for(var i =0; i< SubscriptionList.length ; i++){
-              				  var widget = SubscriptionList[i];
-              				  console.debug(':::: connesso in For subscribe for ::::', widget);
-              				  client.subscribe(widget.keyTopic,widget.keyCallback);
-        					}
-              			  connectedClient=true;
-    					},
-    					function(frame) //error Callback
-    					{
-  						console.debug(':::: Impossibile connettersi::::');
-    					});
-                    
-                    
-                  return {
-                	  getWebClient: function(){               		 
-                		  
-                		  return client;
-                	  },
-                	  addSubscription : function(topic,callback){
-                		  console.debug(':::: addSubscription::::',topic,callback);
-                		  if(connectedClient){
-                			  console.debug(':::: addSubscription Client connesso::::');
-                			  client.subscribe(topic,callback);
-                		  }else{
-                			  console.debug(':::: addSubscription Client NON connesso Add to SubscriptionList::::');
-                			  SubscriptionList.push({
-                				  keyTopic:topic,
-                				  keyCallback:callback
-                			  });
-                		  }
-                	  }
-                  };                         
-              };
- 
-              return {
-                    getInstance: function(settings){
-                          if(!clientInstance){
-                        	  console.debug("::::  New Stomp Client Created ::::");
-                        	  clientInstance = createClient(settings);
-                        	  
-                          }
-                          return clientInstance;
-                    }
-              };
-})();
+//var WebsocketStompSingleton = (function(){
+//             
+//			  var clientInstance; //private variable to hold the
+//                               //only instance of client that will exits.
+// 
+//			  
+//			  var SubscriptionList = [];
+//			  var SubscriptedElementsList = [];
+//              var connectedClient = false;
+//              
+//              
+//              var CancelAllSubscriptions = function(){
+//            	  for(var i =0; i< SubscriptedElementsList.length ; i++){
+//      				  var widget = SubscriptedElementsList[i];
+//      				  console.debug(':::: Unsubscribe for ::::', widget);
+//      				   widget.unsubscribe();      				  
+//					}
+//              };
+//            
+//              var createClient = function(settings,count){
+//            	  CancelAllSubscriptions();
+//            	  var intSettings = settings;	                    
+//                  var client = Stomp.client(intSettings.ws_url);
+//                  console.debug(':::: connesso::::',intSettings.ws_url,intSettings);
+//                  client.connect(intSettings.ws_user,intSettings.ws_pwd,
+//          			function(frame) { //success Callback
+//              			  console.debug(':::: connesso::::');
+//              			  for(var i =0; i< SubscriptionList.length ; i++){
+//              				  var widget = SubscriptionList[i];
+//              				  console.debug(':::: connesso in For subscribe for ::::', widget);
+//              				SubscriptedElementsList.push( client.subscribe(widget.keyTopic,widget.keyCallback));
+//              				  
+//        					}
+//              			  connectedClient=true;
+//    					},
+//    					function(frame) //error Callback
+//    					{
+//    						if (count<5) {
+//    						       console.debug("createClient count ::::::::::::: ",count);    						       
+//    						       setTimeout(function(){createClient(intSettings,++count);},count*1000);
+//    						       console.debug("awake.. ");		         	       
+//					      } else{
+//    						    	  console.debug(':::: Impossibile connettersi::::');
+//    						    }	
+//    					});
+//                    
+//                    
+//                  return {
+//                	  getWebClient: function(){               		 
+//                		  
+//                		  return client;
+//                	  },
+//                	  addSubscription : function(topic,callback){
+//                		  console.debug(':::: addSubscription::::',topic,callback);
+//                		  if(connectedClient){
+//                			  console.debug(':::: addSubscription Client connesso::::');
+//                			  SubscriptionList.push({
+//                				  keyTopic:topic,
+//                				  keyCallback:callback
+//                			  });
+//                			  client.subscribe(topic,callback);
+//                		  }else{
+//                			  console.debug(':::: addSubscription Client NON connesso Add to SubscriptionList::::');
+//                			  SubscriptionList.push({
+//                				  keyTopic:topic,
+//                				  keyCallback:callback
+//                			  });
+//                		  }
+//                	  },
+//                	  cancelAllSubscriptions:CancelAllSubscriptions
+//                  };                         
+//              };
+// 
+//              return {
+//                    getInstance: function(settings){
+//                          if(!clientInstance){
+//                        	  console.debug("::::  New Stomp Client Created ::::");
+//                        	  clientInstance = createClient(settings,1);
+//                        	  
+//                          }
+//                          return clientInstance;
+//                    }
+//              };
+//})();
 
 (function()
 {

@@ -41,12 +41,53 @@
 					
 					<!-- <input type="text" class="form-control" id="inputStreamDomain" placeholder="{{'STREAM_FIELD_DOMAIN'|translate}}" ng-model="stream.domain"> -->
 				</div>
-			</div>			
+			</div>	
+			
 
+			<fieldset>
+			<legend>Applicant</legend>
+			<div class="form-group">
+				<label for="nomeRichiedente" class="col-sm-2 control-label">{{'USER_FIELD_NAME'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="stream.nomeRichiedente"  id="nomeRichiedente" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}" required >
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="cognomeRichiedente" class="col-sm-2 control-label">{{'USER_FIELD_SURNAME'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="stream.cognomeRichiedente"  id="cognomeRichiedente" placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" required >
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="mailRichiedente" class="col-sm-2 control-label">{{'USER_FIELD_EMAIL'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="stream.mailRichiedente"  id="mailRichiedente" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}" required >
+				</div>
+			</div>		
+
+			<div class="form-group">
+				<label for="accettazionePrivacy" class="col-sm-2 control-label">{{'USER_FIELD_ACCEPT'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">
+					<textarea rows="4" cols="50" class="form-control" readonly> Accetti i Termini di Privacy?</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="accettazionePrivacy" class="col-sm-2 control-label">{{'USER_FIELD_ACCEPT'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-4">
+					<span>{{'USER_FIELD_ACCEPT_YES'|translate}} <input  type="radio" name="accettazionePrivacy" value="1"  ng-model="stream.accettazionePrivacy"  required ></span> <br/>
+				</div>
+				<div class="col-sm-4">
+					<span>{{'USER_FIELD_ACCEPT_NO'|translate}}  <input  type="radio" name="accettazionePrivacy" value="0"  ng-model="stream.accettazionePrivacy" required></span>
+				</div>
+			</div>
+			</fieldset>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<a ng-click='cancel()' class="btn btn-default">{{'CANCEL'|translate}}</a>
-					<a ng-click='createStream(virtualentity, stream)' class="btn btn-primary" ng-disabled="newStreamForm.$invalid">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
+					<a ng-click='createStream(virtualentity, stream)' class="btn btn-primary" ng-disabled="newStreamForm.$invalid || stream.accettazionePrivacy==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
 				</div>
 			</div>
 		</form>

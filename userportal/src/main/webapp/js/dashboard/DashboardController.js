@@ -379,8 +379,8 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 
 		$scope.errorList = [];
 		$scope.accordionOpenError = [];
-		//$scope.wsClientSubsctiption.unsubscribe();
-		connectWSClientError();
+		$scope.wsClientSubsctiption.unsubscribe();
+		subscribeWSClientError();
 	};
 	
 	
