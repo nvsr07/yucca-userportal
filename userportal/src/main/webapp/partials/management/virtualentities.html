@@ -60,9 +60,9 @@
 						
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'lastupdate'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_CREATION_DATE'|translate}} 
-							<span ng-show="predicate=='lastupdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='lastupdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'creationDate'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_CREATION_DATE'|translate}} 
+							<span ng-show="predicate=='creationDate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='creationDate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
@@ -79,7 +79,11 @@
 						<td>{{virtualentity.virtualEntityName}}</td>
 							<td>{{virtualentity.tipoVirtualEntity}}</td>
 						<td># TBD</td>
+<<<<<<< HEAD
 						<td>{{virtualentity.creationDate|clearNil|date}}</td>
+=======
+						<td>{{virtualentity.creationDate|date}}</td>
+>>>>>>> branch 'master' of https://github.com/csipiemonte/yucca-userportal
 						<td>{{virtualentity.deploymentStatusDesc}}</td>
 					</tr>
 				</tbody>

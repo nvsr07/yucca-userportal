@@ -48,6 +48,7 @@ app.config(['$httpProvider', function($httpProvider) {
 }
 ]);
 
+<<<<<<< HEAD
 app.factory('info',  function() {
     var info = {};
     var infoService = {};
@@ -74,3 +75,5 @@ app.factory('info',  function() {
 
     return infoService;
 });
+=======
+>>>>>>> branch 'master' of https://github.com/csipiemonte/yucca-userportal
