@@ -1,67 +1,3 @@
-<<<<<<< HEAD
-var WebsocketStompSingleton = (function(){
-             
-			  var clientInstance; //private variable to hold the
-                               //only instance of client that will exits.
- 
-			  
-			  var SubscriptionList = [];
-              var connectedClient = false;
-            
-              var createClient = function(settings){
-                   
-            	  var intSettings = settings;	                    
-                  var client = Stomp.client(intSettings.ws_url);
-                  console.debug(':::: connesso::::',intSettings.ws_url,intSettings);
-                    client.connect(intSettings.ws_user,intSettings.ws_pwd,
-          			function(frame) { //success Callback
-              			  console.debug(':::: connesso::::');
-              			  for(var i =0; i< SubscriptionList.length ; i++){
-              				  var widget = SubscriptionList[i];
-              				  console.debug(':::: connesso in For subscribe for ::::', widget);
-              				  client.subscribe(widget.keyTopic,widget.keyCallback);
-        					}
-              			  connectedClient=true;
-    					},
-    					function(frame) //error Callback
-    					{
-  						console.debug(':::: Impossibile connettersi::::');
-    					});
-                    
-                    
-                  return {
-                	  getWebClient: function(){               		 
-                		  
-                		  return client;
-                	  },
-                	  addSubscription : function(topic,callback){
-                		  console.debug(':::: addSubscription::::',topic,callback);
-                		  if(connectedClient){
-                			  console.debug(':::: addSubscription Client connesso::::');
-                			  client.subscribe(topic,callback);
-                		  }else{
-                			  console.debug(':::: addSubscription Client NON connesso Add to SubscriptionList::::');
-                			  SubscriptionList.push({
-                				  keyTopic:topic,
-                				  keyCallback:callback
-                			  });
-                		  }
-                	  }
-                  };                         
-              };
- 
-              return {
-                    getInstance: function(settings){
-                          if(!clientInstance){
-                        	  console.debug("::::  New Stomp Client Created ::::");
-                        	  clientInstance = createClient(settings);
-                        	  
-                          }
-                          return clientInstance;
-                    }
-              };
-})();
-=======
 //var WebsocketStompSingleton = (function(){
 //             
 //			  var clientInstance; //private variable to hold the
@@ -146,7 +82,6 @@ var WebsocketStompSingleton = (function(){
 //                    }
 //              };
 //})();
->>>>>>> branch 'master' of https://github.com/csipiemonte/yucca-userportal
 
 (function()
 {
