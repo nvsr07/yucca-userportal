@@ -76,6 +76,20 @@ var translations_en = {
 	STREAM_LIST_CODE_FILTER : 'Filter by code',
 	STREAM_LIST_STATUS_FILTER : 'Filter by status',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filter by lastupdate',
+	
+	/* Creator of Stream */
+	USER_APPLICANT:'Applicant',
+	USER_FIELD_NAME:'Username',
+	USER_FIELD_SURNAME:'Surname',
+	USER_FIELD_EMAIL : 'Email',
+	USER_FIELD_ACCEPT:'Accept Terms',
+	USER_FIELD_ACCEPT_YES:'I Accept ',
+	USER_FIELD_ACCEPT_NO:"I Don't Accept ",
+	
+	/* Creator of Stream PlaceHolder */
+	USER_FIELD_NAME_PLACEHOLDER:'Your name',
+	USER_FIELD_SURNAME_PLACEHOLDER:'Your surname',
+	USER_FIELD_EMAIL_PLACEHOLDER : 'Your@Email',
 
 	/* Virtual Entity */
 	VIRTUALENTITY_FIELD_ID: 'ID Virtual Entity',

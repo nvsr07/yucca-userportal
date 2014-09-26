@@ -341,10 +341,12 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 	$scope.openedIndex = true;
 	$scope.closeIndex = false;
 	$scope.wsClientSubsctiption = null;
+	
+	console.debug("DashboardErrorLogCtrl");
 	$scope.wsClientError = webSocketService();
 	
 	var connectWSClientError = function(){
-		
+		console.debug("connectWSClientError");
 		$scope.wsClientError.connect(function(message) {
 			console.debug("message", message); //"/topic/ten1.flussoProva.raw"
 			console.debug("$scope.stream", $scope.tenant_sel_code); //"/topic/ten1.flussoProva.raw"
@@ -383,8 +385,9 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 
 		$scope.errorList = [];
 		$scope.accordionOpenError = [];
-		//$scope.wsClientSubsctiption.unsubscribe();
-		connectWSClientError();
+		console.debug("$scope.wsClientSubsctiption",$scope.wsClientSubsctiption);
+		$scope.wsClientSubsctiption.unsubscribe();
+		subscribeWSClientError();
 	};
 	
 	

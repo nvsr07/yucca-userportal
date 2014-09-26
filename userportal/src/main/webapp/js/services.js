@@ -266,42 +266,76 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	return fabricAPI;
 });
 
+
 appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL, WEB_SOCKET_USER, WEB_SOCKET_SECRET) {
-	var stompClient = {};
+	var stompClient = {};	
+//	var self = this;
+	var root = $rootScope;
+	
+	//TODO 
+	/*
+	 * Crea un modello singleton...
+	 * Ogni volta che arriva una connect fai la disconnect
+	 */ 
+	function ConnectTheSocket(on_connect, on_error, vhost,count){
+		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+		console.debug("in function connectTheSocket ");
+		var user = WEB_SOCKET_USER;
+		var password = WEB_SOCKET_SECRET;
+		
+		stompClient.connect(user, password, function(frame) {
+			console.log("frame: ", stompClient);
+			root.$apply(function() {
+				console.log(" connect frame: ",on_connect, frame);
+				on_connect.apply(stompClient, frame);
+			});
+		}, function(frame) {			 
+		      if (count<5) {
+		       console.debug("connectTheSocket count ::::::::::::: ",on_connect,count);
+		       
+		       setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count);},count*1000);
+		       console.debug("awake.. ");		         	       
+		      } else{
+		    	  console.debug("service.js on_error function!");
+					root.$apply(function() {
+						console.log(" on_error frame: ", frame);
+						on_error.apply(frame);
+					});
+		      }			
+		}, vhost);
+	};
+	
+	
 	function NGStomp() {
-		this.stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+		console.debug("Stomp",Stomp);
+		this.count=1;
+//		this.stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+		
 	}
 	
 	NGStomp.prototype.subscribe = function(queue, callback) {
-		return this.stompClient.subscribe(queue, function() {
+		return stompClient.subscribe(queue, function() {
 			var args = arguments;
 			$rootScope.$apply(function() {
+				console.debug("args[0]",args[0]);
 				callback(args[0]);
 			});
 		});
 	};
-	
+
 	NGStomp.prototype.send = function(queue, headers, data) {
-		this.stompClient.send(queue, headers, data);
+		stompClient.send(queue, headers, data);
 	};
+
 	
 	NGStomp.prototype.connect = function(on_connect, on_error, vhost) {
-		var user = WEB_SOCKET_USER;
-		var password = WEB_SOCKET_SECRET;
-		this.stompClient.connect(user, password, function(frame) {
-			console.log("frame: ", frame);
-			$rootScope.$apply(function() {
-				on_connect.apply(stompClient, frame);
-			});
-		}, function(frame) {
-			$rootScope.$apply(function() {
-				on_error.apply(stompClient, frame);
-			});
-		}, vhost);
+		this.count=1;
+		console.debug("NGStomp.prototype.connect : ");
+		new ConnectTheSocket(on_connect, on_error, vhost,this.count);
 	};
-	
+
 	NGStomp.prototype.disconnect = function(callback) {
-		this.stompClient.disconnect(function() {
+		stompClient.disconnect(function() {
 			var args = arguments;
 			console.debug("arguments : ",arguments);
 			$rootScope.$apply(function() {
@@ -309,8 +343,99 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 			});
 		});
 	};
-	
+
 	return function(url) {
 		return new NGStomp(url);
 	};
 });
+
+var WebsocketStompSingleton= (function() {    
+	  var clientInstance; //private variable to hold the
+                     //only instance of client that will exits.
+
+	  
+	  var SubscriptionList = [];
+	  var SubscriptedElementsList = [];
+    var connectedClient = false;
+    
+    
+    var CancelAllSubscriptions = function(){
+  	  for(var i =0; i< SubscriptedElementsList.length ; i++){
+			  var widget = SubscriptedElementsList[i];
+			  console.debug(':::: Unsubscribe for ::::', widget);
+			   widget.unsubscribe();      				  
+			}
+  	 SubscriptionList = [];
+	 SubscriptedElementsList = [];
+    };
+  
+    var createClient = function(settings,count){
+  	  CancelAllSubscriptions();
+  	  var intSettings = settings;	                    
+        var client = Stomp.client(intSettings.ws_url);
+        console.debug(':::: connesso::::',intSettings.ws_url,intSettings);
+        client.connect(intSettings.ws_user,intSettings.ws_pwd,
+			function(frame) { //success Callback
+    			  console.debug(':::: connesso::::');
+    			  for(var i =0; i< SubscriptionList.length ; i++){
+    				  var widget = SubscriptionList[i];
+    				  console.debug(':::: connesso in For subscribe for ::::', widget);
+    				SubscriptedElementsList.push( client.subscribe(widget.keyTopic,widget.keyCallback));
+    				  
+					}
+    			  connectedClient=true;
+				},
+				function(frame) //error Callback
+				{
+					if (count<5) {
+					       console.debug("createClient count ::::::::::::: ",count);    						       
+					       setTimeout(function(){createClient(intSettings,++count);},count*1000);
+					       console.debug("awake.. ");		         	       
+			      } else{
+					    	  console.debug(':::: Impossibile connettersi::::');
+					    }	
+				});
+          
+          
+        return {
+      	  getWebClient: function(){               		 
+      		  
+      		  return client;
+      	  },
+      	  addSubscription : function(topic,callback){
+      		  console.debug(':::: addSubscription::::',topic,callback);
+      		  if(connectedClient){
+      			  console.debug(':::: addSubscription Client connesso::::');
+      			  SubscriptionList.push({
+      				  keyTopic:topic,
+      				  keyCallback:callback
+      			  });
+      			  client.subscribe(topic,callback);
+      		  }else{
+      			  console.debug(':::: addSubscription Client NON connesso Add to SubscriptionList::::');
+      			  SubscriptionList.push({
+      				  keyTopic:topic,
+      				  keyCallback:callback
+      			  });
+      		  }
+      	  },
+      	  cancelAllSubscriptions:CancelAllSubscriptions
+        };                         
+    };
+
+    return {
+          getInstance: function(settings){
+        	  if(clientInstance) return clientInstance; //se gia creato lo ritorna
+        	  
+        	  if(!settings)	  return null; // se non e' creato e non ci sono le settings ritorna null; 
+             
+        	  if(!clientInstance){
+              	  console.debug("::::  New Stomp Client Created ::::");
+              	  clientInstance = createClient(settings,1);              	  
+              }
+                return clientInstance;
+          }
+    };
+})();
+
+

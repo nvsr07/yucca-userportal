@@ -74,6 +74,3 @@ app.factory('info',  function() {
 
     return infoService;
 });
-
-
-
