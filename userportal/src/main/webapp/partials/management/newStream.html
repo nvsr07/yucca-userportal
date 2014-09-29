@@ -87,7 +87,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<a ng-click='cancel()' class="btn btn-default">{{'CANCEL'|translate}}</a>
-					<a ng-click='createStream(virtualentity, stream)' class="btn btn-primary" ng-disabled="newStreamForm.$invalid || stream.accettazionePrivacy==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
+					<a ng-click='createStream(virtualentity, stream)' class="btn btn-primary" ng-disabled="!isOwner() || newStreamForm.$invalid || stream.accettazionePrivacy==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
 				</div>
 			</div>
 		</form>

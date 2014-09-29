@@ -29,7 +29,7 @@
 				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_STATUS'|translate}}</strong></div>
 				<div class="col-sm-3">{{virtualentity.deploymentStatusDesc}}</div>
 				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_CREATION_DATE'|translate}}</strong></div>
-				<div class="col-sm-3">{{virtualentity.virtualentity.creationDate|date}}</div>
+				<div class="col-sm-3">{{virtualentity.creationDate|date}}</div>
 			</div>			
 		</div>
 	</div>
@@ -155,7 +155,7 @@
 				<div class="row">
 					<div class=" col-sm-12 form-toolbar">
 						<a  href='#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}' class="btn btn-default">{{'MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON'|translate}}</a>
-						<a  ng-click='updateVirtualentity()'  class="btn btn-primary" ng-disabled="editVirtualentityForm.$invalid">{{'MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON'|translate}}</a>
+						<a  ng-click='updateVirtualentity()'  class="btn btn-primary" ng-disabled="!isOwner() && editVirtualentityForm.$invalid">{{'MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON'|translate}}</a>
 					</div>
 				</div>
 			</form>

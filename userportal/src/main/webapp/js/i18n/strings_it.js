@@ -190,6 +190,23 @@ var translations_it = {
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filtra per codice',
 	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filtra per stato',
 
+	/* Home page */
+	HOME_TITLE: 'Yucca Platform',
+	HOME_SUBTITLE: 'Registra il tuo smart object e poi definisci i flussi di dati/stream che lo smart object trasmette',
+	HOME_TENANT_TITLE: 'Organizations',	
+	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
+	HOME_STREAM_TITLE: 'Online stream',	
+	
+	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
+	HOME_HOWTO_TEXT_HTML: '<li>' + 
+							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tenant <strong>Sandbox</strong> ' +
+							'	<span  class="mute">(a breve potrai richiedere un tuo tenant)</span></li>' +
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Fruisci</a> di tutti flussi disponibili via <strong>Websocket</strong> o <strong>MQTT</strong></li>' +
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/example">Monitora</a> i tuoi stream nella dashboard </li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea flussi combinati con logiche di aggregazione (coming soon...)</li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked mute"></span> &nbsp;Fruisci di tutti i dati storicizzati tramite API OData (coming soon...)</li>',
+	
+	
 
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Area monitoraggio flussi',
@@ -314,7 +331,7 @@ var translations_it = {
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Virtual Entities',
 
 	/* Management Stream List */
-	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Nuova',
+	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Crea Virtual Entity',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_APP : 'App',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_DEVICE : 'Device',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_FEED : 'Feed',

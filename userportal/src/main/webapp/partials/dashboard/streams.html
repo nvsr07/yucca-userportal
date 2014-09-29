@@ -68,7 +68,7 @@
 							<td><small>{{stream.codiceVirtualEntity}}</small></td>
 							<td>{{stream.registration_date|date}}</td>
 							<td>{{stream.lastUpdate|date}}</td>
-							<td>{{stream.deploymentStatusDesc}}</td>
+							<td><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
 						</tr>
 					</tbody>
 				</table>

@@ -9,6 +9,22 @@ appDirectives.directive('appVersion', [ 'version', function(version) {
 	};
 } ]);
 
+appDirectives.directive('mainNavbar', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/common/main-navbar.html',
+	};
+});
+
+appDirectives.directive('mainFooter', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/common/main-footer.html',
+	};
+});
+
+
+
 appDirectives.directive('ngEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
@@ -41,7 +57,8 @@ appDirectives.directive('scrollOnClick', function() {
 	    		$("body").animate({scrollTop: $target.offset().top}, "slow");
 	    	});
 	    }
-	 }
+	 };
 });
+
 
 

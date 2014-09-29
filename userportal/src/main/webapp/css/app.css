@@ -61,6 +61,7 @@ small pre{font-size: 11px;padding: 4px;}
 /* button colors */
 .action-new{color: #19aeff;}
 .action-edit{color: #edd400;}
+.action-request-installation{color: #ff9900;}
 .action-delete{color: #b50000;}
 .action-install{color: #9ade00;}
 .action-uninstall{color: #d49725;}
@@ -137,7 +138,53 @@ small pre{font-size: 11px;padding: 4px;}
 
 .jqstooltip { -webkit-box-sizing: content-box; -moz-box-sizing: content-box;  box-sizing: content-box;}
 
+/* home page */
+#homepage{ font-weight:300; letter-spacing:0.05em; }
+#homepage header{margin-top: 1em;}
+#homepage h1{   font-size:48px;    font-weight:300; line-height:56px;}
+#homepage h2{   font-size:48px;  font-weight:300; line-height:56px;}
+#homepage .slogan{margin-bottom: .7em; margin-top: 0; text-align: center;}
+#homepage .row-separator{margin: 2em 0;}
 
+.tile{ margin: .5em 0; color: white; }
+.tile a{ color: white; display: block; width: 100%; height: 100%;padding: 1em; }
+.tile a:hover{ text-decoration: none;}
+.tile h3{margin-top: 1em;  text-align: right;}
+
+.tile-main{padding: 2em 2em 1em 2em;}
+.tile .main-icon{font-size: 128px;}
+
+.tile-counter{font-size: 64px; line-height: 1.5em; text-align: right; padding-bottom: 0.5em; }
+.tile-menuitem {font-size:larger;margin: .5em 0; }
+.tile-subtitle {padding: 1em; font-size:larger; }
+.tile-subtitle-link {font-size:larger; }
+
+
+.dashboard-menu .tile-main {background-color: #1074c2; }
+.dashboard-menu .tile-menuitem {background-color: #1CBDF1;}
+.dashboard-menu .tile-menuitem:hover {background-color: #1074c2;}
+
+.management-menu .tile-main {background-color: #662577;}
+.management-menu .tile-menuitem {background-color: #9F4F98; }
+.management-menu .tile-menuitem:hover {background-color: #662577;}
+
+.tenant-menu .tile-main {background-color: #EA178C;}
+.tenant-menu .tile-subtitle{background-color: #ED59AD; }
+
+.stream-menu .tile-main {background-color: #81AE1D;}
+.stream-menu .tile-subtitle{background-color: #BBC71D; }
+
+.virtualentity-menu .tile-main {background-color: #F3953E;}
+.virtualentity-menu .tile-subtitle{background-color: #E4AA2F; }
+
+.about-menu .tile-main {background-color: #118171;}
+.about-menu .tile-subtitle-link{background-color: #21B196; }
+.about-menu .tile-subtitle-link:hover{background-color: #118171; }
+
+
+#homepage .desc{font-size: 16pt; line-height: 2em;}
+#homepage .desc li .glyphicon-check{color: #81AE1D;}
+#homepage .btn-startdemo{font-size: 32px; padding: .6em;}
 /* json custom color */
 /*
 pre{outline:1px solid #f5f5f5;padding:5px;margin:5px;width:100%;height:100%; background-color: #f5f5f5; color: white;}

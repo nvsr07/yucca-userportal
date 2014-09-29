@@ -189,7 +189,22 @@ var translations_en = {
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filter by code',
 	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filter by status',
 
-
+	/* Home page */
+	HOME_TITLE: 'Yucca Platform',
+	HOME_SUBTITLE: 'Registra smart object e definisci gli stream che lo smart object trasmette',
+	HOME_TENANT_TITLE: 'Organizations',	
+	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
+	HOME_STREAM_TITLE: 'Online stream',	
+	
+	HOME_HOWTO_TITLE: 'What can I do with the platform',
+	HOME_HOWTO_TEXT_HTML: '<li>' + 
+							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configure</a> your smart object and sends data using the tenant <strong>Sandbox</strong> ' +
+							'	<span  class="mute">(soon you can ask your own tenant)</span></li>' +
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Consumes</a> all available streams via <strong>WebSocket</strong> or <strong>MQTT</strong></li>' +
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/example">Monitor</a> your streams in the dashboard </li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Create streams combined with logic of aggregation (coming soon...)</li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked mute"></span> &nbsp;Consume all archived data via OData API (coming soon...)</li>',
+							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Dashboard streams monitoring',
 	
@@ -313,7 +328,7 @@ var translations_en = {
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Virtual Entities',
 
 	/* Management Stream List */
-	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'New',
+	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Create Virtaul Entity',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_APP : 'App',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_DEVICE : 'Device',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_FEED : 'Feed',
@@ -323,7 +338,7 @@ var translations_en = {
 	MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT: 'To enable deleting select at least one virtual entity',
   
 	/* Management new Virtual Entity  */
-	MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE: 'New Virtual Entity',
+	MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE: 'Create Virtual Entity',
 	MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON: 'Create Virtual Entity',
 	MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON: 'Generate',	
 	MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER: 'Choose one...', 

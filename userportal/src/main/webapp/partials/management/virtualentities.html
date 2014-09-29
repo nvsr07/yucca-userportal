@@ -6,10 +6,10 @@
 		<!-- Single button -->
 		<div class='clearfix'>
 			<div class="pull-left">
-				<a  href="#/management/newVirtualentity/{{tenantCode}}" class="btn btn-default btn-new" >
+				<a  href="#/management/newVirtualentity/{{tenantCode}}" class="btn btn-default btn-new" ng-disabled="!isOwner()">
 					<span class="glyphicon glyphicon-plus"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY'|translate}}
 				</a>
-				<button  href="javascript:void(0)" ng-click='editVirtualentity()' class="btn btn-default btn-edit" ng-disabled="selectedVirtualentities.length!=1" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT'|translate}}">
+				<button  href="javascript:void(0)" ng-click='editVirtualentity()' class="btn btn-default btn-edit" ng-disabled="!isOwner() || selectedVirtualentities.length!=1" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT'|translate}}">
 					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY'|translate}}
 				</button>
 				<button href="javascript:void(0)" ng-click='deleteVirtualentity()'class="btn btn-default btn-delete" ng-disabled="true" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT'|translate}}">
@@ -79,7 +79,7 @@
 						<td>{{virtualentity.virtualEntityName}}</td>
 							<td>{{virtualentity.tipoVirtualEntity}}</td>
 						<td># TBD</td>
-						<td>{{virtualentity.creationDate|date}}</td>
+						<td>{{virtualentity.creationDate|clearNil|date}}</td>
 						<td>{{virtualentity.deploymentStatusDesc}}</td>
 					</tr>
 				</tbody>

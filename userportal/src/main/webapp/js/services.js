@@ -4,7 +4,7 @@
 
 var appServices = angular.module('userportal.services', [ 'userportal.config' ]);
 
-appServices.value('version', '0.1');
+appServices.value('version', '0.7 dev');
 
 appServices.factory('fabricAPIservice', function($http, $q) {
 
@@ -50,9 +50,11 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	};
 
 	fabricAPI.getVirtualentities = function(tenant_code) {
+		if(tenant_code && tenant_code!=null && tenant_code!="")
+			tenant_code = tenant_code + '/';
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_VIRTUALENTITY_LIST_URL + tenant_code + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_VIRTUALENTITY_LIST_URL + tenant_code + '?callback=JSON_CALLBACK'
 		});
 	};
 

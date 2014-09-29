@@ -1,20 +1,32 @@
 'use strict';
 
 /* Filters */
+var appFilters  = angular.module('userportal.filters', []);
 
-angular.module('userportal.filters', []).
-  filter('interpolate', ['version', function(version) {
+appFilters.filter('interpolate', ['version', function(version) {
     return function(text) {
       return String(text).replace(/\%VERSION\%/mg, version);
     };
   }]);
 
 
+appFilters.filter('clearNil', function() {
+	return function(input) {
+		if (input) {
+			if(typeof(input) === 'object' && input !=null && input["@nil"]){
+	    		return "";
+	    	}
+	        return input;
+	    }
+	};
+});
 
-angular.module('userportal.filters', []).filter('startFrom', function() {
+
+appFilters.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int
         return (input && input!=null) ? input.slice(start) : [];
     };
 });
+
 
