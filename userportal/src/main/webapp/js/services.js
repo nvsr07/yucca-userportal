@@ -268,20 +268,45 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	var stompClient = {};	
 //	var self = this;
 	var root = $rootScope;
+	var connectedFlag = false;
+	var SingletonClient = null;
 	
-	//TODO 
-	/*
-	 * Crea un modello singleton...
-	 * Ogni volta che arriva una connect fai la disconnect
-	 */ 
+	
+	var SubscriptedElementsList = [];
+    
+    
+    var CancelAllSubscriptions = function(){
+  	  for(var i =0; i< SubscriptedElementsList.length ; i++){
+			  var widget = SubscriptedElementsList[i];
+			  console.debug(':::: Unsubscribe for ::::', widget);
+			   widget.unsubscribe();      				  
+			}
+	 SubscriptedElementsList = [];
+    };
+	
+	
 	function ConnectTheSocket(on_connect, on_error, vhost,count){
-		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+		
 		console.debug("in function connectTheSocket ");
 		var user = WEB_SOCKET_USER;
 		var password = WEB_SOCKET_SECRET;
+		CancelAllSubscriptions();
+		
+		/*
+		 * Fai la disconnect
+		 */
+		
+		if(connectedFlag){
+			stompClient.disconnect(function(){
+				connectedFlag=false;
+			});
+		}
+		
+		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
 		
 		stompClient.connect(user, password, function(frame) {
 			console.log("frame: ", stompClient);
+			connectedFlag=true;
 			root.$apply(function() {
 				console.log(" connect frame: ",on_connect, frame);
 				on_connect.apply(stompClient, frame);
@@ -311,13 +336,18 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	}
 	
 	NGStomp.prototype.subscribe = function(queue, callback) {
-		return stompClient.subscribe(queue, function() {
+		var subscribedClient = stompClient.subscribe(queue, function() {
 			var args = arguments;
 			$rootScope.$apply(function() {
 				console.debug("args[0]",args[0]);
 				callback(args[0]);
 			});
 		});
+		
+		console.debug("::subscribedClient function ::",subscribedClient);
+		SubscriptedElementsList.push(subscribedClient);
+		
+		return subscribedClient;
 	};
 
 	NGStomp.prototype.send = function(queue, headers, data) {
@@ -342,7 +372,11 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	};
 
 	return function(url) {
-		return new NGStomp(url);
+		if(!SingletonClient){
+		SingletonClient = new NGStomp(url);
+		console.debug("New SingletonClient webSocketService!");
+		}
+		return SingletonClient;
 	};
 });
 
