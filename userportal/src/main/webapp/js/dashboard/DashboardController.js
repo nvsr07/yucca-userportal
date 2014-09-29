@@ -19,6 +19,8 @@ appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'fabricAPIs
 		$scope.currentPanel  = 'streams';
 	else if($route.current.templateUrl.indexOf("error-log")>-1)
 		$scope.currentPanel  = 'error_log';
+	else if($route.current.templateUrl.indexOf("stream")>-1)
+		$scope.currentPanel  = 'stream';
 } ]);
 
 
@@ -28,7 +30,7 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	$scope.dashboard = $route.current.params.dashboard;
 	$scope.tenantWithNoDashboardError = null;
 	if(!$scope.dashboard)
-		$scope.dashboard = "example";
+		$scope.dashboard = "overview";
 	
 	fabricAPIservice.getTenants().success(function(response) {
 		console.debug("response", response.tenants);
@@ -161,12 +163,12 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
 			console.debug("subscribe wsUrl ", $scope.wsUrl);
 
-			var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
-			console.debug("subscribe wsErrorUrl ", wsErrorUrl);
+			//var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
+			//console.debug("subscribe wsErrorUrl ", wsErrorUrl);
 
 			wsClient.subscribe(wsStatUrl, statisticCallback);
 			wsClient.subscribe($scope.wsUrl, dataCallback);
-			wsClient.subscribe(wsErrorUrl, errorCallback);
+			//wsClient.subscribe(wsErrorUrl, errorCallback);
 			
 		}, function() {
 		}, '/');

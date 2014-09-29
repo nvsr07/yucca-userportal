@@ -30,7 +30,7 @@
 							ng-show="newVirtualentityForm.inputVirtualentityCode.$error.pattern && updateVirtualentityForm.inputVirtualentityCode.$dirty"></span>
 				</div>
 				<div class="col-sm-2">
-					<a ng-click='generateUUID()' class="btn btn-primary" ng-disabled="!isCodeRequired()">{{'MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON'|translate}}</a>
+					<a ng-click='generateUUID()' class="btn btn-default" ng-disabled="!isCodeRequired()">{{'MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON'|translate}}</a>
 				</div>
 			</div>
 			<div class="form-group">
@@ -59,8 +59,8 @@
 
 			<div class="row">
 				<div class="col-sm-12 form-toolbar">
-					<a ng-click='cancel()' class="btn btn-default">{{'CANCEL'|translate}}</a>
-					<a ng-click='createVirtualentity(virtualentity)' class="btn btn-primary" ng-disabled="!isOwner() || newVirtualentityForm.$invalid">{{'MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON'|translate}}</a>
+					<a ng-click='cancel()' class="btn">{{'CANCEL'|translate}}</a>
+					<a ng-click='createVirtualentity(virtualentity)' class="btn btn-default" ng-disabled="!isOwner() || newVirtualentityForm.$invalid">{{'MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON'|translate}}</a>
 				</div>
 			</div>
 		</form>

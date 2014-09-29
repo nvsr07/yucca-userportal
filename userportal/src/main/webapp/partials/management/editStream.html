@@ -49,11 +49,11 @@
 					<div class="col-sm-10">
 						<p>
 							<span  ng-repeat="tag in stream.streamTags.tag">
-								<span class="label label-info label-custom">{{tag.tagCode|translate}} &nbsp;
+								<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
 								<a href="javascript:void(0)" ng-click='removeTag($index)'>&times;</a>
 								</span> &nbsp;
 							</span>
-						</p>
+						</p>						
 						<p>
 							<!-- <div class="input-group">
 	      						<input type="text" class="form-control" id="inputStreamAddTag"  placeholder="{{'STREAM_FIELD_TAGS'|translate}}" ng-model="newTag" ng-enter="addTag()" >
@@ -66,7 +66,7 @@
 	    							<option value="">{{'MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER'|translate}}</option>
 	    						</select>
 							    <span class="input-group-btn">
-							    	<a class="btn btn-success btn-sm"  href="javascript:void(0)" ng-click='addTag()' title="{{'MANAGEMENT_EDIT_STREAM_ADD_TAG'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a>
+							    	<a class="btn  btn-sm"  href="javascript:void(0)" ng-click='addTag()' title="{{'MANAGEMENT_EDIT_STREAM_ADD_TAG'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a>
 							    </span>
 	    					</div>
 						</p>
@@ -89,7 +89,7 @@
 						<small><pre pretty-json="componentJsonExample"/></small>
 					</div>
 					<div class="col-sm-10">
-						<a class="btn btn-success btn-xs"  ng-disabled="true">{{'MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON'|translate}}</a>
+						<a class="btn btn-default btn-xs"  ng-disabled="true">{{'MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON'|translate}}</a>
 						<table class="table table-striped">
 							<thead>
 								<tr>
@@ -136,7 +136,7 @@
 	             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 	             					 	</select>
 									</td>
-	         						<td><a href="javascript:void(0)" ng-click='addComponent()' class="btn btn-success btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
+	         						<td><a href="javascript:void(0)" ng-click='addComponent()' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -209,8 +209,8 @@
 				<div class='form-label-separator'></div>
 				<div class="row">
 					<div class=" col-sm-12 form-toolbar">
-						<a  href='#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default">{{'MANAGEMENT_EDIT_STREAM_FINISH_BUTTON'|translate}}</a>
-						<a  ng-click='updateStream()'  class="btn btn-primary" ng-disabled="!isOwner() || editStreamForm.$invalid">{{'MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON'|translate}}</a>
+						<a  href='#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn">{{'MANAGEMENT_EDIT_STREAM_FINISH_BUTTON'|translate}}</a>
+						<a  ng-click='updateStream()'  class="btn btn-default" ng-disabled="!isOwner() || editStreamForm.$invalid">{{'MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON'|translate}}</a>
 					</div>
 				</div>
 			</form>

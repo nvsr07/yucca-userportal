@@ -25,11 +25,11 @@ var translations_it = {
 	/* Entity */
 	STREAM: 'Flusso',
 	TENANT: 'Organizzazione',
-	VIRTUALENTITY: 'Virtual Entity', 
+	VIRTUALENTITY: 'Smart Object', 
 	
 	/* STREAM */
 	STREAM_FIELD_ID_STREAM: 'ID Flusso',
-	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Virtual Entity',
+	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
 	STREAM_FIELD_NAME: 'Nome',
 	STREAM_FIELD_CODE: 'Code',
 	STREAM_FIELD_TENANT_CODE : 'Code',
@@ -93,7 +93,7 @@ var translations_it = {
 	USER_FIELD_EMAIL_PLACEHOLDER : 'Tua@Email',
 
 	/* Virtual Entity */
-	VIRTUALENTITY_FIELD_ID: 'ID Virtual Entity',
+	VIRTUALENTITY_FIELD_ID: 'ID Smart Object',
 	VIRTUALENTITY_FIELD_CODE: 'Codice',
 	VIRTUALENTITY_FIELD_ID_TENANT : 'Id organizzazione',
 	VIRTUALENTITY_FIELD_TENANT_CODE:"Codice organizzazione",
@@ -192,7 +192,7 @@ var translations_it = {
 
 	/* Home page */
 	HOME_TITLE: 'Yucca Platform',
-	HOME_SUBTITLE: 'Registra il tuo smart object e poi definisci i flussi di dati/stream che lo smart object trasmette',
+	HOME_SUBTITLE: 'Registra smart object e definisci gli stream trasmessi',
 	HOME_TENANT_TITLE: 'Organizations',	
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
@@ -218,7 +218,7 @@ var translations_it = {
 	DASHBOARD_SECTION_TENANT_NO_DASHBOARD_ERROR: 'Tenant not configured', 
 
 	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Flusso',
-	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Virtual Entity',
+	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Smart Object',
 	DASHBOARD_STREAM_LIST_TENANT : 'Organizzazione',
 	DASHBOARD_STREAM_LIST_EVENTS : 'Num. eventi ultima mezz\'ora',
 	DASHBOARD_STREAM_LIST_REGISTRATION_DATE : 'Data registrazione',
@@ -268,7 +268,7 @@ var translations_it = {
 	MANAGEMENT_TITLE: 'Gestione',
     MANAGEMENT_MENU_DASHBOARD: 'Dashboard',
     MANAGEMENT_MENU_STREAMS: 'Flussi',
-    MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Virutal entities',
+    MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Smart Objects',
     MANAGEMENT_MENU_DATASET: 'Dataset',
 
     /* Management Stream  */
@@ -296,7 +296,7 @@ var translations_it = {
 
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Crea',
-	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Scegli una Virtual Entity...',
+	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Scegli uno Smart Object...',
 	MANAGEMENT_NEW_STREAM_SUBTITLE: 'Nuovo flusso',
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ', 
@@ -328,21 +328,21 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'codice\' deve essere univoco per flusso ',
     
 		/* Management Virtual Entity  */
-	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Virtual Entities',
+	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
 
 	/* Management Stream List */
-	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Crea Virtual Entity',
+	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Crea nuovo Smart Object ',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_APP : 'App',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_DEVICE : 'Device',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_FEED : 'Feed',
 	MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY : 'Modifica',
 	MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY : 'Cancella',
-	MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT: 'Per abilitare la modifica selezionare una sola Virtual Entity',
-	MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT: 'Per abilitare la cancellazione selezionare almeno una Virtual Entity',
+	MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo Smart Object',
+	MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT: 'Per abilitare la cancellazione selezionare almeno uno Smart Object',
   
 	/* Management new Virtual Entity  */
-	MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE: 'Nuova Virtual Entity',
-	MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON: 'Crea Virtual Entity',
+	MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE: 'Nuovo Smart Object',
+	MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON: 'Crea Smart Object',
 	MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON: 'Genera',	
 	MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER: 'Scegli...', 
 	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER: 'Scegli...', 
@@ -351,7 +351,7 @@ var translations_it = {
 	
 	/* Management edit Virtual Entity  */
 	MANAGEMENT_EDIT_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ',
-	MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO: 'Virtual Entity Salvata',
+	MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO: 'Smart Object Salvato',
 		
 	MANAGEMENT_EDIT_VIRTUALENTITY_GENERAL: 'Informazioni generali',
 	MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION: 'Collocazione',

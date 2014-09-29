@@ -38,6 +38,9 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 	
 	$scope.tenant = "";
 	
+	console.debug("showMap");
+	showMap();
+	
 	fabricAPIservice.getInfo().success(function(response) {
 		console.debug("response.info.tenant.tenantCode", response.info.tenant.tenantCode);
 		$scope.tenant = response.info.tenant.tenantCode;

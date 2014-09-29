@@ -23,10 +23,17 @@
 		<h2 class='slogan'><small >{{'HOME_SUBTITLE'|translate}}</small></h2>
 		<div class="row tile-row">
 			<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+				 <div id="map" class="map">
+      				<div id="popup" class="ol-popup">
+          				<a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        			<div id="popup-content"></div>
+      			</div>
+    			</div>
+				<!-- 
 				<div class=' map-container'>
 					<div id="map_canvas"></div>
-				</div>
-			</div>
+				</div> -->
+			</div> 
 		</div>
 		<div class='row-separator'></div>
 		<div class="row tile-row">
@@ -37,7 +44,7 @@
 						<h3>{{'MENU_DASHBOARD'|translate}}</h3>
 					</div>
 				
-					<div class='tile-menuitem'><a href="#/dashboard/main/example">{{'DASHBOARD_DASHBOARD_BUTTON'|translate}}</a></div>
+					<div class='tile-menuitem'><a href="#/dashboard/main/overview">{{'DASHBOARD_DASHBOARD_BUTTON'|translate}}</a></div>
 					<div class='tile-menuitem'><a href="#/dashboard/streams">{{'DASHBOARD_STREAMS_BUTTON'|translate}}</a></div>
 					<div class='tile-menuitem'><a href="#/dashboard/error_log">{{'DASHBOARD_ERROR_LOG_BUTTON'|translate}}</a></div>
 				</div>

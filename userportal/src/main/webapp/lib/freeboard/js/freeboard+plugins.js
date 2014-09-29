@@ -2521,9 +2521,9 @@ var freeboard = (function()
 	var currentStyle = {
 		values: {
 			"font-family": '"HelveticaNeue-UltraLight", "Helvetica Neue Ultra Light", "Helvetica Neue", sans-serif',
-			// "color" : "#d3d4d4",
-			"color"      : "#5e8292",
-			"font-weight": 100
+			// "color" : "#d3d4d4",  /* customization userportal */
+			"color"      : "#ffffff",
+			"font-weight": 300
 		}
 	};
 
@@ -3538,19 +3538,17 @@ $.extend(freeboard, jQuery.eventEmitter);
             height: "100%",
             width: "100%",
             fillColor: false,
-            // lineColor: "#FF9900",
-            lineColor: "#9f124b",
+            // lineColor: "#FF9900", /* customization userportal */
+            lineColor: "#ff00ff",
             lineWidth: 2,
             spotRadius: 3,
             spotColor: false,
-            // minSpotColor: "#78AB49",
-            // maxSpotColor: "#78AB49",
-            minSpotColor: "#19aeff",
-            maxSpotColor: "#19aeff",
-            highlightSpotColor: "#125775",
-            highlightLineColor: "#125775"
-            //highlightSpotColor: "#9D3926",
-            //highlightLineColor: "#9D3926"
+            // maxSpotColor: "#78AB49", /* customization userportal */
+            minSpotColor: "#ed59ad",
+            maxSpotColor: "#ed59ad",
+            highlightSpotColor: "#1cBDf1",
+            highlightLineColor: "#1cBDf1"
+            //highlightSpotColor: "#9D3926", /* customization userportal */
         });
     }
 
@@ -3809,8 +3807,8 @@ $.extend(freeboard, jQuery.eventEmitter);
                 max: (_.isUndefined(currentSettings.max_value) ? 0 : currentSettings.max_value),
                 label: currentSettings.units,
                 showInnerShadow: false,
-               // valueFontColor: "#d3d4d4"
-                 valueFontColor: "#5e8292",
+               // valueFontColor: "#d3d4d4" 
+                 valueFontColor: "#ffffff", /* customization userportal */
                  gaugeColor: "#fcfcfd"
             });
         }
