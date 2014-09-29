@@ -289,9 +289,10 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	
 	function ConnectTheSocket(on_connect, on_error, vhost,count){
 		
-		console.debug("in function connectTheSocket ");
 		var user = WEB_SOCKET_USER;
 		var password = WEB_SOCKET_SECRET;
+		
+		
 		CancelAllSubscriptions();
 		
 		/*
@@ -307,20 +308,16 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
 		
 		stompClient.connect(user, password, function(frame) {
-			console.log("frame: ", stompClient);
 			connectedFlag=true;
 			root.$apply(function() {
-				console.log(" connect frame: ",on_connect, frame);
 				on_connect.apply(stompClient, frame);
 			});
 		}, function(frame) {			 
 		      if (count<5) {
-		       console.debug("connectTheSocket count ::::::::::::: ",on_connect,count);
-		       
+		       console.debug("Tentativo di riconnessione numero : ",count);	
 		       setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count);},count*1000);
 		       console.debug("awake.. ");		         	       
 		      } else{
-		    	  console.debug("service.js on_error function!");
 					root.$apply(function() {
 						console.log(" on_error frame: ", frame);
 						on_error.apply(frame);
@@ -333,8 +330,6 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	function NGStomp() {
 		console.debug("Stomp",Stomp);
 		this.count=1;
-//		this.stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
-		
 	}
 	
 	NGStomp.prototype.subscribe = function(queue, callback) {
@@ -346,7 +341,6 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 			});
 		});
 		
-		console.debug("::subscribedClient function ::",subscribedClient);
 		SubscriptedElementsList.push(subscribedClient);
 		
 		return subscribedClient;
@@ -359,14 +353,17 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	
 	NGStomp.prototype.connect = function(on_connect, on_error, vhost) {
 		this.count=1;
-		console.debug("NGStomp.prototype.connect : ");
 		new ConnectTheSocket(on_connect, on_error, vhost,this.count);
 	};
+	
+	NGStomp.prototype.unsubscribeAll = function(){
+		CancelAllSubscriptions();
+	};
+	
 
 	NGStomp.prototype.disconnect = function(callback) {
 		stompClient.disconnect(function() {
 			var args = arguments;
-			console.debug("arguments : ",arguments);
 			$rootScope.$apply(function() {
 				callback.apply(args);
 			});
@@ -376,7 +373,6 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	return function(url) {
 		if(!SingletonClient){
 		SingletonClient = new NGStomp(url);
-		console.debug("New SingletonClient webSocketService!");
 		}
 		return SingletonClient;
 	};
