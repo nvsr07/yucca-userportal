@@ -1,82 +1,83 @@
-
-<div class='title-container'>
+<div class='section-dashboard'>
 	<div class="container">
-		<h1>{{'DASHBOARD_TITLE'|translate}}</h1>
-	</div>
-</div>
-<div class="container">
-	<div class=row'>
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardCtrl as streamsCtrl">
-			<!-- Main component for a primary marketing message or call to action -->
-
-			<!-- Single button -->
-			<div class="btn-group">
-				<input type="text" class="form-control col-xs-4" ng-model="tenantsFilter" placeholder="{{'STREAM_LIST_TENANT_FILTER'|translate}}" />
+		<div class='title-container'>
+			<div class="container">
+				<h1>{{'DASHBOARD_TITLE'|translate}}</h1>
 			</div>
-			<!-- 
-			<div class="btn-group">
-				<input type="text" class="form-control col-xs-4" ng-model="streamsLastupdateFilter" placeholder="{{'STREAM_LIST_LASTUPDATE_FILTER'|translate}}" />
-			</div>
- -->
-			<div class="pull-right">
-				<dashboard-menu></dashboard-menu>
-			</div>
-			<div class="table-responsive dashboard-streamList-table">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>
-								<a href="" ng-click="predicate = 'tenant'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_TENANT'|translate}} 
-								<span ng-show="predicate=='tenant' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='tenant' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-							</th>
-							<th>
-								<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_STREAM_NAME'|translate}} 
-								<span ng-show="predicate=='name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-							
-							</th>
-							<th>
-								<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE'|translate}} 
-								<span ng-show="predicate=='name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-							
-							</th>
-							<th>
-								<a href="" ng-click="predicate = 'registration_date'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_REGISTRATION_DATE'|translate}} 
-								<span ng-show="predicate=='registration_date' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='registration_date' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-							
-							</th>
-							<th>
-								<a href="" ng-click="predicate = 'lastupdate'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_LASTUPDATE'|translate}} 
-								<span ng-show="predicate=='lastupdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='lastupdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-							
-							</th>
-							<th>
-								<a href="" ng-click="predicate = 'status'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_STATUS'|translate}} 
-								<span ng-show="predicate=='status' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='status' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="stream in streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
-							<td>{{stream.nomeTenant}}</td>
-							<td><a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}"><strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}</a></td>
-							<td><small>{{stream.codiceVirtualEntity}}</small></td>
-							<td>{{stream.registration_date|date}}</td>
-							<td>{{stream.lastUpdate|date}}</td>
-							<td><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
-						</tr>
-					</tbody>
-				</table>
-				<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
-					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
-				></pagination>
-
-
+		</div>
+		<div class=row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardCtrl as streamsCtrl">
+				<!-- Main component for a primary marketing message or call to action -->
+	
+				<!-- Single button -->
+				<div class="btn-group">
+					<input type="text" class="form-control col-xs-4" ng-model="tenantsFilter" placeholder="{{'STREAM_LIST_TENANT_FILTER'|translate}}" />
+				</div>
+				<!-- 
+				<div class="btn-group">
+					<input type="text" class="form-control col-xs-4" ng-model="streamsLastupdateFilter" placeholder="{{'STREAM_LIST_LASTUPDATE_FILTER'|translate}}" />
+				</div>
+	 -->
+				<div class="pull-right">
+					<dashboard-menu></dashboard-menu>
+				</div>
+				<div class="table-responsive dashboard-streamList-table">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>
+									<a href="" ng-click="predicate = 'tenant'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_TENANT'|translate}} 
+									<span ng-show="predicate=='tenant' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='tenant' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_STREAM_NAME'|translate}} 
+									<span ng-show="predicate=='name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE'|translate}} 
+									<span ng-show="predicate=='name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'registration_date'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_REGISTRATION_DATE'|translate}} 
+									<span ng-show="predicate=='registration_date' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='registration_date' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'lastupdate'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_LASTUPDATE'|translate}} 
+									<span ng-show="predicate=='lastupdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='lastupdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'status'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_STATUS'|translate}} 
+									<span ng-show="predicate=='status' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='status' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="stream in streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+								<td>{{stream.nomeTenant}}</td>
+								<td><a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}"><strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}</a></td>
+								<td><small>{{stream.codiceVirtualEntity}}</small></td>
+								<td>{{stream.registration_date|date}}</td>
+								<td>{{stream.lastUpdate|date}}</td>
+								<td><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
+							</tr>
+						</tbody>
+					</table>
+					<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+						next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+					></pagination>
+	
+	
+				</div>
 			</div>
 		</div>
 	</div>

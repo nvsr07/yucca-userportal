@@ -25,11 +25,11 @@ var translations_en = {
 	/* Entity */
 	STREAM: 'Stream',
 	TENANT: 'Tenant',
-	VIRTUALENTITY: 'Virtual Entity', 
+	VIRTUALENTITY: 'Smart Object', 
 	
 	/* STREAM */
 	STREAM_FIELD_ID_STREAM : 'ID Stream',
-	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Virtual Entity',
+	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
 	STREAM_FIELD_NAME: 'Description',
 	STREAM_FIELD_CODE: 'Code',
 	STREAM_FIELD_TENANT_CODE : 'Code',
@@ -86,16 +86,13 @@ var translations_en = {
 	USER_FIELD_ACCEPT_YES:'I Accept ',
 	USER_FIELD_ACCEPT_NO:"I Don't Accept ",
 	
-	USER_FIELD_PRIVACY_TERMS : "Autorizzo il CSI Piemonte al trattamento dei dati personali con le modalit&agrave; e per le finalit&agrave; in essa contenute dopo aver letto l'informativa Privacy ai sensi dell'art. 13 del D.Lgs. 196/2013",
-	USER_FIELD_RESPONSABILITY_TERMS : "Dichiaro sotto la mia responabilit&agrave; che i dati inseriti nella Piattaforma sono sogggetti unicamente a licenze conformi a quanto indicato nelle Linee Guida (link) e sar&ograve; l'unico soggetto a rispondere ad eventuali contestazioni o richieste di risarcimento danni mosse da terzi per violazione dei loro diritti (L. 633/41, D. lgs. 196/03 e s.m.i.).",
-	
 	/* Creator of Stream PlaceHolder */
 	USER_FIELD_NAME_PLACEHOLDER:'Your name',
 	USER_FIELD_SURNAME_PLACEHOLDER:'Your surname',
 	USER_FIELD_EMAIL_PLACEHOLDER : 'Your@Email',
 
 	/* Virtual Entity */
-	VIRTUALENTITY_FIELD_ID: 'ID Virtual Entity',
+	VIRTUALENTITY_FIELD_ID: 'ID Smart Object',
 	VIRTUALENTITY_FIELD_CODE: 'Code',
 	VIRTUALENTITY_FIELD_ID_TENANT : 'Id tenant',
 	VIRTUALENTITY_FIELD_TENANT_CODE:"Tenant Code",
@@ -194,7 +191,7 @@ var translations_en = {
 
 	/* Home page */
 	HOME_TITLE: 'Yucca Platform',
-	HOME_SUBTITLE: 'Registra smart object e definisci gli stream che lo smart object trasmette',
+	HOME_SUBTITLE: 'Registra smart object e definisci gli stream trasmessi',
 	HOME_TENANT_TITLE: 'Organizations',	
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
@@ -218,7 +215,7 @@ var translations_en = {
 	DASHBOARD_SECTION_TENANT_NO_DASHBOARD_ERROR: 'Tenant not configured', 
 
 	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Stream',
-	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Virtual Entity',
+	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Smart Object',
 	DASHBOARD_STREAM_LIST_TENANT : 'Tenant',
 	DASHBOARD_STREAM_LIST_EVENTS : 'Events in the last 30 min.',
 	DASHBOARD_STREAM_LIST_REGISTRATION_DATE : 'Registration date',
@@ -268,7 +265,7 @@ var translations_en = {
 	MANAGEMENT_TITLE: 'Management',
     MANAGEMENT_MENU_DASHBOARD: 'Dashboard',
     MANAGEMENT_MENU_STREAMS: 'Streams',
-    MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Virutal entities',
+    MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Smart Objects',
     MANAGEMENT_MENU_DATASET: 'Dataset',
 
     /* Management Stream  */
@@ -296,7 +293,7 @@ var translations_en = {
 
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Create',
-	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Choose one Virtual Entity',
+	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Choose one Smart Object',
 	MANAGEMENT_NEW_STREAM_SUBTITLE: 'New Stream',
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Edit ', 
@@ -328,21 +325,21 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'The field \'code\' must be unique in a stream',
     
 		/* Management Virtual Entity  */
-	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Virtual Entities',
+	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
 
 	/* Management Stream List */
-	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Create Virtaul Entity',
+	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Create Smart Object',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_APP : 'App',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_DEVICE : 'Device',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_FEED : 'Feed',
 	MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY : 'Edit',
 	MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY : 'Delete',
-	MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT: 'To enable editing select a single virtual entity',
-	MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT: 'To enable deleting select at least one virtual entity',
+	MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT: 'To enable editing select a single Smart Object',
+	MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT: 'To enable deleting select at least one Smart Object',
   
 	/* Management new Virtual Entity  */
-	MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE: 'Create Virtual Entity',
-	MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON: 'Create Virtual Entity',
+	MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE: 'Create Smart Object',
+	MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON: 'Create Smart Object',
 	MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON: 'Generate',	
 	MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER: 'Choose one...', 
 	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER: 'Choose one...', 
@@ -351,7 +348,7 @@ var translations_en = {
 	
 	/* Management edit Virtual Entity  */
 	MANAGEMENT_EDIT_VIRTUAL_ENTITY_SUBTITLE: 'Edit ',
-	MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO: 'Virtual Entity Saved',
+	MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO: 'Smart Object Saved',
 		
 	MANAGEMENT_EDIT_VIRTUALENTITY_GENERAL: 'General Info',
 	MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION: 'Collocation',

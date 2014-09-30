@@ -91,7 +91,8 @@
 				<td>{{'STREAM_FIELD_TAGS'|translate}}</td>
 				<td>
 					<ul class="list-inline">
-						<li ng-repeat="tag in stream.streamTags.tag"><span class="label label-info label-custom">{{tag.tagCode|translate}}</span></li>
+						<!-- <li ng-repeat="tag in stream.streamTags.tag"><span class="label label-info label-custom">{{tag.tagCode|translate}}</span></li> -->
+						<li ng-repeat="tag in stream.streamTags.tag"><span class="label label-custom label-tag"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
 					</ul>
 				</td>
 			</tr>

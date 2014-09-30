@@ -1,14 +1,20 @@
-<div ng-controller="DashboardStreamCtrl as streamsCtrl">
+<div class='section-dashboard' ng-controller="DashboardStreamCtrl as streamsCtrl">
 	<!-- <h1 translate="{{'DASHBOARD_STREAM_TITLE'|translate:'{ stream_name: stream.id_stream }' }}"></h1> -->
 
-	<div class='title-container'>
-		<div class="container">
+	<div class="container">
+		<div class='title-container'>
 			<h1>
 				{{'DASHBOARD_STREAM_TITLE'|translate}} <strong>{{stream.codiceStream}}</strong> 
 			</h1>
 		</div>
-	</div>
-	<div class="container">
+		<div class=row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardCtrl as streamsCtrl">
+				<div class="pull-right">
+					<dashboard-menu></dashboard-menu>
+				</div>
+			</div>
+		</div>
+		<p>&nbsp;</p>
 
 		<div class="row">
 			<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
