@@ -17,7 +17,11 @@ public class Config {
 	public static Properties loadServerConfiguration() throws IOException {
 		return loadConfiguration("server.properties");
 	}
-
+	
+	public static Properties loadAuthorizationConfiguration() throws IOException {
+		return loadConfiguration("authorization.properties");
+	}
+	
 	private static Properties loadConfiguration(String configPath) throws IOException {
 		log.debug("[ClientConfigServlet::loadConfiguration] - START, configPath " + configPath);
 		try {

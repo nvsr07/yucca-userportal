@@ -178,8 +178,8 @@ small pre{font-size: 11px;padding: 4px;}
 /* home page */
 #homepage{ font-weight:300; letter-spacing:0.05em; }
 #homepage header{margin-top: 1em;}
-#homepage h1{   font-size:48px;    font-weight:300; line-height:56px;}
-#homepage h2{   font-size:48px;  font-weight:300; line-height:56px;}
+#homepage h1{   font-size:42px;    font-weight:300; line-height:56px;}
+#homepage h2{   font-size:42px;  font-weight:300; line-height:56px;}
 #homepage .slogan{margin-bottom: .7em; margin-top: 0; text-align: center;}
 #homepage .row-separator{margin: 2em 0;}
 
