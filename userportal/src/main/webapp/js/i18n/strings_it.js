@@ -82,10 +82,16 @@ var translations_it = {
 	USER_FIELD_NAME:'Nome Richiedente',
 	USER_FIELD_SURNAME:'Cognome Richiedente',
 	USER_FIELD_EMAIL : 'Email Richiedente',
-	USER_FIELD_ACCEPT:'Accetto i Termini',
+	USER_FIELD_ACCEPT:'Termini',
 	
 	USER_FIELD_ACCEPT_YES:'Accetto ',
 	USER_FIELD_ACCEPT_NO:'Non Accetto ',
+	
+	
+
+	USER_FIELD_ACCEPT_PRIVACY:"Autorizzo il CSI Piemonte al trattamento dei dati personali con le modalit&agrave e per le finalit&agrave in essa contenute dopo aver letto l 'informativa Privacy ai sensi dell'art. 13 del D.Lgs. 196/2013",
+	USER_FIELD_ACCEPT_RESPONSABILITY:"Dichiaro sotto la mia responabilit&agrave che i dati inseriti nella Piattaforma sono sogggetti unicamente a licenze conformi a quanto indicato nelle Linee Guida (link) e sar&ograve l'unico soggetto a rispondere ad eventuali contestazioni o richieste di risarcimento danni mosse da terzi per violazione dei loro diritti (L. 633/41, D. lgs. 196/03 e s.m.i.). ",
+	
 	
 	/* Creator of Stream PlaceHolder */
 	USER_FIELD_NAME_PLACEHOLDER:'Nome',
