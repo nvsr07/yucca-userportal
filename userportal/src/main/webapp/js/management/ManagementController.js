@@ -201,10 +201,18 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 	
 	
 	$scope.creationError = null;
+	
+	$scope.accettazionePrivacy=0;
+	$scope.accettazioneResponsability=0;
+	
 	$scope.createStream = function(virtualentity, stream) {
 		stream.fps = 0;
 		stream.saveData = 0;
 		stream.publish = 0;
+		stream.accettazionePrivacy=0;
+		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
+		
+		
 		var newStream = new Object();
 		newStream.stream = stream;
 		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);

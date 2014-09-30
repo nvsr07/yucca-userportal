@@ -70,24 +70,43 @@
 			<div class="form-group">
 				<label for="accettazionePrivacy" class="col-sm-2 control-label">{{'USER_FIELD_ACCEPT'|translate}} <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-10">
-					<textarea rows="4" cols="50" class="form-control" readonly> Accetti i Termini di Privacy?</textarea>
+					<div  class="form-control" readonly><span ng-bind-html="'USER_FIELD_PRIVACY_TERMS'|translate"></div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="accettazionePrivacy" class="col-sm-2 control-label">{{'USER_FIELD_ACCEPT'|translate}} <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-2"></div>
 				<div class="col-sm-4">
-					<span>{{'USER_FIELD_ACCEPT_YES'|translate}} <input  type="radio" name="accettazionePrivacy" value="1"  ng-model="stream.accettazionePrivacy"  required ></span> <br/>
+					<span>{{'USER_FIELD_ACCEPT_YES'|translate}} <input  type="radio" name="accettazionePrivacy" value="1"  ng-model="accettazionePrivacy"  required ></span> <br/>
 				</div>
 				<div class="col-sm-4">
-					<span>{{'USER_FIELD_ACCEPT_NO'|translate}}  <input  type="radio" name="accettazionePrivacy" value="0"  ng-model="stream.accettazionePrivacy" required></span>
+					<span>{{'USER_FIELD_ACCEPT_NO'|translate}}  <input  type="radio" name="accettazionePrivacy" value="0"  ng-model="accettazionePrivacy" required></span>
 				</div>
 			</div>
+			
+			<div class="form-group">
+				<label for="accettazioneResponsability" class="col-sm-2 control-label">{{'USER_FIELD_ACCEPT'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">
+					<div  class="form-control" readonly><span ng-bind-html="'USER_FIELD_RESPONSABILITY_TERMS'|translate"></div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="accettazionePrivacy" class="col-sm-2 control-label">{{'USER_FIELD_ACCEPT'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-4">
+					<span>{{'USER_FIELD_ACCEPT_YES'|translate}} <input  type="radio" name="accettazioneResponsability" value="1"  ng-model="accettazioneResponsability"  required ></span> <br/>
+				</div>
+				<div class="col-sm-4">
+					<span>{{'USER_FIELD_ACCEPT_NO'|translate}}  <input  type="radio" name="accettazioneResponsability" value="0"  ng-model="accettazioneResponsability" required></span>
+				</div>
+			</div>
+			
+			
 			</fieldset>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<a ng-click='cancel()' class="btn btn-default">{{'CANCEL'|translate}}</a>
-					<a ng-click='createStream(virtualentity, stream)' class="btn btn-primary" ng-disabled="!isOwner() || newStreamForm.$invalid || stream.accettazionePrivacy==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
+					<a ng-click='createStream(virtualentity, stream)' class="btn btn-primary" ng-disabled="!isOwner() || newStreamForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
 				</div>
 			</div>
 		</form>
