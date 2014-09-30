@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation"  ng-controller="NavigationCtrl as navigation" ng-show="!isHomepage()">
+<nav class="navbar navbar-default" role="navigation"  ng-controller="NavigationCtrl as navigation" >
 	<div class='container'>
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -9,7 +9,7 @@
 	
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
+				<ul class="nav navbar-nav" ng-show="!isHomepage()">
 					<li class="space-vertical"></li>
 					<li ><a href="#/dashboard" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'>{{'MENU_DASHBOARD'|translate}}</a></li>
 					<li class="divider-vertical"></li>

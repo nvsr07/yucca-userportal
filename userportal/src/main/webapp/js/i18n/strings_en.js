@@ -191,7 +191,7 @@ var translations_en = {
 
 	/* Home page */
 	HOME_TITLE: 'Yucca Platform',
-	HOME_SUBTITLE: 'Registra smart object e definisci gli stream trasmessi',
+	HOME_SUBTITLE: 'Record smart object and define the streams transmitted',
 	HOME_TENANT_TITLE: 'Organizations',	
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	

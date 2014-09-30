@@ -286,12 +286,11 @@ function showMap() {
 
             testo += "</table>";
 
-            //overlay.setPosition(coord);
+            overlay.setPosition(coord);
             content.innerHTML = testo;
             container.style.display = 'block';
-            map.getView().setCenter(ol.proj.transform([feature.get('lon'), 
-                                             feature.get('lat')],
-                                            'EPSG:4326', 'EPSG:3857'));
+            $('.ol-viewport').css('overflow', '');
+            //map.getView().setCenter(ol.proj.transform([feature.get('lon'), feature.get('lat')], 'EPSG:4326', 'EPSG:3857'));
 
           }
         });
