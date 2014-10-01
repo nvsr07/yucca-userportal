@@ -4,7 +4,7 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate', 'fabricAPIservice', 'info', function($scope, $route, $translate, fabricAPIservice, info) {
+appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', 'info', function($scope, $route, $translate,webSocketService, fabricAPIservice, info) {
 	$scope.$route = $route;
 	$scope.managementUrl = null;
 	console.debug(":::::Client webSocket Singleton::::");
@@ -15,6 +15,10 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate', 
 		if(WebsocketStompSingleton.getInstance()){			
 			console.debug(":::::WebsocketStompSingleton.getInstance().cancelAllSubscriptions() ::::");
 			WebsocketStompSingleton.getInstance().cancelAllSubscriptions();
+		}
+		if(webSocketService()){
+			console.debug("::: webSocketService :::",webSocketService());
+			webSocketService().unsubscribeAll();
 		}
 	});
 

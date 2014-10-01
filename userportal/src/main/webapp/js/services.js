@@ -398,20 +398,18 @@ var WebsocketStompSingleton= (function() {
 	 SubscriptedElementsList = [];
     };
   
-    var createClient = function(settings,count){
-  	  CancelAllSubscriptions();
+    var createClient = function(settings,count){  	 
   	  var intSettings = settings;	                    
         var client = Stomp.client(intSettings.ws_url);
-        console.debug(':::: connesso::::',intSettings.ws_url,intSettings);
         client.connect(intSettings.ws_user,intSettings.ws_pwd,
 			function(frame) { //success Callback
-    			  console.debug(':::: connesso::::');
     			  for(var i =0; i< SubscriptionList.length ; i++){
     				  var widget = SubscriptionList[i];
-    				  console.debug(':::: connesso in For subscribe for ::::', widget);
+    				  console.debug(':::: subscribe for ::::', widget);
     				SubscriptedElementsList.push( client.subscribe(widget.keyTopic,widget.keyCallback));
     				  
 					}
+    			  console.debug(':::: Finish with the subscribe:::::');
     			  connectedClient=true;
 				},
 				function(frame) //error Callback
@@ -432,7 +430,6 @@ var WebsocketStompSingleton= (function() {
       		  return client;
       	  },
       	  addSubscription : function(topic,callback){
-      		  console.debug(':::: addSubscription::::',topic,callback);
       		  if(connectedClient){
       			  console.debug(':::: addSubscription Client connesso::::');
       			  SubscriptionList.push({
