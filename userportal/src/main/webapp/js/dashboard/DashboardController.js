@@ -343,9 +343,17 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 	$scope.openedIndex = true;
 	$scope.closeIndex = false;
 	$scope.wsClientSubsctiption = null;
+	$scope.clientConnection="Not Connected";
 	
-	console.debug("DashboardErrorLogCtrl");
+	$scope.connectionCallback=function(sms){		
+		$scope.clientConnection=sms;
+		console.debug("$scope.clientConnection=sms = ",sms);
+	};
+	
 	$scope.wsClientError = webSocketService();
+	
+	
+	
 	
 	var connectWSClientError = function(){
 		console.debug("connectWSClientError");
@@ -359,7 +367,7 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 		}, function(message) {
 			console.debug("Can't Connect on WebSocket");
 					//alert("Can't Connect on WebSocket");
-		}, '/');
+		}, '/',$scope.connectionCallback);
 	};
 	
 	
