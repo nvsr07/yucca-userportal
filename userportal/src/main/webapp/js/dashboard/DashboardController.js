@@ -37,16 +37,19 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 		$scope.tenantsList = response.tenants.tenant;		
 	
 	});
-	
-	
-
-	freeboard.initialize(false);
+	console.debug("freeboard.isInitialized", freeboard.isInitialized);
+	if(!freeboard.isInitialized){
+		freeboard.initialize(false);
+		freeboard.isInitialized = true;
+	}
+	console.log("url","../../ris/userportal/freeboard/"+$scope.dashboard+"-dashboard.json");
 	$.ajax({
-	    url: "js/dashboard/freeboard/"+$scope.dashboard+"-dashboard.json",
+	    url: "../../ris/userportal/freeboard/"+$scope.dashboard+"-dashboard.json",
 	    dataType: 'json',
 	    success: function(json) {
 		    console.log(json); 
 		    freeboard.loadDashboard(json, new function(){
+		    		console.debug("loadDashboard - finish", json);
 			    	freeboard.showLoadingIndicator(false);
 			    });
 		    },
