@@ -272,7 +272,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	var root = $rootScope;
 	var connectedFlag = false;
 	var SingletonClient = null;
-	
+	var selfCallback = null;
 	var SubscriptedElementsList = [];
 
 
@@ -289,7 +289,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	function ConnectTheSocket(on_connect, on_error, vhost,count,updateStatus){
 		var user = WEB_SOCKET_USER;
 		var password = WEB_SOCKET_SECRET;
-		
+		selfCallback=updateStatus;
 		CancelAllSubscriptions();
 
 		/*
@@ -302,22 +302,28 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 			});
 		}
 
+		var passwordtmp = "Errore";
+		if(count >4){
+			passwordtmp=password;
+		}
+			
+		updateStatus(Constants.WEBSOCKET_CONNECTING);
 		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
 		
-		stompClient.connect(user, password, function(frame) {
+		stompClient.connect(user, passwordtmp, function(frame) {
 			connectedFlag=true;
-			updateStatus("Connected");
+			updateStatus(Constants.WEBSOCKET_CONNECTED);
 			root.$apply(function() {
 				on_connect.apply(stompClient, frame);
 			});
-		}, function(frame) {			 
-			updateStatus("Connection Error, attempt to reconnect nr:"+count);
+		}, function(frame) {			
 			if (count<5) {
 				console.debug("Tentativo di riconnessione numero : ",count);
+				updateStatus(Constants.WEBSOCKET_CONNECTING);
 				setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count,updateStatus);},count*1000);
 				console.debug("awake.. ");		         	       
 			} else{
-				updateStatus("Can't Connect");
+				updateStatus(Constants.WEBSOCKET_NOT_CONNECTED);
 				root.$apply(function() {
 					console.log(" on_error frame: ", frame);
 					on_error.apply(frame);
@@ -333,8 +339,10 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 	}
 
 	NGStomp.prototype.subscribe = function(queue, callback) {
+		selfCallback(Constants.WEBSOCKET_CONNECTED);
 		var subscribedClient = stompClient.subscribe(queue, function() {
-			var args = arguments;
+			selfCallback(Constants.WEBSOCKET_CONNECTED);//if I receive a message It means I'm connected
+			var args = arguments;			
 			$rootScope.$apply(function() {
 				console.debug("args[0]",args[0]);
 				callback(args[0]);
@@ -361,7 +369,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 			updateStatus = function(sms){
 				console.debug(sms);
 		};
-		updateStatus("Connecting..");
+		updateStatus(Constants.WEBSOCKET_CONNECTING);
 		new ConnectTheSocket(on_connect, on_error, vhost,this.count,updateStatus);
 
 	};
@@ -418,7 +426,7 @@ var WebsocketStompSingleton= (function() {
 		var client = Stomp.client(intSettings.ws_url);
 		client.connect(intSettings.ws_user,intSettings.ws_pwd,
 				function(frame) { //success Callback
-			updateStatus("Connected.");
+			updateStatus(Constants.WEBSOCKET_CONNECTED);
 			for(var i =0; i< SubscriptionList.length ; i++){
 				var widget = SubscriptionList[i];
 				console.debug(':::: subscribe for ::::', widget);
@@ -432,12 +440,12 @@ var WebsocketStompSingleton= (function() {
 		{
 			
 			if (count<5) {
-				updateStatus("Riconnecting!");
+				updateStatus(Constants.WEBSOCKET_CONNECTING);
 				console.debug("createClient count ::::::::::::: ",count);    						       
 				setTimeout(function(){createClient(intSettings,++count);},count*1000);
 				console.debug("awake.. ");		         	       
 			} else{
-				updateStatus("Not Connected!");
+				updateStatus(Constants.WEBSOCKET_NOT_CONNECTED);
 				console.debug(':::: Impossibile connettersi::::');
 			}	
 		});
@@ -481,7 +489,7 @@ var WebsocketStompSingleton= (function() {
 						console.debug(sms);
 					};
 				}
-				updateStatus("Connecting..");
+				updateStatus(Constants.WEBSOCKET_CONNECTING);
 				clientInstance = createClient(settings,1,updateStatus);              	  
 			}
 			return clientInstance;

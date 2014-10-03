@@ -296,4 +296,12 @@ height: 100%;
 .terms-of-privacy{
 	height:100%;
 }
-
+.clientConnecting{
+	color: #FF9900;
+}
+.clientNotConnected{
+	color: red;
+}
+.clientConnected{
+	color: #00FF00;
+}
