@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 
 		rev : {
 			files : {
-				src : [ 'src/main/webapp/js-min/**/*.*', 'src/main/webapp/css-min/userportal.min.css' ]
+				src : [ 'src/main/webapp/js-min/**/*.*', '!src/main/webapp/js-min/customization/freeboard/**/*.*', 'src/main/webapp/css-min/userportal.min.css' ]
 			}
 		},
 

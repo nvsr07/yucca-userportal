@@ -34,14 +34,6 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
  // $locationProvider.html5Mode(true).hashPrefix('!');
 }]);
 
-/*
-app.run(function($rootScope, $templateCache) {
-    $rootScope.$on('$routeChangeStart', function(event, next, current) {
-        if (typeof(current) !== 'undefined'){
-            $templateCache.remove(current.templateUrl);
-        }
-    });
-});*/
 
 app.config(['$translateProvider', function ($translateProvider) {
 	// add translation table
@@ -57,14 +49,6 @@ app.config(['$httpProvider', function($httpProvider) {
 }
 ]);
 
-// remove the partial template from cache
-app.run(function($rootScope, $templateCache) {
-    $rootScope.$on('$routeChangeStart', function(event, next, current) {
-        if (typeof(current) !== 'undefined'){
-            $templateCache.remove(current.templateUrl);
-        }
-    });
-});
 
 app.factory('info',  function() {
     var info = {};

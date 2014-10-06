@@ -20,22 +20,23 @@
 			<div class="form-group  has-feedback">
 				<label for="inputVirtualentityCode" class="col-sm-2 control-label">
 					{{'VIRTUALENTITY_FIELD_CODE'|translate}} <span class='required-asterisk'>*</span> 
-					<abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CODE_HINT'|translate}}"><strong>&#x25cf;</strong></abbr>
+					<!-- <abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CODE_HINT'|translate}}"><strong>&#x25cf;</strong></abbr> -->
 				</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" ng-model="codeVirtualEntity"  id="inputVirtualentityCode" 
-						placeholder="{{'STREAM_FIELD_CODE'|translate}}" ng-required="isCodeRequired()" ng-disabled="!isCodeRequired()"  name="inputVirtualentityCode"
+						placeholder="{{'STREAM_FIELD_CODE'|translate}}" ng-required="isCodeRequired()"  name="inputVirtualentityCode"
 							maxlength="38" ng-pattern="validationPatternUUID">
 						<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_UUID_TOOLTIP'|translate}}"
 							ng-show="newVirtualentityForm.inputVirtualentityCode.$error.pattern && updateVirtualentityForm.inputVirtualentityCode.$dirty"></span>
 				</div>
 				<div class="col-sm-2">
-					<a ng-click='generateUUID()' class="btn btn-default" ng-disabled="!isCodeRequired()">{{'MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON'|translate}}</a>
+					<a ng-click='generateUUID()' class="btn btn-default" ng-disabled="!enableCodeGeneateButton()">{{'MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON'|translate}}</a>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="inputCategory" class="col-sm-2 control-label" >
-					{{'VIRTUALENTITY_FIELD_CATEGORY'|translate}} <span class='required-asterisk'>*</span> <abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT'|translate}}"><strong>&#x25cf;</strong></abbr>
+					{{'VIRTUALENTITY_FIELD_CATEGORY'|translate}} <span class='required-asterisk'>*</span>
+					<!-- <abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT'|translate}}"><strong>&#x25cf;</strong></abbr>  --> 
 				</label>
 				<div class="col-sm-10">
 					<select id='inputCategory' class="form-control" ng-model="selectedCategory"  ng-options="category.descrizioneCategoria for category in categoriesList track by category.idCategoria" 

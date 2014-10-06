@@ -9,3 +9,5 @@
 /src.zip
 /node/
 /node_modules/
+/.tmp/
+/dist/

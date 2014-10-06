@@ -5,6 +5,8 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", func
 	$scope.managementTab = $route.current.params.managementTab;
 	$scope.tenant = $route.current.params.tenant_code;
 
+	$scope.buildTimestamp = BuildInfo.timestamp;
+
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
 	};
@@ -641,7 +643,15 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 		$scope.codeVirtualEntity = uuid;
 	};
 	
-	$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
+	//$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
+	$scope.validationPatternUUID = (function() {
+	    return {
+	        test: function(value) {
+	            if( $scope.selectedType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ) return true;
+	            else return Constants.VALIDATION_PATTERN_UUID.test(value);
+	        }
+	    };
+	})();
 	
 	$scope.selectedType;
 	$scope.selectedFeedTweetType=false;
@@ -664,16 +674,24 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 		if(!$scope.selectedType){
 			return false;
 		}
-		return $scope.selectedType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+		//return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ||  $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		return true;
 	};
 	
+	$scope.enableCodeGeneateButton = function() {
+		if(!$scope.selectedType){
+			return false;
+		}
+		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ;
+	};
 	
 	$scope.isCategoryRequired= function() {
 		console.debug("isCategoryRequired function $scope.selectedType ::",$scope.selectedType);
 		if(!$scope.selectedType){
 			return false;
 		}
-		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		//return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		return true;
 	};
 
 	

@@ -29,6 +29,7 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	
 	$scope.dashboard = $route.current.params.dashboard;
 	$scope.tenantWithNoDashboardError = null;
+	$scope.buildTimestamp = BuildInfo.timestamp;
 	if(!$scope.dashboard)
 		$scope.dashboard = "overview";
 	
@@ -37,14 +38,12 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 		$scope.tenantsList = response.tenants.tenant;		
 	
 	});
-	console.debug("freeboard.isInitialized", freeboard.isInitialized);
-	if(!freeboard.isInitialized){
-		freeboard.initialize(false);
-		freeboard.isInitialized = true;
-	}
-	console.log("url","../../ris/userportal/freeboard/"+$scope.dashboard+"-dashboard.json");
+	
+	freeboard.initialize(false);
+	
+	console.debug('url','../../ris/userportal/freeboard/"+$scope.dashboard+"-dashboard.json');
 	$.ajax({
-	    url: "../../ris/userportal/freeboard/"+$scope.dashboard+"-dashboard.json",
+	    url: '../../ris/userportal/freeboard/'+$scope.dashboard+'-dashboard.json?'+BuildInfo.timestamp,
 	    dataType: 'json',
 	    success: function(json) {
 		    console.log(json); 

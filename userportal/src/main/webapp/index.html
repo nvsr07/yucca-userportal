@@ -13,11 +13,9 @@
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/ng-prettyjson/ng-prettyjson.min.css">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/nvd3/nv.d3.min.css">
-<link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
-
-
-<link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/app.css">
+<link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
+<link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
 
 <link rel="shortcut icon" href="favicon.png">
 <!-- Optional theme -->
@@ -30,6 +28,14 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+	<script type='text/javascript'>
+		if(!console){
+			var console = window.console || { log: function() {} };
+		}
+		if(!console.debug)
+			console.debug = window.console.log;
+	</script>
 </head>
 <body lang="en" ng-app="userportal">
 	<main-navbar ng-show="!isHomepage"></main-navbar>
@@ -53,8 +59,6 @@
 	<script type="text/javascript" src="../ris/userportal/lib/nvd3/nv.d3.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angularjs-nvd3-directives/angularjs-nvd3-directives.min.js"></script>
 
-	<script type="text/javascript" src="../ris/userportal/lib/freeboard/js/freeboard.thirdparty.min.js"></script>
-	
 	<!-- 
 	<script type="text/javascript" src="api/i18n?language=it"></script>
 	<script type="text/javascript" src="api/i18n?language=en"></script>	
@@ -64,32 +68,29 @@
 
 	<script type="text/javascript" src="js/build_info.js"></script>
 	
-	<script type="text/javascript" src="js/customization/freeboard/js/freeboard+plugins.js"></script>
-	
-	<script src="js-min/customization/freeboard/plugins/freeboard/cf8ff7f4.websocket.datasources.js"></script>
 
-	<script src="js-min/7ce3cfd8.sensormap.js"></script>
+	<script src="js-min/422163af.sensormap.js"></script>
 	
-	<script src="js-min/i18n/f638fbb7.strings_en.js"></script>
+	<script src="js-min/i18n/5a8f9192.strings_en.js"></script>
 
-	<script src="js-min/i18n/3f47bc11.strings_it.js"></script>
+	<script src="js-min/i18n/8c741251.strings_it.js"></script>
  	
 	
-	<script src="js-min/86c6e372.app.js"></script>
-	<script src="js-min/2837d442.helpers.js"></script>
-	<script src="js-min/0ca264ca.constants.js"></script>
-	<script src="js-min/c7ce0a15.services.js"></script>
+	<script src="js-min/b739980d.app.js"></script>
+	<script src="js-min/15a6eaf8.helpers.js"></script>
+	<script src="js-min/0b2bd512.constants.js"></script>
+	<script src="js-min/4fd74415.services.js"></script>
 	
-	<script src="js-min/216a2011.controllers.js"></script>
-	<script src="js-min/dashboard/3c7f510b.DashboardController.js"></script>
-	<script src="js-min/management/2ee30216.ManagementController.js"></script>
-	<script src="js-min/market/a2852f8d.MarketController.js"></script>
-	<script src="js-min/store/ba4aab92.StoreController.js"></script>
+	<script src="js-min/3a255ebd.controllers.js"></script>
+	<script src="js-min/dashboard/1ab5dba4.DashboardController.js"></script>
+	<script src="js-min/management/7a28e2f7.ManagementController.js"></script>
+	<script src="js-min/market/d6be05e8.MarketController.js"></script>
+	<script src="js-min/store/0ad8257a.StoreController.js"></script>
 
-	<script src="js-min/6e35d7e3.filters.js"></script>
-	<script src="js-min/1785d8e1.directives.js"></script>
-	<script src="js-min/dashboard/83cee5e1.DashboardDirectives.js"></script>
-	<script src="js-min/management/5bf19880.ManagementDirectives.js"></script>
+	<script src="js-min/64318f9c.filters.js"></script>
+	<script src="js-min/7cf6d301.directives.js"></script>
+	<script src="js-min/dashboard/446b4bc2.DashboardDirectives.js"></script>
+	<script src="js-min/management/60a72786.ManagementDirectives.js"></script>
 	
 	
 
