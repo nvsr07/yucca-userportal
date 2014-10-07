@@ -72,7 +72,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-					<packagingExcludes>lib/,freeboard/</packagingExcludes>
+					<packagingExcludes>lib/angular/,lib/angular-bootstrap/,lib/angular-route/,lib/angular-sanitize/,lib/angular-translate/,lib/angularjs-nvd3-directives/,lib/d3/,lib/freeboard/,lib/jquery/,lib/ng-prettyjson/,lib/nvd3/,lib/openlayers/,lib/reconnecting-websocket/,lib/stomp/,freeboard/</packagingExcludes>
 				</configuration>
 			</plugin>
 		</plugins>

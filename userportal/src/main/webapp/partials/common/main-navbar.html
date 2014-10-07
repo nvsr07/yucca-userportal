@@ -3,7 +3,7 @@
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand logo" href="#/"><img src="img/logosdp_header.png" alt="logo" /> 
+				<a class="navbar-brand logo" href="http://www.smartdatanet.it"><img src="img/logosdp_header.png" alt="logo" /> 
 				</a>
 			</div>
 	
@@ -11,6 +11,8 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav" ng-show="!isHomepage()">
 					<li class="space-vertical"></li>
+					<li ><a href="#/" ng-class="{active: $route.current.activetab == 'home'}" class='main-menu-item main-menu-item-dashboard'>{{'MENU_HOME'|translate}}</a></li>
+					<li class="divider-vertical"></li>
 					<li ><a href="#/dashboard" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'>{{'MENU_DASHBOARD'|translate}}</a></li>
 					<li class="divider-vertical"></li>
 					<!-- <li ng-class="{active: $route.current.activetab == 'management'}"><a href="#/management/dashboard">{{'MENU_MANAGEMENT'|translate}}</a></li> -->

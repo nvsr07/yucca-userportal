@@ -15,6 +15,7 @@ var translations_it = {
 	WARNING: 'Attenzione', 
 
 	/* main menu */
+	MENU_HOME : 'Home',
 	MENU_DASHBOARD : 'Monitoraggio',
 	MENU_MANAGEMENT : 'Gestione',
 	MENU_MARKET : 'Market',
@@ -62,6 +63,14 @@ var translations_it = {
 	STREAM_FIELD_LASTUPDATE: 'Aggiornamento',
 	STREAM_FIELD_EVENTS : 'Eventi',
 	STREAM_FIELD_VERSION : 'Versione installata',
+	
+	
+	STREAM_FIELS: 'Definizione Stream',
+	STREAM_NEW_DEFINITION: 'Smart Object ',
+	STREAM_AGGREGATE_DEFINITION: 'Stream esistenti',
+	STREAM_TYPE_DEFINITION: 'Creazione da ',
+	STREAM_FIELDSET: 'Internal Stream Definition',
+
 	/* Stream placeholder */
 	
 	STREAM_FIELD_CODE_PLACEHOLDER : 'es. temperatura',
