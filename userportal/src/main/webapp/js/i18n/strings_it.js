@@ -97,8 +97,8 @@ var translations_it = {
 	
 	
 
-	USER_FIELD_ACCEPT_PRIVACY:"Autorizzo il CSI Piemonte al trattamento dei dati personali con le modalit&agrave e per le finalit&agrave in essa contenute dopo aver letto l 'informativa Privacy ai sensi dell'art. 13 del D.Lgs. 196/2013",
-	USER_FIELD_ACCEPT_RESPONSABILITY:"Dichiaro sotto la mia responabilit&agrave che i dati inseriti nella Piattaforma sono sogggetti unicamente a licenze conformi a quanto indicato nelle Linee Guida (link) e sar&ograve l'unico soggetto a rispondere ad eventuali contestazioni o richieste di risarcimento danni mosse da terzi per violazione dei loro diritti (L. 633/41, D. lgs. 196/03 e s.m.i.). ",
+	USER_FIELD_ACCEPT_PRIVACY:'Autorizzo il CSI Piemonte al trattamento dei dati personali con le modalit&agrave e per le finalit&agrave in essa contenute dopo aver letto l \'informativa Privacy ai sensi dell\'art. 13 del D.Lgs. 196/2013',
+	USER_FIELD_ACCEPT_RESPONSABILITY:'Dichiaro, consapevole di essere l’unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni  da me utilizzatI nell’ambito del progetto e conferiti alla piattaforma sono tutti nella mia piena, libera ed esclusiva disponibilit&agrave; e che pertanto la mia partecipazione in qualit&agrave; di fornitore non viola nessun diritto di terze parti; dichiaro inoltre, avvalendomi della facolt&agrave; sancita delle "Linee guida per l’integrazione in Smart Data Net" di voler mettere a disposizione di tutti i fruitori della piattaforma i dataset e i flussi di dati conferiti, nonch&egrave; loro eventuali elaborazioni, con licenze conformi a quanto consigliato dalle linee guida stesse.',
 	
 	
 	/* Creator of Stream PlaceHolder */
@@ -268,7 +268,7 @@ var translations_it = {
 
 	DASHBOARD_ERROR_LOG_TITLE: 'Error log',
 	DASHBOARD_ERROR_LOG_SUBTITLE: 'Messaggi inviati dai flussi che hanno generato un errore',
-	DASHBOARD_ERROR_LOG_INTRO: 'Si possono visualizzare messaggi di errori indefiniti e non associati a un tenant specifico, o messaggi di errore in cui &eacute; identificato un tenant. Vengono visualizzati gli ultimi 3 messaggi ricevuti, &eacute; possibile aggiornare i messaggi tramite il bottone refresh',
+	DASHBOARD_ERROR_LOG_INTRO: 'Si possono visualizzare messaggi di errori indefiniti e non associati a un tenant specifico, o messaggi di errore in cui &egrave; identificato un tenant. Vengono visualizzati gli ultimi 3 messaggi ricevuti, &egrave; possibile aggiornare i messaggi tramite il bottone refresh',
 	DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_TITLE: 'Seleziona gli errori da visualizzare',
 	DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_SUBTITLE: '',
 	DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_ITEM: 'Platform',
@@ -369,7 +369,7 @@ var translations_it = {
 		
 	MANAGEMENT_EDIT_VIRTUALENTITY_GENERAL: 'Informazioni generali',
 	MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION: 'Collocazione',
-	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informaizoni aggiuntive Info',
+	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informazioni aggiuntive Info',
 	MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON: 'Fine modifica',
 	MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON: 'Salva',
 

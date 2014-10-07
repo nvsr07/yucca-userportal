@@ -137,6 +137,7 @@ function showMap() {
             // ed esegue la chiamata alla relativa API
               
             var urlSensore = urlBaseStream + codiceTenant + "/" + codice;
+            console.debug("urlSensore",urlSensore);
             var xmlHttp2 = new XMLHttpRequest(); 
 
             var elencoStreamSensore = [];  

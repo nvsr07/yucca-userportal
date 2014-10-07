@@ -492,5 +492,3 @@ var WebsocketStompSingleton= (function() {
 		}
 	};
 })();
-
-
