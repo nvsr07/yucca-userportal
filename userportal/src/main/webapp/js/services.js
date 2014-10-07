@@ -302,15 +302,11 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 			});
 		}
 
-		var passwordtmp = "Errore";
-		if(count >4){
-			passwordtmp=password;
-		}
-			
+					
 		updateStatus(Constants.WEBSOCKET_CONNECTING);
 		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
 		
-		stompClient.connect(user, passwordtmp, function(frame) {
+		stompClient.connect(user, password, function(frame) {
 			connectedFlag=true;
 			updateStatus(Constants.WEBSOCKET_CONNECTED);
 			root.$apply(function() {

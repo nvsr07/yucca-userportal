@@ -177,8 +177,12 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
-
+	
+	$scope.streamSelectedItem=null;
+	$scope.inputTypeStream = 1;
+	$scope.streamsList = [];
 	$scope.virtualEntitiesList = [];
+	$scope.internalStreams = [];
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
 		console.log(response.virtualEntities.virtualEntity);
 		for (var int = 0; int < response.virtualEntities.virtualEntity.length; int++) {
@@ -186,11 +190,15 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
 				$scope.virtualEntitiesList.push(virtualentity);
 		}
-		// TODO: manage virtual entity type internal
-		//$scope.virtualEntitiesList = response.virtualEntities.virtualEntity;
 	});
 	
-	// TODO put in cache
+	
+	$scope.addStreamToArray = function(){
+		console.debug("$scope.streamSelectedItem",$scope.streamSelectedItem);
+		$scope.internalStreams.push($scope.streamSelectedItem);
+	};
+	
+	
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
@@ -198,7 +206,14 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 		}
 	});
 	
+	fabricAPIservice.getStreams().success(function(response) {
 	
+		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+		for (var i = 0; i < responseList.length; i++) {
+				if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST && responseList[i].visibility && responseList[i].visibility=="public")
+					$scope.streamsList.push(responseList[i]);
+		}
+	});
 	
 	$scope.creationError = null;
 	
