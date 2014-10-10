@@ -15,7 +15,7 @@ var app = angular.module('userportal', [
   'nvd3ChartDirectives',
 ]);
 
-app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {templateUrl: 'partials/common/home.html?'+BuildInfo.timestamp, isHomepage: true});
 	$routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard/main.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/main/:dashboard', {templateUrl: 'partials/dashboard/main.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
@@ -29,6 +29,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 	$routeProvider.when('/management/:managementTab/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, controller: 'ManagementCtrl', activetab: 'management'});
 	$routeProvider.when('/market', {templateUrl: 'partials/market/index.html?'+BuildInfo.timestamp, controller: 'MarketCtrl', activetab: 'market'});
 	$routeProvider.when('/store', {templateUrl: 'partials/store/index.html?'+BuildInfo.timestamp, controller: 'StoreCtrl', activetab: 'store'});
+	$routeProvider.when('/info', {templateUrl: 'partials/info/info.html?'+BuildInfo.timestamp, controller: 'StoreCtrl', activetab: 'info'});
 	$routeProvider.otherwise({redirectTo: '/home'});
   
  // $locationProvider.html5Mode(true).hashPrefix('!');
@@ -63,8 +64,9 @@ app.factory('info',  function() {
     };
     
     infoService.getTenantCode = function(){
-    	if(this.info && this.info.tenant)
-    		return this.info.tenant.tenantCode;
+    	console.log("infoService.getTenantCode info", this.info);
+    	if(this.info && this.info.tenantCode)
+    		return this.info.tenantCode;
     	return null;
     };
     
@@ -76,3 +78,37 @@ app.factory('info',  function() {
 
     return infoService;
 });
+
+/*
+
+app.factory('info',  function() {
+    var info = {};
+    var infoService = {};
+    
+    infoService.getInfo = function() {
+        return info;
+    };
+
+    infoService.setInfo = function(info) {
+    	console.log("info.setInfo info ", info);
+        this.info = info;
+    };
+    
+    infoService.getTenantCode = function(){
+    	console.log("info.getTenantCode info ", this.info);
+
+    	return this.info.tenantCode;
+    };
+    
+    infoService.isOwner = function(tenantCode){
+    	console.log("info.isOwner tenantCode", tenantCode);
+    	console.log("info.isOwner infoService", this.infoService);
+    	console.log("info.isOwner infoService.getTenantCode()", this.infoService.getTenantCode());
+    	if(tenantCode)
+    		return this.infoService.getTenantCode() == tenantCode;
+    	return false;
+    };
+
+    return infoService;
+});
+*/

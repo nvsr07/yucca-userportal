@@ -11,35 +11,35 @@ public enum ApiEntityEnum {
 	STREAM_COMPONENT("API_STREAM_COMPONENT_URL", "/userportal/api/proxy/streams/components/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(request.getSession().getAttribute(AuthorizeUtils.TENANT_CODE));
+			return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE));
 		}
 	},
 	STREAM("API_STREAM_URL", "/userportal/api/proxy/streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request)
-					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(request.getSession().getAttribute(AuthorizeUtils.TENANT_CODE));
+					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE));
 		}
 	},
 	STREAM_LIST("API_STREAM_LIST_URL", "/userportal/api/proxy/streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request)
-					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(request.getSession().getAttribute(AuthorizeUtils.TENANT_CODE));
+					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE));
 		}
 	},
 	VIRTUALENTITY("API_VIRTUALENTITY_URL", "/userportal/api/proxy/virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request)
-					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(request.getSession().getAttribute(AuthorizeUtils.TENANT_CODE));
+					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE));
 		}
 	},
 	VIRTUALENTITY_LIST("API_VIRTUALENTITY_LIST_URL", "/userportal/api/proxy/virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request)
-					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(request.getSession().getAttribute(AuthorizeUtils.TENANT_CODE));
+					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE));
 		}
 	},
 	VIRTUALENTITY_CATEGORIES("API_VIRTUALENTITY_CATEGORIES_URL", "/userportal/api/proxy/misc/category/") {

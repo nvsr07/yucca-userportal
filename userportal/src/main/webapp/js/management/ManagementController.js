@@ -536,8 +536,9 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
 		// Dig into the responde to get the relevant data
 		console.log("response", response);
-		$scope.virtualentitiesList = response.virtualEntities.virtualEntity;
-
+		if(response.virtualEntities==null)
+			response.virtualEntities = {};
+		$scope.virtualentitiesList = Helpers.util.initArrayZeroOneElements(response.virtualEntities.virtualEntity);
 		$scope.totalItems = $scope.virtualentitiesList.length;
 		//$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});

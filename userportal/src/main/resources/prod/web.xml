@@ -17,11 +17,11 @@
 		</init-param>
 		<init-param>
 			<param-name>IdpUrl</param-name>
-			<param-value>https://tst-sdnet-sec1.sdp.csi.it:9444/samlsso</param-value>
+			<param-value>https://sdnet-sec1.sdp.csi.it:9444/samlsso</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ConsumerUrl</param-name>
-			<param-value>http://localhost:8080/userportal/api/authorize</param-value>
+			<param-value>http://userportal.smartdatanet.it/userportal/api/authorize</param-value>
 		</init-param>
 		<init-param>
 			<param-name>AttributeConsumingServiceIndex</param-name>

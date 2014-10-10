@@ -11,3 +11,5 @@
 /node_modules/
 /.tmp/
 /dist/
+/target_local/
+/target_prod_v0.7.1/

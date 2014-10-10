@@ -1,5 +1,6 @@
 package it.csi.sdp.userportal.service;
 
+import it.csi.sdp.userportal.info.Info;
 import it.csi.sdp.userportal.utils.AuthorizeUtils;
 
 import java.io.IOException;
@@ -21,10 +22,11 @@ public class InfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("[InfoServlet::doGet] - START");
 		try {
-			String info = "{\"info\":{\"tenant\": {\"tenantCode\":\"" + request.getSession(true).getAttribute(AuthorizeUtils.TENANT_CODE) + "\"}}}";
-			
+			//String info =  "{\"info\":{\"tenant\": {\"tenantCode\":\"" + request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE) + "\"}}}";
+			Info info  = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			String infoJson = info.toJson();
 			if (isJSONPRequest(request))
-				info = getCallbackMethod(request) + "(" + info + ")";
+				infoJson = getCallbackMethod(request) + "(" +infoJson + ")";
 
 			
 			response.setContentType("application/json; charset=utf-8");
@@ -32,7 +34,7 @@ public class InfoServlet extends HttpServlet {
 
 			PrintWriter out = response.getWriter();
 
-			out.println(info);
+			out.println(infoJson);
 			out.close();
 		} catch (IOException e) {
 			log.error("[InfoServlet::doGet] - ERROR " + e.getMessage());
