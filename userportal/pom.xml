@@ -73,6 +73,7 @@
 				<version>2.4</version>
 				<configuration>
 					<packagingExcludes>lib/angular/,lib/angular-bootstrap/,lib/angular-route/,lib/angular-sanitize/,lib/angular-translate/,lib/angularjs-nvd3-directives/,lib/d3/,lib/freeboard/,lib/jquery/,lib/ng-prettyjson/,lib/nvd3/,lib/openlayers/,lib/reconnecting-websocket/,lib/stomp/,freeboard/</packagingExcludes>
+					<webXml>${webXmlPath}/web.xml</webXml>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -95,7 +96,83 @@
 			<artifactId>commons-httpclient</artifactId>
 			<version>3.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ws.commons.axiom</groupId>
+			<artifactId>axiom-impl</artifactId>
+			<version>1.2.12</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.opensaml</groupId>
+			<artifactId>opensaml</artifactId>
+			<version>2.2.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.opensaml</groupId>
+					<artifactId>openws</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jargs</groupId>
+					<artifactId>jargs</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.opensaml</groupId>
+			<artifactId>openws</artifactId>
+			<version>1.4.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>log4j-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.3</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
+	<repositories>
+		<repository>
+			<id>xerces-api</id>
+			<url>http://www.eviware.com/repository/maven2/</url>
+		</repository>
+		<repository>
+			<id>org.apache.xalan</id>
+			<url>http://www.eviware.com/repository/maven2/</url>
+		</repository>
+	</repositories>
 	<profiles>
 		<profile>
 			<id>local</id>
@@ -109,6 +186,9 @@
 					</resource>
 				</resources>
 			</build>
+			<properties>
+				<webXmlPath>src/main/resources/local</webXmlPath>
+			</properties>
 		</profile>
 		<profile>
 			<id>dev</id>
@@ -119,6 +199,9 @@
 					</resource>
 				</resources>
 			</build>
+			<properties>
+				<webXmlPath>src/main/resources/dev/</webXmlPath>
+			</properties>
 		</profile>
 		<profile>
 			<id>prod</id>
@@ -129,6 +212,9 @@
 					</resource>
 				</resources>
 			</build>
+			<properties>
+				<webXmlPath>src/main/resources/prod/</webXmlPath>
+			</properties>
 		</profile>
 	</profiles>
 </project>
