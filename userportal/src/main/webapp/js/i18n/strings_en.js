@@ -387,5 +387,12 @@ var translations_en = {
 
 	/* Store */
 	STORE_TITLE: 'Store',
+	
+	/* Info */
+	INFO_TITLE: 'About userportal', 
+	INFO_INTRO: '<p>The <strong>Yucca Platform</strong>is ​​entirely created using <strong>Open Source</strong> technologies</p><p>Source code is available on github <a href="https://github.com/csipiemonte" target="_blank">github.com/csipiemonte</a>',
+	INFO_MAIN_FRAMEWORK_TITLE: 'Created with',
+	INFO_LIBRARIES_TITLE: 'Presentation and libraries',
+	INFO_SOURCE_TOOL_TITLE: 'Source code and build tools',
 
 };

@@ -69,6 +69,7 @@ public class SamlConsumerManager {
 	private String relayState = null;
 	private String issuerId = null;
 	private String idpUrl = null;
+	private String idpLoginPageStylePath = null;
 	private String attribIndex = null;
 	private static Log log = LogFactory.getLog(SamlConsumerManager.class);
 
@@ -76,6 +77,7 @@ public class SamlConsumerManager {
 
 		consumerUrl = SamlUtil.getConfiguration(servletConfig, "ConsumerUrl");
 		idpUrl = SamlUtil.getConfiguration(servletConfig, "IdpUrl");
+		idpLoginPageStylePath = SamlUtil.getConfiguration(servletConfig, "IdpLoginPageStylePath");
 		issuerId = SamlUtil.getConfiguration(servletConfig, "Issuer");
 		attribIndex = SamlUtil.getConfiguration(servletConfig, "AttributeConsumingServiceIndex");
 
@@ -302,5 +304,9 @@ public class SamlConsumerManager {
 			}
 		}
 		return resutls;
+	}
+
+	public String getIdpLoginPageStylePath() {
+		return idpLoginPageStylePath;
 	}
 }

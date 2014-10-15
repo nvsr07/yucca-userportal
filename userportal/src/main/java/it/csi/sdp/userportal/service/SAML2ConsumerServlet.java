@@ -7,6 +7,7 @@ import it.csi.sdp.userportal.utils.Util;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
@@ -83,7 +84,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				info.setUser(AuthorizeUtils.DEFAULT_USER);
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String requestMessage = consumer.buildRequestMessage(request);
-				response.sendRedirect(requestMessage);
+				response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

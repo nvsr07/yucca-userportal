@@ -27,5 +27,9 @@
 			<param-name>AttributeConsumingServiceIndex</param-name>
 			<param-value>698821112</param-value>
 		</init-param>
+		<init-param>
+			<param-name>IdpLoginPageStylePath</param-name>
+			<param-value>https://localhost:8001/css/auth.css</param-value>
+		</init-param>
 	</servlet>
 </web-app>     
