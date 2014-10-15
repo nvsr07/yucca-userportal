@@ -68,11 +68,14 @@ var translations_en = {
 	STREAM_FIELD_VERSION : 'Installed Version',
 	
 	
-	STREAM_FIELS: 'Stream Definition',
+
+	STREAM_FIELS: 'Stream in Input Definition',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
 	STREAM_AGGREGATE_DEFINITION: 'Internal Streams ',
 	STREAM_TYPE_DEFINITION: 'Creation from ',
 	STREAM_FIELDSET: 'Internal Stream Definition',
+	STREAM_FIELD_COMPONENTS_OUTPUT: 'Components of the stream in output',
+	
 	
 	
 	/* Stream placeholder */

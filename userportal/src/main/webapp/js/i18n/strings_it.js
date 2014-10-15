@@ -66,12 +66,12 @@ var translations_it = {
 	STREAM_FIELD_EVENTS : 'Eventi',
 	STREAM_FIELD_VERSION : 'Versione installata',
 	
-	
-	STREAM_FIELS: 'Definizione Stream',
+	STREAM_FIELS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
 	STREAM_AGGREGATE_DEFINITION: 'Stream esistenti',
 	STREAM_TYPE_DEFINITION: 'Creazione da ',
 	STREAM_FIELDSET: 'Internal Stream Definition',
+	STREAM_FIELD_COMPONENTS_OUTPUT: 'Componenti stream in uscita',
 
 	/* Stream placeholder */
 	
