@@ -90,7 +90,7 @@ Helpers.util = {
 		
 		$('html,body').animate({scrollTop:top}, 500);
 
-	}
+	}	
 };
 
 Helpers.errors = {

@@ -175,61 +175,61 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
-	
+
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
-	
-	$scope.streamSelectedItem=null;
-	$scope.inputTypeStream = 1;
-	$scope.streamsList = [];
+
+
+
 	$scope.virtualEntitiesList = [];
-	$scope.internalStreams = [];
+
+
+	//internal stream
+	$scope.virtualentity=null;
+//	$scope.internalStreams = [];
+	$scope.inputTypeStream = 1;
+//	$scope.streamSelectedItem=null;	
+//	$scope.streamSiddhiQuery=null;
+//	$scope.virtualentityInternal=null;
+
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
 		console.log(response.virtualEntities.virtualEntity);
 		for (var int = 0; int < response.virtualEntities.virtualEntity.length; int++) {
 			var virtualentity = response.virtualEntities.virtualEntity[int];
-			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
 				$scope.virtualEntitiesList.push(virtualentity);
+			}else{
+				$scope.virtualentityInternal=virtualentity;
+			}
+
 		}
 	});
-	
-	
-	$scope.addStreamToArray = function(){
-		console.debug("$scope.streamSelectedItem",$scope.streamSelectedItem);
-		$scope.internalStreams.push($scope.streamSelectedItem);
-	};
-	
-	
+
+
+
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
 		}
 	});
-	
-	fabricAPIservice.getStreams().success(function(response) {
-	
-		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
-		for (var i = 0; i < responseList.length; i++) {
-				if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST && responseList[i].visibility && responseList[i].visibility=="public")
-					$scope.streamsList.push(responseList[i]);
-		}
-	});
-	
+
+
+
 	$scope.creationError = null;
-	
+
 	$scope.accettazionePrivacy=0;
 	$scope.accettazioneResponsability=0;
-	
+
 	$scope.createStream = function(virtualentity, stream) {
 		stream.fps = 0;
 		stream.saveData = 0;
 		stream.publish = 0;
 		stream.accettazionePrivacy=0;
 		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
-		
-		
+
+
 		var newStream = new Object();
 		newStream.stream = stream;
 		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
@@ -243,7 +243,7 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 			console.log('Got notification: ' + result);
 		});
 	};	
-	
+
 	$scope.cancel = function(){
 		$location.path('management/streams'+'/'+$scope.tenantCode);
 	};
@@ -253,7 +253,7 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 
 appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', function($scope, $routeParams, fabricAPIservice, info) {
 	$scope.tenantCode = $routeParams.tenant_code;
-	
+
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
@@ -262,20 +262,46 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 	$scope.insertComponentError = null;
-	
+
+
+	$scope.internalStreams = [];
+	$scope.inputTypeStream = 1;
+	$scope.streamSelectedItem=null;	
+	$scope.streamSiddhiQuery=null;
+	$scope.streamsList = [];
+
+	$scope.addStreamToArray = function(){
+		$scope.streamSelectedItem.componenti = new Object();
+		$scope.internalStreams.push($scope.streamSelectedItem);
+		$scope.loadStreamComponents($scope.streamSelectedItem);		
+		$scope.streamSelectedItem=null;
+	};
+
+	$scope.cancelStreamToArray = function(index){
+		$scope.internalStreams.splice(index,1);
+	};
+
+
+	fabricAPIservice.getStreams().success(function(response) {
+
+		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+		for (var i = 0; i < responseList.length; i++) {
+			if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST && responseList[i].visibility && responseList[i].visibility=="public"){
+				$scope.streamsList.push(responseList[i]);					
+			}
+		}
+	});
 
 
 	$scope.tagList = [];
-	// TODO put in cache
 	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
 		}
 	});
-	
 
-	// TODO put in cache
+
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
@@ -288,7 +314,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.unitOfMesaurementList = response.measureUnit.element;
 	});
 
-	
+
 	$scope.phenomenomList = [];
 	fabricAPIservice.getStreamPhenomenom().success(function(response) {
 		$scope.phenomenomList = response.Phenomenon.element;
@@ -299,24 +325,54 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.dataTypeList = response.dataType.element;
 	});
 
-	
-	
-	
+
+
+
 	$scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
-	
+
 	$scope.stream = null;
 	$scope.loadStream = function(){
 		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 			$scope.stream = response.streams.stream;
+			console.debug("$scope.stream internal before clean",$scope.stream);
+			if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
+				$scope.stream.streamInternalChildren={};
+				$scope.stream.streamInternalChildren.streamChildren={};
+			}
+			
+			
+			
+			if($scope.stream.streamInternalChildren.streamChildren.length>0 && $scope.stream.streamInternalChildren.streamChildren[0].idStrem){
+				$scope.stream.streamInternalChildren.streamChildren=Helpers.util.initArrayZeroOneElements($scope.stream.streamInternalChildren.streamChildren);
+			}else{
+				$scope.stream.streamInternalChildren.streamChildren=[];
+			}
+			
+
+			for(var i =0 ; i<$scope.stream.streamInternalChildren.streamChildren.length;i++){
+				var existingStream =  $scope.stream.streamInternalChildren.streamChildren[i];
+				console.debug("existingStream",existingStream);
+				$scope.loadStreamComponents(existingStream);
+			}
+
+
+			
+			if( $scope.stream.internalQuery && $scope.stream.internalQuery['@nill']){
+				$scope.stream.internalQuery=null;
+			}
+			$scope.internalStreams=$scope.stream.streamInternalChildren.streamChildren;
+			
+			$scope.streamSiddhiQuery= $scope.stream.internalQuery;
+
+			console.debug("$scope.stream internal",$scope.stream);
 			if(!$scope.stream.streamTags)
 				$scope.stream.streamTags = new Object();
-				$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
-			
+			$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
+
 			if($scope.stream.componenti == null)
 				$scope.stream.componenti = new Object();
 			$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
-			
-			// FIXME remove in future version
+
 			$scope.stream.saveData = '0';
 			$scope.stream.visibility = 'public';
 			$scope.stream.publish = 'false';	
@@ -325,25 +381,34 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 			$scope.stream.domain = $scope.stream.domainStream;
 		});
-		
+
 	};
-	
+
+
+	$scope.loadStreamComponents = function(existingStream){
+		fabricAPIservice.getStream(existingStream.codiceTenant,existingStream.codiceVirtualEntity,existingStream.codiceStream).success(function(response) {
+			var stream = response.streams.stream;
+			for (var i = 0; i < $scope.internalStreams.length; i++) {
+				if($scope.internalStreams[i].idStream==stream.idStream){								
+					$scope.internalStreams[i].componenti = Helpers.util.initArrayZeroOneElements(stream.componenti);	
+				}
+			}
+		});
+
+	};
+
+
+
 	$scope.loadStream();
-	//$scope.virtualEntitiesList = [];
-	//fabricAPIservice.getVirtualEntities($routeParams.tenant_code).success(function(response) {
-	//	$scope.virtualEntitiesList = response.virtualEntities.virtualEntity;
-	//});
 	
-	
+
 	$scope.newComponent = null;
 	$scope.newComponentUnitOfMeasurement = null;
 	$scope.newComponentPhenomenon = null;
 	$scope.newComponentDataType = null;
-	
+
 	$scope.addComponent = function(){
 		$scope.insertComponentError = null;
-		console.log("$scope.newComponent",$scope.newComponent);
-
 		if($scope.newComponent && $scope.newComponent.nome){
 			var found = false;
 
@@ -353,9 +418,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					break;
 				}
 			}
-			
+
 			if(!found){
-				console.log("$scope.stream.componenti.element ccc",$scope.stream.componenti);
 				if($scope.newComponentUnitOfMeasurement){
 					$scope.newComponent.idMeasureUnit = $scope.newComponentUnitOfMeasurement.idMeasureUnit;
 					$scope.newComponent.measureUnit = $scope.newComponentUnitOfMeasurement.measureUnit;
@@ -370,7 +434,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					$scope.newComponent.idDataType = $scope.newComponentDataType.idDataType;
 					$scope.newComponent.dataType = $scope.newComponentDataType.dataType;
 				}
-				
+
 				$scope.stream.componenti.element.push($scope.newComponent);
 				$scope.newComponent = null;
 			}
@@ -383,9 +447,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		return false;
 	};
-	
+
 	$scope.removeComponent = function(index){
-		console.debug("$scope.stream.componenti",$scope.stream.componenti);
 		$scope.stream.componenti.element.splice(index,1);
 		return false;
 	};
@@ -400,17 +463,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					found = true;
 					break;
 				}
-				
+
 			}
-			//$scope.stream.tags.push($scope.newTag);
 			if(!found)
 				$scope.stream.streamTags.tag.push({"tagCode":$scope.newTag});
 		}
 		$scope.newTag = null;
 		return false;
-		
+
 	};
-	
+
 	$scope.removeTag = function(index){
 		$scope.stream.streamTags.tag.splice(index,1);
 		return false;
@@ -434,7 +496,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			return true;
 		return false;
 	};
-	
+
 	$scope.canCreateNewVersion = function() {
 		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_INST)
 			return true;
@@ -445,23 +507,29 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.cancel = function(){
 		$location.path('management/streams');
 	};
-	
+
 	$scope.updateStream = function() {
 		var newStream = new Object();
+
 		newStream.stream =  $scope.stream;
+		newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
+	//	newStream.stream.internalQuery = $scope.streamSiddhiQuery;
+		newStream.stream.streamInternalChildren={};
+		newStream.stream.streamInternalChildren.streamChildren=[];
+		for(var i = 0; i< $scope.internalStreams.length; i++){
+			newStream.stream.streamInternalChildren.streamChildren.push({
+				"aliasChildStream":"input"+i,
+				"idChildStream": $scope.internalStreams[i].idStream
+			});
+		}
+
 		console.log("newStream", newStream);
 		$scope.updateInfo = null;
 		$scope.updateError = null;
 		Helpers.util.scrollTo();
 		var promise   = fabricAPIservice.updateStream(newStream);
-		
-		/*
-		var promise   = fabricAPIservice.createComponents(newStream);
-		console.log("newStream");
-		*/
+
 		promise.then(function(result) {
-			console.log("result qui ", result);
-			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
 			$scope.updateInfo = {status: result.status};
 			$scope.loadStream();
 
@@ -473,21 +541,21 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			console.log('Got notification: ' + result);
 		});
 
-		
+
 	};	
-	
+
 	$scope.requestInstallation = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
 	};
-	
+
 	$scope.requestUnistallation = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST);
 	};
-	
+
 	$scope.createNewVersion = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION);
 	};
-	
+
 	var updateLifecycle = function(action) {
 		console.log("updateLifecycle stream", $scope.stream);
 		console.log("updateLifecycle action", action);
@@ -509,6 +577,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		});
 	};
 } ]);
+
 
 
 /* VIRTUAL ENTITY */
