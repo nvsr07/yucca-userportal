@@ -22,6 +22,8 @@ var translations_it = {
 	MENU_STORE : 'Store',
 	MENU_LANG_EN : 'Inglese',
 	MENU_LANG_IT : 'Italiano',
+	MENU_SING_IN: 'Accedi',
+	MENU_SING_OUT: 'Esci',
 	
 	/* Entity */
 	STREAM: 'Flusso',
@@ -370,7 +372,7 @@ var translations_it = {
 		
 	MANAGEMENT_EDIT_VIRTUALENTITY_GENERAL: 'Informazioni generali',
 	MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION: 'Collocazione',
-	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informazioni aggiuntive Info',
+	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON: 'Fine modifica',
 	MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON: 'Salva',
 

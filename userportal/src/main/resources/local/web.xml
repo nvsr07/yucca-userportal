@@ -13,7 +13,7 @@
 		<servlet-name>AuthorizeServlet</servlet-name>
 		<init-param>
 			<param-name>Issuer</param-name>
-			<param-value>userportal</param-value>
+			<param-value>userportal.local.8080</param-value>
 		</init-param>
 		<init-param>
 			<param-name>IdpUrl</param-name>
@@ -25,7 +25,7 @@
 		</init-param>
 		<init-param>
 			<param-name>AttributeConsumingServiceIndex</param-name>
-			<param-value>627970293</param-value>
+			<param-value>698821112</param-value>
 		</init-param>
 	</servlet>
 </web-app>     

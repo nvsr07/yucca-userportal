@@ -16,6 +16,13 @@ appDirectives.directive('mainNavbar', function() {
 	};
 });
 
+appDirectives.directive('mainNavbarProfile', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/common/main-navbar-profile.html?'+BuildInfo.timestamp,
+	};
+});
+
 appDirectives.directive('mainFooter', function() {
 	return {
 		restrict : 'E',

@@ -22,6 +22,9 @@ var translations_en = {
 	MENU_STORE : 'Store',
 	MENU_LANG_EN : 'English',
 	MENU_LANG_IT : 'Italian',
+	MENU_SING_IN: 'Sign in',
+	MENU_SING_OUT: 'Sign out',
+	
 	
 	/* Entity */
 	STREAM: 'Stream',

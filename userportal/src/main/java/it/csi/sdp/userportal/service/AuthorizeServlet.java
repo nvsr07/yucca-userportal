@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(description = "Authorization Servlet", urlPatterns = { "/api/authorize" }, asyncSupported = false)
+@WebServlet(description = "Authorization Servlet", urlPatterns = { "/api/authorizeOld" }, asyncSupported = false)
 public class AuthorizeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -21,13 +21,13 @@ public class AuthorizeServlet extends HttpServlet {
 
 		String username = (String) request.getParameter("username");
 		String password = (String) request.getParameter("password");
-		String tenantCode = (String) request.getParameter(AuthorizeUtils.TENANT_CODE);
+		String tenantCode = (String) request.getParameter(AuthorizeUtils.SESSION_KEY_TENANT_CODE);
 
 		Properties authorizationConfig = Config.loadAuthorizationConfiguration();
 		String secret = authorizationConfig.getProperty("authorization.secret");
 
 		if (tenantCode != null && "admin".equals(username) && secret.equals(password)) {
-			request.getSession().setAttribute(AuthorizeUtils.TENANT_CODE, tenantCode);
+			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE, tenantCode);
 			response.sendRedirect(request.getContextPath() + "/#/management/streams/" + tenantCode);
 		} else {
 			response.getWriter().append("Attirbuto TENANT_CODE nullo!");

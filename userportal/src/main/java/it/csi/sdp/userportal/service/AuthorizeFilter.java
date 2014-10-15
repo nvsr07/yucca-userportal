@@ -1,5 +1,6 @@
 package it.csi.sdp.userportal.service;
 
+import it.csi.sdp.userportal.info.Info;
 import it.csi.sdp.userportal.utils.AuthorizeUtils;
 
 import java.io.IOException;
@@ -29,25 +30,28 @@ public class AuthorizeFilter implements Filter {
 		log.debug("[AuthorizeFilter::doFilter] - START ");
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
-		
-		if (request.getSession(true).getAttribute(AuthorizeUtils.TENANT_CODE)==null)
-		{
-			request.getSession().setAttribute(AuthorizeUtils.TENANT_CODE, AuthorizeUtils.SANDBOX);
+
+		if (request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE) == null) {
+			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE, AuthorizeUtils.DEFAULT_TENANT);
 		}
-		
-		
+
+		if (request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO) == null) {
+			Info info = new Info();
+			info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
+			info.setUser(AuthorizeUtils.DEFAULT_USER);
+			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
+		}
+
 		try {
 
-			if (AuthorizeUtils.isAPIRequest(request))
-			{
-				if (!AuthorizeUtils.verifyAPIRequest(request))
-				{
+			if (AuthorizeUtils.isAPIRequest(request)) {
+				if (!AuthorizeUtils.verifyAPIRequest(request)) {
 					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 					response.getWriter().append("{\"error_message\":\"Unauthorized access\"}");
 					response.getWriter().flush();
 					return;
 				}
-				
+
 			}
 			chain.doFilter(request, response);
 		} catch (Exception e) {
