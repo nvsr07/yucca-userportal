@@ -339,3 +339,23 @@ height: 100%;
 	border-radius: 5px;
 	padding: 10px;
 }
+=======
+.terms-of-privacy{
+	height:100%;
+}
+.clientConnecting{
+	color: #FF9900;
+}
+.clientNotConnected{
+	color: red;
+}
+.clientConnected{
+	color: #00FF00;
+}
+
+.internalStreamsBorder{
+	border: 2px solid #a1a1a1;
+	border-radius: 5px;
+	padding: 10px;
+}
+

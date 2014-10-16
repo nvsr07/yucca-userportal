@@ -67,8 +67,6 @@ var translations_en = {
 	STREAM_FIELD_EVENTS : 'Events',
 	STREAM_FIELD_VERSION : 'Installed Version',
 	
-	
-	
 	STREAM_FIELS: 'Stream in Input Definition',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
 	STREAM_AGGREGATE_DEFINITION: 'Internal Streams ',
