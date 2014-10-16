@@ -121,6 +121,25 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 		$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
 
 		$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+
+		if(!isNaN($scope.stream.fps)){
+			var fpsNumber = parseFloat($scope.stream.fps);
+			$scope.stream.fpm = 60*fpsNumber;
+			if(fpsNumber!=0){
+				$scope.stream.secondsBtwEvents = 1/fpsNumber;
+				$scope.stream.minutesBtwEvents = 1/(fpsNumber*60);
+			}
+			else{
+				$scope.stream.secondsBtwEvents = "-";
+				$scope.stream.minutesBtwEvents = "-";
+			}
+		}
+		else{
+			$scope.stream.fpm = "-";
+			$scope.stream.secondsBtwEvents = "-";
+			$scope.stream.minutesBtwEvents = "-";
+		}
+		
 		connectWS();
 //		connectWSStatistic();
 //		connectWSClientData();

@@ -29,4 +29,17 @@ appFilters.filter('startFrom', function() {
     };
 });
 
-
+appFilters.filter('number_ellipse', function() {
+	return function(input, min, max) {
+		var output = input;
+		if (input) {
+			if(Math.abs(input)<min)
+				output ="<" + min; 
+			else if(Math.abs(input)>1000)
+				output =">" + max; 
+			else
+				output = input.toFixed(2);
+	    }
+		return output;
+	};
+});

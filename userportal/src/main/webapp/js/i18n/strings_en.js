@@ -68,11 +68,14 @@ var translations_en = {
 	STREAM_FIELD_VERSION : 'Installed Version',
 	
 	
-	STREAM_FIELS: 'Stream Definition',
+	
+	STREAM_FIELS: 'Stream in Input Definition',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
 	STREAM_AGGREGATE_DEFINITION: 'Internal Streams ',
 	STREAM_TYPE_DEFINITION: 'Creation from ',
 	STREAM_FIELDSET: 'Internal Stream Definition',
+	STREAM_FIELD_COMPONENTS_OUTPUT: 'Components of the stream in output',
+	
 	
 	
 	/* Stream placeholder */
@@ -249,6 +252,11 @@ var translations_en = {
 	DASHBOARD_STREAM_DETAIL_TABLE_KEY : 'Field',
 	DASHBOARD_STREAM_DETAIL_TABLE_VALUE : 'Value',
 	DASHBOARD_STREAM_DETAIL_OTHER_CONFIUGURATION: 'Other configuration',
+
+	DASHBOARD_STREAM_REALTIME_FPS: 'FPS', 
+	DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS: 'Sec. between events', 
+	DASHBOARD_STREAM_REALTIME_FPM: 'FPM', 
+	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. between events', 
 
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistics', 
 	

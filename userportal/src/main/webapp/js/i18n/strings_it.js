@@ -66,12 +66,12 @@ var translations_it = {
 	STREAM_FIELD_EVENTS : 'Eventi',
 	STREAM_FIELD_VERSION : 'Versione installata',
 	
-	
-	STREAM_FIELS: 'Definizione Stream',
+	STREAM_FIELS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
 	STREAM_AGGREGATE_DEFINITION: 'Stream esistenti',
 	STREAM_TYPE_DEFINITION: 'Creazione da ',
 	STREAM_FIELDSET: 'Internal Stream Definition',
+	STREAM_FIELD_COMPONENTS_OUTPUT: 'Componenti stream in uscita',
 
 	/* Stream placeholder */
 	
@@ -253,6 +253,12 @@ var translations_it = {
 	DASHBOARD_STREAM_DETAIL_TABLE_KEY : 'Campo',
 	DASHBOARD_STREAM_DETAIL_TABLE_VALUE : 'Valore',
 	DASHBOARD_STREAM_DETAIL_OTHER_CONFIUGURATION: 'Altre configurazioni',
+
+
+	DASHBOARD_STREAM_REALTIME_FPS: 'FPS', 
+	DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS: 'Sec. tra eventi', 
+	DASHBOARD_STREAM_REALTIME_FPM: 'FPM', 
+	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. tra eventi', 
 
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistiche', 
 	

@@ -206,6 +206,7 @@ small pre{font-size: 11px;padding: 4px;}
 .dashboard-menu .tile-menuitem, .btn-dashboard {background-color: #1CBDF1;color: white!important; border: none; }
 .dashboard-menu .tile-menuitem:hover {background-color: #1074c2;}
 
+
 .management-menu .tile-main, .btn-management.active,  .btn-management:hover{background-color: #662577;color: white; }
 .management-menu .tile-menuitem,  .btn-management{background-color: #9F4F98; color: white; border: none;}
 .management-menu .tile-menuitem:hover {background-color: #662577;}
@@ -260,6 +261,7 @@ small pre{font-size: 11px;padding: 4px;}
 .section-dashboard .pagination>.active>a, .section-dashboard .pagination>.active>span, .section-dashboard .pagination>.active>a:hover, .section-dashboard .pagination>.active>span:hover, .section-dashboard .pagination>.active>a:focus, .section-dashboard .pagination>.active>span:focus{background-color: #1074c2;border-color: #1074c2; color: white;}
 .section-dashboard .pagination>li>a:hover, .section-dashboard .pagination>li>span:hover, .pagination>li>a:focus, .section-dashboard .pagination>li>span:focus,.section-dashboard .pagination>li>a:hover{color: #054678}
 .section-dashboard .pagination>li>a, .section-dashboard .pagination>li>span{color: #054678}
+.section-dashboard .important{color: #1074c2;}
 
 /* management */
 .section-management .btn-default.active, .section-management .btn-default:hover {background-color: #662577!important; color: white;  }
@@ -269,6 +271,7 @@ small pre{font-size: 11px;padding: 4px;}
 .section-management .pagination>.active>a, .section-management .pagination>.active>span, .section-management .pagination>.active>a:hover, .section-management .pagination>.active>span:hover, .section-management .pagination>.active>a:focus, .section-management .pagination>.active>span:focus{background-color: #662577;border-color: #662577; color: white;}
 .section-management .pagination>li>a:hover, .section-management .pagination>li>span:hover, .pagination>li>a:focus, .section-management .pagination>li>span:focus,.section-management .pagination>li>a:hover{color: #054678}
 .section-management .pagination>li>a, .section-management .pagination>li>span{color: #350242}
+.section-management .important{color: #662577;}
 
 
 .navbar .space-vertical { height: 50px; margin: 0 27px; }
@@ -323,15 +326,16 @@ height: 100%;
 }*/
 
 
-.terms-of-privacy{
-	height:100%;
-}
-.clientConnecting{
-	color: #FF9900;
-}
-.clientNotConnected{
-	color: red;
-}
-.clientConnected{
-	color: #00FF00;
+.terms-of-privacy{height:100%;}
+
+.clientCnnectingStatus{ font-size: 14px;}
+.clientConnecting{color: #ff9900;background-color: #ff9900;}
+.clientNotConnected{color: #ff4141;background-color: #ff4141;}
+.clientConnected{color: #9ade00;background-color: #9ade00;}
+.clientConnectBullet{display: inline-block; border-radius: 100%; margin-right: .2em; width: 1em; height: 1em;}
+
+.internalStreamsBorder{
+	border: 2px solid #a1a1a1;
+	border-radius: 5px;
+	padding: 10px;
 }
