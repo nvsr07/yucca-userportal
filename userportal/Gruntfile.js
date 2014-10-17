@@ -4,6 +4,10 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg : grunt.file.readJSON('package.json'),
 		clean : [ 'src/main/webapp/js-min', 'src/main/webapp/css-min' ],
+		
+		bower: {
+			 install: {	}
+		},
 
 		replace : {
 			build_info : {
@@ -62,9 +66,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-usemin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-rev');
-
+	grunt.loadNpmTasks('grunt-bower-installer');
+	
 	// Default task(s).
-	grunt.registerTask('default', [ 'clean', 'replace', 'copy', 'useminPrepare', 'uglify', 'rev', 'usemin' ]);
+	grunt.registerTask('default', [ 'clean', /*'bower',*/ 'replace', 'copy', 'useminPrepare', 'uglify', 'rev', 'usemin' ]);
 
 };
 

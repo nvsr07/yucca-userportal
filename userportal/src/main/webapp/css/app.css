@@ -39,7 +39,7 @@ footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 .data-summary-panel tr:last-child{border-bottom: none;}
 .data-summary-panel td{padding-left: 1em!important;padding-right: 1em!important;}
 
-
+ul .list-spaced li{line-height: 1.2em;}
 
 .label a{color: white;}
 .label-custom{font-size:85%; padding:0.5em 0.8em;margin: .1em;}
@@ -299,6 +299,9 @@ small pre{font-size: 11px;padding: 4px;}
 #userportal-info .intro p{ font-size:16pt; line-height:2em;font-weight: 300pt;}
 #userportal-info .intro p strong{ background:none repeat scroll 0 0 #efefef;  display:inline-block; padding:0.1em 0.4em; -ms-transform: rotate(-4deg);  -webkit-transform: rotate(-4deg);  transform: rotate(-4deg);}
 #userportal-info .tile-img{display: block; min-height: 109px; }
+.angularjs-color{color: #c4473a;}
+.javascript-color{color: #d6ba32;}
+
 
 /* json custom color */
 /*

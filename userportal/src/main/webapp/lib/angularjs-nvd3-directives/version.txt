@@ -1,1 +1,0 @@
-Angularjs Nvd3 Directives v0.0.7
