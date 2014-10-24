@@ -18,13 +18,13 @@ var translations_en = {
 	MENU_HOME : 'Home',
 	MENU_DASHBOARD : 'Dashboard',
 	MENU_MANAGEMENT : 'Management',
+	MENU_DISCOVERY : 'Discovery',
 	MENU_MARKET : 'Market',
 	MENU_STORE : 'Store',
 	MENU_LANG_EN : 'English',
 	MENU_LANG_IT : 'Italian',
 	MENU_SING_IN: 'Sign in',
 	MENU_SING_OUT: 'Sign out',
-	
 	
 	/* Entity */
 	STREAM: 'Stream',
@@ -73,9 +73,7 @@ var translations_en = {
 	STREAM_TYPE_DEFINITION: 'Creation from ',
 	STREAM_FIELDSET: 'Internal Stream Definition',
 	STREAM_FIELD_COMPONENTS_OUTPUT: 'Components of the stream in output',
-	
-	
-	
+
 	/* Stream placeholder */
 	
 	STREAM_FIELD_CODE_PLACEHOLDER : 'e.g. temperature',
@@ -144,6 +142,31 @@ var translations_en = {
 	VIRTUALENTITY_FIELD_ADMIN_URI: 'Administration URI',
 	VIRTUALENTITY_FIELD_SOFTWARE_VERSION: 'Software version',
 		
+	/* Dataset */
+
+	DATASET_FIELD_CODE: 'Code',
+	DATASET_FIELD_NAME: 'Name',
+	DATASET_FIELD_LASTUPDATE: 'Lastupdate',
+	DATASET_FIELD_STATUS: 'Status',
+	DATASET_FIELD_VERSION: 'Version',
+	DATASET_FIELD_DOMAIN: 'Domain',
+	DATASET_FIELD_TAGS: 'Tags',
+	DATASET_FIELD_COLUMN_ORDER: 'Order',
+	DATASET_FIELD_COLUMN_CODE: 'Code',
+	DATASET_FIELD_COLUMN_SEMANTIC: 'Semantic',
+	DATASET_FIELD_COLUMN_DATATYPE: 'Data Type',
+	DATASET_FIELD_VISIBILITY:  'Visibility',
+	DATASET_FIELD_LICENCE: 'Licence',
+	DATASET_FIELD_DISCLAIMER : 'Disclaimer',
+	DATASET_FIELD_COPYRIGHT : 'Copyright',
+	
+	/* Dataset placeholder */
+	DATASET_FIELD_CODE_PLACEHOLDER : 'es. temperature',
+	DATASET_FIELD_NAME_PLACEHOLDER : 'es. room  temperature',
+	DATASET_FIELD_COLUMNS_CODE_PLACEHOLDER : 'es. id',
+	DATASET_FIELD_COLUMNS_SEMANTIC_PLACEHOLDER : 'es. identifier',
+	DATASET_FIELD_COLUMNS_DATATYPE_PLACEHOLDER : 'es. long',
+	
 	/* Stream tags */
 	AGRICULTURE: 'Agriculture',
 	ENERGY: 'Energy',
@@ -152,10 +175,6 @@ var translations_en = {
 	SCHOOL: 'School',
 	SECURITY: 'Security',
 	TRANSPORT: 'Transport',
-	/* TODO REMOVE */
-	ambiente: 'Environment',
-	agricoltura: 'Agriculture',
-	qualita_aria: 'Air quality',
 
 	
 	/* Stream domains */
@@ -206,12 +225,17 @@ var translations_en = {
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filter by code',
 	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filter by status',
 
+	/* Dataset List */
+	DATASET_LIST_CODE_FILTER: 'Filter by code',
+	DATASET_LIST_STATUS_FILTER: 'Filter by status',
+
 	/* Home page */
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Record smart objects and define transmitted streams',
 	HOME_TENANT_TITLE: 'Organizations',	
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
+	HOME_SEARCH_TITLE: 'Discovery data',
 	
 	HOME_HOWTO_TITLE: 'What can I do with the platform',
 	HOME_HOWTO_TEXT_HTML: '<li>' + 
@@ -250,6 +274,7 @@ var translations_en = {
 	DASHBOARD_STREAM_DETAIL_TABLE_KEY : 'Field',
 	DASHBOARD_STREAM_DETAIL_TABLE_VALUE : 'Value',
 	DASHBOARD_STREAM_DETAIL_OTHER_CONFIUGURATION: 'Other configuration',
+
 
 	DASHBOARD_STREAM_REALTIME_FPS: 'FPS', 
 	DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS: 'Sec. between events', 
@@ -382,12 +407,76 @@ var translations_en = {
 	MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON: 'Delete',
 	MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON: 'Edit',
 	MANAGEMENT_VIEW_VIRTUALENTITY_INSTALL_BUTTON: 'Install',
+	
+	/* Management dataset */
+	MANAGEMENT_DATASET_SUBTITLE: 'Dataset',
+	MANAGEMENT_DATASET_LIST_NEW_DATASET: 'Load new Dataset',
+	MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT: 'To enable editing select a single Dataset',
+	MANAGEMENT_DATASET_LIST_EDIT_DATASET: 'Edit',
+	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'To enable deleting select at least one Dataset',
+	MANAGEMENT_DATASET_LIST_DELETE_DATASET: 'Delete',
+	
+	
+	/* Management new Dataset */
+	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Create',
+	MANAGEMENT_NEW_DATASET_SUBTITLE: 'New Dataset',
+	
+	MANAGEMENT_EDIT_DATASET_SUBTITLE: 'Edit ', 
+	MANAGEMENT_EDIT_DATASET_TAG_PLACEHOLDER: 'Choose one or more tag...',
+	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Choose one domain...',
+	MANAGEMENT_EDIT_STREAM_DATATYPE_PLACEHOLDER: 'Choose...',
+	MANAGEMENT_EDIT_DATASET_SAVE_DATA_LABEL: 'Save data',
+	MANAGEMENT_EDIT_DATASET_SAVE_DATA: 'Save',
+	MANAGEMENT_EDIT_DATASET_DONT_SAVE_DATA: 'Don\'t save',
+	MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC: 'Public',
+	MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE: 'Private',
+	MANAGEMENT_EDIT_DATASET_PUBLISH_ON_STORE_LABEL: 'Publication in the Store',
+	MANAGEMENT_EDIT_DATASET_PUBLISH_ON_STORE: 'Published',
+	MANAGEMENT_EDIT_DATASET_NOT_PUBLISH_ON_STORE: 'Not Published',
+	MANAGEMENT_EDIT_DATASET_SAVE_BUTTON: 'Save',
+	MANAGEMENT_EDIT_DATASET_FINISH_BUTTON: 'Finish editing', 
+	MANAGEMENT_EDIT_DATASET_ADD_TAG : 'Add tag', 
+	MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO : 'Dataset saved',
+	
+	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Genearl Info',
+	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Define data structure',
 
+	MANAGEMENT_EDIT_DATASET_OTHER_INFO: 'Additional Info',
+	MANAGEMENT_EDIT_DATASET_SETTINGS: 'Settings (coming soon)',
+	
+	MANAGEMENT_EDIT_DATASET_ERROR_COMPONENT_TITLE: 'Warning',
+	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_REQUIRED: 'The field \'code\' is required',
+	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_UNIQUE: 'The field \'code\' must be unique in a dataset',
+	
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Choose tenant',
 	MANAGEMENT_CHOOSE_TENANT_WARNING: 'Temporary page awaiting authentication system',
 	MANAGEMENT_CHOOSE_TENANT_TITLE: 'Choose one tenant',
 	
+	/* Discovery */
+	DISCOVERY_TITLE: 'Discovery',
+	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Search',
+	DISCOVERY_SIMPLESEARCH_MENU: 'Simple search',
+	DISCOVERY_ADVANCEDSEARCH_MENU: 'Advanced search',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. water',
+	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Search operator enabled <strong>tag</strong>, <strong>licence</strong> to use it <i>operator<strong>:</strong><i>value</i> ',
+	DISCOVERY_FILTER_SEARCH_BUTTON: 'Search',
+	
+	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Choose one field',
+	
+	DISCOVERY_RESULTS_SIZE_LABEL: 'Founds: ',
+	
+	DISCOVERY_BACK_FILTER_LABEL: 'Back to search filter',
+	DISCOVERY_BACK_RESULT_LABEL: 'Back to result list',
+
+	/* Discovery fields */
+	DISCOVERY_FIELD_TITLE: 'Name',
+	DISCOVERY_FIELD_TAG: 'Tag',
+	DISCOVERY_FIELD_LICENCE: 'Licence',
+	DISCOVERY_FIELD_TENANT: 'Tenant',
+	DISCOVERY_FIELD_FPS: 'FPS',
+	DISCOVERY_FIELD_UNIT_OF_MEASUREMENT: 'Unit of Measurement',
+
 	/* Market */
 	MARKET_TITLE: 'Market',
 

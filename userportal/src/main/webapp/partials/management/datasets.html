@@ -1,0 +1,88 @@
+<div ng-controller="ManagementDatasetListCtrl as datasetsCtrl">
+	<h2> <span translate>MANAGEMENT_TITLE</span> <small translate>MANAGEMENT_DATASET_SUBTITLE </small></h2>
+	<div class='row'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+			<!-- Main component for a primary marketing message or call to action -->
+	
+			<!-- Single button -->
+			<div class='clearfix'>
+				<div class="pull-left">
+		        	<a  href="#/management/newDataset/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isOwner()">
+						<span class="glyphicon glyphicon-plus "></span> <span translate>MANAGEMENT_DATASET_LIST_NEW_DATASET</span>
+					</a>
+					<button  href="javascript:void(0)" ng-click='editDataset()' class="btn  btn-edit" ng-disabled="!isOwner() || !canEdit()" title="{{'MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT'|translate}}">
+						<span class="glyphicon glyphicon-pencil "></span> <span translate>MANAGEMENT_DATASET_LIST_EDIT_DATASET</span>
+					</button>
+					<button href="javascript:void(0)" ng-click='deleteDataset()'class="btn  btn-delete" ng-disabled="true" title="{{'MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT'|translate}}">
+						<span class="glyphicon glyphicon-trash "></span> <span translate>MANAGEMENT_DATASET_LIST_DELETE_DATASET</span>
+					</button>
+				</div>
+				<div class="btn-group pull-right">
+					<form class="form-inline" role="form">
+						<div class="form-group">
+							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="codeFilter" placeholder="{{'DATASET_LIST_CODE_FILTER'|translate}}" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'DATASET_LIST_STATUS_FILTER'|translate}}" />
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="table-responsive dashboard-datasetList-table">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'codiceDataset'; reverse=!reverse"><span translate>DATASET_FIELD_CODE</span>
+								<span ng-show="predicate=='codiceDataset' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='codiceDataset' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'nomeDataset'; reverse=!reverse">{{'DATASET_FIELD_NAME'|translate}} 
+								<span ng-show="predicate=='nomeDataset' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='nomeDataset' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'lastupdate'; reverse=!reverse">{{'DATASET_FIELD_LASTUPDATE'|translate}} 
+								<span ng-show="predicate=='lastupdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='lastupdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'deploymentStatusDesc'; reverse=!reverse">{{'DATASET_FIELD_STATUS'|translate}} 
+								<span ng-show="predicate=='deploymentStatusDesc' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='deploymentStatusDesc' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'installed_version'; reverse=!reverse">{{'DATASET_FIELD_VERSION'|translate}} 
+								<span ng-show="predicate=='installed_version' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='installed_version' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="dataset in filteredStreamsList = (datasetsList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+							<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
+							<td><a href="#/management/viewStream/{{tenant}}/{{dataset.codiceDataset}}">{{dataset.codiceStream}}</a></td>
+							<td>{{dataset.name}}</td>
+							<td>{{dataset.lastUpdate|date}}</td>
+							<td><span ng-bind-html="dataset.statusIcon"></span> {{dataset.deploymentStatusCode|translate}}</td>
+							<td>{{dataset.installed_version}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<pagination boundary-links="true" total-items="filteredStreamsList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+				></pagination>
+	
+	
+			</div>
+		</div>
+	</div>
+</div>

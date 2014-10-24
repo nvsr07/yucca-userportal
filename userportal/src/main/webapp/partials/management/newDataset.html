@@ -1,0 +1,127 @@
+<h2>
+	<span translate>DATASET</span> <small translate>MANAGEMENT_NEW_DATASET_SUBTITLE </small>
+</h2>
+<div class='row'>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="ManagementNewDatasetCtrl as datasetCtrl">
+		<div class="alert alert-danger" ng-show='creationError'>
+			<strong>{{creationError.error_message}}</strong> {{creationError.error_detail}}
+		</div>
+		<form class="form-horizontal" role="form" name="newDatasetForm">
+
+			<div class="form-group">
+				<label for="inputDatasetCode" class="col-sm-2 control-label"><span translate>DATASET_FIELD_CODE</span> <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="dataset.code" id="inputDatasetCode" name="inputDatasetCode"
+						placeholder="{{'DATASET_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true" maxlength="20"
+					> <span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_MAXLENGTH_TOOLTIP'|translate}}"
+						ng-show="newDatasetForm.inputDatasetCode.$error.maxlength  && newDatasetForm.inputDatasetCode.$dirty"
+					></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputDatasetName" class="col-sm-2 control-label"><span translate>DATASET_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="dataset.name" id="inputDatasetName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}"
+						ng-required="true"
+					>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputDatasetDomain" class="col-sm-2 control-label"><span translate>DATASET_FIELD_DOMAIN</span> <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">
+					<select class="input-sm form-control" ng-model="dataset.domain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+						<option value="" translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
+					</select>
+				</div>
+			</div>
+			</fieldset>
+
+			<fieldset>
+				<legend translate>USER_APPLICANT</legend>
+				<div class="form-group">
+					<label for="nomeRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="dataset.nomeRichiedente" id="nomeRichiedente" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}"
+							ng-required="true"
+						>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="cognomeRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_SURNAME</span> <span class='required-asterisk'>*</span></label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="dataset.cognomeRichiedente" id="cognomeRichiedente"
+							placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" ng-required="true"
+						>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="mailRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_EMAIL</span> <span class='required-asterisk'>*</span></label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="dataset.mailRichiedente" id="mailRichiedente" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}"
+							ng-required="true"
+						>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="accettazionePrivacy" class="col-sm-2 control-label"><span translate>USER_FIELD_ACCEPT</span> <span class='required-asterisk'>*</span></label>
+					<div class="col-sm-10">
+						<div class="form-control terms-of-privacy" readonly>
+							<span ng-bind-html="'USER_FIELD_ACCEPT_PRIVACY'|translate"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="accettazionePrivacy" class="col-sm-2 control-label"></label>
+					<div class="col-sm-2"></div>
+					<div class="col-sm-4">
+						<span><span translate>USER_FIELD_ACCEPT_YES</span> <input type="radio" name="accettazionePrivacy" value="1" ng-model="accettazionePrivacy"
+							ng-required="true"
+						></span> <br />
+					</div>
+					<div class="col-sm-4">
+						<span><span translate>USER_FIELD_ACCEPT_NO</span> <input type="radio" name="accettazionePrivacy" value="0" ng-model="accettazionePrivacy"
+							ng-required="true"
+						></span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="accettazioneResponsability" class="col-sm-2 control-label"></label>
+					<div class="col-sm-10">
+						<div class="form-control terms-of-privacy" readonly>
+							<span ng-bind-html="'USER_FIELD_ACCEPT_RESPONSABILITY'|translate"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="accettazionePrivacy" class="col-sm-2 control-label"><span translate>USER_FIELD_ACCEPT</span> <span class='required-asterisk'>*</span></label>
+					<div class="col-sm-2"></div>
+					<div class="col-sm-4">
+						<span><span translate>USER_FIELD_ACCEPT_YES</span> <input type="radio" name="accettazioneResponsability" value="1"
+							ng-model="accettazioneResponsability" ng-required="true"
+						></span> <br />
+					</div>
+					<div class="col-sm-4">
+						<span><span translate>USER_FIELD_ACCEPT_NO</span> <input type="radio" name="accettazioneResponsability" value="0"
+							ng-model="accettazioneResponsability" ng-required="true"
+						></span>
+					</div>
+				</div>
+
+
+			</fieldset>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<a ng-click='cancel()' class="btn" translate>CANCEL</a>
+					<!-- 
+						<a ng-click='createDataset(dataset)' class="btn btn-primary" ng-disabled="!isOwner() || newDatasetForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0" translate>MANAGEMENT_NEW_DATASET_CREATE_BUTTON</a>
+					-->
+					<a href="#/management/editDataset/sandbox" class="btn btn-default" translate>MANAGEMENT_NEW_DATASET_CREATE_BUTTON</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -43,3 +43,9 @@ appFilters.filter('number_ellipse', function() {
 		return output;
 	};
 });
+
+appFilters.filter('unsafe', function($sce) {
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
+});

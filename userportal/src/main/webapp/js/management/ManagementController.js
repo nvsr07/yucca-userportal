@@ -23,8 +23,8 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", func
 		case 'virtualentities':
 			result =  ($scope.managementTab == 'virtualentities' || $scope.managementTab == 'editVirtualentity' || $scope.managementTab == 'viewVirtualentity' || $scope.managementTab == 'newVirtualentity');
 			break;
-		case 'dataset':
-			result =  ($scope.managementTab == 'dataset');
+		case 'datasets':
+			result =  ($scope.managementTab == 'datasets' || $scope.managementTab == 'editDataset' || $scope.managementTab == 'viewDataset' || $scope.managementTab == 'newDataset');
 			break;
 		default:
 			break;
@@ -286,7 +286,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
-			if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST && responseList[i].visibility && responseList[i].visibility=="public"){
+			if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST 
+					&& (responseList[i].visibility && responseList[i].visibility=="public" || responseList[i].codiceTenant==$routeParams.tenant_code)){
 				$scope.streamsList.push(responseList[i]);					
 			}
 		}
@@ -922,5 +923,432 @@ appControllers.controller('ManagementChooseTenantCtrl', [ '$scope', 'fabricAPIse
 
 	});
 
+} ]);
+
+
+/* Dataset */
+appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
+	$scope.tenantCode = $route.current.params.tenant_code;
+
+	$scope.datasetList = [];
+	$scope.filteredDatasetsList = [];
+	$scope.codeFilter = null;
+	$scope.statusFilter = null;
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 10;
+	$scope.totalItems = $scope.datasetList.length;
+	$scope.predicate = '';
+
+	console.log("isOwner", info.isOwner( $scope.tenantCode));
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+//	fabricAPIservice.getStreams(/*$scope.tenantCode*/).success(function(response) {
+//		// FIXME remove when the new api with tenant parameterwill be ready
+//
+//		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+//		for (var i = 0; i < responseList.length; i++) {
+//			if(responseList[i].codiceTenant == $scope.tenantCode){
+//				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
+//					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
+//				responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
+//				$scope.streamsList.push(responseList[i]);
+//			}
+//		}
+//		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+//		$scope.totalItems = $scope.streamsList.length;
+//		//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+//	});
+
+
+	$scope.selectPage = function() {
+		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	};
+
+	$scope.searchCodeFilter = function(dataset) {
+		var keyword = new RegExp($scope.codeFilter, 'i');
+		return !$scope.codeFilter || keyword.test(dataset.codiceDataset);
+	};
+
+	$scope.searchStatusFilter = function(dataset) {
+		var keyword = new RegExp($scope.statusFilter, 'i');
+		return !$scope.statusFilter || keyword.test(dataset.deploymentStatusDesc);
+	};
+
+	$scope.$watch('codeFilter', function(newCode) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+		console.log("newCode", newCode);
+	});
+
+	$scope.$watch('statusFilter', function(newStatus) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+		console.log("newStatus", newStatus);
+	});
+
+	$scope.selectedDatasets = [];
+
+	$scope.isSelected = function(dataset) {
+		return $scope.selectedDatasets.indexOf(dataset) >= 0;
+	};
+
+	$scope.updateSelection = function($event, dataset) {
+		var checkbox = $event.target;
+		var action = (checkbox.checked ? 'add' : 'remove');
+		updateSelected(action, dataset);
+	};	
+	var updateSelected = function(action, dataset) {
+		if (action === 'add' && $scope.selectedDatasets.indexOf(dataset) === -1) {
+			$scope.selectedDatasets.push(dataset);
+		}
+		if (action === 'remove' && $scope.selectedDatasets.indexOf(dataset) !== -1) {
+			$scope.selectedDatasets.splice($scope.selectedDatasets.indexOf(dataset), 1);
+		}
+	};
+
+	$scope.canEdit = function() {
+		if($scope.selectedDatasets.length==1){
+			return true;
+		}
+		return false;
+	};
+
+
+
+
+	$scope.editDataset = function(){
+		if($scope.selectedDatasets.length===1){
+
+			$location.path('management/editDataset/'+$scope.selectedDatasets[0].codiceTenant +'/'+$scope.selectedDatasets[0].codiceDataset);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+	$scope.deleteDataset = function(){
+		//alert("Funzionalita non ancora abilitata!");
+		if($scope.selectedDatasets.length>0){
+
+			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+} ]);
+
+
+appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
+	$scope.tenantCode = $route.current.params.tenant_code;
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+	$scope.domainList = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.creationError = null;
+
+	$scope.accettazionePrivacy=0;
+	$scope.accettazioneResponsability=0;
+
+	$scope.createDataset = function(dataset) {
+		dataset.publish = 0;
+		dataset.accettazionePrivacy=0;
+		dataset.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
+
+
+//		var newDataset = new Object();
+//		newDataset.dataset = dataset;
+//		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
+//		promise.then(function(result) {
+//			console.log("result qui ", result);
+//			$location.path('management/editStream/'+$scope.tenantCode +'/'+virtualentity.codeVirtualEntity+'/'+newStream.stream.codiceStream);
+//		}, function(result) {
+//			$scope.creationError = angular.fromJson(result.data);
+//			console.log("result.data ", result.data);
+//		}, function(result) {
+//			console.log('Got notification: ' + result);
+//		});
+	};	
+
+	$scope.cancel = function(){
+		$location.path('management/streams'+'/'+$scope.tenantCode);
+	};
+} ]);
+
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', function($scope, $routeParams, fabricAPIservice, info) {
+	$scope.tenantCode = $routeParams.tenant_code;
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+
+	$scope.updateInfo = null;
+	$scope.updateError = null;
+	$scope.insertComponentError = null;
+
+
+	$scope.tagList = [];
+	$scope.domainList = [];
+	fabricAPIservice.getStreamTags().success(function(response) {
+		for (var int = 0; int < response.streamTags.element.length; int++) {
+			$scope.tagList.push(response.streamTags.element[int].tagCode);
+		}
+	});
+
+
+	$scope.domainList = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.dataTypeList = [];
+	fabricAPIservice.getStreamDataType().success(function(response) {
+		$scope.dataTypeList = response.dataType.element;
+	});
+
+
+
+
+
+	$scope.dataset = null;
+	
+	$scope.dataset = {
+		code: 'codice',
+		name: 'nome'
+	};
+//	$scope.loadDataset = function(){
+//		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+//			$scope.stream = response.streams.stream;
+//			console.debug("$scope.stream internal before clean",$scope.stream);
+//			if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
+//				$scope.stream.streamInternalChildren={};
+//				$scope.stream.streamInternalChildren.streamChildren=[];
+//			}
+//
+//			$scope.stream.streamInternalChildren.streamChildren=Helpers.util.initArrayZeroOneElements($scope.stream.streamInternalChildren.streamChildren);
+//
+//			for(var i =0 ; i<$scope.stream.streamInternalChildren.streamChildren.length;i++){
+//				var existingStream =  $scope.stream.streamInternalChildren.streamChildren[i];
+//
+//				$scope.loadStreamComponents(existingStream);
+//			}
+//
+//
+//
+//			if( $scope.stream.internalQuery && $scope.stream.internalQuery["@nil"]){
+//				$scope.stream.internalQuery=null;
+//			}
+//			$scope.streamSiddhiQuery= $scope.stream.internalQuery;
+//
+//			$scope.internalStreams=$scope.stream.streamInternalChildren.streamChildren;
+//
+//			console.debug("$scope.stream internal",$scope.stream);
+//			if(!$scope.stream.streamTags)
+//				$scope.stream.streamTags = new Object();
+//			$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
+//
+//			if($scope.stream.componenti == null)
+//				$scope.stream.componenti = new Object();
+//			$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
+//
+//			$scope.stream.saveData = '0';
+//			$scope.stream.visibility = 'public';
+//			$scope.stream.publish = 'false';	
+//			if(!$scope.stream.deploymentStatusCode || $scope.stream.deploymentStatusCode == null)
+//				$scope.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
+//
+//			$scope.stream.domain = $scope.stream.domainStream;
+//		});
+//
+//	};
+//
+//
+//	$scope.loadStreamComponents = function(existingStream){
+//		fabricAPIservice.getStream(existingStream.codiceTenant,existingStream.codiceVirtualEntity,existingStream.codiceStream).success(function(response) {
+//			var stream = response.streams.stream;
+//			for (var i = 0; i < $scope.internalStreams.length; i++) {
+//				if($scope.internalStreams[i].idStream==stream.idStream){								
+//					$scope.internalStreams[i].componenti = Helpers.util.initArrayZeroOneElements(stream.componenti);	
+//				}
+//			}
+//		});
+//
+//	};
+
+
+
+//	$scope.loadStream();
+
+
+	$scope.newColumn = null;
+	$scope.newColumnSemantic = null;
+	$scope.newColumnOrder = null;
+	$scope.newColumnCode = null;
+	$scope.newColumnDataType = null;
+
+	$scope.addColumn = function(){
+		$scope.insertColumnError = null;
+		if($scope.newColumn && $scope.newColumn.code){
+			var found = false;
+
+			for (var int = 0; int < $scope.dataset.columns.column.length; int++) {
+				if($scope.dataset.columns.column[int].code == $scope.newColumn.code){
+					found = true;
+					break;
+				}
+			}
+
+			if(!found){
+				
+				$scope.newColumn.order = $scope.dataset.columns.column.length;
+				if($scope.newColumnCode){
+					$scope.newColumn.code = $scope.newColumnCode;
+				}
+				if($scope.newColumnSemantic){
+					$scope.newColumn.semantic = $scope.newColumnSemantic;
+				}
+				if($scope.newColumnDataType){
+					$scope.newColumn.idDataType = $scope.newColumnDataType.idDataType;
+					$scope.newColumn.dataType = $scope.newColumnDataType.dataType;
+				}
+
+				$scope.dataset.columns.column.push($scope.newColumn);
+				$scope.newColumn = null;
+			}
+			else{
+				$scope.insertColumnError = 'MANAGEMENT_EDIT_STREAM_ERROR_COLUMN_CODE_UNIQUE';
+			}
+		}
+		else
+			$scope.insertColumnError = 'MANAGEMENT_EDIT_STREAM_ERROR_COLUMN_CODE_REQUIRED';
+
+		return false;
+	};
+
+	$scope.removeColumn = function(index){
+		$scope.dataset.columns.column.splice(index,1);
+		for (var int = 0; int < $scope.dataset.columns.column.length; int++) {
+			scope.dataset.columns.column[int].order=int;
+		}
+		return false;
+	};
+
+	$scope.newTag = null;
+	$scope.addTag = function(){
+		if($scope.newTag){
+			var found = false;	
+			for (var int = 0; int < $scope.dataset.tags.tag.length; int++) {
+				var existingTag = $scope.dataset.tags.tag[int];
+				if(existingTag.tagCode == $scope.newTag){
+					found = true;
+					break;
+				}
+
+			}
+			if(!found)
+				$scope.dataset.tags.tag.push({"tagCode":$scope.newTag});
+		}
+		$scope.newTag = null;
+		return false;
+
+	};
+
+	$scope.removeTag = function(index){
+		$scope.dataset.tags.tag.splice(index,1);
+		return false;
+	};
+
+
+	$scope.canUpload = function() {
+		if($scope.dataset && $scope.dataset.columns &&  $scope.dataset.columns.column &&  $scope.dataset.columns.column.length>0)
+			return true;
+		return false;
+	};
+
+	$scope.canEdit = function() {
+		return true;
+	};
+
+	$scope.canCreateNewVersion = function() {
+		return true;
+	};
+
+
+	$scope.cancel = function(){
+		$location.path('management/datasets');
+	};
+
+	$scope.updateDataset = function() {
+		var newDataset = new Object();
+
+		newDataset.dataset =  $scope.dataset;
+
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+		Helpers.util.scrollTo();
+		
+//		var promise   = fabricAPIservice.updateStream(newStream);
+//
+//		promise.then(function(result) {
+//			$scope.updateInfo = {status: result.status};
+//			$scope.loadStream();
+//
+//		}, function(result) {
+//			$scope.updateError = angular.fromJson(result.data);
+//			console.log("result.data ", result.data);
+//			$scope.loadStream();
+//		}, function(result) {
+//			console.log('Got notification: ' + result);
+//		});
+
+
+	};	
+
+	$scope.requestInstallation = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
+	};
+
+	$scope.requestUnistallation = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST);
+	};
+
+	$scope.createNewVersion = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION);
+	};
+
+	var updateLifecycle = function(action) {
+		console.log("updateLifecycle stream", $scope.stream);
+		console.log("updateLifecycle action", action);
+//		$scope.updateInfo = null;
+//		$scope.updateError = null;
+//		Helpers.util.scrollTo();
+//		var promise   = fabricAPIservice.lifecycleStream(action, $scope.stream);
+//		promise.then(function(result) {
+//			console.log("result updateLifecycle ", result);
+//			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
+//			$scope.updateInfo = {status: result.status};
+//			$scope.loadStream();
+//		}, function(result) {
+//			$scope.updateError = angular.fromJson(result.data);
+//			console.log("result.data ", result.data);
+//			$scope.loadStream();
+//		}, function(result) {
+//			console.log('Got notification: ' + result);
+//		});
+	};
 } ]);
 

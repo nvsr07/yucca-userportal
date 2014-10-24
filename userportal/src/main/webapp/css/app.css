@@ -206,10 +206,13 @@ small pre{font-size: 11px;padding: 4px;}
 .dashboard-menu .tile-menuitem, .btn-dashboard {background-color: #1CBDF1;color: white!important; border: none; }
 .dashboard-menu .tile-menuitem:hover {background-color: #1074c2;}
 
-
 .management-menu .tile-main, .btn-management.active,  .btn-management:hover{background-color: #662577;color: white; }
 .management-menu .tile-menuitem,  .btn-management{background-color: #9F4F98; color: white; border: none;}
 .management-menu .tile-menuitem:hover {background-color: #662577;}
+
+.discovery-menu .tile-main, .btn-discovery.active,  .btn-discovery:hover{background-color: #00a694;color: white; }
+.discovery-menu .tile-menuitem,  .btn-discovery{background-color: #49bdb1; color: white; border: none;}
+.discovery-menu .tile-menuitem:hover {background-color: #00a694;}
 
 .tenant-menu .tile-main {background-color: #EA178C;}
 .tenant-menu .tile-subtitle{background-color: #ED59AD; }
@@ -220,9 +223,9 @@ small pre{font-size: 11px;padding: 4px;}
 .virtualentity-menu .tile-main {background-color: #F3953E;}
 .virtualentity-menu .tile-subtitle{background-color: #E4AA2F; }
 
-.about-menu .tile-main {background-color: #118171;}
-.about-menu .tile-subtitle-link{background-color: #21B196; }
-.about-menu .tile-subtitle-link:hover{background-color: #118171; }
+.about-menu .tile-main {background-color: #00a694;}
+.about-menu .tile-subtitle-link{background-color: #49bdb1; }
+.about-menu .tile-subtitle-link:hover{background-color: #00a694; }
 
 
 #homepage .desc{font-size: 16pt; line-height: 2em;}
@@ -244,6 +247,9 @@ small pre{font-size: 11px;padding: 4px;}
 .main-menu-item{font-weight: bold;font-size: 17px; color: #ccc;}
 .main-menu-item-dashboard.active{color: #1CBDF1!important;}
 .main-menu-item-management.active{color: #9F4F98!important; }
+.main-menu-item-discovery.active{color: #49bdb1!important; }
+
+
 
 .main-menu-profile-item{padding: .4em 1em;}
 .main-menu-profile-button{border: 1px solid white; border-radius: 4px; background-color: transparent;}
@@ -272,6 +278,18 @@ small pre{font-size: 11px;padding: 4px;}
 .section-management .pagination>li>a:hover, .section-management .pagination>li>span:hover, .pagination>li>a:focus, .section-management .pagination>li>span:focus,.section-management .pagination>li>a:hover{color: #054678}
 .section-management .pagination>li>a, .section-management .pagination>li>span{color: #350242}
 .section-management .important{color: #662577;}
+
+/* discovery */
+.section-discovery .btn-default.active, .section-discovery .btn-default:hover {background-color: #00a694!important; color: white;  }
+.section-discovery .btn-default {background-color: #49bdb1;color: white!important; border: none; }
+.section-discovery .title-container{background-color:white;  border-bottom:3px solid #00a694; border-top: 0px; margin-bottom:1em;	}
+.section-discovery a{color: #00a694;}
+.section-discovery .pagination>.active>a, .section-discovery .pagination>.active>span, .section-discovery .pagination>.active>a:hover, .section-discovery .pagination>.active>span:hover, .section-discovery .pagination>.active>a:focus, .section-discovery .pagination>.active>span:focus{background-color: #00a694;border-color: #00a694; color: white;}
+.section-discovery .pagination>li>a:hover, .section-discovery .pagination>li>span:hover, .pagination>li>a:focus, .section-discovery .pagination>li>span:focus,.section-discovery .pagination>li>a:hover{color: #054678}
+.section-discovery .pagination>li>a, .section-discovery .pagination>li>span{color: #00655a}
+.section-discovery .important{color: #00a694;}
+.section-discovery .btn-nav.active, .section-discovery .btn-nav:hover {background-color: white!important; color: #00a694!important;}
+.section-discovery .btn-nav {background-color: white;color: #777!important; border: none; font-size: 17px;font-weight: bold;-webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none;}
 
 
 .navbar .space-vertical { height: 50px; margin: 0 27px; }

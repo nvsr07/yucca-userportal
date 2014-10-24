@@ -204,6 +204,19 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>int</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/int</directory>
+					</resource>
+				</resources>
+			</build>
+			<properties>
+				<webXmlPath>src/main/resources/int/</webXmlPath>
+			</properties>
+		</profile>
+		<profile>
 			<id>prod</id>
 			<build>
 				<resources>

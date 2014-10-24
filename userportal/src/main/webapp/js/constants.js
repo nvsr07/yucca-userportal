@@ -4,29 +4,7 @@ var Constants = Constants || {};
 /* Urls */
 //var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
 var API_BASE_URL = '/userportal/api/proxy/';
-/*
-Constants.API_STREAM_LIST_URL=API_BASE_URL+'streams/';
-Constants.API_STREAM_URL=API_BASE_URL+'streams/';
-Constants.API_STREAM_COMPONENT_URL=API_BASE_URL+'streams/components/';
-Constants.API_VIRTUALENTITY_LIST_URL=API_BASE_URL+'virtualentities/';
-Constants.API_VIRTUALENTITY_URL=API_BASE_URL+'virtualentities/';
 
-Constants.API_VIRTUALENTITY_CATEGORIES_URL=API_BASE_URL+'misc/category/';
-Constants.API_VIRTUALENTITY_TYPES_URL=API_BASE_URL+'misc/types/';
-Constants.API_STREAM_TAGS_URL=API_BASE_URL+'misc/streamtags/';
-Constants.API_STREAM_DOMAINS_URL=API_BASE_URL+'misc/streamdomains/';
-Constants.API_STREAM_UNIT_OF_MESAUREMENT_URL=API_BASE_URL+'misc/measureunits/';
-Constants.API_STREAM_PHENOMENOM_URL=API_BASE_URL+'misc/phenomenon/';
-Constants.API_STREAM_DATATYPE_URL=API_BASE_URL+'misc/datatype/';
-
-Constants.API_LIFECYCLE_STREAM_REQ_INST=API_BASE_URL+'lifecycle/streams/reqinst/';
-Constants.API_LIFECYCLE_STREAM_NEW_VERSION=API_BASE_URL+'lifecycle/streams/newversion/';
-Constants.API_LIFECYCLE_STREAM_REQ_UNINST=API_BASE_URL+'lifecycle/streams/requninst/';
-  
-
-Constants.API_TENANT_LIST_URL=API_BASE_URL+'tenants/';
-
-*/
 
 /* stream status */
 Constants.STREAM_STATUS_DRAFT='draft';
@@ -58,4 +36,23 @@ Constants.MAX_NR_ERROR_LOGS = 30;
 Constants.WEBSOCKET_CONNECTING = 'Connecting';
 Constants.WEBSOCKET_CONNECTED = 'Connected';
 Constants.WEBSOCKET_NOT_CONNECTED = 'Not Connected';
+
+/* discovery */
+Constants.DISCOVERY_FIELD_TITLE = 'DISCOVERY_FIELD_TITLE';
+Constants.DISCOVERY_FIELD_TAG = 'DISCOVERY_FIELD_TAG';
+Constants.DISCOVERY_FIELD_LICENCE = 'DISCOVERY_FIELD_LICENCE';
+Constants.DISCOVERY_FIELD_TENANT = 'DISCOVERY_FIELD_TENANT';
+Constants.DISCOVERY_FIELD_FPS = 'DISCOVERY_FIELD_FPS';
+Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT = 'DISCOVERY_FIELD_UNIT_OF_MEASUREMENT';
+
+Constants.DISCOVERY_FIELDS = [
+                              {key:Constants.DISCOVERY_FIELD_TITLE, api_key: 'name', discrete: false},
+                              {key:Constants.DISCOVERY_FIELD_TAG, api_key: 'tag', discrete: true},
+                              {key:Constants.DISCOVERY_FIELD_LICENCE, api_key: 'licence', discrete: false},
+                              {key:Constants.DISCOVERY_FIELD_TENANT, api_key: 'tenant', discrete: true},
+                              {key:Constants.DISCOVERY_FIELD_FPS, api_key: 'fps', discrete: false},
+                              {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'unit', discrete: true},
+                              ];
+		
+
 
