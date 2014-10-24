@@ -32,7 +32,6 @@ Constants.VALIDATION_PATTERN_UUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{
 /* Numero di elementi nella Error Log */
 Constants.MAX_NR_ERROR_LOGS = 30;
 
-
 Constants.WEBSOCKET_CONNECTING = 'Connecting';
 Constants.WEBSOCKET_CONNECTED = 'Connected';
 Constants.WEBSOCKET_NOT_CONNECTED = 'Not Connected';
