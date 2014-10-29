@@ -1,4 +1,4 @@
-package it.csi.sdp.userportal.utils;
+package org.csi.yucca.userportal.userportal.utils;
 
 public class Util {
 	public static String nvl(Object o) {

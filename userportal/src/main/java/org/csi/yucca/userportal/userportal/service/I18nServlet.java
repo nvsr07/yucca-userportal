@@ -1,4 +1,4 @@
-package it.csi.sdp.userportal.service;
+package org.csi.yucca.userportal.userportal.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +32,7 @@ public class I18nServlet extends HttpServlet {
 			log.debug("[I18nServlet::doGet] - language: " + language);
 			
 			Locale currentLocale = new Locale(language);
-			messages = ResourceBundle.getBundle("/it/csi/sdp/userportal/i18n/MessagesBundle",currentLocale);
+			messages = ResourceBundle.getBundle("/org/csi/yucca/userportal/userportal/i18n/MessagesBundle",currentLocale);
 
 
 

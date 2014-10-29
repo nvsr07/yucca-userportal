@@ -1,4 +1,4 @@
-package it.csi.sdp.userportal.info;
+package org.csi.yucca.userportal.userportal.info;
 
 import com.google.gson.Gson;
 

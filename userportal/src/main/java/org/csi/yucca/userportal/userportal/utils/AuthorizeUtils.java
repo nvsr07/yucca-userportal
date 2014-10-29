@@ -1,7 +1,7 @@
-package it.csi.sdp.userportal.utils;
+package org.csi.yucca.userportal.userportal.utils;
 
-import it.csi.sdp.userportal.info.ApiEntityEnum;
-import it.csi.sdp.userportal.info.User;
+import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
+import org.csi.yucca.userportal.userportal.info.User;
 
 import java.util.HashMap;
 import java.util.Map;

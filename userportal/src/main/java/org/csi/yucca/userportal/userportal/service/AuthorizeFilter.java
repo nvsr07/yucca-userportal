@@ -1,7 +1,7 @@
-package it.csi.sdp.userportal.service;
+package org.csi.yucca.userportal.userportal.service;
 
-import it.csi.sdp.userportal.info.Info;
-import it.csi.sdp.userportal.utils.AuthorizeUtils;
+import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
 import java.io.IOException;
 

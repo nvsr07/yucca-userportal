@@ -1,4 +1,4 @@
-package it.csi.sdp.userportal.service;
+package org.csi.yucca.userportal.userportal.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;

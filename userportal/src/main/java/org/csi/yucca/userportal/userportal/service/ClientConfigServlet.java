@@ -1,7 +1,7 @@
-package it.csi.sdp.userportal.service;
+package org.csi.yucca.userportal.userportal.service;
 
-import it.csi.sdp.userportal.info.ApiEntityEnum;
-import it.csi.sdp.userportal.utils.Config;
+import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
+import org.csi.yucca.userportal.userportal.utils.Config;
 
 import java.io.IOException;
 import java.io.PrintWriter;

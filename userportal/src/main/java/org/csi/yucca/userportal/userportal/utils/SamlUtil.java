@@ -1,4 +1,4 @@
-package it.csi.sdp.userportal.utils;
+package org.csi.yucca.userportal.userportal.utils;
 
 import java.util.Random;
 import javax.servlet.ServletConfig;

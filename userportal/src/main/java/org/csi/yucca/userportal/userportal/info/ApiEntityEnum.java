@@ -1,7 +1,7 @@
-package it.csi.sdp.userportal.info;
+package org.csi.yucca.userportal.userportal.info;
 
-import it.csi.sdp.userportal.utils.AuthorizeUtils;
-import it.csi.sdp.userportal.utils.Config;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
+import org.csi.yucca.userportal.userportal.utils.Config;
 
 import java.util.Properties;
 

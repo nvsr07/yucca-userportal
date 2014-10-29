@@ -1,6 +1,6 @@
-package it.csi.sdp.userportal.service;
+package org.csi.yucca.userportal.userportal.service;
 
-import it.csi.sdp.userportal.utils.SamlUtil;
+import org.csi.yucca.userportal.userportal.utils.SamlUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
