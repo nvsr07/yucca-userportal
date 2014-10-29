@@ -13,6 +13,9 @@ var app = angular.module('userportal', [
   'ui.bootstrap',
   'ngPrettyJson',
   'nvd3ChartDirectives',
+  'angularFileUpload',
+  'ngDraggable'
+  //'ngDragDrop'
 ]);
 
 app.config(['$routeProvider', function($routeProvider) {
@@ -65,7 +68,6 @@ app.factory('info',  function() {
     };
     
     infoService.getTenantCode = function(){
-    	console.log("infoService.getTenantCode info", this.info);
     	if(this.info && this.info.tenantCode)
     		return this.info.tenantCode;
     	return null;

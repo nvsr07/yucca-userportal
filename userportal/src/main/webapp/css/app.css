@@ -27,6 +27,8 @@ footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 
 .title-container{ border-bottom:3px solid #009640; border-top:0px; margin-bottom:1em; color: #333;	}
 
+.icon-warning{color: #edd400;}
+
 .top-toolbar{margin-bottom: 1em;}
 
 .compact-panel{border: 2px solid #1074c2; border-radius: 4px; margin-bottom: 1em;}
@@ -88,6 +90,9 @@ small pre{font-size: 11px;padding: 4px;}
 .btn-historical:hover{background-color: #5f1585;}
 
 .btn-default.disabled,.btn-default[disabled]{background-color: #ddd; color: #888;border-color: #ccc;}
+
+.btn-remove{background-color: trasparent; color: #dc0000!important;}
+.btn-add{background-color: trasparent; color: #009100!important;}
 
 /* dashboard */
 .dashboard-streamList-table{margin-top: 20px;}
@@ -320,6 +325,25 @@ small pre{font-size: 11px;padding: 4px;}
 .angularjs-color{color: #c4473a;}
 .javascript-color{color: #d6ba32;}
 
+
+
+/* management dataset */
+.upload-drop-files-area { border: 2px dashed #ccc; border-radius: 2px; text-align: center; padding: 1em; font-size: 16pt; font-weight: bold; }
+.upload-drop-files-area-hover { /*border-color: #737272;*/ /*background-color: #eee;*/ background-color: #D9F1FF; border-color: #0085CC; color: #0085CC; }
+.management-upload-selectfile-button { padding: 1em; background-color: #eee; color: black; cursor: pointer; border-radius: 2px; font-size: 16pt; font-weight: bold; border: 2px solid #eee; text-align: center; }
+.management-upload-label-before-button { text-align: center; padding: 1em; font-size: 16pt; padding: 1em; }
+.management-upload-preview-table-container { border: solid 1px #ccc; border-radius: 4px; min-height: 20px; overflow: hidden; }
+.management-table-upload-preview { border-collapse: collapse; border: none; margin-bottom: 0; }
+.management-table-upload-preview td {  }
+.management-table-upload-preview .data-row td { background-color: #fff; color: #555; font-size: 11px; }
+.management-table-upload-preview .skip-row td { font-style: italic; background-color: #ccc; border: solid 1px #ccc; }
+.management-upload-column-association-field { border: solid 1px #ccc; border-radius: 4px; padding: .5em 1em; margin: 1em; overflow: hidden; }
+.management-upload-column-association-field-desc-panel { float: left;}
+.management-upload-column-association-field-index-panel{ float: left; margin: 0 1em; line-height: 2em;}
+.management-upload-column-association-field-drop-panel { border: dashed 2px #ddd; padding: .5em; border-radius: 4px; float: right; color: #ddd; font-weight: bold; }
+.management-upload-column-association-field-drop-panel.drag-enter{ background-color: #72CCFD; border-color: #0085CC; color: #0085CC; }
+.management-upload-column-association-csv-drag-icon { border: solid 2px #ddd; padding: .5em; border-radius : 4px; float: left; border-radius: 4px; margin-right: 1em; }
+.management-upload-column-association-csv-desc-panel { float: left; }
 
 /* json custom color */
 /*

@@ -1,0 +1,126 @@
+<div ng-controller="ManagementUploadDatasetCtrl as uploadDatasetCtrl">
+	<h2>
+		<span translate>DATASET</span> <small><span translate>MANAGEMENT_UPLOAD_DATASET_SUBTITLE</span> {{dataset.fieldName}} </small>
+	</h2>
+	<div class='row'>
+		<div class='row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="alert alert-danger" ng-show='uploadDatasetError'>
+					<strong>{{uploadDatasetError.error_message}}</strong> {{uploadDatasetError.error_detail}}
+				</div>
+				<div class="alert alert-success" ng-show='uploadDatasetInfo'>
+					<strong translate>MANAGEMENT_EDIT_DATASET_DATASET_UPLOADED</strong> {{uploadDatasetInfo.status}}
+				</div>
+			</div>
+		</div>
+		<form class="form-horizontal" role="form" name="uploadDatasetForm">
+			<div class='form-label-separator' translate>Carica per anteprima</div>
+			<div class='row'>
+				<div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1">
+					<div ng-file-drop="onFileSelect($files)" class='upload-drop-files-area' ng-file-drag-over-class="upload-drop-files-area-hover" ng-show="dropSupported">
+						Drop files to upload</div>
+					<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+				</div>
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+					<div class='management-upload-label-before-button'>Or</div>
+				</div>
+				<div class="col-lg-5 col-md-11 col-sm-11 col-xs-11">
+					<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="management-upload-selectfile-button">click here to
+						select file</div>
+				</div>
+			</div>
+			<div class='row'>
+				<p>&nbsp;</p>
+			</div>
+			<div class='row'>
+				<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 col-lg-offset-1">
+					<strong>Format</strong>
+				</div>
+				<div class="col-lg-3 col-md-10 col-sm-10 col-xs-10">
+					<select class="input-sm form-control" ng-model="formatType" ng-options="format.type for format in formatList"><option>Choose one...</option></select>
+				</div>
+				<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2">
+					<strong>Encoding</strong>
+				</div>
+				<div class="col-lg-2 col-md-10 col-sm-10 col-xs-10">
+					<input type="text" class="form-control" ng-model="fileEncoding">
+				</div>
+				<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2">
+					<strong>Separator</strong>
+				</div>
+				<div class="col-lg-1 col-md-10 col-sm-10 col-xs-10">
+					<input type="text" class="form-control" ng-model="csvSeparator">
+				</div>
+				<div class="col-lg-2 col-md-10 col-sm-10 col-xs-10">
+					<label><input type="checkbox" ng-model="csvSkipFirstRow">Skip first row</label>
+				</div>
+			</div>
+			<div class='row'>
+				<p>&nbsp;</p>
+			</div>
+			<div class='row'>
+				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1">
+					File: <strong>{{selectedFile.name}}</strong> <small><span class='mute'>- Type: {{selectedFile.type}} - Size:
+							{{selectedFile.size|format_filesize}}</span></small>
+				</div>
+				<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12 col-lg-offset-3">
+					<a href="javascript: void(0);" class='btn btn-default' ng-click="readPreview()"><i class='glyphicon glyphicon-eye-open'></i> Preview</a>
+				</div>
+			</div>
+			<div class='form-label-separator' translate>Preview dati</div>
+			<div class='row'>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class='management-upload-preview-table-container'>
+						<table class='table  management-table-upload-preview table-supercondensed'>
+							<tr ng-repeat='line in previewLines' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
+								<td ng-repeat='item in line' title="{{item}}">{{item|string_ellipse:30}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class='form-label-separator' translate>Associazione colonne</div>
+			<div class='row'>
+				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+					<h4>Colonne previste</h4>
+					<div ng-repeat="column in dataset.columns.column" class="management-upload-column-association-field">
+						<div class='management-upload-column-association-field-desc-panel'>
+							<div>
+								<strong>{{column.fieldName}}</strong>
+							</div>
+							<small class='mute'>{{column.fieldAlias}} - {{column.dataType}} - {{column.measureUnit}}</small>
+						</div>
+						<div class='management-upload-column-association-field-index-panel'>
+							Source column {{column.sourceColumn}} &nbsp;
+						<!--  <i class='glyphicon glyphicon-move'></i>
+							<i class='glyphicon glyphicon-move'></i> -->
+							<span class="icon-warning" ng-show='column.warningDuplicate'><i class='glyphicon glyphicon-warning'>{{column.warningDuplicate}}</i></span>
+						</div>
+						<div class='management-upload-column-association-field-drop-panel' ng-drop="true" ng-drop-success="onDropCsvFieldComplete($data,$event, $index)">Drop here</div>
+					</div>
+
+				</div>
+				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+					<h4>Colonne su csv</h4>
+					<div ng-repeat="column in previewColumns" class="management-upload-column-association-field">
+<!-- 								 data-drag="true" jqyoui-draggable="{animate:true}" data-jqyoui-options="{revert: 'invalid'}" ng-model="column.index"> -->
+						<div class='management-upload-column-association-csv-drag-icon' ng-drag="true" ng-drag-data="column.index" ng-drag-success="onDragCsvFieldComplete($data,$event)" ng-center-anchor="true">
+							<i class='glyphicon glyphicon-move'></i> Drag from here
+						</div>
+						<div class='management-upload-column-association-csv-desc-panel'>
+							<div>
+								<strong>Index {{column.index}}</strong>
+							</div>
+							<small class='mute'><i>{{column.firstValue}}</i></small>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+				<div class=" col-sm-12 form-toolbar">
+					<a href="#" class='btn btn-default' ng-click="readPreview()"><i class='glyphicon glyphicon glyphicon-upload'></i> Upload</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

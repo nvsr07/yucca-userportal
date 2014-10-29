@@ -152,9 +152,10 @@ var translations_it = {
 	DATASET_FIELD_DOMAIN: 'Dominio',
 	DATASET_FIELD_TAGS: 'Tags',
 	DATASET_FIELD_COLUMN_ORDER: 'Ordine',
-	DATASET_FIELD_COLUMN_CODE: 'Codice',
-	DATASET_FIELD_COLUMN_SEMANTIC: 'Semantica',
+	DATASET_FIELD_COLUMN_NAME: 'Name',
+	DATASET_FIELD_COLUMN_ALIAS: 'Alias',
 	DATASET_FIELD_COLUMN_DATATYPE: 'Tipo Dato',
+	DATASET_FIELD_COLUMN_UNIT_OF_MEASUREMENT: 'Unit&agrave di Misura ',
 	DATASET_FIELD_VISIBILITY:  'Visibilit&agrave;',
 	DATASET_FIELD_LICENCE: 'Licenza',
 	DATASET_FIELD_DISCLAIMER : 'Disclaimer',
@@ -368,7 +369,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'codice\' &ecute; obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'codice\' obbligatorio',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'codice\' deve essere univoco per flusso ',
     
 		/* Management Virtual Entity  */
@@ -421,6 +422,10 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Crea',
 	MANAGEMENT_NEW_DATASET_SUBTITLE: 'Nuovo Dataset',
 	
+	
+	/* Management upload dataset*/
+	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Carica dati',
+	
 	MANAGEMENT_EDIT_DATASET_SUBTITLE: 'Modifica ', 
 	MANAGEMENT_EDIT_DATASET_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
 	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
@@ -440,12 +445,16 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Informazioni generali',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Definizione struttura dato',
+	MANAGEMENT_EDIT_DATASET_ADD_COLUMN : 'Aggiungi', 
+	MANAGEMENT_EDIT_DATASET_REMOVE_COLUMN : 'Elimina', 
+	MANAGEMENT_EDIT_DATASET_MOVEUP_COLUMN : 'Sposta in alto', 
+	MANAGEMENT_EDIT_DATASET_MOVEDOWN_COLUMN : 'Sposta in basso', 
 
 	MANAGEMENT_EDIT_DATASET_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_DATASET_SETTINGS: 'Settings (coming soon)',
 	
 	MANAGEMENT_EDIT_DATASET_ERROR_COMPONENT_TITLE: 'Attenzione',
-	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_REQUIRED: 'Il campo \'codice\' &ecute; obbligatorio',
+	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_REQUIRED: 'Il campo \'codice\' obbligatorio',
 	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_UNIQUE: 'Il campo \'codice\' deve essere univoco per Dataset ',
 	
 	/* Choose tenant temp */

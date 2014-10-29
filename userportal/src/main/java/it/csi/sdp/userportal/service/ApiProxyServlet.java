@@ -1,17 +1,13 @@
 package it.csi.sdp.userportal.service;
 
-import it.csi.sdp.userportal.utils.Config;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,11 +19,21 @@ import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.log4j.Logger;
 
-@WebServlet(description = "Authorization Servlet", urlPatterns = { "/api/proxy/*" }, asyncSupported = false)
-public class ApiProxyServlet extends HttpServlet {
+//@WebServlet(description = "Api proxy Servlet", urlPatterns = { "/api/proxy/*" }, asyncSupported = false)
+public abstract class ApiProxyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	static Logger log = Logger.getLogger(ClientConfigServlet.class);
+	static Logger log = Logger.getLogger(ApiProxyServlet.class);
+
+	protected String apiBaseUrl;
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		setApiBaseUrl();
+	}
+
+	protected abstract void setApiBaseUrl();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -141,7 +147,6 @@ public class ApiProxyServlet extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		super.doDelete(req, resp);
 	}
 
@@ -172,13 +177,12 @@ public class ApiProxyServlet extends HttpServlet {
 
 	private String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 		String parameters = cleanParameters(request.getParameterMap());
-		Properties config = Config.loadServerConfiguration();
+		//Properties config = Config.loadServerConfiguration();
 		String path = request.getRequestURI() + parameters;
 
 		path = path.replaceAll(request.getContextPath() + request.getServletPath(), "");
-		String apiBaseUrl = config.getProperty(Config.API_SERVICES_URL);
+		//String apiBaseUrl = config.getProperty(Config.API_SERVICES_URL);
 
-		System.out.println("url target: " + apiBaseUrl + path);
 		return apiBaseUrl + path;
 
 	}

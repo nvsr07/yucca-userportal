@@ -8,7 +8,9 @@ import org.apache.log4j.Logger;
 public class Config {
 	static Logger log = Logger.getLogger(Config.class);
 
-	public static final String API_SERVICES_URL = "API_SERVICES_URL";
+	public static final String API_SERVICES_URL_KEY = "API_SERVICES_URL";
+	
+	public static final String API_PROXY_SERVICES_BASE_URL = "/userportal/api/proxy/services/";
 
 	public static Properties loadClientConfiguration() throws IOException {
 		return loadConfiguration("client.properties");

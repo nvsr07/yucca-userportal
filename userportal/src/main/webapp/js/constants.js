@@ -4,6 +4,9 @@ var Constants = Constants || {};
 /* Urls */
 //var API_BASE_URL = 'http://localhost:8080/userportal/api/proxy/';
 var API_BASE_URL = '/userportal/api/proxy/';
+var API_BASE_SERVICE_URL = '/userportal/api/proxy/service/';
+var API_BASE_DATA_MANAGEMENT_URL = '/userportal/api/proxy/datamanagement';
+var API_BASE_DISCOVERY_URL = '/userportal/api/proxy/discovery';
 
 
 /* stream status */

@@ -493,4 +493,32 @@ var WebsocketStompSingleton= (function() {
 	};
 })();
 
+appServices.factory('readFilePreview', function($q) {
+	return {
+        readFile: function (file, previewSize, encoding) {
+            var deferread = $q.defer();
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                var reader = new FileReader();
+                console.log("file", file);
+                if ((file !== undefined) && (file !== null)) {
+                    reader.onload = function (event) {
+                    	
+                    	deferread.resolve(event.target.result);
+                    };
+                	var firstBytes = file.slice(0, previewSize + 1);
+                    reader.readAsText(firstBytes, encoding);
+                }else{
+                    console.log("reject", file);
+                	deferread.reject("You need to pass a file.");
+                }
+            }else{
+            	deferread.reject("Your browser don't support File api.");
+            }
+
+            return deferread.promise;
+        }
+    };
+});
+
+
 
