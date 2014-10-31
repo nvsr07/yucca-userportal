@@ -31,9 +31,9 @@ public class AuthorizeFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
-		if (request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE) == null) {
-			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE, AuthorizeUtils.DEFAULT_TENANT);
-		}
+//		if (request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE) == null) {
+//			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE, AuthorizeUtils.DEFAULT_TENANT);
+//		}
 
 		if (request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO) == null) {
 			Info info = new Info();

@@ -1,7 +1,9 @@
 package org.csi.yucca.userportal.userportal.utils;
 
 import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
+import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.info.User;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +14,12 @@ public class AuthorizeUtils {
 
 	public static final String SESSION_KEY_INFO = "SESSION_KEY_INFO";
 	public static final String SESSION_KEY_USER = "SESSION_KEY_USER";
-	public static final String SESSION_KEY_TENANT_CODE = "SESSION_KEY_TENANT_CODE";
+	// public static final String SESSION_KEY_TENANT_CODE =
+	// "SESSION_KEY_TENANT_CODE";
 	public static final String SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION = "SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION";
 
 	public static final String DEFAULT_TENANT = "sandbox";
-	public static final User DEFAULT_USER = new User("Guest",DEFAULT_TENANT,"Guest", "Guest", null);
+	public static final User DEFAULT_USER = new User("Guest", DEFAULT_TENANT, "Guest", "Guest", null);
 
 	public static final String CLAIM_KEY_USERNAME = "USERNAME";
 	public static final String CLAIM_KEY_OTHERPHONE = "OTHERPHONE";
@@ -64,7 +67,7 @@ public class AuthorizeUtils {
 
 	public static boolean isAPIRequest(HttpServletRequest request) {
 		String servlet = request.getServletPath();
-		return (servlet.equals("/api/proxy"));
+		return (servlet.startsWith("/api/proxy"));
 	}
 
 	public static String getElementInPositionByRequest(HttpServletRequest request, int position) {
@@ -119,6 +122,16 @@ public class AuthorizeUtils {
 			}
 		}
 		return claimsKeys;
+
+	}
+
+	public static String getTenantInSession(HttpServletRequest request) {
+		String tenant = DEFAULT_TENANT;
+		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+		if (info != null && !Util.nvlt(info.getTenantCode()).equals("")) {
+			tenant = info.getTenantCode();
+		}
+		return tenant;
 
 	}
 
