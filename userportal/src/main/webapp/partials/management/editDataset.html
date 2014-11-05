@@ -1,6 +1,6 @@
 <div ng-controller="ManagementDatasetCtrl as datasetCtrl">
 	<h2>
-		<span translate>DATASET</span> <small><span translate>MANAGEMENT_EDIT_DATASET_SUBTITLE</span>  {{dataset.code}}</small>
+		<span translate>DATASET</span> <small><span translate>MANAGEMENT_EDIT_DATASET_SUBTITLE</span>  {{dataset.configData.idDataset}}</small>
 	</h2>
 	<div class='row'>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -16,16 +16,16 @@
 	<div class='row'>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong translate>DATASET_FIELD_CODE</strong></div>
-				<div class="col-sm-10">{{dataset.code}}</div>
+				<div class="col-sm-2 card-label"><strong translate>DATASET_FIELD_CONFIGDATA_ID</strong></div>
+				<div class="col-sm-10">{{dataset.configData.idDataset}}</div>
 			</div>			
 			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong translate>DATASET_FIELD_VERSION</strong></div>
-				<div class="col-sm-10">{{dataset.version}}</div>
+				<div class="col-sm-2 card-label"><strong translate>DATASET_FIELD_CONFIGDATA_DATAVERSION</strong></div>
+				<div class="col-sm-10">{{dataset.configData.datasetversion}}</div>
 			</div>			
 			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong translate>DATASET_FIELD_STATUS</strong></div>
-				<div class="col-sm-10">{{dataset.deploymentStatusDesc}}</div>
+				<div class="col-sm-2 card-label"><strong translate>DATASET_FIELD_METADATA_DATASETSTATUS</strong></div>
+				<div class="col-sm-10">{{dataset.metadata.datasetStatus}}</div>
 			</div>			
 		</div>
 	</div>
@@ -35,16 +35,22 @@
 			<form class="form-horizontal" role="form" name="editDatasetForm">
 				<div class='form-label-separator' translate>MANAGEMENT_EDIT_DATASET_GENERAL_INFO</div>
 				<div class="form-group">
-					<label for="inputDatasetName" class="col-sm-2 control-label" translate>DATASET_FIELD_NAME</label>
+					<label for="inputDatasetName" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_NAME</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="dataset.name"  id="inputDatasetName" placeholder="{{'DATASET_FIELD_NAME'|translate}}" >
+						<input type="text" class="form-control" ng-model="dataset.metadata.name"  id="inputDatasetName" placeholder="{{'DATASET_FIELD_METADATA_NAME'|translate}}" >
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="inputDatasetAddTag" class="col-sm-2 control-label" translate>DATASET_FIELD_TAGS</label>
+					<label for="inputDatasetDesc" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="dataset.metadata.description"  id="inputDatasetDesc" placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDatasetAddTag" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_TAGS</label>
 					<div class="col-sm-10">
 						<p>
-							<span  ng-repeat="tag in dataset.tags.tag">
+							<span  ng-repeat="tag in dataset.metadata.tags">
 								<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
 								<a href="javascript:void(0)" ng-click='removeTag($index)'>&times;</a>
 								</span> &nbsp;
@@ -65,13 +71,14 @@
 					</div>
 				</div>			
 				<div class="form-group">
-					<label for="inputDatasetDomain" class="col-sm-2 control-label"translate>DATASET_FIELD_DOMAIN</label>
+					<label for="inputDatasetDomain" class="col-sm-2 control-label"translate>DATASET_FIELD_METADATA_DATADOMAIN</label>
 					<div class="col-sm-10">
-						<select class="input-sm form-control" ng-model="dataset.domain" ng-options="domain as (domain|translate) for domain in domainList">
+						<select class="input-sm form-control" ng-model="dataset.metadata.dataDomain" ng-options="domain as (domain|translate) for domain in domainList">
 	    					<option value="" translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
 	    				</select>
 					</div>
 				</div>		
+				<!-- 
 				<div class='form-label-separator' translate>MANAGEMENT_EDIT_DATASET_COLUMNS</div>
 				<div class="form-group">
 					<div class="col-sm-12">
@@ -123,16 +130,17 @@
 						</div>
 					</div>
 				</div>
+				-->
 				<div class='form-label-separator' translate>MANAGEMENT_EDIT_DATASET_SETTINGS</div>
 				<div class="form-group">
-					<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'DATASET_FIELD_VISIBILITY'|translate"></span></label>
+					<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
 					<div class="col-sm-10">
 						<label class="radio-inline">
-	              			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="dataset.visibility" disabled>
+	              			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="dataset.metadata.visibility" disabled>
 	              			<span translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC</span>
 	            		</label>
 						<label class="radio-inline">
-	              			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="dataset.visibility" disabled>
+	              			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="dataset.metadata.visibility" disabled>
 	              			<span translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE</span>
 	            		</label>
 					</div>
@@ -152,21 +160,21 @@
 				</div>
 				<div class='form-label-separator' translate>MANAGEMENT_EDIT_DATASET_OTHER_INFO</div>
 				<div class="form-group">
-					<label for="v" class="col-sm-2 control-label" translate>DATASET_FIELD_LICENCE</label>
+					<label for="v" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_LICENSE</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputDatasetLicence" placeholder="{{'DATASET_FIELD_LICENCE'|translate}}" ng-model="dataset.licence" >
+						<input type="text" class="form-control" id="inputDatasetLicence" placeholder="{{'DATASET_FIELD_METADATA_LICENSE'|translate}}" ng-model="dataset.metadata.license" >
 					</div>
 				</div>			
 				<div class="form-group">
-					<label for="inputDatasetDisclaimer" class="col-sm-2 control-label" translate>DATASET_FIELD_DISCLAIMER</label>
+					<label for="inputDatasetDisclaimer" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_DISCLAIMER</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputDatasetDisclaimer" placeholder="{{'DATASET_FIELD_DISCLAIMER'|translate}}" ng-model="dataset.disclaimer" >
+						<input type="text" class="form-control" id="inputDatasetDisclaimer" placeholder="{{'DATASET_FIELD_METADATA_DISCLAIMER'|translate}}" ng-model="dataset.metadata.disclaimer" >
 					</div>
 				</div>			
 				<div class="form-group">
-					<label for="inputDatasetCopyright" class="col-sm-2 control-label" translate>DATASET_FIELD_COPYRIGHT</label>
+					<label for="inputDatasetCopyright" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_COPYRIGHT</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_COPYRIGHT'|translate}}" ng-model="dataset.copyright" >
+						<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_METADATA_COPYRIGHT'|translate}}" ng-model="dataset.metadata.copyright" >
 					</div>
 				</div>			
 				<div class='form-label-separator'></div>

@@ -20,7 +20,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	fabricAPI.getStreams = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_STREAM_LIST_URL + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_LIST_URL + '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -30,7 +30,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 			tenantUrl = tenant_code + '/';
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_STREAM_LIST_URL + tenantUrl  + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_LIST_URL + tenantUrl  + '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -38,14 +38,14 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	fabricAPI.getStream = function(tenant_code, virtualentity_code, stream_code) {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getTenants = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_TENANT_LIST_URL+ '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_TENANT_LIST_URL+ '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -54,14 +54,14 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 			tenant_code = tenant_code + '/';
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_VIRTUALENTITY_LIST_URL + tenant_code + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_VIRTUALENTITY_LIST_URL + tenant_code + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.createStream = function(tenant_code, virtualentity_code, stream) {
 		// return $http({
 		// method: "POST",
-		// url: Constants.API_STREAM_URL + tenant_code + '/' +
+		// url: Constants.API_SERVICES_STREAM_URL + tenant_code + '/' +
 		// virtualentity_code + '/' + stream.stream.codiceStream+'/' ,
 		// data: stream,
 		// headers : { 'Content-Type': 'application/x-www-form-urlencoded;
@@ -74,7 +74,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		var deferred = $q.defer();
 		var resultData = null;
 		console.debug("Stream", stream);
-		$http.post(Constants.API_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream.stream.codiceStream + '/', stream, {
+		$http.post(Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream.stream.codiceStream + '/', stream, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
@@ -90,7 +90,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		var deferred = $q.defer();
 		var resultData = null;
 
-		$http.put(Constants.API_STREAM_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', stream, {
+		$http.put(Constants.API_SERVICES_STREAM_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', stream, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
@@ -114,7 +114,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 				component.nomeAttributo = component.nome;
 				component.tipoAttributo = component.tipo;
 				var componentParam = {"componente": { "nomeAttributo": component.nome, "tipoAttributo": component.tipo }};
-				urlCalls.push($http.post(Constants.API_STREAM_COMPONENT_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', componentParam));
+				urlCalls.push($http.post(Constants.API_SERVICES_STREAM_COMPONENT_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', componentParam));
 			}
 		}
 
@@ -145,49 +145,49 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	fabricAPI.getVirtualentityCategories = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_VIRTUALENTITY_CATEGORIES_URL + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_VIRTUALENTITY_CATEGORIES_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getVirtualentityTypes = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_VIRTUALENTITY_TYPES_URL + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_VIRTUALENTITY_TYPES_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getStreamTags = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getStreamDomains = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getStreamPhenomenom = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_STREAM_PHENOMENOM_URL + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_PHENOMENOM_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getStreamUnitOfMesaurement = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_STREAM_UNIT_OF_MESAUREMENT_URL + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
 	fabricAPI.getStreamDataType = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_STREAM_DATATYPE_URL + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_DATATYPE_URL + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -195,7 +195,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	fabricAPI.getVirtualentity = function(tenant_code, virtualentity_code) {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -203,7 +203,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		var deferred = $q.defer();
 		var resultData = null;
 
-		$http.post(Constants.API_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity).success(function(responseData) {
+		$http.post(Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
 			deferred.resolve(resultData);
 		}).error(function(responseData, responseStatus) {
@@ -216,8 +216,8 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	fabricAPI.updateVirtualentity = function(virtualentity) {
 		var deferred = $q.defer();
 		var resultData = null;
-		console.debug("updateVirtualEntity url", Constants.API_STREAM_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/');
-		$http.put(Constants.API_VIRTUALENTITY_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/', virtualentity, {
+		console.debug("updateVirtualEntity url", Constants.API_SERVICES_STREAM_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/');
+		$http.put(Constants.API_SERVICES_VIRTUALENTITY_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/', virtualentity, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
@@ -244,11 +244,11 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		};
 
 		if(action == Constants.LIFECYCLE_STREAM_REQ_INST)
-			urlAction = Constants.API_LIFECYCLE_STREAM_REQ_INST;
+			urlAction = Constants.API_SERVICES_LIFECYCLE_STREAM_REQ_INST;
 		else if(action == Constants.LIFECYCLE_STREAM_NEW_VERSION)
-			urlAction = Constants.API_LIFECYCLE_STREAM_NEW_VERSION;
+			urlAction = Constants.API_SERVICES_LIFECYCLE_STREAM_NEW_VERSION;
 		else if(action == Constants.LIFECYCLE_STREAM_REQ_UNINST)
-			urlAction = Constants.API_LIFECYCLE_STREAM_REQ_UNINST;
+			urlAction = Constants.API_SERVICES_LIFECYCLE_STREAM_REQ_UNINST;
 
 		$http.post(urlAction, lifecyclerequest).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
@@ -520,5 +520,57 @@ appServices.factory('readFilePreview', function($q) {
     };
 });
 
+
+
+appServices.factory('fabricAPImanagement', function($http, $q) {
+
+	var fabricAPI = {};
+
+	fabricAPI.getDatasets = function(tenant_code) {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '?callback=JSON_CALLBACK'
+		});
+	};
+	
+	fabricAPI.getDataset = function(tenant_code, dataset_id) {
+			return $http({
+				method : 'JSONP',
+				url : Constants.API_MANAGEMENT_DATASET_URL+ tenant_code + '/' + dataset_id + '/?callback=JSON_CALLBACK'
+			});
+		};
+
+	
+
+	fabricAPI.createDataset = function(tenant_code, dataset) {
+		var deferred = $q.defer();
+		var resultData = null;
+		console.debug("Dataset", dataset);
+		$http.post(Constants.API_MANAGEMENT_DATASET_URL + tenant_code + '/', dataset).success(function(responseData) {
+			resultData = {status: "ok", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+			resultData = {status: "ko - "+responseStatus, data: responseData};
+			deferred.reject(resultData);
+		});
+		return deferred.promise;
+	};
+	
+	fabricAPI.updateDataset = function(tenant_code, dataset_id, dataset) {
+		var deferred = $q.defer();
+		var resultData = null;
+
+		$http.put(Constants.API_MANAGEMENT_DATASET_URL+ tenant_code + '/' + dataset_id, dataset).success(function(responseData) {
+			resultData = {status: "ok", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+			resultData = {status: "ko - "+responseStatus, data: responseData};
+			deferred.reject(resultData);
+		});
+		return deferred.promise;
+	};
+	
+	return fabricAPI;
+});
 
 

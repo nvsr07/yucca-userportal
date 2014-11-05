@@ -9,27 +9,27 @@
 		<form class="form-horizontal" role="form" name="newDatasetForm">
 
 			<div class="form-group">
-				<label for="inputDatasetCode" class="col-sm-2 control-label"><span translate>DATASET_FIELD_CODE</span> <span class='required-asterisk'>*</span></label>
+				<label for="inputDatasetCode" class="col-sm-2 control-label"><span translate>DATASET_FIELD_CONFIGDATA_ID</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="dataset.code" id="inputDatasetCode" name="inputDatasetCode"
-						placeholder="{{'DATASET_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true" maxlength="20"
+					<input type="text" class="form-control" ng-model="dataset.configData.idDataset" id="inputDatasetCode" name="inputDatasetCode"
+						placeholder="{{'DATASET_FIELD_CONFIGDATA_ID_PLACEHOLDER'|translate}}" ng-required="true" maxlength="20"
 					> <span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_MAXLENGTH_TOOLTIP'|translate}}"
 						ng-show="newDatasetForm.inputDatasetCode.$error.maxlength  && newDatasetForm.inputDatasetCode.$dirty"
 					></span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputDatasetName" class="col-sm-2 control-label"><span translate>DATASET_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+				<label for="inputDatasetName" class="col-sm-2 control-label"><span translate>DATASET_FIELD_METADATA_NAME</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="dataset.name" id="inputDatasetName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}"
+					<input type="text" class="form-control" ng-model="dataset.metadata.name" id="inputDatasetName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}"
 						ng-required="true"
 					>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="inputDatasetDomain" class="col-sm-2 control-label"><span translate>DATASET_FIELD_DOMAIN</span> <span class='required-asterisk'>*</span></label>
+				<label for="inputDatasetDomain" class="col-sm-2 control-label"><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-10">
-					<select class="input-sm form-control" ng-model="dataset.domain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+					<select class="input-sm form-control" ng-model="dataset.metadata.dataDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
 						<option value="" translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
 					</select>
 				</div>
@@ -39,27 +39,27 @@
 			<fieldset>
 				<legend translate>USER_APPLICANT</legend>
 				<div class="form-group">
-					<label for="nomeRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+					<label for="requestorName" class="col-sm-2 control-label"><span translate>USER_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="dataset.nomeRichiedente" id="nomeRichiedente" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}"
+						<input type="text" class="form-control" ng-model="dataset.metadata.requestorName" id="requestorName" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}"
 							ng-required="true"
 						>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label for="cognomeRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_SURNAME</span> <span class='required-asterisk'>*</span></label>
+					<label for="requestorSurname" class="col-sm-2 control-label"><span translate>USER_FIELD_SURNAME</span> <span class='required-asterisk'>*</span></label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="dataset.cognomeRichiedente" id="cognomeRichiedente"
+						<input type="text" class="form-control" ng-model="dataset.metadata.requestorSurname" id="requestorSurname"
 							placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" ng-required="true"
 						>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label for="mailRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_EMAIL</span> <span class='required-asterisk'>*</span></label>
+					<label for="requestorEmail" class="col-sm-2 control-label"><span translate>USER_FIELD_EMAIL</span> <span class='required-asterisk'>*</span></label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="dataset.mailRichiedente" id="mailRichiedente" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}"
+						<input type="text" class="form-control" ng-model="dataset.metadata.requestornEmail" id="requestorEmail" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}"
 							ng-required="true"
 						>
 					</div>
@@ -115,11 +115,10 @@
 			</fieldset>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<a ng-click='cancel()' class="btn" translate>CANCEL</a>
-					<!-- 
-						<a ng-click='createDataset(dataset)' class="btn btn-primary" ng-disabled="!isOwner() || newDatasetForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0" translate>MANAGEMENT_NEW_DATASET_CREATE_BUTTON</a>
-					-->
-					<a href="#/management/editDataset/sandbox" class="btn btn-default" translate>MANAGEMENT_NEW_DATASET_CREATE_BUTTON</a>
+					<a ng-click='cancel()' class="btn " translate>CANCEL</a>
+					<a ng-click='createDataset(dataset)' class="btn btn-default" ng-disabled="!isOwner() || newDatasetForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0" translate>MANAGEMENT_NEW_DATASET_CREATE_BUTTON</a>
+					
+					<!--  <a href="#/management/editDataset/sandbox" class="btn btn-default" translate>MANAGEMENT_NEW_DATASET_CREATE_BUTTON</a> -->
 				</div>
 			</div>
 		</form>

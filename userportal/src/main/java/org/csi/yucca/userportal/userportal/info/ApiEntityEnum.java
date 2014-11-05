@@ -9,94 +9,101 @@ import javax.servlet.http.HttpServletRequest;
 
 public enum ApiEntityEnum {
 
-	STREAM_COMPONENT("API_STREAM_COMPONENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/components/") {
+	API_INFO("API_INFO_URL", "/userportal/api/info") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+	// SERVICES
+	API_SERVICES_STREAM_COMPONENT("API_SERVICES_STREAM_COMPONENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/components/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	},
-	STREAM("API_STREAM_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
+	API_SERVICES_STREAM("API_SERVICES_STREAM_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request)
 					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	},
-	STREAM_LIST("API_STREAM_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
+	API_SERVICES_STREAM_LIST("API_SERVICES_STREAM_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request)
 					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	},
-	VIRTUALENTITY("API_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
+	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request)
 					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	},
-	VIRTUALENTITY_LIST("API_VIRTUALENTITY_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
+	API_SERVICES_VIRTUALENTITY_LIST("API_SERVICES_VIRTUALENTITY_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request)
 					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	},
-	VIRTUALENTITY_CATEGORIES("API_VIRTUALENTITY_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
+	API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-	VIRTUALENTITY_TYPES("API_VIRTUALENTITY_TYPES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/types/") {
+	API_SERVICES_VIRTUALENTITY_TYPES("API_SERVICES_VIRTUALENTITY_TYPES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/types/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-	STREAM_TAGS("API_STREAM_TAGS_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/streamtags/") {
+	API_SERVICES_STREAM_TAGS("API_SERVICES_STREAM_TAGS_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/streamtags/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-	STREAM_DOMAINS("API_STREAM_DOMAINS_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/streamdomains/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
-		}
-	},
-
-	API_STREAM_UNIT_OF_MESAUREMENT_URL("API_STREAM_UNIT_OF_MESAUREMENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/measureunits/") {
+	API_SERVICES_STREAM_DOMAINS("API_SERVICES_STREAM_DOMAINS_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/streamdomains/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
 
-	API_STREAM_PHENOMENOM_URL("API_STREAM_PHENOMENOM_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/phenomenon/") {
+	API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL("API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/measureunits/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
 
-	API_STREAM_DATATYPE_URL("API_STREAM_DATATYPE_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/datatype/") {
+	API_SERVICES_STREAM_PHENOMENOM_URL("API_SERVICES_STREAM_PHENOMENOM_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/phenomenon/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
 
-	TENANT_LIST("API_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
+	API_SERVICES_STREAM_DATATYPE_URL("API_SERVICES_STREAM_DATATYPE_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/datatype/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
 
-	LIFECYCLE_STREAM_REQ_INST("API_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {
+	API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
+	},
+
+	API_SERVICES_LIFECYCLE_STREAM_REQ_INST("API_SERVICES_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			// String tenant = request.getParameter("codTenant") == null?
@@ -108,31 +115,39 @@ public enum ApiEntityEnum {
 		}
 	},
 
-	LIFECYCLE_STREAM_NEW_VERSION("API_LIFECYCLE_STREAM_NEW_VERSION", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/newversion/") {
+	API_SERVICES_LIFECYCLE_STREAM_NEW_VERSION("API_SERVICES_LIFECYCLE_STREAM_NEW_VERSION", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/newversion/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
 
-	LIFECYCLE_STREAM_REQ_UNINST("API_LIFECYCLE_STREAM_REQ_UNINST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/requninst/") {
+	API_SERVICES_LIFECYCLE_STREAM_REQ_UNINST("API_SERVICES_LIFECYCLE_STREAM_REQ_UNINST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/requninst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
 
-	API_INFO("API_INFO_URL", "/userportal/api/info") {
+	API_SERVICES_VIRTUALENTITY_GEO("API_SERVICES_VIRTUALENTITY_GEO_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentitiesgeo") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
 
-	VIRTUALENTITY_GEO("VIRTUALENTITY_GEO_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentitiesgeo") {
+	// MANAGEMENT
+	API_MANAGEMENT_DATASET_LIST("API_MANAGEMENT_DATASET_LIST_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
+		}
+	},
+
+	API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	};
 

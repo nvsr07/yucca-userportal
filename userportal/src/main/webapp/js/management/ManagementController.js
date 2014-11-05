@@ -333,7 +333,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.stream = null;
 	$scope.loadStream = function(){
-		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).success(function(response) {
 			$scope.stream = response.streams.stream;
 			console.debug("$scope.stream internal before clean",$scope.stream);
 			if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
@@ -369,7 +369,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 			$scope.stream.saveData = '0';
 			$scope.stream.visibility = 'public';
-			$scope.stream.publish = 'false';	
+			$scope.stream.publish = 0;	
 			if(!$scope.stream.deploymentStatusCode || $scope.stream.deploymentStatusCode == null)
 				$scope.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 
@@ -833,7 +833,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 
 	$scope.loadVirtualentity = function(){
-		fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.virtualentity_code).success(function(response) {
+		fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.entity_code).success(function(response) {
 			$scope.virtualentity = response.virtualEntities.virtualEntity;
 			if(!$scope.virtualentity.virtualEntityPositions)
 				$scope.virtualentity.virtualEntityPositions = {};
@@ -927,12 +927,12 @@ appControllers.controller('ManagementChooseTenantCtrl', [ '$scope', 'fabricAPIse
 
 
 /* Dataset */
-appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
+appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', function($scope, $route, $location, fabricAPImanagement, info, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 
 	$scope.datasetList = [];
 	$scope.filteredDatasetsList = [];
-	$scope.codeFilter = null;
+	$scope.nameFilter = null;
 	$scope.statusFilter = null;
 
 	$scope.currentPage = 1;
@@ -946,42 +946,33 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		return info.isOwner( $scope.tenantCode);
 	};
 
-//	fabricAPIservice.getStreams(/*$scope.tenantCode*/).success(function(response) {
-//		// FIXME remove when the new api with tenant parameterwill be ready
-//
-//		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
-//		for (var i = 0; i < responseList.length; i++) {
-//			if(responseList[i].codiceTenant == $scope.tenantCode){
-//				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
-//					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
-//				responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
-//				$scope.streamsList.push(responseList[i]);
-//			}
-//		}
-//		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
-//		$scope.totalItems = $scope.streamsList.length;
-//		//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
-//	});
+	fabricAPImanagement.getDatasets($scope.tenantCode).success(function(response) {
+		$scope.datasetList = response;
+		$scope.totalItems = $scope.datasetList.length;
+	});
 
 
 	$scope.selectPage = function() {
 		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
 
-	$scope.searchCodeFilter = function(dataset) {
-		var keyword = new RegExp($scope.codeFilter, 'i');
-		return !$scope.codeFilter || keyword.test(dataset.codiceDataset);
+	$scope.searchNameFilter = function(dataset) {
+		console.log("$scope.nameFilter", $scope.nameFilter);
+		console.log("dataset.metadata.name", dataset);
+		var keyword = new RegExp($scope.nameFilter, 'i');
+		
+		return !$scope.nameFilter || (dataset.metadata && keyword.test(dataset.metadata.name));
 	};
 
 	$scope.searchStatusFilter = function(dataset) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(dataset.deploymentStatusDesc);
+		return !$scope.statusFilter || (dataset.metadata && keyword.test(dataset.metadata.datasetStatus));
 	};
 
-	$scope.$watch('codeFilter', function(newCode) {
+	$scope.$watch('nameFilter', function(newName) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredDatasetsList.length;
-		console.log("newCode", newCode);
+		console.log("newName", newName);
 	});
 
 	$scope.$watch('statusFilter', function(newStatus) {
@@ -1042,7 +1033,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 } ]);
 
 
-appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
+appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement', 'info', function($scope, $route, $location, fabricAPIservice, fabricAPImanagement, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 
 	$scope.isOwner = function(){
@@ -1062,23 +1053,23 @@ appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$lo
 	$scope.accettazioneResponsability=0;
 
 	$scope.createDataset = function(dataset) {
-		dataset.publish = 0;
-		dataset.accettazionePrivacy=0;
-		dataset.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
+		var newDataset = dataset;
+		newDataset.configData.tenant=$scope.tenantCode;
+		newDataset.configData.datasetversion=$scope.tenantCode;
+		newDataset.configData.type = "dataset";
+		newDataset.configData.subtype = "bulkDataset";
+		console.log("dataset qui ", newDataset);
 
-
-//		var newDataset = new Object();
-//		newDataset.dataset = dataset;
-//		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
-//		promise.then(function(result) {
-//			console.log("result qui ", result);
-//			$location.path('management/editStream/'+$scope.tenantCode +'/'+virtualentity.codeVirtualEntity+'/'+newStream.stream.codiceStream);
-//		}, function(result) {
-//			$scope.creationError = angular.fromJson(result.data);
-//			console.log("result.data ", result.data);
-//		}, function(result) {
-//			console.log('Got notification: ' + result);
-//		});
+		var promise   = fabricAPImanagement.createDataset($scope.tenantCode, newDataset);
+		promise.then(function(result) {
+			console.log("result qui ", result);
+			$location.path('management/editDataset/'+$scope.tenantCode +'/'+result.data.id);
+		}, function(result) {
+			$scope.creationError = angular.fromJson(result.data);
+			console.log("result.data ", result.data);
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
 	};	
 
 	$scope.cancel = function(){
@@ -1086,8 +1077,9 @@ appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$lo
 	};
 } ]);
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', function($scope, $routeParams, fabricAPIservice, info) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'info', function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, info) {
 	$scope.tenantCode = $routeParams.tenant_code;
+	$scope.datasetId = $routeParams.entity_code;
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
@@ -1126,81 +1118,30 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 	$scope.dataset = null;
 	
-	$scope.dataset = {
-		code: 'codice',
-		name: 'nome', 
-	};
 	
-	if(!$scope.dataset.tags)
-		$scope.dataset.tags = new Object();
-	$scope.dataset.tags.tag = Helpers.util.initArrayZeroOneElements($scope.dataset.tags.tag);
+//
+//	if($scope.dataset.columns == null)
+//		$scope.dataset.columns = new Object();
+//	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
 
-	if($scope.dataset.columns == null)
-		$scope.dataset.columns = new Object();
-	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
+	$scope.loadDataset = function(){
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetId).success(function(response) {
+			console.debug("loadDataset- response",response);
+			$scope.dataset = response;
+			if(!$scope.dataset.metadata)
+				$scope.dataset.metadata = new Object();
+			if(!$scope.dataset.metadata.tags)
+				$scope.dataset.metadata.tags = [];
+			
+			$scope.dataset.metadata.visibility = 'public';
+		});
 
-//	$scope.loadDataset = function(){
-//		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
-//			$scope.stream = response.streams.stream;
-//			console.debug("$scope.stream internal before clean",$scope.stream);
-//			if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
-//				$scope.stream.streamInternalChildren={};
-//				$scope.stream.streamInternalChildren.streamChildren=[];
-//			}
-//
-//			$scope.stream.streamInternalChildren.streamChildren=Helpers.util.initArrayZeroOneElements($scope.stream.streamInternalChildren.streamChildren);
-//
-//			for(var i =0 ; i<$scope.stream.streamInternalChildren.streamChildren.length;i++){
-//				var existingStream =  $scope.stream.streamInternalChildren.streamChildren[i];
-//
-//				$scope.loadStreamComponents(existingStream);
-//			}
-//
-//
-//
-//			if( $scope.stream.internalQuery && $scope.stream.internalQuery["@nil"]){
-//				$scope.stream.internalQuery=null;
-//			}
-//			$scope.streamSiddhiQuery= $scope.stream.internalQuery;
-//
-//			$scope.internalStreams=$scope.stream.streamInternalChildren.streamChildren;
-//
-//			console.debug("$scope.stream internal",$scope.stream);
-//			if(!$scope.stream.streamTags)
-//				$scope.stream.streamTags = new Object();
-//			$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
-//
-//			if($scope.stream.componenti == null)
-//				$scope.stream.componenti = new Object();
-//			$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
-//
-//			$scope.stream.saveData = '0';
-//			$scope.stream.visibility = 'public';
-//			$scope.stream.publish = 'false';	
-//			if(!$scope.stream.deploymentStatusCode || $scope.stream.deploymentStatusCode == null)
-//				$scope.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
-//
-//			$scope.stream.domain = $scope.stream.domainStream;
-//		});
-//
-//	};
-//
-//
-//	$scope.loadStreamComponents = function(existingStream){
-//		fabricAPIservice.getStream(existingStream.codiceTenant,existingStream.codiceVirtualEntity,existingStream.codiceStream).success(function(response) {
-//			var stream = response.streams.stream;
-//			for (var i = 0; i < $scope.internalStreams.length; i++) {
-//				if($scope.internalStreams[i].idStream==stream.idStream){								
-//					$scope.internalStreams[i].componenti = Helpers.util.initArrayZeroOneElements(stream.componenti);	
-//				}
-//			}
-//		});
-//
-//	};
+	};
 
 
 
-//	$scope.loadStream();
+
+	$scope.loadDataset();
 
 
 	$scope.newColumn = null;
@@ -1279,8 +1220,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.addTag = function(){
 		if($scope.newTag){
 			var found = false;	
-			for (var int = 0; int < $scope.dataset.tags.tag.length; int++) {
-				var existingTag = $scope.dataset.tags.tag[int];
+			for (var int = 0; int < $scope.dataset.metadata.tags.length; int++) {
+				var existingTag = $scope.dataset.metadata.tags[int];
 				if(existingTag.tagCode == $scope.newTag){
 					found = true;
 					break;
@@ -1288,7 +1229,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 			}
 			if(!found)
-				$scope.dataset.tags.tag.push({"tagCode":$scope.newTag});
+				$scope.dataset.metadata.tags.push({"tagCode":$scope.newTag});
 		}
 		$scope.newTag = null;
 		return false;
@@ -1296,7 +1237,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 
 	$scope.removeTag = function(index){
-		$scope.dataset.tags.tag.splice(index,1);
+		$scope.dataset.metadata.tags.splice(index,1);
 		return false;
 	};
 
@@ -1321,27 +1262,29 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 
 	$scope.updateDataset = function() {
-		var newDataset = new Object();
+		var newDataset =  $scope.dataset;
 
-		newDataset.dataset =  $scope.dataset;
-
+		if(!newDataset.metadata.tags && newDataset.metadata.tags.length==0){
+			newDataset.metadata.tags = null;
+		}
+		
 		$scope.updateInfo = null;
 		$scope.updateError = null;
 		Helpers.util.scrollTo();
 		
-//		var promise   = fabricAPIservice.updateStream(newStream);
-//
-//		promise.then(function(result) {
-//			$scope.updateInfo = {status: result.status};
-//			$scope.loadStream();
-//
-//		}, function(result) {
-//			$scope.updateError = angular.fromJson(result.data);
-//			console.log("result.data ", result.data);
-//			$scope.loadStream();
-//		}, function(result) {
-//			console.log('Got notification: ' + result);
-//		});
+		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetId, newDataset);
+
+		promise.then(function(result) {
+			$scope.updateInfo = {status: result.status};
+			$scope.loadDataset();
+
+		}, function(result) {
+			$scope.updateError = angular.fromJson(result.data);
+			console.log("result.data ", result.data);
+			$scope.loadDataset();
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
 
 
 	};	
