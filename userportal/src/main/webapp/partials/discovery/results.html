@@ -1,0 +1,67 @@
+<p>&nbsp;</p>
+<div class='clearfix' id='discovery-results-panel'>
+	<div class='pull-left'> <span translate>DISCOVERY_RESULTS_SIZE_LABEL</span>: <strong>{{searchResult.length}}</strong></div>
+	<div class='pull-right'>
+		<a href='javascript:void(0);' ng-click='scrollTo("discovery-filter-panel")'><span class="glyphicon glyphicon-chevron-up"></span><span translate>DISCOVERY_BACK_FILTER_LABEL</span></a>
+	</div>
+		
+</div>
+<p>&nbsp;</p>
+<div class='row'>
+	<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12" >
+		colonne da visualizzare
+        - _id
+        - idDataset
+        - tenant
+        - registration date
+        - fps
+        - tags in un unica colonna
+        - licence
+        - visibility
+
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th ng-repeat="field in fieldList">
+							<a href=""><span ng-bind-html="field.key|translate"></span></a>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in searchResult | orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+						<td ng-repeat="field in fieldList">{{item[field.api_key]}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+				next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+			</pagination>
+		</div>
+	
+	</div>
+	<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12" >
+		<h4>titolo</h4>
+		<form role="form" class="">
+			<div class="form-group">
+				<select class="form-control  input-sm"  ng-model="discoveryCtrl.advancedFilters[$index].field">
+					<option value="" translate>DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER</option>
+					<option value="{{field.api_key}}" ng-repeat="field in fieldList"  ng-bind-html="field.key|translate|unsafe"></option>
+				</select>
+			</div>
+		</form>
+		<nvd3-pie-chart
+			id="exampleId"
+			data="exampleData"
+			x="xFunction()"
+			y="yFunction()"
+			margin="{left:0,top:0,bottom:0,right:0}"
+			showLabels="true"
+			pieLabelsOutside="false"
+			showValues="true"
+			labelType="percent"
+			color="piechartColors">
+			<svg></svg>
+		</nvd3-pie-chart>
+	</div>
+</div>

@@ -63,7 +63,7 @@
 	    					</div>-->
 							<div class="input-group">
 	    						<select class="input-sm form-control" ng-model="newTag" ng-options="tag as (tag|translate) for tag in tagList">
-	    							<option value="">{{'MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER'|translate}}</option>
+	    							<option value="" ng-bind-html="'MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER'|translate" ></option>
 	    						</select>
 							    <span class="input-group-btn">
 							    	<a class="btn  btn-sm"  href="javascript:void(0)" ng-click='addTag()' title="{{'MANAGEMENT_EDIT_STREAM_ADD_TAG'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a>
@@ -81,8 +81,72 @@
 						
 						<!-- <input type="text" class="form-control" id="inputStreamDomain" placeholder="{{'STREAM_FIELD_DOMAIN'|translate}}" ng-model="stream.domain"> -->
 					</div>
-				</div>			
-				<div class='form-label-separator'>{{'STREAM_FIELD_COMPONENTS'|translate}}</div>
+				</div>		
+				
+				
+		<div class='form-label-separator'>{{'STREAM_FIELS'|translate}}</div>
+				<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class="form-group">
+				<label for="streamNameToAdd" class="col-sm-2 control-label">Stream Selezionati</label>
+				<div class="col-sm-10">
+				<div class="table-responsive">
+   					 <table class="table table-striped">
+   					  <tbody class="internalStreamsBorder" ng-repeat="streamInt in internalStreams track by $index">
+				        <tr>
+				            <td>{{streamInt.nomeStream}}</td>
+				            <td>{{streamInt.codiceVirtualEntity}}</td>
+				             <td> as input{{$index}}</td>	
+				        	<td><a  ng-click='cancelStreamToArray($index)' class="btn btn-danger "><i class='glyphicon glyphicon-minus'></i></a></td>
+				        	</tr>
+				        	<tr>
+				        	<!-- td colspan="3"><small><pre pretty-json="{'componenti' : streamInt.componenti}"/></small></td-->
+				        	<td colspan="3">
+				        	<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>{{'STREAM_FIELD_COMPONENTS_NAME'|translate}}</th>
+									<th><span ng-bind-html="'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate"></span></th>
+									<th>{{'STREAM_FIELD_COMPONENTS_TOLERANCE'|translate}}</th>
+									<th>{{'STREAM_FIELD_COMPONENTS_PHENOMENON'|translate}}</th>
+									<th>{{'STREAM_FIELD_COMPONENTS_DATA_TYPE'|translate}}</th>
+									<th>&nbsp;</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="component in streamInt.componenti">
+									<td><span style="display: none"> {{component.element.idComponente}}</span>{{component.element.nome}}</td>
+									<td>{{component.element.measureUnitCategory}} : {{component.element.measureUnit}}</td>
+									<td>{{component.element.tolerance}} </td>
+									<td>{{component.element.phenomenonCategory}} : {{component.element.phenomenon}}</td>
+									<td>{{component.element.dataType}}</td>									
+								</tr>
+								</tbody>
+							</table><td>			        		        
+				        </tr>
+				      </tbody>   					 
+   					 </table></div>
+			</div>					
+			</div>
+			
+			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
+				<label for="streamNameToAdd" class="col-sm-2 control-label">{{'STREAM_TYPE_DEFINITION'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-8">
+				<select class="form-control col-sm-8" ng-model="streamSelectedItem" ng-options="streamItem.nomeStream for streamItem in streamsList" ng-required="inputTypeStream==0">
+				</select>
+				</div>
+				<div class="col-sm-2"><a ng-click='addStreamToArray()' class="btn btn-default"><i class='glyphicon glyphicon-plus'></i></a></div>	
+			</div>
+			
+			
+			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
+				<label for="streamSiddhiQueryLabel" class="col-sm-2 control-label">SIDDHI Query <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-10">													
+				<textarea class="form-control" rows="4" resize="none" ng-model="streamSiddhiQuery"  ng-required="inputTypeStream==0" placeholder="from input0 insert into outputStream;">
+				</textarea>
+				</div>					
+			</div>
+			
+					
+				<div class='form-label-separator'>{{'STREAM_FIELD_COMPONENTS_OUTPUT'|translate}}</div>
 				<div class="form-group">
 					<div class="col-sm-2" id="management-edit-stream-component-help-fix">
 						<h5 class="help-title">{{'MANAGEMENT_EDIT_STREAM_COMPONENT_EXAMPLE_TITLE'|translate}}</h5>						
@@ -94,7 +158,7 @@
 							<thead>
 								<tr>
 									<th>{{'STREAM_FIELD_COMPONENTS_NAME'|translate}}</th>
-									<th>{{'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate}}</th>
+									<th><span ng-bind-html="'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate"></span></th>
 									<th>{{'STREAM_FIELD_COMPONENTS_TOLERANCE'|translate}}</th>
 									<th>{{'STREAM_FIELD_COMPONENTS_PHENOMENON'|translate}}</th>
 									<th>{{'STREAM_FIELD_COMPONENTS_DATA_TYPE'|translate}}</th>
@@ -108,7 +172,7 @@
 									<td>{{component.tolerance}}</td>
 									<td>{{component.phenomenonCategory}}: {{component.phenomenon}}</td>
 									<td>{{component.dataType}}</td>
-									<td><a href="javascript:void(0)" ng-click='removeComponent($index)' class="btn btn-danger btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td> 
+									<td><a href="javascript:void(0)" ng-click='removeComponent($index)' class="btn btn-remove btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td> 
 									<!--  <td><a href="javascript:void(0)"  class="btn btn-danger btn-sm disabled" title="{{'COMING_SOON'|translate}}"><i class='glyphicon glyphicon-minus'></i></a></td>-->
 								</tr>
 								<tr>
@@ -159,7 +223,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="RadioGroupVisibility" class="col-sm-2 control-label">{{'STREAM_FIELD_VISIBILITY'|translate}}</label>
+					<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'STREAM_FIELD_VISIBILITY'|translate"></span></label>
 					<div class="col-sm-10">
 						<label class="radio-inline">
 	              			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="stream.visibility" disabled>{{'MANAGEMENT_EDIT_STREAM_VISIBILITY_PUBLIC'|translate}}
@@ -173,10 +237,10 @@
 					<label for="RadioGroupPublish" class="col-sm-2 control-label">{{'MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE_LABEL'|translate}}</label>
 					<div class="col-sm-10">
 						<label class="radio-inline">
-	              			<input type="radio" name="RadioGroupPublish" value="true" id="RadioGroupPublish_0" ng-model="stream.publish" disabled>{{'MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE'|translate}}
+	              			<input type="radio" name="RadioGroupPublish" value="1" id="RadioGroupPublish_0" ng-model="stream.publish" disabled>{{'MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE'|translate}}
 	            		</label>
 						<label class="radio-inline">
-	              			<input type="radio" name="RadioGroupPublish" value="false" id="RadioGroupPublish_1" ng-model="stream.publish" disabled>{{'MANAGEMENT_EDIT_STREAM_NOT_PUBLISH_ON_STORE'|translate}}
+	              			<input type="radio" name="RadioGroupPublish" value="0" id="RadioGroupPublish_1" ng-model="stream.publish" disabled>{{'MANAGEMENT_EDIT_STREAM_NOT_PUBLISH_ON_STORE'|translate}}
 	            		</label>
 					</div>
 				</div>

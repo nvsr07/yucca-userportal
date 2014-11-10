@@ -7,3 +7,10 @@
 /src - Copia/
 /target_test/
 /src.zip
+/node/
+/node_modules/
+/.tmp/
+/dist/
+/target_local/
+/target_prod_v0.7.1/
+/repository/

@@ -4,9 +4,15 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', 'info', function($scope, $route, $translate,webSocketService, fabricAPIservice, info) {
+appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', 'info', '$location', function($scope, $route, $translate,webSocketService, fabricAPIservice, info, $location) {
 	$scope.$route = $route;
 	$scope.managementUrl = null;
+	$scope.currentUrl = function() {
+		return encodeURIComponent("#"+$location.path());
+	};
+
+	$scope.user;
+	
 	console.debug(":::::Client webSocket Singleton::::");
 	console.debug("Client webSocket Singleton::::",WebsocketStompSingleton.getInstance());
 	
@@ -22,19 +28,25 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 		}
 	});
 
-	fabricAPIservice.getInfo().success(function(response) {
-		console.debug("response.info.tenant.tenantCode", response.info.tenant.tenantCode);
-		$scope.managementUrl = '#/management/virtualentities/'+response.info.tenant.tenantCode;
-		info.setInfo(response.info);
+	fabricAPIservice.getInfo().success(function(result) {
+		console.debug("result", result);
+		$scope.managementUrl = '#/management/virtualentities/'+result.tenantCode;
+		info.setInfo(result);
+		$scope.user = result.user;
 	});
 	
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
 	};
+	
 	$scope.isHomepage = function() {
 		return $route.current.isHomepage;
 	};
+	
 
+	$scope.isUserLoggedIn = function() {
+		return $route.current.isHomepage;
+	};
 } ]);
 
 appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabricAPIservice', 'info', function($scope, $route, $translate, fabricAPIservice, info) {
@@ -45,11 +57,16 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 	console.debug("showMap");
 	showMap();
 	
-	fabricAPIservice.getInfo().success(function(response) {
-		console.debug("response.info.tenant.tenantCode", response.info.tenant.tenantCode);
-		$scope.tenant = response.info.tenant.tenantCode;
-		info.setInfo(response.info);
+	fabricAPIservice.getInfo().success(function(result) {
+		console.debug("result", result);
+		$scope.tenant = result.tenantCode;
 	});
+
+//	fabricAPIservice.getInfo().success(function(response) {
+//		console.debug("response.info.tenant.tenantCode", response.info.tenant.tenantCode);
+//		$scope.tenant = response.info.tenant.tenantCode;
+//		info.setInfo(response.info);
+//	});
 	
 	$scope.tenantsCount = "";
 	fabricAPIservice.getTenants().success(function(response) {
@@ -67,8 +84,8 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 		$scope.streamsCount = response.streams.stream.length;		
 	});
 
-	$scope.changeLanguage = function(langKey) {
-		$translate.use(langKey);
-	};
+//	$scope.changeLanguage = function(langKey) {
+//		$translate.use(langKey);
+//	};
 } ]);
 

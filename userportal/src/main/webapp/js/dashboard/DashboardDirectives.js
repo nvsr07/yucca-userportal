@@ -1,25 +1,26 @@
 'use strict';
 
 /* Directives */
+var appDirectives = appDirectives || angular.module('userportal.directives', []);
 
 appDirectives.directive('streamCard', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/dashboard/stream-card.html'
+		templateUrl : 'partials/dashboard/stream-card.html?'+BuildInfo.timestamp,
 	};
 });
 
 appDirectives.directive('streamRealtime', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/dashboard/stream-realtime.html'
+		templateUrl : 'partials/dashboard/stream-realtime.html?'+BuildInfo.timestamp,
 	};
 });
 
 appDirectives.directive('dashboardMenu', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/dashboard/dashboard-menu.html',
+		templateUrl : 'partials/dashboard/dashboard-menu.html?'+BuildInfo.timestamp,
 	};
 });
 

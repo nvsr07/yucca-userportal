@@ -29,6 +29,7 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	
 	$scope.dashboard = $route.current.params.dashboard;
 	$scope.tenantWithNoDashboardError = null;
+	$scope.buildTimestamp = BuildInfo.timestamp;
 	if(!$scope.dashboard)
 		$scope.dashboard = "overview";
 	
@@ -38,15 +39,16 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	
 	});
 	
-	
-
 	freeboard.initialize(false);
+	
+	console.debug('url','../../ris/userportal/freeboard/"+$scope.dashboard+"-dashboard.json');
 	$.ajax({
-	    url: "js/dashboard/freeboard/"+$scope.dashboard+"-dashboard.json",
+	    url: '../../ris/userportal/freeboard/'+$scope.dashboard+'-dashboard.json?'+BuildInfo.timestamp,
 	    dataType: 'json',
 	    success: function(json) {
 		    console.log(json); 
 		    freeboard.loadDashboard(json, new function(){
+		    		console.debug("loadDashboard - finish", json);
 			    	freeboard.showLoadingIndicator(false);
 			    });
 		    },
@@ -119,6 +121,25 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 		$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
 
 		$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+
+		if(!isNaN($scope.stream.fps)){
+			var fpsNumber = parseFloat($scope.stream.fps);
+			$scope.stream.fpm = 60*fpsNumber;
+			if(fpsNumber!=0){
+				$scope.stream.secondsBtwEvents = 1/fpsNumber;
+				$scope.stream.minutesBtwEvents = 1/(fpsNumber*60);
+			}
+			else{
+				$scope.stream.secondsBtwEvents = "-";
+				$scope.stream.minutesBtwEvents = "-";
+			}
+		}
+		else{
+			$scope.stream.fpm = "-";
+			$scope.stream.secondsBtwEvents = "-";
+			$scope.stream.minutesBtwEvents = "-";
+		}
+		
 		connectWS();
 //		connectWSStatistic();
 //		connectWSClientData();
@@ -343,9 +364,23 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 	$scope.openedIndex = true;
 	$scope.closeIndex = false;
 	$scope.wsClientSubsctiption = null;
+	$scope.clientConnection=Constants.WEBSOCKET_NOT_CONNECTED;
+	$scope.clientConnectionClass="clientConnecting";
+	$scope.connectionCallback=function(sms){		
+		$scope.clientConnection=sms;
+		if(sms==Constants.WEBSOCKET_CONNECTING){
+			$scope.clientConnectionClass="clientConnecting";
+		}else if(sms==Constants.WEBSOCKET_NOT_CONNECTED){
+			$scope.clientConnectionClass="clientNotConnected";
+		}else if(sms==Constants.WEBSOCKET_CONNECTED){
+			$scope.clientConnectionClass="clientConnected";
+		}
+	};
 	
-	console.debug("DashboardErrorLogCtrl");
 	$scope.wsClientError = webSocketService();
+	
+	
+	
 	
 	var connectWSClientError = function(){
 		console.debug("connectWSClientError");
@@ -359,7 +394,7 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 		}, function(message) {
 			console.debug("Can't Connect on WebSocket");
 					//alert("Can't Connect on WebSocket");
-		}, '/');
+		}, '/',$scope.connectionCallback);
 	};
 	
 	

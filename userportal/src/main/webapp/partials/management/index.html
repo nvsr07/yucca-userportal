@@ -18,12 +18,12 @@
 						<a href="#/management/streams/{{tenant}}" ng-class="{active: isMenuActive('streams')}" class=' btn-default'>{{'MANAGEMENT_MENU_STREAMS'|translate}}</a>
 					</li>
 					<li  class=' btn-management'>
-						<a href="#/management/dataset/{{tenant}}" class=' btn-default' ng-class="{active: isMenuActive('dataset')}">{{'MANAGEMENT_MENU_DATASET'|translate}}</a>
+						<a href="#/management/datasets/{{tenant}}" class=' btn-default' ng-class="{active: isMenuActive('datasets')}">{{'MANAGEMENT_MENU_DATASET'|translate}}</a>
 					</li>
 				</ul>
 			</div>
 			<div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
-				<ng-include src=" 'partials/management/' + managementTab+ '.html' "></ng-include>
+				<ng-include src=" 'partials/management/' + managementTab+ '.html?'+buildTimestamp "></ng-include>
 			</div>
 		</div>
 	</div>

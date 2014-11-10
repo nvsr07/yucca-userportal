@@ -15,17 +15,22 @@ var translations_it = {
 	WARNING: 'Attenzione', 
 
 	/* main menu */
+	MENU_HOME : 'Home',
 	MENU_DASHBOARD : 'Monitoraggio',
 	MENU_MANAGEMENT : 'Gestione',
+	MENU_DISCOVERY : 'Cerca',
 	MENU_MARKET : 'Market',
 	MENU_STORE : 'Store',
 	MENU_LANG_EN : 'Inglese',
 	MENU_LANG_IT : 'Italiano',
+	MENU_SING_IN: 'Accedi',
+	MENU_SING_OUT: 'Esci',
 	
 	/* Entity */
 	STREAM: 'Flusso',
 	TENANT: 'Organizzazione',
 	VIRTUALENTITY: 'Smart Object', 
+	DATASET: 'Dataset',
 	
 	/* STREAM */
 	STREAM_FIELD_ID_STREAM: 'ID Flusso',
@@ -62,8 +67,15 @@ var translations_it = {
 	STREAM_FIELD_LASTUPDATE: 'Aggiornamento',
 	STREAM_FIELD_EVENTS : 'Eventi',
 	STREAM_FIELD_VERSION : 'Versione installata',
-	/* Stream placeholder */
 	
+	STREAM_FIELS: 'Definizione stream in ingresso',
+	STREAM_NEW_DEFINITION: 'Smart Object ',
+	STREAM_AGGREGATE_DEFINITION: 'Stream esistenti',
+	STREAM_TYPE_DEFINITION: 'Creazione da ',
+	STREAM_FIELDSET: 'Internal Stream Definition',
+	STREAM_FIELD_COMPONENTS_OUTPUT: 'Componenti stream in uscita',
+
+	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'es. temperatura',
 	STREAM_FIELD_NAME_PLACEHOLDER : 'es. temperatura sala',
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'es. 1.4',
@@ -83,15 +95,11 @@ var translations_it = {
 	USER_FIELD_SURNAME:'Cognome Richiedente',
 	USER_FIELD_EMAIL : 'Email Richiedente',
 	USER_FIELD_ACCEPT:'Termini',
-	
 	USER_FIELD_ACCEPT_YES:'Accetto ',
 	USER_FIELD_ACCEPT_NO:'Non Accetto ',
 	
-	
-
-	USER_FIELD_ACCEPT_PRIVACY:"Autorizzo il CSI Piemonte al trattamento dei dati personali con le modalit&agrave e per le finalit&agrave in essa contenute dopo aver letto l 'informativa Privacy ai sensi dell'art. 13 del D.Lgs. 196/2013",
-	USER_FIELD_ACCEPT_RESPONSABILITY:"Dichiaro sotto la mia responabilit&agrave che i dati inseriti nella Piattaforma sono sogggetti unicamente a licenze conformi a quanto indicato nelle Linee Guida (link) e sar&ograve l'unico soggetto a rispondere ad eventuali contestazioni o richieste di risarcimento danni mosse da terzi per violazione dei loro diritti (L. 633/41, D. lgs. 196/03 e s.m.i.). ",
-	
+	USER_FIELD_ACCEPT_PRIVACY:'Autorizzo il CSI Piemonte al trattamento dei dati personali con le modalit&agrave e per le finalit&agrave in essa contenute dopo aver letto l \'informativa Privacy ai sensi dell\'art. 13 del D.Lgs. 196/2013',
+	USER_FIELD_ACCEPT_RESPONSABILITY:'Dichiaro, consapevole di essere l’unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni  da me utilizzatI nell’ambito del progetto e conferiti alla piattaforma sono tutti nella mia piena, libera ed esclusiva disponibilit&agrave; e che pertanto la mia partecipazione in qualit&agrave; di fornitore non viola nessun diritto di terze parti; dichiaro inoltre, avvalendomi della facolt&agrave; sancita delle "Linee guida per l’integrazione in Smart Data Net" di voler mettere a disposizione di tutti i fruitori della piattaforma i dataset e i flussi di dati conferiti, nonch&egrave; loro eventuali elaborazioni, con licenze conformi a quanto consigliato dalle linee guida stesse.',
 	
 	/* Creator of Stream PlaceHolder */
 	USER_FIELD_NAME_PLACEHOLDER:'Nome',
@@ -103,9 +111,9 @@ var translations_it = {
 	VIRTUALENTITY_FIELD_CODE: 'Codice',
 	VIRTUALENTITY_FIELD_ID_TENANT : 'Id organizzazione',
 	VIRTUALENTITY_FIELD_TENANT_CODE:"Codice organizzazione",
+	VIRTUALENTITY_FIELD_TYPE:'Tipo',
 	VIRTUALENTITY_FIELD_CATEGORY: 'Categoria',
 	VIRTUALENTITY_FIELD_NAME: 'Nome',
-	VIRTUALENTITY_FIELD_TYPE:'Tipo',
 	VIRTUALENTITY_FIELD_DESCRIPTION: 'Descrizione',
 	VIRTUALENTITY_FIELD_CATEGORY_ID: 'ID categoria',
 	VIRTUALENTITY_FIELD_TYPE_ID: 'ID Tipo',
@@ -134,6 +142,44 @@ var translations_it = {
 	VIRTUALENTITY_FIELD_ADMIN_URI: 'URI Amministrazione',
 	VIRTUALENTITY_FIELD_SOFTWARE_VERSION: 'Versione Software',
 		
+	/* Dataset */
+	DATASET_FIELD_ID: 'ID',
+	DATASET_FIELD_CONFIGDATA_ID: 'Id Dataset',
+	DATASET_FIELD_CONFIGDATA_TENANT: 'Organizzazione',
+	DATASET_FIELD_CONFIGDATA_COLLECTION: 'Collection',
+	DATASET_FIELD_CONFIGDATA_TYPE: 'Tipo',
+	DATASET_FIELD_CONFIGDATA_SUBTYPE: 'Sottotipo',
+	DATASET_FIELD_CONFIGDATA_DATAVERSION: 'Sottotipo',
+	DATASET_FIELD_METADATA_NAME: 'Nome',
+	DATASET_FIELD_METADATA_DESCRIPTION: 'Descrizione',
+	DATASET_FIELD_METADATA_DISCLAIMER: 'Disclaimer',
+	DATASET_FIELD_METADATA_LICENSE: 'Licenza',
+	DATASET_FIELD_METADATA_COPYRIGHT: 'Copytight',
+	DATASET_FIELD_METADATA_VISIBILITY: 'Visibilit&agrave;',
+	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Data registrazione',
+	DATASET_FIELD_METADATA_DATADOMAIN: 'Dominio',
+	DATASET_FIELD_METADATA_FPS: 'FPS',
+		
+	DATASET_FIELD_METADATA_STARTINGESTIONDATE: 'Inizio caricamento',
+	DATASET_FIELD_METADATA_ENDINGESTIONDATE: 'Fine caricamento',
+	DATASET_FIELD_METADATA_IMPORTFILETYPE: 'Tipo file',
+	DATASET_FIELD_METADATA_DATASETSTATUS: 'Stato',
+	DATASET_FIELD_METADATA_TAGS: 'Tag',
+	DATASET_FIELD_METADATA_FIELDS: 'Campi',
+	DATASET_FIELD_METADATA_FIELDNAME: 'Nome',
+	DATASET_FIELD_METADATA_FIELDALIAS: 'Alias',
+	DATASET_FIELD_METADATA_DATATYPE: 'Tipo dato',
+	DATASET_FIELD_METADATA_SOURCECOLUMN: 'Sorgente',
+	DATASET_FIELD_METADATA_ISKEY: 'Chiave',
+	DATASET_FIELD_METADATA_MEASUREUNIT: 'Unit&agrave; di misura',
+	
+	/* Dataset placeholder */
+	DATASET_FIELD_CONFIGDATA_ID_PLACEHOLDER : 'es.  definire come generarlo',
+	DATASET_FIELD_NAME_PLACEHOLDER : 'es. musei torino 2014',
+	DATASET_FIELD_COLUMNS_CODE_PLACEHOLDER : 'es. id',
+	DATASET_FIELD_COLUMNS_SEMANTIC_PLACEHOLDER : 'es. identificativo',
+	DATASET_FIELD_COLUMNS_DATATYPE_PLACEHOLDER : 'es. long',
+	
 	/* Stream tags */
 	AGRICULTURE: 'Agricoltura',
 	ENERGY: 'Energia',
@@ -142,10 +188,6 @@ var translations_it = {
 	SCHOOL: 'Scuola',
 	SECURITY: 'Sicurezza',
 	TRANSPORT: 'Trasporti',
-	/* TODO REMOVE */
-	ambiente: 'Ambiente',
-	agricoltura: 'Agricoltura',
-	qualita_aria: 'Aria',
 
 	
 	/* Stream domains */
@@ -196,12 +238,17 @@ var translations_it = {
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filtra per codice',
 	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filtra per stato',
 
+	/* Dataset List */
+	DATASET_LIST_CODE_FILTER: 'Filtra per codice',
+	DATASET_LIST_STATUS_FILTER: 'Filtra per stato',
+
 	/* Home page */
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Registra smart object e definisci gli stream trasmessi',
 	HOME_TENANT_TITLE: 'Organizations',	
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
+	HOME_SEARCH_TITLE: 'Cerca',
 	
 	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
 	HOME_HOWTO_TEXT_HTML: '<li>' + 
@@ -211,9 +258,7 @@ var translations_it = {
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/example">Monitora</a> i tuoi stream nella dashboard </li>' +
 							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea flussi combinati con logiche di aggregazione (coming soon...)</li>' +
 							'<li class="mute"><span class="glyphicon glyphicon-unchecked mute"></span> &nbsp;Fruisci di tutti i dati storicizzati tramite API OData (coming soon...)</li>',
-	
-	
-
+							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Area monitoraggio flussi',
 	
@@ -243,6 +288,12 @@ var translations_it = {
 	DASHBOARD_STREAM_DETAIL_TABLE_VALUE : 'Valore',
 	DASHBOARD_STREAM_DETAIL_OTHER_CONFIUGURATION: 'Altre configurazioni',
 
+
+	DASHBOARD_STREAM_REALTIME_FPS: 'FPS', 
+	DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS: 'Sec. tra eventi', 
+	DASHBOARD_STREAM_REALTIME_FPM: 'FPM', 
+	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. tra eventi', 
+
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistiche', 
 	
 	DASHBOARD_STREAM_WS_URL_TITLE : 'URL Web Socket',
@@ -260,7 +311,7 @@ var translations_it = {
 
 	DASHBOARD_ERROR_LOG_TITLE: 'Error log',
 	DASHBOARD_ERROR_LOG_SUBTITLE: 'Messaggi inviati dai flussi che hanno generato un errore',
-	DASHBOARD_ERROR_LOG_INTRO: 'Si possono visualizzare messaggi di errori indefiniti e non associati a un tenant specifico, o messaggi di errore in cui &eacute; identificato un tenant. Vengono visualizzati gli ultimi 3 messaggi ricevuti, &eacute; possibile aggiornare i messaggi tramite il bottone refresh',
+	DASHBOARD_ERROR_LOG_INTRO: 'Si possono visualizzare messaggi di errori indefiniti e non associati a un tenant specifico, o messaggi di errore in cui &egrave; identificato un tenant. Vengono visualizzati gli ultimi 3 messaggi ricevuti, &egrave; possibile aggiornare i messaggi tramite il bottone refresh',
 	DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_TITLE: 'Seleziona gli errori da visualizzare',
 	DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_SUBTITLE: '',
 	DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_ITEM: 'Platform',
@@ -330,7 +381,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'codice\' &ecute; obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'codice\' obbligatorio',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'codice\' deve essere univoco per flusso ',
     
 		/* Management Virtual Entity  */
@@ -361,7 +412,7 @@ var translations_it = {
 		
 	MANAGEMENT_EDIT_VIRTUALENTITY_GENERAL: 'Informazioni generali',
 	MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION: 'Collocazione',
-	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informaizoni aggiuntive Info',
+	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON: 'Fine modifica',
 	MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON: 'Salva',
 
@@ -369,16 +420,95 @@ var translations_it = {
 	MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON: 'Elimina',
 	MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_VIRTUALENTITY_INSTALL_BUTTON: 'Installa',
+	
+	/* Management dataset */
+	MANAGEMENT_DATASET_SUBTITLE: 'Dataset',
+	MANAGEMENT_DATASET_LIST_NEW_DATASET: 'Carica nuovo Dataset',
+	MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo Dataset',
+	MANAGEMENT_DATASET_LIST_EDIT_DATASET: 'Modifica',
+	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'Per abilitare la cancellazione selezionare almeno un Dataset',
+	MANAGEMENT_DATASET_LIST_DELETE_DATASET: 'Cancella',
+	
+	
+	/* Management new Dataset */
+	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Crea',
+	MANAGEMENT_NEW_DATASET_SUBTITLE: 'Nuovo Dataset',
+	
+	
+	/* Management upload dataset*/
+	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Carica dati',
+	
+	MANAGEMENT_EDIT_DATASET_SUBTITLE: 'Modifica ', 
+	MANAGEMENT_EDIT_DATASET_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
+	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
+	MANAGEMENT_EDIT_STREAM_DATATYPE_PLACEHOLDER: 'Scegli...',
+	MANAGEMENT_EDIT_DATASET_SAVE_DATA_LABEL: 'Salva dati',
+	MANAGEMENT_EDIT_DATASET_SAVE_DATA: 'Salva',
+	MANAGEMENT_EDIT_DATASET_DONT_SAVE_DATA: 'Non salvare',
+	MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC: 'Pubblico',
+	MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE: 'Privato',
+	MANAGEMENT_EDIT_DATASET_PUBLISH_ON_STORE_LABEL: 'Pubblicazione nello store',
+	MANAGEMENT_EDIT_DATASET_PUBLISH_ON_STORE: 'Pubblica',
+	MANAGEMENT_EDIT_DATASET_NOT_PUBLISH_ON_STORE: 'Non Pubblicare',
+	MANAGEMENT_EDIT_DATASET_SAVE_BUTTON: 'Salva',
+	MANAGEMENT_EDIT_DATASET_FINISH_BUTTON: 'Fine modifica', 
+	MANAGEMENT_EDIT_DATASET_ADD_TAG : 'Aggiungi tag', 
+	MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO : 'Dataset salvato',
+	
+	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Informazioni generali',
+	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Definizione struttura dato',
+	MANAGEMENT_EDIT_DATASET_ADD_COLUMN : 'Aggiungi', 
+	MANAGEMENT_EDIT_DATASET_REMOVE_COLUMN : 'Elimina', 
+	MANAGEMENT_EDIT_DATASET_MOVEUP_COLUMN : 'Sposta in alto', 
+	MANAGEMENT_EDIT_DATASET_MOVEDOWN_COLUMN : 'Sposta in basso', 
 
+	MANAGEMENT_EDIT_DATASET_OTHER_INFO: 'Informazioni aggiuntive',
+	MANAGEMENT_EDIT_DATASET_SETTINGS: 'Settings (coming soon)',
+	
+	MANAGEMENT_EDIT_DATASET_ERROR_COMPONENT_TITLE: 'Attenzione',
+	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_REQUIRED: 'Il campo \'codice\' obbligatorio',
+	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_UNIQUE: 'Il campo \'codice\' deve essere univoco per Dataset ',
+	
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',
 	MANAGEMENT_CHOOSE_TENANT_WARNING: 'Pagina temporanea in attesa del sistema di autenticazione',
 	MANAGEMENT_CHOOSE_TENANT_TITLE: 'Scegli un organizzazione',
 	
+	/* Discovery */
+	DISCOVERY_TITLE: 'Cerca',
+	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Cerca',
+	DISCOVERY_SIMPLESEARCH_MENU: 'Ricerca semplice',
+	DISCOVERY_ADVANCEDSEARCH_MENU: 'Ricerca avanzata',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. acqua',
+	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tag</strong>, <strong>licence</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i> ',
+	DISCOVERY_FILTER_SEARCH_BUTTON: 'Cerca',
+	
+	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Scegli un campo',
+	
+	DISCOVERY_RESULTS_SIZE_LABEL: 'Numero di risultati: ',
+	
+	DISCOVERY_BACK_FILTER_LABEL: 'Torna ai filtri di ricerca',
+	DISCOVERY_BACK_RESULT_LABEL: 'Torna ai risultati',
+
+	/* Discovery fields */
+	DISCOVERY_FIELD_TITLE: 'Nome',
+	DISCOVERY_FIELD_TAG: 'Tag',
+	DISCOVERY_FIELD_LICENCE: 'Licenza',
+	DISCOVERY_FIELD_TENANT: 'Organizzazione',
+	DISCOVERY_FIELD_FPS: 'FPS',
+	DISCOVERY_FIELD_UNIT_OF_MEASUREMENT: 'Unit&agrave; di Misura',
+
 	/* Market */
 	MARKET_TITLE: 'Market',
 
 	/* Store */
 	STORE_TITLE: 'Store',
+	
+	/* Info */
+	INFO_TITLE: 'About userportal', 
+	INFO_INTRO: '<p>La <strong>Yucca Platform</strong> &egrave; stata realizzata completamente utilizzando tecnologie <strong>Open Source</strong></p><p>Il codice sorgente &egrave; disponibile su github <a href="https://github.com/csipiemonte" target="_blank">github.com/csipiemonte</a>',
+	INFO_MAIN_FRAMEWORK_TITLE: 'Created with',
+	INFO_LIBRARIES_TITLE: 'Presentation and libraries',
+	INFO_SOURCE_TOOL_TITLE: 'Source code and build tools',
 
 };

@@ -12,14 +12,21 @@ appDirectives.directive('appVersion', [ 'version', function(version) {
 appDirectives.directive('mainNavbar', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/common/main-navbar.html',
+		templateUrl : 'partials/common/main-navbar.html?'+BuildInfo.timestamp,
+	};
+});
+
+appDirectives.directive('mainNavbarProfile', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/common/main-navbar-profile.html?'+BuildInfo.timestamp,
 	};
 });
 
 appDirectives.directive('mainFooter', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/common/main-footer.html',
+		templateUrl : 'partials/common/main-footer.html?'+BuildInfo.timestamp,
 	};
 });
 

@@ -21,14 +21,13 @@
 
 */
 
-
 // Base URL per il recupero dell'elenco dei sensori (API)
 //var urlBaseSensor = "http://userportal.smartdatanet.it/userportal/api/proxy/virtualentitiesgeo";
-var urlBaseSensor = "/userportal/api/proxy/virtualentitiesgeo";
+var urlBaseSensor = Constants.API_SERVICES_VIRTUALENTITY_GEO_URL;
 
 // Base URL per il recupero delle informazioni degli stream (API)
 //var urlBaseStream = "http://userportal.smartdatanet.it/userportal/api/proxy/streams/";
-var urlBaseStream = "/userportal/api/proxy/streams/";
+var urlBaseStream = Constants.API_SERVICES_STREAM_URL;
 
 // BaseURL per il recupero della pagina web con il dettaglio dei sensori
 //var urlBaseSensorWeb = "http://userportal.smartdatanet.it/userportal/#/management/viewVirtualentity/";
@@ -137,6 +136,7 @@ function showMap() {
             // ed esegue la chiamata alla relativa API
               
             var urlSensore = urlBaseStream + codiceTenant + "/" + codice;
+            console.debug("urlSensore",urlSensore);
             var xmlHttp2 = new XMLHttpRequest(); 
 
             var elencoStreamSensore = [];  

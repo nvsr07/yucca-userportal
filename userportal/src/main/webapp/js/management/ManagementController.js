@@ -5,27 +5,29 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", func
 	$scope.managementTab = $route.current.params.managementTab;
 	$scope.tenant = $route.current.params.tenant_code;
 
+	$scope.buildTimestamp = BuildInfo.timestamp;
+
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
 	};
 	$scope.isMenuActive= function(menuItem){
-		
+
 		var result = false;
 		switch (menuItem){
-	    	case 'dashboard':
-	        	result =  ($scope.managementTab == 'dashboard');
-	        	break;
-	    	case 'streams':
-	        	result =  ($scope.managementTab == 'streams' || $scope.managementTab == 'editStream' || $scope.managementTab == 'viewStream' || $scope.managementTab == 'newStream'|| $scope.managementTab == 'newStreamInternal');
-	        	break;
-	    	case 'virtualentities':
-	        	result =  ($scope.managementTab == 'virtualentities' || $scope.managementTab == 'editVirtualentity' || $scope.managementTab == 'viewVirtualentity' || $scope.managementTab == 'newVirtualentity');
-	        	break;
-	    	case 'dataset':
-	        	result =  ($scope.managementTab == 'dataset');
-	        	break;
-	        default:
-	        	break;
+		case 'dashboard':
+			result =  ($scope.managementTab == 'dashboard');
+			break;
+		case 'streams':
+			result =  ($scope.managementTab == 'streams' || $scope.managementTab == 'editStream' || $scope.managementTab == 'viewStream' || $scope.managementTab == 'newStream'|| $scope.managementTab == 'newStreamInternal');
+			break;
+		case 'virtualentities':
+			result =  ($scope.managementTab == 'virtualentities' || $scope.managementTab == 'editVirtualentity' || $scope.managementTab == 'viewVirtualentity' || $scope.managementTab == 'newVirtualentity');
+			break;
+		case 'datasets':
+			result =  ($scope.managementTab == 'datasets' || $scope.managementTab == 'editDataset' || $scope.managementTab == 'viewDataset' || $scope.managementTab == 'newDataset');
+			break;
+		default:
+			break;
 		}
 		return result;
 	};
@@ -38,7 +40,7 @@ appControllers.controller('ManagementCtrl', [ '$scope', '$route', 'fabricAPIserv
 appControllers.controller('ManagementDashboardCtrl',[ '$scope', '$route', 'fabricAPIservice', function($scope, $route, fabricAPIservice, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.tenant = null;
-	
+
 	// FIXME change with single tenant api
 	fabricAPIservice.getTenants().success(function(response) {
 		for (var i = 0; i < response.tenants.tenant.length; i++) {
@@ -68,7 +70,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.streamsList.length;
 	$scope.predicate = '';
-	
+
 	console.log("isOwner", info.isOwner( $scope.tenantCode));
 
 	$scope.isOwner = function(){
@@ -77,7 +79,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 	fabricAPIservice.getStreams(/*$scope.tenantCode*/).success(function(response) {
 		// FIXME remove when the new api with tenant parameterwill be ready
-	
+
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
 			if(responseList[i].codiceTenant == $scope.tenantCode){
@@ -89,9 +91,9 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		}
 		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
-	//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
-	
+
 
 	$scope.selectPage = function() {
 		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
@@ -120,15 +122,15 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	});
 
 	$scope.selectedStreams = [];
-	
+
 	$scope.isSelected = function(stream) {
-		 return $scope.selectedStreams.indexOf(stream) >= 0;
+		return $scope.selectedStreams.indexOf(stream) >= 0;
 	};
-		
+
 	$scope.updateSelection = function($event, stream) {
 		var checkbox = $event.target;
-		 var action = (checkbox.checked ? 'add' : 'remove');
-		  updateSelected(action, stream);
+		var action = (checkbox.checked ? 'add' : 'remove');
+		updateSelected(action, stream);
 	};	
 	var updateSelected = function(action, stream) {
 		if (action === 'add' && $scope.selectedStreams.indexOf(stream) === -1) {
@@ -138,7 +140,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 			$scope.selectedStreams.splice($scope.selectedStreams.indexOf(stream), 1);
 		}
 	};
-	
+
 	$scope.canEdit = function() {
 		if($scope.selectedStreams.length==1 && $scope.selectedStreams[0].deploymentStatusCode == Constants.STREAM_STATUS_DRAFT){
 			return true;
@@ -146,12 +148,12 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		return false;
 	};
 
-	
-	
-	
+
+
+
 	$scope.editStream = function(){
 		if($scope.selectedStreams.length===1){
-			
+
 			$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
 		}
 		else{
@@ -161,7 +163,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.deleteStream = function(){
 		//alert("Funzionalita non ancora abilitata!");
 		if($scope.selectedStreams.length>0){
-			
+
 			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
 		}
 		else{
@@ -173,46 +175,61 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
-	
+
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
 
+
+
 	$scope.virtualEntitiesList = [];
+
+
+	//internal stream
+	$scope.virtualentity=null;
+//	$scope.internalStreams = [];
+	$scope.inputTypeStream = 1;
+//	$scope.streamSelectedItem=null;	
+//	$scope.streamSiddhiQuery=null;
+//	$scope.virtualentityInternal=null;
+
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
 		console.log(response.virtualEntities.virtualEntity);
 		for (var int = 0; int < response.virtualEntities.virtualEntity.length; int++) {
 			var virtualentity = response.virtualEntities.virtualEntity[int];
-			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
 				$scope.virtualEntitiesList.push(virtualentity);
+			}else{
+				$scope.virtualentityInternal=virtualentity;
+			}
+
 		}
-		// TODO: manage virtual entity type internal
-		//$scope.virtualEntitiesList = response.virtualEntities.virtualEntity;
 	});
-	
-	// TODO put in cache
+
+
+
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
 		}
 	});
-	
-	
-	
+
+
+
 	$scope.creationError = null;
-	
+
 	$scope.accettazionePrivacy=0;
 	$scope.accettazioneResponsability=0;
-	
+
 	$scope.createStream = function(virtualentity, stream) {
 		stream.fps = 0;
 		stream.saveData = 0;
 		stream.publish = 0;
 		stream.accettazionePrivacy=0;
 		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
-		
-		
+
+
 		var newStream = new Object();
 		newStream.stream = stream;
 		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
@@ -226,7 +243,7 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 			console.log('Got notification: ' + result);
 		});
 	};	
-	
+
 	$scope.cancel = function(){
 		$location.path('management/streams'+'/'+$scope.tenantCode);
 	};
@@ -236,7 +253,7 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 
 appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', function($scope, $routeParams, fabricAPIservice, info) {
 	$scope.tenantCode = $routeParams.tenant_code;
-	
+
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
@@ -245,20 +262,47 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 	$scope.insertComponentError = null;
-	
+
+
+	$scope.internalStreams = [];
+	$scope.inputTypeStream = 1;
+	$scope.streamSelectedItem=null;	
+	$scope.streamSiddhiQuery=null;
+	$scope.streamsList = [];
+
+	$scope.addStreamToArray = function(){
+		$scope.streamSelectedItem.componenti = new Object();
+		$scope.internalStreams.push($scope.streamSelectedItem);
+		$scope.loadStreamComponents($scope.streamSelectedItem);		
+		$scope.streamSelectedItem=null;
+	};
+
+	$scope.cancelStreamToArray = function(index){
+		$scope.internalStreams.splice(index,1);
+	};
+
+
+	fabricAPIservice.getStreams().success(function(response) {
+
+		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+		for (var i = 0; i < responseList.length; i++) {
+			if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST 
+					&& (responseList[i].visibility && responseList[i].visibility=="public" || responseList[i].codiceTenant==$routeParams.tenant_code)){
+				$scope.streamsList.push(responseList[i]);					
+			}
+		}
+	});
 
 
 	$scope.tagList = [];
-	// TODO put in cache
 	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
 		}
 	});
-	
 
-	// TODO put in cache
+
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
@@ -271,7 +315,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.unitOfMesaurementList = response.measureUnit.element;
 	});
 
-	
+
 	$scope.phenomenomList = [];
 	fabricAPIservice.getStreamPhenomenom().success(function(response) {
 		$scope.phenomenomList = response.Phenomenon.element;
@@ -282,51 +326,83 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.dataTypeList = response.dataType.element;
 	});
 
-	
-	
-	
+
+
+
 	$scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
-	
+
 	$scope.stream = null;
 	$scope.loadStream = function(){
-		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).success(function(response) {
 			$scope.stream = response.streams.stream;
+			console.debug("$scope.stream internal before clean",$scope.stream);
+			if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
+				$scope.stream.streamInternalChildren={};
+				$scope.stream.streamInternalChildren.streamChildren=[];
+			}
+
+			$scope.stream.streamInternalChildren.streamChildren=Helpers.util.initArrayZeroOneElements($scope.stream.streamInternalChildren.streamChildren);
+
+			for(var i =0 ; i<$scope.stream.streamInternalChildren.streamChildren.length;i++){
+				var existingStream =  $scope.stream.streamInternalChildren.streamChildren[i];
+
+				$scope.loadStreamComponents(existingStream);
+			}
+
+
+
+			if( $scope.stream.internalQuery && $scope.stream.internalQuery["@nil"]){
+				$scope.stream.internalQuery=null;
+			}
+			$scope.streamSiddhiQuery= $scope.stream.internalQuery;
+
+			$scope.internalStreams=$scope.stream.streamInternalChildren.streamChildren;
+
+			console.debug("$scope.stream internal",$scope.stream);
 			if(!$scope.stream.streamTags)
 				$scope.stream.streamTags = new Object();
-				$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
-			
+			$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
+
 			if($scope.stream.componenti == null)
 				$scope.stream.componenti = new Object();
 			$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
-			
-			// FIXME remove in future version
+
 			$scope.stream.saveData = '0';
 			$scope.stream.visibility = 'public';
-			$scope.stream.publish = 'false';	
+			$scope.stream.publish = 0;	
 			if(!$scope.stream.deploymentStatusCode || $scope.stream.deploymentStatusCode == null)
 				$scope.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 
 			$scope.stream.domain = $scope.stream.domainStream;
 		});
-		
+
 	};
-	
+
+
+	$scope.loadStreamComponents = function(existingStream){
+		fabricAPIservice.getStream(existingStream.codiceTenant,existingStream.codiceVirtualEntity,existingStream.codiceStream).success(function(response) {
+			var stream = response.streams.stream;
+			for (var i = 0; i < $scope.internalStreams.length; i++) {
+				if($scope.internalStreams[i].idStream==stream.idStream){								
+					$scope.internalStreams[i].componenti = Helpers.util.initArrayZeroOneElements(stream.componenti);	
+				}
+			}
+		});
+
+	};
+
+
+
 	$scope.loadStream();
-	//$scope.virtualEntitiesList = [];
-	//fabricAPIservice.getVirtualEntities($routeParams.tenant_code).success(function(response) {
-	//	$scope.virtualEntitiesList = response.virtualEntities.virtualEntity;
-	//});
-	
-	
+
+
 	$scope.newComponent = null;
 	$scope.newComponentUnitOfMeasurement = null;
 	$scope.newComponentPhenomenon = null;
 	$scope.newComponentDataType = null;
-	
+
 	$scope.addComponent = function(){
 		$scope.insertComponentError = null;
-		console.log("$scope.newComponent",$scope.newComponent);
-
 		if($scope.newComponent && $scope.newComponent.nome){
 			var found = false;
 
@@ -336,9 +412,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					break;
 				}
 			}
-			
+
 			if(!found){
-				console.log("$scope.stream.componenti.element ccc",$scope.stream.componenti);
 				if($scope.newComponentUnitOfMeasurement){
 					$scope.newComponent.idMeasureUnit = $scope.newComponentUnitOfMeasurement.idMeasureUnit;
 					$scope.newComponent.measureUnit = $scope.newComponentUnitOfMeasurement.measureUnit;
@@ -353,7 +428,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					$scope.newComponent.idDataType = $scope.newComponentDataType.idDataType;
 					$scope.newComponent.dataType = $scope.newComponentDataType.dataType;
 				}
-				
+
 				$scope.stream.componenti.element.push($scope.newComponent);
 				$scope.newComponent = null;
 			}
@@ -366,9 +441,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		return false;
 	};
-	
+
 	$scope.removeComponent = function(index){
-		console.debug("$scope.stream.componenti",$scope.stream.componenti);
 		$scope.stream.componenti.element.splice(index,1);
 		return false;
 	};
@@ -383,17 +457,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					found = true;
 					break;
 				}
-				
+
 			}
-			//$scope.stream.tags.push($scope.newTag);
 			if(!found)
 				$scope.stream.streamTags.tag.push({"tagCode":$scope.newTag});
 		}
 		$scope.newTag = null;
 		return false;
-		
+
 	};
-	
+
 	$scope.removeTag = function(index){
 		$scope.stream.streamTags.tag.splice(index,1);
 		return false;
@@ -417,7 +490,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			return true;
 		return false;
 	};
-	
+
 	$scope.canCreateNewVersion = function() {
 		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_INST)
 			return true;
@@ -428,23 +501,29 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.cancel = function(){
 		$location.path('management/streams');
 	};
-	
+
 	$scope.updateStream = function() {
 		var newStream = new Object();
+
 		newStream.stream =  $scope.stream;
+		newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
+		//	newStream.stream.internalQuery = $scope.streamSiddhiQuery;
+		newStream.stream.streamInternalChildren={};
+		newStream.stream.streamInternalChildren.streamChildren=[];
+		for(var i = 0; i< $scope.internalStreams.length; i++){
+			newStream.stream.streamInternalChildren.streamChildren.push({
+				"aliasChildStream":"input"+i,
+				"idChildStream": $scope.internalStreams[i].idStream
+			});
+		}
+
 		console.log("newStream", newStream);
 		$scope.updateInfo = null;
 		$scope.updateError = null;
 		Helpers.util.scrollTo();
 		var promise   = fabricAPIservice.updateStream(newStream);
-		
-		/*
-		var promise   = fabricAPIservice.createComponents(newStream);
-		console.log("newStream");
-		*/
+
 		promise.then(function(result) {
-			console.log("result qui ", result);
-			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
 			$scope.updateInfo = {status: result.status};
 			$scope.loadStream();
 
@@ -456,21 +535,21 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			console.log('Got notification: ' + result);
 		});
 
-		
+
 	};	
-	
+
 	$scope.requestInstallation = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
 	};
-	
+
 	$scope.requestUnistallation = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST);
 	};
-	
+
 	$scope.createNewVersion = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION);
 	};
-	
+
 	var updateLifecycle = function(action) {
 		console.log("updateLifecycle stream", $scope.stream);
 		console.log("updateLifecycle action", action);
@@ -494,11 +573,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 } ]);
 
 
+
 /* VIRTUAL ENTITY */
 
 appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
-	
+
 	console.log("info.isOwner( $scope.tenantCode);", info.isOwner( $scope.tenantCode));
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
@@ -519,8 +599,9 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
 		// Dig into the responde to get the relevant data
 		console.log("response", response);
-		$scope.virtualentitiesList = response.virtualEntities.virtualEntity;
-
+		if(response.virtualEntities==null)
+			response.virtualEntities = {};
+		$scope.virtualentitiesList = Helpers.util.initArrayZeroOneElements(response.virtualEntities.virtualEntity);
 		$scope.totalItems = $scope.virtualentitiesList.length;
 		//$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
@@ -550,19 +631,19 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 	});
 
 	$scope.selectedVirtualentities = [];
-	
+
 	$scope.isSelected = function(virtualentity) {
-		 return $scope.selectedVirtualentities.indexOf(virtualentity) >= 0;
+		return $scope.selectedVirtualentities.indexOf(virtualentity) >= 0;
 	};
-	
+
 	$scope.isInternal = function(virtualentity) {
 		return virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
-		
+
 	$scope.updateSelection = function($event, virtualentity) {
 		var checkbox = $event.target;
-		 var action = (checkbox.checked ? 'add' : 'remove');
-		  updateSelected(action, virtualentity);
+		var action = (checkbox.checked ? 'add' : 'remove');
+		updateSelected(action, virtualentity);
 	};	
 	var updateSelected = function(action, virtualentity) {
 		if (action === 'add' && $scope.selectedVirtualentities.indexOf(virtualentity) === -1) {
@@ -572,7 +653,7 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 			$scope.selectedVirtualentities.splice($scope.selectedVirtualentities.indexOf(virtualentity), 1);
 		}
 	};
-	
+
 	$scope.editVirtualentity = function(){
 		if($scope.selectedVirtualentities.length===1){
 			$location.path('management/editVirtualentity/'+$scope.selectedVirtualentities[0].codiceTenant +'/'+ $scope.selectedVirtualentities[0].codeVirtualEntity );
@@ -592,7 +673,7 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 			// FIXME error message...
 		}
 	};
-	
+
 	$scope.deleteVirtualentity = function(){
 //		alert("Funzionalita non ancora abilitata!");
 		if($scope.selectedVirtualentities.length>0){
@@ -607,7 +688,7 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 
 appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
-	
+
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
@@ -617,7 +698,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	fabricAPIservice.getVirtualentityCategories().success(function(response) {
 		$scope.categoriesList = response.categoriaVirtualEntity.element;
 	});
-	
+
 	$scope.typesList = [];
 	fabricAPIservice.getVirtualentityTypes().success(function(response) {
 		for (var int = 0; int < response.tipoVirtualEntity.element.length; int++) {
@@ -633,16 +714,24 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.generateUUID = function(virtualentity){
 		console.log("ui");
 		var d = new Date().getTime();
-	    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-	        var r = (d + Math.random()*16)%16 | 0;
-	        d = Math.floor(d/16);
-	        return (c=='x' ? r : (r&0x7|0x8)).toString(16);
-	    });
+		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = (d + Math.random()*16)%16 | 0;
+			d = Math.floor(d/16);
+			return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+		});
 		$scope.codeVirtualEntity = uuid;
 	};
-	
-	$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
-	
+
+	//$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
+	$scope.validationPatternUUID = (function() {
+		return {
+			test: function(value) {
+				if( $scope.selectedType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ) return true;
+				else return Constants.VALIDATION_PATTERN_UUID.test(value);
+			}
+		};
+	})();
+
 	$scope.selectedType;
 	$scope.selectedFeedTweetType=false;
 	$scope.selectedCategory = null;
@@ -652,53 +741,61 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 			return false;
 		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 	};
-	
+
 	$scope.isInternal = function() {
 		if(!$scope.selectedType)
 			return false;
 		return $scope.selectedType.idTipoVirtualEntity == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
-	
+
 	$scope.isCodeRequired = function() {
 		console.debug("isCodeRequired function $scope.selectedType ::",$scope.selectedType);
 		if(!$scope.selectedType){
 			return false;
 		}
-		return $scope.selectedType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+		//return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ||  $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		return true;
 	};
-	
-	
+
+	$scope.enableCodeGeneateButton = function() {
+		if(!$scope.selectedType){
+			return false;
+		}
+		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ;
+	};
+
 	$scope.isCategoryRequired= function() {
 		console.debug("isCategoryRequired function $scope.selectedType ::",$scope.selectedType);
 		if(!$scope.selectedType){
 			return false;
 		}
-		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		//return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		return true;
 	};
 
-	
+
 	$scope.selectTypeChange = function() {
 		console.debug("selectTypeChange function $scope.selectedType ::", $scope.selectedType);
 		$scope.codeVirtualEntity = "";
 		$scope.selectedCategory = null;
 		return true;
 	};
-	
-	
-	
+
+
+
 	$scope.createVirtualentity = function(virtualentity) {
 		console.log("virtualentity", virtualentity);
 		if(!virtualentity)
 			virtualentity = new Object();
-		
+
 		virtualentity.idTipoVe = $scope.selectedType;
 		if($scope.selectedCategory)
 			virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria;
-		
+
 		var newVirtualentity = new Object();
 		newVirtualentity.codeVirtualEntity = $scope.codeVirtualEntity;
 		newVirtualentity.virtualEntity = virtualentity;
-		
+
 		console.log("newVirtualentity", newVirtualentity);
 
 		var promise   = fabricAPIservice.createVirtualentity($scope.tenantCode, $scope.codeVirtualEntity,  newVirtualentity);
@@ -712,7 +809,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 			console.log('Got notification: ' + result);
 		});
 	};	
-	
+
 	$scope.cancel = function(){    
 		$location.path('management/virtualentities'+'/'+$scope.tenantCode);
 	};
@@ -720,7 +817,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 
 appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', function($scope, $routeParams, fabricAPIservice, info) {
 	$scope.tenantCode = $routeParams.tenant_code;
-	
+
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
@@ -730,13 +827,13 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.updateError = null;
 
 	$scope.virtualentity = null;
-	
+
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternInteger = Constants.VALIDATION_PATTERN_INTEGER;
 
-	
+
 	$scope.loadVirtualentity = function(){
-		fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.virtualentity_code).success(function(response) {
+		fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.entity_code).success(function(response) {
 			$scope.virtualentity = response.virtualEntities.virtualEntity;
 			if(!$scope.virtualentity.virtualEntityPositions)
 				$scope.virtualentity.virtualEntityPositions = {};
@@ -748,7 +845,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			Helpers.util.cleanNilInField($scope.virtualentity);
 		});
 	};
-	
+
 	$scope.loadVirtualentity();
 
 	$scope.initDate = new Date();
@@ -758,7 +855,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.cancel = function(){
 		$location.path('management/virtualentities');
 	};
-	
+
 	$scope.isDevice = function() {
 		if(!$scope.virtualentity || !$scope.virtualentity.tipoVirtualEntity)
 			return false;
@@ -771,7 +868,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
 
-	
+
 	$scope.updateVirtualentity = function() {
 		$scope.updateInfo = null;
 		$scope.updateError = null;
@@ -794,7 +891,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		}
 		else{
 		}
-		
+
 		newVirtualentity.virtualEntity =  $scope.virtualentity;
 		console.log("newVirtualentity", newVirtualentity);
 		var promise   = fabricAPIservice.updateVirtualentity(newVirtualentity);
@@ -809,22 +906,556 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			console.log('Got notification: ' + result);
 		});
 
-		
+
 	};	
 } ]);
 
 
 
 appControllers.controller('ManagementChooseTenantCtrl', [ '$scope', 'fabricAPIservice', function($scope, fabricAPIservice) {
-	
+
 	$scope.tenantsList = null;
-	
+
 	fabricAPIservice.getTenants().success(function(response) {
 		console.log("response",response);
 		$scope.tenantsList = response.tenants.tenant;
 		console.log("$scope.tenantsList",$scope.tenantsList);
 
 	});
-		
+
 } ]);
+
+
+/* Dataset */
+appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', function($scope, $route, $location, fabricAPImanagement, info, filterFilter) {
+	$scope.tenantCode = $route.current.params.tenant_code;
+
+	$scope.datasetList = [];
+	$scope.filteredDatasetsList = [];
+	$scope.nameFilter = null;
+	$scope.statusFilter = null;
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 10;
+	$scope.totalItems = $scope.datasetList.length;
+	$scope.predicate = '';
+
+	console.log("isOwner", info.isOwner( $scope.tenantCode));
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+	fabricAPImanagement.getDatasets($scope.tenantCode).success(function(response) {
+		$scope.datasetList = response;
+		$scope.totalItems = $scope.datasetList.length;
+	});
+
+
+	$scope.selectPage = function() {
+		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	};
+
+	$scope.searchNameFilter = function(dataset) {
+		console.log("$scope.nameFilter", $scope.nameFilter);
+		console.log("dataset.metadata.name", dataset);
+		var keyword = new RegExp($scope.nameFilter, 'i');
+		
+		return !$scope.nameFilter || (dataset.metadata && keyword.test(dataset.metadata.name));
+	};
+
+	$scope.searchStatusFilter = function(dataset) {
+		var keyword = new RegExp($scope.statusFilter, 'i');
+		return !$scope.statusFilter || (dataset.metadata && keyword.test(dataset.metadata.datasetStatus));
+	};
+
+	$scope.$watch('nameFilter', function(newName) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+		console.log("newName", newName);
+	});
+
+	$scope.$watch('statusFilter', function(newStatus) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+		console.log("newStatus", newStatus);
+	});
+
+	$scope.selectedDatasets = [];
+
+	$scope.isSelected = function(dataset) {
+		return $scope.selectedDatasets.indexOf(dataset) >= 0;
+	};
+
+	$scope.updateSelection = function($event, dataset) {
+		var checkbox = $event.target;
+		var action = (checkbox.checked ? 'add' : 'remove');
+		updateSelected(action, dataset);
+	};	
+	var updateSelected = function(action, dataset) {
+		if (action === 'add' && $scope.selectedDatasets.indexOf(dataset) === -1) {
+			$scope.selectedDatasets.push(dataset);
+		}
+		if (action === 'remove' && $scope.selectedDatasets.indexOf(dataset) !== -1) {
+			$scope.selectedDatasets.splice($scope.selectedDatasets.indexOf(dataset), 1);
+		}
+	};
+
+	$scope.canEdit = function() {
+		if($scope.selectedDatasets.length==1){
+			return true;
+		}
+		return false;
+	};
+
+
+
+
+	$scope.editDataset = function(){
+		if($scope.selectedDatasets.length===1){
+
+			$location.path('management/editDataset/'+$scope.selectedDatasets[0].codiceTenant +'/'+$scope.selectedDatasets[0].codiceDataset);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+	$scope.deleteDataset = function(){
+		//alert("Funzionalita non ancora abilitata!");
+		if($scope.selectedDatasets.length>0){
+
+			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+} ]);
+
+
+appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement', 'info', function($scope, $route, $location, fabricAPIservice, fabricAPImanagement, info) {
+	$scope.tenantCode = $route.current.params.tenant_code;
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+	$scope.domainList = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.creationError = null;
+
+	$scope.accettazionePrivacy=0;
+	$scope.accettazioneResponsability=0;
+
+	$scope.createDataset = function(dataset) {
+		var newDataset = dataset;
+		newDataset.configData.tenant=$scope.tenantCode;
+		newDataset.configData.datasetversion=$scope.tenantCode;
+		newDataset.configData.type = "dataset";
+		newDataset.configData.subtype = "bulkDataset";
+		console.log("dataset qui ", newDataset);
+
+		var promise   = fabricAPImanagement.createDataset($scope.tenantCode, newDataset);
+		promise.then(function(result) {
+			console.log("result qui ", result);
+			$location.path('management/editDataset/'+$scope.tenantCode +'/'+result.data.id);
+		}, function(result) {
+			$scope.creationError = angular.fromJson(result.data);
+			console.log("result.data ", result.data);
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
+	};	
+
+	$scope.cancel = function(){
+		$location.path('management/streams'+'/'+$scope.tenantCode);
+	};
+} ]);
+
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'info', function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, info) {
+	$scope.tenantCode = $routeParams.tenant_code;
+	$scope.datasetId = $routeParams.entity_code;
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+
+	$scope.updateInfo = null;
+	$scope.updateError = null;
+	$scope.insertComponentError = null;
+
+
+	$scope.tagList = [];
+	$scope.domainList = [];
+	fabricAPIservice.getStreamTags().success(function(response) {
+		for (var int = 0; int < response.streamTags.element.length; int++) {
+			$scope.tagList.push(response.streamTags.element[int].tagCode);
+		}
+	});
+
+
+	$scope.domainList = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.dataTypeList = [];
+	fabricAPIservice.getStreamDataType().success(function(response) {
+		$scope.dataTypeList = response.dataType.element;
+	});
+
+
+
+
+
+	$scope.dataset = null;
+	
+	
+//
+//	if($scope.dataset.columns == null)
+//		$scope.dataset.columns = new Object();
+//	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
+
+	$scope.loadDataset = function(){
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetId).success(function(response) {
+			console.debug("loadDataset- response",response);
+			$scope.dataset = response;
+			if(!$scope.dataset.metadata)
+				$scope.dataset.metadata = new Object();
+			if(!$scope.dataset.metadata.tags)
+				$scope.dataset.metadata.tags = [];
+			
+			$scope.dataset.metadata.visibility = 'public';
+		});
+
+	};
+
+
+
+
+	$scope.loadDataset();
+
+
+	$scope.newColumn = null;
+	$scope.newColumnSemantic = null;
+	$scope.newColumnOrder = null;
+	$scope.newColumnCode = null;
+	$scope.newColumnDataType = null;
+
+	$scope.addColumn = function(){
+		$scope.insertColumnError = null;
+		if($scope.newColumn && $scope.newColumn.code){
+			var found = false;
+
+			for (var int = 0; int < $scope.dataset.columns.column.length; int++) {
+				if($scope.dataset.columns.column[int].code == $scope.newColumn.code){
+					found = true;
+					break;
+				}
+			}
+
+			if(!found){
+				
+				$scope.newColumn.order = $scope.dataset.columns.column.length +1;
+				if($scope.newColumnCode){
+					$scope.newColumn.code = $scope.newColumnCode;
+				}
+				if($scope.newColumnSemantic){
+					$scope.newColumn.semantic = $scope.newColumnSemantic;
+				}
+				if($scope.newColumnDataType){
+					$scope.newColumn.idDataType = $scope.newColumnDataType.idDataType;
+					$scope.newColumn.dataType = $scope.newColumnDataType.dataType;
+				}
+
+				$scope.dataset.columns.column.push($scope.newColumn);
+				$scope.newColumn = null;
+			}
+			else{
+				$scope.insertColumnError = 'MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_UNIQUE';
+			}
+		}
+		else
+			$scope.insertColumnError = 'MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_REQUIRED';
+
+		return false;
+	};
+
+	$scope.removeColumn = function(index){
+		$scope.dataset.columns.column.splice(index,1);
+		$scope.refresColumnhOrder();
+		return false;
+	};
+
+	$scope.moveUpColumn = function(elementIndex){
+		$scope.dataset.columns.column = Helpers.util.arrayMoveUpElement($scope.dataset.columns.column, elementIndex);
+		$scope.refresColumnhOrder();
+		return false;
+	};
+
+	$scope.moveDownColumn = function(elementIndex){
+		console.log("moveDownColumn - 1", $scope.dataset.columns.column );
+		$scope.dataset.columns.column = Helpers.util.arrayMoveDownElement($scope.dataset.columns.column, elementIndex);
+		console.log("moveDownColumn - 2", $scope.dataset.columns.column );
+		$scope.refresColumnhOrder();
+		return false;
+	};
+
+	$scope.refresColumnhOrder = function(){
+		console.log("refresColumnhOrder - 1", $scope.dataset.columns.column );
+		for (var int = 0; int < $scope.dataset.columns.column.length; int++) {
+			$scope.dataset.columns.column[int].order=int +1;
+		}
+	};
+
+	$scope.newTag = null;
+	$scope.addTag = function(){
+		if($scope.newTag){
+			var found = false;	
+			for (var int = 0; int < $scope.dataset.metadata.tags.length; int++) {
+				var existingTag = $scope.dataset.metadata.tags[int];
+				if(existingTag.tagCode == $scope.newTag){
+					found = true;
+					break;
+				}
+
+			}
+			if(!found)
+				$scope.dataset.metadata.tags.push({"tagCode":$scope.newTag});
+		}
+		$scope.newTag = null;
+		return false;
+
+	};
+
+	$scope.removeTag = function(index){
+		$scope.dataset.metadata.tags.splice(index,1);
+		return false;
+	};
+
+
+	$scope.canUpload = function() {
+		if($scope.dataset && $scope.dataset.columns &&  $scope.dataset.columns.column &&  $scope.dataset.columns.column.length>0)
+			return true;
+		return false;
+	};
+
+	$scope.canEdit = function() {
+		return true;
+	};
+
+	$scope.canCreateNewVersion = function() {
+		return true;
+	};
+
+
+	$scope.cancel = function(){
+		$location.path('management/datasets');
+	};
+
+	$scope.updateDataset = function() {
+		var newDataset =  $scope.dataset;
+
+		if(!newDataset.metadata.tags && newDataset.metadata.tags.length==0){
+			newDataset.metadata.tags = null;
+		}
+		
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+		Helpers.util.scrollTo();
+		
+		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetId, newDataset);
+
+		promise.then(function(result) {
+			$scope.updateInfo = {status: result.status};
+			$scope.loadDataset();
+
+		}, function(result) {
+			$scope.updateError = angular.fromJson(result.data);
+			console.log("result.data ", result.data);
+			$scope.loadDataset();
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
+
+
+	};	
+
+	$scope.requestInstallation = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
+	};
+
+	$scope.requestUnistallation = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST);
+	};
+
+	$scope.createNewVersion = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION);
+	};
+
+	var updateLifecycle = function(action) {
+		console.log("updateLifecycle stream", $scope.stream);
+		console.log("updateLifecycle action", action);
+//		$scope.updateInfo = null;
+//		$scope.updateError = null;
+//		Helpers.util.scrollTo();
+//		var promise   = fabricAPIservice.lifecycleStream(action, $scope.stream);
+//		promise.then(function(result) {
+//			console.log("result updateLifecycle ", result);
+//			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
+//			$scope.updateInfo = {status: result.status};
+//			$scope.loadStream();
+//		}, function(result) {
+//			$scope.updateError = angular.fromJson(result.data);
+//			console.log("result.data ", result.data);
+//			$scope.loadStream();
+//		}, function(result) {
+//			console.log('Got notification: ' + result);
+//		});
+	};
+} ]);
+
+appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$upload', 'readFilePreview',  function($scope, $routeParams, fabricAPIservice, info, $upload, readFilePreview) {
+	
+	$scope.selectedFile = null;
+	$scope.dataset = null;
+	$scope.uploadDatasetError = null;
+	$scope.uploadDatasetInfo = null;
+
+	$scope.formatList = [{type:"csv"},{type:"xml", type: "other"}];
+	$scope.csvSeparator = ";";
+	$scope.fileEncoding = "UTF-8";
+	//$scope.csvSkipFirstRow = false;
+	
+	$scope.dataset = {
+		code: 'codice',
+		name: 'nome', 
+	};
+	
+	if(!$scope.dataset.tags)
+		$scope.dataset.tags = new Object();
+	$scope.dataset.tags.tag = Helpers.util.initArrayZeroOneElements($scope.dataset.tags.tag);
+
+	if($scope.dataset.columns == null)
+		$scope.dataset.columns = new Object();
+	
+	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
+	$scope.dataset.columns.column.push({fieldName:"title", fieldAlias: "Title", dataType: "string", measureUnit: "km"});
+	$scope.dataset.columns.column.push({fieldName:"subtitle", fieldAlias: "Subtitle", dataType: "string", measureUnit: "km"});
+	$scope.dataset.columns.column.push({fieldName:"image", fieldAlias: "Image url", v: "string", measureUnit: "km"});
+//$scope.dataset.columns.column.push({code:"description", semantic: "Description", datatype: "string"});
+	
+	
+	$scope.onFileSelect = function($files) {
+	    //$files: an array of files selected, each file has name, size, and type.
+		$scope.selectedFile = $files[0];
+		/*
+	    for (var i = 0; i < $files.length; i++) {
+	      var file = $files[i];
+	      
+	      $scope.upload = $upload.upload({
+	        url: 'server/upload/url', //upload.php script, node.js route, or servlet url
+	        //method: 'POST' or 'PUT',
+	        //headers: {'header-key': 'header-value'},
+	        //withCredentials: true,
+	        data: {myObj: $scope.myModelObj},
+	        file: file, // or list of files ($files) for html5 only
+	        //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
+	        // customize file formData name ('Content-Disposition'), server side file variable name. 
+	        //fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file' 
+	        // customize how data is added to formData. See #40#issuecomment-28612000 for sample code
+	        //formDataAppender: function(formData, key, val){}
+	      }).progress(function(evt) {
+	        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+	      }).success(function(data, status, headers, config) {
+	        // file is uploaded successfully
+	        console.log(data);
+	      });
+	      //.error(...)
+	      //.then(success, error, progress); 
+	      // access or attach event listeners to the underlying XMLHttpRequest.
+	      //.xhr(function(xhr){xhr.upload.addEventListener(...)})
+	    }*/
+	    /* alternative way of uploading, send the file binary with the file's content-type.
+	       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
+	       It could also be used to monitor the progress of a normal http post/put request with large data*/
+	    // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
+	};
+	
+	$scope.previewLines = [];
+	$scope.previewColumns = [];
+	
+	$scope.readPreview = function(){
+		$scope.uploadDatasetError = null;
+		readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
+				function(contents){
+		    		var lines = contents.split(/\r\n|\n/);
+		    		console.log("nr righe", lines.length);
+		    		console.log(lines);
+		    		var firstRows = lines.slice(0, 5);
+		    		for (var int = 0; int < firstRows.length; int++) {
+		    			$scope.previewLines.push(firstRows[int].split($scope.csvSeparator));
+					}
+		    		
+		    		console.log("$scope.previewLines",$scope.previewLines);
+		
+		    		if($scope.previewLines.length>0){
+		    			for (var int = 0; int < $scope.previewLines[0].length; int++) {
+			    			$scope.previewColumns.push({index: int, firstValue: $scope.previewLines[0][int]});
+						}
+		    		}
+		    		console.log("$scope.previewColumns",$scope.previewColumns);
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
+    };
+    
+    $scope.onDragCsvFieldComplete=function(data,evt){
+    };	
+    
+    $scope.onDropCsvFieldComplete=function(data,evt, index){
+        $scope.dataset.columns.column[index].sourceColumn = data;
+        verifyColumnIndex();
+    };
+    
+    var verifyColumnIndex = function(){
+    	if( $scope.dataset.columns.column){
+    		for (var i = 0; i <  $scope.dataset.columns.column.length; i++) {
+    			$scope.dataset.columns.column[i].warningDuplicate = false;
+    		}
+    		for (var i = 0; i <  $scope.dataset.columns.column.length; i++) {
+    			console.log("°°°°°°°°°°°°°°°°°°° " +  $scope.dataset.columns.column[i].sourceColumn, $scope.dataset.columns.column[i].sourceColumn);
+				for (var j = 0; j <  $scope.dataset.columns.column.length; j++) {
+					if(i!=j){
+						console.log("["+i+"]["+j+"] "+ $scope.dataset.columns.column[j].fieldName, $scope.dataset.columns.column[j].sourceColumn);
+						if(!(typeof $scope.dataset.columns.column[i].sourceColumn === "undefined")) console.log("i - defined -> ok",  $scope.dataset.columns.column[i].sourceColumn); else console.log("i - undefined -> ko",  $scope.dataset.columns.column[i].sourceColumn);
+						if(!(typeof $scope.dataset.columns.column[j].sourceColumn === "undefined")) console.log("j - defined -> ok",  $scope.dataset.columns.column[j].sourceColumn); else console.log("j - undefined -> ko",  $scope.dataset.columns.column[j].sourceColumn);
+						if($scope.dataset.columns.column[i].sourceColumn == $scope.dataset.columns.column[j].sourceColumn) console.log("sono uguali -> ok"); else  console.log("sono diversi -> ko"); 
+
+						if(!(typeof $scope.dataset.columns.column[i].sourceColumn === "undefined") && 
+								!(typeof $scope.dataset.columns.column[j].sourceColumn === "undefined")&& 
+								$scope.dataset.columns.column[i].sourceColumn == $scope.dataset.columns.column[j].sourceColumn){
+							console.log("entro");
+							$scope.dataset.columns.column[i].warningDuplicate = true;
+							$scope.dataset.columns.column[j].warningDuplicate = true;
+						}
+					}
+				}
+			}
+    	}
+    };
+	  
+} ]);
+
 

@@ -21,7 +21,7 @@
 						<thead>
 							<tr>
 								<th>{{'STREAM_FIELD_COMPONENTS_NAME'|translate}}</th>
-								<th>{{'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate}}</th>
+								<th><span ng-bind-html="'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate"></span></th>
 								<th>{{'STREAM_FIELD_COMPONENTS_TOLERANCE'|translate}}</th>
 								<th>{{'STREAM_FIELD_COMPONENTS_PHENOMENON'|translate}}</th>
 								<th>{{'STREAM_FIELD_COMPONENTS_DATA_TYPE'|translate}}</th>
@@ -84,7 +84,7 @@
 				<td>{{stream.copyright}}</td>
 			</tr>
 			<tr>
-				<td>{{'STREAM_FIELD_VISIBILITY'|translate}}</td>
+				<td><span ng-bind-html="'STREAM_FIELD_VISIBILITY'|translate"></span></td>
 				<td>{{stream.visibility}}</td>
 			</tr>
 			<tr>

@@ -1,8 +1,7 @@
-
-<script type="text/javascript" src="lib/freeboard/js/freeboard.thirdparty.min.js"></script>
-<script type="text/javascript" src="lib/freeboard/js/freeboard+plugins.js"></script>
-<script type="text/javascript" src="lib/freeboard/plugins/freeboard/websocket.datasources.js"></script>
 <div class='section-dashboard' ng-controller="DashboardHomeCtrl as homeCtrl">
+	<script type="text/javascript" src="../ris/userportal/lib/freeboard/js/freeboard.thirdparty.min.js?time={{buildTimestamp}}"></script>
+	<script type="text/javascript" src="js-min/customization/freeboard/js/freeboard+plugins.js?time={{buildTimestamp}}"></script>
+	<script type="text/javascript" src="js-min/customization/freeboard/plugins/freeboard/websocket.datasources.js?time={{buildTimestamp}}"></script>
 	<div class='container'>
 		<div class='title-container'>
 			<h1>{{'DASHBOARD_TITLE'|translate}} <small>{{dashboard}}</small></h1>

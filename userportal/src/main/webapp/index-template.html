@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <base href="/userportal/"> -->
+<title>Smart Data Platform</title>
+<!-- Bootstrap -->
+<!-- Latest compiled and minified CSS -->
+
+<link rel="stylesheet" href="css/freeboard-adapted.css" />
+<link rel="stylesheet" type="text/css" href="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.css">
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../ris/userportal/lib/nvd3/nv.d3.min.css">
+<link rel="stylesheet" type="text/css" href="css/app.css">
+<link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
+<link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
+
+<link rel="shortcut icon" href="favicon.png">
+<!-- Optional theme -->
+<!--  <link rel="stylesheet"
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+-->
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<script type='text/javascript'>
+		if(!console){
+			var console = window.console || { log: function() {} };
+		}
+		if(!console.debug)
+			console.debug = window.console.log;
+	</script>
+</head>
+<body lang="en" ng-app="userportal">
+	<main-navbar ng-show="!isHomepage"></main-navbar>
+	<div ng-view></div>
+	<main-footer  ng-show="!isHomepage"></main-footer>
+	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
+	
+	<script type="text/javascript" src="../ris/userportal/lib/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular/angular.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-sanitize/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-translate/angular-translate.min.js"></script>
+
+	<!-- commented d3.js because use the version compliant with nvd3 -->
+	<!-- <script type="text/javascript" src="../ris/userportal/lib/d3/d3.min.js"></script> -->
+	<script type="text/javascript" src="../ris/userportal/lib/stomp/stomp.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.js"></script>
+	
+	<!-- <script type="text/javascript" src="../ris/userportal/lib/nvd3/d3.v3.min.js"></script> -->
+	<script type="text/javascript" src="../ris/userportal/lib/d3/d3.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/nvd3/nv.d3.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js"></script>
+
+	<script type="text/javascript" src="../ris/userportal/lib/ng-file-upload/angular-file-upload-shim.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/ng-file-upload/angular-file-upload.js"></script>
+
+	<script type="text/javascript" src="../ris/userportal/lib/ngDraggable/ngDraggable.js"></script>
+
+	<!-- 
+	<script type="text/javascript" src="api/i18n?language=it"></script>
+	<script type="text/javascript" src="api/i18n?language=en"></script>	
+ 	-->
+
+	<script type="text/javascript" src="api/config"></script>
+
+	<script type="text/javascript" src="js/build_info.js"></script>
+	
+
+	<!-- build:js js-min/sensormap.js -->
+	<script type="text/javascript" src="js/sensormap.js"></script>
+	<!-- endbuild -->
+	
+	<!-- build:js js-min/i18n/strings_en.js -->
+	<script type="text/javascript" src="js/i18n/strings_en.js"></script>
+	<!-- endbuild -->
+
+	<!-- build:js js-min/i18n/strings_it.js -->
+	<script type="text/javascript" src="js/i18n/strings_it.js"></script>
+	<!-- endbuild -->
+ 	
+	
+	<!-- build:js js-min/app.js -->
+	<script type="text/javascript" src="js/app.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/helpers.js -->
+	<script type="text/javascript" src="js/helpers.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/constants.js -->
+	<script type="text/javascript" src="js/constants.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/services.js -->
+	<script type="text/javascript" src="js/services.js"></script>
+	<!-- endbuild -->
+	
+	<!-- build:js js-min/controllers.js -->
+	<script type="text/javascript" src="js/controllers.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/dashboard/DashboardController.js -->
+	<script type="text/javascript" src="js/dashboard/DashboardController.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/management/ManagementController.js -->
+	<script type="text/javascript" src="js/management/ManagementController.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/discovery/DiscoveryController.js -->
+	<script type="text/javascript" src="js/discovery/DiscoveryController.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/market/MarketController.js -->
+	<script type="text/javascript" src="js/market/MarketController.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/store/StoreController.js -->
+	<script type="text/javascript" src="js/store/StoreController.js"></script>
+	<!-- endbuild -->
+
+	<!-- build:js js-min/filters.js -->	
+	<script type="text/javascript" src="js/filters.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/directives.js -->
+	<script type="text/javascript" src="js/directives.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/dashboard/DashboardDirectives.js -->
+	<script type="text/javascript" src="js/dashboard/DashboardDirectives.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/management/ManagementDirectives.js -->
+	<script type="text/javascript" src="js/management/ManagementDirectives.js"></script>
+	<!-- endbuild -->
+	<!-- build:js js-min/discovery/DiscoveryDirectives.js -->
+	<script type="text/javascript" src="js/discovery/DiscoveryDirectives.js"></script>
+	<!-- endbuild -->
+	
+	
+
+</body>
+</html>

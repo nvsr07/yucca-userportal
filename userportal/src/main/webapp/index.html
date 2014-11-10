@@ -8,13 +8,14 @@
 <title>Smart Data Platform</title>
 <!-- Bootstrap -->
 <!-- Latest compiled and minified CSS -->
+
 <link rel="stylesheet" href="css/freeboard-adapted.css" />
-<link rel="stylesheet" type="text/css" href="lib/ng-prettyjson/ng-prettyjson.min.css">
-<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="lib/nvd3/nv.d3.min.css">
-<link rel="stylesheet" href="css/app.css">
-<link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css">
-<link rel="stylesheet" href="css/sensormap.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.css">
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../ris/userportal/lib/nvd3/nv.d3.min.css">
+<link rel="stylesheet" type="text/css" href="css/app.css">
+<link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
+<link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
 
 <link rel="shortcut icon" href="favicon.png">
 <!-- Optional theme -->
@@ -27,63 +28,79 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+	<script type='text/javascript'>
+		if(!console){
+			var console = window.console || { log: function() {} };
+		}
+		if(!console.debug)
+			console.debug = window.console.log;
+	</script>
 </head>
 <body lang="en" ng-app="userportal">
 	<main-navbar ng-show="!isHomepage"></main-navbar>
 	<div ng-view></div>
 	<main-footer  ng-show="!isHomepage"></main-footer>
-	<script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
-    <script src="js/sensormap.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
 	
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<!-- Latest compiled and minified JavaScript -->
-	<!-- <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script> -->
-	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
-	<script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-	<script type="text/javascript" src="lib/angular-route/angular-route.js"></script>
-	<script type="text/javascript" src="lib/angular-sanitize/angular-sanitize.min.js"></script>
-	<script type="text/javascript" src="lib/angular-translate/angular-translate.min.js"></script>
-
-	<script type="text/javascript" src="lib/reconnecting-websocket/reconnecting-websocket.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular/angular.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-sanitize/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-translate/angular-translate.min.js"></script>
 
 	<!-- commented d3.js because use the version compliant with nvd3 -->
-	<!-- <script type="text/javascript" src="lib/d3/d3.min.js"></script> -->
-	<script type="text/javascript" src="lib/stomp/stomp.min.js"></script>
-	<script type="text/javascript" src="lib/ng-prettyjson/ng-prettyjson.min.js"></script>
+	<!-- <script type="text/javascript" src="../ris/userportal/lib/d3/d3.min.js"></script> -->
+	<script type="text/javascript" src="../ris/userportal/lib/stomp/stomp.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.js"></script>
 	
-	<script type="text/javascript" src="lib/nvd3/d3.v3.js"></script>
-	<script type="text/javascript" src="lib/nvd3/nv.d3.js"></script>
-	<script type="text/javascript" src="lib/angularjs-nvd3-directives/angularjs-nvd3-directives.min.js"></script>
-	
-	
-	<script type="text/javascript" src="js/i18n/strings_en.js"></script>
-	<script type="text/javascript" src="js/i18n/strings_it.js"></script>
- 	
+	<!-- <script type="text/javascript" src="../ris/userportal/lib/nvd3/d3.v3.min.js"></script> -->
+	<script type="text/javascript" src="../ris/userportal/lib/d3/d3.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/nvd3/nv.d3.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js"></script>
+
+	<script type="text/javascript" src="../ris/userportal/lib/ng-file-upload/angular-file-upload-shim.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/ng-file-upload/angular-file-upload.js"></script>
+
+	<script type="text/javascript" src="../ris/userportal/lib/ngDraggable/ngDraggable.js"></script>
+
 	<!-- 
 	<script type="text/javascript" src="api/i18n?language=it"></script>
 	<script type="text/javascript" src="api/i18n?language=en"></script>	
  	-->
-	
-	<script type="text/javascript" src="js/app.js"></script>
-	<script type="text/javascript" src="js/helpers.js"></script>
+
 	<script type="text/javascript" src="api/config"></script>
-	<!-- <script type="text/javascript" src="js/config.js"></script> -->
-	<!-- <script type="text/javascript" src="api/config"></script> -->
-	<script type="text/javascript" src="js/constants.js"></script>
-	<script type="text/javascript" src="js/services.js"></script>
+
+	<script type="text/javascript" src="js/build_info.js"></script>
 	
-	<script type="text/javascript" src="js/controllers.js"></script>
-	<script type="text/javascript" src="js/dashboard/DashboardController.js"></script>
-	<script type="text/javascript" src="js/management/ManagementController.js"></script>
-	<script type="text/javascript" src="js/market/MarketController.js"></script>
-	<script type="text/javascript" src="js/store/StoreController.js"></script>
+
+	<script src="js-min/2beb9095.sensormap.js"></script>
 	
-	<script type="text/javascript" src="js/filters.js"></script>
-	<script type="text/javascript" src="js/directives.js"></script>
-	<script type="text/javascript" src="js/dashboard/DashboardDirectives.js"></script>
-	<script type="text/javascript" src="js/management/ManagementDirectives.js"></script>
+	<script src="js-min/i18n/3ea5ca1d.strings_en.js"></script>
+
+	<script src="js-min/i18n/4b4672f2.strings_it.js"></script>
+ 	
+	
+	<script src="js-min/187617b6.app.js"></script>
+	<script src="js-min/f1613924.helpers.js"></script>
+	<script src="js-min/3df8ed0d.constants.js"></script>
+	<script src="js-min/3ae4e235.services.js"></script>
+	
+	<script src="js-min/eb53543f.controllers.js"></script>
+	<script src="js-min/dashboard/23800c4f.DashboardController.js"></script>
+	<script src="js-min/management/b607f82f.ManagementController.js"></script>
+	<script src="js-min/discovery/f90204ce.DiscoveryController.js"></script>
+	<script src="js-min/market/ba16bd91.MarketController.js"></script>
+	<script src="js-min/store/0da49c75.StoreController.js"></script>
+
+	<script src="js-min/e9eb9844.filters.js"></script>
+	<script src="js-min/600d61d4.directives.js"></script>
+	<script src="js-min/dashboard/a0e4f28f.DashboardDirectives.js"></script>
+	<script src="js-min/management/12e08cdd.ManagementDirectives.js"></script>
+	<script src="js-min/discovery/cbfb970d.DiscoveryDirectives.js"></script>
+	
+	
 
 </body>
 </html>
