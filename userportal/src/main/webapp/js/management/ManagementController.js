@@ -383,8 +383,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		fabricAPIservice.getStream(existingStream.codiceTenant,existingStream.codiceVirtualEntity,existingStream.codiceStream).success(function(response) {
 			var stream = response.streams.stream;
 			for (var i = 0; i < $scope.internalStreams.length; i++) {
-				if($scope.internalStreams[i].idStream==stream.idStream){								
-					$scope.internalStreams[i].componenti = Helpers.util.initArrayZeroOneElements(stream.componenti);	
+				if($scope.internalStreams[i].idStream==stream.idStream){
+					$scope.internalStreams[i].componenti = {}; 
+					$scope.internalStreams[i].componenti.element = Helpers.util.initArrayZeroOneElements(stream.componenti.element);
 				}
 			}
 		});
