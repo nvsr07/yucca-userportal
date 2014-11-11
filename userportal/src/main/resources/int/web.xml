@@ -17,7 +17,7 @@
 		</init-param>
 		<init-param>
 			<param-name>IdpUrl</param-name>
-			<param-value>https://int-sdnet-sec1.sdp.csi.it:9444/samlsso</param-value>
+			<param-value>https://int-sso.sdp.csi.it/samlsso</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ConsumerUrl</param-name>

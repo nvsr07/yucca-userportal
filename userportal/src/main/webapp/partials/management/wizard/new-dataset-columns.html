@@ -1,0 +1,81 @@
+<div class='clearfix wizard-title'>
+	<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_DATASET_TITLE</span> - <span translate>MANAGEMENT_NEW_DATASET_COLUMNS_SUBTITLE</span></h3></div>
+	<div class='pull-right'><h3><small>Step 5/5</small></h3></div>
+</div>
+<form class="form-horizontal" role="form" name="columnsDatasetForm">
+	<div class='row'>
+		<p>File: <strong>{{selectedFile.name}}</strong> <small><span class='mute'> - Type: {{selectedFile.type}} - Size: {{selectedFile.size|format_filesize}}</span></small></p>
+	</div>
+	<div class='row'>
+		<p>&nbsp;</p>
+	</div>
+	<div class='row'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class='management-upload-preview-table-container'>
+				<table class='table  management-table-upload-preview table-supercondensed'>
+					<tr ng-repeat='line in previewLines' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
+						<td ng-repeat='item in line' title="{{item}}">{{item|string_ellipse:30}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class='row'>
+		<p>&nbsp;</p>
+	</div>
+	<div class='row  text-left' >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<p>
+				<label><input type="checkbox" ng-model="csvSkipFirstRow"> <span translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
+				<small class='mute' translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
+			</p>
+		</div>
+	</div>
+	<div class='row text-left'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<h4 translate>MANAGEMENT_NEW_DATASET_COLUMNS_TITLE</h4>
+			<p translate>MANAGEMENT_NEW_DATASET_COLUMNS_INTRO</p>
+		</div>
+	</div>
+	<div class='row management-table-upload-column-header'>
+		<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"><span>&num;</span></div>
+		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
+		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
+		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</span></div>
+		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></div>
+		<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</span></div>
+		<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12">&nbsp;</div>
+		<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12">&nbsp;</div>
+	</div>
+	<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewColumns" ng-drop="true" ng-drop-success="onDropCsvFieldComplete($data,$index,$event)" 
+		 ng-class="{'management-table-upload-column-skiprow': column.skipColumn}">
+		<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"><span>{{column.sourceColumn}}</span></div>
+		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ng-disabled="column.skipColumn" ></div>
+		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias" ng-disabled="column.skipColumn"  ></div>
+		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+			<select class="input-sm form-control" ng-model="column.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType" ng-disabled="column.skipColumn"  >
+            	<option value="" translate>MANAGEMENT_EDIT_STREAM_DATATYPE_PLACEHOLDER</option>
+          	</select>
+		</div>
+		<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+		 	<select class="input-sm form-control" ng-model="ncolumn.measureUnit" 
+		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit" ng-disabled="column.skipColumn">
+		 		<option value="" translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
+		 	</select>
+
+        </div>
+		<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12"><label><input type="checkbox" ng-model="column.isKey" ng-disabled="column.skipColumn" ><span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label></div>
+		<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12">
+			<label title='{{"MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT"|translate}}'><input type="checkbox" ng-model="column.skipColumn" ng-change="refreshColumnOrder()" >&nbsp;<i class='glyphicon glyphicon-ban-circle skip-row'></i></label>
+		</div>
+		<div class="col-lg-1 col-md-12 col-sm-12 col-xs-12 management-table-upload-column-drag-panel"   ng-drag="true" ng-drag-data="column.index" ng-drag-success="onDragCsvFieldComplete($data,$event)" >
+			<label class='' title='{{"MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT"|translate}}' ><i class='glyphicon glyphicon-resize-vertical'></i></label>
+		</div>
+	</div>
+	<div class="row">
+		<div class=" col-sm-12 form-toolbar">
+			<a ng-click='goToUpload()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
+			<a  class="btn btn-default" ng-disabled="!isOwner() || columnsDatasetForm.$invalid " translate>MANAGEMENT_NEW_DATASET_WIZARD_END</a>
+		</div>
+	</div>
+</form>

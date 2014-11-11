@@ -1,126 +1,39 @@
-<h2>
-	<span translate>DATASET</span> <small translate>MANAGEMENT_NEW_DATASET_SUBTITLE </small>
-</h2>
-<div class='row'>
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="ManagementNewDatasetCtrl as datasetCtrl">
-		<div class="alert alert-danger" ng-show='creationError'>
-			<strong>{{creationError.error_message}}</strong> {{creationError.error_detail}}
+
+
+<div ng-controller="ManagementNewDatasetWizardCtrl as datasetWizardCtrl">
+	<div class='row'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 wizard-nav" >
+			<ul class="nav nav-pills " role="tablist">
+			  <li role="presentation" ng-class="{active: currentStep == 'start'}"><a href='javascript:void(0)' ng-class="wizardSteps[0].style"><span>Start</span> <i class='glyphicon glyphicon-chevron-right'></i></a></li>
+			  <li role="presentation" ng-class="{active: currentStep == 'requestor'}"><a href='javascript:void(0)' ng-class="wizardSteps[1].style"><span>Requestor <i class='glyphicon glyphicon-chevron-right'></i></a></li>
+			  <li role="presentation" ng-class="{active: currentStep == 'metadata'}"><a href='javascript:void(0)' ng-class="wizardSteps[2].style"><span>Metadata</span> <i class='glyphicon glyphicon-chevron-right'></i></a></li>
+			  <li role="presentation" ng-class="{active: currentStep == 'upload'}"><a href='javascript:void(0)' ng-class="wizardSteps[3].style"><span>File</span> <i class='glyphicon glyphicon-chevron-right'></i></a></li>
+			  <li role="presentation" ng-class="{active: currentStep == 'columns'}"><a href='javascript:void(0)' ng-class="wizardSteps[4].style"><span>Column</span></a></li>
+			</ul>
 		</div>
-		<form class="form-horizontal" role="form" name="newDatasetForm">
-
-			<div class="form-group">
-				<label for="inputDatasetCode" class="col-sm-2 control-label"><span translate>DATASET_FIELD_CONFIGDATA_ID</span> <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="dataset.configData.idDataset" id="inputDatasetCode" name="inputDatasetCode"
-						placeholder="{{'DATASET_FIELD_CONFIGDATA_ID_PLACEHOLDER'|translate}}" ng-required="true" maxlength="20"
-					> <span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_MAXLENGTH_TOOLTIP'|translate}}"
-						ng-show="newDatasetForm.inputDatasetCode.$error.maxlength  && newDatasetForm.inputDatasetCode.$dirty"
-					></span>
-				</div>
+	</div>
+	<div class='row'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="alert alert-danger" ng-show='creationError'>
+				<strong>{{creationError.error_message}}</strong> {{creationError.error_detail}}
 			</div>
-			<div class="form-group">
-				<label for="inputDatasetName" class="col-sm-2 control-label"><span translate>DATASET_FIELD_METADATA_NAME</span> <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="dataset.metadata.name" id="inputDatasetName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}"
-						ng-required="true"
-					>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputDatasetDomain" class="col-sm-2 control-label"><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<select class="input-sm form-control" ng-model="dataset.metadata.dataDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
-						<option value="" translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
-					</select>
-				</div>
-			</div>
-			</fieldset>
-
-			<fieldset>
-				<legend translate>USER_APPLICANT</legend>
-				<div class="form-group">
-					<label for="requestorName" class="col-sm-2 control-label"><span translate>USER_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="dataset.metadata.requestorName" id="requestorName" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}"
-							ng-required="true"
-						>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="requestorSurname" class="col-sm-2 control-label"><span translate>USER_FIELD_SURNAME</span> <span class='required-asterisk'>*</span></label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="dataset.metadata.requestorSurname" id="requestorSurname"
-							placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" ng-required="true"
-						>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="requestorEmail" class="col-sm-2 control-label"><span translate>USER_FIELD_EMAIL</span> <span class='required-asterisk'>*</span></label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="dataset.metadata.requestornEmail" id="requestorEmail" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}"
-							ng-required="true"
-						>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="accettazionePrivacy" class="col-sm-2 control-label"><span translate>USER_FIELD_ACCEPT</span> <span class='required-asterisk'>*</span></label>
-					<div class="col-sm-10">
-						<div class="form-control terms-of-privacy" readonly>
-							<span ng-bind-html="'USER_FIELD_ACCEPT_PRIVACY'|translate"></span>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="accettazionePrivacy" class="col-sm-2 control-label"></label>
-					<div class="col-sm-2"></div>
-					<div class="col-sm-4">
-						<span><span translate>USER_FIELD_ACCEPT_YES</span> <input type="radio" name="accettazionePrivacy" value="1" ng-model="accettazionePrivacy"
-							ng-required="true"
-						></span> <br />
-					</div>
-					<div class="col-sm-4">
-						<span><span translate>USER_FIELD_ACCEPT_NO</span> <input type="radio" name="accettazionePrivacy" value="0" ng-model="accettazionePrivacy"
-							ng-required="true"
-						></span>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="accettazioneResponsability" class="col-sm-2 control-label"></label>
-					<div class="col-sm-10">
-						<div class="form-control terms-of-privacy" readonly>
-							<span ng-bind-html="'USER_FIELD_ACCEPT_RESPONSABILITY'|translate"></span>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="accettazionePrivacy" class="col-sm-2 control-label"><span translate>USER_FIELD_ACCEPT</span> <span class='required-asterisk'>*</span></label>
-					<div class="col-sm-2"></div>
-					<div class="col-sm-4">
-						<span><span translate>USER_FIELD_ACCEPT_YES</span> <input type="radio" name="accettazioneResponsability" value="1"
-							ng-model="accettazioneResponsability" ng-required="true"
-						></span> <br />
-					</div>
-					<div class="col-sm-4">
-						<span><span translate>USER_FIELD_ACCEPT_NO</span> <input type="radio" name="accettazioneResponsability" value="0"
-							ng-model="accettazioneResponsability" ng-required="true"
-						></span>
-					</div>
-				</div>
-
-
-			</fieldset>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<a ng-click='cancel()' class="btn " translate>CANCEL</a>
-					<a ng-click='createDataset(dataset)' class="btn btn-default" ng-disabled="!isOwner() || newDatasetForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0" translate>MANAGEMENT_NEW_DATASET_CREATE_BUTTON</a>
-					
-					<!--  <a href="#/management/editDataset/sandbox" class="btn btn-default" translate>MANAGEMENT_NEW_DATASET_CREATE_BUTTON</a> -->
-				</div>
-			</div>
-		</form>
+			<carousel id='newDatasetWizard' interval="-1">
+				<slide  active="currentStep == 'start'">
+					<new-dataset-wizard-start></new-dataset-wizard-start>
+				</slide>
+				<slide active="currentStep == 'requestor'">
+					<new-dataset-wizard-requestor></new-dataset-wizard-requestor>
+				</slide>
+				<slide active="currentStep == 'metadata'">
+					<new-dataset-wizard-metadata></new-dataset-wizard-metadata>
+				</slide>
+				<slide active="currentStep == 'upload'">
+					<new-dataset-wizard-upload></new-dataset-wizard-upload>
+				</slide>
+				<slide active="currentStep == 'columns'">
+					<new-dataset-wizard-columns></new-dataset-wizard-columns>
+				</slide>
+			</carousel>
+		</div>
 	</div>
 </div>

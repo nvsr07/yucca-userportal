@@ -1,0 +1,59 @@
+<div class='clearfix wizard-title'>
+	<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_DATASET_TITLE</span> - <span translate>MANAGEMENT_NEW_DATASET_UPLOAD_SUBTITLE</span></h3></div>
+	<div class='pull-right'><h3><small>Step 4/5</small></h3></div>
+</div>
+<form class="form-horizontal" role="form" name="uploadDatasetForm">
+	<div class='row'>
+		<div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1">
+			<div ng-file-drop="onFileSelect($files)" class='upload-drop-files-area' ng-file-drag-over-class="upload-drop-files-area-hover" ng-show="dropSupported">
+				<span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA</span></div>
+			<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+		</div>
+		<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+			<div class='management-upload-label-before-button'><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR</span></div>
+		</div>
+		<div class="col-lg-5 col-md-11 col-sm-11 col-xs-11">
+			<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="management-upload-selectfile-button">
+			<span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_BUTTON_LOAD_FILE</span>
+		</div>
+		</div>
+	</div>
+	<div class='row'>
+		<p>&nbsp;</p>
+	</div>
+	<div class='row'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1 text-left">
+			<p>File: <strong>{{selectedFile.name}}</strong> <small><span class='mute'> - Type: {{selectedFile.type}} - Size:
+					{{selectedFile.size|format_filesize}}</span></small></p>
+		</div>
+	</div>
+	<div class='row'>
+		<p>&nbsp;</p>
+	</div>
+	<div class='row'>
+		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 col-lg-offset-1">
+			<strong><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_FORMAT</span></strong>
+		</div>
+		<div class="col-lg-3 col-md-10 col-sm-10 col-xs-10">
+			<select class="input-sm form-control" ng-model="metadata.info.importFileType" ng-options="format.type for format in formatList"><option>Choose one...</option></select>
+		</div>
+		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 col-lg-offset-1">
+			<strong><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING</span></strong>
+		</div>
+		<div class="col-lg-2 col-md-10 col-sm-10 col-xs-10">
+			<input type="text" class="form-control" ng-model="fileEncoding">
+		</div>
+		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 col-lg-offset-1">
+			<strong><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span></strong>
+		</div>
+		<div class="col-lg-1 col-md-10 col-sm-10 col-xs-10">
+			<input type="text" class="form-control" ng-model="csvSeparator">
+		</div>
+	</div>
+	<div class="row">
+		<div class=" col-sm-12 form-toolbar">
+			<a ng-click='goToMetadata()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
+			<a ng-click='goToColumns()' class="btn btn-default" ng-disabled="!isOwner() || uploadDatasetForm.$invalid " translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+		</div>
+	</div>
+</form>
