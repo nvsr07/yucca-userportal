@@ -112,12 +112,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="component in streamInt.componenti">
-									<td><span style="display: none"> {{component.element.idComponente}}</span>{{component.element.nome}}</td>
-									<td>{{component.element.measureUnitCategory}} : {{component.element.measureUnit}}</td>
-									<td>{{component.element.tolerance}} </td>
-									<td>{{component.element.phenomenonCategory}} : {{component.element.phenomenon}}</td>
-									<td>{{component.element.dataType}}</td>									
+								<tr ng-repeat="el in streamInt.componenti.element">
+									<td><span style="display: none"> {{el.idComponente}}</span>{{el.nome}}</td>
+									<td>{{el.measureUnitCategory}} : {{el.measureUnit}}</td>
+									<td>{{el.tolerance}} </td>
+									<td>{{el.phenomenonCategory}} : {{el.phenomenon}}</td>
+									<td>{{el.dataType}}</td>									
 								</tr>
 								</tbody>
 							</table><td>			        		        
