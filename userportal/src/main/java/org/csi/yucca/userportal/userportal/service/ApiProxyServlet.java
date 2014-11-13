@@ -1,10 +1,13 @@
 package org.csi.yucca.userportal.userportal.service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,11 +15,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
 
 //@WebServlet(description = "Api proxy Servlet", urlPatterns = { "/api/proxy/*" }, asyncSupported = false)
@@ -25,8 +38,12 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 	static Logger log = Logger.getLogger(ApiProxyServlet.class);
 
+	private static final File FILE_UPLOAD_TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
+	private static final String STRING_CONTENT_TYPE_HEADER_NAME = "Content-Type";
+	private int intMaxFileUploadSize = 5 * 1024 * 1024;
+
 	protected String apiBaseUrl;
-	
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
@@ -62,27 +79,36 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("[ApiProxyServlet::doPost] START");
 		try {
-			//allowClientOrigin(response, request.getHeader("origin"), "POST");
-			
-			StringBuffer inBodyRequest = new StringBuffer();
-			String line = null;
-			try {
-				BufferedReader reader = request.getReader();
-				while ((line = reader.readLine()) != null) {
-					inBodyRequest.append(line);
-					log.debug("[ApiProxyServlet::doPost] - request body: " + line);
-				}
-				reader.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 
+			RequestEntity requestBody = null;
+			String contentType = request.getContentType();
 			String targetUrl = createTargetUrlWithParameters(request);
 			PostMethod post = new PostMethod(targetUrl);
-			RequestEntity requestBody = new StringRequestEntity(inBodyRequest.toString(), " application/json", request.getCharacterEncoding());
+			
 			log.debug("[ApiProxyServlet::doPost] - targetUrl: " + targetUrl);
 
+			if (contentType.startsWith("multipart/form-data")) {
+				requestBody = handleMultipartPost(request, post.getParams());
+			} else {
+				StringBuffer inBodyRequest = new StringBuffer();
+				String line = null;
+				try {
+					BufferedReader reader = request.getReader();
+					while ((line = reader.readLine()) != null) {
+						inBodyRequest.append(line);
+						log.debug("[ApiProxyServlet::doPost] - request body: " + line);
+					}
+					reader.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				requestBody = new StringRequestEntity(inBodyRequest.toString(), request.getContentType(), request.getCharacterEncoding());
+			}
+
+
 			post.setRequestEntity(requestBody);
+			post.setRequestHeader(STRING_CONTENT_TYPE_HEADER_NAME, requestBody.getContentType());
+
 			PrintWriter out = response.getWriter();
 			HttpClient httpclient = new HttpClient();
 			try {
@@ -144,12 +170,10 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		}
 	}
 
-	
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		super.doDelete(req, resp);
 	}
-
 
 	private String getCallbackMethod(HttpServletRequest httpRequest) {
 		return httpRequest.getParameter("callback");
@@ -177,24 +201,52 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 	private String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 		String parameters = cleanParameters(request.getParameterMap());
-		//Properties config = Config.loadServerConfiguration();
+		// Properties config = Config.loadServerConfiguration();
 		String path = request.getRequestURI() + parameters;
 
 		path = path.replaceAll(request.getContextPath() + request.getServletPath(), "");
-		//String apiBaseUrl = config.getProperty(Config.API_SERVICES_URL);
+		// String apiBaseUrl = config.getProperty(Config.API_SERVICES_URL);
 
 		return apiBaseUrl + path;
 
 	}
-	
+
 	@SuppressWarnings("unused")
-	private void allowClientOrigin(HttpServletResponse response, String clientOrigin, String methods){
-		 response.setHeader("Access-Control-Allow-Origin", clientOrigin);
-		 response.setHeader("Access-Control-Allow-Methods", methods);
-		 response.setHeader("Access-Control-Allow-Headers",
-		 "Content-Type");
-		 response.setHeader("Access-Control-Max-Age", "86400");
+	private void allowClientOrigin(HttpServletResponse response, String clientOrigin, String methods) {
+		response.setHeader("Access-Control-Allow-Origin", clientOrigin);
+		response.setHeader("Access-Control-Allow-Methods", methods);
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+		response.setHeader("Access-Control-Max-Age", "86400");
 
 	}
 
+	private MultipartRequestEntity handleMultipartPost(HttpServletRequest httpServletRequest, HttpMethodParams params) throws ServletException {
+		MultipartRequestEntity multipartRequestEntity = null;
+		DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
+		diskFileItemFactory.setSizeThreshold(this.getMaxFileUploadSize());
+		diskFileItemFactory.setRepository(FILE_UPLOAD_TEMP_DIRECTORY);
+		ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory);
+		try {
+			List<FileItem> listFileItems = servletFileUpload.parseRequest(httpServletRequest);
+			List<Part> listParts = new ArrayList<Part>();
+			for (FileItem fileItemCurrent : listFileItems) {
+				if (fileItemCurrent.isFormField()) {
+					StringPart stringPart = new StringPart(fileItemCurrent.getFieldName(), fileItemCurrent.getString());
+					listParts.add(stringPart);
+				} else {
+					FilePart filePart = new FilePart(fileItemCurrent.getFieldName(), new ByteArrayPartSource(fileItemCurrent.getName(), fileItemCurrent.get()));
+					listParts.add(filePart);
+				}
+			}
+
+			multipartRequestEntity = new MultipartRequestEntity(listParts.toArray(new Part[] {}), params);
+		} catch (FileUploadException fileUploadException) {
+			throw new ServletException(fileUploadException);
+		}
+		return multipartRequestEntity;
+	}
+
+	private int getMaxFileUploadSize() {
+		return this.intMaxFileUploadSize;
+	}
 }

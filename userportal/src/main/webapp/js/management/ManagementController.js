@@ -1462,7 +1462,8 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 
 
 
-appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info) {
+appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 
+                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -1514,7 +1515,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 
 
-	$scope.metadata = {info:null, configData: null};
+	$scope.metadata = {info:{}, configData: {}};
+	$scope.metadata.info.importFileType = "csv";
 	
 	$scope.newTag = null;
 	$scope.addTag = function(newTag){
@@ -1555,18 +1557,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.uploadDatasetError = null;
 	$scope.uploadDatasetInfo = null;
 
-	$scope.formatList = [{type:"csv"},{type:"xml"},{ type: "other"}];
-	$scope.formatType = "csv";
+	$scope.formatList = ["csv","xml","other"];
+	
 	$scope.csvSeparator = ";";
 	$scope.fileEncoding = "UTF-8";
-	
-
-	
-//	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
-//	$scope.dataset.columns.column.push({fieldName:"title", fieldAlias: "Title", dataType: "string", measureUnit: "km"});
-//	$scope.dataset.columns.column.push({fieldName:"subtitle", fieldAlias: "Subtitle", dataType: "string", measureUnit: "km"});
-//	$scope.dataset.columns.column.push({fieldName:"image", fieldAlias: "Image url", v: "string", measureUnit: "km"});
-	
 	
 	$scope.onFileSelect = function($files) {
 		$scope.selectedFile = $files[0];
@@ -1631,7 +1625,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
         						"fieldName":column.fieldName, 
         						"fieldAlias":column.fieldAlias, 
         						"dataType":column.dataType, 
-        						"isKey":column.isKey, 
+        						"isKey":column.isKey?1:0, 
         						"measureUnit":column.measureUnit}
     				);
     				order++;
@@ -1663,13 +1657,33 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.goToColumns  = function(){readPreview(); $scope.currentStep = 'columns';refreshWizardToolbar();};
 	
 	$scope.createDataset = function(dataset) {
+		console.log("createDataset START", dataset);
 		var newDataset = dataset;
 		newDataset.configData.tenant=$scope.tenantCode;
-		newDataset.configData.datasetversion=$scope.tenantCode;
+		newDataset.configData.datasetVersion=$scope.tenantCode;
 		newDataset.configData.type = "dataset";
 		newDataset.configData.subtype = "bulkDataset";
 		console.log("dataset qui ", newDataset);
 
+		$scope.upload = $upload.upload({
+	        url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
+			//url: '/datamanagementapi/api/dataset/' + $scope.tenantCode + '/', 
+			
+			method: 'POST',
+	        //headers: {'header-key': 'header-value'},	
+	        //withCredentials: true,
+	        data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding },
+	        file: $scope.selectedFile, // or list of files ($files) for html5 only
+	        fileName: $scope.selectedFile.name,
+
+	      }).progress(function(evt) {
+	        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+	      }).success(function(data, status, headers, config) {
+	        // file is uploaded successfully
+	        console.log(data);
+	      });
+
+		/*
 		var promise   = fabricAPImanagement.createDataset($scope.tenantCode, newDataset);
 		promise.then(function(result) {
 			console.log("result qui ", result);
@@ -1679,7 +1693,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			console.log("result.data ", result.data);
 		}, function(result) {
 			console.log('Got notification: ' + result);
-		});
+		});*/
 	};	
 	
 } ]);
