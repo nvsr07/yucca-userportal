@@ -48,12 +48,12 @@ Constants.DISCOVERY_FIELD_FPS = 'DISCOVERY_FIELD_FPS';
 Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT = 'DISCOVERY_FIELD_UNIT_OF_MEASUREMENT';
 
 Constants.DISCOVERY_FIELDS = [
-                              {key:Constants.DISCOVERY_FIELD_TITLE, api_key: 'name', discrete: false},
-                              {key:Constants.DISCOVERY_FIELD_TAG, api_key: 'tag', discrete: true},
+                              {key:Constants.DISCOVERY_FIELD_TITLE, api_key: 'datasetName', discrete: false},
+                              {key:Constants.DISCOVERY_FIELD_TAG, api_key: 'tags', discrete: true},
                               {key:Constants.DISCOVERY_FIELD_LICENCE, api_key: 'licence', discrete: false},
-                              {key:Constants.DISCOVERY_FIELD_TENANT, api_key: 'tenant', discrete: true},
+                              {key:Constants.DISCOVERY_FIELD_TENANT, api_key: 'tenantCode', discrete: true},
                               {key:Constants.DISCOVERY_FIELD_FPS, api_key: 'fps', discrete: false},
-                              {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'unit', discrete: true},
+                              {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'measureUnit', discrete: true},
                               ];
 		
 

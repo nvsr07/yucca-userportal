@@ -6,6 +6,233 @@ var appServices = angular.module('userportal.services', [ 'userportal.config' ])
 
 appServices.value('version', '0.7 dev');
 
+
+appServices.factory('dataDiscoveryService', function($http, $q) {
+	var dataDiscovery = {};
+
+	var keyArray=[{key:"idDataset",type:"Integer"},{key:"tenantCode",type:"String"},
+	              {key:"dataDomain",type:"String"},{key:"licence",type:"String"},{key:"fps",type:"Double"},
+	              {key:"datasetName",type:"String"},{key:"visibility",type:"String"},{key:"tags",type:"String"},{key:"measureUnit",type:"String"}];
+
+	dataDiscovery.searchMultiFieldInDatasets = function(queryArray){
+
+		var URLBaseQuery = "http://localhost:8080/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json";
+		var URLQuery="";
+		var URLFilter = "&$filter="; 
+		var first = true ;
+		console.debug("searchMultiFieldInDatasets",queryArray);
+		for (var int = 0; int <  3; int++) {
+			console.debug("queryArray[int]",queryArray[int]);
+			if(queryArray[int].value!=null && queryArray[int].value.trim()!=""){
+				var keyValue=queryArray[int];
+
+				switch (keyValue.field) {
+				case "idDataset":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery += " idDataset eq " +keyValue.value.trim();
+					first=false;
+					break;
+				case "tenantCode":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
+					first=false;
+					break;
+				case "dataDomain":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery += " substringof('"+keyValue.value.trim()+"' ,dataDomain ) eq true ";
+					first=false;
+					break;
+				case "licence":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery += " substringof('"+keyValue.value.trim()+"' ,licence ) eq true ";
+					first=false;
+					break;
+				case "fps":
+					if(!isNaN(keyValue.value.trim())){
+						if(!first){ 
+							URLQuery+=" and ";						
+						}
+						URLQuery += " fps eq " +keyValue.value.trim()+"m ";
+					}
+					first=false;
+					break;
+				case "datasetName":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery += "substringof('"+keyValue.value.trim()+"' ,datasetName ) eq true ";
+					first=false;
+					break;
+				case "visibility":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery += "substringof('"+keyValue.value.trim()+"' ,visibility ) eq true ";
+					first=false;
+					break;
+				case "tags":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tags ) eq true ";
+					first=false;
+					break;
+				case "measureUnit":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery += " substringof('"+keyValue.value.trim()+"' ,measureUnit ) eq true ";
+					first=false;
+					break;
+				}				
+			} 
+		}
+		if(URLQuery.trim()!=""){
+			URLBaseQuery+= URLFilter + URLQuery;
+		}
+
+		console.debug("dataDiscovery.searchDatasets URL : ",URLBaseQuery);
+		return $http({
+			method : 'GET',
+			url:URLBaseQuery
+//			url : "http://int-api.smartdatanet.it/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json"
+		});
+
+	};
+
+
+	dataDiscovery.searchSingleFieldInDatasets = function(queryString){
+
+		var URLBaseQuery = "http://localhost:8080/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json";
+		var URLQuery="";
+		var URLFilter = "&$filter="; 
+		if(queryString != undefined && queryString.trim()!=""){
+
+			var res = queryString.split(" ");
+			var first = true ;
+			for(var index in res ){				
+				var keyValue = res[index].split(":");
+				if(keyValue.length == 1 && index<3){	
+					for(var obj in keyArray){
+						console.debug("queryString",queryString,keyArray[obj].type,!isNaN(keyValue));
+						if(keyArray[obj].type=="Integer" && !isNaN(keyValue) && queryString.indexOf(".")==-1){
+							if(!first){ 
+								URLQuery+=" or ";						
+							}
+							first=false;
+							URLQuery += keyArray[obj].key+" eq " +keyValue;
+
+						}else if(keyArray[obj].type=="String" && isNaN(keyValue)){
+							if(!first){ 
+								URLQuery+=" or ";
+							}
+							first=false;
+							URLQuery += "substringof('"+keyValue+"' , "+keyArray[obj].key+" ) eq true ";
+						}else if(keyArray[obj].type=="Double" && !isNaN(keyValue)){
+							if(!first){ 
+								URLQuery+=" or ";
+							}
+							first=false;
+							URLQuery += keyArray[obj].key+" eq " +keyValue+"m";
+						}				
+					}
+				}else if(keyValue.length==2 && index<3){
+					switch (keyValue[0].trim()) {
+					case "idDataset":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " idDataset eq " +keyValue[1].trim();
+						first=false;
+						break;
+					case "tenantCode":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,tenantCode ) eq true ";
+						first=false;
+						break;
+					case "dataDomain":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,dataDomain ) eq true ";
+						first=false;
+						break;
+					case "licence":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,licence ) eq true ";
+						first=false;
+						break;
+					case "fps":
+
+						if(!isNaN(keyValue[1].trim())){
+							if(!first){ 
+								URLQuery+=" or ";						
+							}
+							URLQuery += " fps eq " +keyValue[1].trim()+"m ";
+						}
+						first=false;
+						break;
+					case "datasetName":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += "substringof('"+keyValue[1].trim()+"' ,datasetName ) eq true ";
+						first=false;
+						break;
+					case "visibility":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += "substringof('"+keyValue[1].trim()+"' ,visibility ) eq true ";
+						first=false;
+						break;
+					case "tags":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,tags ) eq true ";
+						first=false;
+						break;
+					case "measureUnit":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,measureUnit ) eq true ";
+						first=false;
+						break;
+					}
+				}
+			}
+		}
+
+		if(URLQuery.trim()!=""){
+			URLBaseQuery+= URLFilter + URLQuery;
+		}
+
+		console.debug("dataDiscovery.searchDatasets URL : ",URLBaseQuery);
+		return $http({
+			method : 'GET',
+			url:URLBaseQuery
+//			url : "http://int-api.smartdatanet.it/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json"
+		});
+	};
+
+	return dataDiscovery;
+});
+
+
 appServices.factory('fabricAPIservice', function($http, $q) {
 
 	var fabricAPI = {};
@@ -302,10 +529,10 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 			});
 		}
 
-					
+
 		updateStatus(Constants.WEBSOCKET_CONNECTING);
 		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
-		
+
 		stompClient.connect(user, password, function(frame) {
 			connectedFlag=true;
 			updateStatus(Constants.WEBSOCKET_CONNECTED);
@@ -363,7 +590,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 		this.count=1;
 		if(!updateStatus)
 			updateStatus = function(sms){
-				console.debug(sms);
+			console.debug(sms);
 		};
 		updateStatus(Constants.WEBSOCKET_CONNECTING);
 		new ConnectTheSocket(on_connect, on_error, vhost,this.count,updateStatus);
@@ -434,7 +661,7 @@ var WebsocketStompSingleton= (function() {
 		},
 		function(frame) //error Callback
 		{
-			
+
 			if (count<5) {
 				updateStatus(Constants.WEBSOCKET_CONNECTING);
 				console.debug("createClient count ::::::::::::: ",count);    						       
@@ -495,29 +722,29 @@ var WebsocketStompSingleton= (function() {
 
 appServices.factory('readFilePreview', function($q) {
 	return {
-        readFile: function (file, previewSize, encoding) {
-            var deferread = $q.defer();
-            if (window.File && window.FileReader && window.FileList && window.Blob) {
-                var reader = new FileReader();
-                console.log("file", file);
-                if ((file !== undefined) && (file !== null)) {
-                    reader.onload = function (event) {
-                    	
-                    	deferread.resolve(event.target.result);
-                    };
-                	var firstBytes = file.slice(0, previewSize + 1);
-                    reader.readAsText(firstBytes, encoding);
-                }else{
-                    console.log("reject", file);
-                	deferread.reject("You need to pass a file.");
-                }
-            }else{
-            	deferread.reject("Your browser don't support File api.");
-            }
+		readFile: function (file, previewSize, encoding) {
+			var deferread = $q.defer();
+			if (window.File && window.FileReader && window.FileList && window.Blob) {
+				var reader = new FileReader();
+				console.log("file", file);
+				if ((file !== undefined) && (file !== null)) {
+					reader.onload = function (event) {
 
-            return deferread.promise;
-        }
-    };
+						deferread.resolve(event.target.result);
+					};
+					var firstBytes = file.slice(0, previewSize + 1);
+					reader.readAsText(firstBytes, encoding);
+				}else{
+					console.log("reject", file);
+					deferread.reject("You need to pass a file.");
+				}
+			}else{
+				deferread.reject("Your browser don't support File api.");
+			}
+
+			return deferread.promise;
+		}
+	};
 });
 
 
@@ -532,15 +759,15 @@ appServices.factory('fabricAPImanagement', function($http, $q) {
 			url : Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '?callback=JSON_CALLBACK'
 		});
 	};
-	
-	fabricAPI.getDataset = function(tenant_code, dataset_id) {
-			return $http({
-				method : 'JSONP',
-				url : Constants.API_MANAGEMENT_DATASET_URL+ tenant_code + '/' + dataset_id + '/?callback=JSON_CALLBACK'
-			});
-		};
 
-	
+	fabricAPI.getDataset = function(tenant_code, dataset_id) {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_MANAGEMENT_DATASET_URL+ tenant_code + '/' + dataset_id + '/?callback=JSON_CALLBACK'
+		});
+	};
+
+
 
 	fabricAPI.createDataset = function(tenant_code, dataset) {
 		var deferred = $q.defer();
@@ -555,7 +782,7 @@ appServices.factory('fabricAPImanagement', function($http, $q) {
 		});
 		return deferred.promise;
 	};
-	
+
 	fabricAPI.updateDataset = function(tenant_code, dataset_id, dataset) {
 		var deferred = $q.defer();
 		var resultData = null;
@@ -569,7 +796,7 @@ appServices.factory('fabricAPImanagement', function($http, $q) {
 		});
 		return deferred.promise;
 	};
-	
+
 	return fabricAPI;
 });
 

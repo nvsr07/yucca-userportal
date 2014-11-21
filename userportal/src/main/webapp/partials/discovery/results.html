@@ -9,16 +9,7 @@
 <p>&nbsp;</p>
 <div class='row'>
 	<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12" >
-		colonne da visualizzare
-        - _id
-        - idDataset
-        - tenant
-        - registration date
-        - fps
-        - tags in un unica colonna
-        - licence
-        - visibility
-
+		
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<thead>
@@ -40,28 +31,28 @@
 		</div>
 	
 	</div>
-	<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12" >
-		<h4>titolo</h4>
-		<form role="form" class="">
-			<div class="form-group">
-				<select class="form-control  input-sm"  ng-model="discoveryCtrl.advancedFilters[$index].field">
-					<option value="" translate>DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER</option>
-					<option value="{{field.api_key}}" ng-repeat="field in fieldList"  ng-bind-html="field.key|translate|unsafe"></option>
-				</select>
-			</div>
-		</form>
-		<nvd3-pie-chart
-			id="exampleId"
-			data="exampleData"
-			x="xFunction()"
-			y="yFunction()"
-			margin="{left:0,top:0,bottom:0,right:0}"
-			showLabels="true"
-			pieLabelsOutside="false"
-			showValues="true"
-			labelType="percent"
-			color="piechartColors">
-			<svg></svg>
-		</nvd3-pie-chart>
-	</div>
+<!-- 	<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12" > -->
+<!-- 		<h4>titolo</h4> -->
+<!-- 		<form role="form" class=""> -->
+<!-- 			<div class="form-group"> -->
+<!-- 				<select class="form-control  input-sm"  ng-model="advancedFilters[$index].field"> -->
+<!-- 					<option value="" translate>DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER</option> -->
+<!-- 					<option value="{{field.api_key}}" ng-repeat="field in fieldList"  ng-bind-html="field.key|translate|unsafe"></option> -->
+<!-- 				</select> -->
+<!-- 			</div> -->
+<!-- 		</form> -->
+<!-- 		<nvd3-pie-chart -->
+<!-- 			id="exampleId" -->
+<!-- 			data="exampleData" -->
+<!-- 			x="xFunction()" -->
+<!-- 			y="yFunction()" -->
+<!-- 			margin="{left:0,top:0,bottom:0,right:0}" -->
+<!-- 			showLabels="true" -->
+<!-- 			pieLabelsOutside="false" -->
+<!-- 			showValues="true" -->
+<!-- 			labelType="percent" -->
+<!-- 			color="piechartColors"> -->
+<!-- 			<svg></svg> -->
+<!-- 		</nvd3-pie-chart> -->
+<!-- 	</div> -->
 </div>

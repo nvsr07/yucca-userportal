@@ -504,8 +504,9 @@ var translations_it = {
 	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Cerca',
 	DISCOVERY_SIMPLESEARCH_MENU: 'Ricerca semplice',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Ricerca avanzata',
-	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. acqua',
-	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tag</strong>, <strong>licence</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i> ',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. acqua oppure tags:AIR',
+	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong>'+
+	', <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i> ',
 	DISCOVERY_FILTER_SEARCH_BUTTON: 'Cerca',
 	
 	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Scegli un campo',
