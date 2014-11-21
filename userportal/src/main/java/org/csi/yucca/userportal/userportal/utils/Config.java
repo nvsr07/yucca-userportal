@@ -10,9 +10,11 @@ public class Config {
 
 	public static final String API_SERVICES_URL_KEY = "API_SERVICES_URL";
 	public static final String API_MANAGEMENT_URL_KEY = "API_MANAGEMENT_URL";
+	public static final String API_DISCOVERY_URL_KEY = "API_DISCOVERY_URL";
 	
 	public static final String API_PROXY_SERVICES_BASE_URL = "/userportal/api/proxy/services/";
 	public static final String API_PROXY_MANAGEMENT_BASE_URL = "/userportal/api/proxy/management/";
+	public static final String API_PROXY_DISCOVERY_BASE_URL = "/userportal/api/proxy/discovery/";
 
 	public static Properties loadClientConfiguration() throws IOException {
 		return loadConfiguration("client.properties");

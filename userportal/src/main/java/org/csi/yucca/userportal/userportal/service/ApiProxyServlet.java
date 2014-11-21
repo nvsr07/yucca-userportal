@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -184,12 +186,12 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		return (callbackMethod != null && callbackMethod.length() > 0);
 	}
 
-	private String cleanParameters(Map<String, String[]> parameterMap) {
+	private String cleanParameters(Map<String, String[]> parameterMap) throws UnsupportedEncodingException {
 		String parametersOut = "?";
 		if (parameterMap != null && parameterMap.size() > 0) {
 			for (String key : parameterMap.keySet()) {
 				if (!key.trim().equalsIgnoreCase("callback")) {
-					parametersOut += key + "=" + parameterMap.get(key) + "&";
+					parametersOut += key + "=" +  URLEncoder.encode(parameterMap.get(key)[0],"UTF-8").replace("+","%20") + "&";
 				}
 			}
 		}

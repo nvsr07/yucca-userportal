@@ -16,7 +16,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 	dataDiscovery.searchMultiFieldInDatasets = function(queryArray){
 
-		var URLBaseQuery = "http://localhost:8080/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json";
+		var URLBaseQuery = "/userportal/api/proxy/discovery/Datasets?$format=json";
 		var URLQuery="";
 		var URLFilter = "&$filter="; 
 		var first = true ;
@@ -111,7 +111,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 	dataDiscovery.searchSingleFieldInDatasets = function(queryString){
 
-		var URLBaseQuery = "http://localhost:8080/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json";
+		var URLBaseQuery = "/userportal/api/proxy/discovery/Datasets?$format=json";
 		var URLQuery="";
 		var URLFilter = "&$filter="; 
 		if(queryString != undefined && queryString.trim()!=""){
