@@ -87,3 +87,24 @@ appFilters.filter('format_filesize', function() {
 		return output;
 	};
 });
+
+appFilters.filter('nvl', function() {
+	return function(input, ifNull) {
+		var output = input;
+		if (!input || input ==null) {
+			output = ifNull;
+	    }
+		return output;
+	};
+});
+
+appFilters.filter('booleanToString', function() {
+	return function(input) {
+		var output = 'NO';
+		if (input) {
+			if(input==1 || input == 'true')
+				input = 'YES';
+	    }
+		return output;
+	};
+});

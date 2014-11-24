@@ -3,9 +3,7 @@ package org.csi.yucca.userportal.userportal.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +17,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
@@ -56,19 +56,21 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 
-		URL targetUrl = new URL(createTargetUrlWithParameters(request));
+		GetMethod getMethod = new GetMethod(createTargetUrlWithParameters(request));
+		
+		HttpClient httpclient = new HttpClient();
+		int result = httpclient.executeMethod(getMethod);
+		response.setStatus(result);
+		response.setCharacterEncoding(getMethod.getResponseCharSet());
+//		for (Header header : getMethod.getResponseHeaders()) {
+//			System.out.println(header.getName() + "-"+header.getValue());
+//		}
+		Header contentDisposition = getMethod.getResponseHeader("Content-Disposition");
+		if(contentDisposition!=null)
+			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
-		response.setContentType("application/json; charset=utf-8");
-		response.setCharacterEncoding("UTF-8");
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(targetUrl.openStream()));
-		StringBuffer jsonBuffer = new StringBuffer("");
-		String inputLine;
-		while ((inputLine = in.readLine()) != null)
-			jsonBuffer.append(inputLine);
-		in.close();
-
-		String jsonOut = jsonBuffer.toString();
+		String jsonOut = getMethod.getResponseBodyAsString();
 		if (isJSONPRequest(request))
 			jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
 		out.println(jsonOut);

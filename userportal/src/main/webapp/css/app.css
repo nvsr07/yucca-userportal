@@ -88,6 +88,8 @@ small pre{font-size: 11px;padding: 4px;}
 .btn-uninstall:hover{background-color: #734b00;}
 .btn-historical{color: white!important; background-color: #9955bb;border-color: #8c46af;}
 .btn-historical:hover{background-color: #5f1585;}
+.btn-download-dataset{color: white!important; background-color: #9ade00;border-color: #8fcc00;}
+.btn-download-dataset:hover{background-color: #5f8a00;}
 
 .btn-default.disabled,.btn-default[disabled]{background-color: #ddd; color: #888;border-color: #ccc;}
 
@@ -350,10 +352,10 @@ small pre{font-size: 11px;padding: 4px;}
 .upload-drop-files-area-hover { /*border-color: #737272;*/ /*background-color: #eee;*/ background-color: #D9F1FF; border-color: #0085CC; color: #0085CC; }
 .management-upload-selectfile-button { padding: 3em 1em; background-color: #eee; color: black; cursor: pointer; border-radius: 2px; font-size: 16pt; font-weight: bold; border: 2px solid #eee; text-align: center; }
 .management-upload-label-before-button { text-align: center; padding: 1em; font-size: 16pt; padding: 1em; }
-.management-upload-preview-table-container { border: solid 1px #ccc; border-radius: 4px; min-height: 20px; overflow: hidden; }
+.management-upload-preview-table-container { border: solid 1px #ccc; border-radius: 4px; min-height: 20px; overflow-x: auto;overflow-y: hidden;}
 .management-table-upload-preview { border-collapse: collapse; border: none; margin-bottom: 0; }
 .management-table-upload-preview .data-row td { background-color: #fff; color: #555; font-size: 11px; }
-.management-table-upload-preview .skip-row td { font-style: italic; background-color: #ccc; border: solid 1px #ccc; }
+.management-table-upload-preview .skip-row td { font-style: italic; background-color: #eee; border: solid 1px #eee; }
 .management-upload-column-association-field { border: solid 1px #ccc; border-radius: 4px; padding: .5em 1em; margin: 1em; overflow: hidden; }
 .management-upload-column-association-field-desc-panel { float: left;}
 .management-upload-column-association-field-index-panel{ float: left; margin: 0 1em; line-height: 2em;}
@@ -362,10 +364,13 @@ small pre{font-size: 11px;padding: 4px;}
 .management-upload-column-association-csv-drag-icon { border: solid 2px #ddd; padding: .5em; border-radius : 4px; float: left; border-radius: 4px; margin-right: 1em; }
 .management-upload-column-association-csv-desc-panel { float: left; }
 
+.management-upload-column-error-panel{margin: 20px 0; text-align: left;}
+.new-dataset-wizard-error-list{font-size: 9pt;max-height: 15em; overflow-y: auto;   overflow-x: hidden; }
 
 .management-table-upload-column{border-spacing:0px 10px;}
 .management-table-upload-column tr{border: solid #ccc 1px; border-radius: 4px; }
 
+.management-dataset-download-link{font-size: 12pt; font-weight: bold; font-family: monospace;}
 
 
 /*

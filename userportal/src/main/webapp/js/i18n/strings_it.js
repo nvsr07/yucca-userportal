@@ -145,11 +145,12 @@ var translations_it = {
 	/* Dataset */
 	DATASET_FIELD_ID: 'ID',
 	DATASET_FIELD_CONFIGDATA_ID: 'Id Dataset',
+	DATASET_FIELD_CONFIGDATA_CODE: 'Codice',
 	DATASET_FIELD_CONFIGDATA_TENANT: 'Organizzazione',
 	DATASET_FIELD_CONFIGDATA_COLLECTION: 'Collection',
 	DATASET_FIELD_CONFIGDATA_TYPE: 'Tipo',
 	DATASET_FIELD_CONFIGDATA_SUBTYPE: 'Sottotipo',
-	DATASET_FIELD_CONFIGDATA_DATAVERSION: 'Sottotipo',
+	DATASET_FIELD_CONFIGDATA_DATAVERSION: 'Versione',
 	DATASET_FIELD_METADATA_NAME: 'Nome',
 	DATASET_FIELD_METADATA_DESCRIPTION: 'Descrizione',
 	DATASET_FIELD_METADATA_DISCLAIMER: 'Disclaimer',
@@ -431,6 +432,9 @@ var translations_it = {
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'Per abilitare la cancellazione selezionare almeno un Dataset',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET: 'Cancella',
 	
+	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
+	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Scarica',
+	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Aggiungi dati',
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Crea',
@@ -479,9 +483,13 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_FINISH_BUTTON: 'Fine modifica', 
 	MANAGEMENT_EDIT_DATASET_ADD_TAG : 'Aggiungi tag', 
 	MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO : 'Dataset salvato',
+	MANAGEMENT_EDIT_DATASET_LEGAL_INFO: 'Informazioni Legali', 
+	
+	MANAGEMENT_EDIT_DATASET_API_URL: 'Url accesso API', 
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Informazioni generali',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Definizione struttura dato',
+	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'Per la struttura del dato &eacute; possibile modificare solo gli alias delle colonne',
 //	MANAGEMENT_EDIT_DATASET_ADD_COLUMN : 'Aggiungi', 
 //	MANAGEMENT_EDIT_DATASET_REMOVE_COLUMN : 'Elimina', 
 //	MANAGEMENT_EDIT_DATASET_MOVEUP_COLUMN : 'Sposta in alto', 
@@ -494,6 +502,10 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_REQUIRED: 'Il campo \'codice\' obbligatorio',
 	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_UNIQUE: 'Il campo \'codice\' deve essere univoco per Dataset ',
 	
+	MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN: 'Sono presenti degli errori',
+	MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR: 'Numero di errori',
+		
+		
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',
 	MANAGEMENT_CHOOSE_TENANT_WARNING: 'Pagina temporanea in attesa del sistema di autenticazione',

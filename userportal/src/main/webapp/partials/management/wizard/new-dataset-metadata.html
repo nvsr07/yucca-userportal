@@ -12,7 +12,7 @@
 		<label for="inputDatasetAddTag" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_TAGS</label>
 		<div class="col-sm-10">
 			<p>
-				<span  ng-repeat="tag in dataset.metadata.tags">
+				<span  ng-repeat="tag in metadata.info.tags">
 					<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
 					<a href="javascript:void(0)" ng-click='removeTag($index)'>&times;</a>
 					</span> &nbsp;
@@ -54,7 +54,8 @@
 	<div class="form-group">
 		<label for="inputDatasetDisclaimer" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_DISCLAIMER</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="inputDatasetDisclaimer" placeholder="{{'DATASET_FIELD_METADATA_DISCLAIMER'|translate}}" ng-model="metadata.info.disclaimer" >
+			<textarea class="form-control" rows="4" resize="none" ng-model="metadata.info.disclaimer"  placeholder="{{'DATASET_FIELD_METADATA_DISCLAIMER'|translate}}" id="inputDatasetDisclaimer" >
+			</textarea>
 		</div>
 	</div>			
 	<div class="form-group">

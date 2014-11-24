@@ -27,13 +27,13 @@ public class Config {
 	}
 	
 	private static Properties loadConfiguration(String configPath) throws IOException {
-		log.debug("[ClientConfigServlet::loadConfiguration] - START, configPath " + configPath);
+		log.debug("[Config::loadConfiguration] - START, configPath " + configPath);
 		try {
 			Properties config = new Properties();
 			config.load(Config.class.getClassLoader().getResourceAsStream(configPath));
 			return config;
 		} finally {
-			log.debug("[ClientConfigServlet::loadConfiguration] - END, configPath " + configPath);
+			log.debug("[Config::loadConfiguration] - END, configPath " + configPath);
 		}
 	}
 

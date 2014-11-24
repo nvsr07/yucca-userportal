@@ -1,10 +1,9 @@
+<ng-include src=" 'partials/common/workInProgress.html?'+BuildInfo.timestamp "></ng-include>
+<!--  
 <div ng-controller="ManagementDatasetListCtrl as datasetsCtrl">
 	<h2> <span translate>MANAGEMENT_TITLE</span> <small translate>MANAGEMENT_DATASET_SUBTITLE </small></h2>
 	<div class='row'>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-			<!-- Main component for a primary marketing message or call to action -->
-	
-			<!-- Single button -->
 			<div class='clearfix'>
 				<div class="pull-left">
 		        	<a  href="#/management/newDataset/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isOwner()">
@@ -37,7 +36,7 @@
 							<th>
 							</th>
 							<th>
-								<a href="" ng-click="predicate = 'idDataset'; reverse=!reverse"><span translate>DATASET_FIELD_CONFIGDATA_ID</span>
+								<a href="" ng-click="predicate = 'idDataset'; reverse=!reverse"><span translate>DATASET_FIELD_CONFIGDATA_CODE</span>
 								<span ng-show="predicate=='idDataset' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 								<span ng-show="predicate=='idDataset' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 							
@@ -60,7 +59,7 @@
 								<span ng-show="predicate=='registrationdateDataset' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 							</th>
 							<th>
-								<a href="" ng-click="predicate = 'statusDataset'; reverse=!reverse"><span translate>DATASET_FIELD_METADATA_DATASETSTATUS</span>
+								<a href="" ng-click="predicate = 'statusDataset'; reverse=!reverse"><span translate>DATASET_FIELD_CONFIGDATA_DATAVERSION</span>
 								<span ng-show="predicate=='statusDataset' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 								<span ng-show="predicate=='statusDataset' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 							</th>
@@ -69,11 +68,11 @@
 					<tbody>
 						<tr ng-repeat="dataset in filteredDatasetList = (datasetList | filter: searchNameFilter | filter: searchStatusFilter|  orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 							<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
-							<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.configData.idDataset}}">{{dataset.configData.idDataset}}</a></td>
-							<td>{{dataset.metadata.name}}</td>
+							<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
+							<td>{{dataset.info.datasetName}}</td>
 							<td>{{dataset.configData.type}} / {{dataset.configData.subtype}}</td>
-							<td>{{dataset.metadata.registrationDate|date}}</td>
-							<td><span ng-bind-html="dataset.statusIcon"></span> <span translate>{{dataset.metadata.datasetStatus}}</span></td>
+							<td>{{dataset.info.registrationDate|date}}</td>
+							<td><span ng-bind-html="dataset.statusIcon"></span> <span translate>{{dataset.datasetVersion}}</span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -84,3 +83,5 @@
 		</div>
 	</div>
 </div>
+
+-->

@@ -1015,7 +1015,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	$scope.editDataset = function(){
 		if($scope.selectedDatasets.length===1){
 
-			$location.path('management/editDataset/'+$scope.selectedDatasets[0].codiceTenant +'/'+$scope.selectedDatasets[0].codiceDataset);
+			$location.path('management/editDataset/'+$scope.tenantCode +'/'+$scope.selectedDatasets[0].datasetCode);
 		}
 		else{
 			// FIXME error message...
@@ -1078,9 +1078,10 @@ appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$lo
 	};
 } ]);
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'info', function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, info) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', 'info', function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, info) {
 	$scope.tenantCode = $routeParams.tenant_code;
-	$scope.datasetId = $routeParams.entity_code;
+	$scope.datasetCode = $routeParams.entity_code;
+	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_URL + 'download/' + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
@@ -1118,7 +1119,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 
 	$scope.dataset = null;
-	
+	$scope.apiMetdataUrl = "";
 	
 //
 //	if($scope.dataset.columns == null)
@@ -1126,103 +1127,30 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 //	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
 
 	$scope.loadDataset = function(){
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetId).success(function(response) {
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
 			console.debug("loadDataset- response",response);
-			$scope.dataset = response;
-			if(!$scope.metadata.info)
-				$scope.metadata.info = new Object();
-			if(!$scope.metadata.info.tags)
-				$scope.metadata.info.tags = [];
+			$scope.apiMetdataUrl = response.apiMetadataUrl;
+			$scope.dataset = response.metadata;
+			if(!$scope.dataset)
+				$scope.dataset = new Object();
+			if(!$scope.dataset.info)
+				$scope.dataset.info = new Object();
+			if(!$scope.dataset.info.tags)
+				$scope.dataset.info.tags = [];
 			
-			$scope.metadata.info.visibility = 'public';
+			$scope.dataset.info.visibility = 'public';
 		});
 
 	};
 
-
-
-
 	$scope.loadDataset();
-
-
-	$scope.newColumn = null;
-	$scope.newColumnSemantic = null;
-	$scope.newColumnOrder = null;
-	$scope.newColumnCode = null;
-	$scope.newColumnDataType = null;
-
-	$scope.addColumn = function(){
-		$scope.insertColumnError = null;
-		if($scope.newColumn && $scope.newColumn.code){
-			var found = false;
-
-			for (var int = 0; int < $scope.dataset.columns.column.length; int++) {
-				if($scope.dataset.columns.column[int].code == $scope.newColumn.code){
-					found = true;
-					break;
-				}
-			}
-
-			if(!found){
-				
-				$scope.newColumn.order = $scope.dataset.columns.column.length +1;
-				if($scope.newColumnCode){
-					$scope.newColumn.code = $scope.newColumnCode;
-				}
-				if($scope.newColumnSemantic){
-					$scope.newColumn.semantic = $scope.newColumnSemantic;
-				}
-				if($scope.newColumnDataType){
-					$scope.newColumn.idDataType = $scope.newColumnDataType.idDataType;
-					$scope.newColumn.dataType = $scope.newColumnDataType.dataType;
-				}
-
-				$scope.dataset.columns.column.push($scope.newColumn);
-				$scope.newColumn = null;
-			}
-			else{
-				$scope.insertColumnError = 'MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_UNIQUE';
-			}
-		}
-		else
-			$scope.insertColumnError = 'MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_REQUIRED';
-
-		return false;
-	};
-
-	$scope.removeColumn = function(index){
-		$scope.dataset.columns.column.splice(index,1);
-		$scope.refresColumnhOrder();
-		return false;
-	};
-
-	$scope.moveUpColumn = function(elementIndex){
-		$scope.dataset.columns.column = Helpers.util.arrayMoveUpElement($scope.dataset.columns.column, elementIndex);
-		$scope.refresColumnhOrder();
-		return false;
-	};
-
-	$scope.moveDownColumn = function(elementIndex){
-		console.log("moveDownColumn - 1", $scope.dataset.columns.column );
-		$scope.dataset.columns.column = Helpers.util.arrayMoveDownElement($scope.dataset.columns.column, elementIndex);
-		console.log("moveDownColumn - 2", $scope.dataset.columns.column );
-		$scope.refresColumnhOrder();
-		return false;
-	};
-
-	$scope.refresColumnhOrder = function(){
-		console.log("refresColumnhOrder - 1", $scope.dataset.columns.column );
-		for (var int = 0; int < $scope.dataset.columns.column.length; int++) {
-			$scope.dataset.columns.column[int].order=int +1;
-		}
-	};
 
 	$scope.newTag = null;
 	$scope.addTag = function(){
 		if($scope.newTag){
 			var found = false;	
-			for (var int = 0; int < $scope.metadata.info.tags.length; int++) {
-				var existingTag = $scope.metadata.info.tags[int];
+			for (var int = 0; int < $scope.dataset.info.tags.length; int++) {
+				var existingTag = $scope.dataset.info.tags[int];
 				if(existingTag.tagCode == $scope.newTag){
 					found = true;
 					break;
@@ -1230,7 +1158,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 			}
 			if(!found)
-				$scope.metadata.info.tags.push({"tagCode":$scope.newTag});
+				$scope.dataset.info.tags.push({"tagCode":$scope.newTag});
 		}
 		$scope.newTag = null;
 		return false;
@@ -1242,38 +1170,22 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return false;
 	};
 
-
-	$scope.canUpload = function() {
-		if($scope.dataset && $scope.dataset.columns &&  $scope.dataset.columns.column &&  $scope.dataset.columns.column.length>0)
-			return true;
-		return false;
-	};
-
 	$scope.canEdit = function() {
 		return true;
-	};
-
-	$scope.canCreateNewVersion = function() {
-		return true;
-	};
-
-
-	$scope.cancel = function(){
-		$location.path('management/datasets');
 	};
 
 	$scope.updateDataset = function() {
 		var newDataset =  $scope.dataset;
 
-		if(!newDataset.metadata.tags && newDataset.metadata.tags.length==0){
-			newDataset.metadata.tags = null;
+		if(!newDataset.info.tags && newDataset.info.tags.length==0){
+			newDataset.info.tags = null;
 		}
 		
 		$scope.updateInfo = null;
 		$scope.updateError = null;
 		Helpers.util.scrollTo();
 		
-		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetId, newDataset);
+		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetCode, newDataset);
 
 		promise.then(function(result) {
 			$scope.updateInfo = {status: result.status};
@@ -1324,140 +1236,140 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 } ]);
 
-appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$upload', 'readFilePreview',  function($scope, $routeParams, fabricAPIservice, info, $upload, readFilePreview) {
-	
-	$scope.selectedFile = null;
-	$scope.dataset = null;
-	$scope.uploadDatasetError = null;
-	$scope.uploadDatasetInfo = null;
-
-	$scope.formatList = [{type:"csv"},{type:"xml", type: "other"}];
-	$scope.csvSeparator = ";";
-	$scope.fileEncoding = "UTF-8";
-	//$scope.csvSkipFirstRow = false;
-	
-	$scope.dataset = {
-		code: 'codice',
-		name: 'nome', 
-	};
-	
-	if(!$scope.dataset.tags)
-		$scope.dataset.tags = new Object();
-	$scope.dataset.tags.tag = Helpers.util.initArrayZeroOneElements($scope.dataset.tags.tag);
-
-	if($scope.dataset.columns == null)
-		$scope.dataset.columns = new Object();
-	
-	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
-	$scope.dataset.columns.column.push({fieldName:"title", fieldAlias: "Title", dataType: "string", measureUnit: "km"});
-	$scope.dataset.columns.column.push({fieldName:"subtitle", fieldAlias: "Subtitle", dataType: "string", measureUnit: "km"});
-	$scope.dataset.columns.column.push({fieldName:"image", fieldAlias: "Image url", v: "string", measureUnit: "km"});
-//$scope.dataset.columns.column.push({code:"description", semantic: "Description", datatype: "string"});
-	
-	
-	$scope.onFileSelect = function($files) {
-	    //$files: an array of files selected, each file has name, size, and type.
-		$scope.selectedFile = $files[0];
-		/*
-	    for (var i = 0; i < $files.length; i++) {
-	      var file = $files[i];
-	      
-	      $scope.upload = $upload.upload({
-	        url: 'server/upload/url', //upload.php script, node.js route, or servlet url
-	        //method: 'POST' or 'PUT',
-	        //headers: {'header-key': 'header-value'},
-	        //withCredentials: true,
-	        data: {myObj: $scope.myModelObj},
-	        file: file, // or list of files ($files) for html5 only
-	        //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
-	        // customize file formData name ('Content-Disposition'), server side file variable name. 
-	        //fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file' 
-	        // customize how data is added to formData. See #40#issuecomment-28612000 for sample code
-	        //formDataAppender: function(formData, key, val){}
-	      }).progress(function(evt) {
-	        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-	      }).success(function(data, status, headers, config) {
-	        // file is uploaded successfully
-	        console.log(data);
-	      });
-	      //.error(...)
-	      //.then(success, error, progress); 
-	      // access or attach event listeners to the underlying XMLHttpRequest.
-	      //.xhr(function(xhr){xhr.upload.addEventListener(...)})
-	    }*/
-	    /* alternative way of uploading, send the file binary with the file's content-type.
-	       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
-	       It could also be used to monitor the progress of a normal http post/put request with large data*/
-	    // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
-	};
-	
-	$scope.previewLines = [];
-	$scope.previewColumns = [];
-	
-	$scope.readPreview = function(){
-		$scope.uploadDatasetError = null;
-		readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
-				function(contents){
-		    		var lines = contents.split(/\r\n|\n/);
-		    		console.log("nr righe", lines.length);
-		    		console.log(lines);
-		    		var firstRows = lines.slice(0, 5);
-		    		for (var int = 0; int < firstRows.length; int++) {
-		    			$scope.previewLines.push(firstRows[int].split($scope.csvSeparator));
-					}
-		    		
-		    		console.log("$scope.previewLines",$scope.previewLines);
-		
-		    		if($scope.previewLines.length>0){
-		    			for (var int = 0; int < $scope.previewLines[0].length; int++) {
-			    			$scope.previewColumns.push({index: int, firstValue: $scope.previewLines[0][int]});
-						}
-		    		}
-		    		console.log("$scope.previewColumns",$scope.previewColumns);
-				}, 
-				function(error){
-					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
-					Helpers.util.scrollTo();
-				}
-		);
-    };
-    
-    $scope.onDragCsvFieldComplete=function(data,evt){
-    };	
-    
-    $scope.onDropCsvFieldComplete=function(data,evt, index){
-        $scope.dataset.columns.column[index].sourceColumn = data;
-        verifyColumnIndex();
-    };
-    
-    var verifyColumnIndex = function(){
-    	if( $scope.dataset.columns.column){
-    		for (var i = 0; i <  $scope.dataset.columns.column.length; i++) {
-    			$scope.dataset.columns.column[i].warningDuplicate = false;
-    		}
-    		for (var i = 0; i <  $scope.dataset.columns.column.length; i++) {
-    			console.log("°°°°°°°°°°°°°°°°°°° " +  $scope.dataset.columns.column[i].sourceColumn, $scope.dataset.columns.column[i].sourceColumn);
-				for (var j = 0; j <  $scope.dataset.columns.column.length; j++) {
-					if(i!=j){
-						console.log("["+i+"]["+j+"] "+ $scope.dataset.columns.column[j].fieldName, $scope.dataset.columns.column[j].sourceColumn);
-						if(!(typeof $scope.dataset.columns.column[i].sourceColumn === "undefined")) console.log("i - defined -> ok",  $scope.dataset.columns.column[i].sourceColumn); else console.log("i - undefined -> ko",  $scope.dataset.columns.column[i].sourceColumn);
-						if(!(typeof $scope.dataset.columns.column[j].sourceColumn === "undefined")) console.log("j - defined -> ok",  $scope.dataset.columns.column[j].sourceColumn); else console.log("j - undefined -> ko",  $scope.dataset.columns.column[j].sourceColumn);
-						if($scope.dataset.columns.column[i].sourceColumn == $scope.dataset.columns.column[j].sourceColumn) console.log("sono uguali -> ok"); else  console.log("sono diversi -> ko"); 
-
-						if(!(typeof $scope.dataset.columns.column[i].sourceColumn === "undefined") && 
-								!(typeof $scope.dataset.columns.column[j].sourceColumn === "undefined")&& 
-								$scope.dataset.columns.column[i].sourceColumn == $scope.dataset.columns.column[j].sourceColumn){
-							console.log("entro");
-							$scope.dataset.columns.column[i].warningDuplicate = true;
-							$scope.dataset.columns.column[j].warningDuplicate = true;
-						}
-					}
-				}
-			}
-    	}
-    };
-	  
-} ]);
+//appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$upload', 'readFilePreview',  function($scope, $routeParams, fabricAPIservice, info, $upload, readFilePreview) {
+//	
+//	$scope.selectedFile = null;
+//	$scope.dataset = null;
+//	$scope.uploadDatasetError = null;
+//	$scope.uploadDatasetInfo = null;
+//
+//	$scope.formatList = [{type:"csv"},{type:"xml", type: "other"}];
+//	$scope.csvSeparator = ";";
+//	$scope.fileEncoding = "UTF-8";
+//	//$scope.csvSkipFirstRow = false;
+//	
+//	$scope.dataset = {
+//		code: 'codice',
+//		name: 'nome', 
+//	};
+//	
+//	if(!$scope.dataset.tags)
+//		$scope.dataset.tags = new Object();
+//	$scope.dataset.tags.tag = Helpers.util.initArrayZeroOneElements($scope.dataset.tags.tag);
+//
+//	if($scope.dataset.columns == null)
+//		$scope.dataset.columns = new Object();
+//	
+//	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
+//	$scope.dataset.columns.column.push({fieldName:"title", fieldAlias: "Title", dataType: "string", measureUnit: "km"});
+//	$scope.dataset.columns.column.push({fieldName:"subtitle", fieldAlias: "Subtitle", dataType: "string", measureUnit: "km"});
+//	$scope.dataset.columns.column.push({fieldName:"image", fieldAlias: "Image url", v: "string", measureUnit: "km"});
+////$scope.dataset.columns.column.push({code:"description", semantic: "Description", datatype: "string"});
+//	
+//	
+//	$scope.onFileSelect = function($files) {
+//	    //$files: an array of files selected, each file has name, size, and type.
+//		$scope.selectedFile = $files[0];
+//		/*
+//	    for (var i = 0; i < $files.length; i++) {
+//	      var file = $files[i];
+//	      
+//	      $scope.upload = $upload.upload({
+//	        url: 'server/upload/url', //upload.php script, node.js route, or servlet url
+//	        //method: 'POST' or 'PUT',
+//	        //headers: {'header-key': 'header-value'},
+//	        //withCredentials: true,
+//	        data: {myObj: $scope.myModelObj},
+//	        file: file, // or list of files ($files) for html5 only
+//	        //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
+//	        // customize file formData name ('Content-Disposition'), server side file variable name. 
+//	        //fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file' 
+//	        // customize how data is added to formData. See #40#issuecomment-28612000 for sample code
+//	        //formDataAppender: function(formData, key, val){}
+//	      }).progress(function(evt) {
+//	        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+//	      }).success(function(data, status, headers, config) {
+//	        // file is uploaded successfully
+//	        console.log(data);
+//	      });
+//	      //.error(...)
+//	      //.then(success, error, progress); 
+//	      // access or attach event listeners to the underlying XMLHttpRequest.
+//	      //.xhr(function(xhr){xhr.upload.addEventListener(...)})
+//	    }*/
+//	    /* alternative way of uploading, send the file binary with the file's content-type.
+//	       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
+//	       It could also be used to monitor the progress of a normal http post/put request with large data*/
+//	    // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
+//	};
+//	
+//	$scope.previewLines = [];
+//	$scope.previewColumns = [];
+//	
+//	$scope.readPreview = function(){
+//		$scope.uploadDatasetError = null;
+//		readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
+//				function(contents){
+//		    		var lines = contents.split(/\r\n|\n/);
+//		    		console.log("nr righe", lines.length);
+//		    		console.log(lines);
+//		    		var firstRows = lines.slice(0, 5);
+//		    		for (var int = 0; int < firstRows.length; int++) {
+//		    			$scope.previewLines.push(firstRows[int].split($scope.csvSeparator));
+//					}
+//		    		
+//		    		console.log("$scope.previewLines",$scope.previewLines);
+//		
+//		    		if($scope.previewLines.length>0){
+//		    			for (var int = 0; int < $scope.previewLines[0].length; int++) {
+//			    			$scope.previewColumns.push({index: int, firstValue: $scope.previewLines[0][int]});
+//						}
+//		    		}
+//		    		console.log("$scope.previewColumns",$scope.previewColumns);
+//				}, 
+//				function(error){
+//					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+//					Helpers.util.scrollTo();
+//				}
+//		);
+//    };
+//    
+//    $scope.onDragCsvFieldComplete=function(data,evt){
+//    };	
+//    
+//    $scope.onDropCsvFieldComplete=function(data,evt, index){
+//        $scope.dataset.columns.column[index].sourceColumn = data;
+//        verifyColumnIndex();
+//    };
+//    
+//    var verifyColumnIndex = function(){
+//    	if( $scope.dataset.columns.column){
+//    		for (var i = 0; i <  $scope.dataset.columns.column.length; i++) {
+//    			$scope.dataset.columns.column[i].warningDuplicate = false;
+//    		}
+//    		for (var i = 0; i <  $scope.dataset.columns.column.length; i++) {
+//    			console.log("°°°°°°°°°°°°°°°°°°° " +  $scope.dataset.columns.column[i].sourceColumn, $scope.dataset.columns.column[i].sourceColumn);
+//				for (var j = 0; j <  $scope.dataset.columns.column.length; j++) {
+//					if(i!=j){
+//						console.log("["+i+"]["+j+"] "+ $scope.dataset.columns.column[j].fieldName, $scope.dataset.columns.column[j].sourceColumn);
+//						if(!(typeof $scope.dataset.columns.column[i].sourceColumn === "undefined")) console.log("i - defined -> ok",  $scope.dataset.columns.column[i].sourceColumn); else console.log("i - undefined -> ko",  $scope.dataset.columns.column[i].sourceColumn);
+//						if(!(typeof $scope.dataset.columns.column[j].sourceColumn === "undefined")) console.log("j - defined -> ok",  $scope.dataset.columns.column[j].sourceColumn); else console.log("j - undefined -> ko",  $scope.dataset.columns.column[j].sourceColumn);
+//						if($scope.dataset.columns.column[i].sourceColumn == $scope.dataset.columns.column[j].sourceColumn) console.log("sono uguali -> ok"); else  console.log("sono diversi -> ko"); 
+//
+//						if(!(typeof $scope.dataset.columns.column[i].sourceColumn === "undefined") && 
+//								!(typeof $scope.dataset.columns.column[j].sourceColumn === "undefined")&& 
+//								$scope.dataset.columns.column[i].sourceColumn == $scope.dataset.columns.column[j].sourceColumn){
+//							console.log("entro");
+//							$scope.dataset.columns.column[i].warningDuplicate = true;
+//							$scope.dataset.columns.column[j].warningDuplicate = true;
+//						}
+//					}
+//				}
+//			}
+//    	}
+//    };
+//	  
+//} ]);
 
 
 
@@ -1508,9 +1420,17 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.unitOfMesaurementList = response.measureUnit.element;
 	});
 
+	var defaultDataType = null;
 	$scope.dataTypeList = [];
 	fabricAPIservice.getStreamDataType().success(function(response) {
 		$scope.dataTypeList = response.dataType.element;
+		for (var int = 0; int < $scope.dataTypeList; int++) {
+			if($scope.dataTypeList[int].dataType == 'string'){
+				console.log("$scope.dataTypeList[int].dataType", $scope.dataTypeList[int].dataType);
+				defaultDataType = $scope.dataTypeList[int].dataType;
+				break;
+			}
+		}
 	});
 
 
@@ -1547,6 +1467,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 
 	$scope.creationError = null;
+	$scope.saveError = null;
+	$scope.saveErrors = null;
 
 	$scope.accettazionePrivacy=0;
 	$scope.accettazioneResponsability=0;
@@ -1569,34 +1491,52 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.previewLines = [];
 	$scope.previewColumns = [];
 	
+	
 	var readPreview = function(){
 		$scope.uploadDatasetError = null;
 		readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
 				function(contents){
 		    		var lines = contents.split(/\r\n|\n/);
 		    		console.log("nr righe", lines.length);
-		    		console.log(lines);
+		    		//console.log(lines);
 		    		var firstRows = lines.slice(0, 5);
 		    		$scope.previewLines = [];
-		    		for (var int = 0; int < firstRows.length; int++) {
-		    			$scope.previewLines.push(firstRows[int].split($scope.csvSeparator));
-					}
+	    			console.log("(firstRows.join",firstRows.join("\n"));
+
+	    			console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator));
+
+	    			$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator);
+		    		
+//		    		for (var int = 0; int < firstRows.length; int++) {
+//		    			var items = firstRows[int].split($scope.csvSeparator);
+//	    				console.log("items prima", items);
+//
+//		    			for (var j = 0; j < items.length; j++) {
+//		    				console.log("item prima", items[j]);
+//		    				items[j] = items[j].replace(/^"(.*)"$/, '$1');
+//		    				console.log("item dopo", items[j]);
+//		    			}
+//	    				console.log("items dopo", items);
+//
+//		    			$scope.previewLines.push(items);
+//					}
 		    		
 		    		console.log("$scope.previewLines",$scope.previewLines);
 		
 		    		$scope.metadata.info.fields = [];
 		    		$scope.previewColumns = [];
+		    		console.log("defaultDataType",defaultDataType);
 		    		if($scope.previewLines.length>0){
 		    			for (var int = 0; int < $scope.previewLines[0].length; int++) {
 			    			$scope.previewColumns.push(
 			    					{index: int, 
-			    					fieldName: $scope.previewLines[0][int], 
-			    					fieldAlias: $scope.previewLines[0][int], 
-			    					dataType: null,
+			    					sourceColumn: int+1, 
+			    					fieldName: $scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
+			    					fieldAlias: $scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
+			    					dataType: defaultDataType,
 			    					isKey: false, 
 			    					measureUnit: null,
 			    					skipColumn: false});
-			    			//$scope.metadata.info.fields.push({"sourceColumn":(int+1), "fieldName":$scope.previewLines[0][int]});
 						}
 		    			$scope.refreshColumnOrder();
 		    		}
@@ -1619,19 +1559,21 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
     			var column  = $scope.previewColumns[int];
     			column.index = int;
     			if(!column.skipColumn){
-    				column.sourceColumn = order;
+    				//column.sourceColumn = order;
+    				var dataType = column.dataType?column.dataType.dataType:'string';
+    				console.log("column.dataType", column.dataType);
+    				console.log("dataType", dataType);
+    				var measureUnit = column.measureUnit?column.measureUnit.measureUnit:null;
     				$scope.metadata.info.fields.push(
-    						{"sourceColumn":order, 
+    						{"sourceColumn":column.sourceColumn, 
         						"fieldName":column.fieldName, 
         						"fieldAlias":column.fieldAlias, 
-        						"dataType":column.dataType, 
+        						"dataType":dataType, 
         						"isKey":column.isKey?1:0, 
-        						"measureUnit":column.measureUnit}
+        						"measureUnit":measureUnit}
     				);
     				order++;
     			}
-    			else
-    				column.sourceColumn = "";
     			
 			}
     	}
@@ -1657,21 +1599,19 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.goToColumns  = function(){readPreview(); $scope.currentStep = 'columns';refreshWizardToolbar();};
 	
 	$scope.createDataset = function(dataset) {
+		$scope.saveError = null;
+    	$scope.saveErrors = null;
 		console.log("createDataset START", dataset);
 		var newDataset = dataset;
-		newDataset.configData.tenant=$scope.tenantCode;
-		newDataset.configData.datasetVersion=$scope.tenantCode;
+		newDataset.configData.tenantCode=$scope.tenantCode;
 		newDataset.configData.type = "dataset";
 		newDataset.configData.subtype = "bulkDataset";
 		console.log("dataset qui ", newDataset);
 
 		$scope.upload = $upload.upload({
 	        url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
-			//url: '/datamanagementapi/api/dataset/' + $scope.tenantCode + '/', 
 			
 			method: 'POST',
-	        //headers: {'header-key': 'header-value'},	
-	        //withCredentials: true,
 	        data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding },
 	        file: $scope.selectedFile, // or list of files ($files) for html5 only
 	        fileName: $scope.selectedFile.name,
@@ -1679,21 +1619,19 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	      }).progress(function(evt) {
 	        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 	      }).success(function(data, status, headers, config) {
-	        // file is uploaded successfully
 	        console.log(data);
+	        if(data.errors && data.errors.length>0){
+	        	$scope.saveError = true;
+	        	$scope.saveErrors = data.errors;
+	        	Helpers.util.scrollTo();
+	        }
+	        else{
+	        	$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
+	        }
+	        
 	      });
 
-		/*
-		var promise   = fabricAPImanagement.createDataset($scope.tenantCode, newDataset);
-		promise.then(function(result) {
-			console.log("result qui ", result);
-			$location.path('management/editDataset/'+$scope.tenantCode +'/'+result.data.id);
-		}, function(result) {
-			$scope.creationError = angular.fromJson(result.data);
-			console.log("result.data ", result.data);
-		}, function(result) {
-			console.log('Got notification: ' + result);
-		});*/
+
 	};	
 	
 } ]);
