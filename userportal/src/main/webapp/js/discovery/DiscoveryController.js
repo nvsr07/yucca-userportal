@@ -34,34 +34,57 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", func
 }]);
 */
 
-appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'fabricAPIservice', function($scope, $route, fabricAPIservice, filterFilter) {
+appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryService', function($scope, $route, dataDiscoveryService, filterFilter) {
 	$scope.$route = $route;
 	$scope.activeSearch = 'simpleSearch';
 	$scope.fieldList = Constants.DISCOVERY_FIELDS;
-	
+	$scope.simpleSearchInputVal ;
+	$scope.searchResult=[];
+	$scope.advancedFilters = [];
 	$scope.setActiveSearch = function (activeSearch){
 		$scope.activeSearch = activeSearch;
 	};
 	
-	$scope.searchResult = [
-	                       {name: 'primo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-	                       {name: 'secondo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-	                       {name: 'terzo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-	                       {name: 'quarto', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-	                       {name: 'quinto', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-	                       ];
+	$scope.search = function(SearchInputVal){
+		
+	 dataDiscoveryService.searchSingleFieldInDatasets(SearchInputVal).success(function(response) {
+			console.debug("response Dataset",response.d);
+			$scope.searchResult=response.d.results;
+		});
+//		console.debug("Datasets",datasets);
+	};
+	
+//	$scope.searchResult = [
+//	                       {name: 'primo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
+//	                       {name: 'secondo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
+//	                       {name: 'terzo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
+//	                       {name: 'quarto', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
+//	                       {name: 'quinto', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
+//	                       ];
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.searchResult.length;
 	$scope.predicate = '';
+		
 	
 	var MAX_NUM_ADVANCED_FILTERS = 3;
-	this.advancedFilters = [];
 	for (var int = 0; int <  MAX_NUM_ADVANCED_FILTERS; int++) {
-		this.advancedFilters[int] = {field: null, value: null};
+		$scope.advancedFilters[int] = {field: null, value: null};
 	}
 	
+	
+	$scope.searchAdvanced = function (){
+		console.debug("$scope.advancedFilters : ",$scope.advancedFilters);
+	dataDiscoveryService.searchMultiFieldInDatasets($scope.advancedFilters).success(function(response) {
+			console.debug("response Dataset",response.d);
+			$scope.searchResult=response.d.results;
+		});
+//		for (var int = 0; int <  MAX_NUM_ADVANCED_FILTERS; int++) {
+//			console.debug("advancedFilters" ,$scope.advancedFilters[int]);
+//		}
+		
+	};
 	
 	$scope.scrollTo = function(targetId){
 		console.log("scrollTo", targetId);
