@@ -1188,11 +1188,18 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetCode, newDataset);
 
 		promise.then(function(result) {
-			$scope.updateInfo = {status: result.status};
-			$scope.loadDataset();
-
+			if(result.errors && data.errors.length>0){
+	        	$scope.updateError = true;
+	        	$scope.updateErrors = data.errors;
+	        	Helpers.util.scrollTo();
+	        }
+			else{
+				$scope.updateInfo = {status: "Ok"};
+				$scope.loadDataset();
+			}
 		}, function(result) {
-			$scope.updateError = angular.fromJson(result.data);
+			$scope.updateError = true;
+			$scope.updateErrors = angular.fromJson(result.data);
 			console.log("result.data ", result.data);
 			$scope.loadDataset();
 		}, function(result) {
