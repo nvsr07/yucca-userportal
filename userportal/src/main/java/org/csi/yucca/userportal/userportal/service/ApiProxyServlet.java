@@ -33,6 +33,7 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
 //@WebServlet(description = "Api proxy Servlet", urlPatterns = { "/api/proxy/*" }, asyncSupported = false)
 public abstract class ApiProxyServlet extends HttpServlet {
@@ -204,13 +205,26 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	}
 
 	private String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
+		
+		//FIXME workaround to force security in the datadiscovery 
+		
 		String parameters = cleanParameters(request.getParameterMap());
 		// Properties config = Config.loadServerConfiguration();
 		String path = request.getRequestURI() + parameters;
 
 		path = path.replaceAll(request.getContextPath() + request.getServletPath(), "");
 		// String apiBaseUrl = config.getProperty(Config.API_SERVICES_URL);
-
+		
+		String tenantCode = AuthorizeUtils.getTenantInSession(request);
+		String authString = "";
+		if(request.getRequestURI().contains("/userportal/api/proxy/discovery/Datasets") && path.contains("$filter")){
+			String authparams=  " and (substringof('"+tenantCode+"',tenantCode) or (substringof('public',visibility ))";
+			authString += URLEncoder.encode(authparams,"UTF-8").replace("+","%20") + "&";
+		}else if(request.getRequestURI().contains("/userportal/api/proxy/discovery/Datasets")){
+			String authparams = "substringof('"+tenantCode+"',tenantCode) or substringof('public',visibility )";
+			authString +=  "&$filter="+URLEncoder.encode(authparams,"UTF-8").replace("+","%20") + "&";
+		}
+		path +=authString;
 		return apiBaseUrl + path;
 
 	}
