@@ -24,7 +24,7 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", func
 			result =  ($scope.managementTab == 'virtualentities' || $scope.managementTab == 'editVirtualentity' || $scope.managementTab == 'viewVirtualentity' || $scope.managementTab == 'newVirtualentity');
 			break;
 		case 'datasets':
-			result =  ($scope.managementTab == 'datasets' || $scope.managementTab == 'editDataset' || $scope.managementTab == 'viewDataset' || $scope.managementTab == 'newDataset');
+			result =  ($scope.managementTab == 'datasets' || $scope.managementTab == 'editDataset' || $scope.managementTab == 'viewDataset' || $scope.managementTab == 'newDataset' ||  $scope.managementTab == 'uploadDataset');
 			break;
 		default:
 			break;
@@ -1081,7 +1081,7 @@ appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$lo
 appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', 'info', function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, info) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
-	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_URL + 'download/' + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
+	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
@@ -1379,6 +1379,128 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 //} ]);
 
 
+appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'info', '$upload', 'readFilePreview',  
+                                                           function($scope, $routeParams, fabricAPImanagement, info, $upload, readFilePreview) {
+	$scope.tenantCode = $routeParams.tenant_code;
+	$scope.datasetCode = $routeParams.entity_code;
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+	$scope.selectedFile = null;
+	$scope.updateInfo = null;
+	$scope.updateError = null;
+	$scope.updateErrors = null;
+	console.log("uploadData START", $scope.datasetCode);
+
+	$scope.formatList = ["csv"];
+	
+	$scope.csvSeparator = ";";
+	$scope.fileEncoding = "UTF-8";
+	$scope.importFileType = "csv";
+	$scope.csvSkipFirstRow = true;
+
+	$scope.dataset = null;
+
+	$scope.loadDataset = function(){
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+			console.debug("loadDataset- response",response);
+			$scope.dataset = response.metadata;
+			if(!$scope.dataset)
+				$scope.dataset = new Object();
+			if(!$scope.dataset.info)
+				$scope.dataset.info = new Object();
+			if(!$scope.dataset.info.tags)
+				$scope.dataset.info.tags = [];
+			
+			$scope.dataset.info.visibility = 'public';
+		});
+
+	};
+
+	$scope.loadDataset();
+	
+	$scope.onFileSelect = function($files) {
+		$scope.selectedFile = $files[0];
+		readPreview();
+	};
+	
+	$scope.previewLines = [];
+
+	var readPreview = function(){
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+    	$scope.updateErrors = null;
+		readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
+				function(contents){
+		    		var lines = contents.split(/\r\n|\n/);
+		    		console.log("nr righe", lines.length);
+		    		var firstRows = lines.slice(0, 5);
+		    		$scope.previewLines = [];
+	    			console.log("(firstRows.join",firstRows.join("\n"));
+
+	    			console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator));
+
+	    			$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator);
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
+    };
+	
+	
+	
+	$scope.uploadData = function() {
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+    	$scope.updateErrors = null;
+		console.log("uploadData START");
+
+		$scope.upload = $upload.upload({
+	        url: Constants.API_MANAGEMENT_DATASET_ADD_DATA_URL + $scope.tenantCode + '/'+ $scope.datasetCode + '/', 
+			
+			method: 'POST',
+	        data: {formatType: $scope.importFileType, 
+	        	csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding , skipFirstRow: $scope.csvSkipFirstRow },
+	        file: $scope.selectedFile, // or list of files ($files) for html5 only
+	        fileName: $scope.selectedFile.name,
+
+	      }).progress(function(evt) {
+	        console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+	      }).success(function(data, status, headers, config) {
+	        console.log(data);
+	        if(data.errors && data.errors.length>0){
+	        	$scope.updateError = true;
+	        	$scope.updateErrors = data.errors;
+	        	Helpers.util.scrollTo();
+	        }
+	        else{
+				$scope.updateInfo = {status: "Upload OK"};
+	        }
+	      });
+
+
+	};	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+} ]);
 
 
 appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 
@@ -1481,15 +1603,15 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.accettazioneResponsability=0;
 
 
-
 	$scope.selectedFile = null;
 	$scope.uploadDatasetError = null;
 	$scope.uploadDatasetInfo = null;
 
-	$scope.formatList = ["csv","xml","other"];
+	$scope.formatList = ["csv"];
 	
 	$scope.csvSeparator = ";";
 	$scope.fileEncoding = "UTF-8";
+	$scope.csvSkipFirstRow = true;
 	
 	$scope.onFileSelect = function($files) {
 		$scope.selectedFile = $files[0];
@@ -1619,7 +1741,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	        url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
 			
 			method: 'POST',
-	        data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding },
+	        data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
 	        file: $scope.selectedFile, // or list of files ($files) for html5 only
 	        fileName: $scope.selectedFile.name,
 

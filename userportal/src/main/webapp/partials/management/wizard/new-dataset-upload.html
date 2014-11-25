@@ -31,23 +31,17 @@
 		<p>&nbsp;</p>
 	</div>
 	<div class='row'>
-		<div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 col-lg-offset-1">
-			<strong><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_FORMAT</span></strong>
+		<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
+			<label class="control-label" for="fileFormatSelect" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_FORMAT</span></label>
+			<select class="input-sm form-control" id="fileFormatSelect" ng-model="metadata.info.importFileType" ng-options="format for format in formatList"><option>Choose one...</option></select>
 		</div>
-		<div class="col-lg-3 col-md-3 col-sm-10 col-xs-10">
-			<select class="input-sm form-control" ng-model="metadata.info.importFileType" ng-options="format for format in formatList"><option>Choose one...</option></select>
+		<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
+			<label class="control-label" for="fileEncoding" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING</span></label>
+			<input type="text" class="form-control" ng-model="fileEncoding" id="fileEncoding">
 		</div>
-		<div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 col-lg-offset-1">
-			<strong><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING</span></strong>
-		</div>
-		<div class="col-lg-2 col-md-2 col-sm-10 col-xs-10">
-			<input type="text" class="form-control" ng-model="fileEncoding">
-		</div>
-		<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 col-lg-offset-1">
-			<strong><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span></strong>
-		</div>
-		<div class="col-lg-1 col-md-1 col-sm-10 col-xs-10">
-			<input type="text" class="form-control" ng-model="csvSeparator">
+		<div class="col-lg-4 col-md-2 col-sm-2 col-xs-2">
+			<label class="control-label" for="csvSeparator" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span></label>
+			<input type="text" class="form-control" ng-model="csvSeparator" id="csvSeparator">
 		</div>
 	</div>
 	<div class="row">
