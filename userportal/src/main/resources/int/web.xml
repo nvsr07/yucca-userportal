@@ -29,7 +29,7 @@
 		</init-param>
 		<init-param>
 			<param-name>IdpLoginPageStylePath</param-name>
-			<param-value>http://int-userportal.smartdatanet.it/userportal/css/auth.css</param-value>
+			<param-value>https://int-userportal.smartdatanet.it/ris/auth.css</param-value>
 		</init-param>
 	</servlet>
 </web-app>     

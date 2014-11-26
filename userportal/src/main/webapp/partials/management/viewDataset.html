@@ -62,49 +62,6 @@
 					</table>
 				</div>
 			</div>
-		<!-- 
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_CONFIGDATA_CODE</span></strong></div>
-				<div class="col-sm-9">{{dataset.datasetCode}} - V {{dataset.datasetVersion}} - <small class='mute'>{{dataset.info.registrationDate|date}}</small></div>
-			</div>			
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_METADATA_NAME</span></strong></div>
-				<div class='col-sm-9'>{{dataset.info.datasetName}}</div>
-			</div>	
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_METADATA_DESCRIPTION</span></strong></div>
-				<div class='col-sm-9'>{{dataset.info.description}}</div>
-			</div>	 
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
-				<div class='col-sm-9'>
-					<ul class="list-inline">
-						<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
-					</ul>
-				</div>
-			</div>	
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong></div>
-				<div class='col-sm-9'>{{dataset.info.dataDomain|translate}}</div>
-			</div>	
-			<div class='card-label-separator'><span translate>MANAGEMENT_EDIT_DATASET_OTHER_INFO</span></div>
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_METADATA_FPS</span></strong></div>
-				<div class='col-sm-9'>{{dataset.info.fps}}</div>
-			</div>	
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_METADATA_LICENSE</span></strong></div>
-				<div class='col-sm-9'>{{dataset.info.license}}</div>
-			</div>	
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong></div>
-				<div class='col-sm-9'>{{dataset.info.disclaimer}}</div>
-			</div>	
-			<div class="row card-row">
-				<div class="col-sm-3 card-label"><strong><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong></div>
-				<div class='col-sm-9'>{{dataset.info.copyright}}</div>
-			</div>	 -->
-
 		</div>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="alert alert-info" role="alert">
@@ -118,10 +75,10 @@
 					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
 				</a>
 				<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()">
-					<span class="glyphicon glyphicon glyphicon-import "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
+					<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
 				</a>
 				<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset"  >
-					<span class="glyphicon glyphicon-download-alt "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
+					<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 				</a>
 			</div>
 		</div>

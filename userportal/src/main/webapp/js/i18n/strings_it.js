@@ -175,11 +175,7 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
 	
 	/* Dataset placeholder */
-	DATASET_FIELD_CONFIGDATA_ID_PLACEHOLDER : 'es.  definire come generarlo',
 	DATASET_FIELD_NAME_PLACEHOLDER : 'es. musei torino 2014',
-	DATASET_FIELD_COLUMNS_CODE_PLACEHOLDER : 'es. id',
-	DATASET_FIELD_COLUMNS_SEMANTIC_PLACEHOLDER : 'es. identificativo',
-	DATASET_FIELD_COLUMNS_DATATYPE_PLACEHOLDER : 'es. long',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER: 'key',
 	
 	
@@ -466,7 +462,6 @@ var translations_it = {
 
 	/* Management upload dataset*/
 	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Carica dati',
-	
 	MANAGEMENT_EDIT_DATASET_SUBTITLE: 'Modifica ', 
 	MANAGEMENT_EDIT_DATASET_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
 	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
@@ -490,10 +485,6 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Informazioni generali',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Definizione struttura dato',
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'Per la struttura del dato &eacute; possibile modificare solo gli alias delle colonne',
-//	MANAGEMENT_EDIT_DATASET_ADD_COLUMN : 'Aggiungi', 
-//	MANAGEMENT_EDIT_DATASET_REMOVE_COLUMN : 'Elimina', 
-//	MANAGEMENT_EDIT_DATASET_MOVEUP_COLUMN : 'Sposta in alto', 
-//	MANAGEMENT_EDIT_DATASET_MOVEDOWN_COLUMN : 'Sposta in basso', 
 
 	MANAGEMENT_EDIT_DATASET_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_DATASET_SETTINGS: 'Settings (coming soon)',
@@ -505,12 +496,10 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN: 'Sono presenti degli errori',
 	MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR: 'Numero di errori',
 	
-	
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_SUBTITLE: 'Aggiunta dati',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON: 'Fine aggiunta dati',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON: 'Carica dati',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO: 'Dati caricati: ', 
-		
 		
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',

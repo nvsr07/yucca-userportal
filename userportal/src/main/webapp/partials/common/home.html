@@ -30,11 +30,11 @@
 		</div>
 		<div class='row-separator'></div>
 		<div class="row tile-row">
-			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 dashboard-menu' >
+			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 dashboard-menu ' >
 				<div class='tile'>
 					<div class='tile-main'>
 						<div class="glyphicon glyphicon-dashboard main-icon"></div>
-						<h3>{{'MENU_DASHBOARD'|translate}}</h3>
+						<div class='tile-subtitle'>{{'MENU_DASHBOARD'|translate}}</div>
 					</div>
 				
 					<div class='tile-menuitem'><a href="#/dashboard/main/overview">{{'DASHBOARD_DASHBOARD_BUTTON'|translate}}</a></div>
@@ -42,11 +42,11 @@
 					<div class='tile-menuitem'><a href="#/dashboard/error_log">{{'DASHBOARD_ERROR_LOG_BUTTON'|translate}}</a></div>
 				</div>
 			</div>	
-			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 management-menu' >
+			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 management-menu ' >
 				<div class='tile'>
 					<div class='tile-main'>
 						<div class="glyphicon glyphicon-wrench main-icon"></div>
-						<h3>{{'MENU_MANAGEMENT'|translate}}</h3>
+						<div class='tile-subtitle'>{{'MENU_MANAGEMENT'|translate}}</div>
 					</div>
 				
 					<div class='tile tile-menuitem'><a href="#/management/virtualentities/{{tenant}}">{{'MANAGEMENT_MENU_VIRTUAL_ENTITIES'|translate}}</a></div>
@@ -54,7 +54,60 @@
 					<div class='tile tile-menuitem'><a href="#/management/datasets/{{tenant}}">{{'MANAGEMENT_MENU_DATASET'|translate}}</a></div>
 				</div>
 			</div>	
+			<div>
+				
+			</div>
+			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 '>
+				<div class="row">
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-8 discovery-menu small-padding' >
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class=''> <span class='main-icon glyphicon glyphicon-search'></span>
+								</div> 
+								<div class='tile-subtitle tile-subtitle-link'><a href="#/discovery/">{{'HOME_SEARCH_TITLE'|translate}}</a></div>
+							</div>
+						</div>
+					</div>
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4 about-menu small-padding'>
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class=''><span class=' main-icon glyphicon glyphicon-globe'></span></div> 
+								<div class='tile-subtitle tile-subtitle-link'><a href="#/discovery/"><small>smartdatanet.it</small></a></div>
+							</div>
+						</div>
+					</div>
+				</div>
 
+				<div class="row">
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4  tenant-menu small-padding'>
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class='tile-counter'>{{tenantsCount}}</div>
+								<div class='tile-subtitle tile-subtitle-small'>{{'HOME_TENANT_TITLE'|translate}}</div>
+							</div>
+							
+						</div>
+					</div>
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4  virtualentity-menu small-padding'>
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class='tile-counter'>{{virtualentitiesCount}}</div>
+								<div class='tile-subtitle tile-subtitle-small'>{{'HOME_VIRTUALENTITY_TITLE'|translate}}</div>
+							</div>
+							
+						</div>
+					</div>
+					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4 stream-menu small-padding'>
+						<div class='tile'>
+							<div class='tile-main'>
+								<div class='tile-counter'>{{streamsCount}}</div>
+								<div class='tile-subtitle tile-subtitle-small'>{{'HOME_STREAM_TITLE'|translate}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 
 			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6'>
 				<div class="row">
 					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  tenant-menu'>
@@ -90,14 +143,12 @@
 						<div class='tile'>
 							<div class='tile-main'>
 								<div class='tile-counter'><span class='glyphicon glyphicon-search'></span></div> 
-								<!--  <div class='tile-counter'><span class='glyphicon glyphicon-globe'></span></div> -->
 							</div>
 							<div class='tile-subtitle-link'><a href="#/discovery/">{{'HOME_SEARCH_TITLE'|translate}}</a></div>
-							<!-- <div class='tile-subtitle-link'><a href="http://www.smartdatanet.it" target="_blank">smartdatanet.it</a></div> -->							
 						</div>
 					</div>
 				</div>	
-			</div>
+			</div>-->
 		</div>
 		<div class='row-separator'></div>
 		<h2>{{'HOME_HOWTO_TITLE'|translate}}</h2>
