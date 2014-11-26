@@ -68,7 +68,7 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 } ]);
 
 
-appControllers.controller('DashboardCtrl', [ '$scope', 'fabricAPIservice', function($scope, fabricAPIservice, filterFilter) {
+appControllers.controller('DashboardCtrl', [ '$scope','$routeParams', 'fabricAPIservice', function($scope,$routeParams, fabricAPIservice, filterFilter) {
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
 	$scope.tenantsFilter = null;
@@ -80,7 +80,16 @@ appControllers.controller('DashboardCtrl', [ '$scope', 'fabricAPIservice', funct
 
 	fabricAPIservice.getStreams().success(function(response) {
 		// Dig into the responde to get the relevant data
-		$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+		
+		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+		for (var i = 0; i < responseList.length; i++) {
+			if(responseList[i].visibility && responseList[i].visibility=="public" || responseList[i].codiceTenant==$routeParams.tenant_code){
+				$scope.streamsList.push(responseList[i]);					
+			}
+		}
+		
+		
+//		$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < $scope.streamsList.length; i++) {
 			$scope.streamsList[i].statusIcon = Helpers.stream.statusIcon($scope.streamsList[i]);;
 		}

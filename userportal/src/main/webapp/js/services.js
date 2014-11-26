@@ -244,13 +244,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		});
 	};
 
-	fabricAPI.getStreams = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_LIST_URL + '?callback=JSON_CALLBACK'
-		});
-	};
-
+	
 	fabricAPI.getStreams = function(tenant_code) {
 		var tenantUrl = '';
 		if(tenant_code)

@@ -77,8 +77,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		return info.isOwner( $scope.tenantCode);
 	};
 
-	fabricAPIservice.getStreams(/*$scope.tenantCode*/).success(function(response) {
-		// FIXME remove when the new api with tenant parameterwill be ready
+	fabricAPIservice.getStreams($scope.tenantCode).success(function(response) {
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
