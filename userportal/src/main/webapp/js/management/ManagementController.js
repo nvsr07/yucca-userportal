@@ -344,10 +344,29 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
 
-	$scope.stream = null;
+	$scope.stream = {};
+//	$scope.stream.saveData = '0';
+//	$scope.stream.visibility = 'public';
+//	$scope.stream.publish = 0;
 	$scope.loadStream = function(){
 		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).success(function(response) {
 			$scope.stream = response.streams.stream;
+			
+			if($scope.stream.saveData==1){
+				$scope.saveData=true;
+			}else{
+				$scope.saveData=false;
+			}
+			
+			if($scope.stream.publish==1){
+				$scope.publish=true;
+			}else{
+				$scope.publish=false;
+			}
+			
+			if($scope.stream.visibility==null){
+				$scope.stream.visibility = 'public';
+			}
 			console.debug("$scope.stream internal before clean",$scope.stream);
 			if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
 				$scope.stream.streamInternalChildren={};
@@ -380,9 +399,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.componenti = new Object();
 			$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
 
-			$scope.stream.saveData = '0';
-			$scope.stream.visibility = 'public';
-			$scope.stream.publish = 0;	
+
 			if(!$scope.stream.deploymentStatusCode || $scope.stream.deploymentStatusCode == null)
 				$scope.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 
