@@ -55,6 +55,7 @@ Constants.DISCOVERY_FIELDS = [
                               {key:Constants.DISCOVERY_FIELD_FPS, api_key: 'fps', discrete: false},
                               {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'measureUnit', discrete: true},
                               ];
-		
+
+Constants.BULK_DATASET_MAX_FILE_SIZE = 10000000;
 
 

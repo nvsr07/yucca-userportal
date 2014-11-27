@@ -345,13 +345,13 @@ small pre{font-size: 11px;padding: 4px;}
 	.navbar-collapse .nav > .space-vertical {  display: none; }
 }
 
-.portalinfo-tile .tile-main{background-color: #efefef; color: black;  }
-.portalinfo-tile .tile-main a{background-color: #efefef; color: black; padding: 0px; display: inline-block;width:auto; font-weight: bold;padding-right: 2em;}
-.portalinfo-tile img{background-color: #efefef;height: auto; }
-.portalinfo-tile .tile-subtitle {padding: 0px;}
-.portalinfo-tile .tile-subtitle a {background-color: #e1e1e1; color: #000;}
-.portalinfo-tile .tile-uptitle{background-color: #e1e1e1; color: #000; display: block;width: 100%;height: 100%; padding: 1em;font-size: larger;}
-.portalinfo-tile .tile-subtitle a:hover{background-color: #d2d2d2; color: #000; }
+.portalinfo-tile .tile-main{background-color: #ecf0f1; color: black;  padding: 1em; }
+.portalinfo-tile .tile-main a{background-color: #ecf0f1; color: black; padding: 0px; display: inline-block;width:auto; }
+.portalinfo-tile img{background-color: #ecf0f1;height: auto; padding-left: 1em; }
+.portalinfo-tile .tile-subtitle {padding: 0px; margin-top: 0;}
+.portalinfo-tile .tile-subtitle a {background-color: #c7d5d8; color: #000;}
+.portalinfo-tile .tile-uptitle, .portalinfo-tile .tile-subtitle{background-color: #c7d5d8; color: #000; display: block;width: 100%;height: 100%; padding: 1em;font-size: larger;}
+.portalinfo-tile .tile-subtitle a:hover{background-color: #94afb5; color: #000; }
 .portalinfo-tile .tile-4 img{ width: 200px;}
 
 
@@ -359,7 +359,7 @@ small pre{font-size: 11px;padding: 4px;}
 #userportal-info .intro{padding-top: 2em;}
 #userportal-info .intro h2{text-align: center; font-weight: 300pt;}
 #userportal-info .intro p{ font-size:16pt; line-height:2em;font-weight: 300pt;}
-#userportal-info .intro p strong{ background:none repeat scroll 0 0 #efefef;  display:inline-block; padding:0.1em 0.4em; -ms-transform: rotate(-4deg);  -webkit-transform: rotate(-4deg);  transform: rotate(-4deg);}
+#userportal-info .intro p strong{ background:none repeat scroll 0 0 #ecf0f1;  display:inline-block; padding:0.1em 0.4em; -ms-transform: rotate(-4deg);  -webkit-transform: rotate(-4deg);  transform: rotate(-4deg);}
 #userportal-info .tile-img{display: block; min-height: 109px; }
 .angularjs-color{color: #c4473a;}
 .javascript-color{color: #d6ba32;}

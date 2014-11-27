@@ -1378,16 +1378,19 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 //} ]);
 
 
-appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'info', '$upload', 'readFilePreview',  
-                                                           function($scope, $routeParams, fabricAPImanagement, info, $upload, readFilePreview) {
+appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'info', '$upload', 'readFilePreview','$translate',  
+                                                           function($scope, $routeParams, fabricAPImanagement, info, $upload, readFilePreview, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
+	$scope.maxFileSize = Constants.BULK_DATASET_MAX_FILE_SIZE;
+	$scope.choosenFileSize = null;
 	$scope.selectedFile = null;
 	$scope.updateInfo = null;
+	$scope.updateWarning = null;
 	$scope.updateError = null;
 	$scope.updateErrors = null;
 	console.log("uploadData START", $scope.datasetCode);
@@ -1421,7 +1424,14 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 	
 	$scope.onFileSelect = function($files) {
 		$scope.selectedFile = $files[0];
-		readPreview();
+		if($scope.selectedFile !=null && $scope.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
+			$scope.choosenFileSize = $scope.selectedFile.size; 
+			$scope.updateWarning = true;
+			$scope.selectedFile = null;
+			$scope.previewLines = null;
+		}
+		else
+			readPreview();
 	};
 	
 	$scope.previewLines = [];
@@ -1430,8 +1440,12 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 		$scope.updateInfo = null;
 		$scope.updateError = null;
     	$scope.updateErrors = null;
+    	$scope.updateWarning = null;
 		readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
 				function(contents){
+					
+					
+					
 		    		var lines = contents.split(/\r\n|\n/);
 		    		console.log("nr righe", lines.length);
 		    		var firstRows = lines.slice(0, 5);
@@ -1455,6 +1469,7 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 		$scope.updateInfo = null;
 		$scope.updateError = null;
     	$scope.updateErrors = null;
+    	$scope.updateWarning = null;
 		console.log("uploadData START");
 
 		$scope.upload = $upload.upload({
@@ -1612,8 +1627,22 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.fileEncoding = "UTF-8";
 	$scope.csvSkipFirstRow = true;
 	
+	$scope.choosenFileSize = null;
+	$scope.updateWarning = null;
+	$scope.maxFileSize = Constants.BULK_DATASET_MAX_FILE_SIZE;
+	$scope.choosenFileSize = null;
+
 	$scope.onFileSelect = function($files) {
+		$scope.updateWarning = null;
 		$scope.selectedFile = $files[0];
+		if($scope.selectedFile !=null && $scope.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
+			$scope.choosenFileSize = $scope.selectedFile.size; 
+			$scope.updateWarning = true;
+			$scope.selectedFile = null;
+			$scope.previewLines = null;
+		}
+		else
+			readPreview();
 	};
 	
 	$scope.previewLines = [];

@@ -26,13 +26,39 @@
 			<p>&nbsp;</p>
 		</div>
 		<div class='row'>
+			<p class=""><small><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE</span><strong>{{maxFileSize|format_filesize}}</strong></small></p>
+		</div>
+		<div class='row'>
+			<p>&nbsp;</p>
+		</div>
+		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<p>File: <strong>{{selectedFile.name}}</strong> <small><span class='mute'> - Type: {{selectedFile.type}} - Size:
 						{{selectedFile.size|format_filesize}}</span></small></p>
 			</div>
 		</div>
-		<div class='row'>
-			<p>&nbsp;</p>
+		<div class="alert alert-success" ng-show='updateInfo'>
+			<strong translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO</strong> {{updateInfo.status}}
+		</div>
+		<div class="alert alert-warning" ng-show='updateWarning'>
+			<strong translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE</strong> <span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG</span> - {{choosenFileSize|format_filesize}}
+		</div>
+		
+		<div class="alert alert-danger management-upload-column-error-panel " ng-show='updateError'>
+			<div>
+				<strong><span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
+				<span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
+			</div>
+			<div class='row  text-left' >
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><strong><small>Error</small></strong></div>
+				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"><strong><small>Detail</small></strong></div>
+			</div>
+			<div class='new-dataset-wizard-error-list'>
+				<div class='row  text-left' ng-repeat="error in updateErrors">
+					<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
+					<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
+				</div>		
+			</div>
 		</div>
 		<div class='row'>
 			<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
@@ -47,6 +73,9 @@
 				<label class="control-label" for="csvSeparator" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span></label>
 				<input type="text" class="form-control" ng-model="csvSeparator" id="csvSeparator">
 			</div>
+		</div>
+		<div class='row'>
+			<p>&nbsp;</p>
 		</div>
 		<div ng-show="previewLines!=null && previewLines.length>0">
 			<div class='row'>
@@ -73,29 +102,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="alert alert-success" ng-show='updateInfo'>
-			<strong translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO</strong> {{updateInfo.status}}
-		</div>
-		<div class="alert alert-danger management-upload-column-error-panel " ng-show='updateError'>
-			<div>
-				<strong><span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
-				<span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
-			</div>
-			<div class='row  text-left' >
-				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><strong><small>Error</small></strong></div>
-				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"><strong><small>Detail</small></strong></div>
-			</div>
-			<div class='new-dataset-wizard-error-list'>
-				<div class='row  text-left' ng-repeat="error in updateErrors">
-					<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
-					<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
-				</div>		
-			</div>
-		</div>
 		<div class="row">
 			<div class=" col-sm-12 form-toolbar">
 				<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON</a>
-				<a ng-click='uploadData()' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || previewLines==null" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>
+				<a ng-click='uploadData()' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || selectedFile==null" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>
 			</div>
 		</div>	
 	</form>
