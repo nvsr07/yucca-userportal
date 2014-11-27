@@ -455,7 +455,6 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE: 'Dimensione massima dei file supportata: ',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE: 'Attenzione',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG: 'La dimensione del file selezionato supera la quota limite',
-
 	
 	MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT: 'Salta colonna', 
 	MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT: 'Modifica ordine colonne',
