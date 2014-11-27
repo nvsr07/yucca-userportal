@@ -26,7 +26,7 @@ public enum ApiEntityEnum {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			boolean auth = false;
-			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request)))
+			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || !AuthorizeUtils.getElementInPositionByRequest(request, 3).equals("")  || AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request)))
 				auth=true;
 			return  auth;
 //			return AuthorizeUtils.isReadMethod(request)
@@ -37,7 +37,7 @@ public enum ApiEntityEnum {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			boolean auth = false;
-			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request)))
+			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || !AuthorizeUtils.getElementInPositionByRequest(request, 3).equals("")|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request)))
 				auth=true;
 			return  auth;
 		}
