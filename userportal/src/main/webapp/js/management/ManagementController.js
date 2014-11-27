@@ -182,7 +182,7 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 		console.debug("result managementnew stream", result);
 		$scope.user = result.user;
 		console.debug("info user", $scope.user);
-		if($scope.user!=undefined){
+		if($scope.user!=undefined && $scope.user.loggedIn==true){
 			$scope.stream.nomeRichiedente=$scope.user.firstname;
 			$scope.stream.cognomeRichiedente=$scope.user.lastname;
 			$scope.stream.mailRichiedente=$scope.user.email;
@@ -1601,7 +1601,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		console.debug("result managementnew stream", result);
 		$scope.user = result.user;
 		console.debug("info user", $scope.user);
-		if($scope.user!=undefined){
+		if($scope.user!=undefined && $scope.user.loggedIn==true){
 			$scope.metadata.info.requestorName=$scope.user.firstname;
 			$scope.metadata.info.requestorSurname=$scope.user.lastname;
 			$scope.metadata.info.requestornEmail=$scope.user.email;
