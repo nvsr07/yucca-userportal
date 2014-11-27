@@ -174,7 +174,21 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
-
+	$scope.user = {};
+	
+	
+	$scope.stream={};
+	fabricAPIservice.getInfo().success(function(result) {
+		console.debug("result managementnew stream", result);
+		$scope.user = result.user;
+		console.debug("info user", $scope.user);
+		if($scope.user!=undefined){
+			$scope.stream.nomeRichiedente=$scope.user.firstname;
+			$scope.stream.cognomeRichiedente=$scope.user.lastname;
+			$scope.stream.mailRichiedente=$scope.user.email;
+		}
+	});
+	
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
