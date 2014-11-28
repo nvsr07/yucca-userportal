@@ -74,7 +74,7 @@
 				<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit()">
 					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
 				</a>
-				<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()">
+				<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData()">
 					<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
 				</a>
 				<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset"  >

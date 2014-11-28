@@ -1,14 +1,15 @@
 <p>&nbsp;</p>
-<div class='clearfix' id='discovery-results-panel'>
-	<div class='pull-left'> <span translate>DISCOVERY_RESULTS_SIZE_LABEL</span>: <strong>{{searchResult.length}}</strong></div>
-	<div class='pull-right'>
-		<a href='javascript:void(0);' ng-click='scrollTo("discovery-filter-panel")'><span class="glyphicon glyphicon-chevron-up"></span><span translate>DISCOVERY_BACK_FILTER_LABEL</span></a>
+<div class='clearfix subtitle-container'  id='discovery-results-panel'>
+	<h2 class='pull-left'>
+		<span translate>DISCOVERY_RESULTS_TITLE</span>&nbsp; <small><span translate>DISCOVERY_RESULTS_SIZE_LABEL</span>: <strong>{{searchResult.length}}</strong></small>
+	</h2>
+	<div class='pull-right subtilte-inner-floating'>
+		<a href='javascript:void(0);' ng-click='scrollTo("discovery-filter-anchor")'><span class="glyphicon glyphicon-chevron-up"></span><span translate>DISCOVERY_BACK_FILTER_LABEL</span></a>
 	</div>
-		
 </div>
 <p>&nbsp;</p>
 <div class='row'>
-	<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12" >
+	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 " >
 		
 		<div class="table-responsive">
 			<table class="table table-striped">
@@ -17,11 +18,14 @@
 						<th ng-repeat="field in fieldList">
 							<a href=""><span ng-bind-html="field.key|translate"></span></a>
 						</th>
+						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in searchResult | orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
-						<td ng-repeat="field in fieldList">{{item[field.api_key]}}</td>
+						<td><a href="javascript:void(0)" ng-click='showDetail($index)'>{{item[fieldList[0].api_key]}}</a></td>
+						<td ng-repeat="field in fieldList"  ng-show="!$first">{{item[field.api_key]}}</td>
+						<td><a href="javascript:void(0)" ng-click='showDetail($index)' class='btn btn-default btn-xs'><small><span translate>DISCOVERY_RESULTS_DETAIL_BUTTON</span></small></a></td>
 					</tr>
 				</tbody>
 			</table>

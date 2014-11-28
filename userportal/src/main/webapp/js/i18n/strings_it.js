@@ -145,6 +145,7 @@ var translations_it = {
 		
 	/* Dataset */
 	DATASET_FIELD_ID: 'ID',
+	DATASET_FIELD_VERSION: 'Versione',
 	DATASET_FIELD_CONFIGDATA_ID: 'Id Dataset',
 	DATASET_FIELD_CONFIGDATA_CODE: 'Codice',
 	DATASET_FIELD_CONFIGDATA_TENANT: 'Organizzazione',
@@ -504,7 +505,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON: 'Fine aggiunta dati',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON: 'Carica dati',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO: 'Dati caricati: ', 
-
+		
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',
 	MANAGEMENT_CHOOSE_TENANT_WARNING: 'Pagina temporanea in attesa del sistema di autenticazione',
@@ -518,6 +519,7 @@ var translations_it = {
 	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. acqua oppure tags:AIR',
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong>'+
 	', <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i> ',
+	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filtro', 
 	DISCOVERY_FILTER_SEARCH_BUTTON: 'Cerca',
 	
 	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Scegli un campo',
@@ -526,11 +528,24 @@ var translations_it = {
 	
 	DISCOVERY_BACK_FILTER_LABEL: 'Torna ai filtri di ricerca',
 	DISCOVERY_BACK_RESULT_LABEL: 'Torna ai risultati',
+	
+	DISCOVERY_RESULTS_TITLE: 'Esito ricerca',
+	DISCOVERY_RESULTS_DETAIL_BUTTON: 'Dettaglio',
+	
+	DISCOVERY_DETAIL_DATASET_LEGAL_INFO: 'Legal Info',
+	DISCOVERY_DETAIL_DATASET_COLUMNS: 'Definizione struttura dato',
+	DISCOVERY_DETAIL_ACCESS_DATA_TITLE: 'Accesso ai dati', 
+	DISCOVERY_DETAIL_ACCESS_DATA_API: 'Url di accesso alle API OData',
+	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET: 'Fruzione dello stream in real time con web socket',
+	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL: 'Server URL',
+	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL: 'Topic', 
+		
+		
 
 	/* Discovery fields */
 	DISCOVERY_FIELD_TITLE: 'Nome',
 	DISCOVERY_FIELD_TAG: 'Tag',
-	DISCOVERY_FIELD_LICENCE: 'Licenza',
+	DISCOVERY_FIELD_LICENSE: 'Licenza',
 	DISCOVERY_FIELD_TENANT: 'Organizzazione',
 	DISCOVERY_FIELD_FPS: 'FPS',
 	DISCOVERY_FIELD_UNIT_OF_MEASUREMENT: 'Unit&agrave; di Misura',

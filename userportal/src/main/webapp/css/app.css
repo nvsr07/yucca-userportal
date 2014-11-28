@@ -26,6 +26,8 @@ footer .last-row{padding: 2em; margin: 2em; text-align: center; border-top: soli
 footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 
 .title-container{ border-bottom:3px solid #009640; border-top:0px; margin-bottom:1em; color: #333;	}
+.subtitle-container{ border-bottom:3px solid #009640; border-top:0px; margin-bottom:1em; color: #333;	}
+.subtilte-inner-floating{margin-top: 30px;}
 
 .icon-warning{color: #edd400;}
 
@@ -304,6 +306,7 @@ small pre{font-size: 11px;padding: 4px;}
 .section-dashboard .btn-default.active, .section-dashboard .btn-default:hover {background-color: #1074c2!important; color: white;  }
 .section-dashboard .btn-default {background-color: #1CBDF1;color: white!important; border: none; }
 .section-dashboard .title-container{background-color:white;  border-bottom:3px solid #1074c2; border-top: 0px; margin-bottom:1em;	}
+.section-dashboard .subtitle-container{background-color:white;  border-bottom:3px solid #1CBDF1; border-top: 0px; margin-bottom:1em;	}
 .section-dashboard a{color: #1074c2;}
 .section-dashboard .pagination>.active>a, .section-dashboard .pagination>.active>span, .section-dashboard .pagination>.active>a:hover, .section-dashboard .pagination>.active>span:hover, .section-dashboard .pagination>.active>a:focus, .section-dashboard .pagination>.active>span:focus{background-color: #1074c2;border-color: #1074c2; color: white;}
 .section-dashboard .pagination>li>a:hover, .section-dashboard .pagination>li>span:hover, .pagination>li>a:focus, .section-dashboard .pagination>li>span:focus,.section-dashboard .pagination>li>a:hover{color: #054678}
@@ -315,6 +318,7 @@ small pre{font-size: 11px;padding: 4px;}
 .section-management .btn-default.active, .section-management .btn-default:hover {background-color: #662577!important; color: white;  }
 .section-management .btn-default {background-color: #9F4F98;color: white!important; border: none; }
 .section-management .title-container{background-color:white;  border-bottom:3px solid #662577; border-top: 0px; margin-bottom:1em;	}
+.section-management .subtitle-container{background-color:white;  border-bottom:3px solid #9F4F98; border-top: 0px; margin-bottom:1em;	}
 .section-management a{color: #662577;}
 .section-management .pagination>.active>a, .section-management .pagination>.active>span, .section-management .pagination>.active>a:hover, .section-management .pagination>.active>span:hover, .section-management .pagination>.active>a:focus, .section-management .pagination>.active>span:focus{background-color: #662577;border-color: #662577; color: white;}
 .section-management .pagination>li>a:hover, .section-management .pagination>li>span:hover, .pagination>li>a:focus, .section-management .pagination>li>span:focus,.section-management .pagination>li>a:hover{color: #054678}
@@ -332,6 +336,7 @@ small pre{font-size: 11px;padding: 4px;}
 .section-discovery .btn-default.active, .section-discovery .btn-default:hover {background-color: #2c3e50!important; color: white;  }
 .section-discovery .btn-default {background-color: #34495e;color: white!important; border: none; }
 .section-discovery .title-container{background-color:white;  border-bottom:3px solid #2c3e50; border-top: 0px; margin-bottom:1em;	}
+.section-discovery .subtitle-container{background-color:white;  border-bottom:3px solid #34495e; border-top: 0px; margin-bottom:1em;	}
 .section-discovery a{color: #2c3e50;}
 .section-discovery .pagination>.active>a, .section-discovery .pagination>.active>span, .section-discovery .pagination>.active>a:hover, .section-discovery .pagination>.active>span:hover, .section-discovery .pagination>.active>a:focus, .section-discovery .pagination>.active>span:focus{background-color: #2c3e50;border-color: #2c3e50; color: white;}
 .section-discovery .pagination>li>a:hover, .section-discovery .pagination>li>span:hover, .pagination>li>a:focus, .section-discovery .pagination>li>span:focus,.section-discovery .pagination>li>a:hover{color: #054678}
@@ -396,6 +401,13 @@ small pre{font-size: 11px;padding: 4px;}
 .management-table-upload-column tr{border: solid #ccc 1px; border-radius: 4px; }
 
 .management-dataset-download-link{font-size: 12pt; font-weight: bold; font-family: monospace;}
+
+/* discovery */
+.section-discovery .discovery-api-link{font-size: 12pt; font-weight: bold; font-family: monospace; color: #3498DB;}
+.section-discovery .discovery-websocket-server-link{font-size: 12pt; font-weight: bold; font-family: monospace;  color: #34495e;}
+.section-discovery .discovery-websocket-link{font-size: 12pt; font-weight: bold; font-family: monospace;  color: #F1C40F;}
+.section-discovery .discovery-download-link{font-size: 12pt; font-weight: bold; font-family: monospace; 	color: #7AB100}
+
 
 
 /*

@@ -9,39 +9,39 @@
 	</div>
 	<p>&nbsp;</p>
 	<div>
-	<div class="animate-switch-container" ng-switch on="activeSearch">
-		<div class="animate-switch" ng-switch-default>
-			<form role="form" class="">
-				<div class="form-group">
-				
-					<input type="text" class="form-control input-lg" ng-model="simpleSearchInputVal" id="simpleSearchInput" placeholder="{{'DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER'|translate}}">
-					<p class="help-block">
-						<span ng-bind-html="'DISCOVERY_FILTER_SIMPLESEARCH_HELP'|translate"></span>
-					</p>
-				</div>
-				<div class="form-group">
-					<button type="submit" ng-click="search(simpleSearchInputVal)" class="btn btn-default btn-lg pull-right"><span class="glyphicon glyphicon-search"></span>&nbsp;<span translate>DISCOVERY_FILTER_SEARCH_BUTTON</span></button>
-				</div>
-			</form>
-		</div>
-		<div class="animate-switch" ng-switch-when="advancedSearch">
-			<form class="form-horizontal" role="form" >
-				<div class="form-group" ng-repeat="filter in advancedFilters">
-					<label for="filter1" class="col-sm-2 control-label">Filter {{$index+1}}</label>
-					<div class="col-sm-5">
-						<select class="form-control  input-lg"  ng-model="advancedFilters[$index].field">
-							<option value="" translate>DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER</option>
-							<option value="{{field.api_key}}" ng-repeat="field in fieldList"  ng-bind-html="field.key|translate|unsafe"></option>
-						</select>
+		<div class="animate-switch-container" ng-switch on="activeSearch">
+			<div class="animate-switch" ng-switch-default>
+				<form role="form" class="">
+					<div class="form-group">
+					
+						<input type="text" class="form-control input-lg" ng-model="simpleSearchInputVal" id="simpleSearchInput" placeholder="{{'DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER'|translate}}">
+						<p class="help-block">
+							<span ng-bind-html="'DISCOVERY_FILTER_SIMPLESEARCH_HELP'|translate"></span>
+						</p>
 					</div>
-					<div class="col-sm-5">
-						<input type="text" class="form-control  input-lg" ng-model="advancedFilters[$index].value"  id="inputStreamName" >
+					<div class="form-group">
+						<button type="submit" ng-click="search(simpleSearchInputVal)" class="btn btn-default btn-lg pull-right"><span class="glyphicon glyphicon-search"></span>&nbsp;<span translate>DISCOVERY_FILTER_SEARCH_BUTTON</span></button>
 					</div>
-				</div>
-				<div class="form-group">
-					<button type="submit"  ng-click="searchAdvanced()" class="btn btn-default btn-lg pull-right"><span class="glyphicon glyphicon-search"></span>&nbsp;<span translate>DISCOVERY_FILTER_SEARCH_BUTTON</span></button>
-				</div>
-			</form>
+				</form>
+			</div>
+			<div class="animate-switch" ng-switch-when="advancedSearch">
+				<form class="form-horizontal" role="form" >
+					<div class="form-group" ng-repeat="filter in advancedFilters">
+						<label for="filter1" class="col-sm-2 control-label"><span translate>DISCOVERY_FILTER_ADVANCED_FILTER_LABEL</span></label>
+						<div class="col-sm-5">
+							<select class="form-control  input-lg"  ng-model="advancedFilters[$index].field">
+								<option value="{{field.api_key}}" ng-repeat="field in fieldList"  ng-bind-html="field.key|translate|unsafe"></option>
+							</select>
+						</div>
+						<div class="col-sm-5">
+							<input type="text" class="form-control  input-lg" ng-model="advancedFilters[$index].value"  id="inputStreamName" >
+						</div>
+					</div>
+					<div class="form-group">
+						<button type="submit"  ng-click="searchAdvanced()" class="btn btn-default btn-lg pull-right"><span class="glyphicon glyphicon-search"></span>&nbsp;<span translate>DISCOVERY_FILTER_SEARCH_BUTTON</span></button>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

@@ -46,22 +46,13 @@ appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryS
 	};
 	
 	$scope.search = function(SearchInputVal){
-		
-	 dataDiscoveryService.searchSingleFieldInDatasets(SearchInputVal).success(function(response) {
+		dataDiscoveryService.searchSingleFieldInDatasets(SearchInputVal).success(function(response) {
 			console.debug("response Dataset",response.d);
 			$scope.searchResult=response.d.results;
+			$scope.scrollTo("discovery-results-anchor");
 		});
-//		console.debug("Datasets",datasets);
 	};
 	
-//	$scope.searchResult = [
-//	                       {name: 'primo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-//	                       {name: 'secondo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-//	                       {name: 'terzo', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-//	                       {name: 'quarto', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-//	                       {name: 'quinto', tag: 'ambiente', licence: 'cc0', tenant: 'CSP', fps: '10', unit:'cm'},
-//	                       ];
-
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.searchResult.length;
@@ -76,21 +67,57 @@ appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryS
 	
 	$scope.searchAdvanced = function (){
 		console.debug("$scope.advancedFilters : ",$scope.advancedFilters);
-	dataDiscoveryService.searchMultiFieldInDatasets($scope.advancedFilters).success(function(response) {
+		dataDiscoveryService.searchMultiFieldInDatasets($scope.advancedFilters).success(function(response) {
 			console.debug("response Dataset",response.d);
 			$scope.searchResult=response.d.results;
+			$scope.scrollTo("discovery-results-anchor");
 		});
-//		for (var int = 0; int <  MAX_NUM_ADVANCED_FILTERS; int++) {
-//			console.debug("advancedFilters" ,$scope.advancedFilters[int]);
-//		}
 		
 	};
+	
 	
 	$scope.scrollTo = function(targetId){
 		console.log("scrollTo", targetId);
 		Helpers.util.scrollTo(targetId);
 	};
 
+	$scope.dataset = null;
+	$scope.datasetTags = null;
+	$scope.datasetApiUrls = null;
+	$scope.datasetStreamsUrl = null;
+	$scope.datasetDownloadCsvUrl = null;
+	
+	$scope.showDetail = function(index){
+		console.log("showDetail - index", index);
+		var datasetId = $scope.searchResult[index].idDataset;
+		console.log("showDetail - datasetId", datasetId);
+		$scope.dataset = null;
+		$scope.datasetTags = null;
+		$scope.datasetApiUrls = null;
+		$scope.datasetStreamsUrl = null;
+		$scope.datasetDownloadCsvUrl = null;
+		
+		dataDiscoveryService.loadDatasetDetail(datasetId).success(function(response) {
+			console.debug("loadDatasetDetail - response",response);
+			$scope.dataset=response.d;
+			console.debug("loadDatasetDetail - response Dataset",$scope.dataset);
+			if($scope.dataset && $scope.dataset.tags && $scope.dataset.tags!=null)
+				$scope.datasetTags = $scope.dataset.tags.split(",");
+			
+			if($scope.dataset && $scope.dataset.API && $scope.dataset.API!=null)
+				$scope.datasetApiUrls = $scope.dataset.API.split(",");
+			
+			if($scope.dataset && $scope.dataset.STREAM && $scope.dataset.STREAM!=null)
+				$scope.datasetStreamUrls = $scope.dataset.STREAM.split(",");
+			
+			if($scope.dataset && $scope.dataset.download && $scope.dataset.download!=null)
+				$scope.datasetDownloadCsvUrl = $scope.dataset.download;
+			$scope.scrollTo("discovery-detail-anchor");
+		});
+		
+	};
+	
+	
 	$scope.piechartColors = ['#1b4b46', '#266962', '#31877e', '#3ba59a', '#49bdb1', '#69c9bf', '#87d4cc', '#a5dfd9', '#c3e9e6', '#e1f4f2'];
 	
 	$scope.exampleData = [{
@@ -129,7 +156,7 @@ appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryS
 		 $scope.descriptionFunction = function() {
 			 return function(d) {
 				 return d.key;
-			 }
+			 };
 		 };
 		 
 } ]);

@@ -238,13 +238,15 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 	$scope.createStream = function(virtualentity, stream) {
 		stream.fps = 0;
 		stream.saveData = 0;
-		stream.publish = 0;
+		stream.publishStream = 0;
+		stream.visibility = 'public';
 		stream.accettazionePrivacy=0;
 		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
 
 
 		var newStream = new Object();
 		newStream.stream = stream;
+		
 		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
 		promise.then(function(result) {
 			console.log("result qui ", result);
@@ -1116,7 +1118,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
-
+	
 
 	$scope.updateInfo = null;
 	$scope.updateError = null;
@@ -1201,9 +1203,13 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 
 	$scope.canEdit = function() {
-		return true;
+		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
 	};
 
+	$scope.canAddData = function() {
+		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
+	};
+	
 	$scope.updateDataset = function() {
 		var newDataset =  $scope.dataset;
 

@@ -1,7 +1,119 @@
 <p>&nbsp;</p>
-<div class='clearfix' id='discovery-detail-card-panel'>
-	<div class='pull-right'>
-		<a href='javascript:void(0);' ng-click='scrollTo("discovery-results-panel")'><span class="glyphicon glyphicon-chevron-up"></span><span translate>DISCOVERY_BACK_RESULT_LABEL</span></a>
+<div class='clearfix subtitle-container' id='discovery-detail-panel'>
+	<h2 class='pull-left'>
+		<span translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small>
+	</h2>
+	<div class='pull-right subtilte-inner-floating'>
+		<a href='javascript:void(0);' ng-click='scrollTo("discovery-results-anchor")'><span class="glyphicon glyphicon-chevron-up"></span><span translate>DISCOVERY_BACK_RESULT_LABEL</span></a>
 	</div>
 </div>
+<div class='mute'>
+	<span translate>DATASET_FIELD_VERSION</span> {{dataset.datasetVersion}} - <small class='mute'>{{dataset.registrationDate|date}}</small>
+</div>
+<div class='row'><p>&nbsp;</p></div>
+<div class='row'>
+	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 " >
+		<div class='row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<p>{{dataset.description}}</p>
+			</div>
+		</div>
+		<div class='row'>
+			<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+				<p><strong><span translate>DATASET_FIELD_CONFIGDATA_TENANT</span></strong>: {{dataset.tenantCode}}</p>
+				<p><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong>: {{dataset.dataDomain|translate}}</p>
+				<div>
+					<ul class="list-inline">
+						<li ng-repeat="tag in datasetTags"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
+					</ul>
+				</div>
+				<p>&nbsp;</p>
+				<p class="mute"><strong><span translate>DISCOVERY_DETAIL_DATASET_LEGAL_INFO</span></strong></p>
+				<p><span translate>DATASET_FIELD_METADATA_LICENSE</span>: {{dataset.licence|nvl:' -'}}</p>
+				<p><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span>: {{dataset.disclaimer|nvl:' -'}}</p>
+				<p><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span>: {{dataset.copyright|nvl:' -'}}</p>
+			
+			</div>
+			
+			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+	   					<h3 class="panel-title"><span translate>DISCOVERY_DETAIL_DATASET_COLUMNS</span></h3>
+					</div>
+					<div class="panel-body">
+						<table class="table-condensed table-supercondensed">
+							<thead>
+								<tr>
+									<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="field in dataset.Fields.results">
+									<td>{{field.fieldName}}</td>
+									<td>{{field.fieldAlias}}</td>
+									<td>{{field.dataType|nvl:' - '}}</td>
+									<td>{{field.sourceColumn}}</td>
+									<td>{{field.measureUnit|nvl:' - '}}</td>
+									<td>{{field.isKey|booleanToString}}</td>
+									
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<p class="mute"><strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_TITLE</span></strong></p>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_API</span></strong>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
+					<p ng-repeat="apiUrl in datasetApiUrls"><a href="{{apiUrl}}" target="_blank" class='discovery-api-link'>{{apiUrl}}</a></p>
+				</div>
+			</div>
+			<div class='row'>
+				<p>&nbsp;</p>
+			</div>
+			<div class='row'>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET</span></strong>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
+					<p><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL</span> <span class='discovery-websocket-server-link'>ws://stream.smartdatanet.it/ws</span></p>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
+					<p ng-repeat="streamUrl in datasetStreamUrls">
+						<span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL</span>
+						<a href="{{streamUrl}}" target="_blank" class='discovery-websocket-link'>{{streamUrl}}</a>
+					</p>
+				</div>
+			</div>
+			<div class='row'>
+				<p>&nbsp;</p>
+			</div>
+			<div class='row'>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+					<a  href='{{datasetDownloadCsvUrl}}' class="btn  btn-download-dataset"  >
+						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 

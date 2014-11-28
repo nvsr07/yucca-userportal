@@ -42,7 +42,7 @@ Constants.WEBSOCKET_NOT_CONNECTED = 'Not Connected';
 /* discovery */
 Constants.DISCOVERY_FIELD_TITLE = 'DISCOVERY_FIELD_TITLE';
 Constants.DISCOVERY_FIELD_TAG = 'DISCOVERY_FIELD_TAG';
-Constants.DISCOVERY_FIELD_LICENCE = 'DISCOVERY_FIELD_LICENCE';
+Constants.DISCOVERY_FIELD_LICENSE = 'DISCOVERY_FIELD_LICENSE';
 Constants.DISCOVERY_FIELD_TENANT = 'DISCOVERY_FIELD_TENANT';
 Constants.DISCOVERY_FIELD_FPS = 'DISCOVERY_FIELD_FPS';
 Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT = 'DISCOVERY_FIELD_UNIT_OF_MEASUREMENT';
@@ -50,7 +50,7 @@ Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT = 'DISCOVERY_FIELD_UNIT_OF_MEASURE
 Constants.DISCOVERY_FIELDS = [
                               {key:Constants.DISCOVERY_FIELD_TITLE, api_key: 'datasetName', discrete: false},
                               {key:Constants.DISCOVERY_FIELD_TAG, api_key: 'tags', discrete: true},
-                              {key:Constants.DISCOVERY_FIELD_LICENCE, api_key: 'licence', discrete: false},
+                              {key:Constants.DISCOVERY_FIELD_LICENSE, api_key: 'license', discrete: false},
                               {key:Constants.DISCOVERY_FIELD_TENANT, api_key: 'tenantCode', discrete: true},
                               {key:Constants.DISCOVERY_FIELD_FPS, api_key: 'fps', discrete: false},
                               {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'measureUnit', discrete: true},

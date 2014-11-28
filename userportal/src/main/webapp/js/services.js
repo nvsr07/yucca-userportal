@@ -11,12 +11,12 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 	var dataDiscovery = {};
 
 	var keyArray=[{key:"idDataset",type:"Integer"},{key:"tenantCode",type:"String"},
-	              {key:"dataDomain",type:"String"},{key:"licence",type:"String"},{key:"fps",type:"Double"},
+	              {key:"dataDomain",type:"String"},{key:"license",type:"String"},{key:"fps",type:"Double"},
 	              {key:"datasetName",type:"String"},{key:"visibility",type:"String"},{key:"tags",type:"String"},{key:"measureUnit",type:"String"}];
 
 	dataDiscovery.searchMultiFieldInDatasets = function(queryArray){
 
-		var URLBaseQuery = "/userportal/api/proxy/discovery/Datasets?$format=json";
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
 		var URLQuery="";
 		var URLFilter = "&$filter="; 
 		var first = true ;
@@ -48,11 +48,11 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 					URLQuery += " substringof('"+keyValue.value.trim()+"' ,dataDomain ) eq true ";
 					first=false;
 					break;
-				case "licence":
+				case "license":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += " substringof('"+keyValue.value.trim()+"' ,licence ) eq true ";
+					URLQuery += " substringof('"+keyValue.value.trim()+"' ,license ) eq true ";
 					first=false;
 					break;
 				case "fps":
@@ -111,7 +111,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 	dataDiscovery.searchSingleFieldInDatasets = function(queryString){
 
-		var URLBaseQuery = "/userportal/api/proxy/discovery/Datasets?$format=json";
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
 		var URLQuery="";
 		var URLFilter = "&$filter="; 
 		if(queryString != undefined && queryString.trim()!=""){
@@ -167,11 +167,11 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 						URLQuery += " substringof('"+keyValue[1].trim()+"' ,dataDomain ) eq true ";
 						first=false;
 						break;
-					case "licence":
+					case "license":
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
-						URLQuery += " substringof('"+keyValue[1].trim()+"' ,licence ) eq true ";
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,license ) eq true ";
 						first=false;
 						break;
 					case "fps":
@@ -228,7 +228,19 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 //			url : "http://int-api.smartdatanet.it/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json"
 		});
 	};
+	
+		
+	dataDiscovery.loadDatasetDetail = function(datasetId){
 
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets("+datasetId+")?$format=json&$expand=Fields";
+		console.debug("dataDiscovery.loadDatasetDetail URL : ",URLBaseQuery);
+		return $http({
+			method : 'GET',
+			url:URLBaseQuery
+//			url : "http://int-api.smartdatanet.it/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets(1)?$format=json&$expand=Fields"
+		});
+
+	};
 	return dataDiscovery;
 });
 
