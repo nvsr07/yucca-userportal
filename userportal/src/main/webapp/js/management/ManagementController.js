@@ -1273,140 +1273,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 } ]);
 
-//appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$upload', 'readFilePreview',  function($scope, $routeParams, fabricAPIservice, info, $upload, readFilePreview) {
-
-//$scope.selectedFile = null;
-//$scope.dataset = null;
-//$scope.uploadDatasetError = null;
-//$scope.uploadDatasetInfo = null;
-
-//$scope.formatList = [{type:"csv"},{type:"xml", type: "other"}];
-//$scope.csvSeparator = ";";
-//$scope.fileEncoding = "UTF-8";
-////$scope.csvSkipFirstRow = false;
-
-//$scope.dataset = {
-//code: 'codice',
-//name: 'nome', 
-//};
-
-//if(!$scope.dataset.tags)
-//$scope.dataset.tags = new Object();
-//$scope.dataset.tags.tag = Helpers.util.initArrayZeroOneElements($scope.dataset.tags.tag);
-
-//if($scope.dataset.columns == null)
-//$scope.dataset.columns = new Object();
-
-//$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
-//$scope.dataset.columns.column.push({fieldName:"title", fieldAlias: "Title", dataType: "string", measureUnit: "km"});
-//$scope.dataset.columns.column.push({fieldName:"subtitle", fieldAlias: "Subtitle", dataType: "string", measureUnit: "km"});
-//$scope.dataset.columns.column.push({fieldName:"image", fieldAlias: "Image url", v: "string", measureUnit: "km"});
-////$scope.dataset.columns.column.push({code:"description", semantic: "Description", datatype: "string"});
-
-
-//$scope.onFileSelect = function($files) {
-////$files: an array of files selected, each file has name, size, and type.
-//$scope.selectedFile = $files[0];
-///*
-//for (var i = 0; i < $files.length; i++) {
-//var file = $files[i];
-
-//$scope.upload = $upload.upload({
-//url: 'server/upload/url', //upload.php script, node.js route, or servlet url
-////method: 'POST' or 'PUT',
-////headers: {'header-key': 'header-value'},
-////withCredentials: true,
-//data: {myObj: $scope.myModelObj},
-//file: file, // or list of files ($files) for html5 only
-////fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
-//// customize file formData name ('Content-Disposition'), server side file variable name. 
-////fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file' 
-//// customize how data is added to formData. See #40#issuecomment-28612000 for sample code
-////formDataAppender: function(formData, key, val){}
-//}).progress(function(evt) {
-//console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-//}).success(function(data, status, headers, config) {
-//// file is uploaded successfully
-//console.log(data);
-//});
-////.error(...)
-////.then(success, error, progress); 
-//// access or attach event listeners to the underlying XMLHttpRequest.
-////.xhr(function(xhr){xhr.upload.addEventListener(...)})
-//}*/
-///* alternative way of uploading, send the file binary with the file's content-type.
-//Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
-//It could also be used to monitor the progress of a normal http post/put request with large data*/
-//// $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
-//};
-
-//$scope.previewLines = [];
-//$scope.previewColumns = [];
-
-//$scope.readPreview = function(){
-//$scope.uploadDatasetError = null;
-//readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
-//function(contents){
-//var lines = contents.split(/\r\n|\n/);
-//console.log("nr righe", lines.length);
-//console.log(lines);
-//var firstRows = lines.slice(0, 5);
-//for (var int = 0; int < firstRows.length; int++) {
-//$scope.previewLines.push(firstRows[int].split($scope.csvSeparator));
-//}
-
-//console.log("$scope.previewLines",$scope.previewLines);
-
-//if($scope.previewLines.length>0){
-//for (var int = 0; int < $scope.previewLines[0].length; int++) {
-//$scope.previewColumns.push({index: int, firstValue: $scope.previewLines[0][int]});
-//}
-//}
-//console.log("$scope.previewColumns",$scope.previewColumns);
-//}, 
-//function(error){
-//$scope.uploadDatasetError = {error_message: error, error_detail: ""};
-//Helpers.util.scrollTo();
-//}
-//);
-//};
-
-//$scope.onDragCsvFieldComplete=function(data,evt){
-//};	
-
-//$scope.onDropCsvFieldComplete=function(data,evt, index){
-//$scope.dataset.columns.column[index].sourceColumn = data;
-//verifyColumnIndex();
-//};
-
-//var verifyColumnIndex = function(){
-//if( $scope.dataset.columns.column){
-//for (var i = 0; i <  $scope.dataset.columns.column.length; i++) {
-//$scope.dataset.columns.column[i].warningDuplicate = false;
-//}
-//for (var i = 0; i <  $scope.dataset.columns.column.length; i++) {
-//console.log("°°°°°°°°°°°°°°°°°°° " +  $scope.dataset.columns.column[i].sourceColumn, $scope.dataset.columns.column[i].sourceColumn);
-//for (var j = 0; j <  $scope.dataset.columns.column.length; j++) {
-//if(i!=j){
-//console.log("["+i+"]["+j+"] "+ $scope.dataset.columns.column[j].fieldName, $scope.dataset.columns.column[j].sourceColumn);
-//if(!(typeof $scope.dataset.columns.column[i].sourceColumn === "undefined")) console.log("i - defined -> ok",  $scope.dataset.columns.column[i].sourceColumn); else console.log("i - undefined -> ko",  $scope.dataset.columns.column[i].sourceColumn);
-//if(!(typeof $scope.dataset.columns.column[j].sourceColumn === "undefined")) console.log("j - defined -> ok",  $scope.dataset.columns.column[j].sourceColumn); else console.log("j - undefined -> ko",  $scope.dataset.columns.column[j].sourceColumn);
-//if($scope.dataset.columns.column[i].sourceColumn == $scope.dataset.columns.column[j].sourceColumn) console.log("sono uguali -> ok"); else  console.log("sono diversi -> ko"); 
-
-//if(!(typeof $scope.dataset.columns.column[i].sourceColumn === "undefined") && 
-//!(typeof $scope.dataset.columns.column[j].sourceColumn === "undefined")&& 
-//$scope.dataset.columns.column[i].sourceColumn == $scope.dataset.columns.column[j].sourceColumn){
-//console.log("entro");
-//$scope.dataset.columns.column[i].warningDuplicate = true;
-//$scope.dataset.columns.column[j].warningDuplicate = true;
-//}
-//}
-//}
-//}
-//}
-//};
-
-//} ]);
 
 
 appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'info', '$upload', 'readFilePreview','$translate',  
@@ -1495,6 +1361,7 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 	};
 
 
+	$scope.isUploading = false;
 
 	$scope.uploadData = function() {
 		$scope.updateInfo = null;
@@ -1513,9 +1380,11 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 				fileName: $scope.selectedFile.name,
 
 		}).progress(function(evt) {
+			$scope.isUploading = true;
 			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 		}).success(function(data, status, headers, config) {
-			console.log(data);
+			$scope.isUploading = false;
+			console.log("upload finish");
 			if(data.errors && data.errors.length>0){
 				$scope.updateError = true;
 				$scope.updateErrors = data.errors;
@@ -1528,22 +1397,6 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 
 
 	};	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 } ]);
 
@@ -1799,6 +1652,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
 	$scope.goToColumns  = function(){readPreview(); $scope.currentStep = 'columns';refreshWizardToolbar();};
 
+	$scope.isUploading = false;
+
 	$scope.createDataset = function(dataset) {
 		$scope.saveError = null;
 		$scope.saveErrors = null;
@@ -1818,9 +1673,11 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			fileName: $scope.selectedFile.name,
 
 		}).progress(function(evt) {
+			$scope.isUploading = true;
 			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 		}).success(function(data, status, headers, config) {
-			console.log(data);
+			$scope.isUploading = false;
+			console.log("data loaded");
 			if(data.errors && data.errors.length>0){
 				$scope.saveError = true;
 				$scope.saveErrors = data.errors;

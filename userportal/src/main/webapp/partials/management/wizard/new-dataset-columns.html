@@ -91,10 +91,15 @@
 			<label class='' title='{{"MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT"|translate}}' ><i class='glyphicon glyphicon-resize-vertical'></i></label>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" ng-show="!isUploading">
 		<div class=" col-sm-12 form-toolbar">
 			<a ng-click='goToUpload()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
 			<a ng-click='createDataset(metadata)' class="btn btn-default" ng-disabled="!isOwner() || columnsDatasetForm.$invalid " translate>MANAGEMENT_NEW_DATASET_WIZARD_END</a>
 		</div>
+	</div>
+	<div class="row"  ng-show="isUploading">
+		<div class=" col-sm-12 col-lg-12 form-toolbar">
+			<div class='ajax-loading'><span translate>LOADING</span></div>
+		</div>				
 	</div>
 </form>

@@ -4,7 +4,7 @@
 
 var appServices = angular.module('userportal.services', [ 'userportal.config' ]);
 
-appServices.value('version', '0.7 dev');
+appServices.value('version', '0.8 dev');
 
 
 appServices.factory('dataDiscoveryService', function($http, $q) {

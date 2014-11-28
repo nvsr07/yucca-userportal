@@ -13,6 +13,7 @@ var translations_it = {
 	SAVE: 'Salva',
 	COMING_SOON: 'Coming soon...', 
 	WARNING: 'Attenzione', 
+	LOADING: 'Attendere prego...',
 
 	/* main menu */
 	MENU_HOME : 'Home',
