@@ -241,7 +241,7 @@ var translations_en = {
 	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filter by status',
 
 	/* Dataset List */
-	DATASET_LIST_CODE_FILTER: 'Filter by code',
+	DATASET_LIST_NAME_FILTER: 'Filter by name',
 	DATASET_LIST_STATUS_FILTER: 'Filter by status',
 
 	/* Home page */
@@ -254,12 +254,13 @@ var translations_en = {
 	
 	HOME_HOWTO_TITLE: 'What can I do with the platform',
 	HOME_HOWTO_TEXT_HTML: '<li>' + 
-							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configure</a> your smart object and sends data using the tenant <strong>Sandbox</strong> ' +
-							'	<span  class="mute">(soon you can ask your own tenant)</span></li>' +
+							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configure</a> your smart object and sends data using your tenant or the demo tenant <strong>Sandbox</strong> ' +
+							'	</li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Consumes</a> all available streams via <strong>WebSocket</strong> or <strong>MQTT</strong></li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/example">Monitor</a> your streams in the dashboard </li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Create streams combined with logic of aggregation (coming soon...)</li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked mute"></span> &nbsp;Consume all archived data via OData API (coming soon...)</li>',
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Import</a> your <strong>bulk dataset </strong> via upload</li>' +
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Discover and  consume</a> all archived data and dataset via <strong>OData API</strong> </li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Create streams combined with logic of aggregation (coming soon...)</li>', 
 							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Dashboard streams monitoring',

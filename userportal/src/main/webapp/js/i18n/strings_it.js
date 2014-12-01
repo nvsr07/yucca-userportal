@@ -241,7 +241,7 @@ var translations_it = {
 	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filtra per stato',
 
 	/* Dataset List */
-	DATASET_LIST_CODE_FILTER: 'Filtra per codice',
+	DATASET_LIST_NAME_FILTER: 'Filtra per nome',
 	DATASET_LIST_STATUS_FILTER: 'Filtra per stato',
 
 	/* Home page */
@@ -254,12 +254,13 @@ var translations_it = {
 	
 	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
 	HOME_HOWTO_TEXT_HTML: '<li>' + 
-							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tenant <strong>Sandbox</strong> ' +
-							'	<span  class="mute">(a breve potrai richiedere un tuo tenant)</span></li>' +
+							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tuo tenant o il tenant di prova <strong>Sandbox</strong> ' +
+							'	</li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Fruisci</a> di tutti flussi disponibili via <strong>Websocket</strong> o <strong>MQTT</strong></li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/example">Monitora</a> i tuoi stream nella dashboard </li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea flussi combinati con logiche di aggregazione (coming soon...)</li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked mute"></span> &nbsp;Fruisci di tutti i dati storicizzati tramite API OData (coming soon...)</li>',
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/overview">Monitora</a> i tuoi stream nella dashboard </li>' +
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Importa</a> i tuoi <strong>dataset bulk</strong> tramite upload</li>' +
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Cerca e fruisci</a> di tutti i dati storicizzati e dei dataset tramite <strong>API OData</strong> </li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea flussi combinati con logiche di aggregazione (coming soon...)</li>',
 							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Area monitoraggio flussi',

@@ -12,20 +12,16 @@
 <div id='homepage' ng-controller="HomeCtrl as homeController">
 	<div class='container'>
 
-		<h1 class=''>Yucca Platform <small >{{'HOME_SUBTITLE'|translate}}</small></h1>
+		<h1 class=''>Yucca Platform <small ><span translate>HOME_SUBTITLE</span></small></h1>
 		<h2 class='slogan'></h2>
 		<div class="row tile-row">
 			<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
 				 <div id="map" class="map">
       				<div id="popup" class="ol-popup">
           				<a href="#" id="popup-closer" class="ol-popup-closer"></a>
-        			<div id="popup-content"></div>
-      			</div>
+        				<div id="popup-content"></div>
+      				</div>
     			</div>
-				<!-- 
-				<div class=' map-container'>
-					<div id="map_canvas"></div>
-				</div> -->
 			</div> 
 		</div>
 		<div class='row-separator'></div>
@@ -34,24 +30,24 @@
 				<div class='tile'>
 					<div class='tile-main'>
 						<div class="glyphicon glyphicon-dashboard main-icon"></div>
-						<div class='tile-subtitle'>{{'MENU_DASHBOARD'|translate}}</div>
+						<div class='tile-subtitle'><span translate>MENU_DASHBOARD</span></div>
 					</div>
 				
-					<div class='tile-menuitem'><a href="#/dashboard/main/overview">{{'DASHBOARD_DASHBOARD_BUTTON'|translate}}</a></div>
-					<div class='tile-menuitem'><a href="#/dashboard/streams">{{'DASHBOARD_STREAMS_BUTTON'|translate}}</a></div>
-					<div class='tile-menuitem'><a href="#/dashboard/error_log">{{'DASHBOARD_ERROR_LOG_BUTTON'|translate}}</a></div>
+					<div class='tile-menuitem'><a href="#/dashboard/main/overview"><span translate>DASHBOARD_DASHBOARD_BUTTON</span></a></div>
+					<div class='tile-menuitem'><a href="#/dashboard/streams"><span translate>DASHBOARD_STREAMS_BUTTON</span></a></div>
+					<div class='tile-menuitem'><a href="#/dashboard/error_log"><span translate>DASHBOARD_ERROR_LOG_BUTTON</span></a></div>
 				</div>
 			</div>	
 			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 management-menu ' >
 				<div class='tile'>
 					<div class='tile-main'>
 						<div class="glyphicon glyphicon-wrench main-icon"></div>
-						<div class='tile-subtitle'>{{'MENU_MANAGEMENT'|translate}}</div>
+						<div class='tile-subtitle'><span translate>MENU_MANAGEMENT</span></div>
 					</div>
 				
-					<div class='tile tile-menuitem'><a href="#/management/virtualentities/{{tenant}}">{{'MANAGEMENT_MENU_VIRTUAL_ENTITIES'|translate}}</a></div>
-					<div class='tile tile-menuitem'><a href="#/management/streams/{{tenant}}">{{'MANAGEMENT_MENU_STREAMS'|translate}}</a></div>
-					<div class='tile tile-menuitem'><a href="#/management/datasets/{{tenant}}">{{'MANAGEMENT_MENU_DATASET'|translate}}</a></div>
+					<div class='tile tile-menuitem'><a href="#/management/virtualentities/{{tenant}}"><span translate>MANAGEMENT_MENU_VIRTUAL_ENTITIES</span></a></div>
+					<div class='tile tile-menuitem'><a href="#/management/streams/{{tenant}}"><span translate>MANAGEMENT_MENU_STREAMS</span></a></div>
+					<div class='tile tile-menuitem'><a href="#/management/datasets/{{tenant}}"><span translate>MANAGEMENT_MENU_DATASET</span></a></div>
 				</div>
 			</div>	
 			<div>
@@ -64,7 +60,7 @@
 							<div class='tile-main'>
 								<div class=''> <span class='main-icon glyphicon glyphicon-search'></span>
 								</div> 
-								<div class='tile-subtitle tile-subtitle-link'><a href="#/discovery/">{{'HOME_SEARCH_TITLE'|translate}}</a></div>
+								<div class='tile-subtitle tile-subtitle-link'><a href="#/discovery/"><span translate>HOME_SEARCH_TITLE</span></a></div>
 							</div>
 						</div>
 					</div>
@@ -83,7 +79,7 @@
 						<div class='tile'>
 							<div class='tile-main'>
 								<div class='tile-counter'>{{tenantsCount}}</div>
-								<div class='tile-subtitle tile-subtitle-small'>{{'HOME_TENANT_TITLE'|translate}}</div>
+								<div class='tile-subtitle tile-subtitle-small'><span translate>HOME_TENANT_TITLE</span></div>
 							</div>
 							
 						</div>
@@ -92,7 +88,7 @@
 						<div class='tile'>
 							<div class='tile-main'>
 								<div class='tile-counter'>{{virtualentitiesCount}}</div>
-								<div class='tile-subtitle tile-subtitle-small'>{{'HOME_VIRTUALENTITY_TITLE'|translate}}</div>
+								<div class='tile-subtitle tile-subtitle-small'><span translate>HOME_VIRTUALENTITY_TITLE</span></div>
 							</div>
 							
 						</div>
@@ -101,57 +97,15 @@
 						<div class='tile'>
 							<div class='tile-main'>
 								<div class='tile-counter'>{{streamsCount}}</div>
-								<div class='tile-subtitle tile-subtitle-small'>{{'HOME_STREAM_TITLE'|translate}}</div>
+								<div class='tile-subtitle tile-subtitle-small'><span translate>HOME_STREAM_TITLE</span></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-<!-- 
-			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6'>
-				<div class="row">
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  tenant-menu'>
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class='tile-counter'>{{tenantsCount}}</div>
-							</div>
-							<div class='tile-subtitle'>{{'HOME_TENANT_TITLE'|translate}}</div>
-							
-						</div>
-					</div>
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  virtualentity-menu'>
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class='tile-counter'>{{virtualentitiesCount}}</div>
-							</div>
-							<div class='tile-subtitle'>{{'HOME_VIRTUALENTITY_TITLE'|translate}}</div>
-							
-						</div>
-					</div>
-				</div>	
-				<div class="row">
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  stream-menu'>
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class='tile-counter'>{{streamsCount}}</div>
-							</div>
-							<div class='tile-subtitle'>{{'HOME_STREAM_TITLE'|translate}}</div>
-							
-						</div>
-					</div>
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6  about-menu'>
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class='tile-counter'><span class='glyphicon glyphicon-search'></span></div> 
-							</div>
-							<div class='tile-subtitle-link'><a href="#/discovery/">{{'HOME_SEARCH_TITLE'|translate}}</a></div>
-						</div>
-					</div>
-				</div>	
-			</div>-->
 		</div>
 		<div class='row-separator'></div>
-		<h2>{{'HOME_HOWTO_TITLE'|translate}}</h2>
+		<h2><span translate>HOME_HOWTO_TITLE</span></h2>
 		<div class='desc clearfix'>
 			<ul class="list-unstyled">
 				<span ng-bind-html="'HOME_HOWTO_TEXT_HTML'|translate"></span>

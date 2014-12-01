@@ -20,10 +20,7 @@
 					<form class="form-inline" role="form">
 						<div class="form-group">
 							<div class="form-group">
-								<input type="text" class="form-control col-xs-2" ng-model="nameFilter" placeholder="{{'DATASET_LIST_CODE_FILTER'|translate}}" />
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'DATASET_LIST_STATUS_FILTER'|translate}}" />
+								<input type="text" class="form-control col-xs-2" ng-model="nameFilter" placeholder="{{'DATASET_LIST_NAME_FILTER'|translate}}" />
 							</div>
 						</div>
 					</form>
@@ -66,17 +63,17 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="dataset in filteredDatasetList = (datasetList | filter: searchNameFilter | filter: searchStatusFilter|  orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+						<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 							<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
 							<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
 							<td>{{dataset.info.datasetName}}</td>
 							<td>{{dataset.configData.type}} / {{dataset.configData.subtype}}</td>
 							<td>{{dataset.info.registrationDate|date}}</td>
-							<td><span ng-bind-html="dataset.statusIcon"></span> <span translate>{{dataset.datasetVersion}}</span></td>
+							<td><span translate>{{dataset.datasetVersion}}</span></td>
 						</tr>
 					</tbody>
 				</table>
-				<pagination boundary-links="true" total-items="filteredStreamsList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+				<pagination boundary-links="true" total-items="filteredDatasetsList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
 					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 				></pagination>
 			</div>

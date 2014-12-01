@@ -1008,15 +1008,10 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 
 	$scope.searchNameFilter = function(dataset) {
 		console.log("$scope.nameFilter", $scope.nameFilter);
-		console.log("dataset.metadata.name", dataset);
+		console.log("dataset.metadata", dataset);
 		var keyword = new RegExp($scope.nameFilter, 'i');
 
-		return !$scope.nameFilter || (dataset.metadata && keyword.test(dataset.metadata.name));
-	};
-
-	$scope.searchStatusFilter = function(dataset) {
-		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || (dataset.metadata && keyword.test(dataset.metadata.datasetStatus));
+		return !$scope.nameFilter || (dataset.info.datasetName && keyword.test(dataset.info.datasetName));
 	};
 
 	$scope.$watch('nameFilter', function(newName) {
@@ -1025,11 +1020,6 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		console.log("newName", newName);
 	});
 
-	$scope.$watch('statusFilter', function(newStatus) {
-		$scope.currentPage = 1;
-		$scope.totalItems = $scope.filteredDatasetsList.length;
-		console.log("newStatus", newStatus);
-	});
 
 	$scope.selectedDatasets = [];
 
@@ -1041,7 +1031,8 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		var checkbox = $event.target;
 		var action = (checkbox.checked ? 'add' : 'remove');
 		updateSelected(action, dataset);
-	};	
+	};
+	
 	var updateSelected = function(action, dataset) {
 		if (action === 'add' && $scope.selectedDatasets.indexOf(dataset) === -1) {
 			$scope.selectedDatasets.push(dataset);
