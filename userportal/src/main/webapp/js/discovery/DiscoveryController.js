@@ -87,17 +87,15 @@ appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryS
 	$scope.datasetStreamsUrl = null;
 	$scope.datasetDownloadCsvUrl = null;
 	
-	$scope.showDetail = function(index){
-		console.log("showDetail - index", index);
-		var datasetId = $scope.searchResult[index].idDataset;
-		console.log("showDetail - datasetId", datasetId);
+	$scope.showDetail = function(idDataset){
+		console.log("showDetail - idDataset", idDataset);
 		$scope.dataset = null;
 		$scope.datasetTags = null;
 		$scope.datasetApiUrls = null;
 		$scope.datasetStreamsUrl = null;
 		$scope.datasetDownloadCsvUrl = null;
 		
-		dataDiscoveryService.loadDatasetDetail(datasetId).success(function(response) {
+		dataDiscoveryService.loadDatasetDetail(idDataset).success(function(response) {
 			console.debug("loadDatasetDetail - response",response);
 			$scope.dataset=response.d;
 			console.debug("loadDatasetDetail - response Dataset",$scope.dataset);

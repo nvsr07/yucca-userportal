@@ -23,9 +23,9 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in searchResult | orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
-						<td><a href="javascript:void(0)" ng-click='showDetail($index)'>{{item[fieldList[0].api_key]}}</a></td>
+						<td><a href="javascript:void(0)" ng-click='showDetail(item["idDataset"])'>{{item[fieldList[0].api_key]}}</a></td>
 						<td ng-repeat="field in fieldList"  ng-show="!$first">{{item[field.api_key]}}</td>
-						<td><a href="javascript:void(0)" ng-click='showDetail($index)' class='btn btn-default btn-xs'><small><span translate>DISCOVERY_RESULTS_DETAIL_BUTTON</span></small></a></td>
+						<td><a href="javascript:void(0)" ng-click='showDetail(item["idDataset"])' class='btn btn-default btn-xs'><small><span translate>DISCOVERY_RESULTS_DETAIL_BUTTON</span></small></a></td>
 					</tr>
 				</tbody>
 			</table>
