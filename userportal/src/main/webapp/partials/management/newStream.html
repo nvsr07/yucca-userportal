@@ -13,10 +13,10 @@
 				<label for="inputTypeStream" class="col-sm-2 control-label">{{'STREAM_TYPE_DEFINITION'|translate}} <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-2"></div>
 				<div class="col-sm-4">
-					<span>{{'STREAM_NEW_DEFINITION'|translate}} <input  type="radio" name="inputTypeStream" value="1" ng-click="virtualentity=null"  ng-model="inputTypeStream"  ng-required="true" disable></span> <br/>
+					<span>{{'STREAM_NEW_DEFINITION'|translate}} <input  type="radio" name="inputTypeStream" value="1" ng-click="virtualentity=null"  ng-model="inputTypeStream"  disabled></span> <br/>
 				</div>
 				<div class="col-sm-4">
-					<span>{{'STREAM_AGGREGATE_DEFINITION'|translate}}  <input  type="radio" name="inputTypeStream" value="0" ng-click="virtualentity=virtualentityInternal"  ng-model="inputTypeStream" ng-required="true" disable></span>
+					<span>{{'STREAM_AGGREGATE_DEFINITION'|translate}}  <input  type="radio" name="inputTypeStream" value="0" ng-click="virtualentity=virtualentityInternal"  ng-model="inputTypeStream" disabled></span>
 				</div>
 			</div>
 			
@@ -117,8 +117,8 @@
 			</fieldset>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<a ng-click='cancel()' class="btn btn-default">{{'CANCEL'|translate}}</a>
-					<a ng-click='createStream(virtualentity, stream)' class="btn btn-primary" ng-disabled="!isOwner() || newStreamForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
+					<a ng-click='cancel()' class="btn">{{'CANCEL'|translate}}</a>
+					<a ng-click='createStream(virtualentity, stream)' class="btn  btn-default" ng-disabled="!isOwner() || newStreamForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
 				</div>
 			</div>
 		</form>

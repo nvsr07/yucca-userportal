@@ -8,6 +8,15 @@
 				<strong>{{updateError.error_message}}</strong>
 				{{updateError.error_detail}}
 			</div>
+			<div class="alert alert-warning" ng-show='updateWarning'>
+				<strong><span translate>WARNING</span></strong> 
+				<span ng-bind-html="'WARNING_SUBTITLE'|translate"></span>
+				<ul>
+					<li ng-repeat="warning in warningMessages">
+					<span translate><span ng-bind-html="warning|translate"></span></span>
+					</li>
+				</ul>
+			</div>
 			<div class="alert alert-success" ng-show='updateInfo'>
 				<strong>{{'MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO'|translate}}</strong> {{updateInfo.status}}
 			</div>
@@ -204,9 +213,9 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="alert alert-danger" ng-show='insertComponentError'>
+						<div class="alert alert-danger" ng-show='insertComponentErrors.length>0'>
 							<strong>{{updateError.error_message}}</strong>
-							{{insertComponentError|translate}}
+							<ul><li ng-repeat="insertComponentError in insertComponentErrors "><span translate>{{insertComponentError}}</span></li></ul>
 						</div>
 					</div>
 				</div>

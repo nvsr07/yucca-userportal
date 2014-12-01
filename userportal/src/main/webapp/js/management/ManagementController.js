@@ -275,8 +275,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 
 	$scope.updateInfo = null;
+	$scope.updateWarning = null;
 	$scope.updateError = null;
-	$scope.insertComponentError = null;
+	$scope.insertComponentErrors = [];
 
 
 	$scope.internalStreams = [];
@@ -435,7 +436,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.newComponentDataType = null;
 
 	$scope.addComponent = function(){
-		$scope.insertComponentError = null;
+		$scope.insertComponentErrors = [];
 		if($scope.newComponent && $scope.newComponent.nome){
 			var found = false;
 
@@ -462,16 +463,23 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					$scope.newComponent.dataType = $scope.newComponentDataType.dataType;
 				}
 
-				$scope.stream.componenti.element.push($scope.newComponent);
-				$scope.newComponent = null;
 			}
 			else{
-				$scope.insertComponentError = 'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE';
+				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE');
 			}
 		}
 		else
-			$scope.insertComponentError = 'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED';
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED');
 
+		console.log("$scope.newComponentDataType", $scope.newComponentDataType);
+		if($scope.newComponentDataType == null || $scope.newComponentDataType == ""){
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED');
+		}
+		
+		if($scope.insertComponentErrors.length==0){
+			$scope.stream.componenti.element.push($scope.newComponent);
+			$scope.newComponent = null;
+		}
 		return false;
 	};
 
@@ -536,6 +544,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 
 	$scope.updateStream = function() {
+		$scope.updateInfo = null;
+		$scope.updateWarning = null;
+		$scope.warningMessages = [];
+		$scope.updateError = null;
+
 		var newStream = new Object();
 
 		newStream.stream =  $scope.stream;
@@ -551,24 +564,28 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 
 		console.log("newStream", newStream);
-		$scope.updateInfo = null;
-		$scope.updateError = null;
+		if(!$scope.stream.componenti.element || $scope.stream.componenti.element.length==0){
+			$scope.updateWarning = true;
+			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
+		}
+		
 		Helpers.util.scrollTo();
-		var promise   = fabricAPIservice.updateStream(newStream);
-
-		promise.then(function(result) {
-			$scope.updateInfo = {status: result.status};
-			$scope.loadStream();
-
-		}, function(result) {
-			$scope.updateError = angular.fromJson(result.data);
-			console.log("result.data ", result.data);
-			$scope.loadStream();
-		}, function(result) {
-			console.log('Got notification: ' + result);
-		});
-
-
+		if(!$scope.updateWarning){
+		
+			var promise   = fabricAPIservice.updateStream(newStream);
+	
+			promise.then(function(result) {
+				$scope.updateInfo = {status: result.status};
+				$scope.loadStream();
+	
+			}, function(result) {
+				$scope.updateError = angular.fromJson(result.data);
+				console.log("result.data ", result.data);
+				$scope.loadStream();
+			}, function(result) {
+				console.log('Got notification: ' + result);
+			});
+		};
 	};	
 
 	$scope.requestInstallation = function(){
@@ -1122,7 +1139,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 	$scope.updateInfo = null;
 	$scope.updateError = null;
-	$scope.insertComponentError = null;
 
 
 	$scope.tagList = [];

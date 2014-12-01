@@ -13,6 +13,7 @@ var translations_it = {
 	SAVE: 'Salva',
 	COMING_SOON: 'Coming soon...', 
 	WARNING: 'Attenzione', 
+	WARNING_SUBTITLE: 'Per proseguire &egrave; necessario correggere le seguenti segnalazioni',
 	LOADING: 'Attendere prego...',
 
 	/* main menu */
@@ -382,8 +383,11 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'codice\' obbligatorio',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'codice\' deve essere univoco per flusso ',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'Nome\' deve essere univoco per flusso ',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'Il campo \'tipo di dato\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS: 'Inserire almeno un componente',
+
     
 		/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
