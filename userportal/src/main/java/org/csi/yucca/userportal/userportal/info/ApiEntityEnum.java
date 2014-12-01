@@ -156,16 +156,17 @@ public enum ApiEntityEnum {
 		}
 	},
 
+	API_MANAGEMENT_DATASET_DOWNLOAD_URL("API_MANAGEMENT_DATASET_DOWNLOAD_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/download/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			//return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
+			return true;
+		}
+	},
 	API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
-		}
-	},
-	API_MANAGEMENT_DATASET_DOWNLOAD_URL("API_MANAGEMENT_DATASET_DOWNLOAD_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/download/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	},
 	API_MANAGEMENT_DATASET_ADD_DATA_URL("API_MANAGEMENT_DATASET_ADD_DATA_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/add/") {
