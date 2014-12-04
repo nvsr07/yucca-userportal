@@ -256,6 +256,13 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 		});
 	};
 
+	fabricAPI.validateSiddhi = function(toValidate) {
+		return $http({
+			method : 'POST',
+			data:toValidate,
+			url : Constants.API_VALIDATE_SIDDHI
+		});
+	};
 	
 	fabricAPI.getStreams = function(tenant_code) {
 		var tenantUrl = '';
