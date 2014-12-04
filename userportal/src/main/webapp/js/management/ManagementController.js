@@ -246,7 +246,7 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 
 		var newStream = new Object();
 		newStream.stream = stream;
-		
+
 		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
 		promise.then(function(result) {
 			console.log("result qui ", result);
@@ -266,14 +266,15 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', function($scope, $routeParams, fabricAPIservice, info) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$filter", function($scope, $routeParams, fabricAPIservice, info,$timeout,$filter) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
-
-
+	$scope.validationRes=2;
+	$scope.errorMsg="Errore";
+	$scope.successMsg="Successo";
 	$scope.updateInfo = null;
 	$scope.updateWarning = null;
 	$scope.updateError = null;
@@ -283,8 +284,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.internalStreams = [];
 	$scope.inputTypeStream = 1;
 	$scope.streamSelectedItem=null;	
-	$scope.streamSiddhiQuery=null;
+	$scope.streamSiddhiQuery="insert query here;";
+	$scope.streamSiddhiMirror="";
 	$scope.streamsList = [];
+
 
 	$scope.addStreamToArray = function(){
 		$scope.streamSelectedItem.componenti = new Object();
@@ -298,6 +301,53 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 
 
+
+	// The ui-codemirror option
+	$scope.cmOption = {
+			lineNumbers: true,
+			indentWithTabs: true,
+			onLoad : function(_cm){
+				console.debug(_cm);
+				_cm.setOption("mode", 'text/x-sql');
+			}
+	};
+
+	$scope.valideteSiddhi = function(){
+
+		var siddhiStreamDefinitions = "";
+		var siddhiStreamArray = [];
+		for(var st in $scope.internalStreams){
+			console.debug($scope.internalStreams[st]);
+
+			siddhiStreamDefinitions += "define stream " + "input"+st+" (meta_source string, time string ";
+			if($scope.internalStreams[st].componenti!= null && $scope.internalStreams[st].componenti.element!=null ){
+				var componenti = $scope.internalStreams[st].componenti.element;
+				for(var comp in componenti){
+					siddhiStreamDefinitions += ","+componenti[comp].nome +" "+componenti[comp].dataType;
+				}
+				siddhiStreamDefinitions +=");";
+				siddhiStreamArray.push(siddhiStreamDefinitions);
+				siddhiStreamDefinitions="";
+			}
+
+		}
+		
+		var validationObj = {
+				"inputStreamDefiniitons":siddhiStreamArray,
+				"queryExpressions":$scope.streamSiddhiQuery				
+		};
+		console.debug("validationObj : ", validationObj);
+		fabricAPIservice.validateSiddhi(validationObj).success(function(response) {
+			if(response.faultstring != null){
+				$scope.validationRes=1;
+				$scope.errorMsg=response.faultstring;
+			}else{
+			$scope.validationRes=0;
+			}
+			console.debug(response);
+		});
+	};
+
 	fabricAPIservice.getStreams().success(function(response) {
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
@@ -309,7 +359,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 	});
 
-
 	$scope.tagList = [];
 	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
@@ -317,7 +366,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
 		}
 	});
-
 
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
@@ -342,9 +390,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.dataTypeList = response.dataType.element;
 	});
 
-
-
-
 	$scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
 
 	$scope.stream = {};
@@ -354,19 +399,19 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.loadStream = function(){
 		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).success(function(response) {
 			$scope.stream = response.streams.stream;
-			
+
 			if($scope.stream.saveData==1){
 				$scope.saveData=true;
 			}else{
 				$scope.saveData=false;
 			}
-			
+
 			if($scope.stream.publish==1){
 				$scope.publish=true;
 			}else{
 				$scope.publish=false;
 			}
-			
+
 			if($scope.stream.visibility==null){
 				$scope.stream.visibility = 'public';
 			}
@@ -384,12 +429,17 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.loadStreamComponents(existingStream);
 			}
 
-
-
 			if( $scope.stream.internalQuery && $scope.stream.internalQuery["@nil"]){
 				$scope.stream.internalQuery=null;
 			}
-			$scope.streamSiddhiQuery= $scope.stream.internalQuery;
+			console.debug("$scope.stream.internalQuery ",$scope.stream.internalQuery);
+
+			$scope.streamSiddhiMirror= $scope.stream.internalQuery;	
+			setTimeout(function(){
+				  $scope.$apply(function(){
+					  $scope.streamSiddhiQuery=$scope.streamSiddhiMirror;
+				  });
+				  }, 100);
 
 			$scope.internalStreams=$scope.stream.streamInternalChildren.streamChildren;
 
@@ -408,7 +458,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 			$scope.stream.domain = $scope.stream.domainStream;
 		});
-
 	};
 
 
@@ -428,7 +477,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 
 	$scope.loadStream();
-
 
 	$scope.newComponent = null;
 	$scope.newComponentUnitOfMeasurement = null;
@@ -475,7 +523,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		if($scope.newComponentDataType == null || $scope.newComponentDataType == ""){
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED');
 		}
-		
+
 		if($scope.insertComponentErrors.length==0){
 			$scope.stream.componenti.element.push($scope.newComponent);
 			$scope.newComponent = null;
@@ -544,6 +592,13 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 
 	$scope.updateStream = function() {
+		
+		if($scope.validationRes!=0){
+			$scope.errorMsg='STREAM_SIDDHI_PLEASE_VALIDATE';
+			$scope.validationRes=1;
+			Helpers.util.scrollTo("validateMsg");
+		}else{	
+		$scope.validationRes=2;
 		$scope.updateInfo = null;
 		$scope.updateWarning = null;
 		$scope.warningMessages = [];
@@ -551,7 +606,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		var newStream = new Object();
 
-		newStream.stream =  $scope.stream;
+		newStream.stream =  $scope.stream;      
 		newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
 		//	newStream.stream.internalQuery = $scope.streamSiddhiQuery;
 		newStream.stream.streamInternalChildren={};
@@ -568,16 +623,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.updateWarning = true;
 			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 		}
-		
+
 		Helpers.util.scrollTo();
 		if(!$scope.updateWarning){
-		
+
 			var promise   = fabricAPIservice.updateStream(newStream);
-	
+
 			promise.then(function(result) {
 				$scope.updateInfo = {status: result.status};
 				$scope.loadStream();
-	
+
 			}, function(result) {
 				$scope.updateError = angular.fromJson(result.data);
 				console.log("result.data ", result.data);
@@ -586,6 +641,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				console.log('Got notification: ' + result);
 			});
 		};
+		}
 	};	
 
 	$scope.requestInstallation = function(){
@@ -1032,7 +1088,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		var action = (checkbox.checked ? 'add' : 'remove');
 		updateSelected(action, dataset);
 	};
-	
+
 	var updateSelected = function(action, dataset) {
 		if (action === 'add' && $scope.selectedDatasets.indexOf(dataset) === -1) {
 			$scope.selectedDatasets.push(dataset);
@@ -1126,7 +1182,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
-	
+
 
 	$scope.updateInfo = null;
 	$scope.updateError = null;
@@ -1216,7 +1272,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.canAddData = function() {
 		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
 	};
-	
+
 	$scope.updateDataset = function() {
 		var newDataset =  $scope.dataset;
 

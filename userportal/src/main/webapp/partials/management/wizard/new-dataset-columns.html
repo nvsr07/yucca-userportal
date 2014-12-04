@@ -59,7 +59,7 @@
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT</span> | <span translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</span></div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
@@ -71,10 +71,16 @@
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias" ng-disabled="column.skipColumn"  ></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
 			<select class="input-sm form-control" ng-model="column.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType" ng-disabled="column.skipColumn"  
-			 ng-change="refreshColumnOrder()">
+			 ng-change="refreshColumnOrder(column)">
           	</select>
 		</div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isDateTimeField(column)">
+			<div class="input-group input-group-sm popover-html">
+				<input class="form-control" type="text" ng-model="column.dateTimeFormat" ng-disabled="column.skipColumn" >
+			  	<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
+			</div>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-hide="isDateTimeField(column)">
 		 	<select class="input-sm form-control" ng-model="column.measureUnit"   ng-change="refreshColumnOrder()"
 		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit" ng-disabled="column.skipColumn">
 		 		<option value="" translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
