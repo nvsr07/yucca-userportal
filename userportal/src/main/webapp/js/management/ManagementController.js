@@ -266,13 +266,15 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$http", function($scope, $routeParams, fabricAPIservice, info,$timeout,$http) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$filter", function($scope, $routeParams, fabricAPIservice, info,$timeout,$filter) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
-
+	$scope.validationRes=2;
+	$scope.errorMsg="Errore";
+	$scope.successMsg="Successo";
 	$scope.updateInfo = null;
 	$scope.updateWarning = null;
 	$scope.updateError = null;
@@ -310,7 +312,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			}
 	};
 
-	//TODO validate query
 	$scope.valideteSiddhi = function(){
 
 		var siddhiStreamDefinitions = "";
@@ -337,13 +338,15 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		};
 		console.debug("validationObj : ", validationObj);
 		fabricAPIservice.validateSiddhi(validationObj).success(function(response) {
+			if(response.faultstring != null){
+				$scope.validationRes=1;
+				$scope.errorMsg=response.faultstring;
+			}else{
+			$scope.validationRes=0;
+			}
 			console.debug(response);
-		}).error(function(data, status, headers, config) {
-			console.debug(data);
 		});
 	};
-
-
 
 	fabricAPIservice.getStreams().success(function(response) {
 
@@ -356,7 +359,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 	});
 
-
 	$scope.tagList = [];
 	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
@@ -364,7 +366,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
 		}
 	});
-
 
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
@@ -388,9 +389,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	fabricAPIservice.getStreamDataType().success(function(response) {
 		$scope.dataTypeList = response.dataType.element;
 	});
-
-
-
 
 	$scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
 
@@ -594,6 +592,13 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 
 	$scope.updateStream = function() {
+		
+		if($scope.validationRes!=0){
+			$scope.errorMsg='STREAM_SIDDHI_PLEASE_VALIDATE';
+			$scope.validationRes=1;
+			Helpers.util.scrollTo("validateMsg");
+		}else{	
+		$scope.validationRes=2;
 		$scope.updateInfo = null;
 		$scope.updateWarning = null;
 		$scope.warningMessages = [];
@@ -636,6 +641,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				console.log('Got notification: ' + result);
 			});
 		};
+		}
 	};	
 
 	$scope.requestInstallation = function(){

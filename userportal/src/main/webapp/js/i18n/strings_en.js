@@ -76,6 +76,11 @@ var translations_en = {
 	STREAM_TYPE_DEFINITION: 'Creation from ',
 	STREAM_FIELDSET: 'Internal Stream Definition',
 	STREAM_FIELD_COMPONENTS_OUTPUT: 'Components of the stream in output',
+	
+	STREAM_SIDDHI_QUERY_SUCCESS: "The query siddhi is valid.",
+	STREAM_SIDDHI_QUERY: "SIDDHI query ",
+	STREAM_SIDDHI_VALIDATE_BUTTON:'Validate',
+	STREAM_SIDDHI_PLEASE_VALIDATE:'Please validate Query before saving stream!',
 
 	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'e.g. temperature',
