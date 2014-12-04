@@ -181,6 +181,12 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
+	},
+	API_VALIDATE_SIDDHI("API_VALIDATE_SIDDHI", Config.API_PROXY_SERVICES_BASE_URL+"internalstreams/validate/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
 	};
 
 	private String nameEntity;
