@@ -1693,7 +1693,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 								"fieldAlias":column.fieldAlias, 
 								"dataType":dataType, 
 								"isKey":column.isKey?1:0, 
-										"measureUnit":measureUnit}
+								"measureUnit":measureUnit,
+								"dateTimeFormat":column.dateTimeFormat}
 					);
 					order++;
 				}
@@ -1749,7 +1750,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	'	</tbody>'+
 	'</table>' + 
 	'   </div>'+
-	'   <div class="alert alert-info">For detail refer to <a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html" target="_blank" class="alert-link">Java Date Format</a></div>';
+	'   <div class="alert">For detail refer to <a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html" target="_blank" class="alert-link">Java Date Format</a></div>' +
+	'   <div class="alert alert-info"><strong><i class="glyphicon glyphicon-time"></i></strong>&nbsp;Default timezone <strong>Europe/Rome</strong></div>';
 	
 	
 	$scope.goToStart  = function(){ $scope.currentStep = 'start'; refreshWizardToolbar();};
