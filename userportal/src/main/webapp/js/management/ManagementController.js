@@ -399,6 +399,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.loadStream = function(){
 		fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).success(function(response) {
 			$scope.stream = response.streams.stream;
+			
+			
 
 			if($scope.stream.saveData==1){
 				$scope.saveData=true;
@@ -593,7 +595,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.updateStream = function() {
 		
-		if($scope.validationRes!=0){
+		if($scope.validationRes!=0 && $scope.stream.codiceVirtualEntity=="internal"){
 			$scope.errorMsg='STREAM_SIDDHI_PLEASE_VALIDATE';
 			$scope.validationRes=1;
 			Helpers.util.scrollTo("validateMsg");

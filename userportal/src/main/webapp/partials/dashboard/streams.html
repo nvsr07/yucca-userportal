@@ -26,14 +26,14 @@
 						<thead>
 							<tr>
 								<th>
-									<a href="" ng-click="predicate = 'tenant'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_TENANT'|translate}} 
-									<span ng-show="predicate=='tenant' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='tenant' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'nomeTenant'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_TENANT'|translate}} 
+									<span ng-show="predicate=='nomeTenant' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='nomeTenant' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'name'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_STREAM_NAME'|translate}} 
-									<span ng-show="predicate=='name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'codiceStream'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_STREAM_NAME'|translate}} 
+									<span ng-show="predicate=='codiceStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='codiceStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
 								</th>
 								<!-- 
@@ -56,26 +56,26 @@
 								</th>
 								-->
 								<th>
-									<a href="" ng-click="predicate = 'desc'; reverse=!reverse">{{'STREAM_FIELD_VIRTUALENTITY_DESCRIPTION'|translate}} 
-									<span ng-show="predicate=='desc' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='desc' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'virtualEntityDescription'; reverse=!reverse">{{'STREAM_FIELD_VIRTUALENTITY_DESCRIPTION'|translate}} 
+									<span ng-show="predicate=='virtualEntityDescription' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='virtualEntityDescription' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'domain'; reverse=!reverse">{{'STREAM_FIELD_DOMAIN'|translate}} 
-									<span ng-show="predicate=='domain' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='domain' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'domainStream'; reverse=!reverse">{{'STREAM_FIELD_DOMAIN'|translate}} 
+									<span ng-show="predicate=='domainStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='domainStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'status'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_STATUS'|translate}} 
-									<span ng-show="predicate=='status' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='status' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'deploymentStatusCode'; reverse=!reverse">{{'DASHBOARD_STREAM_LIST_STATUS'|translate}} 
+									<span ng-show="predicate=='deploymentStatusCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='deploymentStatusCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="stream in streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+							<tr ng-repeat="stream in filteredStreams = (streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 								<td>{{stream.nomeTenant}}</td>
 								<td><a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}"><strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}</a></td>
 								<!-- 
@@ -89,7 +89,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+					<pagination boundary-links="true" total-items="filteredStreams.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
 						next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 					></pagination>
 	
