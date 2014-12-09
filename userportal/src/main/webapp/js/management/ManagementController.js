@@ -56,8 +56,6 @@ appControllers.controller('ManagementDashboardCtrl',[ '$scope', '$route', 'fabri
 } ]);
 
 
-
-
 appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 
@@ -92,7 +90,6 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		$scope.totalItems = $scope.streamsList.length;
 		//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
-
 
 	$scope.selectPage = function() {
 		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
@@ -146,9 +143,6 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		}
 		return false;
 	};
-
-
-
 
 	$scope.editStream = function(){
 		if($scope.selectedStreams.length===1){

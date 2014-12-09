@@ -273,6 +273,16 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 			url : Constants.API_SERVICES_STREAM_LIST_URL + tenantUrl  + '?callback=JSON_CALLBACK'
 		});
 	};
+	
+	fabricAPI.getVisibleStreams = function(tenant_code) {
+		var tenantUrl = '?visibleFrom=sandbox';
+		if(tenant_code)
+			tenantUrl = '?visibleFrom='+tenant_code;
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_SERVICES_STREAM_LIST_URL + tenantUrl  + '&callback=JSON_CALLBACK'
+		});
+	};
 
 	// fabricAPI.getStream = function(id_stream) {
 	fabricAPI.getStream = function(tenant_code, virtualentity_code, stream_code) {
