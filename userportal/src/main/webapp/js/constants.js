@@ -47,6 +47,24 @@ Constants.DISCOVERY_FIELD_TENANT = 'DISCOVERY_FIELD_TENANT';
 Constants.DISCOVERY_FIELD_FPS = 'DISCOVERY_FIELD_FPS';
 Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT = 'DISCOVERY_FIELD_UNIT_OF_MEASUREMENT';
 
+
+var operationNuberList=[
+                        {key:" = ",value:" eq "},
+                        {key:" != ",value:" ne "},
+                        {key:" < ",value:" lt "},
+                        {key:" > ",value:" gt "},
+                        {key:" <= ",value:" le "},
+                        {key:" >= ",value:" ge "}];
+
+
+var operationStringList=[
+                         {key:" = ",value:" eq "},
+                         {key:" != ",value:" ne "},
+                         {key:" contains ",value:" substringof "},
+                         {key:" startswith ",value:" startswith "},
+                         {key:" endswith ",value:" endswith "}];
+
+
 Constants.DISCOVERY_FIELDS = [
                               {key:Constants.DISCOVERY_FIELD_TITLE, api_key: 'datasetName', discrete: false},
                               {key:Constants.DISCOVERY_FIELD_TAG, api_key: 'tags', discrete: true},
@@ -55,6 +73,14 @@ Constants.DISCOVERY_FIELDS = [
                               {key:Constants.DISCOVERY_FIELD_FPS, api_key: 'fps', discrete: false},
                               {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'measureUnit', discrete: true},
                               ];
+Constants.DISCOVERY_FIELD_OPERATIONS={
+		datasetName:operationStringList,
+		tags:operationStringList,
+		license:operationStringList,
+		tenantCode:operationStringList,
+		measureUnit:operationStringList,
+		fps:operationNuberList
+};
 
 Constants.BULK_DATASET_MAX_FILE_SIZE = 10000000;
 

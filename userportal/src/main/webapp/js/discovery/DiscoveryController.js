@@ -38,9 +38,12 @@ appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryS
 	$scope.$route = $route;
 	$scope.activeSearch = 'simpleSearch';
 	$scope.fieldList = Constants.DISCOVERY_FIELDS;
+	$scope.fieldOperationList = Constants.DISCOVERY_FIELD_OPERATIONS;
 	$scope.simpleSearchInputVal ;
 	$scope.searchResult=[];
 	$scope.advancedFilters = [];
+	
+	
 	$scope.setActiveSearch = function (activeSearch){
 		$scope.activeSearch = activeSearch;
 	};
@@ -61,7 +64,7 @@ appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryS
 	
 	var MAX_NUM_ADVANCED_FILTERS = 3;
 	for (var int = 0; int <  MAX_NUM_ADVANCED_FILTERS; int++) {
-		$scope.advancedFilters[int] = {field: null, value: null};
+		$scope.advancedFilters[int] = {field: null, op:null, value: null};
 	}
 	
 	

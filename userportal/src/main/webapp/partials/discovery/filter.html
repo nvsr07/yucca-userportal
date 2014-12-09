@@ -28,12 +28,18 @@
 				<form class="form-horizontal" role="form" >
 					<div class="form-group" ng-repeat="filter in advancedFilters">
 						<label for="filter1" class="col-sm-2 control-label"><span translate>DISCOVERY_FILTER_ADVANCED_FILTER_LABEL</span></label>
-						<div class="col-sm-5">
+						<div class="col-sm-4">
 							<select class="form-control  input-lg"  ng-model="advancedFilters[$index].field">
+								<option value=""></option>
 								<option value="{{field.api_key}}" ng-repeat="field in fieldList"  ng-bind-html="field.key|translate|unsafe"></option>
 							</select>
 						</div>
-						<div class="col-sm-5">
+						<div class="col-sm-2">
+							<select class="form-control  input-lg"  ng-model="advancedFilters[$index].op">
+							<option value="{{operation.value}}" ng-repeat="operation in fieldOperationList[advancedFilters[$index].field]">{{operation.key}}</option>
+							</select>
+						</div>
+						<div class="col-sm-4">
 							<input type="text" class="form-control  input-lg" ng-model="advancedFilters[$index].value"  id="inputStreamName" >
 						</div>
 					</div>

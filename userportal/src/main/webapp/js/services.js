@@ -14,6 +14,19 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 	              {key:"dataDomain",type:"String"},{key:"license",type:"String"},{key:"fps",type:"Double"},
 	              {key:"datasetName",type:"String"},{key:"visibility",type:"String"},{key:"tags",type:"String"},{key:"measureUnit",type:"String"}];
 
+	
+	
+	var buildStringQuery = function(key,op,value){
+		console.debug(key,op,value);
+		if(op.trim()=="eq" || op.trim()=="ne"){
+			return " "+key+" "+op+" '"+value+"'";
+		}else if(op.trim()=="substringof"){
+			return " "+op+"('"+value+"' ,"+key+" ) eq true ";
+		}else if(op.trim()=="startswith" || op.trim()=="endswith"  ){
+				return " "+op+"("+key+",'"+value+"' ) eq true ";
+		}
+	};
+	
 	dataDiscovery.searchMultiFieldInDatasets = function(queryArray){
 
 		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
@@ -31,28 +44,31 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += " idDataset eq " +keyValue.value.trim();
+					URLQuery += " idDataset "+queryArray[int].op+" "+keyValue.value.trim();
 					first=false;
 					break;
 				case "tenantCode":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());// " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
 					first=false;
 					break;
 				case "dataDomain":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += " substringof('"+keyValue.value.trim()+"' ,dataDomain ) eq true ";
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,dataDomain ) eq true ";
 					first=false;
 					break;
 				case "license":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += " substringof('"+keyValue.value.trim()+"' ,license ) eq true ";
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,license ) eq true ";
 					first=false;
 					break;
 				case "fps":
@@ -60,7 +76,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 						if(!first){ 
 							URLQuery+=" and ";						
 						}
-						URLQuery += " fps eq " +keyValue.value.trim()+"m ";
+						URLQuery += " fps "+queryArray[int].op+" "+keyValue.value.trim()+"m ";
 					}
 					first=false;
 					break;
@@ -68,28 +84,32 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += "substringof('"+keyValue.value.trim()+"' ,datasetName ) eq true ";
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());
+//					URLQuery += "substringof('"+keyValue.value.trim()+"' ,datasetName ) eq true ";
 					first=false;
 					break;
 				case "visibility":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += "substringof('"+keyValue.value.trim()+"' ,visibility ) eq true ";
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());
+//					URLQuery += "substringof('"+keyValue.value.trim()+"' ,visibility ) eq true ";
 					first=false;
 					break;
 				case "tags":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tags ) eq true ";
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tags ) eq true ";
 					first=false;
 					break;
 				case "measureUnit":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
-					URLQuery += " substringof('"+keyValue.value.trim()+"' ,measureUnit ) eq true ";
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,measureUnit ) eq true ";
 					first=false;
 					break;
 				}				
