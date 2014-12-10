@@ -3539,15 +3539,15 @@ $.extend(freeboard, jQuery.eventEmitter);
             width: "100%",
             fillColor: false,
             // lineColor: "#FF9900", /* customization userportal */
-            lineColor: "#ff00ff",
+            lineColor: "#ffc930",
             lineWidth: 2,
             spotRadius: 3,
             spotColor: false,
             // maxSpotColor: "#78AB49", /* customization userportal */
-            minSpotColor: "#ed59ad",
-            maxSpotColor: "#ed59ad",
-            highlightSpotColor: "#1cBDf1",
-            highlightLineColor: "#1cBDf1"
+            minSpotColor: "#ffd459",
+            maxSpotColor: "#ffd459",
+            highlightSpotColor: "#ffa330",
+            highlightLineColor: "#ffa330"
             //highlightSpotColor: "#9D3926", /* customization userportal */
         });
     }

@@ -7,7 +7,7 @@
 	</div>
 	<div class='row'><p>&nbsp;</p></div>
 	<div class='row'>
-		<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<p>{{dataset.info.description}}</p>
 			<p><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong>: {{dataset.info.dataDomain|translate}}</p>
 			<div>
@@ -15,54 +15,118 @@
 					<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
 				</ul>
 			</div>
-			<p>&nbsp;</p>
-			<p class="mute"><strong><span translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</span></strong></p>
-			<p><span translate>DATASET_FIELD_METADATA_LICENSE</span>: {{dataset.info.license|nvl:' -'}}</p>
-			<p><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span>: {{dataset.info.disclaimer|nvl:' -'}}</p>
-			<p><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span>: {{dataset.info.copyright|nvl:' -'}}</p>
-		
 		</div>
+	</div>
+	<accordion close-others="false">
+		<accordion-group>
+		 	<accordion-heading>
+	 			<span translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</span>
+	 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			</accordion-heading>
+			
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_LICENSE</span></strong></div>
+					<div class='col-sm-10'>{{dataset.info.license|nvl:' -'}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong></div>
+					<div class='col-sm-10'>{{dataset.info.disclaimer|nvl:' -'}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong></div>
+					<div class='col-sm-10'>{{dataset.info.copyright|nvl:' -'}}</div>
+				</div>	
+			</div>
+		</accordion-group>
+		<accordion-group>
+			<accordion-heading>
+				<span translate>VIRTUALENTITY</span>
+	 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			</accordion-heading>
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
+				<div class='col-sm-10'>{{stream.streams.stream.virtualEntityName|nvl:'Temperatura'}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong></div>
+				<div class='col-sm-10'>{{stream.streams.stream.virtualEntityCode|nvl:'aa83b06f-aac1-4e06-a5ad-637e7055cbc1'}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
+				<div class='col-sm-10'>{{stream.streams.stream.virtualEntityDescription|nvl:'Sensore della temperatura del monte che ne so'}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong></div>
+				<div class='col-sm-10'>{{stream.streams.stream.virtualEntityType|nvl:'Device'}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
+				<div class='col-sm-10'>{{stream.streams.stream.virtualEntityCategory|nvl:'Smart'}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
+				<div class='col-sm-10'>{{stream.streams.stream.virtualEntityCategory|nvl:'Smart'}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
+				<div class='col-sm-4'>[{{stream.streams.stream.virtualEntityPositions.position.lat}};{{stream.streams.stream.virtualEntityPositions.position.lon}}]</div>
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
+				<div class='col-sm-4'>{{stream.streams.stream.virtualEntityPositions.position.elevation|nvl:' -'}}</div>
+			</div>	
+		</accordion-group>
+		<accordion-group>
+			<accordion-heading>
+				<span translate>STREAM</span>
+	 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			</accordion-heading>
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_NAME</span></strong></div>
+				<div class='col-sm-10'>{{stream.streamName|nvl:' -'}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_FPS</span></strong></div>
+				<div class='col-sm-10'>{{stream.streamCode|nvl:' -'}}</div>
+			</div>	
+			<div class="row card-row">
+				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
+				<div class='col-sm-10'>{{stream.streams.stream.fps|nvl:' -'}}</div>
+			</div>	
+		</accordion-group>
+		<accordion-group>
+			<accordion-heading>
+				<span translate>MANAGEMENT_EDIT_DATASET_COLUMNS</span>
+	 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			</accordion-heading>
 		
-		<div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-			<!--<div class="panel panel-default">
-				<div class="panel-heading">
-   					<h3 class="panel-title"><span translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</span></h3>
-				</div>
-				<div class="panel-body">
-					<p>&copy; {{dataset.info.copyright}} - <span translate>DATASET_FIELD_METADATA_LICENSE</span>: {{dataset.info.license}} - <span translate>DATASET_FIELD_METADATA_DISCLAIMER</span>: {{dataset.info.disclaimer}}</p>
-				</div>
+			<div class="col-sm-12">
+				<table class="table-condensed table-supercondensed">
+					<thead>
+						<tr>
+							<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
+							<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+							<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
+							<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
+							<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
+							<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="field in dataset.info.fields">
+							<td>{{field.fieldName}}</td>
+							<td>{{field.fieldAlias}}</td>
+							<td>{{field.dataType|nvl:' - '}}</td>
+							<td>{{field.sourceColumn}}</td>
+							<td>{{field.measureUnit|nvl:' - '}}</td>
+							<td>{{field.isKey|booleanToString}}</td>
+							
+					</tbody>
+				</table>
 			</div>
-			<p>&nbsp;</p> -->
-			<div class="panel panel-default">
-				<div class="panel-heading">
-   					<h3 class="panel-title"><span translate>MANAGEMENT_EDIT_DATASET_COLUMNS</span></h3>
-				</div>
-				<div class="panel-body">
-					<table class="table-condensed table-supercondensed">
-						<thead>
-							<tr>
-								<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="field in dataset.info.fields">
-								<td>{{field.fieldName}}</td>
-								<td>{{field.fieldAlias}}</td>
-								<td>{{field.dataType|nvl:' - '}}</td>
-								<td>{{field.sourceColumn}}</td>
-								<td>{{field.measureUnit|nvl:' - '}}</td>
-								<td>{{field.isKey|booleanToString}}</td>
-								
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+		</accordion-group>
+	</accordion>
+	<div class='row'>
+		<div class='card-label-separator'><span translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span></div>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="alert alert-info" role="alert">
 				<strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong>

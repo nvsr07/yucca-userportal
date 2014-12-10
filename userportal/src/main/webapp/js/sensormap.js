@@ -227,28 +227,28 @@ function showMap() {
         // definisce la mappa e ci associa il layer dei vettori e gli overlay
         // la mappa fa riferimento al div "map"... se si cambia il nome del DIV
         // è necessario modificare questo codice
-       // var map = new ol.Map({
-       //     target: 'map',
-      //	  layers: [
-      //     	    new ol.layer.Tile({
-      //     	      source: new ol.source.XYZ({ 
-      //     	        url: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-      //     	        attributions: [new ol.Attribution({ html: ['&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'] })]
-      //     	      })
-      //     	    })
-      //     	  ],
-      //     overlays: [overlay]
-      //  });
         var map = new ol.Map({
-          target: 'map',
-          layers: [
-            new ol.layer.Tile({
-              source: new ol.source.OSM()
-            }),
-            vectorLayer
-          ],
-         overlays: [overlay]
+            target: 'map',
+      	  layers: [
+           	    new ol.layer.Tile({
+           	      source: new ol.source.XYZ({ 
+           	        url: 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+           	        attributions: [new ol.Attribution({ html: ['&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'] })]
+           	      })
+           	    })
+           	  ],
+           overlays: [overlay]
         });
+//        var map = new ol.Map({
+//          target: 'map',
+//          layers: [
+//            new ol.layer.Tile({
+//              source: new ol.source.OSM()
+//            }),
+//            vectorLayer
+//          ],
+//         overlays: [overlay]
+//        });
 
         // centra la mappa sulle coordinate in modo da visualizzare tutti i sensori
         // si lascia commentato il codice per l'impostazione manuale delle dimensioni

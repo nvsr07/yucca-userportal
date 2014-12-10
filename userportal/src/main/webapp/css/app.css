@@ -141,6 +141,10 @@ small pre{font-size: 11px;padding: 4px;}
 .table-dateformat-help td{padding: 4px!important;line-height: 1.4!important;}
 #management-edit-stream-component-help-fix{padding-right: 2px;}
 
+.panel-default>.panel-heading {font-size: 1.2em; font-weight: bold; color: #bbb; border-bottom: 1px solid #ccc;margin: .5em 0;padding: .5em 0;background-color: transparent;}
+.panel-group .panel-heading+.panel-collapse .panel-body {border-top: none;}
+.panel-group .panel {border-radius: 0px;}
+.panel {border: none;border-radius: 0;-webkit-box-shadow: none;box-shadow:none;}
 /* Work in progress */
 
 .work-in-progress{}
@@ -175,10 +179,10 @@ small pre{font-size: 11px;padding: 4px;}
 /* blu */
 
 #freeboard-container .gridster{color: white;}
-#freeboard-container .gridster .gs_w { background: #075B9B;}
-#freeboard-container .gridster header {background-color: #054678; color: #fdfdfd;}
+#freeboard-container .gridster .gs_w { background: #3498db;}
+#freeboard-container .gridster header {background-color: #2980b9; color: #e9ffff;}
 #freeboard-container .sub-section {border-bottom: solid 1px #054678;}
-#freeboard-container a{color: #B6D9F4; letter-spacing: .1em;}
+#freeboard-container a{color: #fff; letter-spacing: .1em;}
 #freeboard-container a:hover{color: #fff;}
 
 
@@ -241,11 +245,11 @@ small pre{font-size: 11px;padding: 4px;}
 
 
 .dashboard-menu .tile-main, .btn-dashboard.active, .btn-dashboard:hover {background-color: #1074c2; color: white;  }
-.dashboard-menu .tile-menuitem, .btn-dashboard {background-color: #1CBDF1;color: white!important; border: none; }
+.dashboard-menu .tile-menuitem, .btn-dashboard {background-color: #3498db;color: white!important; border: none; }
 .dashboard-menu .tile-menuitem:hover {background-color: #1074c2;}
 
 .management-menu .tile-main, .btn-management.active,  .btn-management:hover{background-color: #662577;color: white; }
-.management-menu .tile-menuitem,  .btn-management{background-color: #9F4F98; color: white; border: none;}
+.management-menu .tile-menuitem,  .btn-management{background-color: #9b59b6; color: white; border: none;}
 .management-menu .tile-menuitem:hover {background-color: #662577;}
 
 .discovery-menu .tile-main, .btn-discovery.active,  .btn-discovery:hover{background-color: #2c3e50;color: white; }
@@ -294,8 +298,8 @@ small pre{font-size: 11px;padding: 4px;}
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn{background-color: #ccc;}
 
 .main-menu-item{font-weight: bold;font-size: 17px; color: #ccc;}
-.main-menu-item-dashboard.active{color: #1CBDF1!important;}
-.main-menu-item-management.active{color: #9F4F98!important; }
+.main-menu-item-dashboard.active{color: #3498db!important;}
+.main-menu-item-management.active{color: #9b59b6!important; }
 .main-menu-item-discovery.active{color: #34495e!important; }
 
 
@@ -311,11 +315,14 @@ small pre{font-size: 11px;padding: 4px;}
 /* common */
 .terms-of-privacy{background-color: #f9f9f9; font-size: 11px; text-align: justify;height:100%;}
 
+.info-card p{padding-left: 1em;}
+.info-card h4{padding: .5em;margin-top: 2em;}
+
 /* dashboard */
 .section-dashboard .btn-default.active, .section-dashboard .btn-default:hover {background-color: #1074c2!important; color: white;  }
-.section-dashboard .btn-default {background-color: #1CBDF1;color: white!important; border: none; }
+.section-dashboard .btn-default {background-color: #3498db;color: white!important; border: none; }
 .section-dashboard .title-container{background-color:white;  border-bottom:3px solid #1074c2; border-top: 0px; margin-bottom:1em;	}
-.section-dashboard .subtitle-container{background-color:white;  border-bottom:3px solid #1CBDF1; border-top: 0px; margin-bottom:1em;	}
+.section-dashboard .subtitle-container{background-color:white;  border-bottom:3px solid #3498db; border-top: 0px; margin-bottom:1em;	}
 .section-dashboard a{color: #1074c2;}
 .section-dashboard .pagination>.active>a, .section-dashboard .pagination>.active>span, .section-dashboard .pagination>.active>a:hover, .section-dashboard .pagination>.active>span:hover, .section-dashboard .pagination>.active>a:focus, .section-dashboard .pagination>.active>span:focus{background-color: #1074c2;border-color: #1074c2; color: white;}
 .section-dashboard .pagination>li>a:hover, .section-dashboard .pagination>li>span:hover, .pagination>li>a:focus, .section-dashboard .pagination>li>span:focus,.section-dashboard .pagination>li>a:hover{color: #054678}
@@ -325,9 +332,9 @@ small pre{font-size: 11px;padding: 4px;}
 
 /* management */
 .section-management .btn-default.active, .section-management .btn-default:hover {background-color: #662577!important; color: white;  }
-.section-management .btn-default {background-color: #9F4F98;color: white!important; border: none; }
+.section-management .btn-default {background-color: #9b59b6;color: white!important; border: none; }
 .section-management .title-container{background-color:white;  border-bottom:3px solid #662577; border-top: 0px; margin-bottom:1em;	}
-.section-management .subtitle-container{background-color:white;  border-bottom:3px solid #9F4F98; border-top: 0px; margin-bottom:1em;	}
+.section-management .subtitle-container{background-color:white;  border-bottom:3px solid #9b59b6; border-top: 0px; margin-bottom:1em;	}
 .section-management a{color: #662577;}
 .section-management .pagination>.active>a, .section-management .pagination>.active>span, .section-management .pagination>.active>a:hover, .section-management .pagination>.active>span:hover, .section-management .pagination>.active>a:focus, .section-management .pagination>.active>span:focus{background-color: #662577;border-color: #662577; color: white;}
 .section-management .pagination>li>a:hover, .section-management .pagination>li>span:hover, .pagination>li>a:focus, .section-management .pagination>li>span:focus,.section-management .pagination>li>a:hover{color: #054678}
@@ -335,10 +342,12 @@ small pre{font-size: 11px;padding: 4px;}
 .section-management .important{color: #662577;}
 .section-management .wizard-nav .nav-pills>li.active>a{border-bottom:3px solid #662577!important;}
 .section-management .wizard-nav .nav-pills>li.active>a, .wizard-nav .nav-pills>li.active>a:hover,.wizard-nav .nav-pills>li.active>a:focus{background-color: transparent; color: #662577!important}
-.section-management .wizard-nav .nav-pills>li>a.step-done{color: #9F4F98; border-bottom:3px solid #9F4F98;}
+.section-management .wizard-nav .nav-pills>li>a.step-done{color: #9b59b6; border-bottom:3px solid #9b59b6;}
 .section-management .wizard-title strong{color: #662577;}
 .section-management .wizard-title small{font-weight: bold;}
 .section-management .ajax-loading{background: url("../img/loading/management-loading.gif") center right no-repeat;}
+.section-management .info-card h4{background-color: #efe4f3 } /* last Color Shades on http://9b59b6.hex-code.com/ 
+
 
 
 /* discovery */
@@ -453,8 +462,8 @@ div.spinner {
   width: 18px;
   margin: 20px auto;
   border-radius: 50%;
-  border-left: solid 6px #9F4F98;
-  border-right: solid 6px #9F4F98;
+  border-left: solid 6px #9b59b6;
+  border-right: solid 6px #9b59b6;
   border-top: solid 6px #0e232e;
   border-bottom: dashed 6px #0e232e;
 
