@@ -310,6 +310,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			}
 	};
 
+	$scope.$watch('streamSiddhiQuery', function() {
+		$scope.validationRes=2;
+	});
+	
+	
+	
 	$scope.valideteSiddhi = function(){
 
 		if($scope.stream.componenti==null || $scope.stream.componenti.element==null || $scope.stream.componenti.element.length==0){
