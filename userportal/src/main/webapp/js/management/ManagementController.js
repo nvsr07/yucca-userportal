@@ -274,6 +274,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.updateError = null;
 	$scope.insertComponentErrors = [];
 
+	
+	$scope.defaultQuery = Constants.DEFAULT_SIDDHI;
 
 	$scope.internalStreams = [];
 	$scope.inputTypeStream = 1;
@@ -284,6 +286,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 
 	$scope.addStreamToArray = function(){
+		$scope.validationRes=2;
 		$scope.streamSelectedItem.componenti = new Object();
 		$scope.internalStreams.push($scope.streamSelectedItem);
 		$scope.loadStreamComponents($scope.streamSelectedItem);		
@@ -291,6 +294,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 
 	$scope.cancelStreamToArray = function(index){
+		$scope.validationRes=2;
 		$scope.internalStreams.splice(index,1);
 	};
 
@@ -308,6 +312,18 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.valideteSiddhi = function(){
 
+		if($scope.stream.componenti==null || $scope.stream.componenti.element==null || $scope.stream.componenti.element.length==0){
+			$scope.validationRes=1;
+			$scope.errorMsg="STREAM_SIDDHI_INSERT_COMPONENT";
+			return;
+		}
+		if($scope.streamSiddhiQuery==null || $scope.streamSiddhiQuery.indexOf("outputStream")==-1){
+			$scope.validationRes=1;
+			$scope.errorMsg="STREAM_SIDDHI_PLEASE_OUTPUTSTREAM";
+			return;
+		}
+		
+		
 		var siddhiStreamDefinitions = "";
 		var siddhiStreamArray = [];
 		for(var st in $scope.internalStreams){
@@ -326,9 +342,24 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		}
 		
+		//OutputStream Definition
+		
+		siddhiStreamDefinitions += " define stream " + "outputStream(meta_source string, time string ";
+		if($scope.stream.componenti!= null && $scope.stream.componenti.element!=null ){
+			var componenti = $scope.stream.componenti.element;
+			for(var comp in componenti){
+				siddhiStreamDefinitions += ","+componenti[comp].nome +" "+componenti[comp].dataType;
+			}
+			siddhiStreamDefinitions +=");";
+			siddhiStreamArray.push(siddhiStreamDefinitions);
+			siddhiStreamDefinitions="";
+		}
+		
+		
+		
 		var validationObj = {
 				"inputStreamDefiniitons":siddhiStreamArray,
-				"queryExpressions":$scope.streamSiddhiQuery				
+				"queryExpressions":$scope.streamSiddhiQuery + $scope.defaultQuery		
 		};
 		console.debug("validationObj : ", validationObj);
 		fabricAPIservice.validateSiddhi(validationObj).success(function(response) {
@@ -480,6 +511,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.newComponentDataType = null;
 
 	$scope.addComponent = function(){
+		$scope.validationRes=2;
 		$scope.insertComponentErrors = [];
 		if($scope.newComponent && $scope.newComponent.nome){
 			var found = false;
@@ -528,6 +560,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 
 	$scope.removeComponent = function(index){
+		$scope.validationRes=2;
 		$scope.stream.componenti.element.splice(index,1);
 		return false;
 	};

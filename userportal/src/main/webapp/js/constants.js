@@ -46,8 +46,7 @@ Constants.DISCOVERY_FIELD_LICENSE = 'DISCOVERY_FIELD_LICENSE';
 Constants.DISCOVERY_FIELD_TENANT = 'DISCOVERY_FIELD_TENANT';
 Constants.DISCOVERY_FIELD_FPS = 'DISCOVERY_FIELD_FPS';
 Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT = 'DISCOVERY_FIELD_UNIT_OF_MEASUREMENT';
-
-
+Constants.DEFAULT_SIDDHI = 'from outputStream#window.time(30 sec) \n select count(time) as numEventsLast30Sec \n output last every 2 sec \n insert into tempOutputStat for all-events; \n from tempOutputStat#window.length(1) \n select numEventsLast30Sec,"" as lastMessage,"" as lastUpdate \n output snapshot every 2 sec insert into outputStat for all-events'; 
 var operationNuberList=[
                         {key:" = ",value:" eq "},
                         {key:" != ",value:" ne "},
