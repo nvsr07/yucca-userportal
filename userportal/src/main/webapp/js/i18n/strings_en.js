@@ -79,8 +79,11 @@ var translations_en = {
 	
 	STREAM_SIDDHI_QUERY_SUCCESS: "The query siddhi is valid.",
 	STREAM_SIDDHI_QUERY: "SIDDHI query ",
+	STREAM_SIDDHI_QUERY_DEFAULT:"Default added in the end:",
 	STREAM_SIDDHI_VALIDATE_BUTTON:'Validate',
 	STREAM_SIDDHI_PLEASE_VALIDATE:'Please validate Query before saving stream!',
+	STREAM_SIDDHI_PLEASE_OUTPUTSTREAM:'Please insert "outputStream" case sensitive in the query.',
+	STREAM_SIDDHI_INSERT_COMPONENT:"Before validation it is necessary to add the components to the stream",
 
 	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'e.g. temperature',

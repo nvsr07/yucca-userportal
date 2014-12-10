@@ -68,26 +68,31 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 } ]);
 
 
-appControllers.controller('DashboardCtrl', [ '$scope','$routeParams', 'fabricAPIservice', function($scope,$routeParams, fabricAPIservice, filterFilter) {
+appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice', function($scope,info, fabricAPIservice, filterFilter) {
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
 	$scope.tenantsFilter = null;
-
+	$scope.tenantCode = info.getTenantCode();
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.streamsList.length;
 	$scope.predicate = '';
 
-	fabricAPIservice.getStreams().success(function(response) {
+	console.debug("$scope.tenantCode", $scope.tenantCode);
+	fabricAPIservice.getInfo().success(function(info){
+		console.debug("info",info);
+	fabricAPIservice.getVisibleStreams(info.tenantCode).success(function(response) {
 		// Dig into the responde to get the relevant data
 		
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
-			if(responseList[i].visibility && responseList[i].visibility=="public" || responseList[i].codiceTenant==$routeParams.tenant_code){
+			console.debug("responseList[i].visibility : ",responseList[i].visibility,responseList[i].codiceTenant);
+//			console.debug(" codiceTenant ? $routeParams.tenant_code",responseList[i].codiceTenant,info);
+//			if(responseList[i].visibility && responseList[i].visibility=="public" || responseList[i].codiceTenant==info.info.tenantCode){
 				$scope.streamsList.push(responseList[i]);					
-			}
+//			}
 		}
-		
+	
 		
 //		$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < $scope.streamsList.length; i++) {
@@ -97,7 +102,7 @@ appControllers.controller('DashboardCtrl', [ '$scope','$routeParams', 'fabricAPI
 		$scope.totalItems = $scope.streamsList.length;
 	//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
-
+	});
 	$scope.selectPage = function() {
 		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
