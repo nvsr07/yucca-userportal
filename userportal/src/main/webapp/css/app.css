@@ -145,6 +145,7 @@ small pre{font-size: 11px;padding: 4px;}
 .panel-group .panel-heading+.panel-collapse .panel-body {border-top: none;}
 .panel-group .panel {border-radius: 0px;}
 .panel {border: none;border-radius: 0;-webkit-box-shadow: none;box-shadow:none;}
+.panel-title{font-size: 18px;}
 /* Work in progress */
 
 .work-in-progress{}
