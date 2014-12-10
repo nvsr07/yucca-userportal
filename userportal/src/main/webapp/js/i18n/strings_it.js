@@ -79,8 +79,11 @@ var translations_it = {
 	
 	STREAM_SIDDHI_QUERY_SUCCESS: "La query Siddhi e' valida.",
 	STREAM_SIDDHI_QUERY: "Query SIDDHI ",
+	STREAM_SIDDHI_QUERY_DEFAULT:"Query aggiunta in fondo:",
 	STREAM_SIDDHI_VALIDATE_BUTTON:'Valida',
 	STREAM_SIDDHI_PLEASE_VALIDATE:'Validare la query siddhi prima di continuare!',
+	STREAM_SIDDHI_PLEASE_OUTPUTSTREAM:'Inserire il parametro "outputStream" nella query.',
+	STREAM_SIDDHI_INSERT_COMPONENT:"Prima di validare e' neccessario inserire le componenti del nuovo stream",
 
 	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'es. temperatura',
@@ -441,7 +444,6 @@ var translations_it = {
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'Per abilitare la cancellazione selezionare almeno un Dataset',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET: 'Cancella',
 	
-	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'Accesso ai dati',
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Scarica',
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Aggiungi dati',
