@@ -268,7 +268,8 @@ var translations_en = {
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/example">Monitor</a> your streams in the dashboard </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Import</a> your <strong>bulk dataset </strong> via upload</li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Discover and  consume</a> all archived data and dataset via <strong>OData API</strong> </li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Create streams combined with logic of aggregation (coming soon...)</li>', 
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Create derived streams</a> from one or more streams with <strong>custom logic using SiddhiQL</strong></li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Create derived streams simply with wizard (coming soon...)</li>',
 							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Dashboard streams monitoring',
@@ -389,7 +390,7 @@ var translations_en = {
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
-	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
+	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Warning',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'The field \'name\' is required',

@@ -269,7 +269,8 @@ var translations_it = {
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/overview">Monitora</a> i tuoi stream nella dashboard </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Importa</a> i tuoi <strong>dataset bulk</strong> tramite upload</li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Cerca e fruisci</a> di tutti i dati storicizzati e dei dataset tramite <strong>API OData</strong> </li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea flussi combinati con logiche di aggregazione (coming soon...)</li>',
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Crea flussi</a> derivati da uno o pi&ugrave; stream aggiungendo <strong>logiche personalizzate in SiddhiQL</strong></li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea flussi derivati in maniera semplice attraverso wizard guidati (coming soon...)</li>',
 							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Area monitoraggio flussi',
@@ -390,7 +391,7 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni generali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
-	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings (coming soon)',
+	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' obbligatorio',
@@ -508,7 +509,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'Per la struttura del dato &eacute; possibile modificare solo gli alias delle colonne',
 
 	MANAGEMENT_EDIT_DATASET_OTHER_INFO: 'Informazioni aggiuntive',
-	MANAGEMENT_EDIT_DATASET_SETTINGS: 'Settings (coming soon)',
+	MANAGEMENT_EDIT_DATASET_SETTINGS: 'Settings',
 	
 	MANAGEMENT_EDIT_DATASET_ERROR_COMPONENT_TITLE: 'Attenzione',
 	MANAGEMENT_EDIT_DATASET_ERROR_COLUMN_CODE_REQUIRED: 'Il campo \'codice\' obbligatorio',
