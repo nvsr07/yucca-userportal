@@ -31,7 +31,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
 		var URLQuery="";
-		var URLFilter = "&$filter="; 
+		var URLFilter = "&$filter=("; 
 		var first = true ;
 		console.debug("searchMultiFieldInDatasets",queryArray);
 		for (var int = 0; int <  3; int++) {
@@ -116,7 +116,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 			} 
 		}
 		if(URLQuery.trim()!=""){
-			URLBaseQuery+= URLFilter + URLQuery;
+			URLBaseQuery+= URLFilter + URLQuery+") ";
 		}
 
 		console.debug("dataDiscovery.searchDatasets URL : ",URLBaseQuery);
@@ -133,7 +133,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
 		var URLQuery="";
-		var URLFilter = "&$filter="; 
+		var URLFilter = "&$filter=("; 
 		if(queryString != undefined && queryString.trim()!=""){
 
 			var res = queryString.split(" ");
@@ -238,7 +238,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 		}
 
 		if(URLQuery.trim()!=""){
-			URLBaseQuery+= URLFilter + URLQuery;
+			URLBaseQuery+= URLFilter + URLQuery+")";
 		}
 
 		console.debug("dataDiscovery.searchDatasets URL : ",URLBaseQuery);

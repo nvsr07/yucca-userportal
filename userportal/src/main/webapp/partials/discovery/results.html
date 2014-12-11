@@ -16,7 +16,7 @@
 				<thead>
 					<tr>
 						<th ng-repeat="field in fieldList">
-							<a href=""><span ng-bind-html="field.key|translate"></span></a>
+							<a ng-click="changePredicate(field.api_key);"><span ng-bind-html="field.key|translate">{{field.api_key}}</span></a>
 						</th>
 						<th>&nbsp;</th>
 					</tr>

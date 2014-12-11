@@ -192,9 +192,14 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	private String cleanParameters(Map<String, String[]> parameterMap) throws UnsupportedEncodingException {
 		String parametersOut = "?";
 		if (parameterMap != null && parameterMap.size() > 0) {
+			int i = 0;
 			for (String key : parameterMap.keySet()) {
+				i++;
 				if (!key.trim().equalsIgnoreCase("callback")) {
-					parametersOut += key + "=" +  URLEncoder.encode(parameterMap.get(key)[0],"UTF-8").replace("+","%20") + "&";
+					parametersOut += key + "=" +  URLEncoder.encode(parameterMap.get(key)[0],"UTF-8").replace("+","%20") ;
+					if(i<parameterMap.size()){
+						parametersOut +="&";
+					}
 				}
 			}
 		}
@@ -218,10 +223,10 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		String tenantCode = AuthorizeUtils.getTenantInSession(request);
 		String authString = "";
 		if(request.getRequestURI().contains("/userportal/api/proxy/discovery/Datasets") && path.contains("$filter")){
-			String authparams=  " and (substringof('"+tenantCode+"',tenantCode) or (substringof('public',visibility ))";
+			String authparams=  " and (substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true)";
 			authString += URLEncoder.encode(authparams,"UTF-8").replace("+","%20") + "&";
 		}else if(request.getRequestURI().contains("/userportal/api/proxy/discovery/Datasets")){
-			String authparams = "substringof('"+tenantCode+"',tenantCode) or substringof('public',visibility )";
+			String authparams = "substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true";
 			authString +=  "&$filter="+URLEncoder.encode(authparams,"UTF-8").replace("+","%20") + "&";
 		}
 		path +=authString;

@@ -42,11 +42,16 @@ appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryS
 	$scope.simpleSearchInputVal ;
 	$scope.searchResult=[];
 	$scope.advancedFilters = [];
-	
+	$scope.reverse=false;
 	
 	$scope.setActiveSearch = function (activeSearch){
 		$scope.activeSearch = activeSearch;
 	};
+	$scope.changePredicate = function(field){
+		$scope.predicate =field;
+		$scope.reverse=!$scope.reverse;
+	};
+	
 	
 	$scope.search = function(SearchInputVal){
 		dataDiscoveryService.searchSingleFieldInDatasets(SearchInputVal).success(function(response) {
@@ -60,7 +65,6 @@ appControllers.controller('DiscoveryCtrl', [ '$scope', '$route', 'dataDiscoveryS
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.searchResult.length;
 	$scope.predicate = '';
-		
 	
 	var MAX_NUM_ADVANCED_FILTERS = 3;
 	for (var int = 0; int <  MAX_NUM_ADVANCED_FILTERS; int++) {
