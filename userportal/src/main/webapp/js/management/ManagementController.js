@@ -1256,6 +1256,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 
 	$scope.dataset = null;
+	$scope.stream = null;
 	$scope.apiMetdataUrl = "";
 
 
@@ -1268,6 +1269,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			console.debug("loadDataset- response",response);
 			$scope.apiMetdataUrl = response.apiMetadataUrl;
 			$scope.dataset = response.metadata;
+			$scope.stream = response.stream;
 			if(!$scope.dataset)
 				$scope.dataset = new Object();
 			if(!$scope.dataset.info)
