@@ -66,9 +66,9 @@
 			</div>	
 			<div class="row card-row"  ng-show="stream.streams.stream.virtualEntityPositions.position!=null">
 				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
-				<div class='col-sm-4'>[{{stream.streams.stream.virtualEntityPositions.position.lat}};{{stream.streams.stream.virtualEntityPositions.position.lon}}]</div>
+				<div class='col-sm-4'>[{{stream.streams.stream.virtualEntityPositions.position[0].lat}};{{stream.streams.stream.virtualEntityPositions.position[0].lon}}]</div>
 				<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
-				<div class='col-sm-4'>{{stream.streams.stream.virtualEntityPositions.position.elevation|nvl:' -'}}</div>
+				<div class='col-sm-4'>{{stream.streams.stream.virtualEntityPositions.position.elevation[0]|nvl:' -'}}</div>
 			</div>	
 		</accordion-group>
 		<accordion-group is-open="status3.open" ng-show="stream!=null">
