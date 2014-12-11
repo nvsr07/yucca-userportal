@@ -362,7 +362,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			var componenti = $scope.stream.componenti.element;
 			for(var comp in componenti){
 				var key = componenti[comp].nome;
-				var value = componenti[comp].dataType != "dateTime" ? componenti[comp].dataType : "string";
+				var value =  componenti[comp].dataType;
+				if(value=="dateTime"){
+					 value = "string";
+				}else if(value=="boolean"){
+					value="bool";
+				}
 				siddhiStreamDefinitions += " ,"+key +" "+value;
 			}
 			siddhiStreamDefinitions +=");";
