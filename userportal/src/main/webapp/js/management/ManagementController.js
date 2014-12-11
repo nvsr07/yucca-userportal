@@ -339,7 +339,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if($scope.internalStreams[st].componenti!= null && $scope.internalStreams[st].componenti.element!=null ){
 				var componenti = $scope.internalStreams[st].componenti.element;
 				for(var comp in componenti){
-					siddhiStreamDefinitions += ","+componenti[comp].nome +" "+componenti[comp].dataType;
+					var key = componenti[comp].nome;
+					var value =  componenti[comp].dataType;
+					if(value=="dateTime"){
+						 value = "string";
+					}else if(value=="boolean"){
+						value="bool";
+					}
+					siddhiStreamDefinitions += " ,"+key +" "+value;
 				}
 				siddhiStreamDefinitions +=");";
 				siddhiStreamArray.push(siddhiStreamDefinitions);
@@ -354,14 +361,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		if($scope.stream.componenti!= null && $scope.stream.componenti.element!=null ){
 			var componenti = $scope.stream.componenti.element;
 			for(var comp in componenti){
-				siddhiStreamDefinitions += ","+componenti[comp].nome +" "+componenti[comp].dataType;
+				var key = componenti[comp].nome;
+				var value = componenti[comp].dataType != "dateTime" ? componenti[comp].dataType : "string";
+				siddhiStreamDefinitions += " ,"+key +" "+value;
 			}
 			siddhiStreamDefinitions +=");";
 			siddhiStreamArray.push(siddhiStreamDefinitions);
 			siddhiStreamDefinitions="";
 		}
-		
-		
 		
 		var validationObj = {
 				"inputStreamDefiniitons":siddhiStreamArray,

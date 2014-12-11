@@ -295,6 +295,7 @@ small pre{font-size: 11px;padding: 4px;}
 .navbar-default .navbar-nav>li>a {}
 
 .btn{border-radius: 0px; font-size: 17px; border: 0px solid #ccc;}
+.link-help{font-size: 17px;}
 .nav-pills>li>a{border-radius: 0px; font-size: 17px;border: 0px solid #ccc;}
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn{background-color: #ccc;}
 

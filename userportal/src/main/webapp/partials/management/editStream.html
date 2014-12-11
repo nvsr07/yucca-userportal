@@ -63,7 +63,6 @@
 								</span> &nbsp;
 							</span>
 						</p>						
-						<p>
 							<!-- <div class="input-group">
 	      						<input type="text" class="form-control" id="inputStreamAddTag"  placeholder="{{'STREAM_FIELD_TAGS'|translate}}" ng-model="newTag" ng-enter="addTag()" >
 							      <span class="input-group-btn">
@@ -78,7 +77,7 @@
 							    	<a class="btn  btn-sm"  href="javascript:void(0)" ng-click='addTag()' title="{{'MANAGEMENT_EDIT_STREAM_ADD_TAG'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a>
 							    </span>
 	    					</div>
-						</p>
+						
 					</div>
 				</div>			
 				<div class="form-group">
@@ -153,7 +152,9 @@
 			
 			</div >
 			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
-				<label for="streamSiddhiQueryLabel" class="col-sm-2 control-label">{{'STREAM_SIDDHI_QUERY'|translate}} <span class='required-asterisk'>*</span></label>
+				<div class="col-sm-2"><label for="streamSiddhiQueryLabel" class="control-label">{{'STREAM_SIDDHI_QUERY'|translate}} <span class='required-asterisk'>*</span></label>
+				<a href="http://www.smartdatanet.it/area-developer/docs/specifiche-di-creazione-stream-a-partire-da-stream-esistenti/" target="_blank" class="link-help" >Help<i class="glyphicon glyphicon-question-sign"></i></a>
+				</div>
 				<div class="col-sm-8">													
 				<textarea id="code" class="form-control" ui-codemirror="cmOption" ng-model="streamSiddhiQuery">
 				</textarea>
