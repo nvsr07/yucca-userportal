@@ -342,10 +342,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				for(var comp in componenti){
 					var key = componenti[comp].nome;
 					var value =  componenti[comp].dataType;
-					if(value=="dateTime"){
-						 value = "string";
-					}else if(value=="boolean"){
-						value="bool";
+					if (value == "dateTime") {
+						value = "string";
+					} else if (value == "longitude") {
+						value = "double";
+					} else if (value == "latitude") {
+						value = "double";
+					} else if (value == "boolean") {
+						value = "bool";
 					}
 					siddhiStreamDefinitions += " ,"+key +" "+value;
 				}
@@ -364,10 +368,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			for(var comp in componenti){
 				var key = componenti[comp].nome;
 				var value =  componenti[comp].dataType;
-				if(value=="dateTime"){
-					 value = "string";
-				}else if(value=="boolean"){
-					value="bool";
+				if (value == "dateTime") {
+					value = "string";
+				} else if (value == "longitude") {
+					value = "double";
+				} else if (value == "latitude") {
+					value = "double";
+				} else if (value == "boolean") {
+					value = "bool";
 				}
 				siddhiStreamDefinitions += " ,"+key +" "+value;
 			}

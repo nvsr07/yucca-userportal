@@ -46,6 +46,11 @@ Constants.DISCOVERY_FIELD_LICENSE = 'DISCOVERY_FIELD_LICENSE';
 Constants.DISCOVERY_FIELD_TENANT = 'DISCOVERY_FIELD_TENANT';
 Constants.DISCOVERY_FIELD_FPS = 'DISCOVERY_FIELD_FPS';
 Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT = 'DISCOVERY_FIELD_UNIT_OF_MEASUREMENT';
+
+Constants.DISCOVERY_FIELD_STCODE = 'DISCOVERY_FIELD_STCODE';
+Constants.DISCOVERY_FIELD_STNAME = 'DISCOVERY_FIELD_STNAME';
+Constants.DISCOVERY_FIELD_STDESC = 'DISCOVERY_FIELD_STDESC';
+
 Constants.DEFAULT_SIDDHI = 'from outputStream#window.time(30 sec) \n select count(time) as numEventsLast30Sec \n output last every 2 sec \n insert into tempOutputStat for all-events; \n from tempOutputStat#window.length(1) \n select numEventsLast30Sec,"" as lastMessage,"" as lastUpdate \n output snapshot every 2 sec insert into outputStat for all-events'; 
 var operationNuberList=[
                         {key:" = ",value:" eq "},
@@ -65,12 +70,15 @@ var operationStringList=[
 
 
 Constants.DISCOVERY_FIELDS = [
-                              {key:Constants.DISCOVERY_FIELD_TITLE, api_key: 'datasetName', discrete: false},
-                              {key:Constants.DISCOVERY_FIELD_TAG, api_key: 'tags', discrete: true},
-                              {key:Constants.DISCOVERY_FIELD_LICENSE, api_key: 'license', discrete: false},
-                              {key:Constants.DISCOVERY_FIELD_TENANT, api_key: 'tenantCode', discrete: true},
-                              {key:Constants.DISCOVERY_FIELD_FPS, api_key: 'fps', discrete: false},
-                              {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'measureUnit', discrete: true},
+                              {key:Constants.DISCOVERY_FIELD_TITLE, api_key: 'datasetName', discrete: false,visible:true},
+                              {key:Constants.DISCOVERY_FIELD_TAG, api_key: 'tags', discrete: true,visible:true},
+                              {key:Constants.DISCOVERY_FIELD_LICENSE, api_key: 'license', discrete: false,visible:true},
+                              {key:Constants.DISCOVERY_FIELD_TENANT, api_key: 'tenantCode', discrete: true,visible:true},
+                              {key:Constants.DISCOVERY_FIELD_FPS, api_key: 'fps', discrete: false,visible:true},
+                              {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'measureUnit', discrete: true,visible:true},
+                              {key:Constants.DISCOVERY_FIELD_STCODE, api_key: 'StreamCode', discrete: false,visible:false},
+                              {key:Constants.DISCOVERY_FIELD_STNAME, api_key: 'StreamName', discrete: false,visible:false},
+                              {key:Constants.DISCOVERY_FIELD_STDESC, api_key: 'StreamDescription', discrete: false,visible:false}
                               ];
 Constants.DISCOVERY_FIELD_OPERATIONS={
 		datasetName:operationStringList,
@@ -78,7 +86,10 @@ Constants.DISCOVERY_FIELD_OPERATIONS={
 		license:operationStringList,
 		tenantCode:operationStringList,
 		measureUnit:operationStringList,
-		fps:operationNuberList
+		fps:operationNuberList,
+		StreamCode:operationStringList,
+		StreamName:operationStringList,
+		StreamDescription:operationStringList,
 };
 
 Constants.BULK_DATASET_MAX_FILE_SIZE = 10000000;

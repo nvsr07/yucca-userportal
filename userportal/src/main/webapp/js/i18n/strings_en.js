@@ -259,7 +259,6 @@ var translations_en = {
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
 	HOME_SEARCH_TITLE: 'Discovery data',
-	
 	HOME_HOWTO_TITLE: 'What can I do with the platform',
 	HOME_HOWTO_TEXT_HTML: '<li>' + 
 							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configure</a> your smart object and sends data using your tenant or the demo tenant <strong>Sandbox</strong> ' +
@@ -547,6 +546,7 @@ var translations_en = {
 	DISCOVERY_RESULTS_DETAIL_BUTTON: 'Detail',
 	
 	DISCOVERY_DETAIL_DATASET_LEGAL_INFO: 'Legal Info',
+	DISCOVERY_DETAIL_DATASET_STREAM_INFO: 'Stream Info',
 	DISCOVERY_DETAIL_DATASET_COLUMNS: 'Define data structure',
 	DISCOVERY_DETAIL_ACCESS_DATA_TITLE: 'Data access', 
 	DISCOVERY_DETAIL_ACCESS_DATA_API: 'Url API OData',
@@ -563,6 +563,9 @@ var translations_en = {
 	DISCOVERY_FIELD_TENANT: 'Tenant',
 	DISCOVERY_FIELD_FPS: 'FPS',
 	DISCOVERY_FIELD_UNIT_OF_MEASUREMENT: 'Unit of Measurement',
+	DISCOVERY_FIELD_STCODE:'StreamCode',
+	DISCOVERY_FIELD_STNAME:'StreamName',
+	DISCOVERY_FIELD_STDESC:'StreamDescription',
 
 	/* Market */
 	MARKET_TITLE: 'Market',
