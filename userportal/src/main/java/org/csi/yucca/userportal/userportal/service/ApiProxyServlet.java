@@ -222,10 +222,10 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		
 		String tenantCode = AuthorizeUtils.getTenantInSession(request);
 		String authString = "";
-		if(request.getRequestURI().contains("/userportal/api/proxy/discovery/Datasets") && path.contains("$filter")){
+		if(request.getRequestURI().contains("/userportal/api/proxy/discovery") && path.contains("$filter")){
 			String authparams=  " and (substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true)";
 			authString += URLEncoder.encode(authparams,"UTF-8").replace("+","%20") + "&";
-		}else if(request.getRequestURI().contains("/userportal/api/proxy/discovery/Datasets")){
+		}else if(request.getRequestURI().contains("/userportal/api/proxy/discovery")){
 			String authparams = "substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true";
 			authString +=  "&$filter="+URLEncoder.encode(authparams,"UTF-8").replace("+","%20") + "&";
 		}
