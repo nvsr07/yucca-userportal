@@ -7,15 +7,99 @@ var appServices = angular.module('userportal.services', [ 'userportal.config' ])
 appServices.value('version', '0.8.1 dev');
 
 
+app.factory('asyncSingleDatasetService', function($http, $q, dataDiscoveryService) {
+
+	var data = [];  
+	var myService = {};
+
+	myService.async = function(queryString,single) {
+		data = [];
+		var urlDataset;
+		var urlStream;
+		var deffered = $q.defer();
+		if(single!=true){
+			urlDataset = dataDiscoveryService.searchMultiFieldInDatasets(queryString);
+			urlStream = dataDiscoveryService.searchMultiFieldInStreams(queryString);
+		}else{
+			urlDataset = dataDiscoveryService.searchSingleFieldInDatasets(queryString);
+			urlStream = dataDiscoveryService.searchSingleFieldInStreams(queryString);
+		}
+		console.debug("urlDataset",urlDataset);
+		console.debug("urlStream",urlStream);
+		var callApi="Dataset";
+		if(urlDataset.makeGet==false && urlStream.makeGet==true){
+			callApi="Stream";
+		}else if(urlDataset.makeGet==true && urlStream.makeGet==true){
+			callApi="DatasetStream";
+		}
+		if(callApi=="Dataset"){
+			$http.get(urlDataset.url)
+			.success(function (res) {
+				data = res.d.results;
+				console.log(res.d.results);
+				deffered.resolve();
+			});
+			return deffered.promise;
+		}else if(callApi=="Stream"){
+			$http.get(urlStream.url)
+			.success(function (res) {
+				for(var i in res.d.results){
+					data.push(res.d.results[i].Dataset);
+				}
+				console.log(res.d.results);
+				deffered.resolve();
+			});
+			return deffered.promise;
+		}else if(callApi=="DatasetStream"){
+			$http.get(urlDataset.url)
+			.success(function (res) {
+				console.log("First : d ",res.d,data);
+				data = res.d.results;
+				deffered.resolve();
+			});
+			return deffered.promise.then(function(result) {
+				var deffered1 = $q.defer();
+				$http.get(urlStream.url)
+				.success(function (res) {
+					console.log("second : d ",res.d,data);
+					var secondArray = res.d.results;
+					for(var i in secondArray){
+						var trovato = false;
+						for(var index in data){
+							if(data[index].idDataset==secondArray[i].IdDataset){
+								trovato=true;
+								console.debug("trovato=true");
+							}
+						}
+						if(trovato==false){
+							data.push(secondArray[i].Dataset);
+						}
+					}
+//					data = d;
+					console.log("second data",secondArray);
+					console.log("complete data",data);
+					deffered1.resolve();
+				});
+				return deffered1.promise;
+			});
+		}
+	};
+	myService.data = function() { return data; };
+
+	return myService;
+});
+
+
 appServices.factory('dataDiscoveryService', function($http, $q) {
 	var dataDiscovery = {};
 
 	var keyArray=[{key:"idDataset",type:"Integer"},{key:"tenantCode",type:"String"},
 	              {key:"dataDomain",type:"String"},{key:"license",type:"String"},{key:"fps",type:"Double"},
-	              {key:"datasetName",type:"String"},{key:"visibility",type:"String"},{key:"tags",type:"String"},{key:"measureUnit",type:"String"}];
+	              {key:"datasetName",type:"String"},{key:"visibility",type:"String"},{key:"tags",type:"String"},
+	              {key:"measureUnit",type:"String"}];
 
-	
-	
+	var keyStreamArray=[{key:"StreamCode",type:"String"},{key:"StreamName",type:"String"},{key:"StreamDescription",type:"String"}];
+
 	var buildStringQuery = function(key,op,value){
 		console.debug(key,op,value);
 		if(op.trim()=="eq" || op.trim()=="ne"){
@@ -23,16 +107,17 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 		}else if(op.trim()=="substringof"){
 			return " "+op+"('"+value+"' ,"+key+" ) eq true ";
 		}else if(op.trim()=="startswith" || op.trim()=="endswith"  ){
-				return " "+op+"("+key+",'"+value+"' ) eq true ";
+			return " "+op+"("+key+",'"+value+"' ) eq true ";
 		}
 	};
-	
+
 	dataDiscovery.searchMultiFieldInDatasets = function(queryArray){
 
 		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
 		var URLQuery="";
 		var URLFilter = "&$filter=("; 
 		var first = true ;
+		var makeGet=false;
 		console.debug("searchMultiFieldInDatasets",queryArray);
 		for (var int = 0; int <  3; int++) {
 			console.debug("queryArray[int]",queryArray[int]);
@@ -117,14 +202,15 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 		}
 		if(URLQuery.trim()!=""){
 			URLBaseQuery+= URLFilter + URLQuery+") ";
+			makeGet=true;
 		}
 
 		console.debug("dataDiscovery.searchDatasets URL : ",URLBaseQuery);
-		return $http({
-			method : 'GET',
+		return {
+			makeGet : makeGet,
 			url:URLBaseQuery
 //			url : "http://int-api.smartdatanet.it/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json"
-		});
+		};
 
 	};
 
@@ -133,6 +219,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
 		var URLQuery="";
+		var makeGet=false;
 		var URLFilter = "&$filter=("; 
 		if(queryString != undefined && queryString.trim()!=""){
 
@@ -239,20 +326,157 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 		if(URLQuery.trim()!=""){
 			URLBaseQuery+= URLFilter + URLQuery+")";
+			makeGet=true;
 		}
 
 		console.debug("dataDiscovery.searchDatasets URL : ",URLBaseQuery);
-		return $http({
-			method : 'GET',
+		return {
+			makeGet:makeGet,
+			url:URLBaseQuery
+		};
+	};
+
+
+
+
+	dataDiscovery.searchMultiFieldInStreams = function(queryArray){
+
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Streams?$expand=Dataset&$format=json";
+		var URLQuery="";
+		var URLFilter = "&$filter=("; 
+		var first = true ;
+		var makeGet=false;
+		console.debug("searchMultiFieldInStreams",queryArray);
+		for (var int = 0; int <  3; int++) {
+			console.debug("queryArray[int]",queryArray[int]);
+			if(queryArray[int].value!=null && queryArray[int].value.trim()!=""){
+				var keyValue=queryArray[int];
+
+				switch (keyValue.field) {
+
+				case "StreamCode":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());// " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
+					first=false;
+					break;
+				case "StreamName":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,dataDomain ) eq true ";
+					first=false;
+					break;
+				case "StreamDescription":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,license ) eq true ";
+					first=false;
+					break;
+
+				}				
+			} 
+		}
+		if(URLQuery.trim()!=""){
+			URLBaseQuery+= URLFilter + URLQuery+") ";
+			 makeGet=true;
+		}
+
+		console.debug("dataDiscovery.searchDatasets URL : ",URLBaseQuery);
+		return {
+			makeGet :makeGet,
 			url:URLBaseQuery
 //			url : "http://int-api.smartdatanet.it/datadiscovery/SmartDataServiceDiscoveryServlet.svc/Datasets?$format=json"
-		});
+		};
+
 	};
-	
-		
+
+
+	dataDiscovery.searchSingleFieldInStreams = function(queryString){
+
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Streams?$expand=Dataset&$format=json";
+		var URLQuery="";
+		var makeGet=false;
+		var URLFilter = "&$filter=("; 
+		if(queryString != undefined && queryString.trim()!=""){
+
+			var res = queryString.split(" ");
+			var first = true ;
+			for(var index in res ){				
+				var keyValue = res[index].split(":");
+				if(keyValue.length == 1 && index<3){	
+					for(var obj in keyStreamArray){
+						console.debug("queryString",queryString,keyStreamArray[obj].type,!isNaN(keyValue));
+						if(keyStreamArray[obj].type=="Integer" && !isNaN(keyValue) && queryString.indexOf(".")==-1){
+							if(!first){ 
+								URLQuery+=" or ";						
+							}
+							first=false;
+							URLQuery += keyStreamArray[obj].key+" eq " +keyValue;
+
+						}else if(keyStreamArray[obj].type=="String" && isNaN(keyValue)){
+							if(!first){ 
+								URLQuery+=" or ";
+							}
+							first=false;
+							URLQuery += "substringof('"+keyValue+"' , "+keyStreamArray[obj].key+" ) eq true ";
+						}else if(keyStreamArray[obj].type=="Double" && !isNaN(keyValue)){
+							if(!first){ 
+								URLQuery+=" or ";
+							}
+							first=false;
+							URLQuery += keyStreamArray[obj].key+" eq " +keyValue+"m";
+						}				
+					}
+				}else if(keyValue.length==2 && index<3){
+					switch (keyValue[0].trim()) {
+					case "StreamCode":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,StreamCode ) eq true ";
+						first=false;
+						break;
+					case "StreamName":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,StreamName ) eq true ";
+						first=false;
+						break;
+					case "StreamDescription":
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,StreamDescription ) eq true ";
+						first=false;
+						break;
+					}
+				}
+			}
+		}
+
+		if(URLQuery.trim()!=""){
+			URLBaseQuery+= URLFilter + URLQuery+")";
+			makeGet=true;
+		}
+
+		console.debug("dataDiscovery.searchDatasets URL : ",URLBaseQuery);
+		return {
+			makeGet:makeGet,
+			url:URLBaseQuery
+		};
+	};
+
+
 	dataDiscovery.loadDatasetDetail = function(datasetId){
 
-		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets("+datasetId+")?$format=json&$expand=Fields";
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets("+datasetId+")?$format=json&$expand=Stream,Fields";
 		console.debug("dataDiscovery.loadDatasetDetail URL : ",URLBaseQuery);
 		return $http({
 			method : 'GET',

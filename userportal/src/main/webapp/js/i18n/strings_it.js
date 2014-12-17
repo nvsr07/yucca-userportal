@@ -260,7 +260,6 @@ var translations_it = {
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
 	HOME_SEARCH_TITLE: 'Cerca',
-	
 	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
 	HOME_HOWTO_TEXT_HTML: '<li>' + 
 							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tuo tenant o il tenant di prova <strong>Sandbox</strong> ' +
@@ -550,6 +549,7 @@ var translations_it = {
 	DISCOVERY_RESULTS_DETAIL_BUTTON: 'Dettaglio',
 	
 	DISCOVERY_DETAIL_DATASET_LEGAL_INFO: 'Legal Info',
+	DISCOVERY_DETAIL_DATASET_STREAM_INFO: 'Stream Info',
 	DISCOVERY_DETAIL_DATASET_COLUMNS: 'Definizione struttura dato',
 	DISCOVERY_DETAIL_ACCESS_DATA_TITLE: 'Accesso ai dati', 
 	DISCOVERY_DETAIL_ACCESS_DATA_API: 'Url di accesso alle API OData',
@@ -566,7 +566,10 @@ var translations_it = {
 	DISCOVERY_FIELD_TENANT: 'Organizzazione',
 	DISCOVERY_FIELD_FPS: 'FPS',
 	DISCOVERY_FIELD_UNIT_OF_MEASUREMENT: 'Unit&agrave; di Misura',
-
+	DISCOVERY_FIELD_STCODE:'StreamCode',
+	DISCOVERY_FIELD_STNAME:'StreamName',
+	DISCOVERY_FIELD_STDESC:'StreamDescription',
+	
 	/* Market */
 	MARKET_TITLE: 'Market',
 
