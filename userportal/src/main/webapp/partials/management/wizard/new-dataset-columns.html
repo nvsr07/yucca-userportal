@@ -80,11 +80,14 @@
 			  	<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
 			</div>
 		</div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-hide="isDateTimeField(column)">
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCommonField(column)">
 		 	<select class="input-sm form-control" ng-model="column.measureUnit"   ng-change="refreshColumnOrder()"
 		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit" ng-disabled="column.skipColumn">
 		 		<option value="" translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 		 	</select>
+        </div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCoordinatesField(column)">
+		 	<i><small>Format: <code >[ lat,lon ]</code></small></i>
         </div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><label>
 			<input type="checkbox" ng-model="column.isKey" ng-disabled="column.skipColumn">

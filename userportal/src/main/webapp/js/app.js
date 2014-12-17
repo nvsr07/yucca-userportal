@@ -79,6 +79,36 @@ app.factory('info',  function() {
     		return infoService.getTenantCode() == tenantCode;
     	return false;
     };
+    
+    infoService.isAuthorized = function(operation){
+    	var authorized = false;
+    	if(this.info && this.info!=null && this.info.user && this.info.user!=null && this.info.user.permissions && this.info.user.permissions!=null ){
+    		var permissions = this.info.user.permissions;
+    		var base_path  = Constants.RBAC_BASE_PERMISSION_PATH;     		
+
+    		var operationSplitted = operation.split("/");
+    		console.log("operation",operation);
+    		console.log("operationSplitted", operationSplitted);
+    		var operationComplete = base_path;
+    		operationLoop:
+    		for (var counterOperation = 0; counterOperation < operationSplitted.length; counterOperation++) {
+    			operationComplete = operationComplete + "/" + operationSplitted[counterOperation];
+    			console.log("operationComplete", operationComplete);
+    			for (var counterPermission = 0; counterPermission < permissions.length; counterPermission++) {
+    				console.log("   permissions["+counterPermission +"]", permissions[counterPermission]);
+    				if(permissions[counterPermission] == operationComplete){
+    					authorized = true;
+    					console.log("found!!");
+    					break operationLoop;
+    				};
+    			};
+    		}
+    		console.log("authorized",authorized);
+    		
+    	}
+    	return authorized;
+    	
+    }
 
     return infoService;
 });

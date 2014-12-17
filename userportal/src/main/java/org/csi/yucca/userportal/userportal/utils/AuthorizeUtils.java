@@ -6,6 +6,7 @@ import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ public class AuthorizeUtils {
 	public static final String SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION = "SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION";
 
 	public static final String DEFAULT_TENANT = "sandbox";
-	public static final User DEFAULT_USER = new User("Guest", DEFAULT_TENANT, "Guest", "Guest", null);
+	public static final User DEFAULT_USER = new User("Guest", DEFAULT_TENANT, "Guest", "Guest", null, new LinkedList<String>());
 
 	public static final String CLAIM_KEY_USERNAME = "USERNAME";
 	public static final String CLAIM_KEY_OTHERPHONE = "OTHERPHONE";
@@ -50,10 +51,13 @@ public class AuthorizeUtils {
 	public static final String CLAIM_KEY_IM = "IM";
 	public static final String CLAIM_KEY_TENANT = "TENANT";
 	public static final String CLAIM_KEY_LASTNAME = "LASTNAME";
-
+	
 	public static Map<String, String> claimsKeys;
 
 	public static final String CLAIM_DIALECT_WSO2 = "WSO2";
+	
+	public static final String RBAC_BASE_PERMISSION_PATH = "/permission/applications/userportal";
+
 
 	public static boolean verifyAPIRequest(HttpServletRequest request) {
 

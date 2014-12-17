@@ -8,6 +8,8 @@ import org.csi.yucca.userportal.userportal.utils.Util;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
@@ -70,6 +72,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			} else {
 				// something wrong, re-login
 			}
+			if(newUser!=null){
+				newUser.setPermissions(loadPermissions(newUser));
+			}
+			
+			
 			info.setUser(newUser);
 			info.setTenantCode(newUser.getTenant());
 			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
@@ -89,5 +96,16 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private List<String> loadPermissions(User newUser) {
+		List<String> permissions = new LinkedList<String>();
+		permissions.add("/permission/applications/userportal/development");
+		permissions.add("/permission/applications/userportal/management/datasets/view");
+		permissions.add("/permission/applications/userportal/management/smartobjects/view");
+		permissions.add("/permission/applications/userportal/management/streams");
+		permissions.add("/permission/applications/userportal/monitoring");
+		permissions.add("/permission/applications/userportal/store");
+		return permissions;
 	}
 }

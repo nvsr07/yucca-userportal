@@ -1,6 +1,7 @@
 package org.csi.yucca.userportal.userportal.service;
 
 import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
 import java.io.IOException;
@@ -42,6 +43,9 @@ public class ClientConfigServlet extends HttpServlet {
 			for (ApiEntityEnum apiEntity : ApiEntityEnum.values()) {
 				apiEntity.addPropertyForJs(constants);	
 			}
+			
+			constants.put("RBAC_BASE_PERMISSION_PATH", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH);
+			
 			
 			String constantsString = formatConstants(constants, responseType);
 			

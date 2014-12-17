@@ -41,9 +41,11 @@
 	</script>
 </head>
 <body lang="en" ng-app="userportal">
-	<main-navbar ng-show="!isHomepage"></main-navbar>
-	<div ng-view></div>
-	<main-footer  ng-show="!isHomepage"></main-footer>
+	<div ng-controller="GlobalCtrl as globalCtrl">
+		<main-navbar ng-show="!isHomepage"></main-navbar>
+		<div ng-view></div>
+		<main-footer  ng-show="!isHomepage"></main-footer>
+	</div>
 	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
 	
 	<script type="text/javascript" src="../ris/userportal/lib/jquery/dist/jquery.min.js"></script>

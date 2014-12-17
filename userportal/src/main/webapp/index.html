@@ -41,9 +41,11 @@
 	</script>
 </head>
 <body lang="en" ng-app="userportal">
-	<main-navbar ng-show="!isHomepage"></main-navbar>
-	<div ng-view></div>
-	<main-footer  ng-show="!isHomepage"></main-footer>
+	<div ng-controller="GlobalCtrl as globalCtrl">
+		<main-navbar ng-show="!isHomepage"></main-navbar>
+		<div ng-view></div>
+		<main-footer  ng-show="!isHomepage"></main-footer>
+	</div>
 	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
 	
 	<script type="text/javascript" src="../ris/userportal/lib/jquery/dist/jquery.min.js"></script>
@@ -92,30 +94,30 @@
 	<script type="text/javascript" src="js/build_info.js"></script>
 	
 
-	<script src="js-min/52b0e359.sensormap.js"></script>
+	<script src="js-min/1b5ccbea.sensormap.js"></script>
 	
-	<script src="js-min/i18n/3e4fafaa.strings_en.js"></script>
+	<script src="js-min/i18n/736e5a71.strings_en.js"></script>
 
-	<script src="js-min/i18n/d5feafd8.strings_it.js"></script>
+	<script src="js-min/i18n/32af8738.strings_it.js"></script>
  	
 	
-	<script src="js-min/bc95fd48.app.js"></script>
-	<script src="js-min/9cec7add.helpers.js"></script>
-	<script src="js-min/e2ac7301.constants.js"></script>
-	<script src="js-min/6b751e9e.services.js"></script>
+	<script src="js-min/59dcd7aa.app.js"></script>
+	<script src="js-min/2fe28135.helpers.js"></script>
+	<script src="js-min/04e5eda6.constants.js"></script>
+	<script src="js-min/a20ad0e9.services.js"></script>
 	
-	<script src="js-min/c13055ca.controllers.js"></script>
-	<script src="js-min/dashboard/d49ea8fa.DashboardController.js"></script>
-	<script src="js-min/management/97a73d72.ManagementController.js"></script>
-	<script src="js-min/discovery/1d7843b1.DiscoveryController.js"></script>
-	<script src="js-min/market/f5a97e55.MarketController.js"></script>
-	<script src="js-min/store/31c06669.StoreController.js"></script>
+	<script src="js-min/e80a8bce.controllers.js"></script>
+	<script src="js-min/dashboard/20dedd55.DashboardController.js"></script>
+	<script src="js-min/management/63802a3c.ManagementController.js"></script>
+	<script src="js-min/discovery/179eb336.DiscoveryController.js"></script>
+	<script src="js-min/market/c43028b6.MarketController.js"></script>
+	<script src="js-min/store/731fcbeb.StoreController.js"></script>
 
-	<script src="js-min/fd1b7bc3.filters.js"></script>
-	<script src="js-min/9ae2e572.directives.js"></script>
-	<script src="js-min/dashboard/54d0f499.DashboardDirectives.js"></script>
-	<script src="js-min/management/a2a477d3.ManagementDirectives.js"></script>
-	<script src="js-min/discovery/21ebb0e7.DiscoveryDirectives.js"></script>
+	<script src="js-min/4f2ea9a9.filters.js"></script>
+	<script src="js-min/df15f9db.directives.js"></script>
+	<script src="js-min/dashboard/2dc8addc.DashboardDirectives.js"></script>
+	<script src="js-min/management/b95a1190.ManagementDirectives.js"></script>
+	<script src="js-min/discovery/0c3548d6.DiscoveryDirectives.js"></script>
 	
 	
 

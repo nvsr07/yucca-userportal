@@ -1,9 +1,12 @@
 package org.csi.yucca.userportal.userportal.service;
 
 import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -38,7 +41,9 @@ public class AuthorizeFilter implements Filter {
 		if (request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO) == null) {
 			Info info = new Info();
 			info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
-			info.setUser(AuthorizeUtils.DEFAULT_USER);
+			User defaultUser = AuthorizeUtils.DEFAULT_USER;
+			defaultUser.setPermissions(mockPermissions(defaultUser));
+			info.setUser(defaultUser);
 			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 		}
 
@@ -63,6 +68,18 @@ public class AuthorizeFilter implements Filter {
 		}
 	}
 
+	
+	private List<String> mockPermissions(User newUser) {
+		List<String> permissions = new LinkedList<String>();
+		permissions.add("/permission/applications/userportal/development");
+		permissions.add("/permission/applications/userportal/management/datasets/view");
+		permissions.add("/permission/applications/userportal/management/smartobjects/view");
+		permissions.add("/permission/applications/userportal/management/streams");
+		permissions.add("/permission/applications/userportal/monitoring");
+		permissions.add("/permission/applications/userportal/store");
+		return permissions;
+	}
+	
 	public void destroy() {
 		// TODO Auto-generated method stub
 

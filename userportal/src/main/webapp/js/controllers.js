@@ -4,6 +4,19 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
+appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info',  function($scope, $route, info) {
+	$scope.$route = $route;
+	
+	
+	$scope.isAuthorized = function(operation){
+		console.log("isAuthorized - operation", operation);
+		var authorized = info.isAuthorized(operation);
+		console.log("isAuthorized - authorized", authorized);
+		return authorized;
+	};
+
+} ]);
+
 appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', 'info', '$location', function($scope, $route, $translate,webSocketService, fabricAPIservice, info, $location) {
 	$scope.$route = $route;
 	$scope.managementUrl = null;

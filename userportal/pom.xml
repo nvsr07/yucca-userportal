@@ -213,6 +213,19 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>tst</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/tst</directory>
+					</resource>
+				</resources>
+			</build>
+			<properties>
+				<webXmlPath>src/main/resources/tst/</webXmlPath>
+			</properties>
+		</profile>
+		<profile>
 			<id>int</id>
 			<build>
 				<resources>

@@ -7,7 +7,7 @@
 			<!-- Single button -->
 			<div class='clearfix'>
 				<div class="pull-left">
-		        	<a  href="#/management/newStream/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isOwner()">
+		        	<a  href="#/management/newStream/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/streams/edit')">
 						<span class="glyphicon glyphicon-plus "></span> {{'MANAGEMENT_STREAM_LIST_NEW_STREAM'|translate}}
 					</a>
 					<button  href="javascript:void(0)" ng-click='editStream()' class="btn  btn-edit" ng-disabled="!isOwner() || !canEdit()" title="{{'MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT'|translate}}">

@@ -105,6 +105,22 @@
 			<div class='row'>
 				<p>&nbsp;</p>
 			</div>
+
+			<div class='row'>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<strong><span translate>DISCOVERY_DETAIL_MONITOR_DATA_TITLE</span></strong>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
+					<p ng-repeat="apiUrl in datasetApiUrls"><a href="{{apiUrl}}" target="_blank" class='discovery-api-link'>{{apiUrl}}</a></p>
+				</div>
+			</div>
+			<div class='row'>
+				<p>&nbsp;</p>
+			</div>
+
+
 			<div class='row'>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
 					<a  href='{{datasetDownloadCsvUrl}}' class="btn  btn-download-dataset"  >

@@ -1,6 +1,6 @@
 /* Controllers */
 
-appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", function($scope, $route) {
+appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info',  function($scope, $route, info) {
 	$scope.$route = $route;
 	$scope.managementTab = $route.current.params.managementTab;
 	$scope.tenant = $route.current.params.tenant_code;
@@ -31,6 +31,7 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", func
 		}
 		return result;
 	};
+	
 }]);
 
 
@@ -1569,6 +1570,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.dataTypeList = [];
 	fabricAPIservice.getStreamDataType().success(function(response) {
 		$scope.dataTypeList = response.dataType.element;
+		var coordinatesDataType  = {idDataType:$scope.dataTypeList.length+1, dataType:"coordinates"};
+		$scope.dataTypeList.push(coordinatesDataType);
 		for (var int = 0; int < $scope.dataTypeList; int++) {
 			if($scope.dataTypeList[int].dataType == 'string'){
 				console.log("$scope.dataTypeList[int].dataType", $scope.dataTypeList[int].dataType);
@@ -1762,10 +1765,22 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 
 	$scope.isDateTimeField = function(field){
-		console.log("field.dataType", field.dataType);
+		console.log("isDateTimeField::field.dataType", field.dataType);
 		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "dateTime")
 			return true;
 		return false;
+	};
+	
+	$scope.isCoordinatesField = function(field){
+		console.log("isCoordinatesField::field.dataType", field.dataType);
+		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "coordinates")
+			return true;
+		return false;
+	};
+	
+	$scope.isCommonField = function(field){
+		console.log("isCommonField::field.dataType", field.dataType);
+		return !$scope.isCoordinatesField(field) && !$scope.isDateTimeField(field);
 	};
 	
 	$scope.cancel = function(){
