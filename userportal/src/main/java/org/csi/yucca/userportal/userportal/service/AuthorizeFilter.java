@@ -1,10 +1,13 @@
 package org.csi.yucca.userportal.userportal.service;
 
+import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,12 +74,38 @@ public class AuthorizeFilter implements Filter {
 	
 	private List<String> mockPermissions(User newUser) {
 		List<String> permissions = new LinkedList<String>();
-		permissions.add("/permission/applications/userportal/development");
-		permissions.add("/permission/applications/userportal/management/datasets/view");
-		permissions.add("/permission/applications/userportal/management/smartobjects/view");
-		permissions.add("/permission/applications/userportal/management/streams");
-		permissions.add("/permission/applications/userportal/monitoring");
-		permissions.add("/permission/applications/userportal/store");
+
+		String xmlInput = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:ser=\"http://service.ws.um.carbon.wso2.org\">";
+		xmlInput += "<soap:Header/><soap:Body>";
+		xmlInput += "<ser:getAllowedUIResourcesForUser>";
+		xmlInput += "<ser:userName>smartlab_developer</ser:userName>";
+		xmlInput += "<ser:permissionRootPath>permission/Applications/userportal</ser:permissionRootPath>";
+		xmlInput += "</ser:getAllowedUIResourcesForUser>";
+		xmlInput += "</soap:Body>" + "</soap:Envelope>";
+
+		String SOAPAction = "getAllowedUIResourcesForUser";
+		// test "***REMOVED***"
+		try {
+			String webServiceResponse = WebServiceDelegate.callWebService("https://int-sso.smartdatanet.it/services/RemoteAuthorizationManagerService", "admin", "AhchieW6", xmlInput,
+					SOAPAction, "text/xml");
+			
+			System.out.println(webServiceResponse);
+		} catch (KeyManagementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// permissions.add("/permission/applications/userportal/development");
+		// permissions.add("/permission/applications/userportal/management/datasets/view");
+		// permissions.add("/permission/applications/userportal/management/smartobjects/view");
+		// permissions.add("/permission/applications/userportal/management/streams");
+		// permissions.add("/permission/applications/userportal/monitoring");
+		// permissions.add("/permission/applications/userportal/store");
 		return permissions;
 	}
 	
