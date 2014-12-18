@@ -38,6 +38,7 @@ var translations_it = {
 	STREAM_FIELD_ID_STREAM: 'ID Flusso',
 	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
 	STREAM_FIELD_NAME: 'Nome',
+	STREAM_FIELD_DESCRIPTION:'Description',	
 	STREAM_FIELD_CODE: 'Code',
 	STREAM_FIELD_TENANT_CODE : 'Code',
 	STREAM_FIELD_TENANT_NAME : 'Name',
@@ -533,8 +534,8 @@ var translations_it = {
 	DISCOVERY_SIMPLESEARCH_MENU: 'Ricerca semplice',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Ricerca avanzata',
 	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. acqua oppure tags:AIR',
-	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong>'+
-	', <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i> ',
+	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
+	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong>, <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i> ',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filtro', 
 	DISCOVERY_FILTER_SEARCH_BUTTON: 'Cerca',
 	
@@ -567,6 +568,9 @@ var translations_it = {
 	DISCOVERY_FIELD_FPS: 'FPS',
 	DISCOVERY_FIELD_UNIT_OF_MEASUREMENT: 'Unit&agrave; di Misura',
 	DISCOVERY_FIELD_STCODE:'StreamCode',
+	DISCOVERY_FIELD_VE_NAME:'Nome Smart Object',
+	DISCOVERY_FIELD_VE_CODE:'Codice Smart Object',
+	
 	DISCOVERY_FIELD_STNAME:'StreamName',
 	DISCOVERY_FIELD_STDESC:'StreamDescription',
 	

@@ -76,9 +76,9 @@ Constants.DISCOVERY_FIELDS = [
                               {key:Constants.DISCOVERY_FIELD_TENANT, api_key: 'tenantCode', discrete: true,visible:true},
                               {key:Constants.DISCOVERY_FIELD_FPS, api_key: 'fps', discrete: false,visible:true},
                               {key:Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT, api_key: 'measureUnit', discrete: true,visible:true},
-                              {key:Constants.DISCOVERY_FIELD_STCODE, api_key: 'StreamCode', discrete: false,visible:false},
-                              {key:Constants.DISCOVERY_FIELD_STNAME, api_key: 'StreamName', discrete: false,visible:false},
-                              {key:Constants.DISCOVERY_FIELD_STDESC, api_key: 'StreamDescription', discrete: false,visible:false}
+//                              {key:Constants.DISCOVERY_FIELD_STCODE, api_key: 'streamCode', discrete: false,visible:true},
+//                              {key:Constants.DISCOVERY_FIELD_STNAME, api_key: 'streamName', discrete: false,visible:false},
+//                              {key:Constants.DISCOVERY_FIELD_STDESC, api_key: 'streamDescription', discrete: false,visible:false}
                               ];
 Constants.DISCOVERY_FIELD_OPERATIONS={
 		datasetName:operationStringList,
@@ -86,10 +86,10 @@ Constants.DISCOVERY_FIELD_OPERATIONS={
 		license:operationStringList,
 		tenantCode:operationStringList,
 		measureUnit:operationStringList,
-		fps:operationNuberList,
-		StreamCode:operationStringList,
-		StreamName:operationStringList,
-		StreamDescription:operationStringList,
+		fps:operationNuberList
+//		streamCode:operationStringList,
+//		streamName:operationStringList,
+//		streamDescription:operationStringList,
 };
 
 Constants.BULK_DATASET_MAX_FILE_SIZE = 10000000;

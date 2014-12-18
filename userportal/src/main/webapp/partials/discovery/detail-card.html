@@ -30,15 +30,17 @@
 				<p>&nbsp;</p>
 				
 				<p class="mute"><strong><span translate>DISCOVERY_DETAIL_DATASET_LEGAL_INFO</span></strong></p>
-				<p><span translate>DATASET_FIELD_METADATA_LICENSE</span>: {{dataset.license|nvl:' -'}}</p>
-				<p><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span>: {{dataset.disclaimer|nvl:' -'}}</p>
-				<p><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span>: {{dataset.copyright|nvl:' -'}}</p>
+				<p><strong><span translate>DATASET_FIELD_METADATA_LICENSE</span></strong>: {{dataset.license|nvl:' -'}}</p>
+				<p><strong><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong>: {{dataset.disclaimer|nvl:' -'}}</p>
+				<p><strong><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong>: {{dataset.copyright|nvl:' -'}}</p>
 			<div ng-show="dataset.Stream!=null">
 			<p>&nbsp;</p>
 				<p class="mute"><strong><span translate>DISCOVERY_DETAIL_DATASET_STREAM_INFO</span></strong></p>
-				<p><span translate>STREAM_FIELD_VIRTUALENTITY_CODE</span>: {{dataset.Stream.StreamCode|nvl:' -'}}</p>
-				<p><span translate>STREAM_FIELD_VIRTUALENTITY_NAME</span>: {{dataset.Stream.StreamName|nvl:' -'}}</p>
-				<p><span translate>STREAM_FIELD_VIRTUALENTITY_DESCRIPTION</span>: {{dataset.Stream.StreamDescription|nvl:' -'}}</p>
+				<p><strong><span translate>STREAM_FIELD_CODE</span></strong>: {{dataset.Stream.streamCode|nvl:' -'}}</p>
+				<p><strong><span translate>STREAM_FIELD_NAME</span></strong>: {{dataset.Stream.streamName|nvl:' -'}}</p>
+				<p><strong><span translate>STREAM_FIELD_DESCRIPTION</span></strong>: {{dataset.Stream.streamDescription|nvl:' -'}}</p>
+				<p><strong><span translate>DISCOVERY_FIELD_VE_NAME</span></strong>: {{dataset.Stream.smartOName|nvl:' -'}}</p>
+				<p><strong><span translate>DISCOVERY_FIELD_VE_CODE</span></strong>: {{dataset.Stream.smartOCode|nvl:' -'}}</p>
 			</div>
 				</div>
 			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
