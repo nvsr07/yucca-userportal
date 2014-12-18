@@ -39,8 +39,16 @@
 				<p><strong><span translate>STREAM_FIELD_CODE</span></strong>: {{dataset.Stream.streamCode|nvl:' -'}}</p>
 				<p><strong><span translate>STREAM_FIELD_NAME</span></strong>: {{dataset.Stream.streamName|nvl:' -'}}</p>
 				<p><strong><span translate>STREAM_FIELD_DESCRIPTION</span></strong>: {{dataset.Stream.streamDescription|nvl:' -'}}</p>
-				<p><strong><span translate>DISCOVERY_FIELD_VE_NAME</span></strong>: {{dataset.Stream.smartOName|nvl:' -'}}</p>
-				<p><strong><span translate>DISCOVERY_FIELD_VE_CODE</span></strong>: {{dataset.Stream.smartOCode|nvl:' -'}}</p>
+				<p><strong><span translate>STREAM_FIELD_FPS</span></strong>: {{dataset.fps|nvl:' -'}}</p>
+			<p>&nbsp;</p>
+				<p class="mute"><strong><span translate>DISCOVERY_DETAIL_DATASET_SMART_OBJECT_INFO</span></strong></p>
+				<p><strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong>: {{dataset.Stream.smartOName|nvl:' -'}}</p>
+				<p><strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong>: {{dataset.Stream.smartOCode|nvl:' -'}}</p>
+				
+				<p><strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong>: {{dataset.Stream.smartOType|nvl:' -'}}</p>
+				<p><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong>: {{dataset.Stream.smartOCategory|nvl:' -'}}</p>
+				<p><strong><span translate>VIRTUALENTITY_FIELD_POSITION_TYPE</span></strong>: [{{dataset.Stream.latitude|nvl:' -'}}:{{dataset.Stream.longitude|nvl:' -'}}]</p>
+				<p><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong>: {{dataset.Stream.elevation|nvl:' -'}}</p>
 			</div>
 				</div>
 			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
@@ -113,6 +121,14 @@
 			<div class='row'>
 				<p>&nbsp;</p>
 			</div>
+			<div class='row'>
+				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
+					<p>
+						<span translate>DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM</span>
+						<a href="/userportal/#/dashboard/stream/{{dataset.tenantCode}}/{{dataset.Stream.smartOCode}}/{{dataset.Stream.streamCode}}" class='discovery-websocket-link'>/userportal/#/dashboard/stream/{{dataset.tenantCode}}/{{dataset.Stream.smartOCode}}/{{dataset.Stream.streamCode}}</a>
+					</p>
+				</div>
+			</div>
 <!-- 
 			<div class='row'>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -124,7 +140,7 @@
 					<p ng-repeat="apiUrl in datasetApiUrls"><a href="{{apiUrl}}" target="_blank" class='discovery-api-link'>{{apiUrl}}</a></p>
 				</div>
 			</div>
- -->			<div class='row'>
+			<div class='row'> -->
 				<p>&nbsp;</p>
 			</div>
 
