@@ -14,12 +14,16 @@ app.factory('asyncSingleDatasetService', function($http, $q, dataDiscoveryServic
 
 	myService.async = function(queryString,single) {
 		data = [];
-		var urlDataset;
-		var urlStream;
+		var urlDataset={makeGet:false};
+		var urlStream={makeGet:false};
 		var deffered = $q.defer();
 		if(single!=true){
 			urlDataset = dataDiscoveryService.searchMultiFieldInDatasets(queryString);
-			urlStream = dataDiscoveryService.searchMultiFieldInStreams(queryString);
+//			urlStream = dataDiscoveryService.searchMultiFieldInStreams(queryString);
+			// in multiSearch, the fields are in "and" if we search in stream than dont make Dataset call!
+//			if(urlDataset.makeGet==true){
+//				urlStream.makeGet=false;
+//			}
 		}else{
 			urlDataset = dataDiscoveryService.searchSingleFieldInDatasets(queryString);
 			urlStream = dataDiscoveryService.searchSingleFieldInStreams(queryString);
@@ -31,8 +35,15 @@ app.factory('asyncSingleDatasetService', function($http, $q, dataDiscoveryServic
 			callApi="Stream";
 		}else if(urlDataset.makeGet==true && urlStream.makeGet==true){
 			callApi="DatasetStream";
+		}else if(urlDataset.makeGet==false && urlStream.makeGet==false && queryString!=null && queryString!=""){
+			callApi="NoResult";
 		}
-		if(callApi=="Dataset"){
+		
+		if(callApi=="NoResult"){
+			data=[];
+			deffered.resolve();	
+			return deffered.promise;
+		}else if(callApi=="Dataset"){
 			$http.get(urlDataset.url)
 			.success(function (res) {
 				data = res.d.results;
@@ -44,7 +55,11 @@ app.factory('asyncSingleDatasetService', function($http, $q, dataDiscoveryServic
 			$http.get(urlStream.url)
 			.success(function (res) {
 				for(var i in res.d.results){
-					data.push(res.d.results[i].Dataset);
+					//Normalize the object Datasets in the 2 array, they must be equal.
+					var foundDataset = res.d.results[i].Dataset;
+					delete res.d.results[i].Dataset;
+					foundDataset.Stream=res.d.results[i];
+					data.push(foundDataset);
 				}
 				console.log(res.d.results);
 				deffered.resolve();
@@ -66,13 +81,16 @@ app.factory('asyncSingleDatasetService', function($http, $q, dataDiscoveryServic
 					for(var i in secondArray){
 						var trovato = false;
 						for(var index in data){
-							if(data[index].idDataset==secondArray[i].IdDataset){
+							if(data[index].idDataset==secondArray[i].idDataset){
 								trovato=true;
 								console.debug("trovato=true");
 							}
 						}
 						if(trovato==false){
-							data.push(secondArray[i].Dataset);
+							var foundDataset = secondArray[i].Dataset;
+							delete secondArray[i].Dataset;
+							foundDataset.Stream=secondArray[i];
+							data.push(foundDataset);
 						}
 					}
 //					data = d;
@@ -98,7 +116,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 	              {key:"datasetName",type:"String"},{key:"visibility",type:"String"},{key:"tags",type:"String"},
 	              {key:"measureUnit",type:"String"}];
 
-	var keyStreamArray=[{key:"StreamCode",type:"String"},{key:"StreamName",type:"String"},{key:"StreamDescription",type:"String"}];
+	var keyStreamArray=[{key:"smartOCode",type:"String"},{key:"streamCode",type:"String"},{key:"streamName",type:"String"},{key:"streamDescription",type:"String"}];
 
 	var buildStringQuery = function(key,op,value){
 		console.debug(key,op,value);
@@ -113,7 +131,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 	dataDiscovery.searchMultiFieldInDatasets = function(queryArray){
 
-		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$expand=Stream&$format=json";
 		var URLQuery="";
 		var URLFilter = "&$filter=("; 
 		var first = true ;
@@ -217,7 +235,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 	dataDiscovery.searchSingleFieldInDatasets = function(queryString){
 
-		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json";
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$expand=Stream&$format=json";
 		var URLQuery="";
 		var makeGet=false;
 		var URLFilter = "&$filter=("; 
@@ -252,36 +270,36 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 						}				
 					}
 				}else if(keyValue.length==2 && index<3){
-					switch (keyValue[0].trim()) {
-					case "idDataset":
+					switch (keyValue[0].trim().toUpperCase()) {
+					case "idDataset".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
 						URLQuery += " idDataset eq " +keyValue[1].trim();
 						first=false;
 						break;
-					case "tenantCode":
+					case "tenantCode".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
 						URLQuery += " substringof('"+keyValue[1].trim()+"' ,tenantCode ) eq true ";
 						first=false;
 						break;
-					case "dataDomain":
+					case "dataDomain".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
 						URLQuery += " substringof('"+keyValue[1].trim()+"' ,dataDomain ) eq true ";
 						first=false;
 						break;
-					case "license":
+					case "license".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
 						URLQuery += " substringof('"+keyValue[1].trim()+"' ,license ) eq true ";
 						first=false;
 						break;
-					case "fps":
+					case "fps".toUpperCase():
 
 						if(!isNaN(keyValue[1].trim())){
 							if(!first){ 
@@ -291,28 +309,28 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 						}
 						first=false;
 						break;
-					case "datasetName":
+					case "datasetName".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
 						URLQuery += "substringof('"+keyValue[1].trim()+"' ,datasetName ) eq true ";
 						first=false;
 						break;
-					case "visibility":
+					case "visibility".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
 						URLQuery += "substringof('"+keyValue[1].trim()+"' ,visibility ) eq true ";
 						first=false;
 						break;
-					case "tags":
+					case "tags".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
 						URLQuery += " substringof('"+keyValue[1].trim()+"' ,tags ) eq true ";
 						first=false;
 						break;
-					case "measureUnit":
+					case "measureUnit".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
@@ -354,7 +372,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 				switch (keyValue.field) {
 
-				case "StreamCode":
+				case "streamCode":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
@@ -362,7 +380,15 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 //					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
 					first=false;
 					break;
-				case "StreamName":
+				case "smartOCode":
+					if(!first){ 
+						URLQuery+=" and ";						
+					}
+					URLQuery +=buildStringQuery(keyValue.field,queryArray[int].op,keyValue.value.trim());// " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
+//					URLQuery += " substringof('"+keyValue.value.trim()+"' ,tenantCode ) eq true ";
+					first=false;
+					break;
+				case "streamName":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
@@ -370,7 +396,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 //					URLQuery += " substringof('"+keyValue.value.trim()+"' ,dataDomain ) eq true ";
 					first=false;
 					break;
-				case "StreamDescription":
+				case "streamDescription":
 					if(!first){ 
 						URLQuery+=" and ";						
 					}
@@ -434,26 +460,33 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 						}				
 					}
 				}else if(keyValue.length==2 && index<3){
-					switch (keyValue[0].trim()) {
-					case "StreamCode":
+					switch (keyValue[0].trim().toUpperCase()) {
+					case "streamCode".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
-						URLQuery += " substringof('"+keyValue[1].trim()+"' ,StreamCode ) eq true ";
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,streamCode ) eq true ";
 						first=false;
 						break;
-					case "StreamName":
+					case "smartOCode".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
-						URLQuery += " substringof('"+keyValue[1].trim()+"' ,StreamName ) eq true ";
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,smartOCode ) eq true ";
 						first=false;
 						break;
-					case "StreamDescription":
+					case "streamName".toUpperCase():
 						if(!first){ 
 							URLQuery+=" or ";						
 						}
-						URLQuery += " substringof('"+keyValue[1].trim()+"' ,StreamDescription ) eq true ";
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,streamName ) eq true ";
+						first=false;
+						break;
+					case "streamDescription".toUpperCase():
+						if(!first){ 
+							URLQuery+=" or ";						
+						}
+						URLQuery += " substringof('"+keyValue[1].trim()+"' ,streamDescription ) eq true ";
 						first=false;
 						break;
 					}

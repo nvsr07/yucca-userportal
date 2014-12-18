@@ -18,6 +18,9 @@
 						<th ng-repeat="field in fieldList" ng-show="field.visible">
 							<a ng-click="changePredicate(field.api_key);"><span ng-bind-html="field.key|translate">{{field.api_key}}</span></a>
 						</th>
+						<th>
+							<a ng-click="changePredicate('Stream.smartOName');"><span translate>DISCOVERY_FIELD_VE_NAME</span></a>
+						</th>
 						<th>&nbsp;</th>
 					</tr>
 				</thead>
@@ -25,6 +28,7 @@
 					<tr ng-repeat="item in searchResult | orderBy:predicate:reverse |startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 						<td><a href="javascript:void(0)" ng-click='showDetail(item["idDataset"])'>{{item[fieldList[0].api_key]}}</a></td>
 						<td ng-repeat="field in fieldList"  ng-show="!$first && field.visible">{{item[field.api_key]}}</td>
+						<td>{{item['Stream'].smartOName}}</td>
 						<td><a href="javascript:void(0)" ng-click='showDetail(item["idDataset"])' class='btn btn-default btn-xs'><small><span translate>DISCOVERY_RESULTS_DETAIL_BUTTON</span></small></a></td>
 					</tr>
 				</tbody>

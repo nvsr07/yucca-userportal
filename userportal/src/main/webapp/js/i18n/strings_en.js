@@ -37,7 +37,8 @@ var translations_en = {
 	/* STREAM */
 	STREAM_FIELD_ID_STREAM : 'ID Stream',
 	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
-	STREAM_FIELD_NAME: 'Description',
+	STREAM_FIELD_NAME: 'Name',
+	STREAM_FIELD_DESCRIPTION:'Description',
 	STREAM_FIELD_CODE: 'Code',
 	STREAM_FIELD_TENANT_CODE : 'Code',
 	STREAM_FIELD_TENANT_NAME : 'Name',
@@ -531,8 +532,8 @@ var translations_en = {
 	DISCOVERY_SIMPLESEARCH_MENU: 'Simple search',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Advanced search',
 	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. water or tags:AIR',
-	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Search operator enabled <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong>'+
-	', <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong>to use it <i>operator<strong>:</strong><i>value</i> ',
+	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Search operator enabled <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
+	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> , <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> to use it <i>operator<strong>:</strong><i>value</i> ',
 	DISCOVERY_FILTER_SEARCH_BUTTON: 'Search',
 	
 	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Choose one field',
@@ -564,6 +565,8 @@ var translations_en = {
 	DISCOVERY_FIELD_FPS: 'FPS',
 	DISCOVERY_FIELD_UNIT_OF_MEASUREMENT: 'Unit of Measurement',
 	DISCOVERY_FIELD_STCODE:'StreamCode',
+	DISCOVERY_FIELD_VE_NAME:'Smart Object Name',
+	DISCOVERY_FIELD_VE_CODE:'Smart Object Code',
 	DISCOVERY_FIELD_STNAME:'StreamName',
 	DISCOVERY_FIELD_STDESC:'StreamDescription',
 
