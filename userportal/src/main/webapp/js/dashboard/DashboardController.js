@@ -72,7 +72,7 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
 	$scope.tenantsFilter = null;
-	$scope.tenantCode = info.getTenantCode();
+	$scope.tenantCode = info.getActiveTenantCode();
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.streamsList.length;

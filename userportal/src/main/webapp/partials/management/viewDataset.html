@@ -127,13 +127,13 @@
 	<div class='row'>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="row card-toolbar">
-				<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit()">
+				<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
 					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
 				</a>
-				<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData()">
+				<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData() && isAuthorized('management/datasets/upload')">
 					<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
 				</a>
-				<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset"  >
+				<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download')"  >
 					<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 				</a>
 			</div>

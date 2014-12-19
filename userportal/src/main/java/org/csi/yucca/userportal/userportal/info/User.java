@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 
 public class User {
 	private String username;
-	private String tenant;
+	private List<String> tenants;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -17,10 +17,10 @@ public class User {
 	public User() {
 	}
 
-	public User(String username, String tenant, String firstname, String lastname, String email, List<String> permissions) {
+	public User(String username, List<String> tenants, String firstname, String lastname, String email, List<String> permissions) {
 		super();
 		this.username = username;
-		this.tenant = tenant;
+		this.tenants = tenants;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
@@ -44,12 +44,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getTenant() {
-		return tenant;
+	public List<String> getTenants() {
+		return tenants;
 	}
 
-	public void setTenant(String tenant) {
-		this.tenant = tenant;
+	public void setTenants(List<String> tenants) {
+		this.tenants = tenants;
 	}
 
 	public String toJson() {

@@ -14,6 +14,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -76,20 +77,26 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser = new User();
 					newUser.setLoggedIn(true);
 					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
-					newUser.setTenant(AuthorizeUtils.DEFAULT_TENANT);
-					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenant());
+					newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
+					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 
 				} else if (result.size() > 1) {
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1");
 					newUser = new User();
 					newUser.setLoggedIn(true);
 					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
-					newUser.setTenant(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT)));
+					String organizations  = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
+					
+					List<String> tenants  = AuthorizeUtils.DEFAULT_TENANT;
+					if(organizations!=null){
+						tenants  = Arrays.asList(organizations.split(","));
+					}
+					newUser.setTenants(tenants);
 					newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
 					newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 					newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 
-					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenant());
+					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 
 					for (Object key : result.keySet().toArray()) {
 						String value = (String) result.get(key);
@@ -108,7 +115,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				}
 
 				info.setUser(newUser);
-				info.setTenantCode(newUser.getTenant());
+				//info.setTenantCode(newUser.getTenant());
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"
@@ -120,7 +127,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				try {
 					String returnPath = request.getParameter("returnUrl");
 					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION, returnPath);
-					info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
+					//info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
 					info.setUser(AuthorizeUtils.DEFAULT_USER);
 					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 					String requestMessage = consumer.buildRequestMessage(request);

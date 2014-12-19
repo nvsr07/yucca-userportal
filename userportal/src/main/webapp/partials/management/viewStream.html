@@ -108,16 +108,16 @@
 				<a  href='#' class="btn  btn-delete disabled" title="{{'COMING_SOON'|translate}}">
 					<span class="glyphicon glyphicon-trash "></span> {{'MANAGEMENT_VIEW_STREAM_DELETE_BUTTON'|translate}}
 				</a>
-				<a  href='#/management/editStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default btn-edit" ng-show="isOwner() && canEdit()">
+				<a  href='#/management/editStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/streams/update')">
 					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_STREAM_EDIT_BUTTON'|translate}}
 				</a>
-				<a  href='javascript:void(0)' class="btn  btn-uninstall" ng-show="isOwner() && canUnistall()" ng-click='requestUnistallation()'>
+				<a  href='javascript:void(0)' class="btn  btn-uninstall" ng-show="isOwner() && canUnistall() && isAuthorized('management/streams/req_disinst')" ng-click='requestUnistallation()'>
 					<span class="glyphicon glyphicon-open "></span> {{'MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON'|translate}}
 				</a>
-				<a  href='javascript:void(0)' class="btn  btn-new" ng-show="isOwner() && canCreateNewVersion()" ng-click='createNewVersion()'>
+				<a  href='javascript:void(0)' class="btn  btn-new" ng-show="isOwner() && canCreateNewVersion() && isAuthorized('management/streams/update')" ng-click='createNewVersion()'>
 					<span class="glyphicon glyphicon-export "></span> {{'MANAGEMENT_VIEW_STREAM_NEWVERSION_BUTTON'|translate}}
 				</a>
-				<a  href='javascript:void(0)' class="btn  btn-install" ng-show="isOwner() && canInstall()" ng-click='requestInstallation()'>
+				<a  href='javascript:void(0)' class="btn  btn-install" ng-show="isOwner() && canInstall() && isAuthorized('management/streams/req_inst')" ng-click='requestInstallation()'>
 					<span class="glyphicon glyphicon-save "></span> {{'MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON'|translate}}
 				</a>
 			</div>

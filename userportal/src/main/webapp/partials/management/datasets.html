@@ -6,10 +6,10 @@
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
 			<div class='clearfix'>
 				<div class="pull-left">
-		        	<a  href="#/management/newDataset/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isOwner()">
+		        	<a  href="#/management/newDataset/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/datasets/update') ||!isOwner() ">
 						<span class="glyphicon glyphicon-plus "></span> <span translate>MANAGEMENT_DATASET_LIST_NEW_DATASET</span>
 					</a>
-					<button  href="javascript:void(0)" ng-click='editDataset()' class="btn  btn-edit" ng-disabled="!isOwner() || !canEdit()" title="{{'MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT'|translate}}">
+					<button  href="javascript:void(0)" ng-click='editDataset()' class="btn  btn-edit" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canEdit()" title="{{'MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT'|translate}}">
 						<span class="glyphicon glyphicon-pencil "></span> <span translate>MANAGEMENT_DATASET_LIST_EDIT_DATASET</span>
 					</button>
 					<button href="javascript:void(0)" ng-click='deleteDataset()'class="btn  btn-delete" ng-disabled="true" title="{{'MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT'|translate}}">

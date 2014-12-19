@@ -78,7 +78,7 @@
 				<a  href='#' class="btn btn-delete disabled" title="{{'COMING_SOON'|translate}}">
 					<span class="glyphicon glyphicon-trash"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON'|translate}}
 				</a>
-				<a  href='#/management/editVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}' class="btn btn-edit">
+				<a  href='#/management/editVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}' class="btn btn-edit" ng-show="isAuthorized('management/smartobjects/update')">
 					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON'|translate}}
 				</a>
 			</div>

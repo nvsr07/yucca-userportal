@@ -1,15 +1,15 @@
 package org.csi.yucca.userportal.userportal.utils;
 
-import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
-import org.csi.yucca.userportal.userportal.info.Info;
-import org.csi.yucca.userportal.userportal.info.User;
-import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
-
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
+import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.info.User;
 
 public class AuthorizeUtils {
 
@@ -19,8 +19,16 @@ public class AuthorizeUtils {
 	// "SESSION_KEY_TENANT_CODE";
 	public static final String SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION = "SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION";
 
-	public static final String DEFAULT_TENANT = "sandbox";
-	public static final User DEFAULT_USER = new User("Guest", DEFAULT_TENANT, "Guest", "Guest", null, new LinkedList<String>());
+	public static final List<String> DEFAULT_TENANT = Arrays.asList("sandbox");
+
+	public static final List<String> DEFAULT_PERMISSIONS = Arrays.asList(AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/development",
+			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/datasets/download",
+			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/datasets/update", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/datasets/upload",
+			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/datasets/view", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/smartobjects",
+			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/streams", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/monitoring",
+			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/store");
+
+	public static final User DEFAULT_USER = new User("Guest", DEFAULT_TENANT, "Guest", "Guest", null, DEFAULT_PERMISSIONS);
 
 	public static final String CLAIM_KEY_USERNAME = "USERNAME";
 	public static final String CLAIM_KEY_OTHERPHONE = "OTHERPHONE";
@@ -51,13 +59,12 @@ public class AuthorizeUtils {
 	public static final String CLAIM_KEY_IM = "IM";
 	public static final String CLAIM_KEY_TENANT = "TENANT";
 	public static final String CLAIM_KEY_LASTNAME = "LASTNAME";
-	
+
 	public static Map<String, String> claimsKeys;
 
 	public static final String CLAIM_DIALECT_WSO2 = "WSO2";
-	
-	public static final String RBAC_BASE_PERMISSION_PATH = "/permission/applications/userportal";
 
+	public static final String RBAC_BASE_PERMISSION_PATH = "/permission/applications/userportal";
 
 	public static boolean verifyAPIRequest(HttpServletRequest request) {
 
@@ -129,13 +136,32 @@ public class AuthorizeUtils {
 
 	}
 
-	public static String getTenantInSession(HttpServletRequest request) {
-		String tenant = DEFAULT_TENANT;
+	public static List<String> getTenantsInSession(HttpServletRequest request) {
+		List<String> tenant = DEFAULT_TENANT;
 		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-		if (info != null && !Util.nvlt(info.getTenantCode()).equals("")) {
-			tenant = info.getTenantCode();
+		// if (info != null && !Util.nvlt(info.getTenantCode()).equals("")) {
+		// tenant = info.getTenantCode();
+		// }
+
+		if (info != null && info.getUser() != null && info.getUser().getTenants() != null) {
+			tenant = info.getUser().getTenants();
 		}
 		return tenant;
+	}
+
+	public static boolean checkTenantInSession(HttpServletRequest request, String tenant) {
+		boolean result = false;
+		if (tenant != null) {
+			for (String t : getTenantsInSession(request)) {
+				if (tenant.equals(t)) {
+					result = true;
+					break;
+				}
+
+			}
+		}
+
+		return result;
 
 	}
 

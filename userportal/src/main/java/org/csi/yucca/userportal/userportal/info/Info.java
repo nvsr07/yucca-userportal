@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 public class Info {
 
-	private String tenantCode;
+	//private String tenantCode;
 	private User user;
 	private String version;
 
@@ -33,12 +33,12 @@ public class Info {
 		this.version = version;
 	}
 
-	public String getTenantCode() {
-		return tenantCode;
-	}
-
-	public void setTenantCode(String tenantCode) {
-		this.tenantCode = tenantCode;
-	}
+//	public String getTenantCode() {
+//		return tenantCode;
+//	}
+//
+//	public void setTenantCode(String tenantCode) {
+//		this.tenantCode = tenantCode;
+//	}
 
 }

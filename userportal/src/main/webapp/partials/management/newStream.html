@@ -126,7 +126,7 @@
 					
 			</fieldset>
 			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
+				<div class="col-sm-offset-2 col-sm-10"  ng-show="isAuthorized('management/streams/update') >
 					<a ng-click='cancel()' class="btn">{{'CANCEL'|translate}}</a>
 					<a ng-click='createStream(virtualentity, stream)' class="btn  btn-default" ng-disabled="!isOwner() || newStreamForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
 				</div>

@@ -1,17 +1,27 @@
 
 <ul class="nav navbar-nav navbar-right">
-	<li class='main-menu-profile-item' ng-show="user.loggedIn"><span class='main-menu-username'>{{user.username}}</span><span class='main-menu-tenant'>{{user.tenant}}</span></li>
+	<li class='main-menu-profile-item' ng-show="user.loggedIn"><span class='main-menu-username'>{{user.username}}</span><span class='main-menu-tenant'>{{activeTenantCode}}</span></li>
 	<li class='main-menu-item'>
 		<a href='/userportal/api/authorize?returnUrl={{currentUrl()}}' ng-show="!user.loggedIn">{{'MENU_SING_IN'|translate}}</a>
 		<div class="dropdown" ng-show="user.loggedIn">
 			<button class="btn btn-default main-menu-profile-button dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
 				<span class="caret main-menu-caret"></span>
-			  </button>
-			  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-			    <li role="presentation"><a role="menuitem" tabindex="-1" href="/userportal/api/authorize?logout={{user.username}}&returnUrl={{currentUrl()}}">{{'MENU_SING_OUT'|translate}}</a></li>
-			  </ul>
-			</div>
-		
+		  </button>
+		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		  <!-- 	<li ng-repeat="tenant in tenants"><a ng-click="changeActiveTenant(tenant)" href="javascript:void(0)">{{tenant}}</a></li> -->
+		  
+		  <!-- 
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" ng-click='changeActiveTenant("smartlab")'>smartlab&nbsp;<i class='glyphicon glyphicon-ok'></i></a></li>
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" ng-click='changeActiveTenant("smartbox")'>smartbox</a></li>
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" ng-click='changeActiveTenant("smartlab")'>csp</a></li>
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0)" ng-click='changeActiveTenant("smartlab")'><i class='glyphicon glyphicon-ok'></i>&nbsp;smartlab</a></li>
+		     -->
+		  	<li role="presentation" class="divider"></li>
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="/userportal/api/authorize?logout={{user.username}}&returnUrl={{currentUrl()}}">{{'MENU_SING_OUT'|translate}}</a></li>
+		  </ul>
+		</div>
 	</li>
 </ul>
+
+
 

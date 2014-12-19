@@ -12,13 +12,13 @@
 				<ul class="nav  nav-pills nav-stacked">
 					<!-- <li ng-class="{active: isMenuActive('dashboard')}"><a href="#/management/dashboard/{{tenant}}">{{'MANAGEMENT_MENU_DASHBOARD'|translate}}</a></li> -->
 					<li>
-						<a href="#/management/virtualentities/{{tenant}}" ng-class="{active: isMenuActive('virtualentities')}"  class='btn-default'>{{'MANAGEMENT_MENU_VIRTUAL_ENTITIES'|translate}}</a>
+						<a ng-disable="!isAuthorized('management/smartobjects/*')" href="#/management/virtualentities/{{tenant}}" ng-class="{active: isMenuActive('virtualentities')}"  class='btn-default'>{{'MANAGEMENT_MENU_VIRTUAL_ENTITIES'|translate}}</a>
 					</li>
 					<li>
-						<a href="#/management/streams/{{tenant}}" ng-class="{active: isMenuActive('streams')}" class=' btn-default'>{{'MANAGEMENT_MENU_STREAMS'|translate}}</a>
+						<a ng-disable="!isAuthorized('management/streams/*')" href="#/management/streams/{{tenant}}" ng-class="{active: isMenuActive('streams')}" class=' btn-default'>{{'MANAGEMENT_MENU_STREAMS'|translate}}</a>
 					</li>
 					<li  class=' btn-management'>
-						<a href="#/management/datasets/{{tenant}}" class=' btn-default' ng-class="{active: isMenuActive('datasets')}">{{'MANAGEMENT_MENU_DATASET'|translate}}</a>
+						<a ng-disable="!isAuthorized('management/datasets/*')" href="#/management/datasets/{{tenant}}" class=' btn-default' ng-class="{active: isMenuActive('datasets')}">{{'MANAGEMENT_MENU_DATASET'|translate}}</a>
 					</li>
 				</ul>
 			</div>

@@ -66,18 +66,33 @@ app.factory('info',  function() {
 
     infoService.setInfo = function(info) {
         this.info = info;
+    //    this.infoService.setActiveTenantCode(this.info.user.tenants[0]);
     };
     
-    infoService.getTenantCode = function(){
-    	if(this.info && this.info.tenantCode)
-    		return this.info.tenantCode;
+    infoService.setActiveTenantCode = function(activeTenantCode) {
+        this.activeTenantCode = activeTenantCode;
+    };
+    
+    infoService.getActiveTenantCode = function(){
+    	if(this.info && this.info.activeTenantCode)
+    		return this.info.activeTenantCode;
+    	else if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0)
+    		return this.info.user.tenants[0];
     	return null;
     };
     
     infoService.isOwner = function(tenantCode){
-    	if(tenantCode)
-    		return infoService.getTenantCode() == tenantCode;
-    	return false;
+    	var result  = false;
+    	if(tenantCode){
+    		for (var int = 0; int < this.info.user.tenants.length; int++) {
+				if(this.info.user.tenants[int] == tenantCode){
+					result = true;
+					break;
+				}
+			}
+    		//return infoService.getTenantCode() == tenantCode;
+    	}
+    	return result;
     };
     
     infoService.isAuthorized = function(operation){
@@ -88,19 +103,24 @@ app.factory('info',  function() {
 
     		var operationSplitted = operation.split("/");
     		console.log("operation",operation);
-    		console.log("operationSplitted", operationSplitted);
     		var operationComplete = base_path;
     		operationLoop:
     		for (var counterOperation = 0; counterOperation < operationSplitted.length; counterOperation++) {
     			operationComplete = operationComplete + "/" + operationSplitted[counterOperation];
-    			console.log("operationComplete", operationComplete);
+    			//console.log("operationComplete", operationComplete);
     			for (var counterPermission = 0; counterPermission < permissions.length; counterPermission++) {
-    				console.log("   permissions["+counterPermission +"]", permissions[counterPermission]);
-    				if(permissions[counterPermission] == operationComplete){
-    					authorized = true;
-    					console.log("found!!");
-    					break operationLoop;
-    				};
+    				if(operationSplitted[counterOperation] == "*"){
+    					if(permissions[counterPermission].lastIndexOf(operationComplete.substring(0, operationComplete.length-2), 0) === 0){
+    						authorized = true;
+    						break operationLoop;
+    					};	
+    				}			// start with
+    				else{
+    					if(permissions[counterPermission] == operationComplete){
+    						authorized = true;
+    						break operationLoop;
+    					};
+    				}
     			};
     		}
     		console.log("authorized",authorized);
@@ -108,7 +128,7 @@ app.factory('info',  function() {
     	}
     	return authorized;
     	
-    }
+    };
 
     return infoService;
 });

@@ -4,7 +4,7 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info',  function($scope, $route, info) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info', 'fabricAPIservice',  function($scope, $route, info, fabricAPIservice) {
 	$scope.$route = $route;
 	
 	
@@ -14,6 +14,23 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info',  function($
 		console.log("isAuthorized - authorized", authorized);
 		return authorized;
 	};
+	
+	fabricAPIservice.getInfo().success(function(result) {
+		console.debug("result", result);
+		info.setInfo(result);
+		$scope.activeTenantCode = info.getActiveTenantCode();
+
+		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
+		$scope.user = result.user;
+	});
+	
+	$scope.tenants = ["smartlab","smartbox","csp"];
+
+	$scope.changeActiveTenant = function(newTenant){
+		console.log("changeActiveTenant",newTenant);
+		info.setActiveTenantCode(newTenant);
+	};
+
 
 } ]);
 
@@ -24,7 +41,7 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 		return encodeURIComponent("#"+$location.path());
 	};
 
-	$scope.user;
+	//$scope.user;
 	
 	console.debug(":::::Client webSocket Singleton::::");
 	console.debug("Client webSocket Singleton::::",WebsocketStompSingleton.getInstance());
@@ -41,17 +58,18 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 		}
 	});
 
-	fabricAPIservice.getInfo().success(function(result) {
-		console.debug("result", result);
-		$scope.managementUrl = '#/management/virtualentities/'+result.tenantCode;
-		info.setInfo(result);
-		$scope.user = result.user;
-	});
+//	fabricAPIservice.getInfo().success(function(result) {
+//		console.debug("result", result);
+//		info.setInfo(result);
+//		$scope.managementUrl = '#/management/virtualentities/'+result.tenantCode;
+//		$scope.user = result.user;
+//	});
 	
+
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
 	};
-	
+
 	$scope.isHomepage = function() {
 		return $route.current.isHomepage;
 	};
@@ -70,15 +88,10 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 	console.debug("showMap");
 	showMap();
 	
-	fabricAPIservice.getInfo().success(function(result) {
-		console.debug("result", result);
-		$scope.tenant = result.tenantCode;
-	});
-
-//	fabricAPIservice.getInfo().success(function(response) {
-//		console.debug("response.info.tenant.tenantCode", response.info.tenant.tenantCode);
-//		$scope.tenant = response.info.tenant.tenantCode;
-//		info.setInfo(response.info);
+//	$scope.tenant = info.getActiveTenantCode();
+//	fabricAPIservice.getInfo().success(function(result) {
+//		console.debug("result", result);
+//		$scope.tenant = result.tenantCode;
 //	});
 	
 	$scope.tenantsCount = "";

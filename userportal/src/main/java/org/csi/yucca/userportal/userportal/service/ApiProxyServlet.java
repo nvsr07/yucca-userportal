@@ -213,7 +213,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	private String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 
 		//FIXME workaround to force security in the datadiscovery 
-		String tenantCode = AuthorizeUtils.getTenantInSession(request);
+		String tenantCode = AuthorizeUtils.getTenantsInSession(request).get(0);
 		
 		Map<String, String[]> parameterMap =  new HashMap<String, String[]>(request.getParameterMap());
 		if(request.getRequestURI().contains("/userportal/api/proxy/discovery/")){

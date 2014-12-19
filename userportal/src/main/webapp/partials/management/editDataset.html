@@ -120,7 +120,7 @@
 					</table>
 				</div>
 				<div class="row">
-					<div class=" col-sm-12 form-toolbar">
+					<div class=" col-sm-12 form-toolbar" ng-show="isAuthorized('management/datasets/update') ">
 						<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate>MANAGEMENT_EDIT_DATASET_FINISH_BUTTON</a>
 						<a  ng-click='updateDataset()'  class="btn btn-default" ng-disabled="!isOwner() || editDatasetForm.$invalid" translate>MANAGEMENT_EDIT_DATASET_SAVE_BUTTON</a>
 

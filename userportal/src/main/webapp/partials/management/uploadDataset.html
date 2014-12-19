@@ -102,7 +102,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row" ng-show="!isUploading">
+		<div class="row" ng-show="!isUploading && isAuthorized('management/datasets/upload') ">
 			<div class=" col-sm-12 col-lg-12 form-toolbar" >
 				<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON</a>
 				<a ng-click='uploadData()' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || selectedFile==null" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>

@@ -19,47 +19,53 @@ public enum ApiEntityEnum {
 	API_SERVICES_STREAM_COMPONENT("API_SERVICES_STREAM_COMPONENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/components/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
+			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
 		}
 	},
 	API_SERVICES_STREAM("API_SERVICES_STREAM_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			boolean auth = false;
-			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || !AuthorizeUtils.getElementInPositionByRequest(request, 3).equals("")  || AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request)))
-				auth=true;
-			return  auth;
-//			return AuthorizeUtils.isReadMethod(request)
-//					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
+			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || !AuthorizeUtils.getElementInPositionByRequest(request, 3).equals("")
+					|| AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2)))
+				auth = true;
+			return auth;
+			// return AuthorizeUtils.isReadMethod(request)
+			// || AuthorizeUtils.getElementInPositionByRequest(request,
+			// 2).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	},
 	API_SERVICES_STREAM_LIST("API_SERVICES_STREAM_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			boolean auth = false;
-			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || !AuthorizeUtils.getElementInPositionByRequest(request, 3).equals("")|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request)))
-				auth=true;
-			return  auth;
+			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || !AuthorizeUtils.getElementInPositionByRequest(request, 3).equals("")
+					|| AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2)))
+				auth = true;
+			return auth;
 		}
 	},
 	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			boolean auth = false;
-			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request)))
-				auth=true;
-			return  auth;
-//			return AuthorizeUtils.isReadMethod(request)
-//					|| AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
+			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("")
+					|| AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2)))
+				auth = true;
+			return auth;
+			// return AuthorizeUtils.isReadMethod(request)
+			// || AuthorizeUtils.getElementInPositionByRequest(request,
+			// 2).equals(AuthorizeUtils.getTenantInSession(request));
 		}
 	},
 	API_SERVICES_VIRTUALENTITY_LIST("API_SERVICES_VIRTUALENTITY_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			boolean auth = false;
-			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request)))
-				auth=true;
-			return  auth;
+			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("")
+					|| AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2)))
+				auth = true;
+			return auth;
 		}
 	},
 	API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
@@ -152,7 +158,8 @@ public enum ApiEntityEnum {
 	API_MANAGEMENT_DATASET_DOWNLOAD_URL("API_MANAGEMENT_DATASET_DOWNLOAD_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/download/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			//return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
+			// return AuthorizeUtils.getElementInPositionByRequest(request,
+			// 3).equals(AuthorizeUtils.getTenantInSession(request));
 			return true;
 		}
 	},
@@ -160,20 +167,21 @@ public enum ApiEntityEnum {
 	API_MANAGEMENT_DATASET_LIST("API_MANAGEMENT_DATASET_LIST_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
+			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2));
+
 		}
 	},
 
 	API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(AuthorizeUtils.getTenantInSession(request));
+			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2));
 		}
 	},
 	API_MANAGEMENT_DATASET_ADD_DATA_URL("API_MANAGEMENT_DATASET_ADD_DATA_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/add/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
+			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
 		}
 	},
 	API_DISCOVERY_DATASET("API_DISCOVERY_DATASET_URL", Config.API_PROXY_DISCOVERY_BASE_URL) {
@@ -182,7 +190,7 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
-	API_VALIDATE_SIDDHI("API_VALIDATE_SIDDHI", Config.API_PROXY_SERVICES_BASE_URL+"internalstreams/validate/") {
+	API_VALIDATE_SIDDHI("API_VALIDATE_SIDDHI", Config.API_PROXY_SERVICES_BASE_URL + "internalstreams/validate/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;

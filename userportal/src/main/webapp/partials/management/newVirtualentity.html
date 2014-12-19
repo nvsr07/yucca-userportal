@@ -59,7 +59,7 @@
 			</div>	
 
 			<div class="row">
-				<div class="col-sm-12 form-toolbar">
+				<div class="col-sm-12 form-toolbar"  ng-show="isAuthorized('management/smartobjects/update') >
 					<a ng-click='cancel()' class="btn">{{'CANCEL'|translate}}</a>
 					<a ng-click='createVirtualentity(virtualentity)' class="btn btn-default" ng-disabled="!isOwner() || newVirtualentityForm.$invalid">{{'MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON'|translate}}</a>
 				</div>
