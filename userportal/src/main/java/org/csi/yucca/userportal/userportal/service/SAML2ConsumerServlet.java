@@ -69,8 +69,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				User newUser = info.getUser();
 				if (result == null) {
+					//newUser = AuthorizeUtils.DEFAULT_USER;
 					log.debug("[SAML2ConsumerServlet::doPost] - result null");
-					;
+					
 				} else if (result.size() == 1) {
 					log.debug("[SAML2ConsumerServlet::doPost] - result size 1");
 
@@ -78,6 +79,12 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setLoggedIn(true);
 					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
 					newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
+					try {
+						newUser.setPermissions(loadPermissions(newUser));
+					} catch (Exception e) {
+						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
+						e.printStackTrace();
+					}
 					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 
 				} else if (result.size() > 1) {
@@ -97,21 +104,19 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
-
-					for (Object key : result.keySet().toArray()) {
-						String value = (String) result.get(key);
-						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - value: " + value);
-					}
-				} else {
-					// something wrong, re-login
-				}
-				if (newUser != null) {
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
 					} catch (Exception e) {
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
+					
+					for (Object key : result.keySet().toArray()) {
+						String value = (String) result.get(key);
+						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - value: " + value);
+					}
+				} else {
+					// something wrong, re-login
 				}
 
 				info.setUser(newUser);
@@ -128,8 +133,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					String returnPath = request.getParameter("returnUrl");
 					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION, returnPath);
 					//info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
-					info.setUser(AuthorizeUtils.DEFAULT_USER);
-					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
+					//User defaultUser = AuthorizeUtils.DEFAULT_USER;
+					//defaultUser.setPermissions(AuthorizeUtils.DEFAULT_PERMISSIONS);
+					//info.setUser(defaultUser);
+					//request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
+					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
 					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath="
 							+ URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
@@ -141,6 +149,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			log.debug("[SAML2ConsumerServlet::doPost] - END");
 		}
 	}
+	
 
 	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
 			SAXException {

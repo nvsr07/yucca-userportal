@@ -60,8 +60,8 @@ app.factory('info',  function() {
     var info = {};
     var infoService = {};
     
-    infoService.getInfo = function(item) {
-        return info;
+    infoService.getInfo = function() {
+        return this.info;
     };
 
     infoService.setInfo = function(info) {
@@ -70,7 +70,7 @@ app.factory('info',  function() {
     };
     
     infoService.setActiveTenantCode = function(activeTenantCode) {
-        this.activeTenantCode = activeTenantCode;
+    	this.info.activeTenantCode = activeTenantCode;
     };
     
     infoService.getActiveTenantCode = function(){
@@ -102,7 +102,7 @@ app.factory('info',  function() {
     		var base_path  = Constants.RBAC_BASE_PERMISSION_PATH;     		
 
     		var operationSplitted = operation.split("/");
-    		console.log("operation",operation);
+    		//console.log("operation",operation);
     		var operationComplete = base_path;
     		operationLoop:
     		for (var counterOperation = 0; counterOperation < operationSplitted.length; counterOperation++) {
@@ -123,7 +123,7 @@ app.factory('info',  function() {
     				}
     			};
     		}
-    		console.log("authorized",authorized);
+    		//console.log("operation " + operation + "authorized",authorized);
     		
     	}
     	return authorized;

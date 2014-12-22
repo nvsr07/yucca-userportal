@@ -4,31 +4,29 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info', 'fabricAPIservice',  function($scope, $route, info, fabricAPIservice) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', 'fabricAPIservice',  function($scope, $route, info, $location, fabricAPIservice) {
 	$scope.$route = $route;
 	
 	
 	$scope.isAuthorized = function(operation){
-		console.log("isAuthorized - operation", operation);
 		var authorized = info.isAuthorized(operation);
-		console.log("isAuthorized - authorized", authorized);
 		return authorized;
 	};
-	
+	$scope.userTenants = null;
 	fabricAPIservice.getInfo().success(function(result) {
-		console.debug("result", result);
 		info.setInfo(result);
 		$scope.activeTenantCode = info.getActiveTenantCode();
+		
+		$scope.userTenants = info.getInfo().user.tenants;
 
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
 		$scope.user = result.user;
 	});
 	
-	$scope.tenants = ["smartlab","smartbox","csp"];
-
 	$scope.changeActiveTenant = function(newTenant){
-		console.log("changeActiveTenant",newTenant);
 		info.setActiveTenantCode(newTenant);
+		$scope.activeTenantCode = info.getActiveTenantCode();
+		$location.path("#/");
 	};
 
 

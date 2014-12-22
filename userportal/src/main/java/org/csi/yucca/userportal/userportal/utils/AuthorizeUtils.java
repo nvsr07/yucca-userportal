@@ -28,7 +28,9 @@ public class AuthorizeUtils {
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/streams", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/monitoring",
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/store");
 
-	public static final User DEFAULT_USER = new User("Guest", DEFAULT_TENANT, "Guest", "Guest", null, DEFAULT_PERMISSIONS);
+	public static final User DEFAULT_USER() {
+		return new User("Guest", DEFAULT_TENANT, "Guest1", "Guest", null, DEFAULT_PERMISSIONS);
+	};
 
 	public static final String CLAIM_KEY_USERNAME = "USERNAME";
 	public static final String CLAIM_KEY_OTHERPHONE = "OTHERPHONE";

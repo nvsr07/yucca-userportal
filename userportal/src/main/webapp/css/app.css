@@ -60,6 +60,7 @@ ul .list-spaced li{line-height: 1.2em;}
 
 small pre{font-size: 11px;padding: 4px;}
 
+
 /* validation */
 .ng-dirty.ng-invalid{border-color: #b50000;}
 .error-validation-icon{color: #b50000;}
@@ -68,6 +69,10 @@ small pre{font-size: 11px;padding: 4px;}
 .help-panel{border:5px solid #DBDB01; color:#000000;}
 .help-title{color: #666666;}
 .help-bullet{color: #1cbcee;}
+
+
+/* dropdown */
+.indent-dropdownitem-noicon{margin-left: 1em;}
 
 /* popover html */
 .popover-html .tooltip-arrow{border-top-color: #ccc!important;}
