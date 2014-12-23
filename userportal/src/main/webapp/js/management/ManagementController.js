@@ -1579,7 +1579,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	fabricAPIservice.getStreamDataType().success(function(response) {
 		$scope.dataTypeList = response.dataType.element;
 		var coordinatesDataType  = {idDataType:$scope.dataTypeList.length+1, dataType:"coordinates"};
-		$scope.dataTypeList.push(coordinatesDataType);
+		//$scope.dataTypeList.push(coordinatesDataType);
 		for (var int = 0; int < $scope.dataTypeList; int++) {
 			if($scope.dataTypeList[int].dataType == 'string'){
 				console.log("$scope.dataTypeList[int].dataType", $scope.dataTypeList[int].dataType);
