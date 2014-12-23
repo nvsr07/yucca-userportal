@@ -4,7 +4,7 @@
 
 var appServices = angular.module('userportal.services', [ 'userportal.config' ]);
 
-appServices.value('version', '0.8.1 dev');
+appServices.value('version', '0.9.0 dev');
 
 
 app.factory('asyncSingleDatasetService', function($http, $q, dataDiscoveryService) {
