@@ -368,6 +368,172 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 	//$scope.lineData = [ { x : 1, y : 5 }, { x : 20, y : 20 }, { x : 40, y : 10 }, { x : 60, y : 40 }, { x : 80, y : 5 }, { x : 100, y : 60 } ];
 } 
 ]);
+
+
+
+
+
+
+appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
+                                                   function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
+	$scope.stream = null;
+	$scope.wsUrl = "";
+	//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
+	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+		$scope.stream = response.streams.stream;
+		if($scope.stream.componenti == null)
+			$scope.stream.componenti = new Object();
+		$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
+
+		$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+		console.log('#stream-data-chart' , angular.element( document.querySelector( '#stream-data-chart' ) ));
+		$scope.chartWidth = angular.element( document.querySelector( '#stream-data-chart' )).width()-6;
+		console.log('chartWidth' , $scope.chartWidth);
+
+		if(!isNaN($scope.stream.fps)){
+			var fpsNumber = parseFloat($scope.stream.fps);
+			$scope.stream.fpm = 60*fpsNumber;
+			if(fpsNumber!=0){
+				$scope.stream.secondsBtwEvents = 1/fpsNumber;
+				$scope.stream.minutesBtwEvents = 1/(fpsNumber*60);
+			}
+			else{
+				$scope.stream.secondsBtwEvents = "-";
+				$scope.stream.minutesBtwEvents = "-";
+			}
+		}
+		else{
+			$scope.stream.fpm = "-";
+			$scope.stream.secondsBtwEvents = "-";
+			$scope.stream.minutesBtwEvents = "-";
+		}
+		
+		connectWS();
+//		connectWSStatistic();
+//		connectWSClientData();
+//		connectWSClientError();
+	});
+
+	var totalError = 0;
+
+	var maxNumWsStatisticMessages = 3;
+	var maxNumWsErrorMessages = 2;
+	$scope.wsStatisticMessages = [ [ "-", "-" ], [ "-", "-" ], [ "-", "-" ]];
+	$scope.wsErrorMessages = [ [ "-", "-" ], [ "-", "-" ]];
+	var maxNumStatisticData = 30;
+	var counter = 0;
+	//	$scope.wsStatisticData = [ { x : counter, y : 0 } ];
+	//	for (counter = 1; counter < maxNumStatisticData; counter++)
+	//		$scope.wsStatisticData.push({ x : counter, y : 0 });
+
+
+	$scope.nvWsStatisticData = [{key: "Events", color: '#2980b9', values: []}, {key: "Errors",color: '#c0392b',  values: []}];
+	for (counter = 1; counter < maxNumStatisticData; counter++){
+		$scope.nvWsStatisticData[0]["values"].push([0,0]);
+		$scope.nvWsStatisticData[1]["values"].push([0,0]);
+	}
+	
+	var loadPastData = function(){
+			
+	
+	}
+
+	
+	var wsClient = webSocketService();
+	var timeCounter = 0;
+	
+	// last message
+	$scope.wsLastMessage = "";
+	$scope.wsLastMessageToShow = "";
+
+
+	var connectWS = function(){
+		wsClient.connect(function(message) {
+			console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
+			
+			var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
+			console.debug("subscribe wsStatUrl ", wsStatUrl);
+
+			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+			console.debug("subscribe wsUrl ", $scope.wsUrl);
+
+			//var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
+			//console.debug("subscribe wsErrorUrl ", wsErrorUrl);
+
+			wsClient.subscribe(wsStatUrl, statisticCallback);
+			wsClient.subscribe($scope.wsUrl, dataCallback);
+			//wsClient.subscribe(wsErrorUrl, errorCallback);
+			
+		}, function() {
+		}, '/');
+	};
+	
+	function statisticCallback(message) {
+		console.debug("message", message);
+		counter++;
+		console.debug("wsStatisticMessages", $scope.wsStatisticMessages);
+
+		if ($scope.wsStatisticMessages.length >= maxNumWsStatisticMessages) 
+			$scope.wsStatisticMessages.shift();
+		if ($scope.wsErrorMessages.length >= maxNumWsErrorMessages) 
+			$scope.wsErrorMessages.shift();
+		//if ($scope.wsStatisticData.length > maxNumStatisticData) $scope.wsStatisticData.shift();
+
+		if ($scope.nvWsStatisticData[0]["values"].length > maxNumStatisticData){
+			$scope.nvWsStatisticData[0]["values"].shift();
+			$scope.nvWsStatisticData[1]["values"].shift();
+		}
+
+
+		var numOfEvents = angular.fromJson(message.body).event.payloadData.numEventsLast30Sec;
+
+		$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
+		$scope.wsErrorMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), totalError]);
+
+		$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
+		$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
+		timeCounter +=2;
+
+	};
+	
+	function dataCallback(message) {
+		console.debug("data message", message);
+		$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
+		console.debug("$scope.wsLastMessage", $scope.wsLastMessage);
+
+		if ($scope.wsLastMessageToShow == "")
+			$scope.wsLastMessageToShow = $scope.wsLastMessage;
+	};
+	
+	
+	function errorCallback(message) {
+		console.debug("Error message", message);
+		totalError++;
+	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	$scope.refreshLastMessage = function() {
+		$scope.wsLastMessageToShow = $scope.wsLastMessage;
+	};
+} 
+]);
+
+
 appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
                                                      function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
 	$scope.tenant_sel = null;

@@ -38,7 +38,7 @@ var translations_it = {
 	STREAM_FIELD_ID_STREAM: 'ID Flusso',
 	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
 	STREAM_FIELD_NAME: 'Nome',
-	STREAM_FIELD_DESCRIPTION:'Description',	
+	STREAM_FIELD_DESCRIPTION:'Descrizione',	
 	STREAM_FIELD_CODE: 'Code',
 	STREAM_FIELD_TENANT_CODE : 'Code',
 	STREAM_FIELD_TENANT_NAME : 'Name',
@@ -60,16 +60,18 @@ var translations_it = {
 	STREAM_FIELD_COMPONENTS_PHENOMENON: 'Fenomeno',
 	STREAM_FIELD_COMPONENTS_DATA_TYPE: 'Tipo di dato',
 	STREAM_FIELD_COMPONENTS_DESCRIPTION: 'Descrizione',
-	STREAM_FIELD_DOMAIN: 'Dominio',
+	STREAM_FIELD_DOMAIN: 'Ambito tematico',
 	STREAM_FIELD_LICENCE: 'Licenza',
 	STREAM_FIELD_DISCLAIMER : 'Disclaimer',
 	STREAM_FIELD_COPYRIGHT : 'Copyright',
 	STREAM_FIELD_VISIBILITY: 'Visibilit&agrave;',
 	STREAM_FIELD_TAGS : 'Tags',
 	STREAM_FIELD_FPS : 'FPS',
-	STREAM_FIELD_LASTUPDATE: 'Aggiornamento',
+	STREAM_FIELD_CREATION_DATE: 'Creato',
+	STREAM_FIELD_LASTUPDATE: 'Modificato',
 	STREAM_FIELD_EVENTS : 'Eventi',
 	STREAM_FIELD_VERSION : 'Versione installata',
+	STREAM_FIELD_IN_STORE: 'Nello store',
 	
 	STREAM_FIELS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
@@ -306,6 +308,10 @@ var translations_it = {
 	DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS: 'Sec. tra eventi', 
 	DASHBOARD_STREAM_REALTIME_FPM: 'FPM', 
 	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. tra eventi', 
+	
+	DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE: 'Informazioni Principali', 
+	DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE: 'Informazioni di Dettaglio', 
+	DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE: 'Informazioni di Condivisione', 
 
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistiche', 
 	
@@ -333,6 +339,7 @@ var translations_it = {
 	DASHBOARD_ERROR_LIST_NAME : 'Descrizione',
 	DASHBOARD_ERROR_LIST_TENANT : 'Tenant',
 	DASHBOARD_ERROR_LIST_DATE : 'Data',
+	
 
 	/* Management */
 	MANAGEMENT_TITLE: 'Gestione',

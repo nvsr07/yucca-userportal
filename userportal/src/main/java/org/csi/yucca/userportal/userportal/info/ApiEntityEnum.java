@@ -195,6 +195,12 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
+	},
+	API_ODATA_URL("API_ODATA_URL", Config.API_PROXY_ODATA_BASE_URL) {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
 	};
 
 	private String nameEntity;

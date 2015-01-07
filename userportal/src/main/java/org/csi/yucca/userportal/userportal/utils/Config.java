@@ -11,6 +11,7 @@ public class Config {
 	public static final String API_SERVICES_URL_KEY = "API_SERVICES_URL";
 	public static final String API_MANAGEMENT_URL_KEY = "API_MANAGEMENT_URL";
 	public static final String API_DISCOVERY_URL_KEY = "API_DISCOVERY_URL";
+	public static final String API_ODATA_URL_KEY = "API_ODATA_URL";
 
 	public static final String RBAC_WEBSERVICE_URL_KEY = "RBAC_WEBSERVICE_URL";
 	public static final String RBAC_WEBSERVICE_USER_KEY = "RBAC_WEBSERVICE_USER";
@@ -20,6 +21,7 @@ public class Config {
 	public static final String API_PROXY_SERVICES_BASE_URL = "/userportal/api/proxy/services/";
 	public static final String API_PROXY_MANAGEMENT_BASE_URL = "/userportal/api/proxy/management/";
 	public static final String API_PROXY_DISCOVERY_BASE_URL = "/userportal/api/proxy/discovery/";
+	public static final String API_PROXY_ODATA_BASE_URL = "/userportal/api/proxy/odata/";
 
 	public static Properties loadClientConfiguration() throws IOException {
 		return loadConfiguration("client.properties");
