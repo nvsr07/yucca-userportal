@@ -309,6 +309,7 @@ var translations_it = {
 	DASHBOARD_STREAM_REALTIME_FPM: 'FPM', 
 	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. tra eventi', 
 	
+	DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL: 'Seleziona le serie da visualizzare', 
 	DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE: 'Informazioni Principali', 
 	DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE: 'Informazioni di Dettaglio', 
 	DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE: 'Informazioni di Condivisione', 

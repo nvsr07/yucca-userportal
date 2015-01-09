@@ -374,21 +374,23 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 
 
 
-appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
-                                                   function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
+appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', 'odataAPIservice', 'dataDiscoveryService',  "$filter",
+                                                   function($scope, $routeParams, fabricAPIservice, webSocketService, odataAPIservice, dataDiscoveryService, $filter) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
+	$scope.chartComponentNames = [];
+	$scope.chartData = [];
+	
 	//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
 	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 		$scope.stream = response.streams.stream;
 		if($scope.stream.componenti == null)
 			$scope.stream.componenti = new Object();
+		
 		$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
 
 		$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
-		console.log('#stream-data-chart' , angular.element( document.querySelector( '#stream-data-chart' ) ));
 		$scope.chartWidth = angular.element( document.querySelector( '#stream-data-chart' )).width()-6;
-		console.log('chartWidth' , $scope.chartWidth);
 
 		if(!isNaN($scope.stream.fps)){
 			var fpsNumber = parseFloat($scope.stream.fps);
@@ -408,128 +410,160 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			$scope.stream.minutesBtwEvents = "-";
 		}
 		
+		var colorCounter = 0;
+		for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
+			var dataType = $scope.stream.componenti.element[int].dataType;
+			var isEnabled = false;
+			var color = "#ccc";
+			if( "int" == dataType ||"long" == dataType ||"double" == dataType ||"float" == dataType ||"longitude" == dataType ||"latitude" == dataType){
+				isEnabled = true;
+				color = Constants.LINE_CHART_COLORS[colorCounter];
+				colorCounter++;
+				if(colorCounter>= Constants.LINE_CHART_COLORS.length)
+					colorCounter = 0;
+			}
+			$scope.chartComponentNames.push({name:$scope.stream.componenti.element[int].nome, view: isEnabled, enabled: isEnabled, color: color });
+		}
+		loadPastData();
 		connectWS();
-//		connectWSStatistic();
-//		connectWSClientData();
-//		connectWSClientError();
 	});
 
-	var totalError = 0;
-
-	var maxNumWsStatisticMessages = 3;
-	var maxNumWsErrorMessages = 2;
-	$scope.wsStatisticMessages = [ [ "-", "-" ], [ "-", "-" ], [ "-", "-" ]];
-	$scope.wsErrorMessages = [ [ "-", "-" ], [ "-", "-" ]];
-	var maxNumStatisticData = 30;
-	var counter = 0;
-	//	$scope.wsStatisticData = [ { x : counter, y : 0 } ];
-	//	for (counter = 1; counter < maxNumStatisticData; counter++)
-	//		$scope.wsStatisticData.push({ x : counter, y : 0 });
-
-
-	$scope.nvWsStatisticData = [{key: "Events", color: '#2980b9', values: []}, {key: "Errors",color: '#c0392b',  values: []}];
-	for (counter = 1; counter < maxNumStatisticData; counter++){
-		$scope.nvWsStatisticData[0]["values"].push([0,0]);
-		$scope.nvWsStatisticData[1]["values"].push([0,0]);
-	}
 	
+    $scope.xAxisTickFormatFunction = function(){
+        return function(d) {
+            return  d3.time.format("%d-%m %H:%M:%S")(new Date(d));
+          };
+    };
+    
+    $scope.colorFunction = function() {
+    	return function(d, i) {
+    		var index = i- Math.floor(i/Constants.LINE_CHART_COLORS.length)*Constants.LINE_CHART_COLORS.length;
+    		return Constants.LINE_CHART_COLORS[index];
+    	};
+    };
+    
+    $scope.toolTipContentFunction = function(){
+    	return function(key, x, y, e, graph) {
+    		var tooltipContent  ="";
+    		console.log(' key',key);
+    		
+    		var point = allData[e.pointIndex];
+    		tooltipContent += '<h3>' + d3.time.format("%d-%m %H:%M:%S")(new Date(point.datetime)) +'</h3>';
+			for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
+				var name = $scope.chartComponentNames[componentIndex].name;
+				tooltipContent += '<p><strong>' + name + ': </strong> '+point.data[name]+'</p>';
+			}
+        	return  tooltipContent;
+    	};
+    };
+    
+	var maxNumData = 30;
+	var allData = [];
 	var loadPastData = function(){
-			
-	
-	}
+		// call discovery service to retrieve  the apiCode
+		dataDiscoveryService.loadStreamDetail($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+			var discoveryResultList = response.d.results;
+			if(discoveryResultList.length >0){
+				var apiUrl =discoveryResultList[0].Dataset.API;
+				var apiUrlTokens = apiUrl.replace("/$metadata","").split("/");
+				var apiCode = apiUrlTokens.pop();
+				console.debug("apiCode", apiCode);
+				// call oData service to retrieve  the last 30 data
 
+				odataAPIservice.getStreamData(apiCode, 0, maxNumData, 'time').success(function(response) {
+					var oDataResultList = response.d.results;
+					if(oDataResultList.length >0){
+						for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
+							var oDataResult = oDataResultList[oDataIndex];
+							var time = new Date(parseInt(oDataResult.time.replace("/Date(", "").replace(")/",""), 10) + oDataIndex*1000);
+
+							var values = {};
+							for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
+								values[$scope.chartComponentNames[componentIndex].name] = oDataResult[$scope.chartComponentNames[componentIndex].name] * Math.random()*5;
+							}
+							allData.push({datetime: time, data: values});
+						}
+						console.debug("allData ",allData );
+						$scope.updateChart();
+					}
+				});
+			}
+		});
+	};
+
+	$scope.updateChart = function() {		
+		$scope.chartData = [];
+		for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
+			var component = $scope.chartComponentNames[componentIndex];
+			if(component.view){
+				var data = [];
+				for (var int = 0; int < allData.length; int++) {
+					data.push([allData[int].datetime, allData[int].data[component.name]]);
+				}
+				$scope.chartData.push({"key" : component.name , "values": data});
+			}
+		}
+		console.log("chartData", $scope.chartData);
+	};
 	
 	var wsClient = webSocketService();
-	var timeCounter = 0;
 	
-	// last message
-	$scope.wsLastMessage = "";
-	$scope.wsLastMessageToShow = "";
-
 
 	var connectWS = function(){
 		wsClient.connect(function(message) {
 			console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
 			
-			var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
-			console.debug("subscribe wsStatUrl ", wsStatUrl);
-
 			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
 			console.debug("subscribe wsUrl ", $scope.wsUrl);
 
-			//var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
-			//console.debug("subscribe wsErrorUrl ", wsErrorUrl);
-
-			wsClient.subscribe(wsStatUrl, statisticCallback);
 			wsClient.subscribe($scope.wsUrl, dataCallback);
-			//wsClient.subscribe(wsErrorUrl, errorCallback);
 			
 		}, function() {
 		}, '/');
 	};
-	
-	function statisticCallback(message) {
-		console.debug("message", message);
-		counter++;
-		console.debug("wsStatisticMessages", $scope.wsStatisticMessages);
-
-		if ($scope.wsStatisticMessages.length >= maxNumWsStatisticMessages) 
-			$scope.wsStatisticMessages.shift();
-		if ($scope.wsErrorMessages.length >= maxNumWsErrorMessages) 
-			$scope.wsErrorMessages.shift();
-		//if ($scope.wsStatisticData.length > maxNumStatisticData) $scope.wsStatisticData.shift();
-
-		if ($scope.nvWsStatisticData[0]["values"].length > maxNumStatisticData){
-			$scope.nvWsStatisticData[0]["values"].shift();
-			$scope.nvWsStatisticData[1]["values"].shift();
-		}
-
-
-		var numOfEvents = angular.fromJson(message.body).event.payloadData.numEventsLast30Sec;
-
-		$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
-		$scope.wsErrorMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), totalError]);
-
-		$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
-		$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
-		timeCounter +=2;
-
-	};
-	
+		
 	function dataCallback(message) {
 		console.debug("data message", message);
-		$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
-		console.debug("$scope.wsLastMessage", $scope.wsLastMessage);
+		var messageBody = JSON.parse(message.body);
+		console.debug("messageBody", messageBody);
+		
+		
+		for(var int = 0; int <messageBody.values.length; int++){
+			var singleData = messageBody.values[int];
+			var time = new Date(singleData.time);
+			var values = singleData.components;
+//			for (var int = 0; int < $scope.chartComponentNames.length; int++) {
+//				var name = $scope.chartComponentNames[componentIndex].name;
+//				values[name] = singleData.components[name];
+//			}
+			
+			if(allData.length >= maxNumData)
+				allData.shift();
+			allData.push({datetime: time, data: values});
+		}
+		
+		$scope.updateChart();
+		
 
-		if ($scope.wsLastMessageToShow == "")
-			$scope.wsLastMessageToShow = $scope.wsLastMessage;
+		
+		
+//		{
+//			"stream": "TrFl",
+//			"sensor": "cb5b73c3-55ed-5e6f-9f74-f42c5c2ad7f4",
+//			"values": [
+//				{
+//					"time": "2015-01-09T14:43:00Z",
+//					"components": {
+//						"value": "12.0"
+//					}
+//				}
+//			]
+//		}
+		
+
+
 	};
-	
-	
-	function errorCallback(message) {
-		console.debug("Error message", message);
-		totalError++;
-	};
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	$scope.refreshLastMessage = function() {
-		$scope.wsLastMessageToShow = $scope.wsLastMessage;
-	};
+
 } 
 ]);
 

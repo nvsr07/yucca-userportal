@@ -1,0 +1,162 @@
+<div class='section-dashboard' ng-controller="DashboardDataStreamCtrl as streamsDataCtrl">
+	<div class="container">
+		<div class='title-container'>
+			<h1><span translate>DASHBOARD_STREAM_TITLE</span> <strong>{{stream.codiceStream}}</strong></h1>
+		</div>
+		<p>&nbsp;</p>
+		<div class='row'>
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-md-offset-1 col-lg-offset-1">
+				<strong><span translate>DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL</span></strong>&nbsp;
+			</div>
+			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+				<label class="checkbox-inline chart-legend-checkbox"  style='background-color: {{component.color}}' ng-repeat="component in chartComponentNames ">
+		  			<input type="checkbox" ng-model="component.view" ng-change="updateChart()" ng-disabled="!component.enabled">{{component.name}}
+				</label>
+             	<!--  <select class="form-control" ng-options="componentName as componentName for componentName in chartComponentNames" ng-model="firstComponentName" ng-change="updateChart()">
+             	</select> -->
+			</div>
+			<!--  <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
+             	<select class="form-control" ng-options="componentName as componentName for componentName in chartComponentNames" ng-model="secondComponentName" ng-change="updateChart()">
+             	</select>
+			</div>-->
+		</div>
+		<div class='row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class='graph-container' id='stream-data-chart'>
+					<nvd3-line-chart 
+						data="chartData" 
+						id="nvStatisticData" 
+						width="{{chartWidth}}"
+						height="400" 
+						showXAxis="true" 
+						showYAxis="true" 
+						tooltips="true" 
+						interactive="true" 
+						objectEquality="true" 
+						color="colorFunction()"
+			            xAxisTickFormat="xAxisTickFormatFunction()"
+			            tooltipcontent="toolTipContentFunction()"
+						> <svg></svg> 
+					</nvd3-line-chart>
+				</div>
+			</div>
+		</div>
+		
+		<div class='row'>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+				<h3><strong><span translate>STREAM_FIELD_NAME</span></strong> &nbsp;{{stream.nomeStream}}</h3>
+				<p>
+					<strong><span translate>STREAM_FIELD_CREATION_DATE</span></strong> {{stream.registrationDate}} &nbsp;
+					<strong><span translate>STREAM_FIELD_LASTUPDATE</span></strong> {{stream.registrationDate}} 
+				</p>					
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+				<div class="panel panel-default">
+  					<div class="panel-body">
+    					<h4><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></h4>
+    					{{wsUrl}}
+  					</div>
+				</div>
+			</div>
+		</div>
+		<accordion close-others="false">
+			<accordion-group is-open="status1.open">
+				<accordion-heading>
+		 			<span translate>DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
+				</accordion-heading>
+
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_DESCRIPTION</span></strong></div>
+						<div class='col-sm-10'>{{stream.description|nvl:' -'}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_DOMAIN</span></strong></div>
+						<div class='col-sm-10'>{{stream.domainStream|nvl:' -'}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY</span></strong></div>
+						<div class='col-sm-10'>{{stream.codiceVirtualEntity|nvl:' -'}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_VERSION</span></strong></div>
+						<div class='col-sm-10'>{{stream.deploymentVersion|nvl:' -'}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_STATUS</span></strong></div>
+						<div class='col-sm-10'>{{stream.deploymentStatusDesc|nvl:' -'}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TAGS</span></strong></div>
+						<div class='col-sm-10'><li ng-repeat="tag in stream.streamTags.tag"><span class="label label-custom label-tag"><span ng-bind-html="tag.tagCode|translate"></span></span></li></div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>TENANT</span></strong></div>
+						<div class='col-sm-10'>{{stream.codiceTenant|nvl:''}} {{stream.nomeTenant|nvl:''}}</div>
+					</div>	
+				</div>
+			</accordion-group>
+			<accordion-group is-open="status2.open">
+				<accordion-heading>
+		 			<span translate>DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
+				</accordion-heading>
+
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<table class='table-condensed dashboard-table-components'>
+						<thead>
+							<tr>
+								<th>{{'STREAM_FIELD_COMPONENTS_NAME'|translate}}</th>
+								<th><span ng-bind-html="'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate"></span></th>
+								<th>{{'STREAM_FIELD_COMPONENTS_TOLERANCE'|translate}}</th>
+								<th>{{'STREAM_FIELD_COMPONENTS_PHENOMENON'|translate}}</th>
+								<th>{{'STREAM_FIELD_COMPONENTS_DATA_TYPE'|translate}}</th>
+		
+							</tr>	
+						</thead>
+						<tbody>
+							<tr ng-repeat="component in stream.componenti.element">
+								<td><span style="display: none"> {{component.idComponente}}</span>{{component.nome}}</td>
+								<td>{{component.measureUnitCategory}}: {{component.measureUnit}}</td>
+								<td>{{component.tolerance}}</td>
+								<td>{{component.phenomenonCategory}}: {{component.phenomenon}}</td>
+								<td>{{component.dataType}}</td>
+							</tr>	
+						</tbody>
+					</table>
+
+				</div>
+			</accordion-group>
+			<accordion-group is-open="status3.open">
+				<accordion-heading>
+		 			<span translate>DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status3.open, 'glyphicon-chevron-right': !status3.open}"></i>
+				</accordion-heading>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_LICENCE</span></strong></div>
+						<div class='col-sm-10'>{{stream.licence|nvl:' -'}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_DISCLAIMER</span></strong></div>
+						<div class='col-sm-10'>{{stream.disclaimer}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_COPYRIGHT</span></strong></div>
+						<div class='col-sm-10'>{{stream.copyright|nvl:' -'}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span ng-bind-html="'STREAM_FIELD_VISIBILITY'|translate"></span></strong></div>
+						<div class='col-sm-10'>{{stream.visibility|nvl:' -'}}</div>
+					</div>	
+					<div class="row card-row">
+						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_IN_STORE</span></strong></div>
+						<div class='col-sm-10'>TBD</div>
+					</div>	
+				</div>
+			</accordion-group>
+		</accordion>
+	</div>
+</div>
+

@@ -94,4 +94,6 @@ Constants.DISCOVERY_FIELD_OPERATIONS={
 
 Constants.BULK_DATASET_MAX_FILE_SIZE = 10000000;
 
+Constants.LINE_CHART_COLORS = ["#004586","#0084d1", "#d01e2a", "#f37a1f", "#f3c414", "#3d9e00", "#a6d615","#8f69c2","#e4477e"];
+
 
