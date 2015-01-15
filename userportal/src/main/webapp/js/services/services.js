@@ -8,7 +8,7 @@ appServices.value('version', '0.9.0 dev');
 
 appServices.factory('readFilePreview', function($q) {
 	return {
-		readFile: function (file, previewSize, encoding) {
+		readTextFile: function (file, previewSize, encoding) {
 			var deferread = $q.defer();
 			if (window.File && window.FileReader && window.FileList && window.Blob) {
 				var reader = new FileReader();
@@ -29,6 +29,27 @@ appServices.factory('readFilePreview', function($q) {
 			}
 
 			return deferread.promise;
+		},
+		readImageFile: function (file) {
+			var deferread = $q.defer();
+			if (window.File && window.FileReader && window.FileList && window.Blob) {
+				var reader = new FileReader();
+				console.log("file", file);
+				if ((file !== undefined) && (file !== null)) {
+					reader.onload = function (event) {
+						deferread.resolve(event.target.result);
+					};
+					reader.readAsDataURL(file);
+				}else{
+					console.log("reject", file);
+					deferread.reject("You need to pass a file.");
+				}
+			}else{
+				deferread.reject("Your browser don't support File api.");
+			}
+
+			return deferread.promise;
 		}
+		
 	};
 });

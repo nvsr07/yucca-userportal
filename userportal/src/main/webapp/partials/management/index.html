@@ -17,7 +17,7 @@
 					<li>
 						<a ng-disable="!isAuthorized('management/streams/*')" href="#/management/streams/{{tenant}}" ng-class="{active: isMenuActive('streams')}" class=' btn-default'>{{'MANAGEMENT_MENU_STREAMS'|translate}}</a>
 					</li>
-					<li  class=' btn-management'>
+					<li>
 						<a ng-disable="!isAuthorized('management/datasets/*')" href="#/management/datasets/{{tenant}}" class=' btn-default' ng-class="{active: isMenuActive('datasets')}">{{'MANAGEMENT_MENU_DATASET'|translate}}</a>
 					</li>
 				</ul>

@@ -261,7 +261,8 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$filter", function($scope, $routeParams, fabricAPIservice, info,$timeout,$filter) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$filter", 'readFilePreview',
+                                                    function($scope, $routeParams, fabricAPIservice, info,$timeout,$filter,readFilePreview) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
@@ -615,6 +616,32 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.removeTag = function(index){
 		$scope.stream.streamTags.tag.splice(index,1);
 		return false;
+	};
+	
+
+	$scope.selectedIcon;
+	$scope.onIconSelect = function($files) {
+		$scope.selectedIcon = $files[0];
+		if($scope.selectedIcon !=null && $scope.selectedIcon.size>Constants.STREAM_ICON_MAX_FILE_SIZE){
+			$scope.choosenIconSize = $scope.selectedIcon.size; 
+			$scope.updateWarning = true;
+			$scope.selectedIcon = null;
+		}
+		else
+			readPreview();
+	};
+	$scope.previewIconSrc  = "img/stream-icon-default.png";
+	var readPreview = function(){
+		readFilePreview.readImageFile($scope.selectedIcon).then(
+				function(contents){
+					console.log("contents" , contents)
+					$scope.previewIconSrc = contents;
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
 	};
 
 
@@ -1465,7 +1492,7 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 		$scope.updateError = null;
 		$scope.updateErrors = null;
 		$scope.updateWarning = null;
-		readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
+		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
 				function(contents){
 
 
@@ -1578,7 +1605,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.dataTypeList = [];
 	fabricAPIservice.getStreamDataType().success(function(response) {
 		$scope.dataTypeList = response.dataType.element;
-		var coordinatesDataType  = {idDataType:$scope.dataTypeList.length+1, dataType:"coordinates"};
 		//$scope.dataTypeList.push(coordinatesDataType);
 		for (var int = 0; int < $scope.dataTypeList; int++) {
 			if($scope.dataTypeList[int].dataType == 'string'){
@@ -1677,7 +1703,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 	var readPreview = function(){
 		$scope.uploadDatasetError = null;
-		readFilePreview.readFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
+		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
 				function(contents){
 					var lines = contents.split(/\r\n|\n/);
 					console.log("nr righe", lines.length);
@@ -1744,8 +1770,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				if(!column.skipColumn){
 					//column.sourceColumn = order;
 					var dataType = column.dataType?column.dataType.dataType:'string';
-					console.log("column.dataType", column.dataType);
-					console.log("dataType", dataType);
 					var measureUnit = column.measureUnit?column.measureUnit.measureUnit:null;
 					$scope.metadata.info.fields.push(
 							{"sourceColumn":column.sourceColumn, 
@@ -1773,21 +1797,18 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 
 	$scope.isDateTimeField = function(field){
-		console.log("isDateTimeField::field.dataType", field.dataType);
 		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "dateTime")
 			return true;
 		return false;
 	};
 	
 	$scope.isCoordinatesField = function(field){
-		console.log("isCoordinatesField::field.dataType", field.dataType);
 		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "coordinates")
 			return true;
 		return false;
 	};
 	
 	$scope.isCommonField = function(field){
-		console.log("isCommonField::field.dataType", field.dataType);
 		return !$scope.isCoordinatesField(field) && !$scope.isDateTimeField(field);
 	};
 	

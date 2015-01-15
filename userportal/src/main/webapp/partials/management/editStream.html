@@ -90,6 +90,12 @@
 						<!-- <input type="text" class="form-control" id="inputStreamDomain" placeholder="{{'STREAM_FIELD_DOMAIN'|translate}}" ng-model="stream.domain"> -->
 					</div>
 				</div>		
+				<div class="form-group">
+					<label for="inputStreamFps" class="col-sm-2 control-label">{{'STREAM_FIELD_FPS'|translate}}</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputStreamFps" placeholder="{{'STREAM_FIELD_FPS'|translate}}" ng-model="stream.fps" >
+					</div>
+				</div>			
 				
 				
 		<div class='form-label-separator'>{{'STREAM_FIELS'|translate}}</div>
@@ -272,12 +278,6 @@
 				<div class='form-label-separator'>{{'MANAGEMENT_EDIT_STREAM_OTHER_INFO'|translate}}</div>
 				
 				<div class="form-group">
-					<label for="inputStreamFps" class="col-sm-2 control-label">{{'STREAM_FIELD_FPS'|translate}}</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="inputStreamFps" placeholder="{{'STREAM_FIELD_FPS'|translate}}" ng-model="stream.fps" >
-					</div>
-				</div>			
-				<div class="form-group">
 					<label for="v" class="col-sm-2 control-label">{{'STREAM_FIELD_LICENCE'|translate}}</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" id="inputStreamLicence" placeholder="{{'STREAM_FIELD_LICENCE'|translate}}" ng-model="stream.licence" >
@@ -295,9 +295,30 @@
 						<input type="text" class="form-control" id="inputStreamCopyright" placeholder="{{'STREAM_FIELD_COPYRIGHT'|translate}}" ng-model="stream.copyright" >
 					</div>
 				</div>			
+				<div class="form-group">
+					<label for="inputStreamIcon" class="col-sm-2 control-label">{{'STREAM_FIELD_ICON'|translate}}</label>
+					<div class="col-sm-3">
+						<div ng-file-drop="onIconSelect($files)" class='upload-icon-drop-area' ng-file-drag-over-class="upload-icon-drop-area-hover" ng-show="dropSupported">
+							<div translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA</div>
+							<div class='desc'>256x256</div>
+							<div class='desc'>jpg | png</div>
+						</div>
+						<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+					</div>
+					<div class="col-sm-2">
+						<div class='upload-icon-label-before-button'><span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_OR</span></div>
+						<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
+							<span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
+						</div>
+					</div>
+					<div class="col-sm-3 col-sm-offset-2 text-right">
+						<img src="{{previewIconSrc}}" alt="logo" class='upload-icon-preview-img' >
+					</div>
+					
+				</div>			
 				<div class='form-label-separator'></div>
 				<div class="row">
-					<div class=" col-sm-12 form-toolbar"  ng-show="isAuthorized('management/streams/update') >
+					<div class=" col-sm-12 form-toolbar"  ng-show="isAuthorized('management/streams/update')" >
 						<a  href='#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn">{{'MANAGEMENT_EDIT_STREAM_FINISH_BUTTON'|translate}}</a>
 						<a  ng-click='updateStream()'  class="btn btn-default" ng-disabled="!isOwner() || editStreamForm.$invalid">{{'MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON'|translate}}</a>
 					</div>

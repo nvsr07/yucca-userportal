@@ -3,58 +3,96 @@
 		<div class='title-container'>
 			<h1><span translate>DASHBOARD_STREAM_TITLE</span> <strong>{{stream.codiceStream}}</strong></h1>
 		</div>
-		<p>&nbsp;</p>
-		<div class='row'>
-			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-md-offset-1 col-lg-offset-1">
-				<strong><span translate>DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL</span></strong>&nbsp;
-			</div>
-			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-				<label class="checkbox-inline chart-legend-checkbox"  style='background-color: {{component.color}}' ng-repeat="component in chartComponentNames ">
-		  			<input type="checkbox" ng-model="component.view" ng-change="updateChart()" ng-disabled="!component.enabled">{{component.name}}
-				</label>
-             	<!--  <select class="form-control" ng-options="componentName as componentName for componentName in chartComponentNames" ng-model="firstComponentName" ng-change="updateChart()">
-             	</select> -->
-			</div>
-			<!--  <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
-             	<select class="form-control" ng-options="componentName as componentName for componentName in chartComponentNames" ng-model="secondComponentName" ng-change="updateChart()">
-             	</select>
-			</div>-->
-		</div>
-		<div class='row'>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div class='graph-container' id='stream-data-chart'>
-					<nvd3-line-chart 
-						data="chartData" 
-						id="nvStatisticData" 
-						width="{{chartWidth}}"
-						height="400" 
-						showXAxis="true" 
-						showYAxis="true" 
-						tooltips="true" 
-						interactive="true" 
-						objectEquality="true" 
-						color="colorFunction()"
-			            xAxisTickFormat="xAxisTickFormatFunction()"
-			            tooltipcontent="toolTipContentFunction()"
-						> <svg></svg> 
-					</nvd3-line-chart>
+		<div class=row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardCtrl as streamsCtrl">
+				<div class="pull-right">
+					<dashboard-menu></dashboard-menu>
 				</div>
 			</div>
 		</div>
-		
+		<div class='mute'>
+				<span translate>DASHBOARD_STREAM_REALTIME_FPS</span>  <span class='important'>{{stream.fps|number_ellipse:0.01:1000}}</span> - <span translate>DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS</span>  <span class='important'>{{stream.secondsBtwEvents|number_ellipse:0.01:1000}}</span> | 
+				<span translate>DASHBOARD_STREAM_REALTIME_FPM</span>  <span class='important'>{{stream.fpm|number_ellipse:0.01:1000}}</span> - <span translate>DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS</span>   <span class='important'>{{stream.minutesBtwEvents|number_ellipse:0.01:1000}}</span> 
+		</div>
+		<p>&nbsp;</p>
 		<div class='row'>
-			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-panel" id='chart-container'>
+				<tabset>
+    				<tab heading="{{'DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE'|translate}}">
+						<div class='row'>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+								&nbsp;
+							</div>
+						</div>
+						<div class='row'>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class='graph-container' id='stream-statistic-chart'>
+			    					<nvd3-line-chart 
+										data="nvWsStatisticData" 
+										id="nvStatisticChart" 
+										width="{{chartWidth}}"
+										height="300" 
+										showXAxis="true" 
+										showYAxis="true" 
+										tooltips="true" 
+										interactive="true" 
+										interpolate="true"
+										objectEquality="true" 
+										> <svg></svg> 
+									</nvd3-line-chart>
+								</div>
+							</div>
+    					</div>
+    				</tab>
+    				<tab heading="{{'DASHBOARD_STREAM_DATA_CHART_TITLE'|translate}}">
+						<div class='row'>
+							<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+								<strong><span translate>DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL</span></strong>&nbsp;
+							</div>
+							<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+								<label class="checkbox-inline chart-legend-checkbox"  style='background-color: {{component.color}}' ng-repeat="component in chartComponentNames ">
+						  			<input type="checkbox" ng-model="component.view" ng-change="updateChart()" ng-disabled="!component.enabled">{{component.name}}
+								</label>
+							</div>
+						</div>
+						<div class='row'>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class='graph-container' id='stream-data-chart'>
+									<nvd3-line-chart 
+										data="chartData" 
+										id="nvDataChart" 
+										width="{{chartWidth}}"
+										height="300" 
+										showXAxis="true" 
+										showYAxis="true" 
+										tooltips="true" 
+										interactive="true" 
+										objectEquality="true" 
+										color="colorFunction()"
+							            xAxisTickFormat="xAxisTickFormatFunction()"
+							            tooltipcontent="toolTipContentFunction()"
+										> <svg></svg> 
+									</nvd3-line-chart>
+								</div>
+							</div>
+						</div>
+					</tab>
+  				</tabset>
+			</div>
+		</div>
+		<div class='row'>
+			<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 				<h3><strong><span translate>STREAM_FIELD_NAME</span></strong> &nbsp;{{stream.nomeStream}}</h3>
 				<p>
 					<strong><span translate>STREAM_FIELD_CREATION_DATE</span></strong> {{stream.registrationDate}} &nbsp;
 					<strong><span translate>STREAM_FIELD_LASTUPDATE</span></strong> {{stream.registrationDate}} 
 				</p>					
 			</div>
-			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
 				<div class="panel panel-default">
   					<div class="panel-body">
     					<h4><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></h4>
-    					{{wsUrl}}
+    					<pre>{{wsUrl}}</pre>
   					</div>
 				</div>
 			</div>
@@ -154,6 +192,16 @@
 						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_IN_STORE</span></strong></div>
 						<div class='col-sm-10'>TBD</div>
 					</div>	
+				</div>
+			</accordion-group>
+			
+			<accordion-group is-open="status4.open">
+				<accordion-heading>
+		 			<span translate>DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
+				</accordion-heading>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<pre pretty-json="wsLastMessageToShow" />
 				</div>
 			</accordion-group>
 		</accordion>

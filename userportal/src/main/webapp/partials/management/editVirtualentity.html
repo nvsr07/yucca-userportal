@@ -153,7 +153,7 @@
 					</div>
 				</div>			
 				<div class="row">
-					<div class=" col-sm-12 form-toolbar"  ng-show="isAuthorized('management/smartobjects/update') >
+					<div class=" col-sm-12 form-toolbar"  ng-show="isAuthorized('management/smartobjects/update')" >
 						<a  href='#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}' class="btn">{{'MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON'|translate}}</a>
 						<a  ng-click='updateVirtualentity()'  class="btn btn-default" ng-disabled="!isOwner() && editVirtualentityForm.$invalid">{{'MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON'|translate}}</a>
 					</div>

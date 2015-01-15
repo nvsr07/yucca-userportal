@@ -72,6 +72,7 @@ var translations_it = {
 	STREAM_FIELD_EVENTS : 'Eventi',
 	STREAM_FIELD_VERSION : 'Versione installata',
 	STREAM_FIELD_IN_STORE: 'Nello store',
+	STREAM_FIELD_ICON: 'Icona per lo store',
 	
 	STREAM_FIELS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
@@ -303,11 +304,14 @@ var translations_it = {
 	DASHBOARD_STREAM_DETAIL_TABLE_VALUE : 'Valore',
 	DASHBOARD_STREAM_DETAIL_OTHER_CONFIUGURATION: 'Altre configurazioni',
 
+	DASHBOARD_STREAM_DATA_CHART_TITLE: 'Ultimi 30 dati', 
+	
 
 	DASHBOARD_STREAM_REALTIME_FPS: 'FPS', 
 	DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS: 'Sec. tra eventi', 
 	DASHBOARD_STREAM_REALTIME_FPM: 'FPM', 
 	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. tra eventi', 
+	
 	
 	DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL: 'Seleziona le serie da visualizzare', 
 	DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE: 'Informazioni Principali', 
@@ -400,6 +404,9 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni generali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA: 'Rilascia qui l\'icona',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_OR: 'Oppure',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Clicca qui per selezionare ',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' obbligatorio',

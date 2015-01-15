@@ -57,6 +57,11 @@ Helpers.util = {
 	isStringEmpty : function(str) {
 		return (!str || 0 === str.length);
 	},
+	
+	isNumber: function (n) {
+		  return !isNaN(parseFloat(n)) && isFinite(n);
+	},
+	
 	initArrayZeroOneElements : function(obj) {
 		var result = [];
 		if (obj) {

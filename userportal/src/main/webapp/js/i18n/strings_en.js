@@ -72,6 +72,7 @@ var translations_en = {
 	STREAM_FIELD_EVENTS : 'Events',
 	STREAM_FIELD_VERSION : 'Installed Version',
 	STREAM_FIELD_IN_STORE: 'In the store',
+	STREAM_FIELD_ICON: 'Icon for the store',
 	
 	STREAM_FIELS: 'Stream in Input Definition',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
@@ -302,12 +303,16 @@ var translations_en = {
 	DASHBOARD_STREAM_DETAIL_TABLE_VALUE : 'Value',
 	DASHBOARD_STREAM_DETAIL_OTHER_CONFIUGURATION: 'Other configuration',
 
+	DASHBOARD_STREAM_DATA_CHART_TITLE: 'Last 30 data', 
+	
 
 	DASHBOARD_STREAM_REALTIME_FPS: 'FPS', 
 	DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS: 'Sec. between events', 
 	DASHBOARD_STREAM_REALTIME_FPM: 'FPM', 
 	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. between events', 
-
+	
+	
+	DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL: 'Choose the serie to be displayed', 
 	DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE: 'Main Information', 
 	DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE: 'Detailed information', 
 	DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE: 'Sharing information', 
