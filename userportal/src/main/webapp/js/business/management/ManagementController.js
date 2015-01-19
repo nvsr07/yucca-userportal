@@ -484,6 +484,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.loadStreamComponents(existingStream);
 			}
 
+			if(!$scope.stream.streamIcon || $scope.stream.streamIcon == null)
+				$scope.stream.streamIcon  = "img/stream-icon-default.png";
+
 			if( $scope.stream.internalQuery && $scope.stream.internalQuery["@nil"]){
 				$scope.stream.internalQuery=null;
 			}
@@ -630,12 +633,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		else
 			readPreview();
 	};
-	$scope.previewIconSrc  = "img/stream-icon-default.png";
+	
 	var readPreview = function(){
 		readFilePreview.readImageFile($scope.selectedIcon).then(
 				function(contents){
-					console.log("contents" , contents)
-					$scope.previewIconSrc = contents;
+					console.log("contents" , contents);
+					$scope.stream.streamIcon = contents;
 				}, 
 				function(error){
 					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
