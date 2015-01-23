@@ -98,7 +98,7 @@
 				</div>			
 				
 				
-		<div class='form-label-separator'>{{'STREAM_FIELS'|translate}}</div>
+		<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class='form-label-separator'>{{'STREAM_FIELS'|translate}}</div>
 				<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class="form-group">
 				<label for="streamNameToAdd" class="col-sm-2 control-label">Stream Selezionati</label>
 				<div class="col-sm-10">
@@ -318,7 +318,7 @@
 				</div>			
 				<div class='form-label-separator'></div>
 				<div class="row">
-					<div class=" col-sm-12 form-toolbar"  ng-show="isAuthorized('management/streams/update')" >
+					<div class="col-sm-12 form-toolbar"  ng-show="isAuthorized('management/streams/update')" >
 						<a  href='#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn">{{'MANAGEMENT_EDIT_STREAM_FINISH_BUTTON'|translate}}</a>
 						<a  ng-click='updateStream()'  class="btn btn-default" ng-disabled="!isOwner() || editStreamForm.$invalid">{{'MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON'|translate}}</a>
 					</div>
