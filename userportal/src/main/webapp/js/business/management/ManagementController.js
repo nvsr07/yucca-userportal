@@ -233,7 +233,7 @@ appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$loc
 	$scope.createStream = function(virtualentity, stream) {
 		stream.fps = 0;
 		stream.saveData = 0;
-		stream.publishStream = 0;
+		stream.publishStream = 1;
 		stream.visibility = 'public';
 		stream.accettazionePrivacy=0;
 		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
@@ -460,12 +460,20 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			}else{
 				$scope.saveData=false;
 			}
-
-			if($scope.stream.publish==1){
+			
+			
+			
+			
+			if($scope.stream.publishStream==1){
 				$scope.publish=true;
 			}else{
 				$scope.publish=false;
 			}
+			
+			
+			//FIXME publishStream forced to true , delete this line when the radio button is enabled.
+			$scope.stream.publishStream=1;
+			
 
 			if($scope.stream.visibility==null){
 				$scope.stream.visibility = 'public';
