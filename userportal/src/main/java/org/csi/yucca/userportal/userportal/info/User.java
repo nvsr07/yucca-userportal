@@ -13,6 +13,7 @@ public class User {
 	private String email;
 	private boolean loggedIn;
 	private List<String> permissions;
+	private String token;
 
 	public User() {
 	}
@@ -101,5 +102,13 @@ public class User {
 
 	public void setPermissions(List<String> permissions) {
 		this.permissions = permissions;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 }

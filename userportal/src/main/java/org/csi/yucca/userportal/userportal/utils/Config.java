@@ -22,6 +22,7 @@ public class Config {
 	public static final String API_PROXY_MANAGEMENT_BASE_URL = "/userportal/api/proxy/management/";
 	public static final String API_PROXY_DISCOVERY_BASE_URL = "/userportal/api/proxy/discovery/";
 	public static final String API_PROXY_ODATA_BASE_URL = "/userportal/api/proxy/odata/";
+	public static final String  SECDATA_NEWTOKEN = "/secdata/newtoken/";
 
 	public static Properties loadClientConfiguration() throws IOException {
 		return loadConfiguration("client.properties");
