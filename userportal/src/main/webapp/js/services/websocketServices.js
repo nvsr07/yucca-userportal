@@ -23,7 +23,7 @@ appServices.factory('webSocketService',['$rootScope','info','WEB_SOCKET_BASE_URL
 			
 			
 			
-			var user = "bearer "+info.info.user.token;
+			var user = "Bearer "+info.info.user.token;
 			var password = "";
 			
 			//FIXME togliere l'if quando ci sara il token per i utenti non loggati;
