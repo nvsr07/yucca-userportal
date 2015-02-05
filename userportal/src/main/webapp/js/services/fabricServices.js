@@ -29,7 +29,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 	
 	fabricAPI.getVisibleStreams = function(tenant_code) {
 		var tenantUrl = '?visibleFrom=sandbox';
-		if(tenant_code)
+		if(tenant_code!=null && tenant_code!=undefined)
 			tenantUrl = '?visibleFrom='+tenant_code;
 		return $http({
 			method : 'JSONP',

@@ -80,8 +80,11 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 
 	console.debug("$scope.tenantCode", $scope.tenantCode);
 	fabricAPIservice.getInfo().success(function(info){
-		console.debug("info",info);
-	fabricAPIservice.getVisibleStreams(info.tenantCode).success(function(response) {
+		if(info != null && info.user!=null && info.user.tenants !=null){
+			$scope.tenantCode = info.user.tenants[0];
+		}
+		console.debug("$scope.tenantCode",$scope.tenantCode);
+	fabricAPIservice.getVisibleStreams($scope.tenantCode).success(function(response) {
 		// Dig into the responde to get the relevant data
 		
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
