@@ -28,13 +28,20 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 		$scope.activeTenantCode = info.getActiveTenantCode();
 		$location.path("#/");
 	};
+	
+	$scope.isHomepage = function() {
+		if($location.path().substring(0, 5) === "/home"){
+			return true;
+		}	
+		return false;
+	};
 
 
 } ]);
 
 appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', 'info', '$location', function($scope, $route, $translate,webSocketService, fabricAPIservice, info, $location) {
 	$scope.$route = $route;
-	$scope.managementUrl = null;
+	//$scope.managementUrl = null;
 	$scope.currentUrl = function() {
 		return encodeURIComponent("#"+$location.path());
 	};
@@ -68,9 +75,9 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 		$translate.use(langKey);
 	};
 
-	$scope.isHomepage = function() {
-		return $route.current.isHomepage;
-	};
+//	$scope.isHomepage = function() {
+//		return $route.current.isHomepage;
+//	};
 	
 
 	$scope.isUserLoggedIn = function() {
@@ -86,6 +93,9 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 	console.debug("showMap");
 	showMap();
 	
+	$scope.isHomepage = function() {
+		return true;
+	};
 //	$scope.tenant = info.getActiveTenantCode();
 //	fabricAPIservice.getInfo().success(function(result) {
 //		console.debug("result", result);
@@ -94,7 +104,6 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 	
 	$scope.tenantsCount = "";
 	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("res1", response);
 		$scope.tenantsCount = response.tenants.tenant.length;		
 	});
 
@@ -107,9 +116,50 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 	fabricAPIservice.getStreams("").success(function(response) {
 		$scope.streamsCount = response.streams.stream.length;		
 	});
+	
+	$scope.xDomainChartFunction = function(){
+        return function(d) {
+            return d.key;
+        };
+    };
+    $scope.yDomainChartFunction = function(){
+        return function(d) {
+            return d.y;
+        };
+    };
+    
+    $scope.domainChartColors = ["#00521F","#006627","#007A2F","#008F37","#00973A","#00B846","#00CC4E","#00E056", "#00F55E"];
+		$scope.domainChartData =  [
+	                 	      	{ 
+	                 	      		key: "Agricoltura",
+	                 		        y : 29
+	                 		      } , 
+	                 		      { 
+	                 		        key: "Energia",
+	                 		        y : 13
+	                 		      } , 
+	                 		      { 
+	                 		        key: "Ambiente",
+	                 		        y : 32
+	                 		      } , 
+	                 		      { 
+	                 		        key: "Salute",
+	                 		        y : 19
+	                 		      } , 
+	                 		      { 
+	                 		        key: "Scuola",
+	                 		        y : 5
+	                 		      } , 
+	                 		      { 
+	                 		        key: "Sicurezza",
+	                 		        y : 9
+	                 		      } , 
+	                 		      { 
+	                 		        key: "Trasporti",
+	                 		        y : 25
+	                 		      } 
+	                 		    ];
 
-//	$scope.changeLanguage = function(langKey) {
-//		$translate.use(langKey);
-//	};
+
 } ]);
 

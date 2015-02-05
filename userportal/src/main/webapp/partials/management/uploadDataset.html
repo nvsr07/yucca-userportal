@@ -1,117 +1,125 @@
 <div ng-controller="ManagementUploadDatasetCtrl as uploadDatasetCtrl">
-	<h2>
-		<span translate>DATASET</span> <small><span translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SUBTITLE</span>  {{dataset.datasetCode}} - {{dataset.info.datasetName}}</small>
-	</h2>
-	<div class='mute'>
-		V {{dataset.datasetVersion}} - <small class='mute'>{{dataset.info.registrationDate|date}}</small>
+	<div class='container'>
+		<h3 class='content-edit-title'>
+			<span translate>DATASET</span> <small><span translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SUBTITLE</span>  {{dataset.datasetCode}} - {{dataset.info.datasetName}}</small>
+		</h3>
+		<p>
+			V {{dataset.datasetVersion}} - {{dataset.info.registrationDate|date}}
+		</p>
 	</div>
-	<div class='row'><p>&nbsp;</p></div>
-	<form class="form-horizontal" role="form" name="addDatadDatasetForm">
-		<div class='row'>
-			<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-				<div ng-file-drop="onFileSelect($files)" class='upload-drop-files-area' ng-file-drag-over-class="upload-drop-files-area-hover" ng-show="dropSupported">
-					<span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA</span></div>
-				<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-1 col-xs-1 text-center">
-				<div class='management-upload-label-before-button'><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR</span></div>
-			</div>
-			<div class="col-lg-5 col-md-5 col-sm-11 col-xs-11">
-				<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="management-upload-selectfile-button">
-				<span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_BUTTON_LOAD_FILE</span>
-			</div>
-			</div>
-		</div>
-		<div class='row'>
-			<p>&nbsp;</p>
-		</div>
-		<div class='row'>
-			<p class=""><small><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE</span><strong>{{maxFileSize|format_filesize}}</strong></small></p>
-		</div>
-		<div class='row'>
-			<p>&nbsp;</p>
-		</div>
-		<div class='row'>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<p>File: <strong>{{selectedFile.name}}</strong> <small><span class='mute'> - Type: {{selectedFile.type}} - Size:
-						{{selectedFile.size|format_filesize}}</span></small></p>
-			</div>
-		</div>
-		<div class="alert alert-success" ng-show='updateInfo'>
-			<strong translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO</strong> {{updateInfo.status}}
-		</div>
-		<div class="alert alert-warning" ng-show='updateWarning'>
-			<strong translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE</strong> <span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG</span> - {{choosenFileSize|format_filesize}}
-		</div>
-		
-		<div class="alert alert-danger management-upload-column-error-panel " ng-show='updateError'>
-			<div>
-				<strong><span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
-				<span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
-			</div>
-			<div class='row  text-left' >
-				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><strong><small>Error</small></strong></div>
-				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"><strong><small>Detail</small></strong></div>
-			</div>
-			<div class='new-dataset-wizard-error-list'>
-				<div class='row  text-left' ng-repeat="error in updateErrors">
-					<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
-					<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
-				</div>		
-			</div>
-		</div>
-		<div class='row'>
-			<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
-				<label class="control-label" for="fileFormatSelect" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_FORMAT</span></label>
-				<select class="input-sm form-control" id="fileFormatSelect" ng-model="importFileType" ng-options="format for format in formatList"><option>Choose one...</option></select>
-			</div>
-			<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
-				<label class="control-label" for="fileEncoding" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING</span></label>
-				<input type="text" class="form-control" ng-model="fileEncoding" id="fileEncoding">
-			</div>
-			<div class="col-lg-4 col-md-2 col-sm-2 col-xs-2">
-				<label class="control-label" for="csvSeparator" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span></label>
-				<input type="text" class="form-control" ng-model="csvSeparator" id="csvSeparator">
-			</div>
-		</div>
-		<div class='row'>
-			<p>&nbsp;</p>
-		</div>
-		<div ng-show="previewLines!=null && previewLines.length>0">
-			<div class='row'>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class='management-upload-preview-table-container'>
-						<table class='table  management-table-upload-preview table-supercondensed'>
-							<tr ng-repeat='line in previewLines' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
-								<td ng-repeat='item in line' title="{{item}}">{{item|nvl:' '|string_ellipse:30}}</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-			
+	<div class='content-gray'>
+		<div class='container'>
 			<div class='row'>
 				<p>&nbsp;</p>
 			</div>
-			<div class='row  text-left' >
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p>
-						<label><input type="checkbox" ng-model="csvSkipFirstRow"> <span translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
-						<small class='mute' translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
-					</p>
+			<form class="form-horizontal" role="form" name="addDatadDatasetForm">
+				<div class='row'>
+					<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+						<div ng-file-drop="onFileSelect($files)" class='upload-drop-files-area' ng-file-drag-over-class="upload-drop-files-area-hover" ng-show="dropSupported">
+							<span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA</span></div>
+						<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+					</div>
+					<div class="col-lg-2 col-md-2 col-sm-1 col-xs-1 text-center">
+						<div class='management-upload-label-before-button'><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR</span></div>
+					</div>
+					<div class="col-lg-5 col-md-5 col-sm-11 col-xs-11">
+						<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="management-upload-selectfile-button">
+						<span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_BUTTON_LOAD_FILE</span>
+					</div>
+					</div>
 				</div>
-			</div>
+				<div class='row'>
+					<p>&nbsp;</p>
+				</div>
+				<div class='row'>
+					<p class=""><small><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE</span><strong>{{maxFileSize|format_filesize}}</strong></small></p>
+				</div>
+				<div class='row'>
+					<p>&nbsp;</p>
+				</div>
+				<div class='row'>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<p>File: <strong>{{selectedFile.name}}</strong> <small><span class='mute'> - Type: {{selectedFile.type}} - Size:
+								{{selectedFile.size|format_filesize}}</span></small></p>
+					</div>
+				</div>
+				<div class="alert alert-success" ng-show='updateInfo'>
+					<strong translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO</strong> {{updateInfo.status}}
+				</div>
+				<div class="alert alert-warning" ng-show='updateWarning'>
+					<strong translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE</strong> <span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG</span> - {{choosenFileSize|format_filesize}}
+				</div>
+				
+				<div class="alert alert-danger management-upload-column-error-panel " ng-show='updateError'>
+					<div>
+						<strong><span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</span></strong> &nbsp;
+						<span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong>
+					</div>
+					<div class='row  text-left' >
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><strong><small>Error</small></strong></div>
+						<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"><strong><small>Detail</small></strong></div>
+					</div>
+					<div class='new-dataset-wizard-error-list'>
+						<div class='row  text-left' ng-repeat="error in updateErrors">
+							<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
+							<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
+						</div>		
+					</div>
+				</div>
+				<div class='row'>
+					<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
+						<label class="control-label" for="fileFormatSelect" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_FORMAT</span></label>
+						<select class="input-sm form-control" id="fileFormatSelect" ng-model="importFileType" ng-options="format for format in formatList"><option>Choose one...</option></select>
+					</div>
+					<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
+						<label class="control-label" for="fileEncoding" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING</span></label>
+						<input type="text" class="form-control" ng-model="fileEncoding" id="fileEncoding">
+					</div>
+					<div class="col-lg-4 col-md-2 col-sm-2 col-xs-2">
+						<label class="control-label" for="csvSeparator" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span></label>
+						<input type="text" class="form-control" ng-model="csvSeparator" id="csvSeparator">
+					</div>
+				</div>
+				<div class='row'>
+					<p>&nbsp;</p>
+				</div>
+				<div ng-show="previewLines!=null && previewLines.length>0">
+					<div class='row'>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class='management-upload-preview-table-container'>
+								<table class='table  management-table-upload-preview table-supercondensed'>
+									<tr ng-repeat='line in previewLines' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
+										<td ng-repeat='item in line' title="{{item}}">{{item|nvl:' '|string_ellipse:30}}</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+					<div class='row'>
+						<p>&nbsp;</p>
+					</div>
+					<div class='row  text-left' >
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<p>
+								<label><input type="checkbox" ng-model="csvSkipFirstRow"> <span translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
+								<small class='mute' translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="row" ng-show="!isUploading && isAuthorized('management/datasets/upload') ">
+					<div class=" col-sm-12 col-lg-12 form-toolbar" >
+						<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON</a>
+						<a ng-click='uploadData()' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || selectedFile==null" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>
+					</div>
+				</div>
+				<div class="row"  ng-show="isUploading">
+					<div class=" col-sm-12 col-lg-12 form-toolbar">
+						<div class='ajax-loading'><span translate>LOADING</span></div>
+					</div>				
+				</div>
+			</form>
 		</div>
-		<div class="row" ng-show="!isUploading && isAuthorized('management/datasets/upload') ">
-			<div class=" col-sm-12 col-lg-12 form-toolbar" >
-				<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON</a>
-				<a ng-click='uploadData()' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || selectedFile==null" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>
-			</div>
-		</div>
-		<div class="row"  ng-show="isUploading">
-			<div class=" col-sm-12 col-lg-12 form-toolbar">
-				<div class='ajax-loading'><span translate>LOADING</span></div>
-			</div>				
-		</div>
-	</form>
+	</div>
 </div>

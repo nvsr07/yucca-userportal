@@ -10,113 +10,110 @@
 }
 </style>
 <div id='homepage' ng-controller="HomeCtrl as homeController">
-	<div class='container'>
 
-		<h1 class=''>Yucca Platform <small ><span translate>HOME_SUBTITLE</span></small></h1>
-		<h2 class='slogan'></h2>
-		<div class="row tile-row">
-			<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
-				 <div id="map" class="map">
-      				<div id="popup" class="ol-popup">
-          				<a href="#" id="popup-closer" class="ol-popup-closer"></a>
-        				<div id="popup-content"></div>
-      				</div>
-    			</div>
-			</div> 
-		</div>
-		<div class='row-separator'></div>
-		<div class="row tile-row">
-			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 dashboard-menu ' ng-show="isAuthorized('monitoring/*')" >
-				<div class='tile'>
-					<div class='tile-main'>
-						<div class="glyphicon glyphicon-dashboard main-icon"></div>
-						<div class='tile-subtitle'><span translate>MENU_DASHBOARD</span></div>
-					</div>
-				
-					<div class='tile-menuitem'><a href="#/dashboard/main/overview"><span translate>DASHBOARD_DASHBOARD_BUTTON</span></a></div>
-					<div class='tile-menuitem'><a href="#/dashboard/streams"><span translate>DASHBOARD_STREAMS_BUTTON</span></a></div>
-					<div class='tile-menuitem'><a href="#/dashboard/error_log"><span translate>DASHBOARD_ERROR_LOG_BUTTON</span></a></div>
-				</div>
-			</div>	
-			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-3 management-menu ' ng-show="isAuthorized('management/*')" >
-				<div class='tile'>
-					<div class='tile-main'>
-						<div class="glyphicon glyphicon-wrench main-icon"></div>
-						<div class='tile-subtitle'><span translate>MENU_MANAGEMENT</span></div>
-					</div>
-				
-					<div class='tile tile-menuitem' ng-show="isAuthorized('management/smartobjects/*')"><a href="#/management/virtualentities/{{activeTenantCode}}"><span translate>MANAGEMENT_MENU_VIRTUAL_ENTITIES</span></a></div>
-					<div class='tile tile-menuitem' ng-show="isAuthorized('management/streams/*')"><a href="#/management/streams/{{activeTenantCode}}"><span translate>MANAGEMENT_MENU_STREAMS</span></a></div>
-					<div class='tile tile-menuitem' ng-show="isAuthorized('management/datasets/*')"><a href="#/management/datasets/{{activeTenantCode}}"><span translate>MANAGEMENT_MENU_DATASET</span></a></div>
-				</div>
-			</div>	
-			<div>
-				
+	<div id='home-landing-section' class="">
+		<div class='row'>
+			<div class='col-sm-3 col-sm-offset-3'>
+				<p class='intro-desc'>
+					<span ng-bind-html="'HOME_INTRO_HTML'|translate"></span>
+				</p>
 			</div>
-			<div class='col-xs-12 col-sm-12 col-md-6 col-lg-6 '>
-				<div class="row"  ng-show="isAuthorized('store/*')" >
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-8 discovery-menu small-padding' >
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class=''> <span class='main-icon glyphicon glyphicon-search'></span>
-								</div> 
-								<div class='tile-subtitle tile-subtitle-link'><a href="#/discovery/"><span translate>HOME_SEARCH_TITLE</span></a></div>
-							</div>
-						</div>
-					</div>
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4 about-menu small-padding'>
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class=''><span class=' main-icon glyphicon glyphicon-globe'></span></div> 
-								<div class='tile-subtitle tile-subtitle-link'><a href="#/discovery/"><small>smartdatanet.it</small></a></div>
-							</div>
-						</div>
-					</div>
+			<div class='col-sm-6' >
+				<div class='main-title-container'>
+					<h1 class='main-title'>yucca</h1>
 				</div>
-
-				<div class="row">
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4  tenant-menu small-padding'>
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class='tile-counter'>{{tenantsCount}}</div>
-								<div class='tile-subtitle tile-subtitle-small'><span translate>HOME_TENANT_TITLE</span></div>
-							</div>
-							
-						</div>
-					</div>
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4  virtualentity-menu small-padding'>
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class='tile-counter'>{{virtualentitiesCount}}</div>
-								<div class='tile-subtitle tile-subtitle-small'><span translate>HOME_VIRTUALENTITY_TITLE</span></div>
-							</div>
-							
-						</div>
-					</div>
-					<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4 stream-menu small-padding'>
-						<div class='tile'>
-							<div class='tile-main'>
-								<div class='tile-counter'>{{streamsCount}}</div>
-								<div class='tile-subtitle tile-subtitle-small'><span translate>HOME_STREAM_TITLE</span></div>
-							</div>
-						</div>
-					</div>
+				<div class='main-action-panel row'>
+					<div  class='col-sm-1 col-sm-offset-1 first-block'>&nbsp;</div>
+					<div class='col-sm-4 text-right action actions' ><span translate>HOME_START_BUTTON_DESC</span></div>
+					<div class='col-sm-3 actions'><a class='btn main-action-button' href="/userportal/api/authorize?returnUrl=/userportal/#/dashboard/main/overview">START</a></div>
 				</div>
 			</div>
 		</div>
-		<div class='row-separator'></div>
-		<h2><span translate>HOME_HOWTO_TITLE</span></h2>
-		<div class='desc clearfix'>
-			<ul class="list-unstyled">
-				<span ng-bind-html="'HOME_HOWTO_TEXT_HTML'|translate"></span>
-			</ul>
+	</div>
+	<div id='home-map-section'>
+		<div class="container">
+			<h3><span translate>HOME_MAP_INTRO</span></h3>
 		</div>
-		<div class='row-separator'></div>
-
-	
-		
-		
+	 	<div id="map" class="map">
+			<div id="popup" class="ol-popup">
+   				<a href="#" id="popup-closer" class="ol-popup-closer"></a>
+ 				<div id="popup-content"></div>
+			</div>
+		</div>
 	</div>
 	
+	<div id='home-statistic-section' class='statistic-row'>
+		<div class='container'>
+			<h2><span ng-bind-html="'HOME_STATISTIC_PANEL_TITLE'|translate"></span></h2>
+			<div class='row'>
+				<div class='col-sm-4 statistic-data-panel'>
+					<p><span translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number'>37.432</span></p>
+					<p><span translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number'>2.432 </span></p>
+					<p><span translate>HOME_STATISTIC_VISTUALOBJECT_DATA</span> <span class='data-number'>10.432</span></p>
+				</div>
+				<div class='col-sm-4 statistic-chart-panel'>
+					<div id='domain-chart' style='height: 350px;'>
+					 	<nvd3-pie-chart
+				            data="domainChartData"
+				            id="home-domain-chart-id"
+				            showLabels="true"
+				            x="xDomainChartFunction()"
+				            y="yDomainChartFunction()"
+				            color="domainChartColors"
+				            donut="true"
+				            donutRatio=".35"
+				            donutLabelsOutside="true">
+				        	<svg height="300"></svg>
+				   	 	</nvd3-pie-chart>
+					</div>
+				</div>
+				<div class='col-sm-4 statistic-entity-panel'>
+					<p><span class='data-number'>{{tenantsCount}}</span><span translate>HOME_STATISTIC_TENANT</span></p>
+					<p><span class='data-number'>{{virtualentitiesCount}}</span><span translate>HOME_STATISTIC_VIRTUALENTITY</span></p>
+					<p><span class='data-number'>{{streamsCount}}</span><span translate>HOME_STATISTIC_STREAM</span></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="home-operation-section" >
+		<h2><span translate>HOME_OPERATION_PANEL_TITLE</span></h2>
+		<div class='container'>
+			<div class="row ">
+				<div class='col-sm-4  operation-developer operation-panel' >
+					<div class='operation-panel-content'>
+						<div class="main-icon"><i class="fa fa-puzzle-piece"></i></div>
+						<div class='role-panel'><span translate>HOME_ROLE_DEVELOPER</span></div>
+						<p class='intro'><span ng-bind-html="'HOME_ROLE_DEVELOPER_INTRO'|translate"></span></p>
+						<p class='main-action'><a href="#/dashboard/main/overview"><span translate>HOME_ACTION_DASHBOARD</span></a></p>
+						<p><span translate>HOME_ACTION_DEVELOPER_SEP_1</span></a></p>
+						<p class='action'><a href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM_INTERNAL</span></a></p>
+					</div>
+				</div>
+				<div class='col-sm-4 operation-manager operation-panel' >
+					<div class='operation-panel-content'>
+						<div class="main-icon"><i class="fa fa-key"></i></div>
+						<div class='role-panel'><span translate>HOME_ROLE_PUBLISHER</span></div>
+						<p class='intro'><span ng-bind-html="'HOME_ROLE_PUBLISHER_INTRO'|translate"></span></p>
+						<p class='main-action'><a href="#/dashboard/streams"><span translate>HOME_ACTION_DASHBOARD</span></a></p>
+						<p><span translate>HOME_ACTION_PUBLISHER_SEP_1</span></a></p>
+						<p class='action'><a href="#/management/newVirtualentity/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_VIRTUAL_ENTITY</span></a></p>
+						<p class='action'><a href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM</span></a></p>
+						<p class='action'><a href="#/management/newDataset/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_DATASET</span></a></p> 
+					</div>
+				</div>
+				<div class='col-sm-4 operation-customer operation-panel' >
+					<div class='operation-panel-content'>
+						<div class="main-icon"><i class="fa fa-user "></i></div>
+						<div class='role-panel'><span translate>HOME_ROLE_SUBSCRIBER</span></div>
+						<p class='intro'><span ng-bind-html="'HOME_ROLE_SUBSCRIBER_INTRO'|translate"></span></p>
+						<p class='main-action'><a href="#/dashboard/streams"><span translate>HOME_ACTION_DASHBOARD</span></a></p>
+						<p class='main-action'><a href="#/discovery/"><span translate>HOME_ACTION_SEARCH</span></a></p>
+						<p><span translate>HOME_ACTION_SUBSCRIBER_SEP_1</span></a></p>
+						<p class='main-action'><a href="#"><span translate>HOME_ACTION_STORE</span></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 

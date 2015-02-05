@@ -29,13 +29,13 @@ var translations_it = {
 	MENU_SING_OUT: 'Esci',
 	
 	/* Entity */
-	STREAM: 'Flusso',
+	STREAM: 'Stream',
 	TENANT: 'Organizzazione',
 	VIRTUALENTITY: 'Smart Object', 
 	DATASET: 'Dataset',
 	
 	/* STREAM */
-	STREAM_FIELD_ID_STREAM: 'ID Flusso',
+	STREAM_FIELD_ID_STREAM: 'ID Stream',
 	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
 	STREAM_FIELD_NAME: 'Nome',
 	STREAM_FIELD_DESCRIPTION:'Descrizione',	
@@ -113,7 +113,7 @@ var translations_it = {
 	USER_FIELD_ACCEPT_NO:'Non Accetto ',
 	
 	USER_FIELD_ACCEPT_PRIVACY:'Autorizzo il CSI Piemonte al trattamento dei dati personali con le modalit&agrave e per le finalit&agrave in essa contenute dopo aver letto l \'informativa Privacy ai sensi dell\'art. 13 del D.Lgs. 196/2013',
-	USER_FIELD_ACCEPT_RESPONSABILITY:'Dichiaro, consapevole di essere l’unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni  da me utilizzatI nell’ambito del progetto e conferiti alla piattaforma sono tutti nella mia piena, libera ed esclusiva disponibilit&agrave; e che pertanto la mia partecipazione in qualit&agrave; di fornitore non viola nessun diritto di terze parti; dichiaro inoltre, avvalendomi della facolt&agrave; sancita delle "Linee guida per l’integrazione in Smart Data Net" di voler mettere a disposizione di tutti i fruitori della piattaforma i dataset e i flussi di dati conferiti, nonch&egrave; loro eventuali elaborazioni, con licenze conformi a quanto consigliato dalle linee guida stesse.',
+	USER_FIELD_ACCEPT_RESPONSABILITY:'Dichiaro, consapevole di essere l’unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni  da me utilizzatI nell’ambito del progetto e conferiti alla piattaforma sono tutti nella mia piena, libera ed esclusiva disponibilit&agrave; e che pertanto la mia partecipazione in qualit&agrave; di fornitore non viola nessun diritto di terze parti; dichiaro inoltre, avvalendomi della facolt&agrave; sancita delle "Linee guida per l’integrazione in Smart Data Net" di voler mettere a disposizione di tutti i fruitori della piattaforma i dataset e gli stream di dati conferiti, nonch&egrave; loro eventuali elaborazioni, con licenze conformi a quanto consigliato dalle linee guida stesse.',
 	
 	/* Creator of Stream PlaceHolder */
 	USER_FIELD_NAME_PLACEHOLDER:'Nome',
@@ -131,7 +131,7 @@ var translations_it = {
 	VIRTUALENTITY_FIELD_DESCRIPTION: 'Descrizione',
 	VIRTUALENTITY_FIELD_CATEGORY_ID: 'ID categoria',
 	VIRTUALENTITY_FIELD_TYPE_ID: 'ID Tipo',
-	VIRTUALENTITY_FIELD_STREAMS_COUNT: 'Numero di flussi',
+	VIRTUALENTITY_FIELD_STREAMS_COUNT: 'Numero di stream',
 	VIRTUALENTITY_FIELD_STATUS: 'Stato',
 	/* new */
 	VIRTUALENTITY_FIELD_POSITION_TYPE: 'Posizione',
@@ -246,8 +246,8 @@ var translations_it = {
 	draft:'Bozza',
     req_inst:'Installazione in corso',
     inst:'Installato',
-    req_uninst:'Disistallazione in corso',
-    uninst:'Disistallato e storicizzato',
+    req_uninst:'Disinstallazione in corso',
+    uninst:'Disinstallato e storicizzato',
 	
 	/* Virtual Entity List */
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filtra per codice',
@@ -260,23 +260,55 @@ var translations_it = {
 	/* Home page */
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Registra smart object e definisci gli stream trasmessi',
-	HOME_TENANT_TITLE: 'Organizations',	
-	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
-	HOME_STREAM_TITLE: 'Online stream',	
-	HOME_SEARCH_TITLE: 'Cerca',
+	HOME_INTRO_HTML: 'Informazioni dal mondo che ci circonda e soluzioni open: sono questi i punti distintivi della Piattaforma messa a disposizione da Regione Piemonte per l\'Ecosistema Smart Data Net',
+	HOME_START_BUTTON_DESC: 'Registrati e inizia la tua esperienza sulla piattaforma',
+	HOME_MAP_INTRO: 'Sensori attualmente attivi sul territorio',
+	HOME_STATISTIC_PANEL_TITLE: 'Cosa c\'&egrave; nella piattaforma',
+	HOME_STATISTIC_TOTAL_DATA: 'dati  disponibili',
+	HOME_STATISTIC_TODAY_DATA: 'dati registrati oggi',
+	HOME_STATISTIC_VISTUALOBJECT_DATA: 'dati da sensori',
+	HOME_STATISTIC_TENANT: 'Organizations',	
+	HOME_STATISTIC_VIRTUALENTITY: 'Active Sensor',	
+	HOME_STATISTIC_STREAM: 'Online stream',	
+	HOME_OPERATION_PANEL_TITLE:'Cosa puoi fare con la piattaforma',
+	HOME_ROLE_DEVELOPER: 'developer',
+	HOME_ROLE_DEVELOPER_INTRO: 'Puoi creare stream composti da altri stream gi&agrave; esistenti',
+	HOME_ROLE_PUBLISHER: 'publisher',
+	HOME_ROLE_PUBLISHER_INTRO: 'Puoi creare e gestire Stream, Smart Object e Dataset',
+	HOME_ROLE_SUBSCRIBER: 'subscriber',
+	HOME_ROLE_SUBSCRIBER_INTRO: 'Puoi usare i dati disponibili nella piattaforma',
+
+	HOME_ACTION_DEVELOPER_SEP_1: 'oppure elabora un nuovo stream',
+	HOME_ACTION_PUBLISHER_SEP_1: 'oppure aggiungi direttamente gli oggetti',
+	HOME_ACTION_SUBSCRIBER_SEP_1: 'oppure cerca gli stream e i dati nello store',
+	
+	HOME_ACTION_DASHBOARD: 'Monitoraggio Stream',
+	HOME_ACTION_NEW_STREAM_INTERNAL: 'Crea Stream Composti',
+	HOME_ACTION_NEW_VIRTUAL_ENTITY: 'Crea Smart Object',
+	HOME_ACTION_NEW_STREAM: 'Crea Stream',
+	HOME_ACTION_NEW_DATASET: 'Crea Dataset',
+	HOME_ACTION_SEARCH: 'Cerca un Dataset',
+	HOME_ACTION_STORE: 'Accedi allo store',
+
+	
+	
+	HOME_SEARCH_TITLE: 'Cerca un dataset',
+	HOME_STORE_TITLE: 'Accedi allo store',
+	
+	
 	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
 	HOME_HOWTO_TEXT_HTML: '<li>' + 
 							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tuo tenant o il tenant di prova <strong>Sandbox</strong> ' +
 							'	</li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Fruisci</a> di tutti flussi disponibili via <strong>Websocket</strong> o <strong>MQTT</strong></li>' +
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Fruisci</a> di tutti gli stream disponibili via <strong>Websocket</strong> o <strong>MQTT</strong></li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/overview">Monitora</a> i tuoi stream nella dashboard </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Importa</a> i tuoi <strong>dataset bulk</strong> tramite upload</li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Cerca e fruisci</a> di tutti i dati storicizzati e dei dataset tramite <strong>API OData</strong> </li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Crea flussi</a> derivati da uno o pi&ugrave; stream aggiungendo <strong>logiche personalizzate in SiddhiQL</strong></li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea flussi derivati in maniera semplice attraverso wizard guidati (coming soon...)</li>',
+							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Crea stream</a> derivati da uno o pi&ugrave; stream aggiungendo <strong>logiche personalizzate in SiddhiQL</strong></li>' +
+							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea stream derivati in maniera semplice attraverso wizard guidati (coming soon...)</li>',
 							
 	/* Dashboard */
-	DASHBOARD_TITLE : 'Area monitoraggio flussi',
+	DASHBOARD_TITLE : 'Area monitoraggio stream',
 	
 	DASHBOARD_SECTION_OVERVIEW: 'Overview',
 	DASHBOARD_SECTION_EXAMPLE: 'Esempio',
@@ -284,7 +316,7 @@ var translations_it = {
 	
 	DASHBOARD_SECTION_TENANT_NO_DASHBOARD_ERROR: 'Tenant not configured', 
 
-	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Flusso',
+	DASHBOARD_STREAM_LIST_STREAM_NAME : 'Stream',
 	DASHBOARD_STREAM_LIST_VIRTUALENTITY_CODE: 'Smart Object',
 	DASHBOARD_STREAM_LIST_TENANT : 'Organizzazione',
 	DASHBOARD_STREAM_LIST_EVENTS : 'Num. eventi ultima mezz\'ora',
@@ -294,11 +326,11 @@ var translations_it = {
 	
 	/* Dashboard home */
 	DASHBOARD_DASHBOARD_BUTTON: 'Dashboard',
-	DASHBOARD_STREAMS_BUTTON: 'Lista flussi',
+	DASHBOARD_STREAMS_BUTTON: 'Lista stream',
 	DASHBOARD_ERROR_LOG_BUTTON: 'Error log', 
 
-	//DASHBOARD_STREAM_TITLE: 'Flusso <strong>{{stream_name}}</strong>',
-	DASHBOARD_STREAM_TITLE: 'Flusso ',
+	//DASHBOARD_STREAM_TITLE: 'Stream <strong>{{stream_name}}</strong>',
+	DASHBOARD_STREAM_TITLE: 'Stream ',
 	DASHBOARD_STREAM_DETAIL_TITLE : 'Dettagli',
 	DASHBOARD_STREAM_DETAIL_TABLE_KEY : 'Campo',
 	DASHBOARD_STREAM_DETAIL_TABLE_VALUE : 'Valore',
@@ -334,7 +366,7 @@ var translations_it = {
 	DASHBOARD_STREAM_SYSTEM_STATUS : 'System Status',
 
 	DASHBOARD_ERROR_LOG_TITLE: 'Error log',
-	DASHBOARD_ERROR_LOG_SUBTITLE: 'Messaggi inviati dai flussi che hanno generato un errore',
+	DASHBOARD_ERROR_LOG_SUBTITLE: 'Messaggi inviati dagli stream che hanno generato un errore',
 	DASHBOARD_ERROR_LOG_INTRO: 'Si possono visualizzare messaggi di errori indefiniti e non associati a un tenant specifico, o messaggi di errore in cui &egrave; identificato un tenant. Vengono visualizzati gli ultimi 3 messaggi ricevuti, &egrave; possibile aggiornare i messaggi tramite il bottone refresh',
 	DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_TITLE: 'Seleziona gli errori da visualizzare',
 	DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_SUBTITLE: '',
@@ -349,25 +381,25 @@ var translations_it = {
 	/* Management */
 	MANAGEMENT_TITLE: 'Gestione',
     MANAGEMENT_MENU_DASHBOARD: 'Dashboard',
-    MANAGEMENT_MENU_STREAMS: 'Flussi',
-    MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Smart Objects',
+    MANAGEMENT_MENU_STREAMS: 'Stream',
+    MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Smart Object',
     MANAGEMENT_MENU_DATASET: 'Dataset',
 
     /* Management Stream  */
 	MANAGEMENT_DASHBOARD_SUBTITLE: 'Dashboard',
 	MANAGEMENT_DASHBOARD_TENANT_PANEL_TITLE: 'Informazioni sull\'organizzazione',
     /* Management Stream  */
-	MANAGEMENT_STREAM_SUBTITLE: 'Flussi',
+	MANAGEMENT_STREAM_SUBTITLE: 'Stream',
 
 	/* Management Stream List */
 	MANAGEMENT_STREAM_LIST_NEW_STREAM : 'Nuovo',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM : 'Modifica',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM : 'Elimina',
-	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo flusso',
-	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'Per abilitare l\'eliminaizone selezionare almeno flusso',
+	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo stream',
+	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'Per abilitare l\'eliminaizone selezionare almeno uno stream',
 	
 	/* view stream */
-	MANAGEMENT_VIEW_STREAM: 'Flusso',
+	MANAGEMENT_VIEW_STREAM: 'Stream',
 	MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON: 'Richiedi Installazione',
 	MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON: 'Richiedi Disinstallazione',
 	MANAGEMENT_VIEW_STREAM_NEWVERSION_BUTTON: 'Crea Nuova Versione',
@@ -379,7 +411,7 @@ var translations_it = {
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Crea',
 	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Scegli uno Smart Object...',
-	MANAGEMENT_NEW_STREAM_SUBTITLE: 'Nuovo flusso',
+	MANAGEMENT_NEW_STREAM_SUBTITLE: 'Nuovo stream',
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ', 
 	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
@@ -387,7 +419,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_COMPONENT_EXAMPLE_TITLE: 'Esempio',
 	MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER: 'Scegli...',
 	MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER: 'Scegli...',
-	MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON: 'Leggi da Flusso',
+	MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON: 'Leggi da Stream',
 	MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL: 'Salva dati',
 	MANAGEMENT_EDIT_STREAM_SAVE_DATA: 'Salva',
 	MANAGEMENT_EDIT_STREAM_DONT_SAVE_DATA: 'Non salvare',
@@ -399,9 +431,9 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON: 'Salva come bozza',
 	MANAGEMENT_EDIT_STREAM_FINISH_BUTTON: 'Fine modifica', 
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Aggiungi tag', 
-	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Flusso salvato',
+	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Stream salvato',
 	
-	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni generali',
+	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni Principali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA: 'Rilascia qui l\'icona',
@@ -410,13 +442,13 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' obbligatorio',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'Nome\' deve essere univoco per flusso ',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'Nome\' deve essere univoco per stream ',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'Il campo \'tipo di dato\' obbligatorio',
 	MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS: 'Inserire almeno un componente',
 
     
 		/* Management Virtual Entity  */
-	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
+	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Object',
 
 	/* Management Stream List */
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Crea nuovo Smart Object ',
@@ -441,9 +473,9 @@ var translations_it = {
 	MANAGEMENT_EDIT_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ',
 	MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO: 'Smart Object Salvato',
 		
-	MANAGEMENT_EDIT_VIRTUALENTITY_GENERAL: 'Informazioni generali',
+	MANAGEMENT_EDIT_VIRTUALENTITY_GENERAL: 'Informazioni Principali',
 	MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION: 'Collocazione',
-	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informazioni aggiuntive',
+	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informazioni Aggiuntive',
 	MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON: 'Fine modifica',
 	MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON: 'Salva',
 
@@ -557,6 +589,7 @@ var translations_it = {
 	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Scegli un campo',
 	
 	DISCOVERY_RESULTS_SIZE_LABEL: 'Numero di risultati: ',
+	DISCOVERY_RESULTS_NO_DATA_FOUND: 'La ricerca non ha prodotto risultati',
 	
 	DISCOVERY_BACK_FILTER_LABEL: 'Torna ai filtri di ricerca',
 	DISCOVERY_BACK_RESULT_LABEL: 'Torna ai risultati',
@@ -564,8 +597,9 @@ var translations_it = {
 	DISCOVERY_RESULTS_TITLE: 'Esito ricerca',
 	DISCOVERY_RESULTS_DETAIL_BUTTON: 'Dettaglio',
 	
+	DISCOVERY_DETAIL_DATASET_GENERAL_INFO: 'Informazioni Principali',
 	DISCOVERY_DETAIL_DATASET_LEGAL_INFO: 'Informazioni Legali',
-	DISCOVERY_DETAIL_DATASET_STREAM_INFO: 'Flusso',
+	DISCOVERY_DETAIL_DATASET_STREAM_INFO: 'Stream',
 	DISCOVERY_DETAIL_DATASET_SMART_OBJECT_INFO: 'Smart Object',
 	DISCOVERY_DETAIL_DATASET_COLUMNS: 'Definizione struttura dato',
 	DISCOVERY_DETAIL_ACCESS_DATA_TITLE: 'Accesso ai dati', 
@@ -573,7 +607,7 @@ var translations_it = {
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET: 'Fruzione dello stream in real time con web socket',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL: 'Server URL',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL: 'Topic', 
-	DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM: 'Apri Monitoraggio flusso', 
+	DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM: 'Monitoraggio Stream', 
 		
 
 	/* Discovery fields */

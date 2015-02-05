@@ -1,136 +1,132 @@
-<h2>
-	{{'STREAM'|translate}} <small>{{'MANAGEMENT_NEW_STREAM_SUBTITLE'|translate}} </small>
-</h2>
-<div class='row'>
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="ManagementNewStreamCtrl as streamCtrl">
-		<div class="alert alert-danger" ng-show='creationError'>
-			<strong>{{creationError.error_message}}</strong>
-			{{creationError.error_detail}}
+<div class='container'>
+	<h3 class='content-edit-title'><span translate>STREAM</span> <small><span translate>MANAGEMENT_NEW_STREAM_SUBTITLE</span> </small></h3>
+</div>
+<div class='content-gray'>
+	<div class='container'>
+		<div class='row'>
+			<div class="col-sm-10 col-sm-offset-1" ng-controller="ManagementNewStreamCtrl as streamCtrl">
+				<div class="alert alert-danger" ng-show='creationError'>
+					<strong>{{creationError.error_message}}</strong>
+					{{creationError.error_detail}}
+				</div>
+				<form class="form-horizontal" role="form" name="newStreamForm">
+					<div class='form-label-separator'><span translate>MANAGEMENT_EDIT_STREAM_GENERAL_INFO</span></div>
+					<div class="form-group">
+						<label for="inputTypeStream" class="col-sm-2 control-label"><span translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-2"></div>
+						<div class="col-sm-4">
+							<span><span translate>STREAM_NEW_DEFINITION</span> <input  type="radio" name="inputTypeStream" value="1" ng-click="virtualentity=null"  ng-model="inputTypeStream"  ></span> <br/>
+						</div>
+						<div class="col-sm-4">
+							<span><span translate>STREAM_AGGREGATE_DEFINITION</span>  <input  type="radio" name="inputTypeStream" value="0" ng-click="virtualentity=virtualentityInternal"  ng-model="inputTypeStream" ></span>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="inputVirtualEntity" class="col-sm-2 control-label"><span translate>VIRTUALENTITY</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-10">
+		             		<select class="form-control col-sm-10" ng-model="virtualentity" ng-disabled="inputTypeStream==0"
+		             		  ng-options="virtualEntity.virtualEntityName group by virtualEntity.tipoVirtualEntity for virtualEntity in virtualEntitiesList" ng-required="true" >
+		             			<option value="" class='mute'><span translate>MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER</span></option>
+		             		</select>
+						</div>
+					</div>
+					<div class="form-group has-feedback">
+						<label for="inputStreamCode" class="col-sm-2 control-label"><span translate>STREAM</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="stream.codiceStream"  id="inputStreamCode"  name="inputStreamCode"
+							placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20">
+							<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_MAXLENGTH_TOOLTIP'|translate}}"
+								ng-show="newStreamForm.inputStreamCode.$error.maxlength  && updateVirtualentityForm.inputStreamCode.$dirty"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputStreamName" class="col-sm-2 control-label"><span translate>STREAM_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputStreamDomain" class="col-sm-2 control-label"><span translate>STREAM_FIELD_DOMAIN</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-10">
+							<select class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+		    					<option value="">{{'MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER'|translate}}</option>
+		    				</select>
+							
+							<!-- <input type="text" class="form-control" id="inputStreamDomain" placeholder="{{'STREAM_FIELD_DOMAIN'|translate}}" ng-model="stream.domain"> -->
+						</div>
+					</div>	
+					<div class='form-label-separator'><span translate>USER_APPLICANT</span></div>
+					<div class="form-group">
+						<label for="nomeRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="stream.nomeRichiedente"  id="nomeRichiedente" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cognomeRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_SURNAME</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="stream.cognomeRichiedente"  id="cognomeRichiedente" placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" ng-required="true" >
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="mailRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_EMAIL</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" ng-model="stream.mailRichiedente"  id="mailRichiedente" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}" ng-required="true" >
+						</div>
+					</div>		
+					<div class="form-group">
+						<label for="accettazionePrivacy" class="col-sm-2 control-label"><span translate>USER_FIELD_ACCEPT</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-10">
+							<div class="form-control terms-of-privacy" readonly> <span ng-bind-html="'USER_FIELD_ACCEPT_PRIVACY'|translate"></span></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="accettazionePrivacy" class="col-sm-2 control-label"></label>
+						<div class="col-sm-2"></div>
+						<div class="col-sm-4">
+							<label>
+								<input type="radio" name="accettazionePrivacy" value="1" ng-model="accettazionePrivacy" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_YES</span>
+							</label>
+						</div>
+						<div class="col-sm-4">
+							<label>
+								<input type="radio" name="accettazionePrivacy" value="0" ng-model="accettazionePrivacy" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_NO</span>
+							</label>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="accettazioneResponsability" class="col-sm-2 control-label"></label>
+						<div class="col-sm-10">
+							<div class="form-control terms-of-privacy" readonly> <span ng-bind-html="'USER_FIELD_ACCEPT_RESPONSABILITY'|translate"></span></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="accettazionePrivacy" class="col-sm-2 control-label"><span translate>USER_FIELD_ACCEPT</span> <span class='required-asterisk'>*</span></label>
+						<div class="col-sm-2"></div>
+						<div class="col-sm-4">
+							<label>
+								<input type="radio" name="accettazioneResponsability" value="1" ng-model="accettazioneResponsability" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_YES</span>
+							</label>
+						</div>
+						<div class="col-sm-4">
+							<label>
+								<input type="radio" name="accettazioneResponsability" value="0" ng-model="accettazioneResponsability" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_NO</span>
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10"  ng-show="isAuthorized('management/streams/update')" >
+							<div class='pull-right'>
+								<a ng-click='cancel()' class="btn"><span translate>CANCEL</span></a>
+								<a ng-click='createStream(virtualentity, stream)' class="btn  btn-default" ng-disabled="!isOwner() || newStreamForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0"><span translate>MANAGEMENT_NEW_STREAM_CREATE_BUTTON</span></a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
-		<form class="form-horizontal" role="form" name="newStreamForm">
-			
-			<div class="form-group">
-				<label for="inputTypeStream" class="col-sm-2 control-label">{{'STREAM_TYPE_DEFINITION'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-2"></div>
-				<div class="col-sm-4">
-					<span>{{'STREAM_NEW_DEFINITION'|translate}} <input  type="radio" name="inputTypeStream" value="1" ng-click="virtualentity=null"  ng-model="inputTypeStream"  ></span> <br/>
-				</div>
-				<div class="col-sm-4">
-					<span>{{'STREAM_AGGREGATE_DEFINITION'|translate}}  <input  type="radio" name="inputTypeStream" value="0" ng-click="virtualentity=virtualentityInternal"  ng-model="inputTypeStream" ></span>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label for="inputVirtualEntity" class="col-sm-2 control-label">{{'VIRTUALENTITY'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-             		<select class="form-control col-sm-10" ng-model="virtualentity" ng-disabled="inputTypeStream==0"
-             		  ng-options="virtualEntity.virtualEntityName group by virtualEntity.tipoVirtualEntity for virtualEntity in virtualEntitiesList" ng-required="true" >
-             			<option value="" class='mute'>{{'MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER'|translate}}</option>
-             		</select>
-				</div>
-			</div>
-			<div class="form-group has-feedback">
-				<label for="inputStreamCode" class="col-sm-2 control-label">{{'STREAM'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="stream.codiceStream"  id="inputStreamCode"  name="inputStreamCode"
-					placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20">
-					<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_MAXLENGTH_TOOLTIP'|translate}}"
-						ng-show="newStreamForm.inputStreamCode.$error.maxlength  && updateVirtualentityForm.inputStreamCode.$dirty"></span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputStreamName" class="col-sm-2 control-label">{{'STREAM_FIELD_NAME'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" >
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputStreamDomain" class="col-sm-2 control-label">{{'STREAM_FIELD_DOMAIN'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<select class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
-    					<option value="">{{'MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER'|translate}}</option>
-    				</select>
-					
-					<!-- <input type="text" class="form-control" id="inputStreamDomain" placeholder="{{'STREAM_FIELD_DOMAIN'|translate}}" ng-model="stream.domain"> -->
-				</div>
-			</div>	
-			</fieldset>
-
-			<fieldset>
-			<legend>{{'USER_APPLICANT'|translate}}</legend>
-			<div class="form-group">
-				<label for="nomeRichiedente" class="col-sm-2 control-label">{{'USER_FIELD_NAME'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="stream.nomeRichiedente"  id="nomeRichiedente" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" >
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label for="cognomeRichiedente" class="col-sm-2 control-label">{{'USER_FIELD_SURNAME'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="stream.cognomeRichiedente"  id="cognomeRichiedente" placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" ng-required="true" >
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label for="mailRichiedente" class="col-sm-2 control-label">{{'USER_FIELD_EMAIL'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="stream.mailRichiedente"  id="mailRichiedente" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}" ng-required="true" >
-				</div>
-			</div>		
-
-			<div class="form-group">
-				<label for="accettazionePrivacy" class="col-sm-2 control-label">{{'USER_FIELD_ACCEPT'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-10">
-					<div class="form-control terms-of-privacy" readonly> <span ng-bind-html="'USER_FIELD_ACCEPT_PRIVACY'|translate"></span></div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="accettazionePrivacy" class="col-sm-2 control-label"></label>
-				<div class="col-sm-2"></div>
-				<div class="col-sm-4">
-					<label>
-						<input type="radio" name="accettazionePrivacy" value="1" ng-model="accettazionePrivacy" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_YES</span>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label>
-						<input type="radio" name="accettazionePrivacy" value="0" ng-model="accettazionePrivacy" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_NO</span>
-					</label>
-				</div>
-
-
-			</div>
-			
-			<div class="form-group">
-				<label for="accettazioneResponsability" class="col-sm-2 control-label"></label>
-				<div class="col-sm-10">
-					<div class="form-control terms-of-privacy" readonly> <span ng-bind-html="'USER_FIELD_ACCEPT_RESPONSABILITY'|translate"></span></div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="accettazionePrivacy" class="col-sm-2 control-label">{{'USER_FIELD_ACCEPT'|translate}} <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-2"></div>
-				<div class="col-sm-4">
-					<label>
-						<input type="radio" name="accettazioneResponsability" value="1" ng-model="accettazioneResponsability" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_YES</span>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label>
-						<input type="radio" name="accettazioneResponsability" value="0" ng-model="accettazioneResponsability" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_NO</span>
-					</label>
-				</div>
-			</div>
-			
-					
-			</fieldset>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10"  ng-show="isAuthorized('management/streams/update')" >
-					<a ng-click='cancel()' class="btn">{{'CANCEL'|translate}}</a>
-					<a ng-click='createStream(virtualentity, stream)' class="btn  btn-default" ng-disabled="!isOwner() || newStreamForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0">{{'MANAGEMENT_NEW_STREAM_CREATE_BUTTON'|translate}}</a>
-				</div>
-			</div>
-		</form>
 	</div>
 </div>
+	

@@ -77,12 +77,14 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.streamsList.length;
 	$scope.predicate = '';
+	$scope.showLoading = true;
 
 	console.debug("$scope.tenantCode", $scope.tenantCode);
 	fabricAPIservice.getInfo().success(function(info){
 		console.debug("info",info);
 	fabricAPIservice.getVisibleStreams(info.tenantCode).success(function(response) {
 		// Dig into the responde to get the relevant data
+		$scope.showLoading = false;
 		
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
@@ -479,7 +481,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				console.debug("apiCode", apiCode);
 				// call oData service to retrieve  the last 30 data
 
-				odataAPIservice.getStreamData(apiCode, 0, maxNumData, 'time').success(function(response) {
+				odataAPIservice.getStreamData(apiCode, 0, maxNumData, 'time%20desc').success(function(response) {
 					var oDataResultList = response.d.results;
 					if(oDataResultList.length >0){
 						for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
@@ -493,6 +495,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 							allData.push({datetime: time, data: values});
 						}
 						console.debug("allData ",allData );
+						allData.reverse();
 						$scope.updateChart();
 					}
 				});

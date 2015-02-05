@@ -20,6 +20,8 @@
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
 <link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
 
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
 <link rel="shortcut icon" href="favicon.png">
 <!-- Optional theme -->
 <!--  <link rel="stylesheet"
@@ -42,9 +44,9 @@
 </head>
 <body lang="en" ng-app="userportal">
 	<div ng-controller="GlobalCtrl as globalCtrl">
-		<main-navbar ng-show="!isHomepage"></main-navbar>
-		<div ng-view></div>
-		<main-footer  ng-show="!isHomepage"></main-footer>
+		<main-navbar ng-show="!isHomepage()"></main-navbar>
+		<div ng-view class='main-body'></div>
+		<main-footer></main-footer>
 	</div>
 	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
 	
@@ -61,7 +63,8 @@
 	<script type="text/javascript" src="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.js"></script>
 	
 	<!-- <script type="text/javascript" src="../ris/userportal/lib/nvd3/d3.v3.min.js"></script> -->
-	<script type="text/javascript" src="../ris/userportal/lib/d3/d3.min.js"></script>
+	<!--  <script type="text/javascript" src="../ris/userportal/lib/d3/d3.min.js"></script> -->
+	<script type="text/javascript" src="../ris/userportal/lib/nvd3/lib/d3.v3.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/nvd3/nv.d3.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/codemirror/lib/codemirror.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/codemirror/addon/hint/show-hint.js"></script>
@@ -94,36 +97,36 @@
 	<script type="text/javascript" src="js/build_info.js"></script>
 	
 
-	<script src="js-min/28ba75f6.sensormap.js"></script>
+	<script src="js-min/b4173c04.sensormap.js"></script>
 	
-	<script src="js-min/i18n/4fe2aa53.strings_en.js"></script>
+	<script src="js-min/i18n/0dacc021.strings_en.js"></script>
 
-	<script src="js-min/i18n/56a28cf7.strings_it.js"></script>
+	<script src="js-min/i18n/39ffbbdc.strings_it.js"></script>
  	
 	
-	<script src="js-min/28de7519.app.js"></script>
-	<script src="js-min/8dda5bf7.helpers.js"></script>
-	<script src="js-min/764283f8.constants.js"></script>
-	<script src="js-min/services/0c4e0684.services.js"></script>
-	<script src="js-min/services/dcbd81f8.discoveryServices.js"></script>
-	<script src="js-min/services/36ad0b7b.fabricServices.js"></script>
-	<script src="js-min/services/64ea0176.managementServices.js"></script>
-	<script src="js-min/services/7602e673.websocketServices.js"></script>
-	<script src="js-min/services/85f4eed8.odataServices.js"></script>
+	<script src="js-min/2cf782fc.app.js"></script>
+	<script src="js-min/c9968b9c.helpers.js"></script>
+	<script src="js-min/34f19bc3.constants.js"></script>
+	<script src="js-min/services/ff613f32.services.js"></script>
+	<script src="js-min/services/a94f174a.discoveryServices.js"></script>
+	<script src="js-min/services/b726c35c.fabricServices.js"></script>
+	<script src="js-min/services/fdf5e461.managementServices.js"></script>
+	<script src="js-min/services/5805ee44.websocketServices.js"></script>
+	<script src="js-min/services/5507c937.odataServices.js"></script>
 
 
 
 	
-	<script src="js-min/b673309a.controllers.js"></script>
-	<script src="js-min/business/dashboard/ff33ee61.DashboardController.js"></script>
-	<script src="js-min/business/management/0ec440d3.ManagementController.js"></script>
-	<script src="js-min/business/discovery/bd9e56b4.DiscoveryController.js"></script>
+	<script src="js-min/ddcf7252.controllers.js"></script>
+	<script src="js-min/business/dashboard/672b9900.DashboardController.js"></script>
+	<script src="js-min/business/management/f29fd94e.ManagementController.js"></script>
+	<script src="js-min/business/discovery/c01267b8.DiscoveryController.js"></script>
 
-	<script src="js-min/1b3d7e20.filters.js"></script>
-	<script src="js-min/d895b198.directives.js"></script>
-	<script src="js-min/business/dashboard/0098b184.DashboardDirectives.js"></script>
-	<script src="js-min/business/management/944ae615.ManagementDirectives.js"></script>
-	<script src="js-min/business/discovery/5b9b1b1b.DiscoveryDirectives.js"></script>
+	<script src="js-min/a29744ad.filters.js"></script>
+	<script src="js-min/44147f99.directives.js"></script>
+	<script src="js-min/business/dashboard/54acac0a.DashboardDirectives.js"></script>
+	<script src="js-min/business/management/c6f1d9c2.ManagementDirectives.js"></script>
+	<script src="js-min/business/discovery/ab86e700.DiscoveryDirectives.js"></script>
 	
 	
 

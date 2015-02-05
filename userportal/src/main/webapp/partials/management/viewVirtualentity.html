@@ -1,87 +1,99 @@
 <div ng-controller="ManagementVirtualentityCtrl as streamCtrl">
-	<h2>
-		{{'VIRTUALENTITY'|translate}} <small> {{virtualentity.virtualEntityName}}</small>
-	</h2>
-	<div class='row'>
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_CODE'|translate}}</strong></div>
-				<div class="col-sm-10">{{virtualentity.codeVirtualEntity}}</div>
-			</div>			
-			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_NAME'|translate}}</strong></div>
-				<div class="col-sm-10">{{virtualentity.virtualEntityName}}</div>
-			</div>			
-			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_TYPE'|translate}}</strong></div>
-				<div class="col-sm-10">{{virtualentity.tipoVirtualEntity}}</div>
-			</div>			
-			<div class="row card-row" ng-show="isDevice()">
-				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_CATEGORY'|translate}}</strong></div>
-				<div class="col-sm-10">{{virtualentity.categoriaVirtualEntity}}</div>
-			</div>			
-			<div class="row card-row"  ng-show="isDevice()">
-				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_MODEL'|translate}}</strong></div>
-				<div class="col-sm-10">{{virtualentity.virtualEntityModel}}</div>
-			</div>			
-			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}</strong></div>
-				<div class="col-sm-10">{{virtualentity.virtualEntityDescription}}</div>
-			</div>	
-			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_STATUS'|translate}}</strong></div>
-				<div class="col-sm-10">{{virtualentity.deploymentStatusDesc}}</div>
-			</div>	
-			<div class="row card-row">
-				<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_CREATION_DATE'|translate}}</strong></div>
-				<div class="col-sm-10">{{virtualentity.creationDate|date}}</div>
-			</div>			
-			<div  ng-show="isDevice()">
-				<div class='card-label-separator'>{{'MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION'|translate}}</div>
+	<div class='container'>
+		<h3><span translate>VIRTUALENTITY</span> <small> {{virtualentity.virtualEntityName}}</small></h3>
+		<accordion close-others="false">
+			<accordion-group is-open="!status1.open">
+				<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_VIRTUALENTITY_GENERAL</span>
+		 			<i class="pull-right glyphicon hide" ng-class="{'glyphicon-minus': status1.open, 'glyphicon-plus': !status1.open}"></i>
+				</accordion-heading>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_POSITION'|translate}}</strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.codeVirtualEntity}}</div>
+				</div>			
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.virtualEntityName}}</div>
+				</div>			
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.tipoVirtualEntity}}</div>
+				</div>			
+				<div class="row card-row" ng-show="isDevice()">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.categoriaVirtualEntity}}</div>
+				</div>			
+				<div class="row card-row"  ng-show="isDevice()">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_MODEL</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.virtualEntityModel}}</div>
+				</div>			
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.virtualEntityDescription}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_STATUS</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.deploymentStatusDesc}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CREATION_DATE</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.creationDate|date}}</div>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="status2.open" ng-show="isDevice()">
+				<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
+				</accordion-heading>
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
 					<div class="col-sm-1">{{virtualentity.tipoPosizione}}</div>
-					<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_LATITUDE'|translate}}</strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_LATITUDE</span></strong></div>
 					<div class="col-sm-1">{{virtualentity.virtualEntityPositions.position[0].lat}}</div>
-					<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_LONGITUDE'|translate}}</strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_LONGITUDE</span></strong></div>
 					<div class="col-sm-1">{{virtualentity.virtualEntityPositions.position[0].lon}}</div>
-					<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_ELEVATION'|translate}}</strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
 					<div class="col-sm-1">{{virtualentity.virtualEntityPositions.position[0].elevation}}</div>
 				</div>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_ESPOSITION'|translate}}</strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ESPOSITION</span></strong></div>
 					<div class="col-sm-1	">{{virtualentity.tipoEsposizione}}</div>
 					<div ng-show="virtualentity.tipoEsposizione=='indoor'">
-						<div class="col-sm-2 card-label" ><strong>{{'VIRTUALENTITY_FIELD_INDOOR_BUILDING'|translate}}</strong></div>
+						<div class="col-sm-2 card-label" ><strong><span translate>VIRTUALENTITY_FIELD_INDOOR_BUILDING</span></strong></div>
 						<div class="col-sm-1" >{{virtualentity.virtualEntityPositions.position[0].building}}</div>
-						<div class="col-sm-2 card-label" ><strong>{{'VIRTUALENTITY_FIELD_INDOOR_FLOOR'|translate}}</strong></div>
+						<div class="col-sm-2 card-label" ><strong><span translate>VIRTUALENTITY_FIELD_INDOOR_FLOOR</span></strong></div>
 						<div class="col-sm-1" >{{virtualentity.virtualEntityPositions.position[0].floor}}</div>
-						<div class="col-sm-2 card-label" ><strong>{{'VIRTUALENTITY_FIELD_INDOOR_ROOM'|translate}}</strong></div>
+						<div class="col-sm-2 card-label" ><strong><span translate>VIRTUALENTITY_FIELD_INDOOR_ROOM</span></strong></div>
 						<div class="col-sm-1" >{{virtualentity.virtualEntityPositions.position[0].room}}</div>
 					</div>
 				</div>
-				<div class='card-label-separator'>{{'MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO'|translate}}</div>
+			</accordion-group>
+			<accordion-group is-open="status3.open" ng-show="isDevice()">
+				<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
+				</accordion-heading>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_SUPPLY_TYPE'|translate}}</strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_SUPPLY_TYPE</span></strong></div>
 					<div class="col-sm-10">{{virtualentity.supplyType}}</div>
 				</div>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_ADMIN_URI'|translate}}</strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ADMIN_URI</span></strong></div>
 					<div class="col-sm-10"><a href="{{virtualentity.urlAdmin}}" target="_blank">{{virtualentity.urlAdmin}}</a></div>
 				</div>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong>{{'VIRTUALENTITY_FIELD_SOFTWARE_VERSION'|translate}}</strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_SOFTWARE_VERSION</span></strong></div>
 					<div class="col-sm-10">{{virtualentity.swClientVersion}}</div>
 				</div>
-			</div>
-			<div class="row card-toolbar" ng-show="!isInternal() && isOwner()">
-				<a  href='#' class="btn btn-delete disabled" title="{{'COMING_SOON'|translate}}">
-					<span class="glyphicon glyphicon-trash"></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON'|translate}}
-				</a>
-				<a  href='#/management/editVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}' class="btn btn-edit" ng-show="isAuthorized('management/smartobjects/update')">
-					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON'|translate}}
-				</a>
-			</div>
+			</accordion-group>
+		</accordion>
+		<div class="row card-toolbar" ng-show="!isInternal() && isOwner()">
+			<a  href='#' class="btn btn-delete disabled" title="{{'COMING_SOON'|translate}}">
+				<span class="glyphicon glyphicon-trash"></span> <span translate>MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON</span>
+			</a>
+			<a  href='#/management/editVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}' class="btn btn-edit" ng-show="isAuthorized('management/smartobjects/update')">
+				<span class="glyphicon glyphicon-pencil "></span> <span translate>MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON</span>
+			</a>
 		</div>
 	</div>
 </div>

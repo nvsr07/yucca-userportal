@@ -253,11 +253,16 @@ function showMap() {
         // centra la mappa sulle coordinate in modo da visualizzare tutti i sensori
         // si lascia commentato il codice per l'impostazione manuale delle dimensioni
         // della mappa
-        //map.getView().setCenter(ol.proj.transform([7.6761, 45.0781], 'EPSG:4326', 'EPSG:3857'));
-        //map.getView().setZoom(1);
+        // zoom su piemonte
+        //map.getView().setCenter(ol.proj.transform([7.234, 45.275], 'EPSG:4326', 'EPSG:3857'));
+        //map.getView().setZoom(8);
+        // zoom su torino
+        map.getView().setCenter(ol.proj.transform([7.6757, 45.0735], 'EPSG:4326', 'EPSG:3857'));
+        map.getView().setZoom(12);
         
-        var extent =ol.proj.transformExtent([lonMin, latMin, lonMax, latMax], 'EPSG:4326', 'EPSG:3857');
-        map.getView().fitExtent(extent, map.getSize());
+        // autocentra e gestisce lo zoo in automatico
+        //var extent =ol.proj.transformExtent([lonMin, latMin, lonMax, latMax], 'EPSG:4326', 'EPSG:3857');
+        //map.getView().fitExtent(extent, map.getSize());
 
         // istanzia il popup che corrisponde al DIV "popup".
         // se si cambia il nome del DIV bisogna modificare il codice seguente

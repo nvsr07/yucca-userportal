@@ -43,6 +43,15 @@ appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'd
 	$scope.searchResult=[];
 	$scope.advancedFilters = [];
 	$scope.reverse=false;
+	$scope.isSearching = false;
+	$scope.showResultList = false;
+
+
+	$scope.dataset = null;
+	$scope.datasetTags = null;
+	$scope.datasetApiUrls = null;
+	$scope.datasetStreamsUrl = null;
+	$scope.datasetDownloadCsvUrl = null;
 
 	$scope.setActiveSearch = function (activeSearch){
 		$scope.activeSearch = activeSearch;
@@ -51,9 +60,23 @@ appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'd
 		$scope.predicate =field;
 		$scope.reverse=!$scope.reverse;
 	};
+	
+	var clearResults = function(){
+		searchResult = [];
+		$scope.dataset = null;
+		$scope.datasetTags = null;
+		$scope.datasetApiUrls = null;
+		$scope.datasetStreamsUrl = null;
+		$scope.datasetDownloadCsvUrl = null;
+	}
 
 	$scope.search = function(SearchInputVal){
+		$scope.isSearching = true;
+		$scope.showResultList = true;
+		clearResults();
+		
 		asyncSingleDatasetService.async(SearchInputVal,true).then(function() {
+			$scope.isSearching = false;
 			var data = asyncSingleDatasetService.data();
 			console.debug(" myService.data()", data);
 			$scope.searchResult=data;
@@ -78,8 +101,12 @@ appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'd
 
 	$scope.searchAdvanced = function (){
 		console.debug("$scope.advancedFilters : ",$scope.advancedFilters);
-		
+		$scope.isSearching = true;
+		$scope.showResultList = true;
+		clearResults();
+
 		asyncSingleDatasetService.async($scope.advancedFilters,false).then(function() {
+			$scope.isSearching = false;
 			var data = asyncSingleDatasetService.data();
 			console.debug(" myService.data()", data);
 			$scope.searchResult=data;
@@ -93,11 +120,6 @@ appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'd
 		Helpers.util.scrollTo(targetId);
 	};
 
-	$scope.dataset = null;
-	$scope.datasetTags = null;
-	$scope.datasetApiUrls = null;
-	$scope.datasetStreamsUrl = null;
-	$scope.datasetDownloadCsvUrl = null;
 
 	$scope.showDetail = function(idDataset){
 		console.log("showDetail - idDataset", idDataset);

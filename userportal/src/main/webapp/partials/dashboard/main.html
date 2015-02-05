@@ -3,22 +3,18 @@
 	<script type="text/javascript" src="js-min/customization/freeboard/js/freeboard+plugins.js?time={{buildTimestamp}}"></script>
 	<script type="text/javascript" src="js-min/customization/freeboard/plugins/freeboard/websocket.datasources.js?time={{buildTimestamp}}"></script>
 	<div class='container'>
-		<div class='title-container'>
-			<h1>{{'DASHBOARD_TITLE'|translate}} <small>{{dashboard}}</small></h1>
-		</div>
-		<div class='row'>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div class='pull-right'>
-					<dashboard-menu></dashboard-menu>
-				</div>
+		<div class='title-container row'>
+			<h1><span translate>DASHBOARD_TITLE</span> <small>{{dashboard}}</small></h1>
+			<div class="title-menu">
+				<dashboard-menu></dashboard-menu>
 			</div>
 		</div>
 		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<p>&nbsp;</p>
 				<div class="alert alert-warning" ng-show='tenantWithNoDashboardError'>
-					<strong>{{'WARNING'|translate}}</strong> 
-					{{tenantWithNoDashboardError|translate}}
+					<strong><span translate>WARNING</span></strong> 
+					<span translate>tenantWithNoDashboardError</span>
 				</div>	
 			</div>
 		</div>

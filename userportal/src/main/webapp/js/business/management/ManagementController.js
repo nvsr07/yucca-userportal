@@ -64,6 +64,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.filteredStreamsList = [];
 	$scope.codeFilter = null;
 	$scope.statusFilter = null;
+	$scope.showLoading = true;
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
@@ -77,6 +78,8 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	};
 
 	fabricAPIservice.getStreams($scope.tenantCode).success(function(response) {
+
+		$scope.showLoading = false;
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
@@ -770,6 +773,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
+	$scope.showLoading = true;
+
 
 	console.log("info.isOwner( $scope.tenantCode);", info.isOwner( $scope.tenantCode));
 	$scope.isOwner = function(){
@@ -789,6 +794,8 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 
 
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
+		$scope.showLoading = false;
+
 		// Dig into the responde to get the relevant data
 		console.log("response", response);
 		if(response.virtualEntities==null)
@@ -1121,6 +1128,7 @@ appControllers.controller('ManagementChooseTenantCtrl', [ '$scope', 'fabricAPIse
 /* Dataset */
 appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', function($scope, $route, $location, fabricAPImanagement, info, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
+	$scope.showLoading = true;
 
 	$scope.datasetList = [];
 	$scope.filteredDatasetsList = [];
@@ -1139,6 +1147,8 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	};
 
 	fabricAPImanagement.getDatasets($scope.tenantCode).success(function(response) {
+		$scope.showLoading = false;
+
 		$scope.datasetList = response;
 		$scope.totalItems = $scope.datasetList.length;
 	});

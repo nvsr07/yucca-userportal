@@ -1,16 +1,13 @@
 <div class='section-dashboard' ng-controller="DashboardDataStreamCtrl as streamsDataCtrl">
 	<div class="container">
-		<div class='title-container'>
+		<div class='title-container row'>
 			<h1><span translate>DASHBOARD_STREAM_TITLE</span> <strong>{{stream.codiceStream}}</strong></h1>
-		</div>
-		<div class=row'>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardCtrl as streamsCtrl">
-				<div class="pull-right">
-					<dashboard-menu></dashboard-menu>
-				</div>
+			<div class="title-menu">
+				<dashboard-menu></dashboard-menu>
 			</div>
 		</div>
-		<div class='mute'>
+		<p>&nbsp;</p>
+		<div >
 				<span translate>DASHBOARD_STREAM_REALTIME_FPS</span>  <span class='important'>{{stream.fps|number_ellipse:0.01:1000}}</span> - <span translate>DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS</span>  <span class='important'>{{stream.secondsBtwEvents|number_ellipse:0.01:1000}}</span> | 
 				<span translate>DASHBOARD_STREAM_REALTIME_FPM</span>  <span class='important'>{{stream.fpm|number_ellipse:0.01:1000}}</span> - <span translate>DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS</span>   <span class='important'>{{stream.minutesBtwEvents|number_ellipse:0.01:1000}}</span> 
 		</div>
@@ -89,19 +86,17 @@
 				</p>					
 			</div>
 			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-				<div class="panel panel-default">
-  					<div class="panel-body">
-    					<h4><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></h4>
-    					<pre>{{wsUrl}}</pre>
-  					</div>
-				</div>
+ 				<h3><strong><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></strong> </h3>
+ 				<p>
+    				<pre>{{wsUrl}}</pre>
+  				</p>
 			</div>
 		</div>
 		<accordion close-others="false">
 			<accordion-group is-open="status1.open">
 				<accordion-heading>
 		 			<span translate>DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status1.open, 'glyphicon-chevron-right': !status1.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status1.open, 'glyphicon-plus': !status1.open}"></i>
 				</accordion-heading>
 
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -127,7 +122,11 @@
 					</div>	
 					<div class="row card-row">
 						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TAGS</span></strong></div>
-						<div class='col-sm-10'><li ng-repeat="tag in stream.streamTags.tag"><span class="label label-custom label-tag"><span ng-bind-html="tag.tagCode|translate"></span></span></li></div>
+						<div class='col-sm-10'>
+							<ul class="list-inline">
+								<li ng-repeat="tag in stream.streamTags.tag"><span class="label label-custom label-tag"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
+							</ul>
+						</div>
 					</div>	
 					<div class="row card-row">
 						<div class="col-sm-2 card-label"><strong><span translate>TENANT</span></strong></div>
@@ -138,7 +137,7 @@
 			<accordion-group is-open="status2.open">
 				<accordion-heading>
 		 			<span translate>DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status2.open, 'glyphicon-chevron-right': !status2.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
 				</accordion-heading>
 
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -169,7 +168,7 @@
 			<accordion-group is-open="status3.open">
 				<accordion-heading>
 		 			<span translate>DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status3.open, 'glyphicon-chevron-right': !status3.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
 				</accordion-heading>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="row card-row">
@@ -198,7 +197,7 @@
 			<accordion-group is-open="status4.open">
 				<accordion-heading>
 		 			<span translate>DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status4.open, 'glyphicon-chevron-right': !status4.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
 				</accordion-heading>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<pre pretty-json="wsLastMessageToShow" />

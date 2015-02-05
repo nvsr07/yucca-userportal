@@ -1,17 +1,19 @@
 <p>&nbsp;</p>
 <div class='clearfix subtitle-container'  id='discovery-results-panel'>
-	<h2 class='pull-left'>
+	<h3 class='pull-left'>
 		<span translate>DISCOVERY_RESULTS_TITLE</span>&nbsp; <small><span translate>DISCOVERY_RESULTS_SIZE_LABEL</span>: <strong>{{searchResult.length}}</strong></small>
-	</h2>
+	</h3>
 	<div class='pull-right subtilte-inner-floating'>
 		<a href='javascript:void(0);' ng-click='scrollTo("discovery-filter-anchor")'><span class="glyphicon glyphicon-chevron-up"></span><span translate>DISCOVERY_BACK_FILTER_LABEL</span></a>
 	</div>
 </div>
 <p>&nbsp;</p>
 <div class='row'>
-	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 " >
-		
-		<div class="table-responsive">
+	<div class="col-sm-10 col-sm-offset-1" >
+		<div class="table-responsive" ng-show="searchResult.length==0">
+			<div class="alert alert-info" role="alert"><span translate>DISCOVERY_RESULTS_NO_DATA_FOUND</span></div>
+		</div>
+		<div class="table-responsive" ng-show="searchResult.length>0">
 			<table class="table table-striped">
 				<thead>
 					<tr>

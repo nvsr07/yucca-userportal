@@ -1,16 +1,29 @@
 <div ng-controller="ManagementNavigationCtrl as navigationCtrl" class="section-management">
 	<div class="container ">
 		<div class='title-container clearfix'>
-			<h1  class='pull-left'>{{'MANAGEMENT_TITLE'|translate}}</h1>
-			<h1 class='pull-right'><small>{{'TENANT'|translate}}: {{tenant}}</small></h1>
+			<h1  class='pull-left'><span translate>MANAGEMENT_TITLE</span><small> {{tenant}}</small></h1>
+			<div class="title-menu">
+				<a ng-disable="!isAuthorized('management/smartobjects/*')" href="#/management/virtualentities/{{tenant}}" ng-class="{active: isMenuActive('virtualentities')}"  class='btn  btn-top-toolbar'>
+					<span translate>MANAGEMENT_MENU_VIRTUAL_ENTITIES</span>
+				</a>
+				<a ng-disable="!isAuthorized('management/streams/*')" href="#/management/streams/{{tenant}}" ng-class="{active: isMenuActive('streams')}" class='btn btn-top-toolbar'>
+					<span translate>MANAGEMENT_MENU_STREAMS</span>
+				</a>
+				<a ng-disable="!isAuthorized('management/datasets/*')" href="#/management/datasets/{{tenant}}" ng-class="{active: isMenuActive('datasets')}" class='btn btn-top-toolbar'>
+					<span translate>MANAGEMENT_MENU_DATASET</span>
+				</a>
+			</div>
 		</div>
 	</div>
-	<div class="container">
+		
+	<div class="">
+		<ng-include src=" 'partials/management/' + managementTab+ '.html?'+buildTimestamp "></ng-include>
+	</div>
+	<!-- <div class="container">
 		<div class='row'>
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<h3>&nbsp;</h3>
 				<ul class="nav  nav-pills nav-stacked">
-					<!-- <li ng-class="{active: isMenuActive('dashboard')}"><a href="#/management/dashboard/{{tenant}}">{{'MANAGEMENT_MENU_DASHBOARD'|translate}}</a></li> -->
 					<li>
 						<a ng-disable="!isAuthorized('management/smartobjects/*')" href="#/management/virtualentities/{{tenant}}" ng-class="{active: isMenuActive('virtualentities')}"  class='btn-default'>{{'MANAGEMENT_MENU_VIRTUAL_ENTITIES'|translate}}</a>
 					</li>
@@ -26,5 +39,5 @@
 				<ng-include src=" 'partials/management/' + managementTab+ '.html?'+buildTimestamp "></ng-include>
 			</div>
 		</div>
-	</div>
+	</div>-->
 </div>

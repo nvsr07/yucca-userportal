@@ -1,94 +1,104 @@
-<h2>{{'MANAGEMENT_TITLE'|translate}} <small>{{'MANAGEMENT_VIRTUALENTITY_SUBTITLE'|translate}} </small></h2>
-<div class='row'>
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="ManagementVirtualentityListCtrl as virtualentitiesCtrl">
-		<!-- Main component for a primary marketing message or call to action -->
-
-		<!-- Single button -->
-		<div class='clearfix'>
-			<div class="pull-left">
-				<a  href="#/management/newVirtualentity/{{tenantCode}}" class="btn btn-new" ng-disabled="!isAuthorized('management/smartobjects/update') || !isOwner()">
-					<span class="glyphicon glyphicon-plus"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY'|translate}}
-				</a>
-				<button  href="javascript:void(0)" ng-click='editVirtualentity()' class="btn btn-edit" ng-disabled="!isAuthorized('management/smartobjects/update') || !isOwner() || selectedVirtualentities.length!=1" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT'|translate}}">
-					<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY'|translate}}
-				</button>
-				<button href="javascript:void(0)" ng-click='deleteVirtualentity()'class="btn btn-delete" ng-disabled="true" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT'|translate}}">
-					<span class="glyphicon glyphicon-trash"></span> {{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY'|translate}}
-				</button>
-			</div>
-			<div class="btn-group pull-right">
-				<form class="form-inline" role="form">
-					<div class="form-group">
+<div class='container'>
+	<h3><span translate>MANAGEMENT_VIRTUALENTITY_SUBTITLE</span></h3>
+	<div class='row'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="ManagementVirtualentityListCtrl as virtualentitiesCtrl">
+			<!-- Main component for a primary marketing message or call to action -->
+	
+			<!-- Single button -->
+			<div class='clearfix  content-toolbar'>
+				<div class="pull-left">
+					<a  href="#/management/newVirtualentity/{{tenantCode}}" class="btn btn-new" ng-disabled="!isAuthorized('management/smartobjects/update') || !isOwner()">
+						<span class="glyphicon glyphicon-plus"></span>&nbsp;<span translate>MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY</span>
+					</a>
+					<button  href="javascript:void(0)" ng-click='editVirtualentity()' class="btn btn-edit" ng-disabled="!isAuthorized('management/smartobjects/update') || !isOwner() || selectedVirtualentities.length!=1" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY_BUTTON_HINT'|translate}}">
+						<span class="glyphicon glyphicon-pencil "></span>&nbsp;<span translate>MANAGEMENT_VIRTUALENTITY_LIST_EDIT_VIRTUALENTITY</span>
+					</button>
+					<button href="javascript:void(0)" ng-click='deleteVirtualentity()'class="btn btn-delete" ng-disabled="true" title="{{'MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY_BUTTON_HINT'|translate}}">
+						<span class="glyphicon glyphicon-trash"></span>&nbsp;<span translate>MANAGEMENT_VIRTUALENTITY_LIST_DELETE_VIRTUALENTITY</span>
+					</button>
+				</div>
+				<div class="btn-group pull-right">
+					<form class="form-inline" role="form">
 						<div class="form-group">
-							<input type="text" class="form-control col-xs-2" ng-model="codeFilter" placeholder="{{'VIRTUALENTITY_LIST_CODE_FILTER'|translate}}" />
+							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="codeFilter" placeholder="{{'VIRTUALENTITY_LIST_CODE_FILTER'|translate}}" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'VIRTUALENTITY_LIST_STATUS_FILTER'|translate}}" />
+							</div>
 						</div>
-						<div class="form-group">
-							<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'VIRTUALENTITY_LIST_STATUS_FILTER'|translate}}" />
-						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
-		</div>
-		<div class="table-responsive dashboard-streamList-table">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>
-						</th>
-						<th>
-							<a href="" ng-click="predicate = 'codeVirtualEntity'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_CODE'|translate}} 
-							<span ng-show="predicate=='codeVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='codeVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-						
-						</th>
-						<th>
-							<a href="" ng-click="predicate = 'virtualEntityName'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_NAME'|translate}} 
-							<span ng-show="predicate=='virtualEntityName' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='virtualEntityName' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-						
-						</th>
-						<th>
-							<a href="" ng-click="predicate = 'tipoVirtualEntity'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_TYPE'|translate}} 
-							<span ng-show="predicate=='tipoVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='tipoVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-						
-						</th>
-						<th>
-							<a href="" ng-click="predicate = 'streamsCount'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_STREAMS_COUNT'|translate}} 
-							<span ng-show="predicate=='streamsCount' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='streamsCount' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-						
-						</th>
-						<th>
-							<a href="" ng-click="predicate = 'creationDate'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_CREATION_DATE'|translate}} 
-							<span ng-show="predicate=='creationDate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='creationDate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-						
-						</th>
-						<th>
-							<a href="" ng-click="predicate = 'deploymentStatusDesc'; reverse=!reverse">{{'VIRTUALENTITY_FIELD_STATUS'|translate}} 
-							<span ng-show="predicate=='deploymentStatusDesc' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='deploymentStatusDesc' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="virtualentity in filteredVirtualentitiesList = ( virtualentitiesList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse  )  |startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
-						<td><input type="checkbox" name="selected" ng-checked="isSelected(virtualentity)"  ng-click="updateSelection($event, virtualentity)" ng-show="!isInternal(virtualentity)"/>
-						<td><a href="#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}">{{virtualentity.codeVirtualEntity}}</a></td>
-						<td>{{virtualentity.virtualEntityName}}</td>
+			<div class="table-responsive dashboard-streamList-table">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'codeVirtualEntity'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_CODE</span> 
+								<span ng-show="predicate=='codeVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='codeVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'virtualEntityName'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_NAME</span> 
+								<span ng-show="predicate=='virtualEntityName' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='virtualEntityName' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'tipoVirtualEntity'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_TYPE</span> 
+								<span ng-show="predicate=='tipoVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='tipoVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'streamsCount'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_STREAMS_COUNT</span> 
+								<span ng-show="predicate=='streamsCount' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='streamsCount' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'creationDate'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_CREATION_DATE</span> 
+								<span ng-show="predicate=='creationDate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='creationDate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							
+							</th>
+							<th>
+								<a href="" ng-click="predicate = 'deploymentStatusDesc'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_STATUS</span> 
+								<span ng-show="predicate=='deploymentStatusDesc' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='deploymentStatusDesc' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-show="showLoading">
+							<td colspan='7' >
+								<div class='ajax-loading-container'>
+									<span class='ajax-loading-big'></span>
+									<h4>Loading...</h4>
+								</div>
+							</td>
+						</tr>
+						<tr ng-repeat="virtualentity in filteredVirtualentitiesList = ( virtualentitiesList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse  )  |startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+							<td><input type="checkbox" name="selected" ng-checked="isSelected(virtualentity)"  ng-click="updateSelection($event, virtualentity)" ng-show="!isInternal(virtualentity)"/>
+							<td><a href="#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}">{{virtualentity.codeVirtualEntity}}</a></td>
+							<td>{{virtualentity.virtualEntityName}}</td>
 							<td>{{virtualentity.tipoVirtualEntity}}</td>
-						<td># TBD</td>
-						<td>{{virtualentity.creationDate|clearNil|date}}</td>
-						<td>{{virtualentity.deploymentStatusDesc}}</td>
-					</tr>
-				</tbody>
-			</table>
-			<pagination boundary-links="true" total-items="filteredVirtualentitiesList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
-				next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
-			></pagination>
-
-
+							<td># TBD</td>
+							<td>{{virtualentity.creationDate|clearNil|date}}</td>
+							<td>{{virtualentity.deploymentStatusDesc}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<pagination boundary-links="true" total-items="filteredVirtualentitiesList.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
+					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+				></pagination>
+	
+	
+			</div>
 		</div>
 	</div>
 </div>

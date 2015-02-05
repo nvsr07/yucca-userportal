@@ -20,6 +20,8 @@
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
 <link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
 
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
 <link rel="shortcut icon" href="favicon.png">
 <!-- Optional theme -->
 <!--  <link rel="stylesheet"
@@ -42,9 +44,9 @@
 </head>
 <body lang="en" ng-app="userportal">
 	<div ng-controller="GlobalCtrl as globalCtrl">
-		<main-navbar ng-show="!isHomepage"></main-navbar>
-		<div ng-view></div>
-		<main-footer  ng-show="!isHomepage"></main-footer>
+		<main-navbar ng-show="!isHomepage()"></main-navbar>
+		<div ng-view class='main-body'></div>
+		<main-footer></main-footer>
 	</div>
 	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
 	

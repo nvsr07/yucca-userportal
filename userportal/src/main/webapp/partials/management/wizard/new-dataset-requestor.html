@@ -82,7 +82,7 @@
 	<div class="form-group">
 		<div class=" col-sm-12 form-toolbar">
 			<a ng-click='goToStart()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-			<a ng-click='goToMetadata()' class="btn btn-default" ng-disabled="!isOwner() || requestorDatasetForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0" translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+			<a ng-click='goToMetadata()' class="btn btn-wizard-next" ng-disabled="!isOwner() || requestorDatasetForm.$invalid || accettazionePrivacy==0 || accettazioneResponsability==0" translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 		</div>
 	</div>
 </form>

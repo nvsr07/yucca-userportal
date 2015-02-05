@@ -1,159 +1,185 @@
 <p>&nbsp;</p>
 <div class='clearfix subtitle-container' id='discovery-detail-panel'>
-	<h2 class='pull-left'>
+	<h3 class='pull-left'>
 		<span translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small>
-	</h2>
+	</h3>
 	<div class='pull-right subtilte-inner-floating'>
 		<a href='javascript:void(0);' ng-click='scrollTo("discovery-results-anchor")'><span class="glyphicon glyphicon-chevron-up"></span><span translate>DISCOVERY_BACK_RESULT_LABEL</span></a>
 	</div>
 </div>
-<div class='mute'>
-	<span translate>DATASET_FIELD_VERSION</span> {{dataset.datasetVersion}} - <small class='mute'>{{dataset.registrationDate|date}}</small>
-</div>
-<div class='row'><p>&nbsp;</p></div>
-<div class='row'>
-	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 " >
-		<div class='row'>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<p>{{dataset.description}}</p>
+<accordion close-others="false">
+	<accordion-group is-open="!status0.open">
+		<accordion-heading>
+ 			<span translate>DISCOVERY_DETAIL_DATASET_GENERAL_INFO</span>
+ 			<i class="pull-right glyphicon hide" ng-class="{'glyphicon-minus': status0.open, 'glyphicon-plus': !status0.open}"></i>
+		</accordion-heading>
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DESCRIPTION</span></strong></div>
+			<div class='col-sm-10'>{{dataset.description}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_CONFIGDATA_CODE</span></strong></div>
+			<div class="col-sm-10">{{dataset.datasetCode}}</div>
+		</div>			
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_NAME</span></strong></div>
+			<div class='col-sm-10'>{{dataset.datasetName}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_VERSION</span></strong></div>
+			<div class='col-sm-10'>{{dataset.datasetVersion}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></strong></div>
+			<div class='col-sm-10'>{{dataset.registrationDate|translate}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_CONFIGDATA_TENANT</span></strong></div>
+			<div class='col-sm-10'>{{dataset.tenantCode}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong></div>
+			<div class='col-sm-10'><span translate>dataset.dataDomain</span></div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
+			<div class='col-sm-10'>
+				<ul class="list-inline">
+					<li ng-repeat="tag in datasetTags"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
+				</ul>
 			</div>
+		</div>	
+	</accordion-group>
+	<accordion-group is-open="status1.open">
+	 	<accordion-heading>
+ 			<span translate>DISCOVERY_DETAIL_DATASET_LEGAL_INFO</span>
+ 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status1.open, 'glyphicon-plus': !status1.open}"></i>
+		</accordion-heading>
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_LICENSE</span></strong></div>
+			<div class='col-sm-10'>{{dataset.license|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong></div>
+			<div class='col-sm-10'>{{dataset.disclaimer|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong></div>
+			<div class='col-sm-10'> {{dataset.copyright|nvl:' -'}}</div>
+		</div>	
+	</accordion-group>
+	<accordion-group is-open="status2.open" ng-show="dataset.Stream!=null">
+	 	<accordion-heading>
+ 			<span translate>DISCOVERY_DETAIL_DATASET_STREAM_INFO</span>
+ 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
+		</accordion-heading>
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_NAME</span></strong></div>
+			<div class='col-sm-10'> {{dataset.Stream.streamName|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_CODE</span></strong></div>
+			<div class='col-sm-10'> {{dataset.Stream.streamCode|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_DESCRIPTION</span></strong></div>
+			<div class='col-sm-10'> {{dataset.Stream.streamDescription|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_FPS</span></strong></div>
+			<div class='col-sm-10'> {{dataset.fps|nvl:' -'}}</div>
+		</div>	
+	</accordion-group>
+	<accordion-group is-open="status3.open" ng-show="dataset.Stream!=null">
+	 	<accordion-heading>
+ 			<span translate>DISCOVERY_DETAIL_DATASET_SMART_OBJECT_INFO</span>
+ 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
+		</accordion-heading>
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
+			<div class='col-sm-10'>{{dataset.Stream.smartOName|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong></div>
+			<div class='col-sm-10'>{{dataset.Stream.smartOCode|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong></div>
+			<div class='col-sm-10'>{{dataset.Stream.smartOType|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
+			<div class='col-sm-10'>{{dataset.Stream.smartOCategory|nvl:' -'}}</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_POSITION_TYPE</span></strong></div>
+			<div class='col-sm-10'>[{{dataset.Stream.latitude|nvl:' -'}}:{{dataset.Stream.longitude|nvl:' -'}}]</div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
+			<div class='col-sm-10'> {{dataset.Stream.elevation|nvl:' -'}}</div>
+		</div>			
+	</accordion-group>
+	<accordion-group is-open="status4.open" ng-show="dataset.Stream!=null">
+	 	<accordion-heading>
+ 			<span translate>DISCOVERY_DETAIL_DATASET_COLUMNS</span>
+ 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
+		</accordion-heading>
+		<table class="table  table-striped">
+			<thead>
+				<tr>
+					<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
+					<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+					<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
+					<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
+					<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
+					<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="field in dataset.Fields.results">
+					<td>{{field.fieldName}}</td>
+					<td>{{field.fieldAlias}}</td>
+					<td>{{field.dataType|nvl:' - '}}</td>
+					<td>{{field.sourceColumn}}</td>
+					<td>{{field.measureUnit|nvl:' - '}}</td>
+					<td>{{field.isKey|booleanToString}}</td>
+					
+			</tbody>
+		</table>
+	</accordion-group>
+	<accordion-group is-open="!status5.open">
+	 	<accordion-heading>
+ 			<span translate>DISCOVERY_DETAIL_ACCESS_DATA_TITLE</span>
+ 			<i class="pull-right glyphicon hide" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+		</accordion-heading>
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_API</span></strong></div>
+			<div class='col-sm-10'><p ng-repeat="apiUrl in datasetApiUrls"><a href="{{apiUrl}}" target="_blank" class='discovery-api-link'>{{apiUrl}}</a></p></div>
+		</div>	
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET</span></strong></div>
+			<div class='col-sm-10'>
+				<div class="row">
+					<div class="col-sm-2 text-right"><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL</span></div>
+					<div class='col-sm-10'><span class='discovery-websocket-server-link'>ws://stream.smartdatanet.it/ws</span></div>
+				</div>
+				<div class="row">
+					<div class="col-sm-2 text-right"><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL</span></div>
+					<div class='col-sm-10'>
+						<div ng-repeat="streamUrl in datasetStreamUrls"><a href="{{streamUrl}}" target="_blank" class='discovery-websocket-link'>{{streamUrl}}</a></div>
+					</div>
+				</div>
+			</div>
+			
 		</div>
-		<div class='row'>
-			<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-				<p><strong><span translate>DATASET_FIELD_CONFIGDATA_TENANT</span></strong>: {{dataset.tenantCode}}</p>
-				<p><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong>: {{dataset.dataDomain|translate}}</p>
-				<div>
-					<ul class="list-inline">
-						<li ng-repeat="tag in datasetTags"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
-					</ul>
-				</div>
-				<p>&nbsp;</p>
-				
-				<p class="mute"><strong><span translate>DISCOVERY_DETAIL_DATASET_LEGAL_INFO</span></strong></p>
-				<p><strong><span translate>DATASET_FIELD_METADATA_LICENSE</span></strong>: {{dataset.license|nvl:' -'}}</p>
-				<p><strong><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong>: {{dataset.disclaimer|nvl:' -'}}</p>
-				<p><strong><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong>: {{dataset.copyright|nvl:' -'}}</p>
-			<div ng-show="dataset.Stream!=null">
-			<p>&nbsp;</p>
-				<p class="mute"><strong><span translate>DISCOVERY_DETAIL_DATASET_STREAM_INFO</span></strong></p>
-				<p><strong><span translate>STREAM_FIELD_CODE</span></strong>: {{dataset.Stream.streamCode|nvl:' -'}}</p>
-				<p><strong><span translate>STREAM_FIELD_NAME</span></strong>: {{dataset.Stream.streamName|nvl:' -'}}</p>
-				<p><strong><span translate>STREAM_FIELD_DESCRIPTION</span></strong>: {{dataset.Stream.streamDescription|nvl:' -'}}</p>
-				<p><strong><span translate>STREAM_FIELD_FPS</span></strong>: {{dataset.fps|nvl:' -'}}</p>
-			<p>&nbsp;</p>
-				<p class="mute"><strong><span translate>DISCOVERY_DETAIL_DATASET_SMART_OBJECT_INFO</span></strong></p>
-				<p><strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong>: {{dataset.Stream.smartOName|nvl:' -'}}</p>
-				<p><strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong>: {{dataset.Stream.smartOCode|nvl:' -'}}</p>
-				
-				<p><strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong>: {{dataset.Stream.smartOType|nvl:' -'}}</p>
-				<p><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong>: {{dataset.Stream.smartOCategory|nvl:' -'}}</p>
-				<p><strong><span translate>VIRTUALENTITY_FIELD_POSITION_TYPE</span></strong>: [{{dataset.Stream.latitude|nvl:' -'}}:{{dataset.Stream.longitude|nvl:' -'}}]</p>
-				<p><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong>: {{dataset.Stream.elevation|nvl:' -'}}</p>
-			</div>
-				</div>
-			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-	   					<h3 class="panel-title"><span translate>DISCOVERY_DETAIL_DATASET_COLUMNS</span></h3>
-					</div>
-					<div class="panel-body">
-						<table class="table-condensed table-supercondensed">
-							<thead>
-								<tr>
-									<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
-									<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
-									<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
-									<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
-									<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
-									<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="field in dataset.Fields.results">
-									<td>{{field.fieldName}}</td>
-									<td>{{field.fieldAlias}}</td>
-									<td>{{field.dataType|nvl:' - '}}</td>
-									<td>{{field.sourceColumn}}</td>
-									<td>{{field.measureUnit|nvl:' - '}}</td>
-									<td>{{field.isKey|booleanToString}}</td>
-									
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<p class="mute"><strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_TITLE</span></strong></p>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_API</span></strong>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
-					<p ng-repeat="apiUrl in datasetApiUrls"><a href="{{apiUrl}}" target="_blank" class='discovery-api-link'>{{apiUrl}}</a></p>
-				</div>
-			</div>
-			<div class='row'>
-				<p>&nbsp;</p>
-			</div>
-			<div class='row'>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET</span></strong>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
-					<p><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL</span> <span class='discovery-websocket-server-link'>ws://stream.smartdatanet.it/ws</span></p>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
-					<p ng-repeat="streamUrl in datasetStreamUrls">
-						<span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL</span>
-						<a href="{{streamUrl}}" target="_blank" class='discovery-websocket-link'>{{streamUrl}}</a>
-					</p>
-				</div>
-			</div>
-			<div class='row'>
-				<p>&nbsp;</p>
-			</div>
-			<div class='row'>
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
-					<p>
-						<span translate>DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM</span>
-						<a href="/userportal/#/dashboard/stream/{{dataset.tenantCode}}/{{dataset.Stream.smartOCode}}/{{dataset.Stream.streamCode}}" class='discovery-websocket-link'>/userportal/#/dashboard/stream/{{dataset.tenantCode}}/{{dataset.Stream.smartOCode}}/{{dataset.Stream.streamCode}}</a>
-					</p>
-				</div>
-			</div>
-<!-- 
-			<div class='row'>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<strong><span translate>DISCOVERY_DETAIL_MONITOR_DATA_TITLE</span></strong>
-				</div>
-			</div>
-			<div class='row'>
-				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 ">
-					<p ng-repeat="apiUrl in datasetApiUrls"><a href="{{apiUrl}}" target="_blank" class='discovery-api-link'>{{apiUrl}}</a></p>
-				</div>
-			</div>
-			<div class='row'> -->
-				<p>&nbsp;</p>
-			</div>
+		<div class="row card-row">
+			<div class="col-sm-2 card-label"><strong><span translate>DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM</span></strong></div>
+			<div class='col-sm-10'><a href="/userportal/#/dashboard/stream/{{dataset.tenantCode}}/{{dataset.Stream.smartOCode}}/{{dataset.Stream.streamCode}}" class='discovery-websocket-link'>/userportal/#/dashboard/stream/{{dataset.tenantCode}}/{{dataset.Stream.smartOCode}}/{{dataset.Stream.streamCode}}</a></div>
+		</div>	
+	</accordion-group>
+</accordion>		
 
 
-			<div class='row'>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
-					<a  href='{{datasetDownloadCsvUrl}}' class="btn  btn-download-dataset"  >
-						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 
