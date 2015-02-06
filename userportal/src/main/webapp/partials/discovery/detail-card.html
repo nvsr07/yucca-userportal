@@ -39,7 +39,7 @@
 		</div>	
 		<div class="row card-row">
 			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong></div>
-			<div class='col-sm-10'><span translate>dataset.dataDomain</span></div>
+			<div class='col-sm-10'><span translate>{{dataset.dataDomain}}</span></div>
 		</div>	
 		<div class="row card-row">
 			<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
@@ -167,7 +167,7 @@
 				<div class="row">
 					<div class="col-sm-2 text-right"><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL</span></div>
 					<div class='col-sm-10'>
-						<div ng-repeat="streamUrl in datasetStreamUrls"><a href="{{streamUrl}}" target="_blank" class='discovery-websocket-link'>{{streamUrl}}</a></div>
+						<div ng-repeat="streamUrl in datasetStreamUrls">{{streamUrl}}</div>
 					</div>
 				</div>
 			</div>

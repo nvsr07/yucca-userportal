@@ -33,6 +33,8 @@
 						<li  ng-show="isAuthorized('management/*')"><a href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}"  class='main-menu-item main-menu-item-management'><span translate>MENU_MANAGEMENT</span></a></li>
 						<li class="divider-vertical"></li>
 						<li ng-show="isAuthorized('store/*')"><a href="#/discovery"  ng-class="{active: $route.current.activetab == 'discovery'}"  class='main-menu-item main-menu-item-discovery'><span translate>MENU_DISCOVERY</span></a></li>
+						<li class="divider-vertical"></li>
+						<li ng-show="isAuthorized('store/*')"><a href="/store/"  class='main-menu-item main-menu-item-discovery'><span translate>MENU_STORE</span></a></li>
 					</ul>
 				</div>
 			</div>
