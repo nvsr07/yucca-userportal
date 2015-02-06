@@ -166,7 +166,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			log.debug("[SAML2ConsumerServlet::doPost] - END");
 		}
 	}
-	private String getTokenForTenant(User newUser){
+	public static String getTokenForTenant(User newUser){
 
 		String apiBaseUrl ="";
 
