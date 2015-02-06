@@ -37,7 +37,7 @@ footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 .title-container .title-menu{position: absolute;bottom: 0;right: 0;}
 .title-container .btn-top-toolbar{-webkit-border-radius: 4px 4px 0px 0px;-moz-border-radius: 4px 4px 0px 0px;border-radius: 4px 4px 0px 0px; background-color: transparent; color: #000;}
 .title-container .btn-top-toolbar.active, .title-container .btn-top-toolbar:hover{background-color: #00bbf0; color: #fff;}
-.title-container .btn-top-toolbar a{text-decoration: none;}
+.title-container .btn-top-toolbar a, .title-container a.btn-top-toolbar{text-decoration: none;}
 
 .subtitle-container{ border-bottom:3px solid #00bff0; border-top:0px; margin-bottom:1em; color: #333;	}
 .subtilte-inner-floating{margin-top: 30px;}
@@ -144,7 +144,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .btn-download-dataset:hover{background-color: #3f5152;}
 
 .btn{border: none;-webkit-box-shadow: none;box-shadow:none;-moz-box-shadow:none; border-radius: 0px;border-radius: 0px;}
-.btn a{ text-decoration: none;}
+.btn a, a.btn{ text-decoration: none;}
 .btn-default{color: white!important; background-color: #3f5152;border-color: #3f5152;}
 .btn-default:hover{background-color: #162c2d;border-color: #162c2d;}
 

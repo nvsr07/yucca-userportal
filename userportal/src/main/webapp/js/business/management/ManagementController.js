@@ -173,6 +173,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.user = {};
+	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
 
 
 	$scope.stream={};
@@ -278,6 +279,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.updateWarning = null;
 	$scope.updateError = null;
 	$scope.insertComponentErrors = [];
+
+	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
+	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
 
 	
 	$scope.defaultQuery = Constants.DEFAULT_SIDDHI;
@@ -552,35 +556,41 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.addComponent = function(){
 		$scope.validationRes=2;
 		$scope.insertComponentErrors = [];
-		if($scope.newComponent && $scope.newComponent.nome){
+		if($scope.newComponent && $scope.newComponent.nome && $scope.newComponent.nome!=null){
 			var found = false;
-
-			for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
-				if($scope.stream.componenti.element[int].nome == $scope.newComponent.nome){
-					found = true;
-					break;
-				}
-			}
-
-			if(!found){
-				if($scope.newComponentUnitOfMeasurement){
-					$scope.newComponent.idMeasureUnit = $scope.newComponentUnitOfMeasurement.idMeasureUnit;
-					$scope.newComponent.measureUnit = $scope.newComponentUnitOfMeasurement.measureUnit;
-					$scope.newComponent.measureUnitCategory = $scope.newComponentUnitOfMeasurement.measureUnitType;
-				}
-				if($scope.newComponentPhenomenom){
-					$scope.newComponent.idPhenomenon = $scope.newComponentPhenomenom.idPhenomenon;
-					$scope.newComponent.phenomenon = $scope.newComponentPhenomenom.phenomenon;
-					$scope.newComponent.phenomenonCategory = $scope.newComponentPhenomenom.phenomenonType;
-				}
-				if($scope.newComponentDataType){
-					$scope.newComponent.idDataType = $scope.newComponentDataType.idDataType;
-					$scope.newComponent.dataType = $scope.newComponentDataType.dataType;
-				}
-
+			
+			if($scope.newComponent.nome.indexOf(' ') >= 0){
+				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE');
 			}
 			else{
-				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE');
+
+				for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
+					if($scope.stream.componenti.element[int].nome == $scope.newComponent.nome){
+						found = true;
+						break;
+					}
+				}
+	
+				if(!found){
+					if($scope.newComponentUnitOfMeasurement){
+						$scope.newComponent.idMeasureUnit = $scope.newComponentUnitOfMeasurement.idMeasureUnit;
+						$scope.newComponent.measureUnit = $scope.newComponentUnitOfMeasurement.measureUnit;
+						$scope.newComponent.measureUnitCategory = $scope.newComponentUnitOfMeasurement.measureUnitType;
+					}
+					if($scope.newComponentPhenomenom){
+						$scope.newComponent.idPhenomenon = $scope.newComponentPhenomenom.idPhenomenon;
+						$scope.newComponent.phenomenon = $scope.newComponentPhenomenom.phenomenon;
+						$scope.newComponent.phenomenonCategory = $scope.newComponentPhenomenom.phenomenonType;
+					}
+					if($scope.newComponentDataType){
+						$scope.newComponent.idDataType = $scope.newComponentDataType.idDataType;
+						$scope.newComponent.dataType = $scope.newComponentDataType.dataType;
+					}
+	
+				}
+				else{
+					$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE');
+				}
 			}
 		}
 		else

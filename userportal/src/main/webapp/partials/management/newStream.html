@@ -27,7 +27,7 @@
 						<div class="col-sm-10">
 		             		<select class="form-control col-sm-10" ng-model="virtualentity" ng-disabled="inputTypeStream==0"
 		             		  ng-options="virtualEntity.virtualEntityName group by virtualEntity.tipoVirtualEntity for virtualEntity in virtualEntitiesList" ng-required="true" >
-		             			<option value="" class='mute'><span translate>MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER</span></option>
+		             			<option value="" class='mute'>{{'MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER'|translate}}</span></option>
 		             		</select>
 						</div>
 					</div>
@@ -35,7 +35,7 @@
 						<label for="inputStreamCode" class="col-sm-2 control-label"><span translate>STREAM</span> <span class='required-asterisk'>*</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" ng-model="stream.codiceStream"  id="inputStreamCode"  name="inputStreamCode"
-							placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20">
+							placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternNoSpace">
 							<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_MAXLENGTH_TOOLTIP'|translate}}"
 								ng-show="newStreamForm.inputStreamCode.$error.maxlength  && updateVirtualentityForm.inputStreamCode.$dirty"></span>
 						</div>
