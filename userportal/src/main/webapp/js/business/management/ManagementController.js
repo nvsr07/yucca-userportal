@@ -639,7 +639,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		return false;
 	};
 	
-
 	$scope.selectedIcon;
 	$scope.onIconSelect = function($files) {
 		$scope.selectedIcon = $files[0];
@@ -1210,7 +1209,8 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	};
 
 	$scope.canEdit = function() {
-		if($scope.selectedDatasets.length==1){
+		if($scope.selectedDatasets.length==1 && 
+				($scope.selectedDatasets[0].configData && $scope.selectedDatasets[0].configData.type == "dataset" && $scope.selectedDatasets[0].configData.subtype == "bulkDataset")){
 			return true;
 		}
 		return false;
@@ -1285,7 +1285,8 @@ appControllers.controller('ManagementNewDatasetCtrl', [ '$scope', '$route', '$lo
 	};
 } ]);
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', 'info', function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, info) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', 'info', 'readFilePreview',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, info,readFilePreview) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -1347,6 +1348,9 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				$scope.dataset.info.tags = [];
 
 			$scope.dataset.info.visibility = 'public';
+			if(!$scope.dataset.info.datasetIcon || $scope.dataset.info.datasetIcon == null)
+				$scope.dataset.info.datasetIcon  = "img/dataset-icon-default.png";
+
 		});
 
 	};
@@ -1377,6 +1381,34 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		$scope.metadata.info.tags.splice(index,1);
 		return false;
 	};
+	
+	$scope.selectedIcon;
+	$scope.onIconSelect = function($files) {
+		$scope.selectedIcon = $files[0];
+		if($scope.selectedIcon !=null && $scope.selectedIcon.size>Constants.DATASET_ICON_MAX_FILE_SIZE){
+			$scope.choosenIconSize = $scope.selectedIcon.size; 
+			$scope.updateWarning = true;
+			$scope.selectedIcon = null;
+		}
+		else
+			readIconPreview();
+	};
+	
+	var readIconPreview = function(){
+		readFilePreview.readImageFile($scope.selectedIcon).then(
+				function(contents){
+					console.log("contents" , contents);
+					$scope.dataset.info.datasetIcon = contents;
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
+	};
+
+	
+	
 
 	$scope.canEdit = function() {
 		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
