@@ -1,4 +1,4 @@
-appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL, WEB_SOCKET_USER, WEB_SOCKET_SECRET) {
+appServices.factory('webSocketService',['$rootScope','info','WEB_SOCKET_BASE_URL','WEB_SOCKET_USER','WEB_SOCKET_SECRET', function($rootScope,info, WEB_SOCKET_BASE_URL,WEB_SOCKET_USER,WEB_SOCKET_SECRET) {
 	var stompClient = {};	
 //	var self = this;
 	var root = $rootScope;
@@ -19,46 +19,59 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 
 
 	function ConnectTheSocket(on_connect, on_error, vhost,count,updateStatus){
-		var user = WEB_SOCKET_USER;
-		var password = WEB_SOCKET_SECRET;
-		selfCallback=updateStatus;
-		CancelAllSubscriptions();
+			console.debug("info info info ",info);
+			
+			
+			
+			var user = "Bearer "+info.info.user.token;
+			var password = "";
+			
+			//FIXME togliere l'if quando ci sara il token per i utenti non loggati;
+			if(user==null || user==undefined){
+				user=WEB_SOCKET_USER;
+				password=WEB_SOCKET_SECRET;
+			}
+		
+			selfCallback=updateStatus;
+			CancelAllSubscriptions();
 
-		/*
-		 * Fai la disconnect
-		 */
-
-		if(connectedFlag){
-			stompClient.disconnect(function(){
-				connectedFlag=false;
-			});
-		}
 
 
-		updateStatus(Constants.WEBSOCKET_CONNECTING);
-		stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+			/*
+			 * Fai la disconnect
+			 */
 
-		stompClient.connect(user, password, function(frame) {
-			connectedFlag=true;
-			updateStatus(Constants.WEBSOCKET_CONNECTED);
-			root.$apply(function() {
-				on_connect.apply(stompClient, frame);
-			});
-		}, function(frame) {			
-			if (count<5) {
-				console.debug("Tentativo di riconnessione numero : ",count);
-				updateStatus(Constants.WEBSOCKET_CONNECTING);
-				setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count,updateStatus);},count*1000);
-				console.debug("awake.. ");		         	       
-			} else{
-				updateStatus(Constants.WEBSOCKET_NOT_CONNECTED);
-				root.$apply(function() {
-					console.log(" on_error frame: ", frame);
-					on_error.apply(frame);
+			if(connectedFlag){
+				stompClient.disconnect(function(){
+					connectedFlag=false;
 				});
-			}			
-		}, vhost);
-	};
+			}
+
+
+			updateStatus(Constants.WEBSOCKET_CONNECTING);
+			stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+
+			stompClient.connect(user, password, function(frame) {
+				connectedFlag=true;
+				updateStatus(Constants.WEBSOCKET_CONNECTED);
+				root.$apply(function() {
+					on_connect.apply(stompClient, frame);
+				});
+			}, function(frame) {			
+				if (count<5) {
+					console.debug("Tentativo di riconnessione numero : ",count);
+					updateStatus(Constants.WEBSOCKET_CONNECTING);
+					setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count,updateStatus);},count*1000);
+					console.debug("awake.. ");		         	       
+				} else{
+					updateStatus(Constants.WEBSOCKET_NOT_CONNECTED);
+					root.$apply(function() {
+						console.log(" on_error frame: ", frame);
+						on_error.apply(frame);
+					});
+				}			
+			}, vhost);
+};
 
 
 	function NGStomp() {
@@ -127,7 +140,7 @@ appServices.factory('webSocketService', function($rootScope, WEB_SOCKET_BASE_URL
 		}
 		return SingletonClient;
 	};
-});
+}]);
 
 var WebsocketStompSingleton= (function() {    
 	var clientInstance; //private variable to hold the

@@ -469,6 +469,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			}else{
 				$scope.publish=false;
 			}
+			
+			
+			//FIXME publishStream forced to true , delete this line when the radio button is enabled.
+			$scope.stream.publishStream=1;
+			
 
 			if($scope.stream.visibility==null){
 				$scope.stream.visibility = 'public';

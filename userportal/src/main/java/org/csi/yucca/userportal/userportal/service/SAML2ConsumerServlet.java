@@ -1,5 +1,9 @@
 package org.csi.yucca.userportal.userportal.service;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.info.Info;
@@ -8,7 +12,9 @@ import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 import org.csi.yucca.userportal.userportal.utils.Util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -30,12 +36,18 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+
+
+
 import org.opensaml.xml.ConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @WebServlet(name = "AuthorizeServlet", description = "Authorization Servlet", urlPatterns = { "/api/authorize" }, asyncSupported = false)
 public class SAML2ConsumerServlet extends HttpServlet {
@@ -71,7 +83,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				if (result == null) {
 					//newUser = AuthorizeUtils.DEFAULT_USER;
 					log.debug("[SAML2ConsumerServlet::doPost] - result null");
-					
+
 				} else if (result.size() == 1) {
 					log.debug("[SAML2ConsumerServlet::doPost] - result size 1");
 
@@ -85,6 +97,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
+
+					newUser.setToken(getTokenForTenant(newUser));
+
 					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 
 				} else if (result.size() > 1) {
@@ -93,7 +108,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setLoggedIn(true);
 					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
 					String organizations  = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
-					
+
 					List<String> tenants  = AuthorizeUtils.DEFAULT_TENANT;
 					if(organizations!=null){
 						tenants  = Arrays.asList(organizations.split(","));
@@ -110,7 +125,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
-					
+
+					newUser.setToken(getTokenForTenant(newUser));
+
 					for (Object key : result.keySet().toArray()) {
 						String value = (String) result.get(key);
 						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - value: " + value);
@@ -149,10 +166,57 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			log.debug("[SAML2ConsumerServlet::doPost] - END");
 		}
 	}
-	
+	private String getTokenForTenant(User newUser){
+
+		String apiBaseUrl ="";
+
+		try {
+			Properties config = Config.loadServerConfiguration();
+			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
+
+			if(newUser != null && newUser.getTenants()!=null && newUser.getTenants().size()>0)
+				apiBaseUrl+= Config.SECDATA_NEWTOKEN+newUser.getTenants().get(0);
+			else
+				apiBaseUrl+= Config.SECDATA_NEWTOKEN+"sandbox";
+
+
+			HttpClient  client = HttpClientBuilder.create().build();
+			HttpGet  httpget = new HttpGet(apiBaseUrl);
+
+			HttpResponse r = client.execute(httpget);
+			String status = r.getStatusLine().toString();
+			System.out.println("status " + status);
+
+			StringBuilder out = new StringBuilder();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+			String line = "";
+
+			while ((line = rd.readLine()) != null) {
+				out.append(line);
+			}
+			
+			String	inputJson = out.toString();
+
+			JsonParser parser = new JsonParser();
+			JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
+
+			
+			String access_token = rootObj.get("access_token").getAsString();
+
+
+			System.out.println("TOKEN :: " + access_token);
+			
+			return access_token;
+
+		} catch (IOException e) {
+			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
+			e.printStackTrace();
+		}
+		return "";
+	}
 
 	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
-			SAXException {
+	SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadPermissions] - START");
 		List<String> permissions = new LinkedList<String>();
