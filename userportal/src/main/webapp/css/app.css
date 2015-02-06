@@ -2,8 +2,7 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu);
 body{font-family: 'Ubuntu', sans-serif;}
 h1, h2 {font-family: 'Aldrich', sans-serif;}
-a{color: #03bdf0;}
-a:hover{color: #0189AF;}
+a{color: black; text-decoration: underline;}
 /* body{font-family: Helvetica, Arial, Sans-Serif;font-size: 14px;line-height: 20px;font-weight: 100;} */
 
 
@@ -38,6 +37,7 @@ footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 .title-container .title-menu{position: absolute;bottom: 0;right: 0;}
 .title-container .btn-top-toolbar{-webkit-border-radius: 4px 4px 0px 0px;-moz-border-radius: 4px 4px 0px 0px;border-radius: 4px 4px 0px 0px; background-color: transparent; color: #000;}
 .title-container .btn-top-toolbar.active, .title-container .btn-top-toolbar:hover{background-color: #00bbf0; color: #fff;}
+.title-container .btn-top-toolbar a{text-decoration: none;}
 
 .subtitle-container{ border-bottom:3px solid #00bff0; border-top:0px; margin-bottom:1em; color: #333;	}
 .subtilte-inner-floating{margin-top: 30px;}
@@ -144,6 +144,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .btn-download-dataset:hover{background-color: #3f5152;}
 
 .btn{border: none;-webkit-box-shadow: none;box-shadow:none;-moz-box-shadow:none; border-radius: 0px;border-radius: 0px;}
+.btn a{ text-decoration: none;}
 .btn-default{color: white!important; background-color: #3f5152;border-color: #3f5152;}
 .btn-default:hover{background-color: #162c2d;border-color: #162c2d;}
 
@@ -311,7 +312,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .bottom-header .first-block{background: url(../img/home/bottom-navbar-first-bg.png) no-repeat center right white; overflow:hidden;height: 60px;}
 .bottom-header .main-menu{background-color:#00bbf0; height: 60px; }
 .bottom-header .navbar-nav{height: 60px; }
-.bottom-header .navbar-nav>li>a{color: white; line-height: 61px; padding-top: 0; padding-bottom:0; height: 60px;}
+.bottom-header .navbar-nav>li>a{color: white; line-height: 61px; padding-top: 0; padding-bottom:0; height: 60px; text-decoration: none;}
 .bottom-header .navbar-nav>li>a:hover{background-color: #0189AF;}
 
 
@@ -368,9 +369,9 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .wizard-nav{font-size: larger; font-weight: bold; }
 .wizard-nav .nav-pills>li{line-height: 1.3em;}
 .wizard-nav .nav-pills>li+li{margin-left: 0px; line-height: 1.3em;}
-.wizard-nav .nav-pills>li>a {color: black; background-color: #e2e2e2; border-radius: 0; padding: 0; margin: 0 1em;}
+.wizard-nav .nav-pills>li>a {color: black; background-color: #e2e2e2; border-radius: 0; padding: 0; margin: 0 1em; text-decoration: none;}
 .wizard-nav .nav-pills>li>a:hover {cursor: default;}
-.wizard-nav .nav-pills>li.active>a, .wizard-nav .nav-pills>li.active>a:hover,.wizard-nav .nav-pills>li.active>a:focus{background-color: #f5b223;}
+.wizard-nav .nav-pills>li.active>a, .wizard-nav .nav-pills>li.active>a:hover,.wizard-nav .nav-pills>li.active>a:focus{background-color: #dbdb01;}
 .wizard-nav .nav-pills>li>a.step-done{}
 
 
@@ -382,7 +383,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 
 .wizard-nav .wizard-step-label {padding-left: .5em; margin-right: .5em;}
 .wizard-nav .wizard-step-label-notlast::after{content: '';  position: absolute;  top: 0;  width: 0;  height: 0; border-style: solid; right: -2em;  border-width: 1em;  border-color: transparent transparent transparent #e2e2e2;}
-.wizard-nav .nav-pills>li.active>a .wizard-step-label-notlast::after{border-color: transparent transparent transparent #f5b223;}
+.wizard-nav .nav-pills>li.active>a .wizard-step-label-notlast::after{border-color: transparent transparent transparent #dbdb01;}
 
 .btn-wizard-next{background-color: #00973a; color: white; position: relative;  margin-right: 2em; padding: 0 1em; line-height: 2em;}
 .btn-wizard-next::after{content: '';  position: absolute;  top: 0;  width: 0;  height: 0; border-style: solid; right: -2em;  border-width: 1em;  border-color: transparent transparent transparent #00973a;}
@@ -410,7 +411,7 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 /* page toolbar */
 .content-toolbar{background-color: #e2e2e2;padding: 28px 18px;}
 
-.content-edit-title{background-color: #F5B223;padding: .5em;border-bottom: dashed black 3px;margin-bottom: 1.2em;}
+.content-edit-title{background-color: #717b7c;padding: .5em; margin-bottom: 1.2em; color: white;}
 .content-edit-title small{color: #333;}
 
 
