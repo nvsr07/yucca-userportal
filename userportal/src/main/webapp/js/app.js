@@ -56,7 +56,7 @@ app.config(['$httpProvider', function($httpProvider) {
 }
 ]);
 
-
+var infoUser = {};
 app.factory('info',  function() {
     var info = {};
     var infoService = {};
@@ -130,7 +130,7 @@ app.factory('info',  function() {
     	return authorized;
     	
     };
-
+    infoUser=infoService;
     return infoService;
 });
 

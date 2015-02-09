@@ -128,7 +128,7 @@
 		{
 			var self = this;
 			var currentSettings = settings;
-			console.debug("::::::: Settings:::::",settings);
+			//console.debug("::::::: Settings:::::",settings);
 		//	Stomp.WebSocketClass = ReconnectingWebSocket;
 			var clientSingleton = WebsocketStompSingleton.getInstance(currentSettings);
 			var client = clientSingleton.getWebClient();

@@ -21,8 +21,6 @@ appServices.factory('webSocketService',['$rootScope','info','WEB_SOCKET_BASE_URL
 	function ConnectTheSocket(on_connect, on_error, vhost,count,updateStatus){
 			console.debug("info info info ",info);
 			
-			
-			
 			var user = "Bearer "+info.info.user.token;
 			var password = "";
 			
@@ -165,7 +163,8 @@ var WebsocketStompSingleton= (function() {
 	var createClient = function(settings,count,updateStatus){ 
 		var intSettings = settings;	                    
 		var client = Stomp.client(intSettings.ws_url);
-		client.connect(intSettings.ws_user,intSettings.ws_pwd,
+		var usr = "Bearer "+infoUser.info.user.token;
+		client.connect(usr,"",
 				function(frame) { //success Callback
 			updateStatus(Constants.WEBSOCKET_CONNECTED);
 			for(var i =0; i< SubscriptionList.length ; i++){
@@ -237,3 +236,4 @@ var WebsocketStompSingleton= (function() {
 		}
 	};
 })();
+
