@@ -85,17 +85,22 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	};
 } ]);
 
-appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabricAPIservice', 'info', function($scope, $route, $translate, fabricAPIservice, info) {
+appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabricAPIservice', 'info', '$location', function($scope, $route, $translate, fabricAPIservice, info,$location) {
 	$scope.$route = $route;
 	
 	$scope.tenant = "";
 	
-	console.debug("showMap");
 	showMap();
 	
 	$scope.isHomepage = function() {
 		return true;
 	};
+	
+	var scrollTo  = $location.search().scrollTo;
+	console.debug(" scrollTo",  scrollTo);
+	if(scrollTo){
+		Helpers.util.scrollTo(scrollTo);
+	}
 //	$scope.tenant = info.getActiveTenantCode();
 //	fabricAPIservice.getInfo().success(function(result) {
 //		console.debug("result", result);

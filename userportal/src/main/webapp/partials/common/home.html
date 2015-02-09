@@ -22,10 +22,43 @@
 				<div class='main-title-container'>
 					<h1 class='main-title'>yucca</h1>
 				</div>
-				<div class='main-action-panel row'>
-					<div  class='col-sm-1 col-sm-offset-1 first-block'>&nbsp;</div>
-					<div class='col-sm-4 text-right action actions' ><span translate>HOME_START_BUTTON_DESC</span></div>
-					<div class='col-sm-3 actions'><a class='btn main-action-button' href="/userportal/api/authorize?returnUrl=#/dashboard/main/overview">START</a></div>
+				<div ng-show="!user.loggedIn">
+					<div class='main-action-panel row' >
+						<div  class='col-sm-1 col-sm-offset-1 first-block'>&nbsp;</div>
+						<div class='col-sm-8 action actions'>
+							<div class='row'>
+								<div class='col-sm-7 text-right'>
+									<span translate>HOME_START_BUTTON_DESC</span>  
+								</div>
+								<div  class='col-sm-5 text-center'>
+									<a class='btn main-action-button' href="/userportal/api/authorize?returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_START_BUTTON</span></a>
+								</div>
+							</div>
+							<div class='row main-action-panel-demo-link'>
+								<div class='col-sm-12 text-center'>
+									<a  href="#/management/virtualentities/sandbox"><span translate>HOME_START_DEMO_BUTTON</span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div ng-show="user.loggedIn">
+					<div class='main-action-panel row' >
+						<div  class='col-sm-1 col-sm-offset-1 first-block'>&nbsp;</div>
+						<div class='col-sm-8 action actions'>
+							<div class='row'>
+								<div class='col-sm-5 text-right'>
+									<span class='main-action-username'>
+										<span translate>HOME_LOGGED_IN_WELCOME</span> 
+									<strong>{{user.username}}</span></strong>
+									<span class='main-action-tenant'>{{activeTenantCode}}</span>
+								</div>
+								<div  class='col-sm-7 text-center'>
+									<a class='btn main-action-button' href="#/dashboard/main/overview"><span translate>HOME_START_LOGGED_IN_BUTTON</span></a>
+								</div>
+							</div>
+						</div>
+					</div>					
 				</div>
 			</div>
 		</div>
@@ -75,11 +108,12 @@
 			</div>
 		</div>
 	</div>
-	<div id="home-operation-section" >
+	<div id="home-operation-section-anchor">&nbsp;</div>
+	<div id="home-operation-section" ng-show="user.loggedIn">
 		<h2><span translate>HOME_OPERATION_PANEL_TITLE</span></h2>
 		<div class='container'>
 			<div class="row ">
-				<div class='col-sm-4  operation-developer operation-panel' >
+				<div class='col-sm-4  operation-developer operation-panel' ng-show="isAuthorized('development/*')">
 					<div class='operation-panel-content'>
 						<div class="main-icon"><i class="fa fa-puzzle-piece"></i></div>
 						<div class='role-panel'><span translate>HOME_ROLE_DEVELOPER</span></div>
@@ -89,19 +123,20 @@
 						<p class='action'><a href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM_INTERNAL</span></a></p>
 					</div>
 				</div>
-				<div class='col-sm-4 operation-manager operation-panel' >
+				<div class='col-sm-4 operation-manager operation-panel' ng-show="isAuthorized('management/*')" >
 					<div class='operation-panel-content'>
 						<div class="main-icon"><i class="fa fa-key"></i></div>
 						<div class='role-panel'><span translate>HOME_ROLE_PUBLISHER</span></div>
 						<p class='intro'><span ng-bind-html="'HOME_ROLE_PUBLISHER_INTRO'|translate"></span></p>
 						<p class='main-action'><a href="#/dashboard/streams"><span translate>HOME_ACTION_DASHBOARD</span></a></p>
+						<p class='main-action'><a href="#/management/virtualentities/{{activeTenantCode}}"><span translate>HOME_ACTION_MANAGEMENT</span></a></p>
 						<p><span translate>HOME_ACTION_PUBLISHER_SEP_1</span></a></p>
 						<p class='action'><a href="#/management/newVirtualentity/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_VIRTUAL_ENTITY</span></a></p>
 						<p class='action'><a href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM</span></a></p>
 						<p class='action'><a href="#/management/newDataset/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_DATASET</span></a></p> 
 					</div>
 				</div>
-				<div class='col-sm-4 operation-customer operation-panel' >
+				<div class='col-sm-4 operation-customer operation-panel' ng-show="isAuthorized('store/*')">
 					<div class='operation-panel-content'>
 						<div class="main-icon"><i class="fa fa-user "></i></div>
 						<div class='role-panel'><span translate>HOME_ROLE_SUBSCRIBER</span></div>

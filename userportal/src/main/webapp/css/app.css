@@ -259,10 +259,13 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #home-landing-section .main-title-container{background: url(../img/home/home-logo-panel-bg.png) no-repeat left center #00973A;height: 306px; overflow:hidden;}
 #home-landing-section .main-title{background-color: transparent; color: white; font-size: 128px; margin-bottom: 0px; margin-top: 130px; margin-left: 140px;}
 #home-landing-section .main-action-panel{background-color: ; color: white; }
-#home-landing-section .main-action-panel .actions{background-color: #00BBF0; color: white; padding: 24px; height: 90px; }
+#home-landing-section .main-action-panel .actions{background-color: #00BBF0; color: white; padding: 12px; height: 90px; }
 #home-landing-section .main-action-panel .first-block{background: url(../img/home/home-start-panel-bg.png) no-repeat left center #00973A; color: white; padding: 24px; height: 90px; }
+#home-landing-section .main-action-panel .main-action-panel-demo-link{margin-top: 6px;}
 #home-landing-section .main-action-button{background-color: #222222; font-size: 24px; padding: 6px 18px; font-weight: bold;  color: white; position: relative; border-radius: 0; position: relative;}
 #home-landing-section .main-action-button::after {  content: '';  position: absolute;  top: 0;  width: 0;  height: 0; border-style: solid; right: -46px;  border-width: 23px;  border-color: transparent transparent transparent #222222;}
+#home-landing-section  .main-action-username{display: block;text-align: right; font-size: 18px;}
+#home-landing-section .main-action-tenant{display: block;text-align: right; font-size: 12px;}
 
 #home-map-section .map {height: 300px; background-color: #ccc;}
 
@@ -285,7 +288,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #home-operation-section .main-icon{font-size: 64pt; color: #00bbf0;}
 #home-operation-section .role-panel{font-size: 32pt; padding: .5em; color: #737c79; border-bottom: solid 1px #bbbdbc;}
 #home-operation-section .intro{font-size: 14pt; padding: 1em;}
-#home-operation-section .main-action a{border-radius: 4px; background-color: #00973a; color: white; padding:1em; margin: .5em; width: 100%; display: block;}
+#home-operation-section .main-action a{border-radius: 4px; background-color: #00973a; color: white; padding:1em; margin: .5em; width: 100%; display: block; text-decoration: none;}
 #home-operation-section .action a{border-radius: 4px; background-color: #00973a; color: white; padding:1em; margin: .5em; width: 100%; display: block;}
 #home-operation-section .main-action a:hover{background-color: #005d23; text-decoration: none;}
 #home-operation-section .action a{background-color: #005d23; text-decoration: none;}
