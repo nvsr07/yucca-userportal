@@ -3,9 +3,28 @@
 		<h3 class='content-edit-title'>
 			<span translate>DATASET</span> <small><span translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SUBTITLE</span>  {{dataset.datasetCode}} - {{dataset.info.datasetName}}</small>
 		</h3>
-		<p>
-			V {{dataset.datasetVersion}} - {{dataset.info.registrationDate|date}}
-		</p>
+		<div class='clearfix entity-info entity-info-top'>
+			<div class='pull-left'>
+				<div><small><span translate>DATASET_FIELD_METADATA_NAME</span></small></div>
+				<div class='main-info'><strong>{{dataset.info.datasetName}}</strong></div>
+			</div>
+			<div class='pull-right text-right'>
+				<div><small><span translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
+				<div><strong>{{dataset.info.registrationDate|date}}</strong></div>
+			
+			</div>
+		</div>
+		<div class='clearfix entity-info entity-info-bottom'>
+			<div class='pull-left'>
+				<div><small><span translate>DATASET_FIELD_CONFIGDATA_CODE</span></small></div>
+				<div class='url'><strong>{{dataset.datasetCode}}</strong></div>
+			</div>
+			<div class='pull-right text-right'>
+				<div><small><span translate>DATASET_FIELD_VERSION</span></small></div>
+				<div><strong>{{dataset.datasetVersion}}</strong></div>
+			
+			</div>
+		</div>
 	</div>
 	<div class='content-gray'>
 		<div class='container'>

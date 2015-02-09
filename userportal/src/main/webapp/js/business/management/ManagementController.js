@@ -279,6 +279,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.updateWarning = null;
 	$scope.updateError = null;
 	$scope.insertComponentErrors = [];
+	$scope.wsUrl ="";
 
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
@@ -527,6 +528,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 
 			$scope.stream.domain = $scope.stream.domainStream;
+			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
 		});
 	};
 

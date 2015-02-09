@@ -1,6 +1,6 @@
 <div ng-controller="ManagementStreamCtrl as streamCtrl">
 	<div class='container'>
-		<h3>
+		<h3 class='entity-title'>
 			<span translate>STREAM</span> <small>{{stream.codiceStream}} - {{stream.nomeStream}}</small>
 		</h3>
 		<div class='row'>
@@ -15,6 +15,29 @@
 			</div>
 		</div>
 		
+		<div class='clearfix entity-info entity-info-top'>
+			<div class='pull-left'>
+				<div><small><span translate>STREAM_FIELD_NAME</span></small></div>
+				<div class='main-info'><strong>{{stream.nomeStream}}</strong></div>
+			</div>
+			<div class='pull-right text-right'>
+				<div><small><span translate>STREAM_FIELD_CREATION_DATE</span></small></div>
+				<div><strong>{{stream.registrationDate}}</strong></div>
+			
+			</div>
+		</div>
+		<div class='clearfix entity-info entity-info-bottom'>
+			<div class='pull-left'>
+				<div><small><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></small></div>
+				<div class='url'><strong>{{wsUrl}}</strong></div>
+			</div>
+			<div class='pull-right text-right'>
+				<div><small><span translate>STREAM_FIELD_VERSION</span></small></div>
+				<div><strong>{{stream.deploymentVersion}}</strong></div>
+			
+			</div>
+		</div>
+		
 		<accordion close-others="false">
 			<accordion-group is-open="!status1.open">
 				<accordion-heading>
@@ -26,16 +49,8 @@
 					<div class="col-sm-10">{{stream.codiceStream}}</div>
 				</div>			
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_NAME</span></strong></div>
-					<div class='col-sm-10'>{{stream.nomeStream}}</div>
-				</div>	
-				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY</span></strong></div>
 					<div class='col-sm-10'>{{stream.codiceVirtualEntity}} - {{stream.virtualEntityName}}</div>
-				</div>	
-				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_VERSION</span></strong></div>
-					<div class='col-sm-10'>{{stream.deploymentVersion}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_STATUS</span></strong></div>
