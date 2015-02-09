@@ -1348,8 +1348,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				$scope.dataset.info.tags = [];
 
 			$scope.dataset.info.visibility = 'public';
-			if(!$scope.dataset.info.datasetIcon || $scope.dataset.info.datasetIcon == null)
-				$scope.dataset.info.datasetIcon  = "img/dataset-icon-default.png";
+			if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
+				$scope.dataset.info.icon  = "img/dataset-icon-default.png";
 
 		});
 
@@ -1398,7 +1398,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		readFilePreview.readImageFile($scope.selectedIcon).then(
 				function(contents){
 					console.log("contents" , contents);
-					$scope.dataset.info.datasetIcon = contents;
+					$scope.dataset.info.icon = contents;
 				}, 
 				function(error){
 					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
@@ -1406,9 +1406,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				}
 		);
 	};
-
-	
-	
 
 	$scope.canEdit = function() {
 		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
@@ -1428,6 +1425,9 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		$scope.updateInfo = null;
 		$scope.updateError = null;
 		Helpers.util.scrollTo();
+		
+		console.log("updateDataset newDataset ", newDataset);
+
 
 		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetCode, newDataset);
 
@@ -1678,6 +1678,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 
 	$scope.metadata = {info:{}, configData: {}};
+	$scope.metadata.info.icon  = "img/dataset-icon-default.png";
+	$scope.metadata.info.visibility = "private";
 	$scope.metadata.info.importFileType = "csv";
 
 	$scope.user = {};
@@ -1744,6 +1746,32 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.maxFileSize = Constants.BULK_DATASET_MAX_FILE_SIZE;
 	$scope.choosenFileSize = null;
 
+	
+	$scope.selectedIcon;
+	$scope.onIconSelect = function($files) {
+		$scope.selectedIcon = $files[0];
+		if($scope.selectedIcon !=null && $scope.selectedIcon.size>Constants.DATASET_ICON_MAX_FILE_SIZE){
+			$scope.choosenIconSize = $scope.selectedIcon.size; 
+			$scope.updateWarning = true;
+			$scope.selectedIcon = null;
+		}
+		else
+			readIconPreview();
+	};
+
+	var readIconPreview = function(){
+		readFilePreview.readImageFile($scope.selectedIcon).then(
+				function(contents){
+					console.log("contents" , contents);
+					$scope.metadata.info.icon = contents;
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
+	};
+
 	$scope.onFileSelect = function($files) {
 		$scope.updateWarning = null;
 		$scope.selectedFile = $files[0];
@@ -1761,6 +1789,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.previewColumns = [];
 
 
+
 	var readPreview = function(){
 		$scope.uploadDatasetError = null;
 		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
@@ -1776,19 +1805,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator);
 
-//					for (var int = 0; int < firstRows.length; int++) {
-//					var items = firstRows[int].split($scope.csvSeparator);
-//					console.log("items prima", items);
-
-//					for (var j = 0; j < items.length; j++) {
-//					console.log("item prima", items[j]);
-//					items[j] = items[j].replace(/^"(.*)"$/, '$1');
-//					console.log("item dopo", items[j]);
-//					}
-//					console.log("items dopo", items);
-
-//					$scope.previewLines.push(items);
-//					}
 
 					console.log("$scope.previewLines",$scope.previewLines);
 

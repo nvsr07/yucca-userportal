@@ -91,20 +91,15 @@
 							</div>
 							<div class="col-sm-2">
 								<div class='upload-icon-label-before-button'><span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_OR</span></div>
-								<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
+								<div ng-file-select="onIconSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
 									<span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
 								</div>
 							</div>
 							<div class="col-sm-3 col-sm-offset-2 text-right">
-								<img src="{{dataset.info.datasetIcon}}" alt="logo dataset" class='upload-icon-preview-img' >
+								<img src="{{dataset.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
 							</div>
 							
 						</div>			
-						
-						
-						
-						
-						
 						
 						<div class='form-label-separator' translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div>
 						<div class="form-group">
