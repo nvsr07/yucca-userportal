@@ -164,6 +164,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 
 /* dashboard */
 .dashboard-streamList-table{margin-top: 20px;}
+.dashboard-card-icon-preview-img{width: 64px; height: 64px;}
 
 /* pagination */
 /*.pagination>.active>a, .section-dashboard .pagination>.active>span, .section-dashboard .pagination>.active>a:hover, .section-dashboard .pagination>.active>span:hover, .section-dashboard .pagination>.active>a:focus, .section-dashboard .pagination>.active>span:focus{background-color: #00bbf0;border-color: #00bbf0; color: white;}

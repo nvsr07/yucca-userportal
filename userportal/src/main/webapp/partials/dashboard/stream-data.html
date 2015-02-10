@@ -28,11 +28,13 @@
 			
 			</div>
 		</div>
-		<div >
+		<div class='clearfix'>
 			<span translate>DASHBOARD_STREAM_REALTIME_FPS</span>  <span class='important'>{{stream.fps|number_ellipse:0.01:1000}}</span> - <span translate>DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS</span>  <span class='important'>{{stream.secondsBtwEvents|number_ellipse:0.01:1000}}</span> | 
 			<span translate>DASHBOARD_STREAM_REALTIME_FPM</span>  <span class='important'>{{stream.fpm|number_ellipse:0.01:1000}}</span> - <span translate>DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS</span>   <span class='important'>{{stream.minutesBtwEvents|number_ellipse:0.01:1000}}</span> 
+			<div class="pull-right text-right">
+				<img src="{{stream.streamIcon}}" alt="logo stream" class='dashboard-card-icon-preview-img' >
+			</div>
 		</div>
-		<p>&nbsp;</p>
 		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-panel" id='chart-container'>
 				<tabset>

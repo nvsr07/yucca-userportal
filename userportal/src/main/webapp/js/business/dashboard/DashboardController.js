@@ -158,7 +158,9 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 			$scope.stream.secondsBtwEvents = "-";
 			$scope.stream.minutesBtwEvents = "-";
 		}
-		
+		if(!$scope.stream.streamIcon || $scope.stream.streamIcon == null)
+			$scope.stream.streamIcon  = "img/stream-icon-default.png";
+
 		connectWS();
 //		connectWSStatistic();
 //		connectWSClientData();
@@ -438,6 +440,9 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			}
 			$scope.chartComponentNames.push({name:$scope.stream.componenti.element[int].nome, view: display, enabled: isEnabled, color: color });
 		}
+		if(!$scope.stream.streamIcon || $scope.stream.streamIcon == null)
+			$scope.stream.streamIcon  = "img/stream-icon-default.png";
+
 		loadPastData();
 		connectWS();
 	});
