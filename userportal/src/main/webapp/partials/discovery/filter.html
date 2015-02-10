@@ -2,16 +2,19 @@
 	<p>&nbsp;</p>
 	<div class="animate-switch-container" ng-switch on="activeSearch">
 		<div class="animate-switch" ng-switch-default>
-			<form role="form" class="">
+			<form role="form" class="form-horizontal">
 				<div class="form-group">
-				
-					<input type="text" class="form-control input-lg" ng-model="simpleSearchInputVal" id="simpleSearchInput" placeholder="{{'DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER'|translate}}">
-					<p class="help-block">
-						<span ng-bind-html="'DISCOVERY_FILTER_SIMPLESEARCH_HELP'|translate"></span>
-					</p>
-				</div>
-				<div class="form-group">
-					<button type="submit" ng-click="search(simpleSearchInputVal)" class="btn btn-default btn-lg pull-right"><span class="glyphicon glyphicon-search"></span>&nbsp;<span translate>DISCOVERY_FILTER_SEARCH_BUTTON</span></button>
+					<div class="col-sm-10">
+						<input type="text" class="form-control input-lg" ng-model="simpleSearchInputVal" id="simpleSearchInput" placeholder="{{'DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER'|translate}}">
+					</div>
+					<div class="col-sm-2">
+						<button type="submit" ng-click="search(simpleSearchInputVal)" class="btn btn-default btn-lg pull-right"><span class="glyphicon glyphicon-search"></span>&nbsp;<span translate>DISCOVERY_FILTER_SEARCH_BUTTON</span></button>
+					</div>
+					<div class="col-sm-10">
+						<span class="help-block">
+							<span ng-bind-html="'DISCOVERY_FILTER_SIMPLESEARCH_HELP'|translate"></span>
+						</span>
+					</div>
 				</div>
 			</form>
 		</div>
