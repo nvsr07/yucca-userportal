@@ -30,16 +30,23 @@
 		 			<span translate>MANAGEMENT_EDIT_DATASET_GENERAL_INFO</span>
 		 			<i class="pull-right glyphicon hide" ng-class="{'glyphicon-minus': status0.open, 'glyphicon-plus': !status0.open}"></i>
 				</accordion-heading>
-				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong></div>
-					<div class='col-sm-10'><span translate>{{dataset.info.dataDomain}}</span></div>
-				</div>	
-				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
-					<div class='col-sm-10'>
-						<ul class="list-inline">
-							<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
-						</ul>
+				<div class='row'>
+					<div class="col-sm-10">
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong></div>
+							<div class='col-sm-6'><span translate>{{dataset.info.dataDomain}}</span></div>
+						</div>	
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
+							<div class='col-sm-6'>
+								<ul class="list-inline">
+									<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
+								</ul>
+							</div>
+						</div>	
+					</div>
+					<div class="col-sm-2 text-right">
+						<img src="{{dataset.info.icon}}" alt="logo stream" class='upload-icon-preview-img' >
 					</div>
 				</div>	
 			</accordion-group>
