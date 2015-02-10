@@ -100,10 +100,11 @@
 			<label class='' title='{{"MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT"|translate}}' ><i class='glyphicon glyphicon-resize-vertical'></i></label>
 		</div>
 	</div>
+
 	<div class="row" ng-show="!isUploading && isAuthorized('management/datasets/update')">
 		<div class=" col-sm-12 form-toolbar">
 			<a ng-click='goToUpload()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-			<a ng-click='createDataset(metadata)' class="btn btn-default" ng-disabled="!isOwner() || columnsDatasetForm.$invalid " translate>MANAGEMENT_NEW_DATASET_WIZARD_END</a>
+			<a ng-click='createDataset()' class="btn btn-default" ng-disabled="!isOwner() || columnsDatasetForm.$invalid " translate>MANAGEMENT_NEW_DATASET_WIZARD_END</a>
 		</div>
 	</div>
 	<div class="row"  ng-show="isUploading">

@@ -85,7 +85,8 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	};
 } ]);
 
-appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabricAPIservice', 'info', '$location', function($scope, $route, $translate, fabricAPIservice, info,$location) {
+appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabricAPIservice', 'fabricAPImanagement', 'info', '$location', 
+                                        function($scope, $route, $translate, fabricAPIservice, fabricAPImanagement, info,$location) {
 	$scope.$route = $route;
 	
 	$scope.tenant = "";
@@ -106,6 +107,21 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 //		console.debug("result", result);
 //		$scope.tenant = result.tenantCode;
 //	});
+	
+	$scope.statistics = {};
+	
+	fabricAPImanagement.loadDataStatistics().success(function(response) {
+		console.log("statistics", response);	
+		$scope.statistics.total_tenants = response.lifetime.total_tenants;
+		$scope.statistics.total_streams = response.lifetime.total_streams;
+		$scope.statistics.total_smart_objects = response.lifetime.total_smart_objects;
+		
+		$scope.statistics.total_data = response.lifetime.total_data.data + response.lifetime.total_data.measures;
+		$scope.statistics.total_measures = response.lifetime.total_data.measures;
+		$scope.statistics.today_data = response.midnight.total_data.data + response.midnight.total_data.measures;
+		
+	});
+
 	
 	$scope.tenantsCount = "";
 	fabricAPIservice.getTenants().success(function(response) {

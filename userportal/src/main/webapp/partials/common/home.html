@@ -80,9 +80,9 @@
 			<h2><span ng-bind-html="'HOME_STATISTIC_PANEL_TITLE'|translate"></span></h2>
 			<div class='row'>
 				<div class='col-sm-4 statistic-data-panel'>
-					<p><span translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number'>37.432</span></p>
-					<p><span translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number'>2.432 </span></p>
-					<p><span translate>HOME_STATISTIC_VISTUALOBJECT_DATA</span> <span class='data-number'>10.432</span></p>
+					<p><span translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number'>{{statistics.total_data|format_big_number}}</span></p>
+					<p><span translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number'>{{statistics.today_data|format_big_number}}</span></p>
+					<p><span translate>HOME_STATISTIC_VISTUALOBJECT_DATA</span> <span class='data-number'>{{statistics.total_measures|format_big_number}}</span></p>
 				</div>
 				<div class='col-sm-4 statistic-chart-panel'>
 					<div id='domain-chart' style='height: 350px;'>
@@ -101,9 +101,9 @@
 					</div>
 				</div>
 				<div class='col-sm-4 statistic-entity-panel'>
-					<p><span class='data-number'>{{tenantsCount}}</span><span translate>HOME_STATISTIC_TENANT</span></p>
-					<p><span class='data-number'>{{virtualentitiesCount}}</span><span translate>HOME_STATISTIC_VIRTUALENTITY</span></p>
-					<p><span class='data-number'>{{streamsCount}}</span><span translate>HOME_STATISTIC_STREAM</span></p>
+					<p><span class='data-number'>{{statistics.total_tenants}}</span><span translate>HOME_STATISTIC_TENANT</span></p>
+					<p><span class='data-number'>{{statistics.total_smart_objects}}</span><span translate>HOME_STATISTIC_VIRTUALENTITY</span></p>
+					<p><span class='data-number'>{{statistics.total_streams}}</span><span translate>HOME_STATISTIC_STREAM</span></p>
 				</div>
 			</div>
 		</div>

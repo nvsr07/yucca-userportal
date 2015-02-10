@@ -172,6 +172,14 @@ public enum ApiEntityEnum {
 		}
 	},
 
+	API_MANAGEMENT_DATA_STATISTICS("API_PROXY_DATA_STATISTICS_URL", Config.API_PROXY_DATA_STATISTICS_URL) {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+
+		}
+	},
+
 	API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

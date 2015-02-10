@@ -1933,11 +1933,13 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 	$scope.isUploading = false;
 
-	$scope.createDataset = function(dataset) {
+	$scope.createDataset = function() {
 		$scope.saveError = null;
 		$scope.saveErrors = null;
-		console.log("createDataset START", dataset);
-		var newDataset = dataset;
+		console.log("createDataset START 1", $scope.metadata);
+		$scope.refreshColumnOrder();
+		console.log("createDataset START 2", $scope.metadata);
+		var newDataset = $scope.metadata;
 		newDataset.configData.tenantCode=$scope.tenantCode;
 		newDataset.configData.type = "dataset";
 		newDataset.configData.subtype = "bulkDataset";

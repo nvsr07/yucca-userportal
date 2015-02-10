@@ -88,6 +88,24 @@ appFilters.filter('format_filesize', function() {
 	};
 });
 
+appFilters.filter('format_big_number', function() {
+	return function(input) {
+		var output = "";
+		if (input) {
+			input=Math.trunc(input);
+			if(input<1000)
+				output=input;
+			else if(input<1000000)
+				output=(input/1000).toFixed(3)+" K";
+			else if(input<1000000000)
+				output=(input/1000000).toFixed(3)+"M ";
+			else if(input<1000000000000)
+				output=(input/1000000000).toFixed(3)+"G ";
+	    }
+		return output;
+	};
+});
+
 appFilters.filter('nvl', function() {
 	return function(input, ifNull) {
 		var output = input;

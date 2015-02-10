@@ -45,7 +45,15 @@ appServices.factory('fabricAPImanagement', function($http, $q) {
 		});
 		return deferred.promise;
 	};
-
+	
+	fabricAPI.loadDataStatistics = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_PROXY_DATA_STATISTICS_URL +'getLatest/?callback=JSON_CALLBACK'
+		});
+	};
+	
+	
 	return fabricAPI;
 });
 
