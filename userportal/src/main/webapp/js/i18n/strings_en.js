@@ -15,6 +15,8 @@ var translations_en = {
 	WARNING: 'Warning', 
 	WARNING_SUBTITLE: 'Please verify',
 	LOADING: 'Please wait...',
+	YES: 'Yes',
+	NO: 'No',
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -259,10 +261,49 @@ var translations_en = {
 	/* Home page */
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Record smart objects and define transmitted streams',
+	HOME_INTRO_HTML: 'Informazioni dal mondo che ci circonda e soluzioni open: sono questi i punti distintivi della Piattaforma messa a disposizione da Regione Piemonte per l\'Ecosistema Smart Data Net',
+	HOME_START_BUTTON_DESC: 'Sign in with your credential',
+	HOME_START_BUTTON: 'Sign in',
+	HOME_START_DEMO_BUTTON_DESC: '',
+	HOME_START_DEMO_BUTTON: 'Or try the platform as anonymous using tenant SandBox', 
+	HOME_LOGGED_IN_WELCOME: 'Welcoem, ',
+	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
+	HOME_MAP_INTRO: 'Smart object currently active on the territory',
+	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
+	HOME_STATISTIC_TOTAL_DATA: 'available data',
+	HOME_STATISTIC_TODAY_DATA: 'data recorded today',
+	HOME_STATISTIC_VISTUALOBJECT_DATA: 'data from smart objects',
 	HOME_TENANT_TITLE: 'Organizations',	
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
+	HOME_OPERATION_PANEL_TITLE:'What can you do with the platform',
+	HOME_ROLE_DEVELOPER: 'developer',
+	HOME_ROLE_DEVELOPER_INTRO: 'You can create stream  merging other existing stream',
+	HOME_ROLE_PUBLISHER: 'publisher',
+	HOME_ROLE_PUBLISHER_INTRO: 'You can create and manage Streams, Smart Object and Dataset',
+	HOME_ROLE_SUBSCRIBER: 'subscriber',
+	HOME_ROLE_SUBSCRIBER_INTRO: 'You can use the data available in the platform',
+
+	HOME_ACTION_DEVELOPER_SEP_1: 'or create a new stream',
+	HOME_ACTION_PUBLISHER_SEP_1: 'or add directly the objects ',
+	HOME_ACTION_SUBSCRIBER_SEP_1: 'Or search stream and dataset in the store',
+	
+	HOME_ACTION_DASHBOARD: 'Stream Dashboard',
+	HOME_ACTION_MANAGEMENT: 'Management',
+
+	HOME_ACTION_NEW_STREAM_INTERNAL: 'Create Streams',
+	HOME_ACTION_NEW_VIRTUAL_ENTITY: 'Create Smart Objects',
+	HOME_ACTION_NEW_STREAM: 'Create Stream',
+	HOME_ACTION_NEW_DATASET: 'Create Dataset',
+	HOME_ACTION_SEARCH: 'Search a Dataset',
+	HOME_ACTION_STORE: 'Go to the store',
+
+	
+	
 	HOME_SEARCH_TITLE: 'Discovery data',
+	HOME_STORE_TITLE: 'Go to the store',
+	
+	
 	HOME_HOWTO_TITLE: 'What can I do with the platform',
 	HOME_HOWTO_TEXT_HTML: '<li>' + 
 							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configure</a> your smart object and sends data using your tenant or the demo tenant <strong>Sandbox</strong> ' +
@@ -343,6 +384,7 @@ var translations_en = {
 	DASHBOARD_ERROR_LIST_NAME : 'Error Name',
 	DASHBOARD_ERROR_LIST_TENANT : 'Tenant',
 	DASHBOARD_ERROR_LIST_DATE : 'Date',
+	
 
 	/* Management */
 	MANAGEMENT_TITLE: 'Management',
@@ -402,13 +444,18 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA: 'Drop here the icon',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_OR: 'Or',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Click here to choose',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Warning',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'The field \'name\' is required',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'The field \'name\' must be unique in a stream',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'The field \'data type\' is required',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED: 'The field \'tollerance\' is required',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER: 'The field \'tollerance\' must be numeric',
 	MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS: 'Isert at least one component',
-
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE: 'The field \'Name\' cannot contain white space',
     
 		/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
@@ -459,6 +506,7 @@ var translations_en = {
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Download',
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Add more data',
 	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'Data access',
+	
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Create',
@@ -557,6 +605,7 @@ var translations_en = {
 	DISCOVERY_RESULTS_TITLE: 'Result',
 	DISCOVERY_RESULTS_DETAIL_BUTTON: 'Detail',
 	
+	DISCOVERY_DETAIL_DATASET_GENERAL_INFO: 'Main info',
 	DISCOVERY_DETAIL_DATASET_LEGAL_INFO: 'Legal informations',
 	DISCOVERY_DETAIL_DATASET_STREAM_INFO: 'Stream',
 	DISCOVERY_DETAIL_DATASET_SMART_OBJECT_INFO: 'Smart Object',
@@ -567,7 +616,6 @@ var translations_en = {
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL: 'Server URL',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL: 'Topic', 
 	DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM: 'Open Dashboard stream', 
-		
 		
 
 	/* Discovery fields */
@@ -580,9 +628,10 @@ var translations_en = {
 	DISCOVERY_FIELD_STCODE:'StreamCode',
 	DISCOVERY_FIELD_VE_NAME:'Smart Object Name',
 	DISCOVERY_FIELD_VE_CODE:'Smart Object Code',
+	
 	DISCOVERY_FIELD_STNAME:'StreamName',
 	DISCOVERY_FIELD_STDESC:'StreamDescription',
-
+	
 	/* Market */
 	MARKET_TITLE: 'Market',
 
@@ -591,7 +640,7 @@ var translations_en = {
 	
 	/* Info */
 	INFO_TITLE: 'About userportal', 
-	INFO_INTRO: '<p>The <strong>Yucca Platform</strong>is ​​entirely created using <strong>Open Source</strong> technologies</p><p>Source code is available on github <a href="https://github.com/csipiemonte" target="_blank">github.com/csipiemonte</a>',
+	INFO_INTRO: '<p>The <strong>Yucca Platform</strong>is entirely created using <strong>Open Source</strong> technologies</p><p>Source code is available on github <a href="https://github.com/csipiemonte" target="_blank">github.com/csipiemonte</a>',
 	INFO_MAIN_FRAMEWORK_TITLE: 'Created with',
 	INFO_LIBRARIES_TITLE: 'Presentation and libraries',
 	INFO_SOURCE_TOOL_TITLE: 'Source code and build tools',

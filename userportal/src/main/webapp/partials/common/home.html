@@ -80,9 +80,9 @@
 			<h2><span ng-bind-html="'HOME_STATISTIC_PANEL_TITLE'|translate"></span></h2>
 			<div class='row'>
 				<div class='col-sm-4 statistic-data-panel'>
-					<p><span translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number'>{{statistics.total_data|format_big_number}}</span></p>
-					<p><span translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number'>{{statistics.today_data|format_big_number}}</span></p>
-					<p><span translate>HOME_STATISTIC_VISTUALOBJECT_DATA</span> <span class='data-number'>{{statistics.total_measures|format_big_number}}</span></p>
+					<p><span translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number' title='statistics.total_data'>{{statistics.total_data|format_big_number}}</span></p>
+					<p><span translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number' title='statistics.today_data'>{{statistics.today_data|format_big_number}}</span></p>
+					<p><span translate>HOME_STATISTIC_VISTUALOBJECT_DATA</span> <span class='data-number' title='statistics.total_measures'>{{statistics.total_measures|format_big_number}}</span></p>
 				</div>
 				<div class='col-sm-4 statistic-chart-panel'>
 					<div id='domain-chart' style='height: 350px;'>

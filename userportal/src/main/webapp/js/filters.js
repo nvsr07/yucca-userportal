@@ -98,9 +98,9 @@ appFilters.filter('format_big_number', function() {
 			else if(input<1000000)
 				output=(input/1000).toFixed(3)+" K";
 			else if(input<1000000000)
-				output=(input/1000000).toFixed(3)+"M ";
+				output=(input/1000000).toFixed(3)+" M";
 			else if(input<1000000000000)
-				output=(input/1000000000).toFixed(3)+"G ";
+				output=(input/1000000000).toFixed(3)+" G";
 	    }
 		return output;
 	};
@@ -119,10 +119,8 @@ appFilters.filter('nvl', function() {
 appFilters.filter('booleanToString', function() {
 	return function(input) {
 		var output = 'NO';
-		if (input) {
-			if(input==1 || input == 'true')
-				input = 'YES';
-	    }
+		if (input!=null && (input===1 || input==1 || input == 'true'||input === true))
+			output = 'YES';
 		return output;
 	};
 });

@@ -15,6 +15,8 @@ var translations_it = {
 	WARNING: 'Attenzione', 
 	WARNING_SUBTITLE: 'Per proseguire &egrave; necessario correggere le seguenti segnalazioni',
 	LOADING: 'Attendere prego...',
+	YES: 'Si',
+	NO: 'No',
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -448,9 +450,11 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Clicca qui per selezionare ',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' e\' obbligatorio',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'Nome\' deve essere univoco per stream ',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'Il campo \'tipo di dato\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'Il campo \'tipo di dato\' e\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED: 'Il campo \'tolleranza\' e\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER: 'Il campo \'tolleranza\' deve essere numerico',
 	MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS: 'Inserire almeno un componente',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE: 'Il campo \'Nome\' non puo\' contenere spazi',
     

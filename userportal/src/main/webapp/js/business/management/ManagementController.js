@@ -602,7 +602,19 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		if($scope.newComponentDataType == null || $scope.newComponentDataType == ""){
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED');
 		}
+		
+		console.log("$scope.newComponent.tolerance",$scope.newComponent.tolerance);
 
+		if($scope.newComponent!=null) {
+			if($scope.newComponent.tolerance == null || $scope.newComponent.tolerance == ""){
+				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED');
+			}
+			else{
+				if( !Helpers.util.isNumber($scope.newComponent.tolerance))
+					$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER');
+			}
+		}
+		
 		if($scope.insertComponentErrors.length==0){
 			$scope.stream.componenti.element.push($scope.newComponent);
 			$scope.newComponent = null;
@@ -1166,6 +1178,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		$scope.showLoading = false;
 
 		$scope.datasetList = response;
+
 		$scope.totalItems = $scope.datasetList.length;
 	});
 

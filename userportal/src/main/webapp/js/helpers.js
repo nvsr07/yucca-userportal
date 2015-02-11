@@ -138,6 +138,13 @@ Helpers.util = {
 		return result;
 	},
 
+	capitaliseFirstLetter:function (input)
+	{
+		if(input && input!=null)
+			return string.charAt(0).toUpperCase() + string.slice(1);
+		return "";
+	}, 
+	
 	CSVtoArray : function(strData, strDelimiter) {
 		// Check to see if the delimiter is defined. If not,
 		// then default to comma.

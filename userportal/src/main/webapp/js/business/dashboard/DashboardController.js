@@ -101,7 +101,9 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 		
 //		$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < $scope.streamsList.length; i++) {
-			$scope.streamsList[i].statusIcon = Helpers.stream.statusIcon($scope.streamsList[i]);;
+			$scope.streamsList[i].statusIcon = Helpers.stream.statusIcon($scope.streamsList[i]);
+			if(!$scope.streamsList[i].streamIcon || $scope.streamsList[i].streamIcon == null)
+				$scope.streamsList[i].streamIcon  = "img/stream-icon-default.png";
 		}
 
 		$scope.totalItems = $scope.streamsList.length;

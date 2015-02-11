@@ -85,11 +85,13 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	};
 } ]);
 
-appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabricAPIservice', 'fabricAPImanagement', 'info', '$location', 
-                                        function($scope, $route, $translate, fabricAPIservice, fabricAPImanagement, info,$location) {
+appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAPIservice', 'fabricAPImanagement', 'info', '$location', 
+                                        function($scope, $route, $filter, fabricAPIservice, fabricAPImanagement, info,$location) {
 	$scope.$route = $route;
 	
 	$scope.tenant = "";
+	
+	var $translate = $filter('translate');
 	
 	showMap();
 	
@@ -110,8 +112,11 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 	
 	$scope.statistics = {};
 	
+	//$scope.domainChartData = [];
+
+	
 	fabricAPImanagement.loadDataStatistics().success(function(response) {
-		console.log("statistics", response);	
+		console.debug("statistics", response);	
 		$scope.statistics.total_tenants = response.lifetime.total_tenants;
 		$scope.statistics.total_streams = response.lifetime.total_streams;
 		$scope.statistics.total_smart_objects = response.lifetime.total_smart_objects;
@@ -119,24 +124,18 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
 		$scope.statistics.total_data = response.lifetime.total_data.data + response.lifetime.total_data.measures;
 		$scope.statistics.total_measures = response.lifetime.total_data.measures;
 		$scope.statistics.today_data = response.midnight.total_data.data + response.midnight.total_data.measures;
+		var domains= [];
+		for (var int = 0; int < response.lifetime.stream_frequency.domain.length; int++) {
+			var domain = response.lifetime.stream_frequency.domain[int];
+			console.log("domain:", domain);
+			domains.push({key: $translate(domain._id), y:domain.count});
+		}
 		
+		$scope.domainChartData = domains;
+		console.log("$scope.domainChartData",$scope.domainChartData);
 	});
 
 	
-	$scope.tenantsCount = "";
-	fabricAPIservice.getTenants().success(function(response) {
-		$scope.tenantsCount = response.tenants.tenant.length;		
-	});
-
-	$scope.virtualentitiesCount = "";
-	fabricAPIservice.getVirtualentities("").success(function(response) {
-		$scope.virtualentitiesCount = response.virtualEntities.virtualEntity.length;		
-	});
-
-	$scope.streamsCount = "";
-	fabricAPIservice.getStreams("").success(function(response) {
-		$scope.streamsCount = response.streams.stream.length;		
-	});
 	
 	$scope.xDomainChartFunction = function(){
         return function(d) {
@@ -150,36 +149,36 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$translate', 'fabri
     };
     
     $scope.domainChartColors = ["#00521F","#006627","#007A2F","#008F37","#00973A","#00B846","#00CC4E","#00E056", "#00F55E"];
-		$scope.domainChartData =  [
-	                 	      	{ 
-	                 	      		key: "Agricoltura",
-	                 		        y : 29
-	                 		      } , 
-	                 		      { 
-	                 		        key: "Energia",
-	                 		        y : 13
-	                 		      } , 
-	                 		      { 
-	                 		        key: "Ambiente",
-	                 		        y : 32
-	                 		      } , 
-	                 		      { 
-	                 		        key: "Salute",
-	                 		        y : 19
-	                 		      } , 
-	                 		      { 
-	                 		        key: "Scuola",
-	                 		        y : 5
-	                 		      } , 
-	                 		      { 
-	                 		        key: "Sicurezza",
-	                 		        y : 9
-	                 		      } , 
-	                 		      { 
-	                 		        key: "Trasporti",
-	                 		        y : 25
-	                 		      } 
-	                 		    ];
+//		$scope.domainChartData =  [
+//	                 	      	{ 
+//	                 	      		key: "Agricoltura",
+//	                 		        y : 29
+//	                 		      } , 
+//	                 		      { 
+//	                 		        key: "Energia",
+//	                 		        y : 13
+//	                 		      } , 
+//	                 		      { 
+//	                 		        key: "Ambiente",
+//	                 		        y : 32
+//	                 		      } , 
+//	                 		      { 
+//	                 		        key: "Salute",
+//	                 		        y : 19
+//	                 		      } , 
+//	                 		      { 
+//	                 		        key: "Scuola",
+//	                 		        y : 5
+//	                 		      } , 
+//	                 		      { 
+//	                 		        key: "Sicurezza",
+//	                 		        y : 9
+//	                 		      } , 
+//	                 		      { 
+//	                 		        key: "Trasporti",
+//	                 		        y : 25
+//	                 		      } 
+//	                 		    ];
 
 
 } ]);

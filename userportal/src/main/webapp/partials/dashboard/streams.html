@@ -30,8 +30,9 @@
 								</th>
 								<th>
 									<a href="" ng-click="predicate = 'codiceStream'; reverse=!reverse"><span translate>DASHBOARD_STREAM_LIST_STREAM_NAME</span> 
-									<span ng-show="predicate=='codiceStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='codiceStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+										<span ng-show="predicate=='codiceStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+										<span ng-show="predicate=='codiceStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span>
+									</a>
 								
 								</th>
 								<th>
@@ -65,7 +66,12 @@
 							
 							<tr ng-repeat="stream in filteredStreams = (streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 								<td>{{stream.nomeTenant}}</td>
-								<td><a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}"><strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}</a></td>
+								<td class='text-left'>
+									<a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">
+										<img src="{{stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
+										<strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}
+									</a>
+								</td>
 								<!-- 
 								<td><small>{{stream.codiceVirtualEntity}}</small></td>
 								<td>{{stream.registration_date|date}}</td>
@@ -73,7 +79,7 @@
 								-->
 								<td><small>{{stream.virtualEntityDescription}}</small></td>
 								<td>{{stream.domainStream|translate}}</td>
-								<td><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
+								<td class='text-left'><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
 							</tr>
 						</tbody>
 					</table>
