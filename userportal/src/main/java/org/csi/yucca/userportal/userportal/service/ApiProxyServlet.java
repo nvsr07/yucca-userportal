@@ -61,6 +61,11 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		GetMethod getMethod = new GetMethod(createTargetUrlWithParameters(request));
+		
+
+		String authorizationHeader = request.getHeader("Authorization");
+		if(authorizationHeader!=null)
+			getMethod.setRequestHeader("Authorization", authorizationHeader);
 
 		HttpClient httpclient = new HttpClient();
 		int result = httpclient.executeMethod(getMethod);
@@ -73,6 +78,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		if(contentDisposition!=null)
 			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
+		
 
 		String jsonOut = getMethod.getResponseBodyAsString();
 		if (isJSONPRequest(request))
