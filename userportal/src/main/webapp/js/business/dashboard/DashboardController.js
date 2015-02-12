@@ -485,10 +485,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		dataDiscoveryService.loadStreamDetail($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 			var discoveryResultList = response.d.results;
 			if(discoveryResultList.length >0){
-				var apiUrl =discoveryResultList[0].Dataset.API;
-				var apiUrlTokens = apiUrl.replace("/$metadata","").split("/");
-				var apiCode = apiUrlTokens.pop();
-				console.debug("apiCode", apiCode);
+				var apiCode  = discoveryResultList[0].Dataset.datasetCode;
 				// call oData service to retrieve  the last 30 data
 
 				odataAPIservice.getStreamData(apiCode, 0, maxNumData, 'time%20desc').success(function(response) {
@@ -504,7 +501,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 							}
 							allData.push({datetime: time, data: values});
 						}
-						console.debug("allData ",allData );
 						allData.reverse();
 						$scope.updateChart();
 					}
@@ -525,7 +521,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				$scope.chartData.push({"key" : component.name , "values": data});
 			}
 		}
-		console.log("chartData", $scope.chartData);
 	};
 	
 	var wsClient = webSocketService();

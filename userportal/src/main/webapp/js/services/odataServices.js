@@ -1,4 +1,4 @@
-appServices.factory('odataAPIservice', function($http, $q) {
+appServices.factory('odataAPIservice', function($http, $q,info) {
 
 	var odataAPIservice = {};
 	
@@ -13,11 +13,14 @@ appServices.factory('odataAPIservice', function($http, $q) {
 		if(orderby && orderby!=null)
 			streamDataUrl += '&$orderby='+orderby;
 		
-		console.log("streamDataUrl",streamDataUrl);
-		
+		var user = "Bearer "+info.info.user.token;
 		return $http({
-			method : 'JSONP',
-			url : streamDataUrl + '&callback=JSON_CALLBACK'
+			method : 'GET',
+			url : streamDataUrl,
+			headers: {
+				'Authorization': user
+				},
+			withCredentials : true
 		});
 	};
 
