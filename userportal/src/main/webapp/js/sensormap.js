@@ -150,7 +150,7 @@ function showMap() {
                     // la tabella nel popup della mappa
                     
                     var n = strlist.length; 
-                      for(h = 0; h < n; h++) {
+                      for(var h = 0; h < n; h++) {
                         elencoStreamSensore[elencoStreamSensore.length] = {};
                         elencoStreamSensore[elencoStreamSensore.length-1].codiceStream =
                             strlist[h].codiceStream;
@@ -283,18 +283,16 @@ function showMap() {
             // definisce il testo HTML da visualizzare dento al popup
             testo = '<b>Sensore:</b> ' + feature.get('name') + '<br/>';
             testo += '<b>Tenant:</b> ' + feature.get('tenant') + '<br/><br/>';
-            testo += '<a href="' + urlBaseSensorWeb + feature.get('tenant') + 
-                '/' + feature.get('name');
-            testo += '" target = "_blank">Sensor Detail</a><br/><br/>';
+//            testo += '<a href="' + urlBaseSensorWeb + feature.get('tenant') + '/' + feature.get('name');
+//            testo += '" target = "_blank">Sensor Detail</a><br/><br/>';
             testo += 'Sensor Stream List:<br/><br/>';
             testo += '<table width=100%><tr><td width=33%><b>Code:</b></td>';
             testo += '<td width=33%><b>Name:</b></td><td width=34%><b>Domain:</b></td></tr>';
 
             for (var k = 0; k < strLst.length; k++) {
-                var urlStrm = urlBaseStreamWeb + feature.get('tenant') + 
-                    "/" + feature.get('name') + "/" + strLst[k].codiceStream;
-                testo += '<tr><td><a href="' + urlStrm + '" target = "_blank">' + 
-                    strLst[k].codiceStream + '</a></td>';
+                //var urlStrm = urlBaseStreamWeb + feature.get('tenant') +  "/" + feature.get('name') + "/" + strLst[k].codiceStream;
+                //testo += '<tr><td><a href="' + urlStrm + '" target = "_blank">' + strLst[k].codiceStream + '</a></td>';
+                testo += '<tr><td>' + strLst[k].codiceStream + '</td>';
                 testo += '<td>' + strLst[k].nomeStream + '</td>';
                 testo += '<td>' + strLst[k].domainStream + '</td></tr>';
             }

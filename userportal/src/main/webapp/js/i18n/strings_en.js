@@ -17,6 +17,7 @@ var translations_en = {
 	LOADING: 'Please wait...',
 	YES: 'Yes',
 	NO: 'No',
+	OK: 'Ok',
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -191,6 +192,11 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FIELD_IS_KEY: 'Key',
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Measurement unit',
 	
+	/* Cookie */
+	COOKIE_MESSAGE: 'This site uses cookies to improve the browsing experience. Continuing navigation you accept the use of cookies',
+	COOKIE_ACCEPT: 'Accept',
+	COOKIE_DECLINE: 'Decline',
+
 	/* Dataset placeholder */
 	DATASET_FIELD_NAME_PLACEHOLDER : 'e.g. museum 2014',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER: 'key',

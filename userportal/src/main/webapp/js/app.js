@@ -15,7 +15,8 @@ var app = angular.module('userportal', [
   'nvd3ChartDirectives',
   'angularFileUpload',
   'ngDraggable',
-  'ui.codemirror'
+  'ui.codemirror',
+  'ngCookies'
   //'ngDragDrop'
 ]);
 

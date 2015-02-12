@@ -162,6 +162,11 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .btn-remove{background-color: trasparent; color: #dc0000!important;}
 .btn-add{background-color: trasparent; color: #009100!important;}
 
+/* cookies */
+.cookie-alert{padding:1em; color: white; background-color: #717b7c; margin-bottom: 1em; text-align: center;}
+.cookie-alert span{margin-right: 4em;}
+.cookie-alert .btn{color: white;  border: solid 2px white; margin: .5em;}
+
 /* dashboard */
 .dashboard-streamList-table{margin-top: 20px;}
 .dashboard-card-icon-preview-img{width: 64px; height: 64px;}

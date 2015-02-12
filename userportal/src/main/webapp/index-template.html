@@ -44,6 +44,10 @@
 </head>
 <body lang="en" ng-app="userportal">
 	<div ng-controller="GlobalCtrl as globalCtrl">
+		<div class='cookie-alert' ng-show="showCookieMessage">
+			<span translate>COOKIE_MESSAGE</span>
+			<a class='btn' ng-click='acceptCookie()' translate>OK</a>
+		</div>
 		<main-navbar ng-show="!isHomepage()"></main-navbar>
 		<div ng-view class='main-body'></div>
 		<main-footer></main-footer>
@@ -54,6 +58,7 @@
 	<script type="text/javascript" src="../ris/userportal/lib/angular/angular.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-cookies/angular-cookies.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular-sanitize/angular-sanitize.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular-translate/angular-translate.min.js"></script>
 

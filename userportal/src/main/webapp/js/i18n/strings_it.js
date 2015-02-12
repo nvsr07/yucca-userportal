@@ -17,6 +17,7 @@ var translations_it = {
 	LOADING: 'Attendere prego...',
 	YES: 'Si',
 	NO: 'No',
+	OK: 'Ok',
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -191,6 +192,11 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN: 'Sorgente',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY: 'Chiave',
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
+	
+	/* Cookie */
+	COOKIE_MESSAGE: 'Questo sito fa uso di cookie per migliorare l\'esperienza di navigazione degli utenti. Proseguendo nella navigazione si accetta l\'uso dei cookie.',
+	COOKIE_ACCEPT: 'Ok',
+	COOKIE_DECLINE: 'Non Accetto',
 	
 	/* Dataset placeholder */
 	DATASET_FIELD_NAME_PLACEHOLDER : 'es. musei torino 2014',

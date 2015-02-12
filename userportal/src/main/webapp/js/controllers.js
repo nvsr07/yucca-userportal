@@ -4,7 +4,7 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', 'fabricAPIservice',  function($scope, $route, info, $location, fabricAPIservice) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', 'fabricAPIservice', '$cookies', function($scope, $route, info, $location, fabricAPIservice, $cookies) {
 	$scope.$route = $route;
 	
 	
@@ -35,7 +35,21 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 		}	
 		return false;
 	};
+	
+	  
+	$scope.showCookieMessage = false;
+	var acceptedCookies = $cookies.acceptedCookies;
+	console.debug("acceptedCookies",acceptedCookies);
+	if(acceptedCookies != "yes")
+		$scope.showCookieMessage = true;
 
+	$scope.acceptCookie = function(){
+		console.debug("acceptCookie");
+		$cookies.acceptedCookies = "yes";
+		$scope.showCookieMessage = false;
+	};
+	
+	
 
 } ]);
 
