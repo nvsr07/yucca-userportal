@@ -73,7 +73,12 @@
 							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
 								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
-								<td>{{dataset.info.datasetName}}</td>
+								<td class='text-left'>
+									<a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">
+										<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='list-entity-icon-preview-img' >
+										{{dataset.info.datasetName}}
+									</a>
+								</td>
 								<td>{{dataset.configData.type}} / {{dataset.configData.subtype}}</td>
 								<td>{{dataset.info.registrationDate|date}}</td>
 								<td><span translate>{{dataset.datasetVersion}}</span></td>

@@ -87,9 +87,17 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
 					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 				responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
+				
+				if(responseList[i].streamIcon || responseList[i].streamIcon == null)
+					responseList[i].streamIcon  = "img/stream-icon-default.png";
+
 				$scope.streamsList.push(responseList[i]);
 			}
+
 		}
+		
+		
+		
 		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
 		//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
@@ -1178,6 +1186,17 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		$scope.showLoading = false;
 
 		$scope.datasetList = response;
+		if($scope.datasetList!=null){
+			for (var i = 0; i < $scope.datasetList.length; i++) {
+				if(!$scope.datasetList[i].info  || $scope.datasetList[i].info ==null)
+					$scope.datasetList[i].info ={};
+
+				if(!$scope.datasetList[i].info.icon || $scope.datasetList[i].info.icon == null)
+					$scope.datasetList[i].info.icon  = "img/dataset-icon-default.png";
+
+			}
+
+		}
 
 		$scope.totalItems = $scope.datasetList.length;
 	});

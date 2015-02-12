@@ -78,10 +78,16 @@
 							</tr>
 							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/>
-								<td><a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">{{stream.codiceStream}}</a></td>
+								<td class='text-left'>
+									<a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">
+										<img ng-src="{{stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
+										<strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}
+									</a>
+								</td>
+								
 								<td>{{stream.codiceVirtualEntity}}</td>
 								<td>{{stream.lastUpdate|date}}</td>
-								<td><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
+								<td class='text-left'><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
 								<td>{{stream.installed_version}}</td>
 							</tr>
 						</tbody>
