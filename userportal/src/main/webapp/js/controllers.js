@@ -6,7 +6,9 @@ var appControllers = angular.module('userportal.controllers', []);
 
 appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', 'fabricAPIservice', '$cookies', function($scope, $route, info, $location, fabricAPIservice, $cookies) {
 	$scope.$route = $route;
-	
+
+	$scope.storeUrl = '/store/';	
+	console.log("storeUrl",$scope.storeUrl);
 	
 	$scope.isAuthorized = function(operation){
 		var authorized = info.isAuthorized(operation);
@@ -20,7 +22,12 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 		$scope.userTenants = info.getInfo().user.tenants;
 
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
+		
+		
 		$scope.user = result.user;
+		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
+			$scope.storeUrl = '/store/site/pages/sso-filter.jag';
+		}
 	});
 	
 	$scope.changeActiveTenant = function(newTenant){

@@ -120,7 +120,7 @@
 						<p class='intro'><span ng-bind-html="'HOME_ROLE_DEVELOPER_INTRO'|translate"></span></p>
 						<p class='main-action'><a href="#/dashboard/main/overview"><span translate>HOME_ACTION_DASHBOARD</span></a></p>
 						<p><span translate>HOME_ACTION_DEVELOPER_SEP_1</span></a></p>
-						<p class='action'><a href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM_INTERNAL</span></a></p>
+						<p class='action'><a ng-href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM_INTERNAL</span></a></p>
 					</div>
 				</div>
 				<div class='col-sm-4 operation-manager operation-panel' ng-show="isAuthorized('management/*')" >
@@ -129,11 +129,11 @@
 						<div class='role-panel'><span translate>HOME_ROLE_PUBLISHER</span></div>
 						<p class='intro'><span ng-bind-html="'HOME_ROLE_PUBLISHER_INTRO'|translate"></span></p>
 						<p class='main-action'><a href="#/dashboard/streams"><span translate>HOME_ACTION_DASHBOARD</span></a></p>
-						<p class='main-action'><a href="#/management/virtualentities/{{activeTenantCode}}"><span translate>HOME_ACTION_MANAGEMENT</span></a></p>
+						<p class='main-action'><a ng-href="#/management/virtualentities/{{activeTenantCode}}"><span translate>HOME_ACTION_MANAGEMENT</span></a></p>
 						<p><span translate>HOME_ACTION_PUBLISHER_SEP_1</span></a></p>
-						<p class='action'><a href="#/management/newVirtualentity/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_VIRTUAL_ENTITY</span></a></p>
-						<p class='action'><a href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM</span></a></p>
-						<p class='action'><a href="#/management/newDataset/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_DATASET</span></a></p> 
+						<p class='action'><a ng-href="#/management/newVirtualentity/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_VIRTUAL_ENTITY</span></a></p>
+						<p class='action'><a ng-href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM</span></a></p>
+						<p class='action'><a ng-href="#/management/newDataset/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_DATASET</span></a></p> 
 					</div>
 				</div>
 				<div class='col-sm-4 operation-customer operation-panel' ng-show="isAuthorized('store/*')">
@@ -144,7 +144,7 @@
 						<p class='main-action'><a href="#/dashboard/streams"><span translate>HOME_ACTION_DASHBOARD</span></a></p>
 						<p class='main-action'><a href="#/discovery/"><span translate>HOME_ACTION_SEARCH</span></a></p>
 						<p><span translate>HOME_ACTION_SUBSCRIBER_SEP_1</span></a></p>
-						<p class='main-action'><a href="#"><span translate>HOME_ACTION_STORE</span></a></p>
+						<p class='main-action'><a ng-href="{{storeUrl}}?requestedPage=%2Fstore%2F&customCssPath=https%3A%2F%2Fuserportal.smartdatanet.it%2Fris%2Fauth%2Fcss%2Fauth.css"><span translate>HOME_ACTION_STORE</span></a></p>
 					</div>
 				</div>
 			</div>
