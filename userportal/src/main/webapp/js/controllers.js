@@ -25,9 +25,9 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 		
 		
 		$scope.user = result.user;
-		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
-			$scope.storeUrl = '/store/site/pages/sso-filter.jag';
-		}
+//		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
+//			$scope.storeUrl = '/store/site/pages/sso-filter.jag';
+//		}
 	});
 	
 	$scope.changeActiveTenant = function(newTenant){

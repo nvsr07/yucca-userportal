@@ -292,8 +292,12 @@ var translations_en = {
 	HOME_MAP_INTRO: 'Smart object currently active on the territory',
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
 	HOME_STATISTIC_TOTAL_DATA: 'available data',
+	HOME_STATISTIC_TOTAL_DATA_TIP: '		Total data available: ',
 	HOME_STATISTIC_TODAY_DATA: 'data recorded today',
-	HOME_STATISTIC_VISTUALOBJECT_DATA: 'data from smart objects',
+	HOME_STATISTIC_TODAY_DATA_TIP: 'Total recorded data today: ',
+	HOME_STATISTIC_VIRTUALOBJECT_DATA: 'data from smart objects',
+	HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP: 'Total data from Smart Object: ',
+
 	HOME_TENANT_TITLE: 'Organizations',	
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
