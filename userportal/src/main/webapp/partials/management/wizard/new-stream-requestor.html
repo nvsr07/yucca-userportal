@@ -1,0 +1,75 @@
+<div>
+	<div class='clearfix wizard-title'>
+		<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR_TITLE</span></h3></div>
+		<div class='pull-right'><h3><small>Step 2/5</small></h3></div>
+	</div>
+	<form class="form-horizontal" role="form" name="requestorStreamForm">
+		<div class="form-group">
+			<label for="nomeRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" ng-model="stream.nomeRichiedente"  id="nomeRichiedente" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="cognomeRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_SURNAME</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" ng-model="stream.cognomeRichiedente"  id="cognomeRichiedente" placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" ng-required="true" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="mailRichiedente" class="col-sm-2 control-label"><span translate>USER_FIELD_EMAIL</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" ng-model="stream.mailRichiedente"  id="mailRichiedente" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}" ng-required="true" >
+			</div>
+		</div>		
+		
+		
+		<div class="form-group">
+			<label for="accettazionePrivacy" class="col-sm-2 control-label"><span ng-bind-html="'USER_FIELD_PRIVACY'|translate"></span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-10">
+				<div class="form-control terms-of-privacy" readonly> <span ng-bind-html="'USER_FIELD_ACCEPT_PRIVACY'|translate"></span></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<label>
+					<input type="radio" name="accettazionePrivacy" value="1" ng-model="accettazionePrivacy" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_YES</span>
+				</label>
+			</div>
+			<div class="col-sm-4">
+				<label>
+					<input type="radio" name="accettazionePrivacy" value="0" ng-model="accettazionePrivacy" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_NO</span>
+				</label>
+			</div>
+		</div>
+		
+		
+		
+		<div class="form-group">
+			<label for="accettazioneResponsability" class="col-sm-2 control-label"><span ng-bind-html="'USER_FIELD_RESPONSABILITY'|translate"></span> <span class='required-asterisk'>*</span></label>						
+			<div class="col-sm-10">
+				<div class="form-control terms-of-privacy" readonly> <span ng-bind-html="'USER_FIELD_ACCEPT_STREAM_RESPONSABILITY'|translate"></span></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<label>
+					<input type="radio" name="accettazioneResponsability" value="1" ng-model="accettazioneResponsability" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_YES</span>
+				</label>
+			</div>
+			<div class="col-sm-4">
+				<label>
+					<input type="radio" name="accettazioneResponsability" value="0" ng-model="accettazioneResponsability" ng-required="true">&nbsp;<span translate>USER_FIELD_ACCEPT_NO</span>
+				</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class=" col-sm-12 form-toolbar">
+				<a ng-click='goToRegister()' class="btn " translate>BACK</a>
+				<a ng-click='goToDetail()' class="btn btn-wizard-next" ng-disabled="!isOwner() || requestorStreamForm.$invalid " translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+			</div>
+		</div>
+	</form>
+</div>

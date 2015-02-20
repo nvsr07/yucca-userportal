@@ -1,0 +1,61 @@
+<div>
+	<div class='clearfix wizard-title'>
+		<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER_TITLE</span></h3></div>
+		<div class='pull-right'><h3><small>Step 1/5</small></h3></div>
+	</div>
+	<form class="form-horizontal" role="form" name="registerStreamForm">
+		<div class="form-group">
+			<label for="inputTypeStream" class="col-sm-2 control-label"><span translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<span><span translate>STREAM_NEW_DEFINITION</span> <input  type="radio" name="inputTypeStream" value="1" ng-click="stream.codiceVirtualEntity=null"  ng-model="inputTypeStream"  ></span> <br/>
+			</div>
+			<div class="col-sm-4">
+				<span><span translate>STREAM_AGGREGATE_DEFINITION</span>  <input  type="radio" name="inputTypeStream" value="0" ng-click="stream.codiceVirtualEntity=virtualentityInternal.codeVirtualEntity"  ng-model="inputTypeStream" ></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputVirtualEntity" class="col-sm-2 control-label">
+			<span translate>VIRTUALENTITY</span> <span class='required-asterisk'>*</span>
+			</label>
+			<div class="col-sm-10">
+	           		<select class="form-control col-sm-10" ng-model="stream.codiceVirtualEntity" ng-disabled="inputTypeStream==0"
+	           		  ng-options="virtualEntity.codeVirtualEntity as virtualEntity.virtualEntityName group by virtualEntity.tipoVirtualEntity for virtualEntity in virtualEntitiesList" ng-required="true" >
+	           			<option value="" class='mute'>{{'MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER'|translate}}</span></option>
+	           		</select>
+			</div>
+		</div>
+		<div class="form-group has-feedback">
+			<label for="inputStreamCode" class="col-sm-2 control-label"><span translate>STREAM</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" ng-model="stream.codiceStream"  id="inputStreamCode"  name="inputStreamCode"
+				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternNoSpace">
+				<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_NO_SPACE_TOOLTIP'|translate}}"
+					ng-show="registerStreamForm.inputStreamCode.$error.pattern  && registerStreamForm.inputStreamCode.$dirty"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputStreamName" class="col-sm-2 control-label"><span translate>STREAM_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-10">
+				<input  type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputStreamDomain" class="col-sm-2 control-label"><span translate>STREAM_FIELD_DOMAIN</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-10">
+				<select class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+	  					<option value="">{{'MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER'|translate}}</option>
+	  				</select>
+				
+				<!-- <input type="text" class="form-control" id="inputStreamDomain" placeholder="{{'STREAM_FIELD_DOMAIN'|translate}}" ng-model="stream.domain"> -->
+			</div>
+		</div>	
+	
+		<div class="form-group">
+			<div class=" col-sm-12 form-toolbar">
+				<a ng-click='cancel()' class="btn " translate>BACK</a>
+				<a ng-click='goToRequestor()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerStreamForm.$invalid " translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+			</div>
+		</div>
+	</form>
+</div>

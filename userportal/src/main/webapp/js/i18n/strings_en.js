@@ -11,6 +11,7 @@ var translations_en = {
 	/*common */
 	CANCEL : 'Cancel',
 	SAVE: 'Save',
+	SAVE_DRAFT: 'Save draft',
 	COMING_SOON: 'Coming soon...', 
 	WARNING: 'Warning', 
 	WARNING_SUBTITLE: 'Please verify',
@@ -18,6 +19,7 @@ var translations_en = {
 	YES: 'Yes',
 	NO: 'No',
 	OK: 'Ok',
+	BACK: 'Back',
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -38,7 +40,7 @@ var translations_en = {
 	DATASET: 'Dataset',
 	
 	/* STREAM */
-	STREAM_FIELD_ID_STREAM : 'ID Stream',
+	STREAM_FIELD_ID_STREAM: 'ID Stream',
 	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
 	STREAM_FIELD_NAME: 'Name',
 	STREAM_FIELD_DESCRIPTION:'Description',
@@ -77,12 +79,13 @@ var translations_en = {
 	STREAM_FIELD_IN_STORE: 'In the store',
 	STREAM_FIELD_ICON: 'Icon for the store',
 	
-	STREAM_FIELS: 'Stream in Input Definition',
+	STREAM_INPUT_FIELDS: 'Stream in Input Definition',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
 	STREAM_AGGREGATE_DEFINITION: 'Internal Streams ',
 	STREAM_TYPE_DEFINITION: 'Creation from ',
 	STREAM_FIELDSET: 'Internal Stream Definition',
 	STREAM_FIELD_COMPONENTS_OUTPUT: 'Components of the stream in output',
+	STREAM_INTERNAL_SELECTED_STREAM: 'Selected Stream',
 	
 	STREAM_SIDDHI_QUERY_SUCCESS: "The query siddhi is valid.",
 	STREAM_SIDDHI_QUERY: "SIDDHI query ",
@@ -117,19 +120,21 @@ var translations_en = {
 	USER_FIELD_ACCEPT_YES:'I Accept ',
 	USER_FIELD_ACCEPT_NO:"I Don't Accept ",
 	
+	//USER_FIELD_ACCEPT_PRIVACY:'Dopo aver preso visione dell\'informativa sulla Privacy ai sensi dell\'art. 13 del D.Lgs 196/2013, autorizzo il CSI Piemonte al trattamento dei dati personali qui inseriti con le modalit&agrave; e per le finalit&agrave; in essa contenute',
 	USER_FIELD_ACCEPT_PRIVACY:'<p><strong>INFORMATIVA PRIVACY AI SENSI DELL\'ART. 13 DEL D.LGS. 196/2003</strong></p> '+
-	'<p>Il trattamento dei dati personali forniti dall\'Utente con la compilazione del form, &egrave; disciplinato dal D.Lgs. n. 196/2003 (Codice in materia di protezione dei dati personali) e s.m.i.</p> '+
-	'<p>Ai sensi dell\'art. 13 del D.Lgs. 196/2003, CSI-Piemonte informa pertanto, di quanto segue:</p> '+
-	'<ol type=\'a\'> '+
-	'<li> i dati saranno trattati, in base a principi di correttezza, liceit&agrave; e trasparenza, al solo fine di associare un referente ai dati forniti alla Piattaforma SDP;</li> '+
-	'<li> il conferimento dei dati ed il consenso al trattamento sono liberi e facoltativi. Tuttavia l\'eventuale rifiuto  comporter&agrave; l\'impossibilit&agrave; per CSI Piemonte di raggiungere la finalit&agrave; suindicata;</li> '+
-	'<li> i dati saranno trattati sia con sistemi automatizzati sia manualmente, e, in ogni caso, a tutela e garanzia della riservatezza dei dati forniti in modo da ridurre al minimo la soglia di rischio di accessi abusivi, furti o manomissioni dei dati stessi, in conformit&agrave; a quanto previsto dagli artt. 31 ss del D.Lgs. n. 196/2003 e s.m.i. e dall\'Allegato B allo stesso decreto;</li> '+
-	'<li> i dati saranno trattati da personale "Incaricato" ai sensi dell\'art. 4, comma 1, lett. h) del Codice Privacy previa adeguate istruzioni operative, per il tempo strettamente necessario al raggiungimento delle finalit&agrave; suindicate;</li> '+
-	'<li> i dati non saranno oggetto di comunicazione a terzi e diffusione, fatti salvi gli obblighi di legge nazionale e comunitaria;</li> '+
-	'<li> il Titolare del trattamento &egrave; CSI-Piemonte, con sede in corso Unione Sovietica 216, Torino;</li> '+
-	'<li> CSI-Piemonte ha nominato i Responsabili interni per il trattamento dei dati personali. L\'elenco completo e aggiornato di tali Responsabili e delle rispettive; funzioni pu&ograve; essere richiesto al Titolare scrivendo all\'indirizzo e-mail privacy@csi.it;</li> '+
-	'<li> in relazione al trattamento dei dati che lo riguardano l\'interessato ha diritto ad ottenere le informazioni previste dall\'articolo 7 del decreto in oggetto. Potr&agrave; avvalersi dei diritti di cui all\'art. 7 del D.Lgs. n. 196/2003 e s.m.i. (tra cui quelli di ottenere dal Titolare, anche per il tramite dei Responsabili o degli Incaricati, la conferma dell\'esistenza o meno dei suoi dati personali e la loro messa a disposizione in forma intelligibile; di avere conoscenza della logica e delle finalit&agrave; su cui si basa il trattamento; di ottenere la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, nonch&eacute; l\'aggiornamento, la rettificazione o, se vi &egrave; interesse, l\'integrazione dei dati; di opporsi per motivi legittimi al trattamento stesso) rivolgendosi al Titolare, CSI- Piemonte Corso Unione Sovietica 216 Torino; e-mail: privacy@csi.it, tel. 011-3168111.</li> '+
-	'</ol>',
+		'<p>Il trattamento dei dati personali forniti dall\'Utente con la compilazione del form, &egrave; disciplinato dal D.Lgs. n. 196/2003 (Codice in materia di protezione dei dati personali) e s.m.i.</p> '+
+		'<p>Ai sensi dell\'art. 13 del D.Lgs. 196/2003, CSI-Piemonte informa pertanto, di quanto segue:</p> '+
+		'<ol type=\'a\'> '+
+		'<li> i dati saranno trattati, in base a principi di correttezza, liceit&agrave; e trasparenza, al solo fine di associare un referente ai dati forniti alla Piattaforma SDP;</li> '+
+		'<li> il conferimento dei dati ed il consenso al trattamento sono liberi e facoltativi. Tuttavia l\'eventuale rifiuto  comporter&agrave; l\'impossibilit&agrave; per CSI Piemonte di raggiungere la finalit&agrave; suindicata;</li> '+
+		'<li> i dati saranno trattati sia con sistemi automatizzati sia manualmente, e, in ogni caso, a tutela e garanzia della riservatezza dei dati forniti in modo da ridurre al minimo la soglia di rischio di accessi abusivi, furti o manomissioni dei dati stessi, in conformit&agrave; a quanto previsto dagli artt. 31 ss del D.Lgs. n. 196/2003 e s.m.i. e dall\'Allegato B allo stesso decreto;</li> '+
+		'<li> i dati saranno trattati da personale "Incaricato" ai sensi dell\'art. 4, comma 1, lett. h) del Codice Privacy previa adeguate istruzioni operative, per il tempo strettamente necessario al raggiungimento delle finalit&agrave; suindicate;</li> '+
+		'<li> i dati non saranno oggetto di comunicazione a terzi e diffusione, fatti salvi gli obblighi di legge nazionale e comunitaria;</li> '+
+		'<li> il Titolare del trattamento &egrave; CSI-Piemonte, con sede in corso Unione Sovietica 216, Torino;</li> '+
+		'<li> CSI-Piemonte ha nominato i Responsabili interni per il trattamento dei dati personali. L\'elenco completo e aggiornato di tali Responsabili e delle rispettive; funzioni pu&ograve; essere richiesto al Titolare scrivendo all\'indirizzo e-mail privacy@csi.it;</li> '+
+		'<li> in relazione al trattamento dei dati che lo riguardano l\'interessato ha diritto ad ottenere le informazioni previste dall\'articolo 7 del decreto in oggetto. Potr&agrave; avvalersi dei diritti di cui all\'art. 7 del D.Lgs. n. 196/2003 e s.m.i. (tra cui quelli di ottenere dal Titolare, anche per il tramite dei Responsabili o degli Incaricati, la conferma dell\'esistenza o meno dei suoi dati personali e la loro messa a disposizione in forma intelligibile; di avere conoscenza della logica e delle finalit&agrave; su cui si basa il trattamento; di ottenere la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, nonch&eacute; l\'aggiornamento, la rettificazione o, se vi &egrave; interesse, l\'integrazione dei dati; di opporsi per motivi legittimi al trattamento stesso) rivolgendosi al Titolare, CSI- Piemonte Corso Unione Sovietica 216 Torino; e-mail: privacy@csi.it, tel. 011-3168111.</li> '+
+		'</ol>',
+	
 	USER_FIELD_ACCEPT_STREAM_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle "Linee guida per l\'integrazione in Smart Data Net", dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione degli altri fruitori della piattaforma lo stream conferito- nonch&eacute; sue eventuali elaborazioni -  senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
 	USER_FIELD_ACCEPT_DATASET_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle "Linee guida per l\'integrazione in Smart Data Net", dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione degli altri fruitori della piattaforma il dataset conferito- nonch&eacute; sue eventuali elaborazioni -  senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
 
@@ -203,6 +208,7 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FIELD_NAME: 'Name',
 	DATASET_FIELD_METADATA_FIELD_ALIAS: 'Alias',
 	DATASET_FIELD_METADATA_FIELD_DATATYPE: 'Data type',
+	DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT: 'Date format', 
 	DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN: 'Source',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY: 'Key',
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Measurement unit',
@@ -263,6 +269,8 @@ var translations_en = {
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Only decimal number',
 	VALIDATION_PATTERN_UUID_TOOLTIP: 'The code entered doesn\'t match with the pattern: 8-4-4-4-12 hexadecimal digits',
 	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'The value is too long',
+	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'The value cannot contains white spaces',
+	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Insert a decimal number using dot as separator',
 	
 	/* stream status */
 	draft:'draft',
@@ -287,7 +295,7 @@ var translations_en = {
 	HOME_START_BUTTON: 'Sign in',
 	HOME_START_DEMO_BUTTON_DESC: '',
 	HOME_START_DEMO_BUTTON: 'Or try the platform as anonymous using tenant SandBox', 
-	HOME_LOGGED_IN_WELCOME: 'Welcoem, ',
+	HOME_LOGGED_IN_WELCOME: 'Welcome, ',
 	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
 	HOME_MAP_INTRO: 'Smart object currently active on the territory',
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
@@ -297,7 +305,6 @@ var translations_en = {
 	HOME_STATISTIC_TODAY_DATA_TIP: 'Total recorded data today: ',
 	HOME_STATISTIC_VIRTUALOBJECT_DATA: 'data from smart objects',
 	HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP: 'Total data from Smart Object: ',
-
 	HOME_TENANT_TITLE: 'Organizations',	
 	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
 	HOME_STREAM_TITLE: 'Online stream',	
@@ -362,8 +369,8 @@ var translations_en = {
 	DASHBOARD_STREAMS_BUTTON: 'Streams list',
 	DASHBOARD_ERROR_LOG_BUTTON: 'Error log', 
 
-	// DASHBOARD_STREAM_TITLE: 'Stream <strong>{{stream_name}}</strong>',
-	DASHBOARD_STREAM_TITLE : 'Stream ',
+	//DASHBOARD_STREAM_TITLE: 'Stream <strong>{{stream_name}}</strong>',
+	DASHBOARD_STREAM_TITLE: 'Stream ',
 	DASHBOARD_STREAM_DETAIL_TITLE : 'Details',
 	DASHBOARD_STREAM_DETAIL_TABLE_KEY : 'Field',
 	DASHBOARD_STREAM_DETAIL_TABLE_VALUE : 'Value',
@@ -446,6 +453,20 @@ var translations_en = {
 	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Choose one Smart Object',
 	MANAGEMENT_NEW_STREAM_SUBTITLE: 'New Stream',
 	
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER: 'Registra',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR: 'Richiedente',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL: 'Dettagli',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS: 'Componenti',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE: 'Condividi',
+	
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER_TITLE: 'Register the Stream',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR_TITLE: 'Insert the requestor information',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL_TITLE: 'Insert some details',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS_TITLE: 'Describe the components',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE_TITLE: 'Define how to share',
+	MANAGEMENT_NEW_STREAM_WIZARD_NEXT:'Next',
+		
+	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Edit ', 
 	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Choose one or more tag...',
 	MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER: 'Choose one domain...',
@@ -470,8 +491,7 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA: 'Drop here the icon',
-	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_OR: 'Or',
-	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Click here to choose',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Or click here to choose',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Warning',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'The field \'name\' is required',
@@ -568,6 +588,7 @@ var translations_en = {
 	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Load data',
 	MANAGEMENT_EDIT_DATASET_SUBTITLE: 'Edit ', 
 	MANAGEMENT_EDIT_DATASET_TAG_PLACEHOLDER: 'Choose one or more tag...',
+	MANAGEMENT_EDIT_DATASET_UPLOAD_ICON_DROPAREA: 'Drop here the icon',
 	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Choose one domain...',
 	MANAGEMENT_EDIT_STREAM_DATATYPE_PLACEHOLDER: 'Choose...',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA_LABEL: 'Save data',
@@ -618,11 +639,13 @@ var translations_en = {
 	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. water or tags:AIR',
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Search operator enabled <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> , <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> to use it <i>operator<strong>:</strong><i>value</i> ',
+	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filter', 
 	DISCOVERY_FILTER_SEARCH_BUTTON: 'Search',
 	
 	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Choose one field',
 	
-	DISCOVERY_RESULTS_SIZE_LABEL: 'Founds: ',
+	DISCOVERY_RESULTS_SIZE_LABEL: 'Numero di risultati: ',
+	DISCOVERY_RESULTS_NO_DATA_FOUND: 'No result found',
 	
 	DISCOVERY_BACK_FILTER_LABEL: 'Back to search filter',
 	DISCOVERY_BACK_RESULT_LABEL: 'Back to result list',

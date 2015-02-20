@@ -2,6 +2,8 @@
 
 /* Directives */
 
+/* new dataset */
+
 appDirectives.directive('newDatasetWizardStart', function() {
 	return {
 		restrict : 'E',
@@ -34,5 +36,37 @@ appDirectives.directive('newDatasetWizardColumns', function() {
 	return {
 		restrict : 'E',
 		templateUrl : 'partials/management/wizard/new-dataset-columns.html?'+BuildInfo.timestamp,
+	};
+});
+
+/* stream */
+appDirectives.directive('newStreamWizardRegister', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/new-stream-register.html?'+BuildInfo.timestamp,
+	};
+});
+appDirectives.directive('newStreamWizardRequestor', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/new-stream-requestor.html?'+BuildInfo.timestamp,
+	};
+});
+appDirectives.directive('newStreamWizardDetail', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/new-stream-detail.html?'+BuildInfo.timestamp,
+	};
+});
+appDirectives.directive('newStreamWizardComponents', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/new-stream-components.html?'+BuildInfo.timestamp,
+	};
+});
+appDirectives.directive('newStreamWizardShare', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/new-stream-share.html?'+BuildInfo.timestamp,
 	};
 });

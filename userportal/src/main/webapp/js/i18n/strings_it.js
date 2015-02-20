@@ -11,6 +11,7 @@ var translations_it = {
 	/*common */
 	CANCEL : 'Annulla',
 	SAVE: 'Salva',
+	SAVE_DRAFT: 'Salva bozza',
 	COMING_SOON: 'Coming soon...', 
 	WARNING: 'Attenzione', 
 	WARNING_SUBTITLE: 'Per proseguire &egrave; necessario correggere le seguenti segnalazioni',
@@ -18,6 +19,7 @@ var translations_it = {
 	YES: 'Si',
 	NO: 'No',
 	OK: 'Ok',
+	BACK: 'Indietro',
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -77,12 +79,13 @@ var translations_it = {
 	STREAM_FIELD_IN_STORE: 'Nello store',
 	STREAM_FIELD_ICON: 'Icona per lo store',
 	
-	STREAM_FIELS: 'Definizione stream in ingresso',
+	STREAM_INPUT_FIELDS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
 	STREAM_AGGREGATE_DEFINITION: 'Stream esistenti',
 	STREAM_TYPE_DEFINITION: 'Creazione da ',
 	STREAM_FIELDSET: 'Internal Stream Definition',
 	STREAM_FIELD_COMPONENTS_OUTPUT: 'Componenti stream in uscita',
+	STREAM_INTERNAL_SELECTED_STREAM: 'Stream Selezionati',
 	
 	STREAM_SIDDHI_QUERY_SUCCESS: "La query Siddhi e' valida.",
 	STREAM_SIDDHI_QUERY: "Query SIDDHI ",
@@ -134,7 +137,7 @@ var translations_it = {
 	
 	USER_FIELD_ACCEPT_STREAM_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle "Linee guida per l\'integrazione in Smart Data Net", dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione degli altri fruitori della piattaforma lo stream conferito- nonch&eacute; sue eventuali elaborazioni -  senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
 	USER_FIELD_ACCEPT_DATASET_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle "Linee guida per l\'integrazione in Smart Data Net", dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione degli altri fruitori della piattaforma il dataset conferito- nonch&eacute; sue eventuali elaborazioni -  senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
-	
+
 	/* Creator of Stream PlaceHolder */
 	USER_FIELD_NAME_PLACEHOLDER:'Nome',
 	USER_FIELD_SURNAME_PLACEHOLDER:'Cognome',
@@ -214,7 +217,7 @@ var translations_it = {
 	COOKIE_MESSAGE: 'Questo sito fa uso di cookie per migliorare l\'esperienza di navigazione degli utenti. Proseguendo nella navigazione si accetta l\'uso dei cookie.',
 	COOKIE_ACCEPT: 'Ok',
 	COOKIE_DECLINE: 'Non Accetto',
-	
+
 	/* Dataset placeholder */
 	DATASET_FIELD_NAME_PLACEHOLDER : 'es. musei torino 2014',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER: 'key',
@@ -250,7 +253,7 @@ var translations_it = {
 	SNOW: 'Neve',
 	WATER: 'Acqua',
 	POWDERS: 'Polveri',
-	QUALITY: 'Qualit&agrave;',
+	QUALITY: 'Qualit&#224;',
 	NOISE: 'Rumore',
 	OUTDOOR: 'Esterno',
 	PRODUCTION: 'Produzione',
@@ -266,6 +269,8 @@ var translations_it = {
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Solo numeri decimali',
 	VALIDATION_PATTERN_UUID_TOOLTIP: 'Il codice inserito non &ecute; conforme al pattern: 8-4-4-4-12 numeri esadecimali',
 	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'Valore troppo lungo',
+	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'Il valore deve essere senza spazi',
+	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Inserire un valore decimale utilizzando il punto come separatore',
 	
 	/* stream status */
 	draft:'Bozza',
@@ -448,6 +453,20 @@ var translations_it = {
 	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Scegli uno Smart Object...',
 	MANAGEMENT_NEW_STREAM_SUBTITLE: 'Nuovo stream',
 	
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER: 'Registra',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR: 'Richiedente',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL: 'Dettagli',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS: 'Componenti',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE: 'Condividi',
+	
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER_TITLE: 'Registra lo Stream',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR_TITLE: 'Inserisci le informazioni del richiedente',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL_TITLE: 'Inserisci i dettagli',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS_TITLE: 'Descrivi le componenti',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE_TITLE: 'Definisci la modalit&agrave; di diffusione',
+	MANAGEMENT_NEW_STREAM_WIZARD_NEXT:'Prosegui',
+		
+	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ', 
 	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
 	MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
@@ -472,8 +491,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA: 'Rilascia qui l\'icona',
-	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_OR: 'Oppure',
-	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Clicca qui per selezionare ',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Oppure clicca qui per selezionare ',
 	
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' e\' obbligatorio',

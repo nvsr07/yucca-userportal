@@ -1,0 +1,75 @@
+<div>
+	<div class='clearfix wizard-title'>
+		<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL_TITLE</span></h3></div>
+		<div class='pull-right'><h3><small>Step 3/5</small></h3></div>
+	</div>
+	<form class="form-horizontal" role="form" name="detailStreamForm">
+		<div class="form-group">
+			<label for="inputStreamAddTag" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TAGS</span></label>
+			<div class="col-sm-10">
+				<p class="text-left">
+					<span  ng-repeat="tag in stream.streamTags.tag">
+						<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
+						<a href="javascript:void(0)" ng-click='removeTag($index)'>&times;</a>
+						</span> &nbsp;
+					</span>
+				</p>						
+				<div class="input-group">
+					<select class="input-sm form-control" ng-model="newTag" ng-options="tag as (tag|translate) for tag in tagList">
+						<option value="" ng-bind-html="'MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER'|translate" ></option>
+					</select>
+				    <span class="input-group-btn">
+				    	<a class="btn  btn-sm"  href="javascript:void(0)" ng-click='addTag(newTag)' title="{{'MANAGEMENT_EDIT_STREAM_ADD_TAG'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a>
+				    </span>
+	 			</div>
+			</div>
+		</div>		
+		<div class="form-group has-feedback">
+			<label for="inputStreamFps" class="col-sm-2 control-label"><span translate>STREAM_FIELD_FPS</span></label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="inputStreamFps" placeholder="{{'STREAM_FIELD_FPS'|translate}}" name="inputStreamFps" ng-model="stream.fps" ng-pattern="validationPatternFloat">
+				<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_FLOAT_TOOLTIP'|translate}}"
+					ng-show="detailStreamForm.inputStreamFps.$error.pattern  && detailStreamForm.inputStreamFps.$dirty"></span>
+			</div>
+		</div>			
+		<div class="form-group">
+			<label for="inputStreamIcon" class="col-sm-2 control-label"><span translate>STREAM_FIELD_ICON</span></label>
+			<div class="col-sm-3">
+				<div ng-file-drop="onIconSelect($files)" class='upload-icon-drop-area' ng-file-drag-over-class="upload-icon-drop-area-hover" ng-show="dropSupported">
+					<div translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA</div>
+					<div class='desc'>256x256</div>
+					<div class='desc'>jpg | png</div>
+				</div>
+				<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+			</div>
+			<div class="col-sm-3">
+				<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
+					<span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
+				</div>
+			</div>
+			<div class="col-sm-3 col-sm-offset-1 text-right">
+				<img ng-src="{{stream.streamIcon}}" alt="logo stream" class='upload-icon-preview-img' >
+			</div>
+			
+		</div>	
+		<div class="form-group">
+			<label for="RadioGroupSaveData" class="col-sm-2 control-label"><span translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL</span></label>
+			<div class="col-sm-10">
+				<label class="radio-inline">
+             			<input type="radio" name="RadioGroupSaveData" value="1"  id="RadioGroupSaveData_0" ng-model="stream.saveData" ><span translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA</span>
+           		</label>
+				<label class="radio-inline active">
+             			<input type="radio" name="RadioGroupSaveData" value="0" id="RadioGroupSaveData_1" ng-model="stream.saveData" ><span translate>MANAGEMENT_EDIT_STREAM_DONT_SAVE_DATA</span>
+           		</label>
+			</div>
+		</div>
+			
+	
+		<div class="form-group">
+			<div class=" col-sm-12 form-toolbar">
+				<a ng-click='goToRequestor()' class="btn " translate>BACK</a>
+				<a ng-click='goToComponents()' class="btn btn-wizard-next" ng-disabled="!isOwner() || detailStreamForm.$invalid " translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+			</div>
+		</div>
+	</form>
+</div>
