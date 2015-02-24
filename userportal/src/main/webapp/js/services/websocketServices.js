@@ -1,4 +1,4 @@
-appServices.factory('webSocketService',['$rootScope','info','WEB_SOCKET_BASE_URL','WEB_SOCKET_USER','WEB_SOCKET_SECRET', function($rootScope,info, WEB_SOCKET_BASE_URL,WEB_SOCKET_USER,WEB_SOCKET_SECRET) {
+appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOCKET_BASE_URL','WEB_SOCKET_USER','WEB_SOCKET_SECRET', function($rootScope,fabricAPIservice, WEB_SOCKET_BASE_URL,WEB_SOCKET_USER,WEB_SOCKET_SECRET) {
 	var stompClient = {};	
 //	var self = this;
 	var root = $rootScope;
@@ -6,7 +6,7 @@ appServices.factory('webSocketService',['$rootScope','info','WEB_SOCKET_BASE_URL
 	var SingletonClient = null;
 	var selfCallback = null;
 	var SubscriptedElementsList = [];
-
+	var infoTenant = {};
 
 	var CancelAllSubscriptions = function(){
 		for(var i =0; i< SubscriptedElementsList.length ; i++){
@@ -19,57 +19,63 @@ appServices.factory('webSocketService',['$rootScope','info','WEB_SOCKET_BASE_URL
 
 
 	function ConnectTheSocket(on_connect, on_error, vhost,count,updateStatus){
-			console.debug("info info info ",info);
-			
-			var user = "Bearer "+info.info.user.token;
-			var password = "";
-			
-			//FIXME togliere l'if quando ci sara il token per i utenti non loggati;
-			if(user==null || user==undefined){
-				user=WEB_SOCKET_USER;
-				password=WEB_SOCKET_SECRET;
-			}
-		
-			selfCallback=updateStatus;
-			CancelAllSubscriptions();
+
+		fabricAPIservice.getInfo().success(function(info){
+			if(info != null && info.user!=null && info.user.tenants !=null){
+				infoTenant =  info;
+				console.debug("infoTenant  ",infoTenant);
+				var user = "Bearer "+infoTenant.user.token;
+				var password = "";
+
+//				//FIXME togliere l'if quando ci sara il token per i utenti non loggati;
+//				if(user==null || user==undefined){
+//					user=WEB_SOCKET_USER;
+//					password=WEB_SOCKET_SECRET;
+//				}
+
+				selfCallback=updateStatus;
+				CancelAllSubscriptions();
 
 
 
-			/*
-			 * Fai la disconnect
-			 */
+				/*
+				 * Fai la disconnect
+				 */
 
-			if(connectedFlag){
-				stompClient.disconnect(function(){
-					connectedFlag=false;
-				});
-			}
-
-
-			updateStatus(Constants.WEBSOCKET_CONNECTING);
-			stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
-
-			stompClient.connect(user, password, function(frame) {
-				connectedFlag=true;
-				updateStatus(Constants.WEBSOCKET_CONNECTED);
-				root.$apply(function() {
-					on_connect.apply(stompClient, frame);
-				});
-			}, function(frame) {			
-				if (count<5) {
-					console.debug("Tentativo di riconnessione numero : ",count);
-					updateStatus(Constants.WEBSOCKET_CONNECTING);
-					setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count,updateStatus);},count*1000);
-					console.debug("awake.. ");		         	       
-				} else{
-					updateStatus(Constants.WEBSOCKET_NOT_CONNECTED);
-					root.$apply(function() {
-						console.log(" on_error frame: ", frame);
-						on_error.apply(frame);
+				if(connectedFlag){
+					stompClient.disconnect(function(){
+						connectedFlag=false;
 					});
-				}			
-			}, vhost);
-};
+				}
+
+
+				updateStatus(Constants.WEBSOCKET_CONNECTING);
+				stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
+
+				stompClient.connect(user, password, function(frame) {
+					connectedFlag=true;
+					updateStatus(Constants.WEBSOCKET_CONNECTED);
+					root.$apply(function() {
+						on_connect.apply(stompClient, frame);
+					});
+				}, function(frame) {			
+					if (count<5) {
+						console.debug("Tentativo di riconnessione numero : ",count);
+						updateStatus(Constants.WEBSOCKET_CONNECTING);
+						setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count,updateStatus);},count*1000);
+						console.debug("awake.. ");		         	       
+					} else{
+						updateStatus(Constants.WEBSOCKET_NOT_CONNECTED);
+						root.$apply(function() {
+							console.log(" on_error frame: ", frame);
+							on_error.apply(frame);
+						});
+					}			
+				}, vhost);
+
+			}
+		});
+	};
 
 
 	function NGStomp() {
