@@ -614,8 +614,8 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 ]);
 
 
-appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
-                                                     function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
+appControllers.controller('DashboardErrorLogCtrl', [ '$scope','info', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
+                                                     function($scope,info, $routeParams, fabricAPIservice, webSocketService, $filter) {
 	$scope.tenant_sel = null;
 	$scope.tenant_sel_code = "*";
 	$scope.tenantsList = [];
@@ -638,9 +638,6 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 	};
 	
 	$scope.wsClientError = webSocketService();
-	
-	
-	
 	
 	var connectWSClientError = function(){
 		console.debug("connectWSClientError");
@@ -687,11 +684,16 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope', '$routeParams', '
 		subscribeWSClientError();
 	};
 	
+	//TODO remove other tenants let only the current
+//	fabricAPIservice.getTenants().success(function(response) {
+//		console.debug("response", response.tenants);
+		
 	
-	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);
-		$scope.tenantsList = response.tenants.tenant;		
-	
+	fabricAPIservice.getInfo().success(function(info){
+		if(info != null && info.user!=null && info.user.tenants !=null){
+			$scope.tenantsList = info.user.tenants;
+			console.debug("$scope.tenantsList ",$scope.tenantsList);
+		}
 	});
 	
 	//prendo tutti gli errori, se non ho selezionato un tenant
