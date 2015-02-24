@@ -4,7 +4,7 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', 'fabricAPIservice', '$cookies', function($scope, $route, info, $location, fabricAPIservice, $cookies) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', 'fabricAPIservice', 'localStorageService', function($scope, $route, info, $location, fabricAPIservice, localStorageService) {
 	$scope.$route = $route;
 
 	$scope.storeUrl = '/store/';	
@@ -45,14 +45,26 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 	
 	  
 	$scope.showCookieMessage = false;
-	var acceptedCookies = $cookies.acceptedCookies;
+	//var acceptedCookiesOLD = $cookies.acceptedCookies;
 	console.debug("acceptedCookies",acceptedCookies);
+	
+	var acceptedCookies = localStorageService.get("acceptedCookies");
+	if(acceptedCookies == null)
+		 acceptedCookies = localStorageService.cookie.get("acceptedCookies");
+
+	
 	if(acceptedCookies != "yes")
 		$scope.showCookieMessage = true;
 
 	$scope.acceptCookie = function(){
 		console.debug("acceptCookie");
-		$cookies.acceptedCookies = "yes";
+		//$cookies.acceptedCookies = "yes";
+		if(localStorageService.isSupported) {
+			localStorageService.set("acceptedCookies", "yes");
+		}
+		else{
+			localStorageService.cookie.set("acceptedCookies", "yes");
+		}
 		$scope.showCookieMessage = false;
 	};
 	

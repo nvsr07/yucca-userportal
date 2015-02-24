@@ -1,0 +1,799 @@
+appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', function($scope, $route, $location, fabricAPImanagement, info, filterFilter) {
+	$scope.tenantCode = $route.current.params.tenant_code;
+	$scope.showLoading = true;
+
+	$scope.datasetList = [];
+	$scope.filteredDatasetsList = [];
+	$scope.nameFilter = null;
+	$scope.statusFilter = null;
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 10;
+	$scope.totalItems = $scope.datasetList.length;
+	$scope.predicate = '';
+
+	console.log("isOwner", info.isOwner( $scope.tenantCode));
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+	fabricAPImanagement.getDatasets($scope.tenantCode).success(function(response) {
+		$scope.showLoading = false;
+
+		$scope.datasetList = response;
+		if($scope.datasetList!=null){
+			for (var i = 0; i < $scope.datasetList.length; i++) {
+				if(!$scope.datasetList[i].info  || $scope.datasetList[i].info ==null)
+					$scope.datasetList[i].info ={};
+
+				if(!$scope.datasetList[i].info.icon || $scope.datasetList[i].info.icon == null)
+					$scope.datasetList[i].info.icon  = "img/dataset-icon-default.png";
+
+			}
+
+		}
+
+		$scope.totalItems = $scope.datasetList.length;
+	});
+
+
+	$scope.selectPage = function() {
+		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	};
+
+	$scope.searchNameFilter = function(dataset) {
+		var keyword = new RegExp($scope.nameFilter, 'i');
+
+		return !$scope.nameFilter || (dataset.info.datasetName && keyword.test(dataset.info.datasetName));
+	};
+
+	$scope.$watch('nameFilter', function(newName) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+		console.log("newName", newName);
+	});
+
+
+	$scope.selectedDatasets = [];
+
+	$scope.isSelected = function(dataset) {
+		return $scope.selectedDatasets.indexOf(dataset) >= 0;
+	};
+
+	$scope.updateSelection = function($event, dataset) {
+		var checkbox = $event.target;
+		var action = (checkbox.checked ? 'add' : 'remove');
+		updateSelected(action, dataset);
+	};
+
+	var updateSelected = function(action, dataset) {
+		if (action === 'add' && $scope.selectedDatasets.indexOf(dataset) === -1) {
+			$scope.selectedDatasets.push(dataset);
+		}
+		if (action === 'remove' && $scope.selectedDatasets.indexOf(dataset) !== -1) {
+			$scope.selectedDatasets.splice($scope.selectedDatasets.indexOf(dataset), 1);
+		}
+	};
+
+	$scope.canEdit = function() {
+		if($scope.selectedDatasets.length==1 && 
+				($scope.selectedDatasets[0].configData && $scope.selectedDatasets[0].configData.type == "dataset" && $scope.selectedDatasets[0].configData.subtype == "bulkDataset")){
+			return true;
+		}
+		return false;
+	};
+
+
+
+
+	$scope.editDataset = function(){
+		if($scope.selectedDatasets.length===1){
+
+			$location.path('management/editDataset/'+$scope.tenantCode +'/'+$scope.selectedDatasets[0].datasetCode);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+	$scope.deleteDataset = function(){
+		//alert("Funzionalita non ancora abilitata!");
+		if($scope.selectedDatasets.length>0){
+
+			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
+		}
+		else{
+			// FIXME error message...
+		}
+	};
+} ]);
+
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', 'info', 'readFilePreview',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, info,readFilePreview) {
+	$scope.tenantCode = $routeParams.tenant_code;
+	$scope.datasetCode = $routeParams.entity_code;
+	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+
+	$scope.updateInfo = null;
+	$scope.updateError = null;
+
+
+	$scope.tagList = [];
+	$scope.domainList = [];
+	fabricAPIservice.getStreamTags().success(function(response) {
+		for (var int = 0; int < response.streamTags.element.length; int++) {
+			$scope.tagList.push(response.streamTags.element[int].tagCode);
+		}
+	});
+
+
+	$scope.domainList = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.dataTypeList = [];
+	fabricAPIservice.getStreamDataType().success(function(response) {
+		$scope.dataTypeList = response.dataType.element;
+	});
+
+
+
+
+
+	$scope.dataset = null;
+	$scope.stream = null;
+	$scope.apiMetdataUrl = "";
+
+
+//	if($scope.dataset.columns == null)
+//	$scope.dataset.columns = new Object();
+//	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
+
+	$scope.loadDataset = function(){
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+			console.debug("loadDataset- response",response);
+			$scope.apiMetdataUrl = response.apiMetadataUrl;
+			$scope.dataset = response.metadata;
+			$scope.stream = response.stream;
+			if(!$scope.dataset)
+				$scope.dataset = new Object();
+			if(!$scope.dataset.info)
+				$scope.dataset.info = new Object();
+			if(!$scope.dataset.info.tags)
+				$scope.dataset.info.tags = [];
+
+			$scope.dataset.info.visibility = 'public';
+			if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
+				$scope.dataset.info.icon  = "img/dataset-icon-default.png";
+
+		});
+
+	};
+
+	$scope.loadDataset();
+
+	$scope.newTag = null;
+	$scope.addTag = function(){
+		if($scope.newTag){
+			var found = false;	
+			for (var int = 0; int < $scope.dataset.info.tags.length; int++) {
+				var existingTag = $scope.dataset.info.tags[int];
+				if(existingTag.tagCode == $scope.newTag){
+					found = true;
+					break;
+				}
+
+			}
+			if(!found)
+				$scope.dataset.info.tags.push({"tagCode":$scope.newTag});
+		}
+		$scope.newTag = null;
+		return false;
+
+	};
+
+	$scope.removeTag = function(index){
+		$scope.metadata.info.tags.splice(index,1);
+		return false;
+	};
+	
+	$scope.selectedIcon;
+	$scope.onIconSelect = function($files) {
+		$scope.selectedIcon = $files[0];
+		if($scope.selectedIcon !=null && $scope.selectedIcon.size>Constants.DATASET_ICON_MAX_FILE_SIZE){
+			$scope.choosenIconSize = $scope.selectedIcon.size; 
+			$scope.updateWarning = true;
+			$scope.selectedIcon = null;
+		}
+		else
+			readIconPreview();
+	};
+	
+	var readIconPreview = function(){
+		readFilePreview.readImageFile($scope.selectedIcon).then(
+				function(contents){
+					console.log("contents" , contents);
+					$scope.dataset.info.icon = contents;
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
+	};
+
+	$scope.canEdit = function() {
+		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
+	};
+
+	$scope.canAddData = function() {
+		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
+	};
+
+	$scope.updateDataset = function() {
+		var newDataset =  $scope.dataset;
+
+		if(!newDataset.info.tags && newDataset.info.tags.length==0){
+			newDataset.info.tags = null;
+		}
+
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+		Helpers.util.scrollTo();
+		
+		console.log("updateDataset newDataset ", newDataset);
+
+
+		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetCode, newDataset);
+
+		promise.then(function(result) {
+			if(result.errors && data.errors.length>0){
+				$scope.updateError = true;
+				$scope.updateErrors = data.errors;
+				Helpers.util.scrollTo();
+			}
+			else{
+				$scope.updateInfo = {status: "Ok"};
+				$scope.loadDataset();
+			}
+		}, function(result) {
+			$scope.updateError = true;
+			$scope.updateErrors = angular.fromJson(result.data);
+			console.log("result.data ", result.data);
+			$scope.loadDataset();
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
+
+
+	};	
+
+	$scope.requestInstallation = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
+	};
+
+	$scope.requestUnistallation = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST);
+	};
+
+	$scope.createNewVersion = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION);
+	};
+
+	var updateLifecycle = function(action) {
+		console.log("updateLifecycle stream", $scope.stream);
+		console.log("updateLifecycle action", action);
+//		$scope.updateInfo = null;
+//		$scope.updateError = null;
+//		Helpers.util.scrollTo();
+//		var promise   = fabricAPIservice.lifecycleStream(action, $scope.stream);
+//		promise.then(function(result) {
+//		console.log("result updateLifecycle ", result);
+//		//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
+//		$scope.updateInfo = {status: result.status};
+//		$scope.loadStream();
+//		}, function(result) {
+//		$scope.updateError = angular.fromJson(result.data);
+//		console.log("result.data ", result.data);
+//		$scope.loadStream();
+//		}, function(result) {
+//		console.log('Got notification: ' + result);
+//		});
+	};
+} ]);
+
+
+
+appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'info', '$upload', 'readFilePreview','$translate',  
+                                                           function($scope, $routeParams, fabricAPImanagement, info, $upload, readFilePreview, $translate) {
+	$scope.tenantCode = $routeParams.tenant_code;
+	$scope.datasetCode = $routeParams.entity_code;
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+	$scope.maxFileSize = Constants.BULK_DATASET_MAX_FILE_SIZE;
+	$scope.choosenFileSize = null;
+	$scope.selectedFile = null;
+	$scope.updateInfo = null;
+	$scope.updateWarning = null;
+	$scope.updateError = null;
+	$scope.updateErrors = null;
+	console.log("uploadData START", $scope.datasetCode);
+
+	$scope.formatList = ["csv"];
+
+	$scope.csvSeparator = ";";
+	$scope.fileEncoding = "UTF-8";
+	$scope.importFileType = "csv";
+	$scope.csvSkipFirstRow = true;
+
+	$scope.dataset = null;
+
+	$scope.loadDataset = function(){
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+			console.debug("loadDataset- response",response);
+			$scope.dataset = response.metadata;
+			if(!$scope.dataset)
+				$scope.dataset = new Object();
+			if(!$scope.dataset.info)
+				$scope.dataset.info = new Object();
+			if(!$scope.dataset.info.tags)
+				$scope.dataset.info.tags = [];
+
+			$scope.dataset.info.visibility = 'public';
+		});
+
+	};
+
+	$scope.loadDataset();
+
+	$scope.onFileSelect = function($files) {
+		$scope.selectedFile = $files[0];
+		if($scope.selectedFile !=null && $scope.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
+			$scope.choosenFileSize = $scope.selectedFile.size; 
+			$scope.updateWarning = true;
+			$scope.selectedFile = null;
+			$scope.previewLines = null;
+		}
+		else
+			readPreview();
+	};
+
+	$scope.previewLines = [];
+
+	var readPreview = function(){
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+		$scope.updateErrors = null;
+		$scope.updateWarning = null;
+		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
+				function(contents){
+
+
+
+					var lines = contents.split(/\r\n|\n/);
+					console.log("nr righe", lines.length);
+					var firstRows = lines.slice(0, 5);
+					$scope.previewLines = [];
+					console.log("(firstRows.join",firstRows.join("\n"));
+
+					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator));
+
+					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator);
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
+	};
+
+
+	$scope.isUploading = false;
+
+	$scope.uploadData = function() {
+		$scope.updateInfo = null;
+		$scope.updateError = null;
+		$scope.updateErrors = null;
+		$scope.updateWarning = null;
+		console.log("uploadData START");
+
+		$scope.upload = $upload.upload({
+			url: Constants.API_MANAGEMENT_DATASET_ADD_DATA_URL + $scope.tenantCode + '/'+ $scope.datasetCode + '/', 
+
+			method: 'POST',
+			data: {formatType: $scope.importFileType, 
+				csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding , skipFirstRow: $scope.csvSkipFirstRow },
+				file: $scope.selectedFile, // or list of files ($files) for html5 only
+				fileName: $scope.selectedFile.name,
+
+		}).progress(function(evt) {
+			$scope.isUploading = true;
+			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+		}).success(function(data, status, headers, config) {
+			$scope.isUploading = false;
+			console.log("upload finish");
+			if(data.errors && data.errors.length>0){
+				$scope.updateError = true;
+				$scope.updateErrors = data.errors;
+				Helpers.util.scrollTo();
+			}
+			else{
+				$scope.updateInfo = {status: "Upload OK"};
+			}
+		});
+
+
+	};	
+
+} ]);
+
+
+appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 
+                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload) {
+	$scope.tenantCode = $route.current.params.tenant_code;
+	$scope.currentStep = 'start';
+	$scope.wizardSteps = [{'name':'start', 'style':''},
+	                      {'name':'requestor', 'style':''},
+	                      {'name':'metadata', 'style':''},
+	                      {'name':'upload', 'style':''},
+	                      {'name':'columns', 'style':''},
+	                      ];
+
+	var refreshWizardToolbar = function(){
+		var style = 'step-done';
+		for (var int = 0; int < $scope.wizardSteps.length; int++) {
+			$scope.wizardSteps[int].style = style;
+			if($scope.wizardSteps[int].name == $scope.currentStep)
+				style = '';
+		};
+	};
+
+	refreshWizardToolbar();
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+	$scope.domainList = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.tagList = [];
+	$scope.domainList = [];
+	fabricAPIservice.getStreamTags().success(function(response) {
+		for (var int = 0; int < response.streamTags.element.length; int++) {
+			$scope.tagList.push(response.streamTags.element[int].tagCode);
+		}
+	});
+
+	$scope.unitOfMesaurementList = [];
+	fabricAPIservice.getStreamUnitOfMesaurement().success(function(response) {
+		$scope.unitOfMesaurementList = response.measureUnit.element;
+	});
+
+	var defaultDataType = null;
+	$scope.dataTypeList = [];
+	fabricAPIservice.getStreamDataType().success(function(response) {
+		$scope.dataTypeList = response.dataType.element;
+		//$scope.dataTypeList.push(coordinatesDataType);
+		for (var int = 0; int < $scope.dataTypeList; int++) {
+			if($scope.dataTypeList[int].dataType == 'string'){
+				console.log("$scope.dataTypeList[int].dataType", $scope.dataTypeList[int].dataType);
+				defaultDataType = $scope.dataTypeList[int].dataType;
+				break;
+			}
+		}
+	});
+
+
+
+	$scope.metadata = {info:{}, configData: {}};
+	$scope.metadata.info.icon  = "img/dataset-icon-default.png";
+	$scope.metadata.info.visibility = "private";
+	$scope.metadata.info.importFileType = "csv";
+
+	$scope.user = {};
+
+	fabricAPIservice.getInfo().success(function(result) {
+		console.debug("result managementnew stream", result);
+		$scope.user = result.user;
+		console.debug("info user", $scope.user);
+		if($scope.user!=undefined && $scope.user.loggedIn==true){
+			$scope.metadata.info.requestorName=$scope.user.firstname;
+			$scope.metadata.info.requestorSurname=$scope.user.lastname;
+			$scope.metadata.info.requestornEmail=$scope.user.email;
+		}
+	});
+
+	$scope.newTag = null;
+	$scope.addTag = function(newTag){
+		console.log("addTag", newTag);
+		if(newTag){
+			if(! $scope.metadata.info.tags)
+				$scope.metadata.info.tags = [];
+
+			var found = false;	
+			for (var int = 0; int < $scope.metadata.info.tags.length; int++) {
+				var existingTag = $scope.metadata.info.tags[int];
+				if(existingTag.tagCode == newTag){
+					found = true;
+					break;
+				}
+
+			}
+			if(!found)
+				$scope.metadata.info.tags.push({"tagCode":newTag});
+		}
+		return false;
+
+	};
+
+	$scope.removeTag = function(index){
+		$scope.metadata.info.tags.splice(index,1);
+		return false;
+	};
+
+	$scope.creationError = null;
+	$scope.saveError = null;
+	$scope.saveErrors = null;
+
+	$scope.accettazionePrivacy=0;
+	$scope.accettazioneResponsability=0;
+
+
+	$scope.selectedFile = null;
+	$scope.uploadDatasetError = null;
+	$scope.uploadDatasetInfo = null;
+
+	$scope.formatList = ["csv"];
+
+	$scope.csvSeparator = ";";
+	$scope.fileEncoding = "UTF-8";
+	$scope.csvSkipFirstRow = true;
+
+	$scope.choosenFileSize = null;
+	$scope.updateWarning = null;
+	$scope.maxFileSize = Constants.BULK_DATASET_MAX_FILE_SIZE;
+	$scope.choosenFileSize = null;
+
+	
+	$scope.selectedIcon;
+	$scope.onIconSelect = function($files) {
+		$scope.selectedIcon = $files[0];
+		if($scope.selectedIcon !=null && $scope.selectedIcon.size>Constants.DATASET_ICON_MAX_FILE_SIZE){
+			$scope.choosenIconSize = $scope.selectedIcon.size; 
+			$scope.updateWarning = true;
+			$scope.selectedIcon = null;
+		}
+		else
+			readIconPreview();
+	};
+
+	var readIconPreview = function(){
+		readFilePreview.readImageFile($scope.selectedIcon).then(
+				function(contents){
+					console.log("contents" , contents);
+					$scope.metadata.info.icon = contents;
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
+	};
+
+	$scope.onFileSelect = function($files) {
+		$scope.updateWarning = null;
+		$scope.selectedFile = $files[0];
+		if($scope.selectedFile !=null && $scope.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
+			$scope.choosenFileSize = $scope.selectedFile.size; 
+			$scope.updateWarning = true;
+			$scope.selectedFile = null;
+			$scope.previewLines = null;
+		}
+		else
+			readPreview();
+	};
+
+	$scope.previewLines = [];
+	$scope.previewColumns = [];
+
+
+
+	var readPreview = function(){
+		$scope.uploadDatasetError = null;
+		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
+				function(contents){
+					var lines = contents.split(/\r\n|\n/);
+					console.log("nr righe", lines.length);
+					//console.log(lines);
+					var firstRows = lines.slice(0, 5);
+					$scope.previewLines = [];
+					console.log("(firstRows.join",firstRows.join("\n"));
+
+					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator));
+
+					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator);
+
+
+					console.log("$scope.previewLines",$scope.previewLines);
+
+					$scope.metadata.info.fields = [];
+					$scope.previewColumns = [];
+					console.log("defaultDataType",defaultDataType);
+					if($scope.previewLines.length>0){
+						for (var int = 0; int < $scope.previewLines[0].length; int++) {
+							$scope.previewColumns.push(
+									{index: int, 
+										sourceColumn: int+1, 
+										fieldName: $scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
+										fieldAlias: $scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
+										dataType: defaultDataType,
+										isKey: false, 
+										measureUnit: null,
+										skipColumn: false});
+						}
+						$scope.refreshColumnOrder();
+					}
+					console.log("$scope.previewColumns",$scope.previewColumns);
+				}, 
+				function(error){
+					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
+					Helpers.util.scrollTo();
+				}
+		);
+	};
+
+
+	$scope.refreshColumnOrder = function(){
+		console.log("refreshColumnOrder");
+		if($scope.previewColumns && $scope.previewColumns.length>0){
+			var order = 1;
+			$scope.metadata.info.fields = [];
+			for (var int = 0; int < $scope.previewColumns.length; int++) {
+				var column  = $scope.previewColumns[int];
+				column.index = int;
+				if(!column.skipColumn){
+					//column.sourceColumn = order;
+					var dataType = column.dataType?column.dataType.dataType:'string';
+					var measureUnit = column.measureUnit?column.measureUnit.measureUnit:null;
+					$scope.metadata.info.fields.push(
+							{"sourceColumn":column.sourceColumn, 
+								"fieldName":column.fieldName, 
+								"fieldAlias":column.fieldAlias, 
+								"dataType":dataType, 
+								"isKey":column.isKey?1:0, 
+								"measureUnit":measureUnit,
+								"dateTimeFormat":column.dateTimeFormat}
+					);
+					order++;
+				}
+
+			}
+		}
+	};
+
+
+	$scope.onDropCsvFieldComplete=function(fromIndex, toIndex,evt){
+		var columToMove = $scope.previewColumns[fromIndex];
+		columToMove.dragging = false;
+		$scope.previewColumns.splice(fromIndex, 1);
+		$scope.previewColumns.splice(toIndex, 0, columToMove);
+		$scope.refreshColumnOrder();
+	};
+
+	$scope.isDateTimeField = function(field){
+		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "dateTime")
+			return true;
+		return false;
+	};
+	
+	$scope.isCoordinatesField = function(field){
+		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "coordinates")
+			return true;
+		return false;
+	};
+	
+	$scope.isCommonField = function(field){
+		return !$scope.isCoordinatesField(field) && !$scope.isDateTimeField(field);
+	};
+	
+	$scope.cancel = function(){
+		$location.path('management/datasets/'+$scope.tenantCode);
+	};
+
+	$scope.htmlTooltip = '<div><table class="table table-supercondensed table-dateformat-help">'+
+	'	<thead>'+
+	'		<tr><th>Letter</th><th>Date or Time</th><th>Presentation</th><th>Examples</th></tr>'+
+	'	</thead>'+
+	'	<tbody>'+
+	'		<tr><td><strong>G</strong></td><td>Era designator</td><td>Text</td><td><strong>AD</strong></td></tr>'+
+	'		<tr><td><strong>y</strong></td><td>Year</td><td>Year</td><td><strong>1996</strong>;<strong>96</strong></td></tr>'+
+	'		<tr><td><strong>M</strong></td><td>Month in year</td><td>Month</td><td><strong>July</strong>; <strong>Jul</strong>; <strong>07</strong></td></tr>'+
+	'		<tr><td><strong>w</strong></td><td>Week in year</td><td>Number</td><td><strong>27</strong></td></tr>'+
+	'		<tr><td><strong>W</strong></td><td>Week in month</td><td>Number</td><td><strong>2</strong></td></tr>'+
+	'		<tr><td><strong>D</strong></td><td>Day in year</td><td>Number</td><td><strong>189</strong></td></tr>'+
+	'		<tr><td><strong>d</strong></td><td>Day in month</td><td>Number</td><td><strong>10</strong></td></tr>'+
+	'		<tr><td><strong>F</strong></td><td>Day of week in month</td><td>Number</td><td><strong>2</strong></td></tr>'+
+	'		<tr><td><strong>E</strong></td><td>Day in week</td><td>Text</td><td><strong>Tuesday</strong>; <strong>Tue</strong></td></tr>'+
+	'		<tr><td><strong>a</strong></td><td>Am/pm marker</td><td>Text</td><td><strong>PM</strong></td></tr>'+
+	'		<tr><td><strong>H</strong></td><td>Hour in day (0-23)</td><td>Number</td><td><strong>0</strong></td></tr>'+
+	'		<tr><td><strong>k</strong></td><td>Hour in day (1-24)</td><td>Number</td><td><strong>24</strong></td></tr>'+
+	'		<tr><td><strong>K</strong></td><td>Hour in am/pm (0-11)</td><td>Number</td><td><strong>0</strong></td></tr>'+
+	'		<tr><td><strong>h</strong></td><td>Hour in am/pm (1-12)</td><td>Number</td><td><strong>12</strong></td></tr>'+
+	'		<tr><td><strong>m</strong></td><td>Minute in hour</td><td>Number</td><td><strong>30</strong></td></tr>'+
+	'		<tr><td><strong>s</strong></td><td>Second in minute</td><td>Number</td><td><strong>55</strong></td></tr>'+
+	'		<tr><td><strong>S</strong></td><td>Millisecond</td><td>Number</td><td><strong>978</strong></td></tr>'+
+	'		<tr><td><strong>z</strong></td><td>Time zone</td><td>General time zone</td><td><strong><span title="Pacific Standard Time; PST; GMT-08:00">Pacific Standard Time; PST; &hellip;</td></tr>'+
+	'		<tr><td><strong>Z</strong></td><td>Time zone</td><td>RFC 822 time zone</td><td><strong>-0800</strong></td>'+
+	'	</tbody>'+
+	'</table>' + 
+	'   </div>'+
+	'   <div class="alert">For detail refer to <a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html" target="_blank" class="alert-link">Java Date Format</a></div>' +
+	'   <div class="alert alert-info"><strong><i class="glyphicon glyphicon-time"></i></strong>&nbsp;Default timezone <strong>Europe/Rome</strong></div>';
+	
+	
+	$scope.goToStart  = function(){ $scope.currentStep = 'start'; refreshWizardToolbar();};
+	$scope.goToRequestor  = function(){ $scope.currentStep = 'requestor';refreshWizardToolbar();};
+	$scope.goToMetadata  = function(){ $scope.currentStep = 'metadata';refreshWizardToolbar();};
+	$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
+	$scope.goToColumns  = function(){readPreview(); $scope.currentStep = 'columns';refreshWizardToolbar();};
+
+	$scope.isUploading = false;
+
+	$scope.createDataset = function() {
+		$scope.saveError = null;
+		$scope.saveErrors = null;
+		console.log("createDataset START 1", $scope.metadata);
+		$scope.refreshColumnOrder();
+		console.log("createDataset START 2", $scope.metadata);
+		var newDataset = $scope.metadata;
+		newDataset.configData.tenantCode=$scope.tenantCode;
+		newDataset.configData.type = "dataset";
+		newDataset.configData.subtype = "bulkDataset";
+		console.log("dataset qui ", newDataset);
+
+		$scope.upload = $upload.upload({
+			url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
+
+			method: 'POST',
+			data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
+			file: $scope.selectedFile, // or list of files ($files) for html5 only
+			fileName: $scope.selectedFile.name,
+
+		}).progress(function(evt) {
+			$scope.isUploading = true;
+			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+		}).success(function(data, status, headers, config) {
+			$scope.isUploading = false;
+			console.log("data loaded");
+			if(data.errors && data.errors.length>0){
+				$scope.saveError = true;
+				$scope.saveErrors = data.errors;
+				Helpers.util.scrollTo();
+			}
+			else{
+				$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
+			}
+
+		});
+
+
+	};	
+
+} ]);
+
+

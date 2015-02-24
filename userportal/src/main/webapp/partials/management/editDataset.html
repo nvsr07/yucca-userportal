@@ -105,13 +105,12 @@
 								</div>
 								<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
 							</div>
-							<div class="col-sm-2">
-								<div class='upload-icon-label-before-button'><span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_OR</span></div>
+							<div class="col-sm-3">
 								<div ng-file-select="onIconSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
 									<span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
 								</div>
 							</div>
-							<div class="col-sm-3 col-sm-offset-2 text-right">
+							<div class="col-sm-3 col-sm-offset-1 text-right">
 								<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
 							</div>
 							

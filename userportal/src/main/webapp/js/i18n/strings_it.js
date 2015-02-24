@@ -424,6 +424,8 @@ var translations_it = {
     MANAGEMENT_MENU_STREAMS: 'Stream',
     MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Smart Object',
     MANAGEMENT_MENU_DATASET: 'Dataset',
+    
+    MANAGEMENT_DESCRIPTION_ON_STORE_HINT: 'Scegli con cura, sar&agrave; utilizzato nello store',
 
     /* Management Stream  */
 	MANAGEMENT_DASHBOARD_SUBTITLE: 'Dashboard',
@@ -552,6 +554,14 @@ var translations_it = {
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Aggiungi dati',
 	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'Accesso ai dati',
 	
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER: 'Registra',
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION: 'Posizione',
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL: 'Altre informazioni',
+
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER_TITLE: 'Registra lo Smart Object',
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION_TITLE: 'Descrivi la posizione',
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL_TITLE: 'Completa i campi aggiuntivi',
+
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Crea',

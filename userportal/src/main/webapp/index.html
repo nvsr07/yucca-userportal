@@ -44,6 +44,10 @@
 </head>
 <body lang="en" ng-app="userportal">
 	<div ng-controller="GlobalCtrl as globalCtrl">
+		<div class='cookie-alert' ng-show="showCookieMessage">
+			<span translate>COOKIE_MESSAGE</span>
+			<a class='btn' ng-click='acceptCookie()' translate>OK</a>
+		</div>
 		<main-navbar ng-show="!isHomepage()"></main-navbar>
 		<div ng-view class='main-body'></div>
 		<main-footer></main-footer>
@@ -54,6 +58,8 @@
 	<script type="text/javascript" src="../ris/userportal/lib/angular/angular.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
+	<!--  <script type="text/javascript" src="../ris/userportal/lib/angular-cookies/angular-cookies.min.js"></script> -->
 	<script type="text/javascript" src="../ris/userportal/lib/angular-sanitize/angular-sanitize.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular-translate/angular-translate.min.js"></script>
 
@@ -97,36 +103,39 @@
 	<script type="text/javascript" src="js/build_info.js"></script>
 	
 
-	<script src="js-min/771dfcb4.sensormap.js"></script>
+	<script src="js-min/24b0b509.sensormap.js"></script>
 	
-	<script src="js-min/i18n/fc08d11f.strings_en.js"></script>
+	<script src="js-min/i18n/2a38e1b7.strings_en.js"></script>
 
-	<script src="js-min/i18n/a3fb0ea0.strings_it.js"></script>
+	<script src="js-min/i18n/a3acac92.strings_it.js"></script>
  	
 	
-	<script src="js-min/6109873b.app.js"></script>
-	<script src="js-min/fd5759b2.helpers.js"></script>
-	<script src="js-min/27a4dbc7.constants.js"></script>
-	<script src="js-min/services/68f80fdf.services.js"></script>
-	<script src="js-min/services/d0fbc169.discoveryServices.js"></script>
-	<script src="js-min/services/62b22cd0.fabricServices.js"></script>
-	<script src="js-min/services/d07e081e.managementServices.js"></script>
-	<script src="js-min/services/d5aadeee.websocketServices.js"></script>
-	<script src="js-min/services/6c878e68.odataServices.js"></script>
+	<script src="js-min/0c613a2b.app.js"></script>
+	<script src="js-min/da3b573c.helpers.js"></script>
+	<script src="js-min/721e7513.constants.js"></script>
+	<script src="js-min/services/b6dfa964.services.js"></script>
+	<script src="js-min/services/140cd288.discoveryServices.js"></script>
+	<script src="js-min/services/a488b38a.fabricServices.js"></script>
+	<script src="js-min/services/ec795b6e.managementServices.js"></script>
+	<script src="js-min/services/e6531c2e.websocketServices.js"></script>
+	<script src="js-min/services/39c62dab.odataServices.js"></script>
 
 
 
 	
-	<script src="js-min/5180f552.controllers.js"></script>
-	<script src="js-min/business/dashboard/8598aace.DashboardController.js"></script>
-	<script src="js-min/business/management/8418f125.ManagementController.js"></script>
-	<script src="js-min/business/discovery/c47678d4.DiscoveryController.js"></script>
+	<script src="js-min/fbe36d4c.controllers.js"></script>
+	<script src="js-min/business/dashboard/0db35049.DashboardController.js"></script>
+	<script src="js-min/business/management/202871de.ManagementController.js"></script>
+	<script src="js-min/business/management/89c9135f.ManagementStreamController.js"></script>
+	<script src="js-min/business/management/07cb48ee.ManagementVirtualentityController.js"></script>
+	<script src="js-min/business/management/21659ed6.ManagementDatasetController.js"></script>
+	<script src="js-min/business/discovery/7156dff4.DiscoveryController.js"></script>
 
-	<script src="js-min/60d89ee1.filters.js"></script>
-	<script src="js-min/bd4b35a5.directives.js"></script>
-	<script src="js-min/business/dashboard/128bea18.DashboardDirectives.js"></script>
-	<script src="js-min/business/management/532c9a7a.ManagementDirectives.js"></script>
-	<script src="js-min/business/discovery/1a0001b0.DiscoveryDirectives.js"></script>
+	<script src="js-min/1ddd1a7d.filters.js"></script>
+	<script src="js-min/1cc10d88.directives.js"></script>
+	<script src="js-min/business/dashboard/6ec1c685.DashboardDirectives.js"></script>
+	<script src="js-min/business/management/03209620.ManagementDirectives.js"></script>
+	<script src="js-min/business/discovery/94df0d28.DiscoveryDirectives.js"></script>
 	
 	
 
