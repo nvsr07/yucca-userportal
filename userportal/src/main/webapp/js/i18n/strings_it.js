@@ -219,7 +219,7 @@ var translations_it = {
 	COOKIE_DECLINE: 'Non Accetto',
 
 	/* Dataset placeholder */
-	DATASET_FIELD_NAME_PLACEHOLDER : 'es. musei torino 2014',
+	DATASET_FIELD_NAME_PLACEHOLDER : 'es. musei torino 2015',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER: 'key',
 	
 	
@@ -253,7 +253,7 @@ var translations_it = {
 	SNOW: 'Neve',
 	WATER: 'Acqua',
 	POWDERS: 'Polveri',
-	QUALITY: 'Qualit&#224;',
+	QUALITY: 'Qualita\'',
 	NOISE: 'Rumore',
 	OUTDOOR: 'Esterno',
 	PRODUCTION: 'Produzione',
@@ -267,7 +267,8 @@ var translations_it = {
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Solo numeri interi',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Solo numeri decimali',
-	VALIDATION_PATTERN_UUID_TOOLTIP: 'Il codice inserito non &ecute; conforme al pattern: 8-4-4-4-12 numeri esadecimali',
+	VALIDATION_PATTERN_UUID_TOOLTIP: 'Il codice inserito non e\' conforme al pattern: 8-4-4-4-12 numeri esadecimali',
+	VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP: 'Il codice inserito non puo\' contenere spazi o i caratteri  * . / # ',
 	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'Valore troppo lungo',
 	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'Il valore deve essere senza spazi',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Inserire un valore decimale utilizzando il punto come separatore',

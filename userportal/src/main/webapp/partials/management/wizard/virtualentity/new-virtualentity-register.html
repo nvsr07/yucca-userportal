@@ -21,7 +21,7 @@
 				<input type="text" class="form-control" ng-model="virtualentity.codeVirtualEntity"  id="inputVirtualentityCode" 
 					placeholder="{{'VIRTUALENTITY_FIELD_CODE'|translate}}" ng-required="isCodeRequired()"  name="inputVirtualentityCode"
 						maxlength="38" ng-pattern="validationPatternUUID">
-					<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_UUID_TOOLTIP'|translate}}"
+					<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{validationCodeTooltip()|translate}}"
 						ng-show="registerVirtualentityForm.inputVirtualentityCode.$error.pattern && registerVirtualentityForm.inputVirtualentityCode.$dirty"></span>
 			</div>
 			<div class="col-sm-2">

@@ -268,6 +268,7 @@ var translations_en = {
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Only integer number',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Only decimal number',
 	VALIDATION_PATTERN_UUID_TOOLTIP: 'The code entered doesn\'t match with the pattern: 8-4-4-4-12 hexadecimal digits',
+	VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP: 'The code entered cannot contain white space or * . / # ',
 	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'The value is too long',
 	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'The value cannot contains white spaces',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Insert a decimal number using dot as separator',
@@ -305,9 +306,9 @@ var translations_en = {
 	HOME_STATISTIC_TODAY_DATA_TIP: 'Total recorded data today: ',
 	HOME_STATISTIC_VIRTUALOBJECT_DATA: 'data from smart objects',
 	HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP: 'Total data from Smart Object: ',
-	HOME_TENANT_TITLE: 'Organizations',	
-	HOME_VIRTUALENTITY_TITLE: 'Active Sensor',	
-	HOME_STREAM_TITLE: 'Online stream',	
+	HOME_STATISTIC_TENANT: 'Organizations',	
+	HOME_STATISTIC_VIRTUALENTITY: 'Active Smart Objects',	
+	HOME_STATISTIC_STREAM: 'Online stream',	
 	HOME_OPERATION_PANEL_TITLE:'What can you do with the platform',
 	HOME_ROLE_DEVELOPER: 'developer',
 	HOME_ROLE_DEVELOPER_INTRO: 'You can create stream  merging other existing stream',
@@ -424,6 +425,8 @@ var translations_en = {
     MANAGEMENT_MENU_STREAMS: 'Streams',
     MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Smart Objects',
     MANAGEMENT_MENU_DATASET: 'Dataset',
+    
+    MANAGEMENT_DESCRIPTION_ON_STORE_HINT: 'Choose carefully, will be used in the store',
 
     /* Management Stream  */
 	MANAGEMENT_DASHBOARD_SUBTITLE: 'Dashboard',
@@ -552,6 +555,14 @@ var translations_en = {
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Add more data',
 	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'Data access',
 	
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER: 'Register',
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION: 'Positions',
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL: 'Other info',
+
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER_TITLE: 'Register the Smart Object',
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION_TITLE: 'Describe the positions',
+	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL_TITLE: 'Fill the additional fields',
+
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Create',

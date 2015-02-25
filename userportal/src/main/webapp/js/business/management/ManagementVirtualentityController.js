@@ -177,12 +177,21 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	$scope.validationPatternUUID = (function() {
 		return {
 			test: function(value) {
-				if( $scope.selectedType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ) return true;
-				else return Constants.VALIDATION_PATTERN_UUID.test(value);
+				if( $scope.selectedType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ){
+					return Constants.VALIDATION_PATTERN_CODE_VIRTUALENTITY.test(value);
+				}
+				else 
+					return Constants.VALIDATION_PATTERN_UUID.test(value);
 			}
 		};
 	})();
 
+	$scope.validationCodeTooltip = function(){
+		if( $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID )
+			return 'VALIDATION_PATTERN_UUID_TOOLTIP';
+		return 'VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP';
+	};
+	
 	$scope.selectedType;
 	$scope.selectedFeedTweetType=false;
 	$scope.selectedCategory = null;
@@ -306,11 +315,21 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.validationPatternUUID = (function() {
 		return {
 			test: function(value) {
-				if( selectedType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ) return true;
-				else return Constants.VALIDATION_PATTERN_UUID.test(value);
+				if(selectedType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ){
+					return Constants.VALIDATION_PATTERN_CODE_VIRTUALENTITY.test(value);
+				}
+				else {
+					return Constants.VALIDATION_PATTERN_UUID.test(value);
+				}
 			}
 		};
 	})();
+
+	$scope.validationCodeTooltip = function(){
+		if(selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID )
+			return 'VALIDATION_PATTERN_UUID_TOOLTIP';
+		return 'VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP';
+	};
 
 	var selectedType = null;
 	//$scope.selectedFeedTweetType=false;
