@@ -440,7 +440,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				if(colorCounter>= Constants.LINE_CHART_COLORS.length)
 					colorCounter = 0;
 			}
-			$scope.chartComponentNames.push({name:$scope.stream.componenti.element[int].nome, view: display, enabled: isEnabled, color: color });
+			$scope.chartComponentNames.push({name:$scope.stream.componenti.element[int].nome, view: display, enabled: isEnabled, color: color, dataType: $scope.stream.componenti.element[int].dataType });
 		}
 		if(!$scope.stream.streamIcon || $scope.stream.streamIcon == null)
 			$scope.stream.streamIcon  = "img/stream-icon-default.png";
@@ -480,6 +480,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
     
 	var maxNumData = 30;
 	var allData = [];
+	$scope.lastMessageNotReceivedHint = 'DASHBOARD_STREAM_WS_LASTMESSAGE_NOT_RECEIVED';
 	var loadPastData = function(){
 		// call discovery service to retrieve  the apiCode
 		dataDiscoveryService.loadStreamDetail($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
@@ -501,6 +502,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 							}
 							allData.push({datetime: time, data: values});
 						}
+						$scope.wsLastMessageToShow = allData[0];
 						allData.reverse();
 						$scope.updateChart();
 					}
@@ -516,7 +518,12 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			if(component.view){
 				var data = [];
 				for (var int = 0; int < allData.length; int++) {
-					data.push([allData[int].datetime, allData[int].data[component.name]]);
+					
+					var singleData  = allData[int].data[component.name];
+					if(component.dataType == "int" || component.dataType == "long" || component.dataType == "double" || component.dataType == "float" || component.dataType == "longitude" || component.dataType == "latitude")
+						singleData = Number(singleData);
+					
+					data.push([allData[int].datetime, singleData]);
 				}
 				$scope.chartData.push({"key" : component.name , "values": data});
 			}
@@ -526,15 +533,17 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	var wsClient = webSocketService();
 	
 	
-	var maxNumWsStatisticMessages = 3;
-	$scope.wsStatisticMessages = [ [ "-", "-" ], [ "-", "-" ], [ "-", "-" ]];
+	//var maxNumWsStatisticMessages = 3;
+	//$scope.wsStatisticMessages = [ [ "-", "-" ], [ "-", "-" ], [ "-", "-" ]];
 	var maxNumStatisticData = 30;
 	var counter = 0;
 
 	$scope.nvWsStatisticData = [{key: "Events", color: '#2980b9', values: []}];
-	for (counter = 1; counter < maxNumStatisticData; counter++){
-		$scope.nvWsStatisticData[0]["values"].push([0,0]);
-	}
+	$scope.nvWsStatisticData[0]["values"].push([0,0]);
+
+//	for (counter = 1; counter < maxNumStatisticData; counter++){
+//		$scope.nvWsStatisticData[0]["values"].push([0,20]);
+//	}
 
 	// last message
 	$scope.wsLastMessage = "";
@@ -581,29 +590,26 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		$scope.wsLastMessage = JSON.stringify(messageBody, null, "\t");
 		console.debug("$scope.wsLastMessage", $scope.wsLastMessage);
 
-		if ($scope.wsLastMessageToShow == "")
-			$scope.wsLastMessageToShow = $scope.wsLastMessage;
+		//if ($scope.wsLastMessageToShow == "")
+		$scope.lastMessageNotReceivedHint = "";
+		$scope.wsLastMessageToShow = $scope.wsLastMessage;
 
 
 
 	};
+	
+	$scope.nvWsStatisticForceY = 1;
 
 	function statisticCallback(message) {
 		console.debug("message", message);
 		counter++;
-		console.debug("wsStatisticMessages", $scope.wsStatisticMessages);
-
-		if ($scope.wsStatisticMessages.length >= maxNumWsStatisticMessages) 
-			$scope.wsStatisticMessages.shift();
 
 		if ($scope.nvWsStatisticData[0]["values"].length > maxNumStatisticData){
 			$scope.nvWsStatisticData[0]["values"].shift();
 		}
 
 
-		var numOfEvents = angular.fromJson(message.body).event.payloadData.numEventsLast30Sec;
-
-		$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
+		var numOfEvents = parseInt(angular.fromJson(message.body).event.payloadData.numEventsLast30Sec);
 
 		$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
 		timeCounter +=2;

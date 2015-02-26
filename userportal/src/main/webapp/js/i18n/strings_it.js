@@ -398,6 +398,7 @@ var translations_it = {
 	DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_TIME : 'Ora',
 	DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_COUNT : 'Eventi',
 	DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE : 'Ultimo messaggio ricevuto',
+	DASHBOARD_STREAM_WS_LASTMESSAGE_NOT_RECEIVED: 'Non sono ancora arrivati nuovi messaggi, viene visualizzato l\'ultimo messaggio registrato (se presente)', 
 	DASHBOARD_STREAM_WS_LASTERROR_PANEL_TITLE : 'Ultimi errori ricevuti',
 	DASHBOARD_STREAM_WS_LASTMESSAGE_REFRESH_BUTTON : 'Aggiorna',
 

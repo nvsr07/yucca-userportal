@@ -89,7 +89,7 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 			selfCallback(Constants.WEBSOCKET_CONNECTED);//if I receive a message It means I'm connected
 			var args = arguments;			
 			$rootScope.$apply(function() {
-				console.debug("args[0]",args[0]);
+				//console.debug("args[0]",args[0]);
 				callback(args[0]);
 			});
 		});
@@ -112,7 +112,7 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 		this.count=1;
 		if(!updateStatus)
 			updateStatus = function(sms){
-			console.debug(sms);
+			//console.debug(sms);
 		};
 		updateStatus(Constants.WEBSOCKET_CONNECTING);
 		new ConnectTheSocket(on_connect, on_error, vhost,this.count,updateStatus);
@@ -137,7 +137,7 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 		if(!SingletonClient){
 			if(!updateStatus){ 
 				updateStatus=function(sms){
-					console.debug(sms);
+					//console.debug(sms);
 				};
 			}
 			SingletonClient = new NGStomp(url,updateStatus);

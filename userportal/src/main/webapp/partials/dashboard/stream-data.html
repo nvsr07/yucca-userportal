@@ -58,6 +58,7 @@
 										interactive="true" 
 										interpolate="true"
 										objectEquality="true" 
+							           
 										> <svg></svg> 
 									</nvd3-line-chart>
 								</div>
@@ -222,7 +223,12 @@
 				<accordion-heading>
 		 			<span translate>DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
-				</accordion-heading>
+				</accordion-heading>				
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="lastMessageNotReceivedHint!=''">
+					<div class='alert alert-info'>
+						<span translate>{{lastMessageNotReceivedHint}}</span>
+					</div>
+				</div>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<pre pretty-json="wsLastMessageToShow" />
 				</div>
