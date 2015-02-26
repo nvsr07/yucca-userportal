@@ -440,7 +440,7 @@ var translations_it = {
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM : 'Modifica',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM : 'Elimina',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo stream',
-	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'Per abilitare l\'eliminaizone selezionare almeno uno stream',
+	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'Per abilitare l\'eliminazione selezionare almeno uno stream',
 	
 	/* view stream */
 	MANAGEMENT_VIEW_STREAM: 'Stream',
@@ -672,6 +672,7 @@ var translations_it = {
 	DISCOVERY_DETAIL_DATASET_COLUMNS: 'Definizione struttura dato',
 	DISCOVERY_DETAIL_ACCESS_DATA_TITLE: 'Accesso ai dati', 
 	DISCOVERY_DETAIL_ACCESS_DATA_API: 'Url di accesso alle API OData',
+	DISCOVERY_DETAIL_ACCESS_DATA_STREAM: 'Url di accesso alle API Stream',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET: 'Fruzione dello stream in real time con web socket',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL: 'Server URL',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL: 'Topic', 

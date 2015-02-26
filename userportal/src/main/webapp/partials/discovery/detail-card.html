@@ -158,20 +158,8 @@
 			<div class='col-sm-10'><p ng-repeat="apiUrl in datasetApiUrls"><a href="{{apiUrl}}" target="_blank" class='discovery-api-link'>{{apiUrl}}</a></p></div>
 		</div>	
 		<div class="row card-row">
-			<div class="col-sm-2 card-label"><strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET</span></strong></div>
-			<div class='col-sm-10'>
-				<div class="row">
-					<div class="col-sm-2 text-right"><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL</span></div>
-					<div class='col-sm-10'><span class='discovery-websocket-server-link'>ws://stream.smartdatanet.it/ws</span></div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2 text-right"><span translate>DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL</span></div>
-					<div class='col-sm-10'>
-						<div ng-repeat="streamUrl in datasetStreamUrls">{{streamUrl}}</div>
-					</div>
-				</div>
-			</div>
-			
+			<div class="col-sm-2 card-label"><strong><span translate>DISCOVERY_DETAIL_ACCESS_DATA_STREAM</span></strong></div>
+			<div class='col-sm-10'><p ng-repeat="streamUrl in datasetStreamUrls"><a href="{{streamUrl}}" target="_blank" class='discovery-stream-link'>{{streamUrl}}</a></p>
 		</div>
 		<div class="row card-row">
 			<div class="col-sm-2 card-label"><strong><span translate>DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM</span></strong></div>

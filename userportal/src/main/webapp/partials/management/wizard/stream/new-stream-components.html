@@ -91,7 +91,11 @@
 					<small><pre pretty-json="componentJsonExample"/></small>
 				</div>
 				<div class="col-sm-10">
+					<div class="alert alert-warning" ng-show='updateWarning'>
+						<strong translate>WARNING</strong> <span translate>MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS</span>
+					</div>
 					<a class="btn btn-default btn-xs"  ng-disabled="true"><span translate>MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON</span></a>
+					
 					<table class="table">
 						<thead>
 							<tr>

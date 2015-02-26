@@ -121,36 +121,14 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 } ]);
 
 appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($scope) {
-	$scope.currentStep = 'register';
-	$scope.wizardSteps = [{'name':'register', 'style':''},
-	                      {'name':'requestor', 'style':''},
-	                      {'name':'detail', 'style':''},
-	                      {'name':'components', 'style':''},
-	                      {'name':'share', 'style':''},
-	                      ];
-
-	var refreshWizardToolbar = function(){
-		var style = 'step-done';
-		for (var int = 0; int < $scope.wizardSteps.length; int++) {
-			$scope.wizardSteps[int].style = style;
-			if($scope.wizardSteps[int].name == $scope.currentStep)
-				style = '';
-		};
-	};
-
-	refreshWizardToolbar();
-	$scope.goToRegister  = function(){ $scope.currentStep = 'register'; refreshWizardToolbar();};
-	$scope.goToRequestor  = function(){ $scope.currentStep = 'requestor';refreshWizardToolbar();};
-	$scope.goToDetail  = function(){ $scope.currentStep = 'detail';refreshWizardToolbar();};
-	$scope.goToComponents  = function(){ $scope.currentStep = 'components';refreshWizardToolbar();};
-	$scope.goToShare  = function(){$scope.currentStep = 'share';refreshWizardToolbar();};
-	
+//	$scope.goToShare  = function(){$scope.currentStep = 'share';refreshWizardToolbar();};
 
 } ]);
 
 appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.user = {};
+
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
 
 
@@ -288,6 +266,40 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
+
+	
+	$scope.currentStep = 'register';
+	$scope.wizardSteps = [{'name':'register', 'style':''},
+	                      {'name':'requestor', 'style':''},
+	                      {'name':'detail', 'style':''},
+	                      {'name':'components', 'style':''},
+	                      {'name':'share', 'style':''},
+	                      ];
+
+	var refreshWizardToolbar = function(){
+		var style = 'step-done';
+		for (var int = 0; int < $scope.wizardSteps.length; int++) {
+			$scope.wizardSteps[int].style = style;
+			if($scope.wizardSteps[int].name == $scope.currentStep)
+				style = '';
+		};
+	};
+
+	refreshWizardToolbar();
+	$scope.goToRegister  = function(){ $scope.currentStep = 'register'; refreshWizardToolbar();};
+	$scope.goToRequestor  = function(){ $scope.currentStep = 'requestor';refreshWizardToolbar();};
+	$scope.goToDetail  = function(){ $scope.currentStep = 'detail';refreshWizardToolbar();};
+	$scope.goToComponents  = function(){ $scope.currentStep = 'components';refreshWizardToolbar();};
+	$scope.goToShare  = function(){
+		if(!$scope.stream.componenti.element || $scope.stream.componenti.element.length==0){
+			$scope.updateWarning = true;
+			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
+		}
+		else{
+			$scope.currentStep = 'share';refreshWizardToolbar();
+		}
+
+	};
 
 	
 	$scope.defaultQuery = Constants.DEFAULT_SIDDHI;
@@ -581,6 +593,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 //	$scope.newComponentDataType = null;
 
 	$scope.addComponent = function(newComponent, newComponentUnitOfMeasurement, newComponentPhenomenon,newComponentDataType){
+		
+		$scope.updateWarning = false;
+		$scope.warningMessages = [];
 		$scope.validationRes=2;
 		$scope.insertComponentErrors = [];
 		if(newComponent && newComponent.nome && newComponent.nome!=null){
@@ -748,6 +763,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.cancel = function(){    
 		$location.path('management/streams/'+$scope.tenantCode);
 	};
+	
+
 	
 	$scope.updateStream = function() {
 		
