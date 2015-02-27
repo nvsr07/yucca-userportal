@@ -44,7 +44,7 @@
 </head>
 <body lang="en" ng-app="userportal">
 	<div ng-controller="GlobalCtrl as globalCtrl">
-		<div class='cookie-alert' ng-show="showCookieMessage">
+		<div class='cookie-alert ng-hide' ng-show="showCookieMessage">
 			<span translate>COOKIE_MESSAGE</span>
 			<a class='btn' ng-click='acceptCookie()' translate>OK</a>
 		</div>

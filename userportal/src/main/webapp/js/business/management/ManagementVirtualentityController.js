@@ -434,6 +434,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$scope.virtualentity.virtualEntityPositions = {};
 			$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
 			$scope.virtualentity.virtualEntityPositions.position.push({});
+			$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
 
 		}
 	};

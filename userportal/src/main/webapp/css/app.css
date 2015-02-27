@@ -168,8 +168,9 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 
 /* alert */
 .alert{border-radius: 0; border-width: 2px;margin: 20px 0 10px;}
-.alert-danger {background-color: #ffdede;border-color: #b50000;color: #b50000;}
-
+.alert-danger {background-color: #ffcaca;border-color: #a40000;color: #550000;}
+.alert-warning{background-color: #fff59e;border-color: #edd400;color: #766000;}   
+.alert-sandbox{background-color: #fce94f;border-color: #000;color: #000; border-style: dashed; border-width: 3px;}
 
 /* cookies */
 .cookie-alert{padding:1em; color: white; background-color: #717b7c; margin-bottom: 1em; text-align: center;}
@@ -335,7 +336,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #home-operation-section .operation-customer .action a:hover{background-color: #888800color: white;;}
 
 /* top toolbar */
-.top-header{background: url(../img/home/top-navbar-bg.png) no-repeat center center white;height: 158px; overflow:hidden;}
+.top-header{background: url(../img/home/top-navbar-bg.png) no-repeat center center white;height: 158px;}
 .top-header-logo{margin-top: 34px;}
 .top-header-right{height: 158px}
 .top-header-right h1{font-size: 72px; color: white;margin-top: 14px; margin-left: 84px;}
@@ -602,10 +603,11 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .upload-icon-preview-img{width: 128px; height: 128px;}
 
 /* discovery */
-.section-discovery .discovery-api-link{font-size: 12pt; font-weight: bold; font-family: monospace; color: #3498DB;}
-.section-discovery .discovery-websocket-server-link{font-size: 12pt; font-weight: bold; font-family: monospace;  color: #dbdb00;}
-.section-discovery .discovery-websocket-link{font-size: 12pt; font-weight: bold; font-family: monospace;  color: #F1C40F;}
-.section-discovery .discovery-download-link{font-size: 12pt; font-weight: bold; font-family: monospace; 	color: #7AB100}
+.section-discovery .discovery-api-link{font-size: 12pt; font-weight: bold; font-family: monospace; color: #333;}
+.section-discovery .discovery-stream-link{font-size: 12pt; font-weight: bold; font-family: monospace; color: #333;}
+.section-discovery .discovery-websocket-server-link{font-size: 12pt; font-weight: bold; font-family: monospace;  color: #333;}
+.section-discovery .discovery-websocket-link{font-size: 12pt; font-weight: bold; font-family: monospace;  color: #333;}
+.section-discovery .discovery-download-link{font-size: 12pt; font-weight: bold; font-family: monospace; 	color: #333}
 
 
 

@@ -427,6 +427,8 @@ var translations_it = {
     MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Smart Object',
     MANAGEMENT_MENU_DATASET: 'Dataset',
     
+    MANAGEMENT_SANDBOX_WARNING: 'Stai utilizzando il tenant demo Sandbox. I dati caricati per questo tenant vengono periodicamente eliminati', 
+    
     MANAGEMENT_DESCRIPTION_ON_STORE_HINT: 'Scegli con cura, sar&agrave; utilizzato nello store',
 
     /* Management Stream  */

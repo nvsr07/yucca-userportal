@@ -26,6 +26,7 @@
 	</div>
 	<div class='content-gray'>
 		<div class='container'>
+			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate>WARNING</span></strong>&nbsp;&nbsp;<span translate>MANAGEMENT_SANDBOX_WARNING</span></div>
 		<p>&nbsp;</p>
 		<div class="col-sm-10 col-sm-offset-1">
 			<div class="alert alert-danger" ng-show='updateError'>
@@ -69,7 +70,7 @@
 						<div class="form-group">
 							<label for="inputStreamName" class="col-sm-2 control-label"><span translate>STREAM_FIELD_NAME</span></label>
 							<div class="col-sm-5">
-								<input type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME'|translate}}" >
+								<input type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME'|translate}}" maxlength="40" >
 							</div>
 							<div class="col-sm-5 form-hint">
 								<span class='hint-message' ng-bind-html="'MANAGEMENT_DESCRIPTION_ON_STORE_HINT'|translate"></span>  <i class="fa fa-long-arrow-right hint-arrow"></i>  <i class="fa fa-user hint-store-icon"></i>
