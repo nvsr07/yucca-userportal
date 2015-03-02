@@ -8,17 +8,19 @@
 		</div>
 		<div class=row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardCtrl as streamsCtrl">
-				<!-- Main component for a primary marketing message or call to action -->
-	
-				<!-- Single button -->
-				<div class="btn-group">
-					<input type="text" class="form-control col-xs-4" ng-model="tenantsFilter" placeholder="{{'STREAM_LIST_TENANT_FILTER'|translate}}" />
+
+				<div class='clearfix  content-toolbar'>	
+					<div class="btn-group pull-right">
+						<form class="form-inline" role="form">
+							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="tenantsFilter" placeholder="{{'STREAM_LIST_TENANT_FILTER'|translate}}" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="codeFilter" placeholder="{{'STREAM_LIST_CODE_FILTER'|translate}}" />
+							</div>
+						</form>
+					</div>
 				</div>
-				<!-- 
-				<div class="btn-group">
-					<input type="text" class="form-control col-xs-4" ng-model="streamsLastupdateFilter" placeholder="{{'STREAM_LIST_LASTUPDATE_FILTER'|translate}}" />
-				</div>
-	 -->
 				<div class="table-responsive dashboard-streamList-table">
 					<table class="table">
 						<thead>
@@ -64,7 +66,7 @@
 								</td>
 							</tr>
 							
-							<tr ng-repeat="stream in filteredStreams = (streamsList | filter: searchTenantsFilter|  orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+							<tr ng-repeat="stream in filteredStreams = (streamsList | filter: searchCodeFilter | filter: searchTenantsFilter|  orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 								<td>{{stream.nomeTenant}}</td>
 								<td class='text-left'>
 									<a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">

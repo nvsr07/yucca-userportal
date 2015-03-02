@@ -72,6 +72,7 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
 	$scope.tenantsFilter = null;
+	$scope.codeFilter = null;
 	$scope.tenantCode = info.getActiveTenantCode();
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
@@ -126,6 +127,20 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 		// $scope.tenant);
 		$scope.totalItems = $scope.filteredStreamsList.length;
 		console.log("newTenant", newTenant);
+	});
+	
+	$scope.searchCodeFilter = function(stream) {
+		var keyword = new RegExp($scope.codeFilter, 'i');
+		return !$scope.codeFilter || keyword.test(stream.codiceStream)|| keyword.test(stream.nomeStream);
+	};
+
+	$scope.$watch('codeFilter', function(newCode) {
+		$scope.currentPage = 1;
+
+		// $scope.filteredStreamsList = $filter('filter')($scope.streamsList,
+		// $scope.tenant);
+		$scope.totalItems = $scope.filteredStreamsList.length;
+		console.log("newCode", newCode);
 	});
 
 } ]);
