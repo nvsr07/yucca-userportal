@@ -71,6 +71,8 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		int result = httpclient.executeMethod(getMethod);
 		response.setStatus(result);
 		response.setCharacterEncoding(getMethod.getResponseCharSet());
+		if(getMethod.getResponseHeader("Content-Type")!=null)
+			response.setContentType(getMethod.getResponseHeader("Content-Type").getValue());
 		//		for (Header header : getMethod.getResponseHeaders()) {
 		//			System.out.println(header.getName() + "-"+header.getValue());
 		//		}
