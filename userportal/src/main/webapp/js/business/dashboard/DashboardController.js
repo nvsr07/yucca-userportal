@@ -396,14 +396,13 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 
 
 
-
 appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', 'odataAPIservice', 'dataDiscoveryService',  "$filter",
                                                    function($scope, $routeParams, fabricAPIservice, webSocketService, odataAPIservice, dataDiscoveryService, $filter) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
 	$scope.chartComponentNames = [];
 	$scope.chartData = [];
-
+	$scope.clientConnection=Constants.WEBSOCKET_NOT_CONNECTED;
 	
 	$scope.chartWidth = angular.element( document.querySelector( '#chart-container' )).width()-6;
 	
@@ -565,7 +564,17 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	$scope.wsLastMessageToShow = "";
 	var timeCounter = 0;
 
-
+	$scope.connectionCallback=function(sms){		
+		$scope.clientConnection=sms;
+		if(sms==Constants.WEBSOCKET_CONNECTING){
+			$scope.clientConnectionClass="clientConnecting";
+		}else if(sms==Constants.WEBSOCKET_NOT_CONNECTED){
+			$scope.clientConnectionClass="clientNotConnected";
+		}else if(sms==Constants.WEBSOCKET_CONNECTED){
+			$scope.clientConnectionClass="clientConnected";
+		}
+	};
+	
 	var connectWS = function(){
 
 		wsClient.connect(function(message) {
@@ -582,7 +591,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			
 			
 		}, function() {
-		}, '/');
+		}, '/',$scope.connectionCallback);
 	};
 		
 	function dataCallback(message) {
