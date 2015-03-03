@@ -338,7 +338,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 /* top toolbar */
 .top-header{background: url(../img/home/top-navbar-bg.png) no-repeat center center white;height: 158px;}
 .top-header-logo{margin-top: 34px;}
-.top-header-right{height: 158px}
+.top-header-right{}
 .top-header-right h1{font-size: 72px; color: white;margin-top: 14px; margin-left: 84px;}
 .top-toolbar{height: 50px; margin-bottom:0;}
 

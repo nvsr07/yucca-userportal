@@ -434,7 +434,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$scope.virtualentity.virtualEntityPositions = {};
 			$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
 			$scope.virtualentity.virtualEntityPositions.position.push({});
-			$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+			//$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
 
 		}
 	};
@@ -476,7 +476,21 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		var newVirtualentity = new Object();
 		newVirtualentity.codeVirtualEntity = virtualentity.codeVirtualEntity;
 		newVirtualentity.virtualEntity = virtualentity;
-
+		if(newVirtualentity.virtualEntity.idTipoVe != Constants.VIRTUALENTITY_TYPE_DEVICE_ID)
+			newVirtualentity.virtualEntity.virtualEntityPositions=null;
+		else{
+			if(($scope.virtualentity.virtualEntityPositions.position[0].lat == "" ||$scope.virtualentity.virtualEntityPositions.position[0].lat==null)
+					&& ($scope.virtualentity.virtualEntityPositions.position[0].lon=="" || $scope.virtualentity.virtualEntityPositions.position[0].lon==null)){
+				newVirtualentity.virtualEntity.virtualEntityPositions=null;
+			} else {
+				if($scope.virtualentity.virtualEntityPositions.position[0].room == "" ||$scope.virtualentity.virtualEntityPositions.position[0].room ==null )
+					$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+				if($scope.virtualentity.virtualEntityPositions.position[0].elevation == "" ||$scope.virtualentity.virtualEntityPositions.position[0].elevation ==null )
+					$scope.virtualentity.virtualEntityPositions.position[0].elevation = 0;
+				
+			}
+			
+		}
 		
 		console.log("virtualentity.codeVirtualEntity", virtualentity.codeVirtualEntity);
 		console.log("newVirtualentity", newVirtualentity);
