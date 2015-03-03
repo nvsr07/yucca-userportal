@@ -11,9 +11,10 @@
 </style>
 <div id='homepage' ng-controller="HomeCtrl as homeController">
 
-	<div id='home-landing-section' class="">
+	<div id='home-landing-section'>
 		<div class='row'>
-			<div class='col-sm-3 col-sm-offset-3'>
+			<div class='col-sm-5 col-sm-offset-1'>
+				<div class='home-logo'></div>
 				<p class='intro-desc'>
 					<span ng-bind-html="'HOME_INTRO_HTML'|translate"></span>
 				</p>
@@ -27,18 +28,18 @@
 						<div  class='col-sm-1 col-sm-offset-1 first-block'>&nbsp;</div>
 						<div class='col-sm-8 action actions'>
 							<div class='row'>
-								<div class='col-sm-7 text-right'>
+								<div class='col-sm-7 text-right main-action-button-desc'>
 									<span translate>HOME_START_BUTTON_DESC</span>  
 								</div>
 								<div  class='col-sm-5 text-center'>
 									<a class='btn main-action-button' href="/userportal/api/authorize?returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_START_BUTTON</span></a>
 								</div>
 							</div>
-							<div class='row main-action-panel-demo-link'>
-								<div class='col-sm-12 text-center'>
-									<a  href="#/management/virtualentities/sandbox"><span translate>HOME_START_DEMO_BUTTON</span></a>
-								</div>
-							</div>
+						</div>
+					</div>
+					<div class='row main-action-panel-demo-link'>
+						<div class='col-sm-12 text-center'>
+							<a  href="#/management/virtualentities/sandbox"><span translate>HOME_START_DEMO_BUTTON</span></a>
 						</div>
 					</div>
 				</div>
@@ -68,21 +69,23 @@
 			<h3><span translate>HOME_MAP_INTRO</span></h3>
 		</div>
 	 	<div id="map" class="map">
+	 		<div class='left-overlay-map'></div>
 			<div id="popup" class="ol-popup">
    				<a href="#" id="popup-closer" class="ol-popup-closer"></a>
  				<div id="popup-content"></div>
 			</div>
+	 		<div class='right-overlay-map'></div>
 		</div>
 	</div>
 	
 	<div id='home-statistic-section' class='statistic-row'>
 		<div class='container'>
-			<h2><span ng-bind-html="'HOME_STATISTIC_PANEL_TITLE'|translate"></span></h2>
+			<h3><span ng-bind-html="'HOME_STATISTIC_PANEL_TITLE'|translate"></span></h3>
 			<div class='row'>
 				<div class='col-sm-4 statistic-data-panel'>
-					<p><span translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TOTAL_DATA_TIP"|translate}} {{statistics.total_data}}'>{{statistics.total_data|format_big_number}}</span></p>
-					<p><span translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TODAY_DATA_TIP"|translate}} {{statistics.today_data}}'>{{statistics.today_data|format_big_number}}</span></p>
-					<p><span translate>HOME_STATISTIC_VIRTUALOBJECT_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP"|translate}} {{statistics.total_measures}}'>{{statistics.total_measures|format_big_number}}</span></p>
+					<p><span class='data-number-label' translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TOTAL_DATA_TIP"|translate}} {{statistics.total_data}}' ng-bind-html="statistics.total_data|format_big_number"></span></p>
+					<p><span class='data-number-label' translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TODAY_DATA_TIP"|translate}} {{statistics.today_data}}' ng-bind-html="statistics.today_data|format_big_number"></span></p>
+					<p><span class='data-number-label' translate>HOME_STATISTIC_VIRTUALOBJECT_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP"|translate}} {{statistics.total_measures}}'><span ng-bind-html="statistics.total_measures|format_big_number"></span></span></p>
 				</div>
 				<div class='col-sm-4 statistic-chart-panel'>
 					<div id='domain-chart' style='height: 350px;'>
@@ -101,9 +104,9 @@
 					</div>
 				</div>
 				<div class='col-sm-4 statistic-entity-panel'>
-					<p><span class='data-number'>{{statistics.total_tenants}}</span><span translate>HOME_STATISTIC_TENANT</span></p>
-					<p><span class='data-number'>{{statistics.total_smart_objects}}</span><span translate>HOME_STATISTIC_VIRTUALENTITY</span></p>
-					<p><span class='data-number'>{{statistics.total_streams}}</span><span translate>HOME_STATISTIC_STREAM</span></p>
+					<p><span class='data-number'>{{statistics.total_tenants}}</span><span class='data-number-label' translate>HOME_STATISTIC_TENANT</span></p>
+					<p><span class='data-number'>{{statistics.total_smart_objects}}</span><span class='data-number-label' translate>HOME_STATISTIC_VIRTUALENTITY</span></p>
+					<p><span class='data-number'>{{statistics.total_streams}}</span><span class='data-number-label' translate>HOME_STATISTIC_STREAM</span></p>
 				</div>
 			</div>
 		</div>

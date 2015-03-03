@@ -96,11 +96,11 @@ appFilters.filter('format_big_number', function() {
 			if(input<1000)
 				output=input;
 			else if(input<1000000)
-				output=(input/1000).toFixed(2)+" K";
+				output=(input/1000).toFixed(2)+" <span class='counter-group'>mila</span>";
 			else if(input<1000000000)
-				output=(input/1000000).toFixed(2)+" M";
+				output=(input/1000000).toFixed(2)+" <span class='counter-group'>mln</span>";
 			else if(input<1000000000000)
-				output=(input/1000000000).toFixed(2)+" G";
+				output=(input/1000000000).toFixed(2)+" <span class='counter-group'>mld</span>";
 	    }
 		return (""+output).replace(".", ","); 
 	};
