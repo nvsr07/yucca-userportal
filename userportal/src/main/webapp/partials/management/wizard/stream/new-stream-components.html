@@ -142,11 +142,11 @@
              						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
              					 	</select>
 								</td>
-         						<td><a href="javascript:void(0)" ng-click='addComponent((newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
+         						<td><a href="javascript:void(0)" ng-click='addComponent(newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
 							</tr>
 						</tbody>
 					</table>
-					<div class="alert alert-danger" ng-show='insertComponentErrors.length>0'>
+					<div class="alert alert-danger text-left" ng-show='insertComponentErrors.length>0'>
 						<strong>{{updateError.error_message}}</strong>
 						<ul><li ng-repeat="insertComponentError in insertComponentErrors "><span translate>{{insertComponentError}}</span></li></ul>
 					</div>
