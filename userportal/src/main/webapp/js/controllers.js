@@ -33,6 +33,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 	$scope.changeActiveTenant = function(newTenant){
 		info.setActiveTenantCode(newTenant);
 		$scope.activeTenantCode = info.getActiveTenantCode();
+		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
 		$location.path("#/");
 	};
 	

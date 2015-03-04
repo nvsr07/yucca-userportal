@@ -125,125 +125,125 @@ appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($sc
 
 } ]);
 
-appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
-	$scope.tenantCode = $route.current.params.tenant_code;
-	$scope.user = {};
-
-	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
-
-
-
-	$scope.stream={};
-	fabricAPIservice.getInfo().success(function(result) {
-		console.debug("result managementnew stream", result);
-		$scope.user = result.user;
-		console.debug("info user", $scope.user);
-		if($scope.user!=undefined && $scope.user.loggedIn==true){
-			$scope.stream.nomeRichiedente=$scope.user.firstname;
-			$scope.stream.cognomeRichiedente=$scope.user.lastname;
-			$scope.stream.mailRichiedente=$scope.user.email;
-		}
-	});
-
-	$scope.isOwner = function(){
-		return info.isOwner( $scope.tenantCode);
-	};
-
-
-
-	$scope.virtualEntitiesList = [];
-
-
-	//internal stream
-	$scope.virtualentity=null;
-//	$scope.internalStreams = [];
-	$scope.inputTypeStream = 1;
-//	$scope.streamSelectedItem=null;	
-//	$scope.streamSiddhiQuery=null;
-//	$scope.virtualentityInternal=null;
-
-	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
-		console.log(response.virtualEntities.virtualEntity);
-		for (var int = 0; int < response.virtualEntities.virtualEntity.length; int++) {
-			var virtualentity = response.virtualEntities.virtualEntity[int];
-			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
-				$scope.virtualEntitiesList.push(virtualentity);
-			}else{
-				$scope.virtualentityInternal=virtualentity;
-			}
-
-		}
-	});
-
-
-
-	$scope.domainList = [];
-	fabricAPIservice.getStreamDomains().success(function(response) {
-		for (var int = 0; int < response.streamDomains.element.length; int++) {
-			$scope.domainList.push(response.streamDomains.element[int].codDomain);
-		}
-	});
-
-
-	$scope.newTag = null;
-	$scope.addTag = function(){
-		if($scope.newTag){
-			var found = false;	
-			for (var int = 0; int < $scope.stream.streamTags.tag.length; int++) {
-				var existingTag = $scope.stream.streamTags.tag[int];
-				if(existingTag.tagCode == $scope.newTag){
-					found = true;
-					break;
-				}
-
-			}
-			if(!found)
-				$scope.stream.streamTags.tag.push({"tagCode":$scope.newTag});
-		}
-		$scope.newTag = null;
-		return false;
-
-	};
-
-	$scope.removeTag = function(index){
-		$scope.stream.streamTags.tag.splice(index,1);
-		return false;
-	};
-
-
-	$scope.creationError = null;
-
-	$scope.accettazionePrivacy=0;
-	$scope.accettazioneResponsability=0;
-
-	$scope.createStream = function(virtualentity, stream) {
-		stream.fps = 0;
-		stream.saveData = 0;
-		stream.publishStream = 1;
-		stream.visibility = 'public';
-		stream.accettazionePrivacy=0;
-		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
-
-
-		var newStream = new Object();
-		newStream.stream = stream;
-
-		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
-		promise.then(function(result) {
-			console.log("result qui ", result);
-			$location.path('management/editStream/'+$scope.tenantCode +'/'+virtualentity.codeVirtualEntity+'/'+newStream.stream.codiceStream);
-		}, function(result) {
-			$scope.creationError = angular.fromJson(result.data);
-			console.log("result.data ", result.data);
-		}, function(result) {
-			console.log('Got notification: ' + result);
-		});
-	};	
-
-	$scope.cancel = function(){
-		$location.path('management/streams/'+$scope.tenantCode);
-	};
-} ]);
+//appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
+//	$scope.tenantCode = $route.current.params.tenant_code;
+//	$scope.user = {};
+//
+//	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
+//
+//
+//
+//	$scope.stream={};
+//	fabricAPIservice.getInfo().success(function(result) {
+//		console.debug("result managementnew stream", result);
+//		$scope.user = result.user;
+//		console.debug("info user", $scope.user);
+//		if($scope.user!=undefined && $scope.user.loggedIn==true){
+//			$scope.stream.nomeRichiedente=$scope.user.firstname;
+//			$scope.stream.cognomeRichiedente=$scope.user.lastname;
+//			$scope.stream.mailRichiedente=$scope.user.email;
+//		}
+//	});
+//
+//	$scope.isOwner = function(){
+//		return info.isOwner( $scope.tenantCode);
+//	};
+//
+//
+//
+//	$scope.virtualEntitiesList = [];
+//
+//
+//	//internal stream
+//	$scope.virtualentity=null;
+////	$scope.internalStreams = [];
+//	$scope.inputTypeStream = 1;
+////	$scope.streamSelectedItem=null;	
+////	$scope.streamSiddhiQuery=null;
+////	$scope.virtualentityInternal=null;
+//
+//	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
+//		console.log(response.virtualEntities.virtualEntity);
+//		for (var int = 0; int < response.virtualEntities.virtualEntity.length; int++) {
+//			var virtualentity = response.virtualEntities.virtualEntity[int];
+//			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
+//				$scope.virtualEntitiesList.push(virtualentity);
+//			}else{
+//				$scope.virtualentityInternal=virtualentity;
+//			}
+//
+//		}
+//	});
+//
+//
+//
+//	$scope.domainList = [];
+//	fabricAPIservice.getStreamDomains().success(function(response) {
+//		for (var int = 0; int < response.streamDomains.element.length; int++) {
+//			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+//		}
+//	});
+//
+//
+//	$scope.newTag = null;
+//	$scope.addTag = function(){
+//		if($scope.newTag){
+//			var found = false;	
+//			for (var int = 0; int < $scope.stream.streamTags.tag.length; int++) {
+//				var existingTag = $scope.stream.streamTags.tag[int];
+//				if(existingTag.tagCode == $scope.newTag){
+//					found = true;
+//					break;
+//				}
+//
+//			}
+//			if(!found)
+//				$scope.stream.streamTags.tag.push({"tagCode":$scope.newTag});
+//		}
+//		$scope.newTag = null;
+//		return false;
+//
+//	};
+//
+//	$scope.removeTag = function(index){
+//		$scope.stream.streamTags.tag.splice(index,1);
+//		return false;
+//	};
+//
+//
+//	$scope.creationError = null;
+//
+//	$scope.accettazionePrivacy=0;
+//	$scope.accettazioneResponsability=0;
+//
+//	$scope.createStream = function(virtualentity, stream) {
+//		stream.fps = 0;
+//		stream.saveData = 0;
+//		stream.publishStream = 1;
+//		stream.visibility = 'public';
+//		stream.accettazionePrivacy=0;
+//		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
+//
+//
+//		var newStream = new Object();
+//		newStream.stream = stream;
+//
+//		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
+//		promise.then(function(result) {
+//			console.log("result qui ", result);
+//			$location.path('management/editStream/'+$scope.tenantCode +'/'+virtualentity.codeVirtualEntity+'/'+newStream.stream.codiceStream);
+//		}, function(result) {
+//			$scope.creationError = angular.fromJson(result.data);
+//			console.log("result.data ", result.data);
+//		}, function(result) {
+//			console.log('Got notification: ' + result);
+//		});
+//	};	
+//
+//	$scope.cancel = function(){
+//		$location.path('management/streams/'+$scope.tenantCode);
+//	};
+//} ]);
 
 
 
@@ -439,6 +439,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 	});
 
+	fabricAPIservice.getTenants().success(function(response) {
+		console.debug("response", response.tenants);
+		$scope.tenantsList = response.tenants.tenant;		
+	});
+
+	
 	$scope.tagList = [];
 	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
@@ -567,6 +573,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.stream.saveData = 1;
 			$scope.stream.publishStream = 1;
 		}
+		if(!$scope.stream.tenantssharing || $scope.stream.tenantssharing == null)
+			 $scope.stream.tenantssharing = {};
+		if(!$scope.stream.tenantssharing.tenantsharing || $scope.stream.tenantssharing.tenantsharing)
+			 $scope.stream.tenantssharing.tenantsharing = [];
+
 	};
 
 
@@ -592,33 +603,40 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 //	$scope.newComponentPhenomenon = null;
 //	$scope.newComponentDataType = null;
 
-	$scope.addComponent = function(newComponent, newComponentUnitOfMeasurement, newComponentPhenomenon,newComponentDataType){
+	$scope.addComponent = function(newComponentName, newComponentUnitOfMeasurement, newComponentTolerance, newComponentPhenomenon,newComponentDataType){
 		
 		$scope.updateWarning = false;
 		$scope.warningMessages = [];
 		$scope.validationRes=2;
 		$scope.insertComponentErrors = [];
-		if(newComponent && newComponent.nome && newComponent.nome!=null){
+		var newComponent = {};
+		if(newComponentName!=null && newComponentName!=""){
 			var found = false;
 			
-			if(newComponent.nome.indexOf(' ') >= 0){
+			if(newComponentName.indexOf(' ') >= 0){
 				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE');
 			}
 			else{
 
 				for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
-					if($scope.stream.componenti.element[int].nome == newComponent.nome){
+					if($scope.stream.componenti.element[int].nome == newComponentName){
 						found = true;
 						break;
 					}
 				}
 	
 				if(!found){
+					newComponent.nome=newComponentName;
+					
 					if(newComponentUnitOfMeasurement){
 						newComponent.idMeasureUnit = newComponentUnitOfMeasurement.idMeasureUnit;
 						newComponent.measureUnit = newComponentUnitOfMeasurement.measureUnit;
 						newComponent.measureUnitCategory = newComponentUnitOfMeasurement.measureUnitType;
 					}  
+					if(newComponentTolerance){
+						newComponent.tolerance = newComponentTolerance;
+					}  
+
 					if(newComponentPhenomenon){
 						newComponent.idPhenomenon = newComponentPhenomenon.idPhenomenon;
 						newComponent.phenomenon = newComponentPhenomenon.phenomenon;
@@ -638,27 +656,34 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		else
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED');
 
-		console.log("newComponentDataType", newComponentDataType);
+		if(newComponentUnitOfMeasurement == null || newComponentUnitOfMeasurement == ""){
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED');
+		}
+		
+		if(newComponentTolerance == null || newComponentTolerance == ""){
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED');
+		}
+		else{
+			if( !Helpers.util.isNumber(newComponentTolerance))
+				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER');
+		}
+
+		if(newComponentPhenomenon == null || newComponentPhenomenon == ""){
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED');
+		}
+
 		if(newComponentDataType == null || newComponentDataType == ""){
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED');
 		}
 		
 
-		if(newComponent!=null) {
-			console.log("newComponent.tolerance",newComponent.tolerance);
-			if(newComponent.tolerance == null || newComponent.tolerance == ""){
-				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED');
-			}
-			else{
-				if( !Helpers.util.isNumber(newComponent.tolerance))
-					$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER');
-			}
-		}
 		
+		console.log("newCompoent",newComponent);
 		if($scope.insertComponentErrors.length==0){
 			$scope.stream.componenti.element.push(newComponent);
 			newComponent = null;
 		}
+		
 		return false;
 	};
 
@@ -693,6 +718,30 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.stream.streamTags.tag.splice(index,1);
 		return false;
 	};
+	
+	$scope.addTenantSharing = function(newTenantSharing){
+		console.log("addTenantSharing ",newTenantSharing);
+		if(newTenantSharing){
+			var found = false;	
+			for (var int = 0; int < $scope.stream.tenantssharing.tenantsharing.length; int++) {
+				var existingTenantSharing = $scope.stream.tenantssharing.tenantsharing[int];
+				if(existingTenantSharing.idTenant ==newTenantSharing){
+					found = true;
+					break;
+				}
+
+			}
+			if(!found)
+				$scope.stream.tenantssharing.tenantsharing.push({"idTenant":newTenantSharing, "isOwner": 0});
+		}
+		return false;
+	};
+
+	$scope.removeTenantSharing = function(index){
+		$scope.stream.tenantssharing.tenantsharing.splice(index,1);
+		return false;
+	};
+	
 	
 	$scope.selectedIcon;
 	$scope.onIconSelect = function($files) {

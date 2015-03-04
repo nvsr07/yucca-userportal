@@ -119,7 +119,7 @@
 							</tr>
 							<tr>
                					 <td ng-class="{ 'has-error': insertComponentError }">
-               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponent.nome" 
+               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponentName" 
                					 		 placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
              					 <td>
              					 	<select class="input-sm form-control" ng-model="newComponentUnitOfMeasurement" 
@@ -129,7 +129,7 @@
 								</td>
 				                <td>
 				                	<input class="input-sm form-control" type="text" name="newComponentTolerance" id="newComponentTolerance" 
-				                		ng-model="newComponent.tolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
+				                		ng-model="newComponentTolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
 				                </td>
              					<td>
              					 	<select class="input-sm form-control" ng-model="newComponentPhenomenon" 
@@ -142,7 +142,7 @@
              						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
              					 	</select>
 								</td>
-         						<td><a href="javascript:void(0)" ng-click='addComponent(newComponent, newComponentUnitOfMeasurement, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
+         						<td><a href="javascript:void(0)" ng-click='addComponent((newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
 							</tr>
 						</tbody>
 					</table>

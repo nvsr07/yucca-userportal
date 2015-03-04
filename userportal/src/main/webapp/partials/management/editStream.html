@@ -125,7 +125,7 @@
 								<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
 							</div>
 							<div class="col-sm-3">
-								<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
+								<div ng-file-select="onIconSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
 									<span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
 								</div>
 							</div>
@@ -246,7 +246,7 @@
 										</tr>
 										<tr>
 			               					 <td ng-class="{ 'has-error': insertComponentError }">
-			               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponent.nome" 
+			               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponentName" 
 			               					 		 placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
 			             					 <td>
 			             					 	<select class="input-sm form-control" ng-model="newComponentUnitOfMeasurement" 
@@ -256,7 +256,7 @@
 											</td>
 							                <td>
 							                	<input class="input-sm form-control" type="text" name="newComponentTolerance" id="newComponentTolerance" 
-							                		ng-model="newComponent.tolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
+							                		ng-model="newComponentTolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
 							                </td>
 			             					<td>
 			             					 	<select class="input-sm form-control" ng-model="newComponentPhenomenon" 
@@ -269,7 +269,7 @@
 			             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 			             					 	</select>
 											</td>
-			         						<td><a href="javascript:void(0)" ng-click='addComponent(newComponent, newComponentUnitOfMeasurement, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
+			         						<td><a href="javascript:void(0)" ng-click='addComponent(newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
 										</tr>
 									</tbody>
 								</table>
@@ -302,6 +302,28 @@
 			            		</label>
 							</div>
 						</div>
+						<!-- 
+						<div class="form-group">
+							<label for="inputStreamAddTenantSharing" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TENANTSSHARING</span></label>
+							<div class="col-sm-10">
+								<p>
+									<span  ng-repeat="tenantSharing in stream.tenantssharing.tenantsharing">
+										<span class="label label-custom"><span ng-bind-html="tenantSharing.tenantName" title="{tenantSharing.tenantDescription}"></span> &nbsp;
+										<a href="javascript:void(0)" ng-click='removeTenantSharing($index)' ng-show="tenantSharing.isOwner==0">&times;</a>
+										</span> &nbsp;
+									</span>
+								</p>						
+								<div class="input-group">
+									<select class="input-sm form-control" ng-model="newTenantSharing" ng-options="tenant.tenantCode in tenantsList">
+										<option value="" ng-bind-html="'MANAGEMENT_EDIT_STREAM_TENANT_SHARING_PLACEHOLDER'|translate" ></option>
+									</select>
+								    <span class="input-group-btn">
+								    	<a class="btn  btn-sm"  href="javascript:void(0)" ng-click='addTenantSharing(newTenantSharing)' title="{{'MANAGEMENT_EDIT_STREAM_ADD_TENANT_SHARING'|translate}}" ><i class='glyphicon glyphicon-plus'></i></a>
+								    </span>
+		    					</div>								
+							</div>
+						</div>			
+						 -->
 						<div class="form-group">
 							<label for="RadioGroupPublish" class="col-sm-2 control-label"><span translate>MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE_LABEL</span></label>
 							<div class="col-sm-10">

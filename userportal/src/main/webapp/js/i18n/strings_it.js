@@ -78,6 +78,7 @@ var translations_it = {
 	STREAM_FIELD_VERSION : 'Versione installata',
 	STREAM_FIELD_IN_STORE: 'Nello store',
 	STREAM_FIELD_ICON: 'Icona per lo store',
+	STREAM_FIELD_TENANTSSHARING: 'Condividi con ',
 	
 	STREAM_INPUT_FIELDS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
@@ -105,7 +106,7 @@ var translations_it = {
 	/* Stream List */
 	STREAM_LIST_TENANT_FILTER : 'Filtra per organizzazione',
 	STREAM_LIST_NAME_FILTER : 'Filtra per nome',
-	STREAM_LIST_CODE_FILTER : 'Filter per codice',
+	STREAM_LIST_CODE_FILTER : 'Filtra per codice',
 	STREAM_LIST_STATUS_FILTER : 'Filtra per stato',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filtra per aggiornamento',
 	
@@ -492,6 +493,9 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_FINISH_BUTTON: 'Fine modifica', 
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Aggiungi tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Stream salvato',
+	MANAGEMENT_EDIT_STREAM_ADD_TENANT_SHARING : 'Aggiungi tenant', 
+	MANAGEMENT_EDIT_STREAM_TENANT_SHARING_PLACEHOLDER: 'Choose one tenant...',
+
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni Principali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
@@ -502,9 +506,11 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' e\' obbligatorio',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'Nome\' deve essere univoco per stream ',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'Il campo \'tipo di dato\' e\' obbligatorio',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED: 'Il campo \'tolleranza\' e\' obbligatorio',
-	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER: 'Il campo \'tolleranza\' deve essere numerico',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'Il campo \'Tipo di dato\' e\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED: 'Il campo \'Unita\' di misura\' e\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED: 'Il campo \'Fenomeno\' e\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED: 'Il campo \'Tolleranza\' e\' obbligatorio',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER: 'Il campo \'Tolleranza\' deve essere numerico',
 	MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS: 'Inserire almeno un componente',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE: 'Il campo \'Nome\' non puo\' contenere spazi',
     

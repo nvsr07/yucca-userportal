@@ -78,6 +78,7 @@ var translations_en = {
 	STREAM_FIELD_VERSION : 'Installed Version',
 	STREAM_FIELD_IN_STORE: 'In the store',
 	STREAM_FIELD_ICON: 'Icon for the store',
+	STREAM_FIELD_TENANTSSHARING: 'Share with ',
 	
 	STREAM_INPUT_FIELDS: 'Stream in Input Definition',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
@@ -492,6 +493,9 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_FINISH_BUTTON: 'Finish editing', 
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Add tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Stream saved',
+	MANAGEMENT_EDIT_STREAM_ADD_TENANT_SHARING : 'Add tenant', 
+	MANAGEMENT_EDIT_STREAM_TENANT_SHARING_PLACEHOLDER: 'Scegli un tenant...',
+
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
@@ -504,6 +508,8 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'The field \'name\' must be unique in a stream',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'The field \'data type\' is required',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED: 'The field \'tollerance\' is required',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED: 'The field \'Phenomenon\' is required',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED: 'The field \'Tollerance\' is required',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER: 'The field \'tollerance\' must be numeric',
 	MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS: 'Isert at least one component',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE: 'The field \'Name\' cannot contain white space',
@@ -674,6 +680,7 @@ var translations_en = {
 	DISCOVERY_DETAIL_DATASET_COLUMNS: 'Define data structure',
 	DISCOVERY_DETAIL_ACCESS_DATA_TITLE: 'Data access', 
 	DISCOVERY_DETAIL_ACCESS_DATA_API: 'Url API OData',
+	DISCOVERY_DETAIL_ACCESS_DATA_STREAM: 'Url Stream API',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET: 'Real time stream with web socket',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL: 'Server URL',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL: 'Topic', 
