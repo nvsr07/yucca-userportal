@@ -79,6 +79,7 @@ var translations_it = {
 	STREAM_FIELD_IN_STORE: 'Nello store',
 	STREAM_FIELD_ICON: 'Icona per lo store',
 	STREAM_FIELD_TENANTSSHARING: 'Condividi con ',
+	STREAM_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	
 	STREAM_INPUT_FIELDS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',

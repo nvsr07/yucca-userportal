@@ -441,7 +441,18 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	fabricAPIservice.getTenants().success(function(response) {
 		console.debug("response", response.tenants);
-		$scope.tenantsList = response.tenants.tenant;		
+		try{
+			$scope.tenantsList = [];
+			for (var int = 0; int <  response.tenants.tenant.length; int++) {
+				var t = response.tenants.tenant[int];
+				if(t.tenantCode!=$scope.tenantCode)
+					$scope.tenantsList.push(t);
+			}
+		}
+		catch (e) {
+			log.error("getTenants ERROR",e);
+		}
+		
 	});
 
 	
@@ -560,6 +571,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 				$scope.stream.domain = $scope.stream.domainStream;
 				$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+				
+				if($scope.stream.tenantssharing &&  $scope.stream.tenantssharing !=null &&  $scope.stream.tenantssharing.tenantsharing &&  $scope.stream.tenantssharing.tenantsharing !=null
+						&& $scope.stream.tenantssharing.tenantsharing.length>0){
+					for (var i = 0; i < $scope.stream.tenantssharing.tenantsharing.length; i++) {
+						if($scope.stream.tenantssharing.tenantsharing[i].isOwner==0)
+							$scope.addTenantSharing($scope.stream.tenantssharing.tenantsharing[i]);
+					}
+				}
 			});
 		}
 		else{
@@ -572,11 +591,20 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.stream.componenti.element = [];
 			$scope.stream.saveData = 1;
 			$scope.stream.publishStream = 1;
+			//$scope.stream.tenantssharing = {};
+			//$scope.stream.tenantssharing.tenantsharing = [];
+//			var ownerTenant = {"idTenant":newTenantSharing.idTenant, 
+//				"tenantName": newTenantSharing.tenantName, 
+//				"tenantDescription": newTenantSharing.tenantDescription, 
+//				"tenantCode": $scope.tenantCode, 
+//				"isOwner": 1
+//			};
+//			$scope.stream.tenantssharing.tenantsharing.push(ownerTenant);
 		}
-		if(!$scope.stream.tenantssharing || $scope.stream.tenantssharing == null)
-			 $scope.stream.tenantssharing = {};
-		if(!$scope.stream.tenantssharing.tenantsharing || $scope.stream.tenantssharing.tenantsharing)
-			 $scope.stream.tenantssharing.tenantsharing = [];
+//		if(!$scope.stream.tenantssharing || $scope.stream.tenantssharing == null)
+//			 $scope.stream.tenantssharing = {};
+//		if(!$scope.stream.tenantssharing.tenantsharing || $scope.stream.tenantssharing.tenantsharing)
+//			 $scope.stream.tenantssharing.tenantsharing = [];
 
 	};
 
@@ -709,7 +737,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if(!found)
 				$scope.stream.streamTags.tag.push({"tagCode":newTag});
 		}
-//		$scope.newTag = null;
 		return false;
 
 	};
@@ -723,25 +750,44 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		console.log("addTenantSharing ",newTenantSharing);
 		if(newTenantSharing){
 			var found = false;	
-			for (var int = 0; int < $scope.stream.tenantssharing.tenantsharing.length; int++) {
-				var existingTenantSharing = $scope.stream.tenantssharing.tenantsharing[int];
-				if(existingTenantSharing.idTenant ==newTenantSharing){
+			if(!$scope.stream.tenantsShare || $scope.stream.tenantsShare == null){
+				$scope.stream.tenantsShare = {};
+			}
+			if(!$scope.stream.tenantsShare.tenantList || $scope.stream.tenantsShare.tenantList == null){
+				$scope.stream.tenantsShare.tenantList = [];
+			}
+			
+			for (var int = 0; int < $scope.stream.tenantsShare.tenantList.length; int++) {
+				var existingTenantSharing = $scope.stream.tenantsShare.tenantList[int];
+				console.log("existing",existingTenantSharing);
+				if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
+					console.log("found");
 					found = true;
 					break;
 				}
 
 			}
-			if(!found)
-				$scope.stream.tenantssharing.tenantsharing.push({"idTenant":newTenantSharing, "isOwner": 0});
+			if(!found){
+				$scope.stream.tenantsShare.tenantList.push(
+							{"idTenant":newTenantSharing.idTenant, 
+								"tenantName": newTenantSharing.tenantName, 
+								"tenantDescription": newTenantSharing.tenantDescription, 
+								"tenantCode": newTenantSharing.tenantCode, 
+								"isOwner": 0
+							});
+				console.log("added",$scope.stream.tenantsShare.tenantList );
+			}
 		}
+
 		return false;
 	};
 
 	$scope.removeTenantSharing = function(index){
-		$scope.stream.tenantssharing.tenantsharing.splice(index,1);
+		$scope.stream.tenantsShare.tenantList.splice(index,1);
 		return false;
 	};
 	
+
 	
 	$scope.selectedIcon;
 	$scope.onIconSelect = function($files) {
@@ -768,7 +814,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		);
 	};
 
-
 	$scope.canInstall = function() {
 		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_DRAFT)
 			return true;
@@ -793,30 +838,26 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		return false;
 	};
 
-
-	$scope.cancel = function(){
-		$location.path('management/streams');
-	};
 	
 	$scope.selectVirtualentity = function(){
 		$scope.stream.codiceVirtualEntity = $scope.virtualentitycodeVirtualEntity;
 	};
 
 	$scope.save = function(){
+		console.log("save stream", $scope.stream);
 		if($scope.isNewStream)
 			$scope.createStream($scope.stream);
 		else
-			$scope.updateStream();
+			$scope.updateStream($scope.stream);
 	};
 	
 	$scope.cancel = function(){    
 		$location.path('management/streams/'+$scope.tenantCode);
 	};
-	
-
-	
-	$scope.updateStream = function() {
 		
+	$scope.updateStream = function() {
+		console.log(" $scope.stream",  $scope.stream);
+
 		if($scope.validationRes!=0 && $scope.stream.codiceVirtualEntity=="internal"){
 			$scope.errorMsg='STREAM_SIDDHI_PLEASE_VALIDATE';
 			$scope.validationRes=1;

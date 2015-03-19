@@ -17,7 +17,7 @@
 			<p>
 				<span  ng-repeat="tag in metadata.info.tags">
 					<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
-					<a href="javascript:void(0)" ng-click='removeTag($index)'>&times;</a>
+					<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
 					</span> &nbsp;
 				</span>
 			</p>						
