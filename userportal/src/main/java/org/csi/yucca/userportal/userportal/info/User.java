@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 public class User {
 	private String username;
 	private List<String> tenants;
+	private String activeTenant;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -27,6 +28,11 @@ public class User {
 		this.email = email;
 		this.loggedIn = false;
 		this.permissions = permissions;
+		if(tenants.size()>0){
+			this.activeTenant=tenants.get(0);
+		}else{
+			this.activeTenant="sandbox";
+		}
 	}
 
 	public String getUsername() {
@@ -110,5 +116,13 @@ public class User {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public String getActiveTenant() {
+		return activeTenant;
+	}
+
+	public void setActiveTenant(String activeTenant) {
+		this.activeTenant = activeTenant;
 	}
 }

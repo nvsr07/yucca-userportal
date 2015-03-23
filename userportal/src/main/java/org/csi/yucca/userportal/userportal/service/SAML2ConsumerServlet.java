@@ -91,13 +91,15 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setLoggedIn(true);
 					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
 					newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
+					
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
 					} catch (Exception e) {
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
-
+					
+					newUser.setActiveTenant(newUser.getTenants().get(0));
 					newUser.setToken(getTokenForTenant(newUser));
 
 					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
@@ -117,7 +119,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
 					newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 					newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
-
+					newUser.setActiveTenant(tenants.get(0));
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
@@ -125,7 +127,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
-
+					newUser.setActiveTenant(newUser.getTenants().get(0));
 					newUser.setToken(getTokenForTenant(newUser));
 
 					for (Object key : result.keySet().toArray()) {
@@ -173,9 +175,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		try {
 			Properties config = Config.loadServerConfiguration();
 			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
-
+			
 			if(newUser != null && newUser.getTenants()!=null && newUser.getTenants().size()>0)
-				apiBaseUrl+= Config.SECDATA_NEWTOKEN+newUser.getTenants().get(0);
+				apiBaseUrl+= Config.SECDATA_NEWTOKEN+newUser.getActiveTenant();
 			else
 				apiBaseUrl+= Config.SECDATA_NEWTOKEN+"sandbox";
 

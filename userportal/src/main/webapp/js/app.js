@@ -25,7 +25,7 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {templateUrl: 'partials/common/home.html?'+BuildInfo.timestamp, isHomepage: true});
 	$routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard/main.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/main/:dashboard', {templateUrl: 'partials/dashboard/main.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
-	$routeProvider.when('/dashboard/streams', {templateUrl: 'partials/dashboard/streams.html?'+BuildInfo.timestamp, controller: 'DashboardCtrl', activetab: 'dashboard'});
+	$routeProvider.when('/dashboard/streams', {templateUrl: 'partials/dashboard/streams.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/stream/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/dashboard/stream-data.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/streamstats/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/dashboard/stream-data.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/error_log', {templateUrl: 'partials/dashboard/error-log.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
@@ -79,6 +79,8 @@ app.factory('info',  function() {
     infoService.getActiveTenantCode = function(){
     	if(this.info && this.info.activeTenantCode)
     		return this.info.activeTenantCode;
+    	else if(this.info && this.info.user && this.info.user.activeTenant)
+    		return this.info.user.activeTenant;
     	else if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0)
     		return this.info.user.tenants[0];
     	return null;

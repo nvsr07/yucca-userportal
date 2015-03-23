@@ -8,6 +8,19 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 			url : Constants.API_INFO_URL + '?callback=JSON_CALLBACK'
 		});
 	};
+	
+	fabricAPI.getInfoChangActiveTenant = function(activeTenant) {
+		
+		var changeTenantUrl = Constants.API_INFO_URL + '?callback=JSON_CALLBACK';
+		
+		if(activeTenant!=undefined)
+		   changeTenantUrl = changeTenantUrl+"&activeTenant="+activeTenant;
+		
+		return $http({
+			method : 'JSONP',
+			url : changeTenantUrl
+		});
+	};
 
 	fabricAPI.validateSiddhi = function(toValidate) {
 		return $http({
