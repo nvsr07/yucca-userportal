@@ -225,7 +225,7 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER: 'key',
 	
 	
-	/* Stream tags */
+	/* Stream domains */
 	AGRICULTURE: 'Agriculture',
 	ENERGY: 'Energy',
 	ENVIRONMENT: 'Environment',
@@ -235,7 +235,7 @@ var translations_en = {
 	TRANSPORT: 'Transport',
 
 	
-	/* Stream domains */
+	/* Stream tags */
 	AIR: 'Air',
 	CARBON: 'Carbon',
 	CONSUMPTION: 'Consumption',
@@ -265,6 +265,9 @@ var translations_en = {
 	WIND: 'Wind',
 	SULPHUR: 'Sulphur',
 	VINEYARD: 'Vineyard',
+	COMFORT: 'Comfort',
+	LIGHTNING: 'Lightning',
+	PEOPLE: 'People', 
 	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Only integer number',
@@ -586,7 +589,9 @@ var translations_en = {
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_WIZARD_PREV: 'Back', 
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT: 'Next', 
-	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Upload dataset',
+	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_CREATE_COLUMNS: 'Define columns without uploading the file',
+	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_IMPORT_COLUMNS: 'Define columns from the file',
+	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Create	 dataset',
 	
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA: 'Drop the file to upload ',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR: 'Or',
@@ -597,6 +602,8 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE: 'Max file size supported: ',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE: 'Warning',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG: 'The size of the selected file exceeds the quota limit',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_INFO: 'If you do not have the file to upload, you can directly define the columns',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_LINK: 'Define columns',
 	
 	MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT: 'Skip column', 
 	MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT: 'Change column order',

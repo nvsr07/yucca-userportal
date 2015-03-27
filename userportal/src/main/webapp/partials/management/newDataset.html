@@ -43,6 +43,12 @@
 	<div class='content-gray'>
 		<div class='container'>
 			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate>WARNING</span></strong>&nbsp;&nbsp;<span translate>MANAGEMENT_SANDBOX_WARNING</span></div>
+			<div class="alert alert-warning" ng-show='warningMessages.length>0'>
+				<strong translate>WARNING</strong> <span translate>{{warningMessage}}</span>
+				<ul><li ng-repeat="warningMessage in warningMessages "><span translate>{{warningMessage}}</span></li></ul>
+			</div>
+			
+			
 			<div class='row'>
 				<div class="col-sm-10 col-sm-offset-1">
 					<carousel id='newDatasetWizard' interval="-1">

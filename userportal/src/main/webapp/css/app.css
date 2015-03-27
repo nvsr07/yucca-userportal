@@ -90,6 +90,9 @@ ul .list-spaced li{line-height: 1.2em;}
 small pre{font-size: 11px;padding: 4px;}
 pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 
+
+.input-icon-hint{  font-size: 18px!important;  color: #00bbf0;}
+
 /* validation */
 .ng-dirty.ng-invalid{border-color: #b50000;}
 .error-validation-icon{color: #b50000;}

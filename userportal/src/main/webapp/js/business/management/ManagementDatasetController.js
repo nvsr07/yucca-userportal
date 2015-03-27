@@ -460,6 +460,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 	refreshWizardToolbar();
 
+	$scope.columnDefinitionType = "import";
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
@@ -611,8 +612,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.previewLines = [];
 	$scope.previewColumns = [];
 
-
-
 	var readPreview = function(){
 		$scope.uploadDatasetError = null;
 		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
@@ -685,6 +684,59 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			}
 		}
 	};
+	
+	$scope.newColumnDefinition = {sourceColumn: $scope.previewColumns.length+1};
+	$scope.addColumnDefinition = function(){
+		console.log("addColumnDefinition",$scope.newColumnDefinition);
+		//$scope.newColumnDefinition.sourceColumn = $scope.previewColumns.length+1;
+		$scope.insertColumnErrors = [];
+
+		if($scope.newColumnDefinition.fieldName==null || $scope.newColumnDefinition.fieldName=="")
+				$scope.insertColumnErrors .push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME');
+
+		console.log("$scope.newColumnDefinition.sourceColumn",$scope.newColumnDefinition.sourceColumn);
+		console.log("$scope.newColumnDefinition.sourceColumn",($scope.newColumnDefinition.sourceColumn==null));
+		console.log("$scope.newColumnDefinition.sourceColumn", ($scope.newColumnDefinition.sourceColumn==""));
+		if($scope.newColumnDefinition.sourceColumn==null || $scope.newColumnDefinition.sourceColumn=="" || isNaN($scope.newColumnDefinition.sourceColumn))
+			$scope.insertColumnErrors .push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN');
+
+		var checkNameDuplicate = false;
+		var checkSourceColumnDuplicate = false;
+		for (var int = 0; int < $scope.previewColumns.length; int++) {
+			if($scope.previewColumns[int].fieldName == $scope.newColumnDefinition.fieldName){
+				checkNameDuplicate = true;
+			}
+			if($scope.previewColumns[int].sourceColumn == $scope.newColumnDefinition.sourceColumn){
+				checkSourceColumnDuplicate = true;
+			}
+
+		}
+		
+		if(checkNameDuplicate)
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME_UNIQUE');
+		
+		if(checkSourceColumnDuplicate)
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
+		
+		
+		
+		
+		if($scope.insertColumnErrors.length == 0){
+			if(!$scope.newColumnDefinition.fieldAlias || $scope.newColumnDefinition.fieldAlias == null || $scope.newColumnDefinition.fieldAlias == ""){
+				$scope.newColumnDefinition.fieldAlias = $scope.newColumnDefinition.fieldName;
+			}
+			
+
+			$scope.previewColumns.push($scope.newColumnDefinition);
+			$scope.newColumnDefinition = {sourceColumn: $scope.previewColumns.length+1};
+			$scope.refreshColumnOrder();
+		}
+	};
+	
+	$scope.removeColumnDefinition = function(index){
+		$scope.previewColumns.splice(index,1);
+		$scope.refreshColumnOrder();
+	};
 
 
 	$scope.onDropCsvFieldComplete=function(fromIndex, toIndex,evt){
@@ -750,11 +802,16 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.goToRequestor  = function(){ $scope.currentStep = 'requestor';refreshWizardToolbar();};
 	$scope.goToMetadata  = function(){ $scope.currentStep = 'metadata';refreshWizardToolbar();};
 	$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
-	$scope.goToColumns  = function(){readPreview(); $scope.currentStep = 'columns';refreshWizardToolbar();};
+	$scope.goToColumns  = function(){$scope.columnDefinitionType = "import"; readPreview(); $scope.currentStep = 'columns';refreshWizardToolbar();};
+	$scope.goToCreateColumns  = function(){$scope.columnDefinitionType = "create"; $scope.currentStep = 'columns';refreshWizardToolbar();
+	};
 
 	$scope.isUploading = false;
 
+	$scope.warningMessages = [];
+	
 	$scope.createDataset = function() {
+		$scope.warningMessages = [];
 		$scope.saveError = null;
 		$scope.saveErrors = null;
 		console.log("createDataset START 1", $scope.metadata);
@@ -765,32 +822,39 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		newDataset.configData.type = "dataset";
 		newDataset.configData.subtype = "bulkDataset";
 		console.log("dataset qui ", newDataset);
-
-		$scope.upload = $upload.upload({
-			url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
-
-			method: 'POST',
-			data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
-			file: $scope.selectedFile, // or list of files ($files) for html5 only
-			fileName: $scope.selectedFile.name,
-
-		}).progress(function(evt) {
-			$scope.isUploading = true;
-			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-		}).success(function(data, status, headers, config) {
-			$scope.isUploading = false;
-			console.log("data loaded");
-			if(data.errors && data.errors.length>0){
-				$scope.saveError = true;
-				$scope.saveErrors = data.errors;
-				Helpers.util.scrollTo();
-			}
-			else{
-				$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
-			}
-
-		});
-
+		
+		if(!$scope.metadata.info.fields || $scope.metadata.info.fields==null || $scope.metadata.info.fields.length == 0){
+			$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN');
+		}
+		else{
+			var fileName = null;
+			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)
+				fileName = $scope.selectedFile.name;
+			$scope.upload = $upload.upload({
+				url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
+	
+				method: 'POST',
+				data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
+				file: $scope.selectedFile, // or list of files ($files) for html5 only
+				fileName: fileName,
+	
+			}).progress(function(evt) {
+				$scope.isUploading = true;
+				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+			}).success(function(data, status, headers, config) {
+				$scope.isUploading = false;
+				console.log("data loaded");
+				if(data.errors && data.errors.length>0){
+					$scope.saveError = true;
+					$scope.saveErrors = data.errors;
+					Helpers.util.scrollTo();
+				}
+				else{
+					$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
+				}
+	
+			});
+		}
 
 	};	
 

@@ -6,6 +6,17 @@
 	<div class="alert alert-warning" ng-show='updateWarning'>
 		<strong translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE</strong> <span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG</span> - {{choosenFileSize|format_filesize}}
 	</div>
+	<!--  
+		<div class='row'>
+			<div class="col-sm-12">
+				<p>
+					<span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_INFO</span> 
+					<a ng-click='goToCreateColumns()' href translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_LINK</a>
+				</p>
+				
+			</div>
+		</div> 
+	-->
 	<div class='row'>
 		<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 			<div ng-file-drop="onFileSelect($files)" class='upload-drop-files-area' ng-file-drag-over-class="upload-drop-files-area-hover" ng-show="dropSupported">
@@ -52,10 +63,15 @@
 			<input type="text" class="form-control" ng-model="csvSeparator" id="csvSeparator">
 		</div>
 	</div>
-	<div class="row">
-		<div class=" col-sm-12 form-toolbar">
+	<div class="row form-toolbar">
+		<div class=" col-sm-12">
 			<a ng-click='goToMetadata()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
 			<a ng-click='goToColumns()' class="btn btn-wizard-next" ng-disabled="!isOwner() || uploadDatasetForm.$invalid || selectedFile==null " translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+		</div>
+	</div>
+	<div class="row form-toolbar">
+		<div class=" col-sm-12">
+			<a ng-click='goToCreateColumns()' class="btn btn-wizard-next" ng-disabled="!isOwner()" translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT_CREATE_COLUMNS</a>
 		</div>
 	</div>
 </form>

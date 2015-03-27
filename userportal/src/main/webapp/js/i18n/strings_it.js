@@ -212,6 +212,7 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_DATATYPE: 'Tipo dato',
 	DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT: 'Formato data', 
 	DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN: 'Sorgente',
+	DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN_HINT: 'Indicare il numero di colonna nel file sorgente',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY: 'Chiave',
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
 	
@@ -225,7 +226,7 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER: 'key',
 	
 	
-	/* Stream tags */
+	/* Stream domains */
 	AGRICULTURE: 'Agricoltura',
 	ENERGY: 'Energia',
 	ENVIRONMENT: 'Ambiente',
@@ -233,9 +234,8 @@ var translations_it = {
 	SCHOOL: 'Scuola',
 	SECURITY: 'Sicurezza',
 	TRANSPORT: 'Trasporti',
-
 	
-	/* Stream domains */
+	/* Stream tags */
 	AIR: 'Aria',
 	CARBON: 'Carbonio',
 	CONSUMPTION: 'Consumo',
@@ -265,6 +265,9 @@ var translations_it = {
 	WIND: 'Vento',
 	SULPHUR: 'Zolfo',
 	VINEYARD: 'Vigneto',
+	COMFORT: 'Comfort',
+	LIGHTNING: 'Luce',
+	PEOPLE: 'Persone', 
 	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Solo numeri interi',
@@ -586,7 +589,9 @@ var translations_it = {
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_WIZARD_PREV: 'Back', 
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT: 'Next', 
-	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Upload dataset',
+	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_CREATE_COLUMNS: 'oppure prosegui senza caricare il file',
+	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_IMPORT_COLUMNS: 'Definisci le colonne caricando il file',
+	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Crea dataset',
 	
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA: 'Rilascia il file da caricare',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR: 'Oppure',
@@ -597,6 +602,8 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE: 'Dimensione massima dei file supportata: ',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE: 'Attenzione',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG: 'La dimensione del file selezionato supera la quota limite',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_INFO: 'Se non hai il file da caricare, puoi definire direttamente le colonne',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_LINK: 'Definisci colonne',
 	
 	MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT: 'Salta colonna', 
 	MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT: 'Modifica ordine colonne',
@@ -604,7 +611,19 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP: 'Nel caso la prima riga sia l\'intestazione', 
 	MANAGEMENT_NEW_DATASET_COLUMNS_TITLE: 'Colonne da importare',
 	MANAGEMENT_NEW_DATASET_COLUMNS_INTRO: 'Selezionare le colonne di cui si vogliono importare i dati. E\' possibile cambiare l\'ordine di importazione', 
+	
+	MANAGEMENT_NEW_DATASET_ADD_COLUMN_DEFINITION: 'Aggiungi colonna',
+	MANAGEMENT_NEW_DATASET_REMOVE_COLUMN_DEFINITION: 'Rimuovi colonna',
 
+	MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_TITLE: 'Colonne da configurare',
+	MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_INTRO: 'Aggiungere le colonne che saranno presenti nel file dataset.', 
+	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME: 'Il nome colonna e\' obbligatorio',
+	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME_UNIQUE: 'Il nome colonna deve essere univoco',
+	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN: 'Il numero di colonna del file sorgente e\' obbligatorio, e deve essere numerico',
+	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE: 'Il numero di colonna del file sorgente deve essere univoco',	
+	MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN: 'Definire almeno una colonna',
+	MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT: 'Il nome viene ripulito da spazi e caratteri speciali automaticamente  in fase di salvataggio',
+	
 	/* Management upload dataset*/
 	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Carica dati',
 	MANAGEMENT_EDIT_DATASET_SUBTITLE: 'Modifica ', 
