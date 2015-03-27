@@ -20,7 +20,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		return info.isOwner( $scope.tenantCode);
 	};
 
-	fabricAPIservice.getStreams($scope.tenantCode).success(function(response) {
+	fabricAPIservice.getVisibleStreams($scope.tenantCode).success(function(response) {
 
 		$scope.showLoading = false;
 
@@ -263,7 +263,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.insertComponentErrors = [];
 	$scope.wsUrl ="";
 	$scope.virtualentity = null;
-
+	$scope.warningMessages = [];
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
 
@@ -428,12 +428,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		});
 	};
 
-	fabricAPIservice.getStreams().success(function(response) {
+	fabricAPIservice.getVisibleStreams($scope.tenantCode).success(function(response) {
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
-			if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST 
-					&& (responseList[i].visibility && responseList[i].visibility=="public" || responseList[i].codiceTenant==$routeParams.tenant_code)){
+			if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST ){
 				$scope.streamsList.push(responseList[i]);					
 			}
 		}
@@ -871,9 +870,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 			var newStream = new Object();
 	
-			newStream.stream =  $scope.stream;      
-			newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
-			//	newStream.stream.internalQuery = $scope.streamSiddhiQuery;
+			newStream.stream =  $scope.stream;   
+			if($scope.stream.codiceVirtualEntity=="internal")
+				newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
+			
 			newStream.stream.streamInternalChildren={};
 			newStream.stream.streamInternalChildren.streamChildren=[];
 			for(var i = 0; i< $scope.internalStreams.length; i++){
@@ -981,8 +981,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			//Helpers.util.scrollTo("validateMsg");
 		}else{	
 
-			newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
-			//	newStream.stream.internalQuery = $scope.streamSiddhiQuery;
+			if($scope.stream.codiceVirtualEntity=="internal")
+				newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
 			newStream.stream.streamInternalChildren={};
 			newStream.stream.streamInternalChildren.streamChildren=[];
 			for(var i = 0; i< $scope.internalStreams.length; i++){

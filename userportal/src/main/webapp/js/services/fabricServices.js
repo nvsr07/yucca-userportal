@@ -1,4 +1,4 @@
-appServices.factory('fabricAPIservice', function($http, $q) {
+appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,info) {
 
 	var fabricAPI = {};
 
@@ -36,7 +36,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 			tenantUrl = tenant_code + '/';
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_LIST_URL + tenantUrl  + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '?callback=JSON_CALLBACK'
 		});
 	};
 	
@@ -46,15 +46,20 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 			tenantUrl = '?visibleFrom='+tenant_code;
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_LIST_URL + tenantUrl  + '&callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
 		});
 	};
 
-	// fabricAPI.getStream = function(id_stream) {
 	fabricAPI.getStream = function(tenant_code, virtualentity_code, stream_code) {
+		
+		var visible= "?visibleFrom=sandbox";
+		if(info.getActiveTenantCode()!=undefined)
+			visible= "?visibleFrom="+info.getActiveTenantCode();
+		
+		console.debug(visible);
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/'+visible+'&callback=JSON_CALLBACK'
 		});
 	};
 
@@ -70,7 +75,7 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 			tenant_code = tenant_code + '/';
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_SERVICES_VIRTUALENTITY_LIST_URL + tenant_code + '?callback=JSON_CALLBACK'
+			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '?callback=JSON_CALLBACK'
 		});
 	};
 
@@ -279,5 +284,5 @@ appServices.factory('fabricAPIservice', function($http, $q) {
 
 
 	return fabricAPI;
-});
+}]);
 

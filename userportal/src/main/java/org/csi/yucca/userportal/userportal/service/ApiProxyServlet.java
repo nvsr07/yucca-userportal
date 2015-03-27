@@ -198,7 +198,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		return (callbackMethod != null && callbackMethod.length() > 0);
 	}
 
-	private String cleanParameters(Map<String, String[]> parameterMap) throws UnsupportedEncodingException {
+	protected String cleanParameters(Map<String, String[]> parameterMap) throws UnsupportedEncodingException {
 		String parametersOut = "?";
 		if (parameterMap != null && parameterMap.size() > 0) {
 			int i = 0;
@@ -218,24 +218,12 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		return parametersOut;
 	}
 
-	private String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
+	protected String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 
 		//FIXME workaround to force security in the datadiscovery 
 		String tenantCode = AuthorizeUtils.getTenantsInSession(request).get(0);
 		
 		Map<String, String[]> parameterMap =  new HashMap<String, String[]>(request.getParameterMap());
-		if(request.getRequestURI().contains("/userportal/api/proxy/discovery/")){
-			if (parameterMap != null && parameterMap.size() > 0 ) {
-				String parametersOut="";
-					if (parameterMap.get("$filter")!=null && parameterMap.get("$filter").length!=0) {
-						parametersOut =parameterMap.get("$filter")[0];
-						parametersOut +=  " and (substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true)";
-					}else{
-					 parametersOut = "&$filter="+ "substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true";
-				}
-				parameterMap.put("$filter",new String[]{parametersOut});
-			}
-		}
 		
 
 		String parameters = cleanParameters(parameterMap);
@@ -243,16 +231,6 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 		path = path.replaceAll(request.getContextPath() + request.getServletPath(), "");
 
-		//		String tenantCode = AuthorizeUtils.getTenantInSession(request);
-		//		String authString = "";
-		//		if(request.getRequestURI().contains("/userportal/api/proxy/discovery/") && path.contains("$filter")){
-		//			String authparams=  " and (substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true)";
-		//			authString += URLEncoder.encode(authparams,"UTF-8").replace("+","%20") + "&";
-		//		}else if(request.getRequestURI().contains("/userportal/api/proxy/discovery/")){
-		//			String authparams = "substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true";
-		//			authString +=  "&$filter="+URLEncoder.encode(authparams,"UTF-8").replace("+","%20") + "&";
-		//		}
-		//		path +=authString;
 		return apiBaseUrl + path;
 
 	}

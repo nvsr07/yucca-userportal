@@ -37,6 +37,10 @@ var urlBaseSensorWeb = "/userportal/#/management/viewVirtualentity/";
 //var urlBaseStreamWeb = "http://userportal.smartdatanet.it/userportal/#/dashboard/stream/";
 var urlBaseStreamWeb = "/userportal/#/dashboard/stream/";
 
+var urlDiscovery = "/userportal/#/discovery";
+
+var VeToDiscovery = "";
+
 // se obj è un array restituisce obj altrimenti converte obj in un
 // array di un solo elemento (serve per risolvere il comportamento
 // anomalo di WSO2
@@ -57,6 +61,11 @@ var urlBaseStreamWeb = "/userportal/#/dashboard/stream/";
 // funzione da invocare per mostrare la mappa: invoca il servizio che restituisce 
 // l'elenco dei sensori e richiama la funzione readSensori() per il parsing del risultato
 
+ var setCodeSensor =function setCodeSensor(code){
+ 	VeToDiscovery = code;
+ 	console.debug("code",code); 	
+ };
+ 
 function showMap() {
   var xmlHttp = new XMLHttpRequest(); 
   var latMin = 0;
@@ -90,7 +99,9 @@ function showMap() {
         
         for(var i = 0; i < l; i++) {
           var tipo = sensorList.virtualEntities.virtualEntityGeo[i].tipoVirtualEntity;
-          var codice = sensorList.virtualEntities.virtualEntityGeo[i].codeVirtualEntity;
+          var codice = sensorList.virtualEntities.virtualEntityGeo[i].codeVirtualEntity+"";
+          var veName = sensorList.virtualEntities.virtualEntityGeo[i].virtualEntityName;
+          var veDesc = sensorList.virtualEntities.virtualEntityGeo[i].virtualEntityDescription;
           var latitudine = sensorList.virtualEntities.virtualEntityGeo[i].lat;
           var longitudine = sensorList.virtualEntities.virtualEntityGeo[i].lon;
           var codiceTenant = sensorList.virtualEntities.virtualEntityGeo[i].codiceTenant;
@@ -135,36 +146,36 @@ function showMap() {
             // costruisce l'URL per la lettura dell'elenco degli stream di un sensore
             // ed esegue la chiamata alla relativa API
               
-            var urlSensore = urlBaseStream + codiceTenant + "/" + codice;
-            console.debug("urlSensore",urlSensore);
-            var xmlHttp2 = new XMLHttpRequest(); 
-
-            var elencoStreamSensore = [];  
-            xmlHttp2.onreadystatechange = function() {
-                if (xmlHttp2.readyState == 4 && xmlHttp2.status == 200) {
-                    var streamList = JSON.parse(xmlHttp2.responseText);
-                    var strlist = initArrayZeroOneElements(streamList.streams.stream);
-                    
-                    // recupera, l'elenco degli stream associato al sensore e crea
-                    // un array contenente le informazioni necessarie a visualizzare
-                    // la tabella nel popup della mappa
-                    
-                    var n = strlist.length; 
-                      for(var h = 0; h < n; h++) {
-                        elencoStreamSensore[elencoStreamSensore.length] = {};
-                        elencoStreamSensore[elencoStreamSensore.length-1].codiceStream =
-                            strlist[h].codiceStream;
-                        elencoStreamSensore[elencoStreamSensore.length-1].domainStream =
-                            strlist[h].domainStream;
-                        elencoStreamSensore[elencoStreamSensore.length-1].nomeStream = 
-                            strlist[h].nomeStream;
-                    }
-                }
-                }
-                
-                // esegue l'invocazione dell'API che legge le informazioni degli stream
-                xmlHttp2.open("GET", urlSensore, false);
-                xmlHttp2.send();
+//            var urlSensore = urlBaseStream + codiceTenant + "/" + codice;
+//            console.debug("urlSensore",urlSensore);
+//            var xmlHttp2 = new XMLHttpRequest(); 
+//
+//            var elencoStreamSensore = [];  
+//            xmlHttp2.onreadystatechange = function() {
+//                if (xmlHttp2.readyState == 4 && xmlHttp2.status == 200) {
+//                    var streamList = JSON.parse(xmlHttp2.responseText);
+//                    var strlist = initArrayZeroOneElements(streamList.streams.stream);
+//                    
+//                    // recupera, l'elenco degli stream associato al sensore e crea
+//                    // un array contenente le informazioni necessarie a visualizzare
+//                    // la tabella nel popup della mappa
+//                    
+//                    var n = strlist.length; 
+//                      for(var h = 0; h < n; h++) {
+//                        elencoStreamSensore[elencoStreamSensore.length] = {};
+//                        elencoStreamSensore[elencoStreamSensore.length-1].codiceStream =
+//                            strlist[h].codiceStream;
+//                        elencoStreamSensore[elencoStreamSensore.length-1].domainStream =
+//                            strlist[h].domainStream;
+//                        elencoStreamSensore[elencoStreamSensore.length-1].nomeStream = 
+//                            strlist[h].nomeStream;
+//                    }
+//                }
+//                }
+//                
+//                // esegue l'invocazione dell'API che legge le informazioni degli stream
+//                xmlHttp2.open("GET", urlSensore, false);
+//                xmlHttp2.send();
 
 
                 // definisce il contenuto della feature (icona/marker) relativa al
@@ -172,13 +183,16 @@ function showMap() {
 
                 iconFeature[iconFeature.length] = new ol.Feature({
                     geometry: new ol.geom.Point(ol.proj.transform([longitudine, latitudine],
-                                                                  'EPSG:4326', 'EPSG:3857')),
+                                             'EPSG:4326', 'EPSG:3857')),
+                    //TODO add important fields! 
                     name: codice,
                     tenant: codiceTenant,
                     lat: latitudine,
                     lon: longitudine,
                     tipo: tipo,
-                    streams: elencoStreamSensore
+                    veName: veName,
+                    veDesc: veDesc,
+//                    streams: sensorList.virtualEntities
                 });
               
                 iconFeature[iconFeature.length -1].setStyle(iconStyle);
@@ -269,6 +283,7 @@ function showMap() {
             
         var element = document.getElementById('popup');
         
+       
         // se si fa click sulla mappa, mostra il popup
         map.on('click', function(evt) {
           var feature = map.forEachFeatureAtPixel(evt.pixel,
@@ -279,23 +294,26 @@ function showMap() {
             var geometry = feature.getGeometry();
             var coord = geometry.getCoordinates();
             var strLst = feature.get('streams');
-            
+            var codeVe ="&#39;"+feature.get("name")+"&#39;";
             // definisce il testo HTML da visualizzare dento al popup
-            testo = '<b>Sensore:</b> ' + feature.get('name') + '<br/>';
-            testo += '<b>Tenant:</b> ' + feature.get('tenant') + '<br/><br/>';
+//            testo = '<b>Sensore:</b> ' + feature.get('name') + '<br/>';
+            testo = '<b>Tenant:</b> ' + feature.get('tenant') + '<br/><br/>';
+            testo += '<b>Sensor Name:</b> ' + feature.get('veName') + '<br/><br/>';
+            testo += '<b>Sensor Descriprion:</b> ' + feature.get('veDesc') + '<br/><br/>';
+            testo += '<a onclick="setCodeSensor('+codeVe+');" href="'+urlDiscovery+'">'+"Link Dettagli"+'</a>'+'<br/><br/>';
 //            testo += '<a href="' + urlBaseSensorWeb + feature.get('tenant') + '/' + feature.get('name');
 //            testo += '" target = "_blank">Sensor Detail</a><br/><br/>';
-            testo += 'Sensor Stream List:<br/><br/>';
-            testo += '<table width=100%><tr><td width=33%><b>Code:</b></td>';
-            testo += '<td width=33%><b>Name:</b></td><td width=34%><b>Domain:</b></td></tr>';
+//            testo += 'Sensor Stream List:<br/><br/>';
+//            testo += '<table width=100%><tr><td width=33%><b>Code:</b></td>';
+//            testo += '<td width=33%><b>Name:</b></td><td width=34%><b>Domain:</b></td></tr>';
 
-            for (var k = 0; k < strLst.length; k++) {
-                //var urlStrm = urlBaseStreamWeb + feature.get('tenant') +  "/" + feature.get('name') + "/" + strLst[k].codiceStream;
-                //testo += '<tr><td><a href="' + urlStrm + '" target = "_blank">' + strLst[k].codiceStream + '</a></td>';
-                testo += '<tr><td>' + strLst[k].codiceStream + '</td>';
-                testo += '<td>' + strLst[k].nomeStream + '</td>';
-                testo += '<td>' + strLst[k].domainStream + '</td></tr>';
-            }
+//            for (var k = 0; k < strLst.length; k++) {
+//                //var urlStrm = urlBaseStreamWeb + feature.get('tenant') +  "/" + feature.get('name') + "/" + strLst[k].codiceStream;
+//                //testo += '<tr><td><a href="' + urlStrm + '" target = "_blank">' + strLst[k].codiceStream + '</a></td>';
+//                testo += '<tr><td>' + strLst[k].codiceStream + '</td>';
+//                testo += '<td>' + strLst[k].nomeStream + '</td>';
+//                testo += '<td>' + strLst[k].domainStream + '</td></tr>';
+//            }
 
             testo += "</table>";
 
@@ -307,7 +325,7 @@ function showMap() {
 
           }
         });
-        
+       
         // gestise l'evento mousemove sull'icona del sensore.
         // quando si passa con il puntatore del mouse su un'icona
         // il puntatore diventa una "manina"

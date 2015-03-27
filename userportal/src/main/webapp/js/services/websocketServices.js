@@ -17,7 +17,6 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 		SubscriptedElementsList = [];
 	};
 
-
 	function ConnectTheSocket(on_connect, on_error, vhost,count,updateStatus){
 
 		fabricAPIservice.getInfo().success(function(info){
@@ -27,15 +26,8 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 				var user = "Bearer "+infoTenant.user.token;
 				var password = "";
 
-//				//FIXME togliere l'if quando ci sara il token per i utenti non loggati;
-//				if(user==null || user==undefined){
-//					user=WEB_SOCKET_USER;
-//					password=WEB_SOCKET_SECRET;
-//				}
-
 				selfCallback=updateStatus;
 				CancelAllSubscriptions();
-
 
 
 				/*

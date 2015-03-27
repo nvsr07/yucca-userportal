@@ -25,47 +25,31 @@ public enum ApiEntityEnum {
 	API_SERVICES_STREAM("API_SERVICES_STREAM_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			boolean auth = false;
-			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || !AuthorizeUtils.getElementInPositionByRequest(request, 3).equals("")
-					|| AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2)))
-				auth = true;
-			return auth;
-			// return AuthorizeUtils.isReadMethod(request)
-			// || AuthorizeUtils.getElementInPositionByRequest(request,
-			// 2).equals(AuthorizeUtils.getTenantInSession(request));
-		}
-	},
-	API_SERVICES_STREAM_LIST("API_SERVICES_STREAM_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			boolean auth = false;
-			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("") || !AuthorizeUtils.getElementInPositionByRequest(request, 3).equals("")
-					|| AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2)))
-				auth = true;
-			return auth;
+
+			String activeTenant = request.getParameter("visibleFrom");
+			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			if((activeTenant!=null && !"".equals(activeTenant)) ){				
+				if(activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)){
+					return true;
+				}else{
+					return false;
+				}				
+			}
+			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())){
+				return true;
+			}
+			return false;
 		}
 	},
 	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			boolean auth = false;
-			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("")
-					|| AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2)))
-				auth = true;
-			return auth;
-			// return AuthorizeUtils.isReadMethod(request)
-			// || AuthorizeUtils.getElementInPositionByRequest(request,
-			// 2).equals(AuthorizeUtils.getTenantInSession(request));
-		}
-	},
-	API_SERVICES_VIRTUALENTITY_LIST("API_SERVICES_VIRTUALENTITY_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			boolean auth = false;
-			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals("")
-					|| AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2)))
-				auth = true;
-			return auth;
+
+			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())){
+				return true;
+			}
+			return false;
 		}
 	},
 	API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {

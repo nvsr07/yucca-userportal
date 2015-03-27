@@ -40,6 +40,13 @@ appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'd
 	$scope.fieldList = Constants.DISCOVERY_FIELDS;
 	$scope.fieldOperationList = Constants.DISCOVERY_FIELD_OPERATIONS;
 	$scope.simpleSearchInputVal ;
+	
+	if(VeToDiscovery!=undefined && VeToDiscovery!=""){
+		$scope.simpleSearchInputVal = VeToDiscovery;
+		VeToDiscovery="";
+	}
+	
+	
 	$scope.searchResult=[];
 	$scope.advancedFilters = [];
 	$scope.reverse=false;
