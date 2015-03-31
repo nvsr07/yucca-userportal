@@ -1,0 +1,106 @@
+
+	<div class="alert alert-danger management-upload-column-error-panel " ng-show='saveError'>
+		<div>
+			<strong><span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
+			<span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
+		</div>
+	</div>
+	<div class='row'>
+		<p>&nbsp;</p>
+	</div>
+	<div class='row text-left'>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<h4 translate>MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_TITLE</h4>
+			<p translate>MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_INTRO</p>
+		</div>
+	</div>
+	<div class='row management-table-upload-column-header'>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span title="{{'DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN_HINT'|translate}}"translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT</span> | <span translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</span></div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
+	</div>
+	<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewColumns track by $index" ng-drop="true" ng-drop-success="onDropCsvFieldComplete($data,$index,$event)">
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span>{{column.sourceColumn}}</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias"  ></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+			<select class="input-sm form-control" ng-model="column.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType"  
+			 ng-change="refreshColumnOrder(column)">
+          	</select>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isDateTimeField(column)">
+			<div class="input-group input-group-sm popover-html">
+				<input class="form-control" type="text" ng-model="column.dateTimeFormat" >
+			  	<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
+			</div>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCommonField(column)">
+		 	<select class="input-sm form-control" ng-model="column.measureUnit"   ng-change="refreshColumnOrder()"
+		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+		 		<option value="" translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
+		 	</select>
+        </div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCoordinatesField(column)">
+		 	<i><small>Format: <code><strong>[lat,lon]</strong></code></small></i>
+        </div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><label>
+			<input type="checkbox" ng-model="column.isKey">
+			<span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label>
+		</div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 management-table-upload-column-drag-panel"   ng-drag="true" ng-drag-data="$index" ng-drag-success="onDragCsvFieldComplete($data,$event)" >
+			<label class='' title='{{"MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT"|translate}}' ><i class='glyphicon glyphicon-resize-vertical'></i></label>
+		</div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+	    	<a class="btn  btn-sm btn-remove"  href ng-click='removeColumnDefinition($index)' title="{{'MANAGEMENT_NEW_DATASET_ADD_COLUMN_DEFINITION'|translate}}" >
+				<i class='glyphicon glyphicon-trash'></i>
+			</a>
+		</div>
+	</div>
+	<div>&nbsp;</div>
+	<div  class='row' >
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="newColumnDefinition.sourceColumn"></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  form-group has-feedback" >
+			<input class="input-sm form-control" type="text" ng-model="newColumnDefinition.fieldName"  title="{{'MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT'|translate}}">
+			<i class="fa fa-lightbulb-o form-control-feedback input-icon-hint" title="{{'MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT'|translate}}"></i>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="newColumnDefinition.fieldAlias" ></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+			<select class="input-sm form-control" ng-model="newColumnDefinition.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType"></select>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isDateTimeField(newColumnDefinition)">
+			<div class="input-group input-group-sm popover-html">
+				<input class="form-control" type="text" ng-model="newColumnDefinition.dateTimeFormat" >
+			  	<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
+			</div>
+		</div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCommonField(newColumnDefinition)">
+		 	<select class="input-sm form-control" ng-model="newColumnDefinition.measureUnit"
+		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+		 		<option value="" translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
+		 	</select>
+        </div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCoordinatesField(newColumnDefinition)">
+		 	<i><small>Format: <code><strong>[lat,lon]</strong></code></small></i>
+        </div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><label>
+			<input type="checkbox" ng-model="column.isKey" ng-disabled="newColumnDefinition.skipColumn">
+			<span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label>
+		</div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;
+		</div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+	    	<a class="btn  btn-sm btn-add"  href ng-click='addColumnDefinition()' title="{{'MANAGEMENT_NEW_DATASET_ADD_COLUMN_DEFINITION'|translate}}" >
+				<i class='glyphicon glyphicon-plus'></i>
+			</a>
+		</div>
+	</div>
+	<div class="alert alert-danger text-left" ng-show='insertColumnErrors.length>0'>
+		<strong>{{updateError.error_message}}</strong>
+		<ul><li ng-repeat="insertColumnError in insertColumnErrors "><span translate>{{insertColumnError}}</span></li></ul>
+	</div>
+	
