@@ -200,6 +200,8 @@ var translations_en = {
 	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Registration date',
 	DATASET_FIELD_METADATA_DATADOMAIN: 'Domain',
 	DATASET_FIELD_METADATA_FPS: 'FPS',
+	DATASET_FIELD_TENANTSSHARING: 'Share with ',
+	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with ',
 		
 	DATASET_FIELD_METADATA_STARTINGESTIONDATE: 'Begin upload',
 	DATASET_FIELD_METADATA_ENDINGESTIONDATE: 'End upload',
@@ -214,6 +216,7 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN: 'Source',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY: 'Key',
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Measurement unit',
+	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with',
 	
 	/* Cookie */
 	COOKIE_MESSAGE: 'This site uses cookies to improve the browsing experience. Continuing navigation you accept the use of cookies',
@@ -632,7 +635,9 @@ var translations_en = {
 	MANAGEMENT_EDIT_DATASET_ADD_TAG : 'Add tag', 
 	MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO : 'Dataset saved',
 	MANAGEMENT_EDIT_DATASET_LEGAL_INFO: 'Legal informations', 
-	
+	MANAGEMENT_EDIT_DATASET_ADD_TENANT_SHARING : 'Add tenant', 
+	MANAGEMENT_EDIT_DATASET_TENANT_SHARING_PLACEHOLDER: 'Choose one tenant...',	
+
 	MANAGEMENT_EDIT_DATASET_API_URL: 'API Url', 
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Genearl Info',

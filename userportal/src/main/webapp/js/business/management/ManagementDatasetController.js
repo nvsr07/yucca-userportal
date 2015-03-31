@@ -122,6 +122,22 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 
+	fabricAPIservice.getTenants().success(function(response) {
+		console.debug("response", response.tenants);
+		try{
+			$scope.tenantsList = [];
+			for (var int = 0; int <  response.tenants.tenant.length; int++) {
+				var t = response.tenants.tenant[int];
+				if(t.tenantCode!=$scope.tenantCode)
+					$scope.tenantsList.push(t);
+			}
+		}
+		catch (e) {
+			log.error("getTenants ERROR",e);
+		}
+		
+	});
+
 
 	$scope.tagList = [];
 	$scope.domainList = [];
@@ -170,7 +186,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			if(!$scope.dataset.info.tags)
 				$scope.dataset.info.tags = [];
 
-			$scope.dataset.info.visibility = 'public';
+			//$scope.dataset.info.visibility = 'public';
 			if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
 				$scope.dataset.info.icon  = "img/dataset-icon-default.png";
 
@@ -202,6 +218,47 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 	$scope.removeTag = function(index){
 		$scope.metadata.info.tags.splice(index,1);
+		return false;
+	};
+	
+	$scope.addTenantSharing = function(newTenantSharing){
+		console.log("addTenantSharing ",newTenantSharing);
+		if(newTenantSharing){
+			var found = false;	
+			if(!$scope.dataset.info.tenantsShare || $scope.dataset.info.tenantsShare == null){
+				$scope.dataset.info.tenantsShare = {};
+			}
+			if(!$scope.dataset.info.tenantsShare.tenantList || $scope.dataset.info.tenantsShare.tenantList == null){
+				$scope.dataset.info.tenantsShare.tenantList = [];
+			}
+			
+			for (var int = 0; int < $scope.dataset.info.tenantsShare.tenantList.length; int++) {
+				var existingTenantSharing = $scope.dataset.info.tenantsShare.tenantList[int];
+				console.log("existing",existingTenantSharing);
+				if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
+					console.log("found");
+					found = true;
+					break;
+				}
+
+			}
+			if(!found){
+				$scope.dataset.info.tenantsShare.tenantList.push(
+							{"idTenant":newTenantSharing.idTenant, 
+								"tenantName": newTenantSharing.tenantName, 
+								"tenantDescription": newTenantSharing.tenantDescription, 
+								"tenantCode": newTenantSharing.tenantCode, 
+								"isOwner": 0
+							});
+				console.log("added", $scope.dataset.info.tenantsShare.tenantList );
+			}
+		}
+
+		return false;
+	};
+
+	$scope.removeTenantSharing = function(index){
+		$scope.dataset.info.tenantsShare.tenantList.splice(index,1);
 		return false;
 	};
 	

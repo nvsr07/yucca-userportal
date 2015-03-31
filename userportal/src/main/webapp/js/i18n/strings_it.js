@@ -200,6 +200,8 @@ var translations_it = {
 	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Data registrazione',
 	DATASET_FIELD_METADATA_DATADOMAIN: 'Dominio',
 	DATASET_FIELD_METADATA_FPS: 'FPS',
+	DATASET_FIELD_TENANTSSHARING: 'Condividi con ',
+	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 		
 	DATASET_FIELD_METADATA_STARTINGESTIONDATE: 'Inizio caricamento',
 	DATASET_FIELD_METADATA_ENDINGESTIONDATE: 'Fine caricamento',
@@ -215,6 +217,7 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN_HINT: 'Indicare il numero di colonna nel file sorgente',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY: 'Chiave',
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
+	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	
 	/* Cookie */
 	COOKIE_MESSAGE: 'Questo sito fa uso di cookie per migliorare l\'esperienza di navigazione degli utenti. Proseguendo nella navigazione si accetta l\'uso dei cookie.',
@@ -644,7 +647,9 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_ADD_TAG : 'Aggiungi tag', 
 	MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO : 'Dataset salvato',
 	MANAGEMENT_EDIT_DATASET_LEGAL_INFO: 'Informazioni Legali', 
-	
+	MANAGEMENT_EDIT_DATASET_ADD_TENANT_SHARING : 'Aggiungi tenant', 
+	MANAGEMENT_EDIT_DATASET_TENANT_SHARING_PLACEHOLDER: 'Scegli un tenant...',	
+
 	MANAGEMENT_EDIT_DATASET_API_URL: 'Url accesso API', 
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Informazioni generali',

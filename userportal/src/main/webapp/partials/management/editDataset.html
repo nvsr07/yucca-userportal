@@ -100,6 +100,28 @@
 			            		</label>
 							</div>
 						</div>
+						<div class="form-group" ng-show="dataset.info.visibility=='private'">
+							<label for="inputStreamAddTenantSharing" class="col-sm-2 control-label"><span translate>DATASET_FIELD_TENANTSSHARING</span></label>
+							<div class="col-sm-10">
+								<p>
+									<span  ng-repeat="tenantSharing in dataset.info.tenantsShare.tenantList">
+										<span class="label label-custom label-tenant-sharing"><span title="{tenantSharing.tenantCode}">{{tenantSharing.tenantName}}</span> &nbsp;
+										<a href ng-click='removeTenantSharing($index)' ng-show="tenantSharing.isOwner==0"  class='close-button'>&times;</a>
+										</span> &nbsp;
+									</span>
+								</p>						
+								<div class="input-group">															
+									<select class="input-sm form-control" ng-model="newTenantSharing" ng-options="tenant as tenant.tenantName for tenant in tenantsList">
+										<option value="" ng-bind-html="'MANAGEMENT_EDIT_DATASET_TENANT_SHARING_PLACEHOLDER'|translate" ></option>
+									</select>
+								    <span class="input-group-btn">
+								    	<a class="btn  btn-sm"  href ng-click='addTenantSharing(newTenantSharing)' title="{{'MANAGEMENT_EDIT_DATASET_ADD_TENANT_SHARING'|translate}}" >
+								    		<i class='glyphicon glyphicon-plus'></i>
+								    	</a>
+								    </span>
+		    					</div>								
+							</div>
+						</div>			
 						<div class="form-group">
 							<label for="inputDatasetIcon" class="col-sm-2 control-label"><span translate>STREAM_FIELD_ICON</span></label>
 							<div class="col-sm-3">
