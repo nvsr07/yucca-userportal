@@ -13,7 +13,8 @@ public class Config {
 	public static final String API_DISCOVERY_URL_KEY = "API_DISCOVERY_URL";
 	public static final String API_ODATA_URL_KEY = "API_ODATA_URL";
 
-	public static final String RBAC_WEBSERVICE_URL_KEY = "RBAC_WEBSERVICE_URL";
+	public static final String RBAC_PERMISSIONS_WEBSERVICE_URL_KEY = "RBAC_PERMISSIONS_WEBSERVICE_URL";
+	public static final String RBAC_ROLES_WEBSERVICE_URL_KEY = "RBAC_ROLES_WEBSERVICE_URL";
 	public static final String RBAC_WEBSERVICE_USER_KEY = "RBAC_WEBSERVICE_USER";
 	public static final String RBAC_WEBSERVICE_PASSWORD_KEY = "rbac.webservice.secret";
 
