@@ -1,5 +1,6 @@
 package org.csi.yucca.userportal.userportal.service;
 
+import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
@@ -30,7 +31,9 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 	protected String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 
 		//FIXME workaround to force security in the datadiscovery 
-		String tenantCode = AuthorizeUtils.getTenantsInSession(request).get(0);
+		
+		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+		String tenantCode = info.getUser().getActiveTenant();
 		
 		Map<String, String[]> parameterMap =  new HashMap<String, String[]>(request.getParameterMap());
 		
