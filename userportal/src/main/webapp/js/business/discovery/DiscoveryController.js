@@ -152,6 +152,9 @@ appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'd
 			if($scope.dataset && $scope.dataset.download && $scope.dataset.download!=null)
 				$scope.datasetDownloadCsvUrl = $scope.dataset.download;
 			$scope.scrollTo("discovery-detail-anchor");
+			console.log("$scope.dataset.download",$scope.dataset.download);
+
+			console.log("datasetDownloadCsvUrl",$scope.datasetDownloadCsvUrl);
 		});
 
 	};

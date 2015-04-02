@@ -1,8 +1,8 @@
-<div class='clearfix wizard-title'>
+<div class='clearfix wizard-title' ng-cloak>
 	<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_DATASET_TITLE</span> - <span translate>MANAGEMENT_NEW_DATASET_UPLOAD_SUBTITLE</span></h3></div>
 	<div class='pull-right'><h3><small>Step 4/5</small></h3></div>
 </div>
-<form class="form-horizontal" role="form" name="uploadDatasetForm">
+<form class="form-horizontal" role="form" name="uploadDatasetForm" ng-cloak>
 	<div class="alert alert-warning" ng-show='updateWarning'>
 		<strong translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE</strong> <span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG</span> - {{choosenFileSize|format_filesize}}
 	</div>

@@ -1,9 +1,9 @@
 <div>
-	<div class='clearfix wizard-title'>
+	<div class='clearfix wizard-title' ng-cloak>
 		<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS_TITLE</span></h3></div>
 		<div class='pull-right'><h3><small>Step 4/5</small></h3></div>
 	</div>
-	<form class="form-horizontal" role="form" name="componentsStreamForm">
+	<form class="form-horizontal" role="form" name="componentsStreamForm" ng-cloak>
 		<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class='form-label-separator'><span translate>STREAM_INPUT_FIELDS</span></div>
 			<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class="form-group">
 				<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate>STREAM_INTERNAL_SELECTED_STREAM</span></label>

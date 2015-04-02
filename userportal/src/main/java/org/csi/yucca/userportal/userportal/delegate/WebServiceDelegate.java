@@ -102,7 +102,25 @@ public class WebServiceDelegate {
 	}
 
 	public static void main(String[] args) {
+		//int TEST = 0;
+		int INT = 1;
+		int ENV = INT;
+		String user[] = { "admin", "admin" };
+		String password[] = { "***REMOVED***", "***REMOVED***" };
+		String[] url = { "https://tst-sdnet-sec1.sdp.csi.it:9444/services/RemoteAuthorizationManagerService",
+				"https://int-sso.smartdatanet.it/services/RemoteAuthorizationManagerService" };
 		
+		try {
+			testRoles(url[ENV], user[ENV], password[ENV], "*_subscriber");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testPermission(String url, String user, String password){
 		List<String> permissions = new LinkedList<String>();
 		String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ser=\"http://service.ws.um.carbon.wso2.org\">";
 		xmlInput += "   <soapenv:Header/>";
@@ -116,16 +134,9 @@ public class WebServiceDelegate {
 
 		String SOAPAction = "getAllowedUIResourcesForUser";
 
-		String user[] = { "admin", "admin" };
-		String password[] = { "***REMOVED***", "AhchieW6" };
-		String[] url = { "https://tst-sdnet-sec1.sdp.csi.it:9444/services/RemoteAuthorizationManagerService",
-				"https://int-sso.smartdatanet.it/services/RemoteAuthorizationManagerService" };
-		int TEST = 0;
-		//int INT = 1;
-		int ENV = TEST;
 		// test "***REMOVED***"
 		try {
-			String webServiceResponse = WebServiceDelegate.callWebService(url[ENV], user[ENV], password[ENV], xmlInput, SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService(url, user, password, xmlInput, SOAPAction, "text/xml");
 			System.out.println(webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -146,21 +157,59 @@ public class WebServiceDelegate {
 				System.out.println("node - " + string);
 			}
 
-		} catch (KeyManagementException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private static List<String> testRoles(String url, String user, String password, String filter) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
+	SAXException {
+
+		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
+		List<String> roles = new LinkedList<String>();
+		try {
+
+			String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://org.apache.axis2/xsd\">";
+			xmlInput += "   <soapenv:Header/>";
+			xmlInput += "   <soapenv:Body>";
+			xmlInput += "      <xsd:getRolesOfUser>";
+			xmlInput += "         <xsd:userName>"+user+"</xsd:userName>";
+			xmlInput += "         <xsd:filter>"+filter+"</xsd:filter>";
+			xmlInput += "         <xsd:limit>-1</xsd:limit>";
+			
+			xmlInput += "      </xsd:getRolesOfUser>";
+			xmlInput += "   </soapenv:Body>";
+			xmlInput += "</soapenv:Envelope>";
+
+			String SOAPAction = "getRolesOfUser";
+
+		//	Properties config = Config.loadServerConfiguration();
+		//	Properties authConfig = Config.loadAuthorizationConfiguration();
+
+			String webServiceResponse = WebServiceDelegate.callWebService(url, user, password, xmlInput, SOAPAction, "text/xml");
+			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
+
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+
+			InputSource is = new InputSource(new StringReader(webServiceResponse));
+			Document doc = db.parse(is);
+
+			NodeList rolessNodeList = doc.getFirstChild().getFirstChild().getFirstChild().getChildNodes();
+			if (rolessNodeList != null) {
+				for (int i = 0; i < rolessNodeList.getLength(); i++) {
+
+					Node roleNode = rolessNodeList.item(i);
+					String role = roleNode.getTextContent();
+					log.debug("[SAML2ConsumerServlet::loadRoles] - role: " + role);
+					roles.add(role);
+				}
+			}
+
+		} finally {
+			log.debug("[SAML2ConsumerServlet::loadRoles] - END");
+		}
+		return roles;
 	}
 }

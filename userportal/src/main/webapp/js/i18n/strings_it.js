@@ -710,6 +710,8 @@ var translations_it = {
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL: 'Server URL',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL: 'Topic', 
 	DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM: 'Monitoraggio Stream', 
+	DISCOVERY_DETAIL_DOWNLOAD_CSV: 'Url scarico dati csv', 
+	
 		
 
 	/* Discovery fields */

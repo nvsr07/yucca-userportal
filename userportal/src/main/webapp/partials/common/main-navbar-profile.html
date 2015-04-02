@@ -1,4 +1,4 @@
-<ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav navbar-right" ng-cloak>
 	<li class='main-menu-profile-item' ng-show="user.loggedIn"><span class='main-menu-username'>{{user.firstname}} {{user.lastname}}</span><span class='main-menu-tenant'>{{activeTenantCode}}</span></li>
 	<li class='main-menu-item'>
 		<a href='/userportal/api/authorize?returnUrl={{currentUrl()}}' ng-show="!user.loggedIn"><span translate>MENU_SING_IN</span></a>

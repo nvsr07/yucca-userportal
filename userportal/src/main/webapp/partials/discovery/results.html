@@ -1,5 +1,5 @@
 <p>&nbsp;</p>
-<div class='clearfix subtitle-container'  id='discovery-results-panel'>
+<div class='clearfix subtitle-container'  id='discovery-results-panel' ng-cloak>
 	<h3 class='pull-left'>
 		<span translate>DISCOVERY_RESULTS_TITLE</span>&nbsp; <small><span translate>DISCOVERY_RESULTS_SIZE_LABEL</span>: <strong>{{searchResult.length}}</strong></small>
 	</h3>
@@ -8,7 +8,7 @@
 	</div>
 </div>
 <p>&nbsp;</p>
-<div class='row'>
+<div class='row' ng-cloak>
 	<div class="col-sm-12" >
 		<div class="table-responsive" ng-show="searchResult.length==0">
 			<div class="alert alert-info" role="alert"><span translate>DISCOVERY_RESULTS_NO_DATA_FOUND</span></div>
