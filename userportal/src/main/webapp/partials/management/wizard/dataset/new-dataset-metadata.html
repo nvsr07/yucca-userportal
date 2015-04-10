@@ -1,6 +1,6 @@
 <div class='clearfix wizard-title' ng-cloak>
 	<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_DATASET_TITLE</span> - <span translate>MANAGEMENT_NEW_DATASET_METADATA_SUBTITLE</span></h3></div>
-	<div class='pull-right'><h3><small>Step 3/5</small></h3></div>
+	<div class='pull-right'><h3><small>Step 3/6</small></h3></div>
 </div>
 <form class="form-horizontal" role="form" name="metadataDatasetForm" ng-cloak>
 	<div class="form-group">
@@ -51,7 +51,7 @@
 	</div>
 	<div class="form-group" ng-show="metadata.info.visibility=='private'">
 		<label for="inputStreamAddTenantSharing" class="col-sm-2 control-label"><span translate>DATASET_FIELD_TENANTSSHARING</span></label>
-		<div class="col-sm-10">
+		<div class="col-sm-10 text-left">
 			<p>
 				<span  ng-repeat="tenantSharing in metadata.info.tenantsShare.tenantList">
 					<span class="label label-custom label-tenant-sharing"><span title="{tenantSharing.tenantCode}">{{tenantSharing.tenantName}}</span> &nbsp;
@@ -114,7 +114,7 @@
 	<div class="row">
 		<div class=" col-sm-12 form-toolbar">
 			<a ng-click='goToRequestor()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-			<a ng-click='goToUpload()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid " translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+			<a ng-click='goToChooseType()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid " translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 		</div>
 	</div>
 </form>

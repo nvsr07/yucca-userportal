@@ -502,6 +502,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.wizardSteps = [{'name':'start', 'style':''},
 	                      {'name':'requestor', 'style':''},
 	                      {'name':'metadata', 'style':''},
+	                      {'name':'choosetype', 'style':''},
 	                      {'name':'upload', 'style':''},
 	                      {'name':'columns', 'style':''},
 	                      ];
@@ -514,6 +515,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				style = '';
 		};
 	};
+	
+
+	$scope.choosenDatasetType='bulk_upload';
 
 	refreshWizardToolbar();
 
@@ -536,6 +540,24 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
 		}
 	});
+	
+	$scope.tenantsList = [];
+	fabricAPIservice.getTenants().success(function(response) {
+		console.debug("response", response.tenants);
+		try{
+			
+			for (var int = 0; int <  response.tenants.tenant.length; int++) {
+				var t = response.tenants.tenant[int];
+				if(t.tenantCode!=$scope.tenantCode)
+					$scope.tenantsList.push(t);
+			}
+		}
+		catch (e) {
+			log.error("getTenants ERROR",e);
+		}
+		
+	});
+
 
 	$scope.unitOfMesaurementList = [];
 	fabricAPIservice.getStreamUnitOfMesaurement().success(function(response) {
@@ -603,6 +625,49 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.metadata.info.tags.splice(index,1);
 		return false;
 	};
+	
+	
+	$scope.addTenantSharing = function(newTenantSharing){
+		console.log("addTenantSharing ",newTenantSharing);
+		if(newTenantSharing){
+			var found = false;	
+			if(!$scope.metadata.info.tenantsShare || $scope.metadata.info.tenantsShare == null){
+				$scope.metadata.info.tenantsShare = {};
+			}
+			if(!$scope.metadata.info.tenantsShare.tenantList || $scope.metadata.info.tenantsShare.tenantList == null){
+				$scope.metadata.info.tenantsShare.tenantList = [];
+			}
+			
+			for (var int = 0; int < $scope.metadata.info.tenantsShare.tenantList.length; int++) {
+				var existingTenantSharing = $scope.metadata.info.tenantsShare.tenantList[int];
+				console.log("existing",existingTenantSharing);
+				if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
+					console.log("found");
+					found = true;
+					break;
+				}
+
+			}
+			if(!found){
+				$scope.metadata.info.tenantsShare.tenantList.push(
+							{"idTenant":newTenantSharing.idTenant, 
+								"tenantName": newTenantSharing.tenantName, 
+								"tenantDescription": newTenantSharing.tenantDescription, 
+								"tenantCode": newTenantSharing.tenantCode, 
+								"isOwner": 0
+							});
+				console.log("added", $scope.metadata.info.tenantsShare.tenantList );
+			}
+		}
+
+		return false;
+	};
+
+	$scope.removeTenantSharing = function(index){
+		$scope.metadata.info.tenantsShare.tenantList.splice(index,1);
+		return false;
+	};
+
 
 	$scope.creationError = null;
 	$scope.saveError = null;
@@ -668,7 +733,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 	$scope.previewLines = [];
 	$scope.previewColumns = [];
-
+	$scope.previewBinaries = [];
+	
+	
 	var readPreview = function(){
 		$scope.uploadDatasetError = null;
 		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
@@ -795,7 +862,57 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.refreshColumnOrder();
 	};
 
+	$scope.newBinaryDefinition = {sourceBinary: $scope.previewBinaries.length+1};
+	$scope.addBinaryDefinition = function(){
+		console.log("addBinaryDefinition",$scope.newBinaryDefinition);
+		//$scope.newBinaryDefinition.sourceBinary = $scope.previewBinaries.length+1;
+		$scope.insertBinaryErrors = [];
 
+		if($scope.newBinaryDefinition.fieldName==null || $scope.newBinaryDefinition.fieldName=="")
+				$scope.insertBinaryErrors .push('MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME');
+
+		var checkNameDuplicate = false;
+		//var checkSourceBinaryDuplicate = false;
+		for (var int = 0; int < $scope.previewBinaries.length; int++) {
+			if($scope.previewBinaries[int].fieldName == $scope.newBinaryDefinition.fieldName){
+				checkNameDuplicate = true;
+			}
+//			if($scope.previewBinaries[int].sourceBinary == $scope.newBinaryDefinition.sourceBinary){
+//				checkSourceBinaryDuplicate = true;
+//			}
+//
+	}
+		
+		if(checkNameDuplicate)
+			$scope.insertBinaryErrors.push('MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME_UNIQUE');
+		
+//		if(checkSourceBinaryDuplicate)
+//			$scope.insertBinaryErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
+		
+		
+		
+		
+		if($scope.insertBinaryErrors.length == 0){
+			if(!$scope.newBinaryDefinition.fieldAlias || $scope.newBinaryDefinition.fieldAlias == null || $scope.newBinaryDefinition.fieldAlias == ""){
+				$scope.newBinaryDefinition.fieldAlias = $scope.newBinaryDefinition.fieldName;
+			}
+			
+
+			$scope.previewBinaries.push($scope.newBinaryDefinition);
+			$scope.newBinaryDefinition = {sourceBinary: $scope.previewBinaries.length+1};
+			//$scope.refreshColumnOrder();
+		}
+	};
+	
+	$scope.removeBinaryDefinition = function(index){
+		$scope.previewBinaries.splice(index,1);
+		//a$scope.refreshBinaryOrder();
+	};
+
+
+	
+	
+	
 	$scope.onDropCsvFieldComplete=function(fromIndex, toIndex,evt){
 		var columToMove = $scope.previewColumns[fromIndex];
 		columToMove.dragging = false;
@@ -858,11 +975,48 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.goToStart  = function(){ $scope.currentStep = 'start'; refreshWizardToolbar();};
 	$scope.goToRequestor  = function(){ $scope.currentStep = 'requestor';refreshWizardToolbar();};
 	$scope.goToMetadata  = function(){ $scope.currentStep = 'metadata';refreshWizardToolbar();};
+	$scope.goToChooseType  = function(){
+		$scope.selectedFile = null;
+		$scope.previewLines = [];
+		$scope.previewColumns = [];
+		$scope.previewBinaries = [];
+		$scope.metadata.info.fields = [];
+		$scope.currentStep = 'choosetype';refreshWizardToolbar();
+	};
 	$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
 	$scope.goToColumns  = function(){$scope.columnDefinitionType = "import"; readPreview(); $scope.currentStep = 'columns';refreshWizardToolbar();};
-	$scope.goToCreateColumns  = function(){$scope.columnDefinitionType = "create"; $scope.currentStep = 'columns';refreshWizardToolbar();
-	};
+	$scope.goToCreateColumns  = function(choosen){$scope.choosenDatasetType = choosen;$scope.columnDefinitionType = "create"; $scope.currentStep = 'columns';refreshWizardToolbar();};
 
+	 
+	var choosenDatasetTypeVar = "";
+	
+	$scope.chooseDatasetType = function(choosen){
+		console.log("choosen",choosen);
+		$scope.choosenDatasetType = choosen;
+
+		console.log("$scope.choosenDatasetType",$scope.choosenDatasetType);
+		choosenDatasetTypeVar = choosen;
+		console.log("$scope.choosenDatasetTypeVar",choosenDatasetTypeVar);
+
+		if(choosen == 'bulk_upload')
+			$scope.goToUpload();
+		else if(choosen == 'bulk_no_upload')
+			$scope.goToCreateColumns(choosen);
+		else{ //if(choosen == 'bulk_no_upload' || choosen == 'binary_no_upload')
+			$scope.goToCreateColumns(choosen);
+		}
+		
+	};
+	
+	$scope.backFromColumns= function(){
+		if($scope.choosenDatasetType == 'bulk_upload')
+			$scope.goToUpload();
+		else{ //if(choosen == 'bulk_no_upload' || choosen == 'binary_no_upload')
+			$scope.goToChooseType();
+		}
+				
+	};
+	
 	$scope.isUploading = false;
 
 	$scope.warningMessages = [];
@@ -880,10 +1034,38 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		newDataset.configData.subtype = "bulkDataset";
 		console.log("dataset qui ", newDataset);
 		
+		var hasErrors = false;
+		
 		if(!$scope.metadata.info.fields || $scope.metadata.info.fields==null || $scope.metadata.info.fields.length == 0){
 			$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN');
+			$scope.metadata.info.fields = [];
+			hasError =true;
 		}
-		else{
+		console.log("$scope.choosenDatasetType ",$scope.choosenDatasetType );
+		console.log("$scope.previewBinaries ",$scope.previewBinaries );
+		console.log("$scope.previewBinaries.length ",$scope.previewBinaries.length );
+		if($scope.choosenDatasetType == 'binary_no_upload' && $scope.previewBinaries.length==0){
+			$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY');
+			hasError =true;
+		}
+		
+		var startSourceColumn = $scope.metadata.info.fields.length +1;
+		for (var i = 0; i < $scope.previewBinaries.length; i++) {
+			var fileDef = $scope.previewBinaries[i];
+			$scope.metadata.info.fields.push(
+					{"sourceColumn":(startSourceColumn + i), 
+						"fieldName":fileDef.fieldName, 
+						"fieldAlias":fileDef.fieldAlias, 
+						"dataType":"binary", 
+						"isKey":0, 
+						"measureUnit":null,
+						"dateTimeFormat":null}
+					);
+		}
+		
+		console.log("dataset dopo binary ", newDataset);
+	
+		if(!hasErrors){
 			var fileName = null;
 			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)
 				fileName = $scope.selectedFile.name;

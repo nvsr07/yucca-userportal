@@ -1,6 +1,6 @@
 <div class='clearfix wizard-title' ng-cloak>
 	<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_DATASET_TITLE</span> - <span translate>MANAGEMENT_NEW_DATASET_UPLOAD_SUBTITLE</span></h3></div>
-	<div class='pull-right'><h3><small>Step 4/5</small></h3></div>
+	<div class='pull-right'><h3><small>Step 5/6</small></h3></div>
 </div>
 <form class="form-horizontal" role="form" name="uploadDatasetForm" ng-cloak>
 	<div class="alert alert-warning" ng-show='updateWarning'>
@@ -65,13 +65,14 @@
 	</div>
 	<div class="row form-toolbar">
 		<div class=" col-sm-12">
-			<a ng-click='goToMetadata()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
+			<a ng-click='goToChooseType()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
 			<a ng-click='goToColumns()' class="btn btn-wizard-next" ng-disabled="!isOwner() || uploadDatasetForm.$invalid || selectedFile==null " translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 		</div>
 	</div>
-	<div class="row form-toolbar">
+	<!-- <div class="row form-toolbar">
 		<div class=" col-sm-12">
 			<a ng-click='goToCreateColumns()' class="btn btn-wizard-next" ng-disabled="!isOwner()" translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT_CREATE_COLUMNS</a>
 		</div>
 	</div>
+	-->
 </form>

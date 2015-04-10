@@ -23,16 +23,23 @@
 				  	<a href='javascript:void(0)' ng-class="wizardSteps[2].style">
 				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>3</span>
 				  		<span class='wizard-step-label wizard-step-label-notlast'>Metadata</span>
-				  	</a></li>
-				  <li role="presentation" ng-class="{active: currentStep == 'upload'}">
+				  	</a>
+				  </li>
+				  <li role="presentation" ng-class="{active: currentStep == 'choosetype'}">
 				  	<a href='javascript:void(0)' ng-class="wizardSteps[3].style">
 				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>4</span>
+				  		<span class='wizard-step-label wizard-step-label-notlast'>Type</span>
+				  	</a>
+				  </li>
+				  <li role="presentation" ng-class="{active: currentStep == 'upload'}">
+				  	<a href='javascript:void(0)' ng-class="wizardSteps[4].style">
+				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>5</span>
 				  		<span class='wizard-step-label wizard-step-label-notlast'>File</span> 
 				  	</a>
 				  </li>
 				  <li role="presentation" ng-class="{active: currentStep == 'columns'}">
-				  	<a href='javascript:void(0)' ng-class="wizardSteps[4].style">
-				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>5</span>
+				  	<a href='javascript:void(0)' ng-class="wizardSteps[5].style">
+				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>6</span>
 				  		<span class='wizard-step-label'>Column</span>
 				  	</a></li>
 				</ul>
@@ -62,6 +69,9 @@
 						</slide>
 						<slide active="currentStep == 'metadata'">
 							<new-dataset-wizard-metadata></new-dataset-wizard-metadata>
+						</slide>
+						<slide active="currentStep == 'choosetype'">
+							<new-dataset-wizard-choosetype></new-dataset-wizard-choosetype>
 						</slide>
 						<slide active="currentStep == 'upload'">
 							<new-dataset-wizard-upload></new-dataset-wizard-upload>

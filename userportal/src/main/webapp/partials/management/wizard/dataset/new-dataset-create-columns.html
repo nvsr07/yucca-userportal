@@ -1,12 +1,9 @@
-<div ng-cloak>
+<div ng-cloak class='management-new-dataset-columns-panel'>
 	<div class="alert alert-danger management-upload-column-error-panel " ng-show='saveError'>
 		<div>
 			<strong><span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
 			<span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
 		</div>
-	</div>
-	<div class='row'>
-		<p>&nbsp;</p>
 	</div>
 	<div class='row text-left'>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -16,7 +13,7 @@
 	</div>
 	<div class='row management-table-upload-column-header'>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span title="{{'DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN_HINT'|translate}}"translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group"><span translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</span></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT</span> | <span translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></div>
@@ -26,7 +23,7 @@
 	</div>
 	<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewColumns track by $index" ng-drop="true" ng-drop-success="onDropCsvFieldComplete($data,$index,$event)">
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span>{{column.sourceColumn}}</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias"  ></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
 			<select class="input-sm form-control" ng-model="column.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType"  
@@ -61,8 +58,7 @@
 			</a>
 		</div>
 	</div>
-	<div>&nbsp;</div>
-	<div  class='row' >
+	<div  class='row ' >
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="newColumnDefinition.sourceColumn"></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  form-group has-feedback" >
 			<input class="input-sm form-control" type="text" ng-model="newColumnDefinition.fieldName"  title="{{'MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT'|translate}}">
@@ -94,7 +90,7 @@
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;
 		</div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-	    	<a class="btn  btn-sm btn-add"  href ng-click='addColumnDefinition()' title="{{'MANAGEMENT_NEW_DATASET_ADD_COLUMN_DEFINITION'|translate}}" >
+	    	<a class="btn  btn-sm btn-add"  href ng-click='addColumnDefinition()' title="{{'MANAGEMENT_NEW_DATASET_REMOVE_COLUMN_DEFINITION'|translate}}" >
 				<i class='glyphicon glyphicon-plus'></i>
 			</a>
 		</div>
@@ -103,4 +99,48 @@
 		<strong>{{updateError.error_message}}</strong>
 		<ul><li ng-repeat="insertColumnError in insertColumnErrors "><span translate>{{insertColumnError}}</span></li></ul>
 	</div>
+	<div ng-show="choosenDatasetType=='binary_no_upload'">
+		<p>&nbsp;</p>
+		<div class='row text-left'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h4 translate>MANAGEMENT_NEW_DATASET_BINARY_TITLE</h4>
+				<p translate>MANAGEMENT_NEW_DATASET_BINARY_INTRO</p>
+			</div>
+		</div>
+		<div class='row  management-table-upload-column-header'>
+			<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&num;</div>
+			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group"><span translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
+			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
+			<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
+		</div>
+		<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewBinaries track by $index">
+			<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span>{{column.sourceBinary}}</span></div>
+			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ></div>
+			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias"  ></div>
+			<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+		    	<a class="btn  btn-sm btn-remove"  href ng-click='removeBinaryDefinition($index)' title="{{'MANAGEMENT_NEW_DATASET_REMOVE_BINARY_DEFINITION'|translate}}" >
+					<i class='glyphicon glyphicon-trash'></i>
+				</a>
+			</div>
+		</div>
+		<div  class='row' >
+			<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
+			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  form-group has-feedback" >
+				<input class="input-sm form-control" type="text" ng-model="newBinaryDefinition.fieldName"  title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT'|translate}}">
+				<i class="fa fa-lightbulb-o form-control-feedback input-icon-hint" title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT'|translate}}"></i>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="newBinaryDefinition.fieldAlias" ></div>
+			<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+		    	<a class="btn  btn-sm btn-add"  href ng-click='addBinaryDefinition()' title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_DEFINITION'|translate}}" >
+					<i class='glyphicon glyphicon-plus'></i>
+				</a>
+			</div>
+		</div>
+		<div class="alert alert-danger text-left" ng-show='insertBinaryErrors.length>0'>
+			<strong>{{updateError.error_message}}</strong>
+			<ul><li ng-repeat="insertError in insertBinaryErrors "><span translate>{{insertError}}</span></li></ul>
+		</div>
+	</div>
+	
+	
 </div>

@@ -584,6 +584,7 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Crea',
 	MANAGEMENT_NEW_DATASET_TITLE: 'Nuovo Dataset',
 	MANAGEMENT_NEW_DATASET_START_SUBTITLE: 'Identificativo',
+	MANAGEMENT_NEW_DATASET_CHOOSE_DATASET_TYPE_SUBTITLE: 'Tipo di dataset',
 	MANAGEMENT_NEW_DATASET_REQUESTOR_SUBTITLE: 'Richiedente',
 	MANAGEMENT_NEW_DATASET_METADATA_SUBTITLE: 'Metadati',
 	MANAGEMENT_NEW_DATASET_UPLOAD_SUBTITLE: 'Upload del File',
@@ -595,6 +596,15 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_CREATE_COLUMNS: 'oppure prosegui senza caricare il file',
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_IMPORT_COLUMNS: 'Definisci le colonne caricando il file',
 	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Crea dataset',
+	
+	MANAGEMENT_NEW_DATASET_CHOOSE_DATASET_TYPE_QUESTION: 'Che tipo di dataset vuoi creare?',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY: 'File binario',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY_DESC: 'Scegli questo se hai filmati, immagini o file binari. Definirai le varie componenti',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN: 'Nomi colonne',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN_DESC: 'Scegli questo per defininire la struttura delle colonne del dataset',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE: 'Upload csv',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE_DESC: 'Scegli questo per definire la struttura delle colonne di un dataset tramite l\'upload di un file csv',
+	
 	
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA: 'Rilascia il file da caricare',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR: 'Oppure',
@@ -627,6 +637,17 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN: 'Definire almeno una colonna',
 	MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT: 'Il nome viene ripulito da spazi e caratteri speciali automaticamente  in fase di salvataggio',
 	
+	
+	
+	MANAGEMENT_NEW_DATASET_BINARY_TITLE :'File binari da definire',
+	MANAGEMENT_NEW_DATASET_BINARY_INTRO: 'Aggiungere almeno un la definizione di un file binario',
+	MANAGEMENT_NEW_DATASET_ADD_BINARY_DEFINITION: 'Aggiungi definizione file',
+	MANAGEMENT_NEW_DATASET_REMOVE_BINARY_DEFINITION: 'Rimuovi definizione file',
+	MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME: 'Il nome file e\' obbligatorio',
+	MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME_UNIQUE: 'Il nome file deve essere univoco',
+	MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY: 'Definire almeno un file',
+	MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT: 'Il nome viene ripulito da spazi e caratteri speciali automaticamente  in fase di salvataggio',
+
 	/* Management upload dataset*/
 	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Carica dati',
 	MANAGEMENT_EDIT_DATASET_SUBTITLE: 'Modifica ', 

@@ -25,6 +25,13 @@ appDirectives.directive('newDatasetWizardMetadata', function() {
 	};
 });
 
+appDirectives.directive('newDatasetWizardChoosetype', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/dataset/new-dataset-choose-type.html?'+BuildInfo.timestamp,
+	};
+});
+
 appDirectives.directive('newDatasetWizardUpload', function() {
 	return {
 		restrict : 'E',
