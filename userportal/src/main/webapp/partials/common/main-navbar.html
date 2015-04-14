@@ -28,7 +28,7 @@
 						<li class="space-vertical"></li>
 						<li ><a href="#/" ng-class="{active: $route.current.activetab == 'home'}" class='main-menu-item main-menu-item-dashboard'><span translate>MENU_HOME</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('monitoring/*')"><a href="#/dashboard" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'><span translate>MENU_DASHBOARD</span></a></li>
+						<li ng-show="isAuthorized('monitoring/*')"><a href="#/dashboard/streams" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'><span translate>MENU_DASHBOARD</span></a></li>
 						<li class="divider-vertical"></li>
 						<li  ng-show="isAuthorized('management/*')"><a ng-href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}"  class='main-menu-item main-menu-item-management'><span translate>MENU_MANAGEMENT</span></a></li>
 						<li class="divider-vertical"></li>
