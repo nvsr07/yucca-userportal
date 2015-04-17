@@ -53,7 +53,7 @@
 		<label for="inputStreamAddTenantSharing" class="col-sm-2 control-label"><span translate>DATASET_FIELD_TENANTSSHARING</span></label>
 		<div class="col-sm-10 text-left">
 			<p>
-				<span  ng-repeat="tenantSharing in metadata.info.tenantsShare.tenantList">
+				<span  ng-repeat="tenantSharing in metadata.info.tenantssharing.tenantsharing">
 					<span class="label label-custom label-tenant-sharing"><span title="{tenantSharing.tenantCode}">{{tenantSharing.tenantName}}</span> &nbsp;
 					<a href ng-click='removeTenantSharing($index)' ng-show="tenantSharing.isOwner==0"  class='close-button'>&times;</a>
 					</span> &nbsp;

@@ -45,7 +45,7 @@
 							<div class='col-sm-2'>{{dataset.info.visibility}}</div>
 							<div class='col-sm-2 text-right'card-label" ng-show="dataset.info.visibility=='private'"><strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
 							<div class='col-sm-6'>
-								<span  ng-repeat="tenantSharing in dataset.info.tenantsShare.tenantList">
+								<span  ng-repeat="tenantSharing in dataset.info.tenantssharing.tenantsharing">
 									<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
 								</span> &nbsp;
 							</div>

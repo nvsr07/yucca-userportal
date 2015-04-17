@@ -225,15 +225,15 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		console.log("addTenantSharing ",newTenantSharing);
 		if(newTenantSharing){
 			var found = false;	
-			if(!$scope.dataset.info.tenantsShare || $scope.dataset.info.tenantsShare == null){
-				$scope.dataset.info.tenantsShare = {};
+			if(!$scope.dataset.info.tenantssharing || $scope.dataset.info.tenantssharing == null){
+				$scope.dataset.info.tenantssharing = {};
 			}
-			if(!$scope.dataset.info.tenantsShare.tenantList || $scope.dataset.info.tenantsShare.tenantList == null){
-				$scope.dataset.info.tenantsShare.tenantList = [];
+			if(!$scope.dataset.info.tenantssharing.tenantsharing || $scope.dataset.info.tenantssharing.tenantsharing == null){
+				$scope.dataset.info.tenantssharing.tenantsharing = [];
 			}
 			
-			for (var int = 0; int < $scope.dataset.info.tenantsShare.tenantList.length; int++) {
-				var existingTenantSharing = $scope.dataset.info.tenantsShare.tenantList[int];
+			for (var int = 0; int < $scope.dataset.info.tenantssharing.tenantsharing.length; int++) {
+				var existingTenantSharing = $scope.dataset.info.tenantssharing.tenantsharing[int];
 				console.log("existing",existingTenantSharing);
 				if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
 					console.log("found");
@@ -243,14 +243,14 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 			}
 			if(!found){
-				$scope.dataset.info.tenantsShare.tenantList.push(
+				$scope.dataset.info.tenantssharing.tenantsharing.push(
 							{"idTenant":newTenantSharing.idTenant, 
 								"tenantName": newTenantSharing.tenantName, 
 								"tenantDescription": newTenantSharing.tenantDescription, 
 								"tenantCode": newTenantSharing.tenantCode, 
 								"isOwner": 0
 							});
-				console.log("added", $scope.dataset.info.tenantsShare.tenantList );
+				console.log("added", $scope.dataset.info.tenantssharing.tenantsharing );
 			}
 		}
 
@@ -258,7 +258,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 
 	$scope.removeTenantSharing = function(index){
-		$scope.dataset.info.tenantsShare.tenantList.splice(index,1);
+		$scope.dataset.info.tenantssharing.tenantsharing.splice(index,1);
 		return false;
 	};
 	
@@ -631,15 +631,15 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		console.log("addTenantSharing ",newTenantSharing);
 		if(newTenantSharing){
 			var found = false;	
-			if(!$scope.metadata.info.tenantsShare || $scope.metadata.info.tenantsShare == null){
-				$scope.metadata.info.tenantsShare = {};
+			if(!$scope.metadata.info.tenantssharing || $scope.metadata.info.tenantssharing == null){
+				$scope.metadata.info.tenantssharing = {};
 			}
-			if(!$scope.metadata.info.tenantsShare.tenantList || $scope.metadata.info.tenantsShare.tenantList == null){
-				$scope.metadata.info.tenantsShare.tenantList = [];
+			if(!$scope.metadata.info.tenantssharing.tenantsharing || $scope.metadata.info.tenantssharing.tenantsharing == null){
+				$scope.metadata.info.tenantssharing.tenantsharing = [];
 			}
 			
-			for (var int = 0; int < $scope.metadata.info.tenantsShare.tenantList.length; int++) {
-				var existingTenantSharing = $scope.metadata.info.tenantsShare.tenantList[int];
+			for (var int = 0; int < $scope.metadata.info.tenantssharing.tenantsharing.length; int++) {
+				var existingTenantSharing = $scope.metadata.info.tenantssharing.tenantsharing[int];
 				console.log("existing",existingTenantSharing);
 				if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
 					console.log("found");
@@ -649,14 +649,14 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 			}
 			if(!found){
-				$scope.metadata.info.tenantsShare.tenantList.push(
+				$scope.metadata.info.tenantssharing.tenantsharing.push(
 							{"idTenant":newTenantSharing.idTenant, 
 								"tenantName": newTenantSharing.tenantName, 
 								"tenantDescription": newTenantSharing.tenantDescription, 
 								"tenantCode": newTenantSharing.tenantCode, 
 								"isOwner": 0
 							});
-				console.log("added", $scope.metadata.info.tenantsShare.tenantList );
+				console.log("added", $scope.metadata.info.tenantssharing.tenantsharing );
 			}
 		}
 
@@ -664,7 +664,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 
 	$scope.removeTenantSharing = function(index){
-		$scope.metadata.info.tenantsShare.tenantList.splice(index,1);
+		$scope.metadata.info.tenantssharing.tenantsharing.splice(index,1);
 		return false;
 	};
 
