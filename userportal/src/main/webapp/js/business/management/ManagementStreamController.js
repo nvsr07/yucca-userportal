@@ -501,7 +501,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		if(!$scope.isNewStream){
 			fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).success(function(response) {
 				$scope.stream = response.streams.stream;
-				
+				console.log("loadStream",response.streams.stream);
 				
 				
 //				if($scope.stream.saveData==1){
@@ -625,90 +625,17 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.loadStream();
 
-//	$scope.newComponent = null;
-//	$scope.newComponentUnitOfMeasurement = null;
-//	$scope.newComponentPhenomenon = null;
-//	$scope.newComponentDataType = null;
 
 	$scope.addComponent = function(newComponentName, newComponentUnitOfMeasurement, newComponentTolerance, newComponentPhenomenon,newComponentDataType){
 		
-		$scope.updateWarning = false;
-		$scope.warningMessages = [];
 		$scope.validationRes=2;
-		$scope.insertComponentErrors = [];
-		var newComponent = {};
-		if(newComponentName!=null && newComponentName!=""){
-			var found = false;
-			
-			if(newComponentName.indexOf(' ') >= 0){
-				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE');
-			}
-			else{
 
-				for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
-					if($scope.stream.componenti.element[int].nome == newComponentName){
-						found = true;
-						break;
-					}
-				}
-	
-				if(!found){
-					newComponent.nome=newComponentName;
-					
-					if(newComponentUnitOfMeasurement){
-						newComponent.idMeasureUnit = newComponentUnitOfMeasurement.idMeasureUnit;
-						newComponent.measureUnit = newComponentUnitOfMeasurement.measureUnit;
-						newComponent.measureUnitCategory = newComponentUnitOfMeasurement.measureUnitType;
-					}  
-					if(newComponentTolerance){
-						newComponent.tolerance = newComponentTolerance;
-					}  
+		var component = validateComponent(-1, newComponentName, newComponentUnitOfMeasurement, newComponentTolerance, newComponentPhenomenon, newComponentDataType);
 
-					if(newComponentPhenomenon){
-						newComponent.idPhenomenon = newComponentPhenomenon.idPhenomenon;
-						newComponent.phenomenon = newComponentPhenomenon.phenomenon;
-						newComponent.phenomenonCategory = newComponentPhenomenon.phenomenonType;
-					}
-					if(newComponentDataType){
-						newComponent.idDataType = newComponentDataType.idDataType;
-						newComponent.dataType = newComponentDataType.dataType;
-					}
-	
-				}
-				else{
-					$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE');
-				}
-			}
-		}
-		else
-			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED');
-
-		if(newComponentUnitOfMeasurement == null || newComponentUnitOfMeasurement == ""){
-			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED');
-		}
-		
-		if(newComponentTolerance == null || newComponentTolerance == ""){
-			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED');
-		}
-		else{
-			if( !Helpers.util.isNumber(newComponentTolerance))
-				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER');
-		}
-
-		if(newComponentPhenomenon == null || newComponentPhenomenon == ""){
-			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED');
-		}
-
-		if(newComponentDataType == null || newComponentDataType == ""){
-			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED');
-		}
-		
-
-		
-		console.log("newCompoent",newComponent);
-		if($scope.insertComponentErrors.length==0){
-			$scope.stream.componenti.element.push(newComponent);
-			newComponent = null;
+		console.log("newCompoent",component);
+		if(component!=null){
+			$scope.stream.componenti.element.push(component);
+			component = null;
 		}
 		
 		return false;
@@ -719,8 +646,131 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.stream.componenti.element.splice(index,1);
 		return false;
 	};
+	
+	$scope.startEditComponent = function(index){
+		$scope.warningMessages = [];
+		$scope.insertComponentErrors = [];
+		$scope.editingComponentIndex = index;
+		$scope.validationRes=2;
+		var c = $scope.stream.componenti.element[index];
+		$scope.editComponentName=c.nome;
+		$scope.editComponentUnitOfMeasurement = {};
+		$scope.editComponentUnitOfMeasurement.idMeasureUnit = c.idMeasureUnit;
+		$scope.editComponentUnitOfMeasurement.measureUnit = c.measureUnit;
+		$scope.editComponentUnitOfMeasurement.measureUnitCategory = c.measureUnitType;
+		$scope.editComponentTolerance = c.tolerance;
+		$scope.editComponentPhenomenon = {};
+		$scope.editComponentPhenomenon.idPhenomenon = c.idPhenomenon;
+		$scope.editComponentPhenomenon.phenomenon = c.phenomenon;
+		$scope.editComponentPhenomenon.phenomenonCategory = c.phenomenonType;
+	};
+	
+	$scope.cancelEditComponent = function(index){
+		$scope.editingComponentIndex = -1;
+	};
+	
+	$scope.editComponent = function(index, editComponentName, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon){
+		$scope.validationRes=2;
+		var editComponentDataType = {};
+		editComponentDataType.idDataType = $scope.stream.componenti.element[index].idDataType;
+		editComponentDataType.dataType = $scope.stream.componenti.element[index].dataType;
 
-	//$scope.newTag = null;
+		
+		var component = validateComponent(index, editComponentName, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon, editComponentDataType);
+		
+		if(component!=null){
+			component.idComponente = $scope.stream.componenti.element[index].idComponente;
+			$scope.stream.componenti.element[index] = component;
+			$scope.editingComponentIndex = -1;
+		}
+		
+		return false;
+	};
+	
+	var validateComponent = function(index, componentName, componentUnitOfMeasurement, componentTolerance, componentPhenomenon, componentDataType ){
+		$scope.updateWarning = false;
+		$scope.warningMessages = [];
+		$scope.insertComponentErrors = [];
+		var component = {};
+		console.log("validateComponent componentName",componentName);
+		if(componentName!=null && componentName!=""){
+			var found = false;
+			
+			if(componentName.indexOf(' ') >= 0){
+				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE');
+			}
+			else{
+
+				for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
+					if($scope.stream.componenti.element[int].nome == componentName && int!=index){
+						found = true;
+						break;
+					}
+				}
+	
+				if(!found){
+					component.nome=componentName;
+					
+					if(componentUnitOfMeasurement){
+						component.idMeasureUnit = componentUnitOfMeasurement.idMeasureUnit;
+						component.measureUnit = componentUnitOfMeasurement.measureUnit;
+						component.measureUnitCategory = componentUnitOfMeasurement.measureUnitType;
+					}  
+					if(componentTolerance){
+						component.tolerance = componentTolerance;
+					}  
+
+					if(componentPhenomenon){
+						component.idPhenomenon = componentPhenomenon.idPhenomenon;
+						component.phenomenon = componentPhenomenon.phenomenon;
+						component.phenomenonCategory = componentPhenomenon.phenomenonType;
+					}
+					if(componentDataType){
+						component.idDataType = componentDataType.idDataType;
+						component.dataType = componentDataType.dataType;
+					}
+				}
+				else{
+					$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE');
+				}
+			}
+		}
+		else
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED');
+
+		if(componentUnitOfMeasurement == null || componentUnitOfMeasurement == ""){
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED');
+		}
+		
+		if(componentTolerance == null || componentTolerance == ""){
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED');
+		}
+		else{
+			if( !Helpers.util.isNumber(componentTolerance))
+				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER');
+		}
+
+		if(componentPhenomenon == null || componentPhenomenon == ""){
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED');
+		}
+		
+		if(componentDataType == null || componentDataType == ""){
+			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED');
+		}
+
+		console.log("newCompoent",component);
+		if($scope.insertComponentErrors.length>0) 
+			component = null;
+		
+		return component;
+	};
+	
+	$scope.finishEditComponent = function(index){
+		$scope.editingComponentIndex = index;
+		return false;
+	};
+	
+
 	$scope.addTag = function(newTag){
 		console.log("addTag ",newTag);
 		if(newTag){

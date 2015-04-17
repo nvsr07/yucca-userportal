@@ -11,6 +11,8 @@ var translations_it = {
 	/*common */
 	CANCEL : 'Annulla',
 	SAVE: 'Salva',
+	UNDO: 'Annulla',
+	DELETE: 'Elimina',
 	SAVE_DRAFT: 'Salva bozza',
 	COMING_SOON: 'Coming soon...', 
 	WARNING: 'Attenzione', 
@@ -605,7 +607,6 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE: 'Upload csv',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE_DESC: 'Scegli questo per definire la struttura delle colonne di un dataset tramite l\'upload di un file csv',
 	
-	
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA: 'Rilascia il file da caricare',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR: 'Oppure',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_BUTTON_LOAD_FILE: 'Clicca qui per selezionare ',
@@ -640,7 +641,7 @@ var translations_it = {
 	
 	
 	MANAGEMENT_NEW_DATASET_BINARY_TITLE :'File binari da definire',
-	MANAGEMENT_NEW_DATASET_BINARY_INTRO: 'Aggiungere almeno un la definizione di un file binario',
+	MANAGEMENT_NEW_DATASET_BINARY_INTRO: 'Aggiungere almeno la definizione di un file binario',
 	MANAGEMENT_NEW_DATASET_ADD_BINARY_DEFINITION: 'Aggiungi definizione file',
 	MANAGEMENT_NEW_DATASET_REMOVE_BINARY_DEFINITION: 'Rimuovi definizione file',
 	MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME: 'Il nome file e\' obbligatorio',
@@ -732,7 +733,6 @@ var translations_it = {
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL: 'Topic', 
 	DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM: 'Monitoraggio Stream', 
 	DISCOVERY_DETAIL_DOWNLOAD_CSV: 'Url scarico dati csv', 
-	
 		
 
 	/* Discovery fields */

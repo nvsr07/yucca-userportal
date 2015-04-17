@@ -255,7 +255,14 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			List<Part> listParts = new ArrayList<Part>();
 			for (FileItem fileItemCurrent : listFileItems) {
 				if (fileItemCurrent.isFormField()) {
-					StringPart stringPart = new StringPart(fileItemCurrent.getFieldName(), fileItemCurrent.getString());
+					String value = "";
+					try {
+						value = new String (fileItemCurrent.getString().getBytes ("iso-8859-1"), "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						value = fileItemCurrent.getString();
+						e.printStackTrace();
+					}
+					StringPart stringPart = new StringPart(fileItemCurrent.getFieldName(), value,"UTF-8");
 					listParts.add(stringPart);
 				} else {
 					FilePart filePart = new FilePart(fileItemCurrent.getFieldName(), new ByteArrayPartSource(fileItemCurrent.getName(), fileItemCurrent.get()));

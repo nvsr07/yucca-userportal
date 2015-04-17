@@ -1039,14 +1039,14 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		if(!$scope.metadata.info.fields || $scope.metadata.info.fields==null || $scope.metadata.info.fields.length == 0){
 			$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN');
 			$scope.metadata.info.fields = [];
-			hasError =true;
+			hasErrors =true;
 		}
 		console.log("$scope.choosenDatasetType ",$scope.choosenDatasetType );
 		console.log("$scope.previewBinaries ",$scope.previewBinaries );
 		console.log("$scope.previewBinaries.length ",$scope.previewBinaries.length );
 		if($scope.choosenDatasetType == 'binary_no_upload' && $scope.previewBinaries.length==0){
 			$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY');
-			hasError =true;
+			hasErrors =true;
 		}
 		
 		var startSourceColumn = $scope.metadata.info.fields.length +1;
@@ -1071,7 +1071,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				fileName = $scope.selectedFile.name;
 			$scope.upload = $upload.upload({
 				url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
-	
+				//headers: { 'Content-Transfer-Encoding': '8bit' },
 				method: 'POST',
 				data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
 				file: $scope.selectedFile, // or list of files ($files) for html5 only

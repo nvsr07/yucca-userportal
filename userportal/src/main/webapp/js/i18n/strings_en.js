@@ -11,6 +11,8 @@ var translations_en = {
 	/*common */
 	CANCEL : 'Cancel',
 	SAVE: 'Save',
+	UNDO: 'Undo',
+	DELETE: 'Delete',
 	SAVE_DRAFT: 'Save draft',
 	COMING_SOON: 'Coming soon...', 
 	WARNING: 'Warning', 
@@ -214,6 +216,7 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FIELD_DATATYPE: 'Data type',
 	DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT: 'Date format', 
 	DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN: 'Source',
+	DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN_HINT: 'Write the column index in the source file',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY: 'Key',
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Measurement unit',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with',
@@ -236,7 +239,6 @@ var translations_en = {
 	SCHOOL: 'School',
 	SECURITY: 'Security',
 	TRANSPORT: 'Transport',
-
 	
 	/* Stream tags */
 	AIR: 'Air',
@@ -584,6 +586,7 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Create',
 	MANAGEMENT_NEW_DATASET_TITLE: 'New Dataset',
 	MANAGEMENT_NEW_DATASET_START_SUBTITLE: 'ID',
+	MANAGEMENT_NEW_DATASET_CHOOSE_DATASET_TYPE_SUBTITLE: 'Dataset type',
 	MANAGEMENT_NEW_DATASET_REQUESTOR_SUBTITLE: 'Requestor',
 	MANAGEMENT_NEW_DATASET_METADATA_SUBTITLE: 'Metadata',
 	MANAGEMENT_NEW_DATASET_UPLOAD_SUBTITLE: 'File Upload',
@@ -595,6 +598,14 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_CREATE_COLUMNS: 'Define columns without uploading the file',
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_IMPORT_COLUMNS: 'Define columns from the file',
 	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Create	 dataset',
+	
+	MANAGEMENT_NEW_DATASET_CHOOSE_DATASET_TYPE_QUESTION: 'What type of dataset you want to create?',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY: 'Biinary file',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY_DESC: 'Choose this one if you have movies, pictures or binary files',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN: 'Column names',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN_DESC: 'Choose this one to define the structure of the columns in the dataset',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE: 'Upload csv',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE_DESC: 'Choose this one to define the structure of the columns of the dataset through the upload of a csv file',
 	
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA: 'Drop the file to upload ',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR: 'Or',
@@ -614,6 +625,29 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP: 'If the first row contain the name of the columns', 
 	MANAGEMENT_NEW_DATASET_COLUMNS_TITLE: 'Columns to import',
 	MANAGEMENT_NEW_DATASET_COLUMNS_INTRO: 'Choose the columns that you want to import. Is possible to change the order of import', 
+	
+	MANAGEMENT_NEW_DATASET_ADD_COLUMN_DEFINITION: 'Add column',
+	MANAGEMENT_NEW_DATASET_REMOVE_COLUMN_DEFINITION: 'Remove column',
+
+	MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_TITLE: 'Configure colums',
+	MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_INTRO: 'Add the columns that will be in the dataset file', 
+	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME: 'Column name is required',
+	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME_UNIQUE: 'The column name must be unique',
+	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN: 'The column index of the source file is required, and must be numeric',
+	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE: 'The column index of the source file  must be unique',	
+	MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN: 'Define at least one column',
+	MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT: 'The name will be cleaned up by spaces and special characters automatically when saving',
+	
+	
+	
+	MANAGEMENT_NEW_DATASET_BINARY_TITLE :'Binary file',
+	MANAGEMENT_NEW_DATASET_BINARY_INTRO: 'Define at least one binary file',
+	MANAGEMENT_NEW_DATASET_ADD_BINARY_DEFINITION: 'Add file definition',
+	MANAGEMENT_NEW_DATASET_REMOVE_BINARY_DEFINITION: 'Remove file definition',
+	MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME: 'File name is required',
+	MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME_UNIQUE: 'Fine name must be unique',
+	MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY: 'Define at least one binary file',
+	MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT: 'The name will be cleaned up by spaces and special characters automatically when saving',
 
 	/* Management upload dataset*/
 	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Load data',
@@ -698,6 +732,7 @@ var translations_en = {
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_SERVER_URL_LABEL: 'Server URL',
 	DISCOVERY_DETAIL_ACCESS_DATA_WEBSOCKET_TOPIC_LABEL: 'Topic', 
 	DISCOVERY_DETAIL_OPEN_DASHBOARD_STREAM: 'Open Dashboard stream', 
+	DISCOVERY_DETAIL_DOWNLOAD_CSV: 'Download data csv url', 
 		
 
 	/* Discovery fields */
