@@ -31,7 +31,6 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 	@Override
 	protected String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 
-		//TODO workaround to force security in the datadiscovery 
 		
 		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 		List<String> tenantCodes = info.getUser().getTenants();
