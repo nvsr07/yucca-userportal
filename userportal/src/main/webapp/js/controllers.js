@@ -4,7 +4,7 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', 'fabricAPIservice', 'localStorageService', function($scope, $route, info, $location, fabricAPIservice, localStorageService) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', function($scope, $route, info, $location, $translate, fabricAPIservice, localStorageService) {
 	$scope.$route = $route;
 
 	$scope.storeUrl = '/store/';	
@@ -29,6 +29,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 //		$scope.storeUrl = '/store/site/pages/sso-filter.jag';
 //		}
 	});
+
+	$scope.changeLanguage = function(langKey) {
+		$translate.use(langKey);
+	};
 
 	$scope.changeActiveTenant = function(newTenant){
 		fabricAPIservice.getInfoChangActiveTenant(newTenant).success(function(result) {
@@ -109,9 +113,6 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 //	});
 
 
-	$scope.changeLanguage = function(langKey) {
-		$translate.use(langKey);
-	};
 
 //	$scope.isHomepage = function() {
 //	return $route.current.isHomepage;
@@ -162,6 +163,8 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAP
 		$scope.statistics.total_data = response.lifetime.total_data.data + response.lifetime.total_data.measures;
 		$scope.statistics.total_measures = response.lifetime.total_data.measures;
 		$scope.statistics.today_data = response.midnight.total_data.data + response.midnight.total_data.measures;
+		$scope.statistics.last_month_data = response.monthly.total_data.data + response.monthly.total_data.measures;
+		$scope.statistics.lastupdate = response.datetime.$date;
 		var domains= [];
 		for (var int = 0; int < response.lifetime.stream_frequency.domain.length; int++) {
 			var domain = response.lifetime.stream_frequency.domain[int];

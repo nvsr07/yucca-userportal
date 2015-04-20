@@ -21,6 +21,10 @@
 			</div>
 			<div class='col-sm-6' >
 				<div class='main-title-container'>
+					<div class='home-lang-panel'>
+						<a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it"></a>
+						<a href="#"  ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en"></a>
+					</div>
 					<h1 class='main-title'>yucca</h1>
 				</div>
 				<div ng-show="!user.loggedIn">
@@ -38,8 +42,9 @@
 						</div>
 					</div>
 					<div class='row main-action-panel-demo-link'>
-						<div class='col-sm-12 text-center'>
-							<a  href="#/management/virtualentities/sandbox"><span translate>HOME_START_DEMO_BUTTON</span></a>
+						<div class='col-sm-8 col-sm-offset-3'>
+							<p><span translate>HOME_START_DEMO_BUTTON_DESC</span></p>
+							<small><a class='btn main-action-button' href="#/discovery"><span translate>HOME_START_DEMO_BUTTON</span></a></small>
 						</div>
 					</div>
 				</div>
@@ -84,8 +89,8 @@
 			<div class='row'>
 				<div class='col-sm-4 statistic-data-panel'>
 					<p><span class='data-number-label' translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TOTAL_DATA_TIP"|translate}} {{statistics.total_data}}' ng-bind-html="statistics.total_data|format_big_number"></span></p>
+					<p><span class='data-number-label' translate>HOME_STATISTIC_CURRENT_MONTH_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_CURRENT_MONTH_DATA_TIP"|translate}} {{statistics.last_month_data}}'><span ng-bind-html="statistics.last_month_data|format_big_number"></span></span></p>
 					<p><span class='data-number-label' translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TODAY_DATA_TIP"|translate}} {{statistics.today_data}}' ng-bind-html="statistics.today_data|format_big_number"></span></p>
-					<p><span class='data-number-label' translate>HOME_STATISTIC_VIRTUALOBJECT_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP"|translate}} {{statistics.total_measures}}'><span ng-bind-html="statistics.total_measures|format_big_number"></span></span></p>
 				</div>
 				<div class='col-sm-4 statistic-chart-panel'>
 					<div id='domain-chart' style='height: 350px;'>
@@ -110,6 +115,9 @@
 				</div>
 			</div>
 		</div>
+		<div class='lastupdate-info container'><span translate>HOME_STATISTIC_LASTUPDATE_INFO</span>{{statistics.lastupdate|date}}</div>
+		
+		
 	</div>
 	<div id="home-operation-section-anchor">&nbsp;</div>
 	<div id="home-operation-section" ng-cloak>

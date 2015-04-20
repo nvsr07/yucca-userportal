@@ -17,7 +17,7 @@ a{color: black; text-decoration: underline;}
 .logo-text-data{color: #00963d;}
 .logo-text-net{color: #707c7c;}
 
-.menu-flag-icon{display: block; height: 50px; width: 40px;}
+.menu-flag-icon{display: inline-block; height: 50px; width: 40px;}
 .menu-flag-icon-en{background: url("../img/flags/en.png") center center no-repeat; }
 .menu-flag-icon-it{background: url("../img/flags/it.png") center center no-repeat; }
 
@@ -291,20 +291,21 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #homepage{ background-color: #fff; }
 
 #home-landing-section{clear: both; overflow: hidden;padding-top: 36px;}
+#home-landing-section .home-lang-panel{height: 136px; margin-left: 400px;}
 #home-landing-section .intro-desc{text-align: right; max-width: 800px; font-size: 24px; padding-left: 180px; line-height: 40px; margin-top: 18px;padding-right: 1em}
 #home-landing-section .main-title-container{background: url(../img/home/home-logo-panel-bg.png) no-repeat left center #00973A;height: 306px; overflow:hidden; }
-#home-landing-section .main-title{background-color: transparent; color: white; font-size: 128px; margin-bottom: 0px; margin-top: 136px; margin-left: 110px;}
+#home-landing-section .main-title{background-color: transparent; color: white; font-size: 128px; margin-bottom: 0px; margin-top: 0; margin-left: 110px;}
 #home-landing-section .main-action-panel{margin-bottom:10px;color: white; }
 #home-landing-section .main-action-panel .actions{background-color: #00BBF0; color: white; padding: 12px; height: 80px; }
 #home-landing-section .main-action-panel .first-block{background: url(../img/home/home-start-panel-bg.png) no-repeat left center #00973A; color: white; padding: 24px; height: 80px; }
 #home-landing-section .main-action-panel .main-action-panel-demo-link{margin-top: 6px;}
-#home-landing-section .main-action-button-desc{padding-top: 30px;}
+#home-landing-section .main-action-button-desc{padding-top: 15px;}
 #home-landing-section .main-action-button{background-color: #222222; font-size: 24px; padding: 6px 18px; font-weight: bold;  color: white; position: relative; border-radius: 0; position: relative;}
 #home-landing-section .main-action-button::after {  content: '';  position: absolute;  top: 0;  width: 0;  height: 0; border-style: solid; right: -46px;  border-width: 23px;  border-color: transparent transparent transparent #222222;}
 #home-landing-section .main-action-username{display: block;text-align: right; font-size: 18px;}
 #home-landing-section .main-action-tenant{display: block;text-align: right; font-size: 12px;}
 #home-landing-section .home-logo{background: url(../img/logosdp_home.png) no-repeat left center transparent;height: 69px; width:336px;overflow: hidden;margin-top: 19px;}
-#home-landing-section .main-action-panel-demo-link a{color: #727272;}
+#home-landing-section .main-action-panel-demo-link a{color: #fff;}
 
 #home-map-section{margin-top: 64px;}
 #home-map-section .map {height: 300px; background-color: #ccc; position: relative;}
@@ -312,10 +313,10 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #home-map-section .left-overlay-map{top:0; left: 40px;}
 #home-map-section .right-overlay-map{top:0; right: 40px;}
 
-#home-statistic-section{background-color: #efefef;padding: 40px 0; }
+#home-statistic-section{background-color: #efefef;padding: 40px 0 0 0; }
 #home-statistic-section h3{margin-bottom: 2em; text-align: center; font-size: 40px}
 #home-statistic-section .data-number{font-size: 3.5em;letter-spacing: -4px;font-weight: 700; color: #00bbf0; }
-#home-statistic-section .statistic-data-panel{text-align: right; font-size: 10pt;}
+#home-statistic-section .statistic-data-panel{text-align: right; font-size: 10pt; padding: 0;}
 #home-statistic-section .statistic-data-panel p{padding:.5em;}
 #home-statistic-section .statistic-data-panel .data-number{padding-left: .2em;}
 #home-statistic-section .data-number-label{font-size: 20px;}
@@ -325,7 +326,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #home-statistic-section .statistic-entity-panel{text-align: left; font-size: 10pt;}
 #home-statistic-section .statistic-entity-panel p{padding:.5em;}
 #home-statistic-section .statistic-entity-panel .data-number{padding-right: .2em;}
-
+#home-statistic-section .lastupdate-info{line-height: 40px; font-size: .9em; color: #999;}
 
 #home-operation-section{padding: 40px 0; }
 #home-operation-section h2{margin-bottom: 2em; text-align: center;}

@@ -58,11 +58,9 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
 
 		GetMethod getMethod = new GetMethod(createTargetUrlWithParameters(request));
-		
-
+				
 		String authorizationHeader = request.getHeader("Authorization");
 		if(authorizationHeader!=null)
 			getMethod.setRequestHeader("Authorization", authorizationHeader);
@@ -70,9 +68,18 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		HttpClient httpclient = new HttpClient();
 		int result = httpclient.executeMethod(getMethod);
 		response.setStatus(result);
-		response.setCharacterEncoding(getMethod.getResponseCharSet());
+		log.info("[ApiProxyServlet::doGet] Content-Type: " + getMethod.getResponseHeader("Content-Type") );
 		if(getMethod.getResponseHeader("Content-Type")!=null)
 			response.setContentType(getMethod.getResponseHeader("Content-Type").getValue());
+		log.info("[ApiProxyServlet::doGet] getResponseCharSet: " + getMethod.getResponseCharSet() );
+		response.setCharacterEncoding("UTF-8");
+		//if(getMethod.getResponseCharSet()==null)
+		//	response.setCharacterEncoding("UTF-8");
+		//else
+		//	response.setCharacterEncoding(getMethod.getResponseCharSet());
+		
+		log.info("[ApiProxyServlet::doGet] response.getCharacterEncoding: " + response.getCharacterEncoding());
+		log.info("[ApiProxyServlet::doGet] response.getContentType: " + response.getContentType());
 		//		for (Header header : getMethod.getResponseHeaders()) {
 		//			System.out.println(header.getName() + "-"+header.getValue());
 		//		}
@@ -85,6 +92,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		String jsonOut = getMethod.getResponseBodyAsString();
 		if (isJSONPRequest(request))
 			jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
+		PrintWriter out = response.getWriter();
 		out.println(jsonOut);
 		out.close();
 	}
