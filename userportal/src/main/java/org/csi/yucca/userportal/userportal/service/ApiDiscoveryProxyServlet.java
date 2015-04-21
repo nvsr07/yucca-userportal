@@ -31,6 +31,7 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 	@Override
 	protected String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 
+		//TODO workaround to force security in the datadiscovery 
 		
 		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 		List<String> tenantCodes = info.getUser().getTenants();
@@ -43,15 +44,15 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 						parametersOut =parameterMap.get("$filter")[0];
 						parametersOut +=  " and (";
 						for(String tenantCode : tenantCodes){
-						parametersOut +=  " substringof('"+tenantCode+"',tenantCode) eq true or ";
+						parametersOut +=  " (tenantCode eq '"+tenantCode+"') or (tenantsharing eq '"+tenantCode+"') or";
 						}
-						parametersOut += "substringof('public',visibility ) eq true)";
+						parametersOut += " ( visibility eq  'public'))";
 					}else{
 						parametersOut =  "&$filter=";
 						for(String tenantCode : tenantCodes){
-							parametersOut +=  " substringof('"+tenantCode+"',tenantCode) eq true or ";
+							parametersOut +=  " (tenantCode eq '"+tenantCode+"') or (tenantsharing eq '"+tenantCode+"') or";
 							}
-							parametersOut += "substringof('public',visibility ) eq true";
+							parametersOut += " ( visibility eq  'public') ";
 						
 //					 parametersOut = "&$filter="+ "substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true";
 				}
