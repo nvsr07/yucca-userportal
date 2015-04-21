@@ -602,10 +602,10 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_IMPORT_COLUMNS: 'Define columns from the file',
 	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Create	 dataset',
 	
-	MANAGEMENT_NEW_DATASET_CHOOSE_DATASET_TYPE_QUESTION: 'What type of dataset you want to create?',
+	MANAGEMENT_NEW_DATASET_CHOOSE_DATASET_TYPE_QUESTION: 'How do you want to create the data set?',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY: 'Biinary file',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY_DESC: 'Choose this one if you have movies, pictures or binary files',
-	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN: 'Column names',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN: 'Define columns',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN_DESC: 'Choose this one to define the structure of the columns in the dataset',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE: 'Upload csv',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE_DESC: 'Choose this one to define the structure of the columns of the dataset through the upload of a csv file',

@@ -424,6 +424,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				if($scope.virtualentity.virtualEntityPositions.position.length == 0){
 					$scope.virtualentity.virtualEntityPositions.position.push({});
 					$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+					$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
 				}
 				Helpers.util.cleanNilInField($scope.virtualentity);
 				selectedType = $scope.virtualentity.idTipoVe;
@@ -487,6 +488,8 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 					$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
 				if($scope.virtualentity.virtualEntityPositions.position[0].elevation == "" ||$scope.virtualentity.virtualEntityPositions.position[0].elevation ==null )
 					$scope.virtualentity.virtualEntityPositions.position[0].elevation = 0;
+				if($scope.virtualentity.virtualEntityPositions.position[0].floor == "" ||$scope.virtualentity.virtualEntityPositions.position[0].floor ==null )
+					$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
 				
 			}
 			

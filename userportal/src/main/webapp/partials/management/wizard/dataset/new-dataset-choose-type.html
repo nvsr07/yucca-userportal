@@ -8,13 +8,14 @@
 		<div class="row ">
 			<div class='col-sm-4'>
 				<div class='wizard-choose-panel' id='new-dataset-choose-panel-binary'>
-					<div  class='wizard-choose-panel-icons'>
+					<div class='wizard-choose-panel-disabled'><span translate>COMING_SOON</span></div>
+					<div  class='wizard-choose-panel-icons wizard-choose-panel-disabled-text'>
 						<i class="fa fa-film" id='new-dataset-choose-panel-movie-icon'></i>
 						<i class="fa fa-camera" id='new-dataset-choose-panel-camera-icon'></i>
 						<i class="fa  fa-file-pdf-o" id='new-dataset-choose-panel-pdf-icon'></i>
-					</div>
-					<div class='wizard-choose-panel-action'><a class='btn btn-wizard-next' ng-click='chooseDatasetType("binary_no_upload")' href><span translate>MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY</span></a></div>
-					<p class='wizard-choose-panel-desc' translate>MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY_DESC</p>
+					</div><!-- ng-click='chooseDatasetType("binary_no_upload")' -->
+					<div class='wizard-choose-panel-action'><a class='btn btn-wizard-next'  href="#" disabled="disabled"><span translate>MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY</span></a></div>
+					<p class='wizard-choose-panel-desc wizard-choose-panel-disabled-text' translate>MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY_DESC</p>
 				</div>
 			</div>
 			<div class='col-sm-4'>

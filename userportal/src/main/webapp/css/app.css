@@ -620,7 +620,12 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .wizard-choose-panel-action{}
 .wizard-choose-panel-desc{font-size: 10pt;}
 
-.wizard-choose-panel .btn-wizard-next{font-size: 2em;   margin-bottom: 1em;}
+.wizard-choose-panel-disabled{z-index:10; position: absolute; height: 100%; width: 100%; overflow: hidden;}
+.wizard-choose-panel-disabled span{  background-color: white;  padding: .5em;  color: black;  font-weight: bold;  font-size: 2em;  text-align: center;
+  width: 200%;  position: absolute;  z-index: 100;  left: -50%;  opacity: 0.8; filter: alpha(opacity=80); top: 42%;  transform: rotate(-45deg);}
+  
+.wizard-choose-panel-disabled-text {color:#d8d8d8;}
+.wizard-choose-panel .btn-wizard-next{font-size: 1.5em;   margin-bottom: 1em;}
 .wizard-choose-btn-back{font-size: 1.6em; margin: 24px 0;}
 #new-dataset-choose-panel-movie-icon{  top: 0px;    right: 0px;  font-size: 90px;   position: absolute;}
 #new-dataset-choose-panel-camera-icon{  top: 45px;  left: 0px;  font-size: 90px;  position: absolute;}
