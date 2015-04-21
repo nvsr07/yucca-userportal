@@ -281,6 +281,7 @@ var translations_it = {
 	VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP: 'Il codice inserito non puo\' contenere spazi o i caratteri  * . / # ',
 	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'Valore troppo lungo',
 	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'Il valore deve essere senza spazi',
+	VALIDATION_PATTERN_CODE_STREAM_TOOLTIP: 'Il codice inserito non puo\' contenere spazi o i caratteri  * . / # - ',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Inserire un valore decimale utilizzando il punto come separatore',
 	
 	/* stream status */

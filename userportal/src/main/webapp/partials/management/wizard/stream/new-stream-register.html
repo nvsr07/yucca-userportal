@@ -28,8 +28,8 @@
 			<label for="inputStreamCode" class="col-sm-2 control-label"><span translate>STREAM</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" ng-model="stream.codiceStream"  id="inputStreamCode"  name="inputStreamCode"
-				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternNoSpace">
-				<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_NO_SPACE_TOOLTIP'|translate}}"
+				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternStreamCode">
+				<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_CODE_STREAM_TOOLTIP'|translate}}"
 					ng-show="registerStreamForm.inputStreamCode.$error.pattern  && registerStreamForm.inputStreamCode.$dirty"></span>
 			</div>
 		</div>

@@ -31,6 +31,7 @@ Constants.VALIDATION_PATTERN_FLOAT = /^\s*[-+]?(\d*\.?\d+|\d+\.)(e[-+]?[0-9]+)?\
 Constants.VALIDATION_PATTERN_UUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 Constants.VALIDATION_PATTERN_NO_SPACE = /^(?!.*(?:[ ]))/;
 Constants.VALIDATION_PATTERN_CODE_VIRTUALENTITY = /^(?!.*(?:[ *./#<>]))/;
+Constants.VALIDATION_PATTERN_CODE_STREAM = /^(?!.*(?:[ *./#<>-]))/;
 
 
 

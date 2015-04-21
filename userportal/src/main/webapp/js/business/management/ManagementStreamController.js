@@ -266,6 +266,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.warningMessages = [];
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
+	$scope.validationPatternStreamCode = Constants.VALIDATION_PATTERN_CODE_STREAM;
 
 	
 	$scope.currentStep = 'register';
