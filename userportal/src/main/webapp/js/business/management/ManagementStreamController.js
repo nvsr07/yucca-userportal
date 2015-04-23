@@ -670,13 +670,17 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.editingComponentIndex = -1;
 	};
 	
-	$scope.editComponent = function(index, editComponentName, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon){
+	$scope.editComponent = function(index, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon){
 		$scope.validationRes=2;
 		var editComponentDataType = {};
+		var editComponentName = $scope.stream.componenti.element[index].nome;
 		editComponentDataType.idDataType = $scope.stream.componenti.element[index].idDataType;
 		editComponentDataType.dataType = $scope.stream.componenti.element[index].dataType;
 
-		
+		editComponentUnitOfMeasurement.measureUnitType = $scope.stream.componenti.element[index].measureUnitCategory;
+		editComponentPhenomenon.phenomenonType = $scope.stream.componenti.element[index].phenomenonCategory;
+		if(!editComponentTolerance) 
+			editComponentTolerance = "0";
 		var component = validateComponent(index, editComponentName, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon, editComponentDataType);
 		
 		if(component!=null){
@@ -694,6 +698,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.insertComponentErrors = [];
 		var component = {};
 		console.log("validateComponent componentName",componentName);
+		console.log("validateComponent componentUnitOfMeasurement",componentUnitOfMeasurement);
+		console.log("validateComponent componentTolerance",componentTolerance);
+		console.log("validateComponent componentPhenomenon",componentPhenomenon);
+		console.log("validateComponent componentDataType",componentDataType);
 		if(componentName!=null && componentName!=""){
 			var found = false;
 			
@@ -717,9 +725,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 						component.measureUnit = componentUnitOfMeasurement.measureUnit;
 						component.measureUnitCategory = componentUnitOfMeasurement.measureUnitType;
 					}  
-					if(componentTolerance){
-						component.tolerance = componentTolerance;
-					}  
+					component.tolerance = componentTolerance;
 
 					if(componentPhenomenon){
 						component.idPhenomenon = componentPhenomenon.idPhenomenon;

@@ -239,13 +239,15 @@
 											<tr ng-repeat="component in stream.componenti.element">
 												<td>
 													<span style="display: none"> {{component.idComponente}}</span>
-													<span ng-show="editingComponentIndex!=$index">{{component.nome}}</span>
+													{{component.nome}}
+													
+													<!-- <span ng-show="editingComponentIndex!=$index">{{component.nome}}</span>
 													<div class="has-feedback" ng-show="editingComponentIndex==$index">
 														<input type="text" class="form-control" ng-model="editComponentName"  id="editComponentName{{$index}}"  name="editComponentName{{$index}}"
 														placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}" ng-required="true" ng-pattern="validationPatternNoSpace">
 														<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_NO_SPACE_TOOLTIP'|translate}}"
 															ng-show="editStreamForm.editComponentName{{$index}}.$error.pattern  && editStreamForm.editComponentName{{$index}}.$dirty"></span>
-													</div>
+													</div>-->
 												</td>
 												<td>
 													<span ng-show="editingComponentIndex!=$index">{{component.measureUnitCategory}}: {{component.measureUnit}}</span>
@@ -291,7 +293,7 @@
 													</a>
 												</td>
 												<td ng-show="editingComponentIndex==$index">
-													<a href ng-click='editComponent($index,editComponentName, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon)' ng-disabled="editStreamForm.$invalid" class="btn btn-icon-add btn-sm" title="{{'SAVE'|translate}}"><i class='glyphicon glyphicon-ok'></i></a>
+													<a href ng-click='editComponent($index, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon)' ng-disabled="editStreamForm.$invalid" class="btn btn-icon-add btn-sm" title="{{'SAVE'|translate}}"><i class='glyphicon glyphicon-ok'></i></a>
 												</td>
 												<td ng-show="editingComponentIndex==$index">
 													<a href ng-click='cancelEditComponent($index)' class="btn btn-icon-undo btn-sm" title="{{'UNDO'|translate}}"><i class='glyphicon glyphicon-repeat'></i></a>
