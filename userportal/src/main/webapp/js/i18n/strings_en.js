@@ -704,10 +704,11 @@ var translations_en = {
 	
 	/* Discovery */
 	DISCOVERY_TITLE: 'Discovery',
+	DISCOVERY_FILTER_INTRO: 'Search through  the data stored in Yucca and available in mode Open: real-time data from smart objects on the territory of the Piedmont Region and Open Data',
 	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Search',
 	DISCOVERY_SIMPLESEARCH_MENU: 'Simple search',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Advanced search',
-	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. water or tags:AIR',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. school or tags:AIR',
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Search operator enabled <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> , <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> to use it <i>operator<strong>:</strong><i>value</i> ',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filter', 

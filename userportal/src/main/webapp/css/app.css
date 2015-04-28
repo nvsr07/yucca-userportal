@@ -293,11 +293,11 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #home-landing-section{clear: both; overflow: hidden;padding-top: 36px;}
 #home-landing-section .home-lang-panel{height: 136px; margin-left: 400px;}
 #home-landing-section .intro-desc{text-align: right; max-width: 800px; font-size: 24px; padding-left: 180px; line-height: 40px; margin-top: 18px;padding-right: 1em}
-#home-landing-section .main-title-container{background: url(../img/home/home-logo-panel-bg.png) no-repeat left center #00973A;height: 306px; overflow:hidden; }
+#home-landing-section .main-title-container{background: url(../img/home/home-logo-panel-bg.png) no-repeat left center #fff;height: 306px; overflow:hidden; }
 #home-landing-section .main-title{background-color: transparent; color: white; font-size: 128px; margin-bottom: 0px; margin-top: 0; margin-left: 110px;}
 #home-landing-section .main-action-panel{margin-bottom:10px;color: white; }
 #home-landing-section .main-action-panel .actions{background-color: #00BBF0; color: white; padding: 12px; height: 80px; }
-#home-landing-section .main-action-panel .first-block{background: url(../img/home/home-start-panel-bg.png) no-repeat left center #00973A; color: white; padding: 24px; height: 80px; }
+#home-landing-section .main-action-panel .first-block{background: url(../img/home/home-start-panel-bg.png) no-repeat left center #00BBF0; color: white; padding: 24px; height: 80px; }
 #home-landing-section .main-action-panel .main-action-panel-demo-link{margin-top: 6px;}
 #home-landing-section .main-action-button-desc{padding-top: 15px;}
 #home-landing-section .main-action-button{background-color: #222222; font-size: 24px; padding: 6px 18px; font-weight: bold;  color: white; position: relative; border-radius: 0; position: relative;}

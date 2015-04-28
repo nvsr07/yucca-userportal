@@ -704,12 +704,13 @@ var translations_it = {
 	
 	/* Discovery */
 	DISCOVERY_TITLE: 'Cerca',
+	DISCOVERY_FILTER_INTRO: 'Cerca nei dati archiviati in Yucca e disponibili in modalita\' Open: dati real time dai sensori sul territorio della Regione Piemonte, dati dei progetti del Bando ioD e Open Data',
 	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Cerca',
 	DISCOVERY_SIMPLESEARCH_MENU: 'Ricerca semplice',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Ricerca avanzata',
-	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. acqua oppure tags:AIR',
-	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
-	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong>, <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i> ',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. temperatura oppure tags:AIR',
+	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags (keywords in lingua inglese)</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
+	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong>, <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i>',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filtro', 
 	DISCOVERY_FILTER_SEARCH_BUTTON: 'Cerca',
 	

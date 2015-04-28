@@ -1,17 +1,16 @@
 package org.csi.yucca.userportal.userportal.service;
 
-import org.csi.yucca.userportal.userportal.info.Info;
-import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
-import org.csi.yucca.userportal.userportal.utils.Config;
-
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
+
+import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
+import org.csi.yucca.userportal.userportal.utils.Config;
 
 @WebServlet(description = "Api proxy Servlet  for service", urlPatterns = { "/api/proxy/discovery/*" }, asyncSupported = false)
 public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
