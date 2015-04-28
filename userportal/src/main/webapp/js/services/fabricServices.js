@@ -8,14 +8,14 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			url : Constants.API_INFO_URL + '?callback=JSON_CALLBACK'
 		});
 	};
-	
+
 	fabricAPI.getInfoChangActiveTenant = function(activeTenant) {
-		
+
 		var changeTenantUrl = Constants.API_INFO_URL + '?callback=JSON_CALLBACK';
-		
+
 		if(activeTenant!=undefined)
-		   changeTenantUrl = changeTenantUrl+"&activeTenant="+activeTenant;
-		
+			changeTenantUrl = changeTenantUrl+"&activeTenant="+activeTenant;
+
 		return $http({
 			method : 'JSONP',
 			url : changeTenantUrl
@@ -29,7 +29,7 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			url : Constants.API_VALIDATE_SIDDHI
 		});
 	};
-	
+
 	fabricAPI.getStreams = function(tenant_code) {
 		var tenantUrl = '';
 		if(tenant_code)
@@ -39,8 +39,34 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '?callback=JSON_CALLBACK'
 		});
 	};
-	
-	fabricAPI.getVisibleStreams = function(tenant_code) {
+
+	fabricAPI.getVisibleStreams = function() {
+		
+		var deferred = $q.defer();
+		fabricAPI.getInfo().success(function(infoData){
+			console.debug(infoData);
+		
+			var tenantUrl = '?visibleFrom=sandbox';
+			if(infoData.user.activeTenant!=undefined)
+				tenantUrl = '?visibleFrom='+infoData.user.activeTenant;			
+			
+			
+			$http({
+				method : 'JSONP',
+				url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
+			}).success(function(responseData) {
+				deferred.resolve(responseData);
+			}).error(function(responseData, responseStatus) {
+				resultData = {status: "ko - "+responseStatus, data: responseData};
+				deferred.reject(resultData);
+			});			
+		});
+		
+		return deferred.promise;
+		
+		
+		
+		
 		var tenantUrl = '?visibleFrom=sandbox';
 		if(tenant_code!=null && tenant_code!=undefined)
 			tenantUrl = '?visibleFrom='+tenant_code;
@@ -51,16 +77,26 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 	};
 
 	fabricAPI.getStream = function(tenant_code, virtualentity_code, stream_code) {
-		
-		var visible= "?visibleFrom=sandbox";
-		if(info.getActiveTenantCode()!=undefined)
-			visible= "?visibleFrom="+info.getActiveTenantCode();
-		
-		console.debug(visible);
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/'+visible+'&callback=JSON_CALLBACK'
+//FIXME
+		var deferred = $q.defer();
+		fabricAPI.getInfo().success(function(infoData){
+			console.debug(infoData);
+			var visible= "?visibleFrom=sandbox";
+			if(infoData.user.activeTenant!=undefined)
+				visible= "?visibleFrom="+infoData.user.activeTenant;			
+			console.debug(visible);
+			$http({
+				method : 'JSONP',
+				url : Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/'+visible+'&callback=JSON_CALLBACK'
+			}).success(function(responseData) {
+				deferred.resolve(responseData);
+			}).error(function(responseData, responseStatus) {
+				resultData = {status: "ko - "+responseStatus, data: responseData};
+				deferred.reject(resultData);
+			});			
 		});
+		
+		return deferred.promise;
 	};
 
 	fabricAPI.getTenants = function() {

@@ -20,7 +20,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		return info.isOwner( $scope.tenantCode);
 	};
 
-	fabricAPIservice.getVisibleStreams($scope.tenantCode).success(function(response) {
+	fabricAPIservice.getVisibleStreams().then(function(response) {
 
 		$scope.showLoading = false;
 
@@ -429,7 +429,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		});
 	};
 
-	fabricAPIservice.getVisibleStreams($scope.tenantCode).success(function(response) {
+	fabricAPIservice.getVisibleStreams().then(function(response) {
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
@@ -500,7 +500,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 	$scope.loadStream = function(){
 		if(!$scope.isNewStream){
-			fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).success(function(response) {
+			fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).then(function(response) {
 				$scope.stream = response.streams.stream;
 				console.log("loadStream",response.streams.stream);
 				
@@ -610,7 +610,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 
 	$scope.loadStreamComponents = function(existingStream){
-		fabricAPIservice.getStream(existingStream.codiceTenant,existingStream.codiceVirtualEntity,existingStream.codiceStream).success(function(response) {
+		fabricAPIservice.getStream(existingStream.codiceTenant,existingStream.codiceVirtualEntity,existingStream.codiceStream).then(function(response) {
 			var stream = response.streams.stream;
 			for (var i = 0; i < $scope.internalStreams.length; i++) {
 				if($scope.internalStreams[i].idStream==stream.idStream){

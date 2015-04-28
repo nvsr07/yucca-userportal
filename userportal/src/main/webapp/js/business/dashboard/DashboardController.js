@@ -86,7 +86,7 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 //			$scope.tenantCode = info.user.tenants[0];
 //		}
 		console.debug("$scope.tenantCode",$scope.tenantCode);
-	fabricAPIservice.getVisibleStreams($scope.tenantCode).success(function(response) {
+	fabricAPIservice.getVisibleStreams().then(function(response) {
 		// Dig into the responde to get the relevant data
 		$scope.showLoading = false;
 		
@@ -145,8 +145,8 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
                                                    function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
-	//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
-	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).then(function(response) {
+		console.debug("getStream response",response);
 		$scope.stream = response.streams.stream;
 		if($scope.stream.componenti == null)
 			$scope.stream.componenti = new Object();
@@ -402,8 +402,8 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
 	$scope.chartWidth = angular.element( document.querySelector( '#chart-container' )).width()-6;
 	
-	//fabricAPIservice.getStream($routeParams.id_stream).success(function(response) {
-	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).then(function(response) {
+		console.debug("getStream response",response);
 		$scope.stream = response.streams.stream;
 		if($scope.stream.componenti == null)
 			$scope.stream.componenti = new Object();
