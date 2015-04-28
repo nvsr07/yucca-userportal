@@ -1,0 +1,55 @@
+
+<div ng-controller="DashboardCtrl as dashboardCtrl" id='backoffice-dashboard'>
+	<div class='container' ng-cloak>
+		<h3 class='content-edit-title'><span translate>DASHBOARD_TITLE</span></h3>
+	</div>
+	<div class='container' ng-cloak>
+		<div class='row'>
+			<div class="col-sm-12" >
+				<ul class="nav nav-pills " role="tablist">
+				  <li role="presentation" ng-class="{active: currentSection == 'streamsSection'}">
+				  	<a href ng-click="currentSection='streamsSection'" translate>DASHBOARD_MENU_STREAMS</a>
+				  </li>
+				  <li role="presentation" ng-class="{active: currentSection == 'tenantsSection'}">
+				  	<a href ng-click="currentSection='tenantsSection'" translate>DASHBOARD_MENU_TENANTS</a>
+				  </li>
+				  <li role="presentation" ng-class="{active: currentSection == 'usersSection'}">
+				  	<a href ng-click="currentSection='usersSection'" translate>DASHBOARD_MENU_USERS</a>
+				  </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<p>&nbsp;</p>
+	<div class=''>
+		<div class='container'  >
+			<div class='alert ng-hide' ng-cloak>
+				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate>WARNING</span></strong>&nbsp;&nbsp;<span translate>DASHBOARD_WARNING</span>
+			</div>
+			<div class='row'>
+				<div class="col-sm-12 ">
+					<carousel id='newDatasetWizard' interval="-1">
+						<slide  active="currentSection == 'streamsSection'">
+							<dashboard-streams></dashboard-streams>
+						</slide>
+						<slide active="currentSection == 'tenantsSection'">
+							<dashboard-tenants></dashboard-tenants>
+						</slide>
+						<slide active="currentSection == 'usersSection'">
+							<dashboard-users></dashboard-users>
+						</slide>
+					</carousel>
+				</div>
+			</div>
+			<div ng-show='showStreamDetail'>
+				<dashboard-stream-detail></<dashboard-stream-detail>
+			</div>
+			<div ng-show='showTenantDetail'>
+				<dashboard-tenant-detail></dashboard-tenant-detail>
+			</div>
+			<div ng-show='showUserDetail'>
+				<dashboard-user-detail></dashboard-user-detail>
+			</div>
+		</div>
+	</div>
+</div>
