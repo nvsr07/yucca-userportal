@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <base href="/userportal/"> -->
+<title>Smart Data Platform</title>
+<!-- Bootstrap -->
+<!-- Latest compiled and minified CSS -->
+
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../ris/userportal/lib/codemirror/addon/hint/show-hint.css" />
+
+<link rel="stylesheet" type="text/css" href="css/app.css">
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="shortcut icon" href="favicon.png">
+<!-- Optional theme -->
+<!--  <link rel="stylesheet"
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+-->
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<script type='text/javascript'>
+		if(!console){
+			var console = window.console || { log: function() {} };
+		}
+		if(!console.debug)
+			console.debug = window.console.log;
+	</script>
+</head>
+<body lang="en" ng-app="backoffice">
+	<div ng-controller="GlobalCtrl as globalCtrl">
+		<main-navbar></main-navbar>
+		<div ng-view class='main-body'></div>
+		<main-footer></main-footer>
+	</div>
+	
+	<script type="text/javascript" src="../ris/userportal/lib/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular/angular.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-sanitize/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="../ris/userportal/lib/angular-translate/angular-translate.min.js"></script>
+
+	<!-- commented d3.js because use the version compliant with nvd3 -->
+	<script type="text/javascript" src="../ris/userportal/lib/stomp/stomp.min.js"></script>
+		 
+	<script type="text/javascript" src="../ris/userportal/lib/ngDraggable/ngDraggable.js"></script>
+
+
+
+	<script type="text/javascript" src="api/config"></script>
+
+	<script type="text/javascript" src="js/build_info.js"></script>
+	
+
+	
+	<script src="js-min/i18n/9b861c83.strings_en.js"></script>
+
+	<script src="js-min/i18n/53ce4169.strings_it.js"></script>
+ 	
+	
+	<script src="js-min/0f1b11b4.app.js"></script>
+	<script src="js-min/2d6414ed.helpers.js"></script>
+	<script src="js-min/305a1fb6.constants.js"></script>
+	<script src="js-min/services/cfce1eef.services.js"></script>
+	<script src="js-min/services/72e2e962.fabricServices.js"></script>
+	<script src="js-min/services/d189d171.managementServices.js"></script>
+	<script src="js-min/services/641d2851.websocketServices.js"></script>
+
+
+
+	
+	<script src="js-min/201d7582.controllers.js"></script>
+
+	<script src="js-min/7f262a02.filters.js"></script>
+	<script src="js-min/a4d047d4.directives.js"></script>
+	
+	<script src="js-min/201d7582.controllers.js"></script>
+	<script src="js-min/business/dashboard/efc4acfc.DashboardController.js"></script>
+	<script src="js-min/business/dashboard/8b1db36f.StreamController.js"></script>
+	<script src="js-min/business/dashboard/13760b5c.UserController.js"></script>
+	<script src="js-min/business/dashboard/a3c63b30.TenantController.js"></script>
+	<script src="js-min/business/dashboard/d9cdb0b9.DashboardDirectives.js"></script>
+	
+
+</body>
+</html>
