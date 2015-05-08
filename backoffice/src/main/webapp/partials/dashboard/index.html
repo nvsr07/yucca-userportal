@@ -1,22 +1,12 @@
 
 <div ng-controller="DashboardCtrl as dashboardCtrl" id='backoffice-dashboard'>
 	<div class='container' ng-cloak>
-		<h3 class='content-edit-title'><span translate>DASHBOARD_TITLE</span></h3>
-	</div>
-	<div class='container' ng-cloak>
-		<div class='row'>
-			<div class="col-sm-12" >
-				<ul class="nav nav-pills " role="tablist">
-				  <li role="presentation" ng-class="{active: currentSection == 'streamsSection'}">
-				  	<a href ng-click="currentSection='streamsSection'" translate>DASHBOARD_MENU_STREAMS</a>
-				  </li>
-				  <li role="presentation" ng-class="{active: currentSection == 'tenantsSection'}">
-				  	<a href ng-click="currentSection='tenantsSection'" translate>DASHBOARD_MENU_TENANTS</a>
-				  </li>
-				  <li role="presentation" ng-class="{active: currentSection == 'usersSection'}">
-				  	<a href ng-click="currentSection='usersSection'" translate>DASHBOARD_MENU_USERS</a>
-				  </li>
-				</ul>
+		<div class='title-container clearfix' ng-cloak>
+			<h1 class='pull-left'><span translate>DASHBOARD_TITLE</span></h1>
+			<div class="title-menu">
+				<a href ng-click="currentSection='streamsSection'" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'streamsSection'}" translate>DASHBOARD_MENU_STREAMS</a>
+				<a href ng-click="currentSection='tenantsSection'" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'tenantsSection'}" translate>DASHBOARD_MENU_TENANTS</a>
+				<a href ng-click="currentSection='usersSection'" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'usersSection'}" translate>DASHBOARD_MENU_USERS</a>
 			</div>
 		</div>
 	</div>
@@ -40,9 +30,6 @@
 						</slide>
 					</carousel>
 				</div>
-			</div>
-			<div ng-show='showStreamDetail'>
-				<dashboard-stream-detail></<dashboard-stream-detail>
 			</div>
 			<div ng-show='showTenantDetail'>
 				<dashboard-tenant-detail></dashboard-tenant-detail>

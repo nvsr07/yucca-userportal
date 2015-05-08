@@ -10,8 +10,10 @@ public class Config {
 
 	public static final String API_SERVICES_URL_KEY = "API_SERVICES_URL";
 	public static final String API_MANAGEMENT_URL_KEY = "API_MANAGEMENT_URL";
-	public static final String API_DISCOVERY_URL_KEY = "API_DISCOVERY_URL";
-	public static final String API_ODATA_URL_KEY = "API_ODATA_URL";
+	//public static final String API_DISCOVERY_URL_KEY = "API_DISCOVERY_URL";
+	//apublic static final String API_ODATA_URL_KEY = "API_ODATA_URL";
+	public static final String API_FABRIC_URL_KEY = "API_FABRIC_URL";
+
 
 	public static final String RBAC_PERMISSIONS_WEBSERVICE_URL_KEY = "RBAC_PERMISSIONS_WEBSERVICE_URL";
 	public static final String RBAC_ROLES_WEBSERVICE_URL_KEY = "RBAC_ROLES_WEBSERVICE_URL";

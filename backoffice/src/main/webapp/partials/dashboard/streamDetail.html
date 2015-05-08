@@ -1,7 +1,144 @@
+<!-- 
+<div ng-controller="StreamCtrl as streamCtrl" id='streamDetail'>
+		<div class='container'>
+		<h3 class='entity-title'>
+			<span translate>STREAM</span> <small>{{stream.codiceStream}} - {{stream.nomeStream}}</small>
+		</h3>
+		<div class='row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="alert alert-danger" ng-show='updateError'>
+					<strong>{{updateError.error_message}}</strong>
+					{{updateError.error_detail}}
+				</div>
+				<div class="alert alert-success" ng-show='updateInfo'>
+					<strong><span translate>MANAGEMENT_VIEW_STREAM_LIFECYCLE_OK_INFO</span></strong> {{updateInfo.status}}
+				</div>
+			</div>
+		</div>
+		
+		<div class='clearfix entity-info entity-info-top'>
+			<div class='pull-left'>
+				<div><small><span translate>STREAM_FIELD_NAME</span></small></div>
+				<div class='main-info'><strong>{{stream.nomeStream}}</strong></div>
+			</div>
+			<div class='pull-right text-right'>
+				<div><small><span translate>STREAM_FIELD_CREATION_DATE</span></small></div>
+				<div><strong>{{stream.registrationDate}}</strong></div>
+			
+			</div>
+		</div>
+		<div class='clearfix entity-info entity-info-bottom'>
+			<div class='pull-left'>
+				<div><small><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></small></div>
+				<div class='url'><strong>{{wsUrl}}</strong></div>
+			</div>
+			<div class='pull-right text-right'>
+				<div><small><span translate>STREAM_FIELD_VERSION</span></small></div>
+				<div><strong>{{stream.deploymentVersion}}</strong></div>
+			
+			</div>
+		</div>
+		
+		<accordion close-others="false">
+			<accordion-group is-open="!status1.open">
+				<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_STREAM_GENERAL_INFO</span>
+		 			<i class="pull-right glyphicon hide" ng-class="{'glyphicon-minus': status1.open, 'glyphicon-plus': !status1.open}"></i>
+				</accordion-heading>
+				<div class='row'>
+					<div class="col-sm-10">
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_CODE</span></strong></div>
+							<div class="col-sm-10">{{stream.codiceStream}}</div>
+						</div>			
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY</span></strong></div>
+							<div class='col-sm-10'>{{stream.codiceVirtualEntity}} - {{stream.virtualEntityName}}</div>
+						</div>	
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_STATUS</span></strong></div>
+							<div class='col-sm-10'>{{stream.deploymentStatusDesc|translate}}</div>
+						</div>
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL</span></strong></div>
+							<div class='col-sm-10'>{{stream.saveData|booleanToString|translate}}</div>
+						</div>	
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'STREAM_FIELD_VISIBILITY'|translate"></span></strong></div>
+							<div class='col-sm-2'>{{stream.visibility}}</div>
+							<div class='col-sm-2 text-right'card-label" ng-show="stream.visibility=='private'"><strong><span translate>STREAM_FIELD_TENANTSSHARED_WITH</span></strong></div>
+							<div class='col-sm-6'>
+								<span  ng-repeat="tenantSharing in stream.tenantssharing.tenantsharing">
+									<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
+								</span> &nbsp;
+							</div>
+						</div>	
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE_LABEL</span></strong></div>
+							<div class='col-sm-10'>{{stream.publishStream|booleanToString|translate}}</div>
+				</div>	
+	
+					</div>
+					<div class="col-sm-2 text-right">
+						<img ng-src="{{stream.streamIcon}}" alt="logo stream" class='upload-icon-preview-img' >
+					</div>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="status3.open">
+				<accordion-heading>
+		 			<span translate>STREAM_FIELD_COMPONENTS</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
+				</accordion-heading>
+				<div class='card-label-separator'><span translate>STREAM_FIELD_COMPONENTS</span></div>
+				<table class='table dashboard-table-components'>
+					<thead>
+						<tr>
+							<th><span translate>STREAM_FIELD_COMPONENTS_NAME</span></th>
+							<th><span ng-bind-html="'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate"></span></th>
+							<th><span translate>STREAM_FIELD_COMPONENTS_TOLERANCE</span></th>
+							<th><span translate>STREAM_FIELD_COMPONENTS_PHENOMENON</span></th>
+							<th><span translate>STREAM_FIELD_COMPONENTS_DATA_TYPE</span></th>
+	
+						</tr>	
+					</thead>
+					<tbody>
+						<tr ng-repeat="component in stream.componenti.element">
+							<td><span style="display: none"> {{component.idComponente}}</span>{{component.nome}}</td>
+							<td>{{component.measureUnitCategory}}: {{component.measureUnit}}</td>
+							<td>{{component.tolerance}}</td>
+							<td>{{component.phenomenonCategory}}: {{component.phenomenon}}</td>
+							<td>{{component.dataType}}</td>
+						</tr>	
+					</tbody>
+				</table>
+			</accordion-group>
+			<accordion-group is-open="status4.open">
+				<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_STREAM_SETTINGS</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
+				</accordion-heading>
+				<div class='card-label-separator'><span translate>MANAGEMENT_EDIT_STREAM_SETTINGS</span></div>
+			</accordion-group>
+		</accordion>
+		<div class="row card-toolbar">
+			<a class='btn btn-default ' href ng-click='install(row)' ng-show='canInstall(row)'><span translate>DASHBOARD_INSTALL_BUTTON</span></a>
+			<a class='btn btn-default ' href ng-click='uninstall(row)' ng-show='canUninstall(row)'><span translate>DASHBOARD_UNINSTALL_BUTTON</span></a>
+			<a class='btn btn-default ' href ng-click='upgrade(row)' ng-show='canUpgrade(row)'><span translate>DASHBOARD_NEWVERSION_BUTTON</span></a>
+			<a class='btn btn-default ' href ng-click='migrate(row)' ng-show='canMigrate(row)'><span translate>DASHBOARD_MIGRATE_BUTTON</span></a>
 
-<div ng-controller="StreamCtrl as streamCtrl">
-	<div class='container' ng-cloak>
-		<h3 class='content-edit-title'><span translate>STREAM</span></h3>
+		
+			<a  href='#' class="btn  btn-delete disabled" title="{{'COMING_SOON'|translate}}">
+				<span class="glyphicon glyphicon-trash "></span> <span translate>DELETE</span>
+			</a>
+			<a  href='javascript:void(0)' class="btn  btn-uninstall" ng-show="isOwner() && canUnistall() && isAuthorized('management/streams/req_disinst')" ng-click='requestUnistallation()'>
+				<span class="glyphicon glyphicon-open "></span> <span translate>MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON</span>
+			</a>
+			<a  href='javascript:void(0)' class="btn  btn-new" ng-show="isOwner() && canCreateNewVersion() && isAuthorized('management/streams/update')" ng-click='createNewVersion()'>
+				<span class="glyphicon glyphicon-export "></span> <span translate>MANAGEMENT_VIEW_STREAM_NEWVERSION_BUTTON</span>
+			</a>
+			<a  href='javascript:void(0)' class="btn  btn-install" ng-show="isOwner() && canInstall() && isAuthorized('management/streams/req_inst')" ng-click='requestInstallation()'>
+				<span class="glyphicon glyphicon-save "></span> <span translate>MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON</span>
+			</a>
+		</div>
 	</div>
-	detail
-</div>
+</div> -->

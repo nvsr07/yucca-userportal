@@ -4,15 +4,15 @@
 var app = angular.module('backoffice', [
   'ngRoute',
   'ngSanitize',
+  'ui.bootstrap',
+  'ngDraggable',
+  'LocalStorageModule',
   'backoffice.config',
   'backoffice.filters',
   'backoffice.services',
   'backoffice.directives',
   'backoffice.controllers',
-  'pascalprecht.translate',
-  'ui.bootstrap',
-  'ngDraggable',
-  'LocalStorageModule'
+  'pascalprecht.translate'
 ]);
 
 app.config(['$routeProvider', function($routeProvider) {

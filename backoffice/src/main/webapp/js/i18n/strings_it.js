@@ -1,4 +1,4 @@
-/******************************************************************************************************************************************/
+﻿/******************************************************************************************************************************************/
 /*                                                                                                                                        */
 /*    WARNING: this file is for local developing: don't use it. Use /main/java/it/csi/sdp/userportal/i18n/MessagesBundle_it.properties    */
 /*                                                                                                                                        */
@@ -15,39 +15,29 @@ var translations_it = {
 	DELETE: 'Elimina',
 	SAVE_DRAFT: 'Salva bozza',
 	COMING_SOON: 'Coming soon...', 
+	ERROR: 'Errore', 
 	WARNING: 'Attenzione', 
+	INFO: 'INFO', 
 	WARNING_SUBTITLE: 'Per proseguire &egrave; necessario correggere le seguenti segnalazioni',
 	LOADING: 'Attendere prego...',
 	YES: 'Si',
 	NO: 'No',
 	OK: 'Ok',
 	BACK: 'Indietro',
+	DETAIL: 'Dettaglio',
 
-	/* main menu */
-//	MENU_HOME : 'Home',
-//	MENU_DASHBOARD : 'Monitoraggio',
-//	MENU_MANAGEMENT : 'Gestione',
-//	MENU_DISCOVERY : 'Cerca',
-//	MENU_MARKET : 'Market',
-//	MENU_STORE : 'Store',
-	MENU_LANG_EN : 'Inglese',
 	MENU_LANG_IT : 'Italiano',
+	MENU_LANG_EN : 'Inglese',
 	MENU_SING_IN: 'Login',
 	MENU_SING_OUT: 'Esci',
 	
 	/* Entity */
 	STREAM: 'Stream',
-	TENANT: 'Organizzazione',
+	TENANT: 'Tenant',
 	VIRTUALENTITY: 'Smart Object', 
 	DATASET: 'Dataset',
+	ACTIONS: 'Azioni', 
 
-	DASHBOARD_TITLE: 'Dashboard',
-	DASHBOARD_MENU_STREAMS: 'Streams',
-	DASHBOARD_MENU_TENANTS: 'Tenants',
-	DASHBOARD_MENU_USERS: 'Users',
-	
-	
-	
 	/* STREAM */
 	STREAM_FIELD_ID_STREAM: 'ID Stream',
 	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
@@ -78,13 +68,13 @@ var translations_it = {
 	STREAM_FIELD_LICENCE: 'Licenza',
 	STREAM_FIELD_DISCLAIMER : 'Restrizioni contenute in licenza',
 	STREAM_FIELD_COPYRIGHT : 'Copyright',
-	STREAM_FIELD_VISIBILITY: 'Visibilit&agrave;',
+	STREAM_FIELD_VISIBILITY: 'Visib.',
 	STREAM_FIELD_TAGS : 'Tags',
 	STREAM_FIELD_FPS : 'FPS',
 	STREAM_FIELD_CREATION_DATE: 'Creato',
 	STREAM_FIELD_LASTUPDATE: 'Modificato',
 	STREAM_FIELD_EVENTS : 'Eventi',
-	STREAM_FIELD_VERSION : 'Versione installata',
+	STREAM_FIELD_VERSION : 'Vers.',
 	STREAM_FIELD_IN_STORE: 'Nello store',
 	STREAM_FIELD_ICON: 'Icona per lo store',
 	STREAM_FIELD_TENANTSSHARING: 'Condividi con ',
@@ -118,41 +108,8 @@ var translations_it = {
 	STREAM_LIST_NAME_FILTER : 'Filtra per nome',
 	STREAM_LIST_CODE_FILTER : 'Filtra per codice',
 	STREAM_LIST_STATUS_FILTER : 'Filtra per stato',
+	STREAM_LIST_VIRTUALENTITY_FILTER : 'Filtra per smart object',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filtra per aggiornamento',
-	
-	/* Creator of Stream */
-//	USER_APPLICANT:'Richiedente',
-//	USER_FIELD_NAME:'Nome Richiedente',
-//	USER_FIELD_SURNAME:'Cognome Richiedente',
-//	USER_FIELD_EMAIL : 'Email Richiedente',
-//	USER_FIELD_ACCEPT:'Termini',
-//	USER_FIELD_PRIVACY: 'Informativa',
-//	USER_FIELD_RESPONSABILITY: 'Disponibilit&agrave; dei Dati',
-//	USER_FIELD_ACCEPT_YES:'Accetto ',
-//	USER_FIELD_ACCEPT_NO:'Non Accetto ',
-	
-	//USER_FIELD_ACCEPT_PRIVACY:'Dopo aver preso visione dell\'informativa sulla Privacy ai sensi dell\'art. 13 del D.Lgs 196/2013, autorizzo il CSI Piemonte al trattamento dei dati personali qui inseriti con le modalit&agrave; e per le finalit&agrave; in essa contenute',
-//	USER_FIELD_ACCEPT_PRIVACY:'<p><strong>INFORMATIVA PRIVACY AI SENSI DELL\'ART. 13 DEL D.LGS. 196/2003</strong></p> '+
-//		'<p>Il trattamento dei dati personali forniti dall\'Utente con la compilazione del form, &egrave; disciplinato dal D.Lgs. n. 196/2003 (Codice in materia di protezione dei dati personali) e s.m.i.</p> '+
-//		'<p>Ai sensi dell\'art. 13 del D.Lgs. 196/2003, CSI-Piemonte informa pertanto, di quanto segue:</p> '+
-//		'<ol type=\'a\'> '+
-//		'<li> i dati saranno trattati, in base a principi di correttezza, liceit&agrave; e trasparenza, al solo fine di associare un referente ai dati forniti alla Piattaforma SDP;</li> '+
-//		'<li> il conferimento dei dati ed il consenso al trattamento sono liberi e facoltativi. Tuttavia l\'eventuale rifiuto  comporter&agrave; l\'impossibilit&agrave; per CSI Piemonte di raggiungere la finalit&agrave; suindicata;</li> '+
-//		'<li> i dati saranno trattati sia con sistemi automatizzati sia manualmente, e, in ogni caso, a tutela e garanzia della riservatezza dei dati forniti in modo da ridurre al minimo la soglia di rischio di accessi abusivi, furti o manomissioni dei dati stessi, in conformit&agrave; a quanto previsto dagli artt. 31 ss del D.Lgs. n. 196/2003 e s.m.i. e dall\'Allegato B allo stesso decreto;</li> '+
-//		'<li> i dati saranno trattati da personale "Incaricato" ai sensi dell\'art. 4, comma 1, lett. h) del Codice Privacy previa adeguate istruzioni operative, per il tempo strettamente necessario al raggiungimento delle finalit&agrave; suindicate;</li> '+
-//		'<li> i dati non saranno oggetto di comunicazione a terzi e diffusione, fatti salvi gli obblighi di legge nazionale e comunitaria;</li> '+
-//		'<li> il Titolare del trattamento &egrave; CSI-Piemonte, con sede in corso Unione Sovietica 216, Torino;</li> '+
-//		'<li> CSI-Piemonte ha nominato i Responsabili interni per il trattamento dei dati personali. L\'elenco completo e aggiornato di tali Responsabili e delle rispettive; funzioni pu&ograve; essere richiesto al Titolare scrivendo all\'indirizzo e-mail privacy@csi.it;</li> '+
-//		'<li> in relazione al trattamento dei dati che lo riguardano l\'interessato ha diritto ad ottenere le informazioni previste dall\'articolo 7 del decreto in oggetto. Potr&agrave; avvalersi dei diritti di cui all\'art. 7 del D.Lgs. n. 196/2003 e s.m.i. (tra cui quelli di ottenere dal Titolare, anche per il tramite dei Responsabili o degli Incaricati, la conferma dell\'esistenza o meno dei suoi dati personali e la loro messa a disposizione in forma intelligibile; di avere conoscenza della logica e delle finalit&agrave; su cui si basa il trattamento; di ottenere la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, nonch&eacute; l\'aggiornamento, la rettificazione o, se vi &egrave; interesse, l\'integrazione dei dati; di opporsi per motivi legittimi al trattamento stesso) rivolgendosi al Titolare, CSI- Piemonte Corso Unione Sovietica 216 Torino; e-mail: privacy@csi.it, tel. 011-3168111.</li> '+
-//		'</ol>',
-//	
-//	USER_FIELD_ACCEPT_STREAM_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle "Linee guida per l\'integrazione in Smart Data Net", dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione degli altri fruitori della piattaforma lo stream conferito- nonch&eacute; sue eventuali elaborazioni -  senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
-//	USER_FIELD_ACCEPT_DATASET_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle "Linee guida per l\'integrazione in Smart Data Net", dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione degli altri fruitori della piattaforma il dataset conferito- nonch&eacute; sue eventuali elaborazioni -  senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
-
-	/* Creator of Stream PlaceHolder */
-//	USER_FIELD_NAME_PLACEHOLDER:'Nome',
-//	USER_FIELD_SURNAME_PLACEHOLDER:'Cognome',
-//	USER_FIELD_EMAIL_PLACEHOLDER : 'Tua@Email',
 
 	/* Virtual Entity */
 	VIRTUALENTITY_FIELD_ID: 'ID Smart Object',
@@ -306,6 +263,34 @@ var translations_it = {
 	DATASET_LIST_NAME_FILTER: 'Filtra per nome',
 	DATASET_LIST_STATUS_FILTER: 'Filtra per stato',
 
+	
+
+	DASHBOARD_TITLE: 'Dashboard',
+	DASHBOARD_MENU_STREAMS: 'Streams',
+	DASHBOARD_MENU_TENANTS: 'Tenants',
+	DASHBOARD_MENU_USERS: 'Users',
+	DASHBOARD_INSTALL_BUTTON: 'Installa',
+	DASHBOARD_UNINSTALL_BUTTON: 'Disinstalla',
+	DASHBOARD_NEWVERSION_BUTTON: 'Upgrade',
+	DASHBOARD_MIGRATE_BUTTON: 'Migra',
+	DASHBOARD_DELETE_BUTTON: 'Elimina',
+	DASHBOARD_EDIT_BUTTON: 'Modifica',
+	
+	DASHBOARD_STREAM_ACTION_LABEL: 'Azione',
+	DASHBOARD_STREAM_STEP_LABEL: 'Step da eseguire: ',
+	DASHBOARD_STREAM_START_STEP_LABEL: 'da',
+	DASHBOARD_STREAM_END_STEP_LABEL: 'a',
+	DASHBOARD_STREAM_LOG_BUTTON: 'Log',
+	DASHBOARD_STREAM_LOG_BUTTON_HINT: 'Log ultima installazione',
+	DASHBOARD_STREAM_TEST_BUTTON: 'Test',
+	DASHBOARD_STREAM_LOG_BUTTON_HINT: 'Test invio dati',
+
+	DASHBOARD_STREAMS_EXEC_BUTTON: 'Esegui',	
+	
+	DASHBOARD_WARNING_NO_STREAM: 'Selezionare almeno uno stream',
+	
+	
+	
 	/* Home page */
 //	HOME_TITLE: 'Yucca Platform',
 //	HOME_SUBTITLE: 'Registra smart object e definisci gli stream trasmessi',

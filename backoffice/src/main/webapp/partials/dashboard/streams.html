@@ -1,93 +1,167 @@
 
 <div ng-controller="StreamsCtrl as streamsCtrl">
-	<div class='container' ng-cloak>
-		<h3 class='content-edit-title'><span translate>STREAM</span></h3>
-		<div class=row'>
-			<div class="col-sm-12">
-
-				<div class='clearfix  content-toolbar'>	
-					<div class="btn-group pull-right">
-						<form class="form-inline" role="form">
-							<div class="form-group">
-								<input type="text" class="form-control col-xs-2" ng-model="tenantsFilter" placeholder="{{'STREAM_LIST_TENANT_FILTER'|translate}}" />
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control col-xs-2" ng-model="codeFilter" placeholder="{{'STREAM_LIST_CODE_FILTER'|translate}}" />
-							</div>
-						</form>
+	<div class='' ng-cloak>
+		<div class='clearfix  content-toolbar'>	
+			<div class="btn-group pull-right">
+				<form class="form-inline" role="form">
+					<div class="form-group">
+						<input type="text" class="form-control input-sm" ng-model="virtualentityFilter" placeholder="{{'STREAM_LIST_VIRTUALENTITY_FILTER'|translate}}" />
 					</div>
-				</div>
-				<div class="table-responsive dashboard-streamList-table">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>
-									<a href="" ng-click="predicate = 'nomeTenant'; reverse=!reverse"><span translate>TENANT</span> 
-									<span ng-show="predicate=='nomeTenant' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='nomeTenant' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-								</th>
-								<th>
-									<a href="" ng-click="predicate = 'codiceStream'; reverse=!reverse"><span translate>STREAM_FIELD_TENANT_NAME</span> 
-										<span ng-show="predicate=='codiceStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-										<span ng-show="predicate=='codiceStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span>
-									</a>
-								
-								</th>
-								<th>
-									<a href="" ng-click="predicate = 'virtualEntityDescription'; reverse=!reverse"><span translate>STREAM_FIELD_VIRTUALENTITY_DESCRIPTION</span> 
-									<span ng-show="predicate=='virtualEntityDescription' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='virtualEntityDescription' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-								
-								</th>
-								<th>
-									<a href="" ng-click="predicate = 'domainStream'; reverse=!reverse"><span translate>STREAM_FIELD_DOMAIN</span> 
-									<span ng-show="predicate=='domainStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='domainStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-								
-								</th>
-								<th>
-									<a href="" ng-click="predicate = 'deploymentStatusCode'; reverse=!reverse"><span translate>STREAM_FIELD_STATUS</span> 
-									<span ng-show="predicate=='deploymentStatusCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='deploymentStatusCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-show="showLoading">
-								<td colspan='5' >
-									<div class='ajax-loading-container'>
-										<span class='ajax-loading-big'></span>
-										<h4>Loading...</h4>
-									</div>
-								</td>
-							</tr>
-							
-							<tr ng-repeat="stream in filteredStreams = (streamsList | filter: searchCodeFilter | filter: searchTenantsFilter|  orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
-								<td>{{stream.nomeTenant}}</td>
-								<td class='text-left'>
-									<a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">
-										<img ng-src="{{stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
-										<strong>{{stream.codiceStream}}</strong> - {{stream.nomeStream}}
-									</a>
-								</td>
-								<!-- 
-								<td><small>{{stream.codiceVirtualEntity}}</small></td>
-								<td>{{stream.registration_date|date}}</td>
-								<td>{{stream.lastUpdate|date}}</td>
-								-->
-								<td><small>{{stream.virtualEntityDescription}}</small></td>
-								<td>{{stream.domainStream|translate}}</td>
-								<td class='text-left'><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="form-group">
+						<input type="text" class="form-control input-sm" ng-model="statusFilter" placeholder="{{'STREAM_LIST_STATUS_FILTER'|translate}}" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control input-sm" ng-model="tenantsFilter" placeholder="{{'STREAM_LIST_TENANT_FILTER'|translate}}" />
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control input-sm" ng-model="codeFilter" placeholder="{{'STREAM_LIST_CODE_FILTER'|translate}}" />
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="table-responsive dashboard-streamList-table">
+			<table class="table table-actions">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" name="selectAll"  ng-click="selectAll($event)"  />
+						</th>
+						<th>
+							<a href="" ng-click="predicate = 'codiceStream'; reverse=!reverse"><span translate>STREAM_FIELD_TENANT_NAME</span> 
+								<span ng-show="predicate=='codiceStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='codiceStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span>
+							</a>
+						</th>
+						<th>
+							<a href="" ng-click="predicate = 'nomeTenant'; reverse=!reverse"><span translate>TENANT</span> 
+							<span ng-show="predicate=='nomeTenant' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='nomeTenant' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+						</th>
+						<th>
+							<a href="" ng-click="predicate = 'virtualEntityDescription'; reverse=!reverse"><span translate>STREAM_FIELD_VIRTUALENTITY_DESCRIPTION</span> 
+							<span ng-show="predicate=='virtualEntityDescription' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='virtualEntityDescription' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+						
+						</th>
+						<th>
+							<a href="" ng-click="predicate = 'virtualentityCode'; reverse=!reverse"><span translate>VIRTUALENTITY</span> 
+							<span ng-show="predicate=='virtualentityCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='virtualentityCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+						
+						</th>
+						<th>
+							<span translate>STREAM_FIELD_VERSION</span> 
+						</th>
+						<th>
+							<span translate>STREAM_FIELD_VISIBILITY</span> 
+						</th>
+						<th>
+							<a href="" ng-click="predicate = 'deploymentStatusCode'; reverse=!reverse"><span translate>STREAM_FIELD_STATUS</span> 
+							<span ng-show="predicate=='deploymentStatusCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='deploymentStatusCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+						</th>
+						<th>
+							&nbsp;
+						</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-show="showLoading">
+						<td colspan='10' >
+							<div class='ajax-loading-container'>
+								<span class='ajax-loading-big'></span>
+								<h4>Loading...</h4>
+							</div>
+						</td>
+					</tr>
+					
+					<tr  class='table-data-row' ng-class='{"table-action-selected-row": row.isSelected}' ng-repeat-start="row in filteredStreams = (streamsList | filter: searchCodeFilter | filter: searchTenantsFilter | filter: searchStatusFilter | filter: searchVirtualentityFilter | orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+						<td class='table-data-row-first'><input type="checkbox" ng-model="row.isSelected" /><!-- ng-click="updateSelection($event, row.rowIndex)" /> --> 
+						<td class='text-left'>
+							<img ng-src="{{row.stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
+							<strong>{{row.stream.codiceStream}}</strong> - {{row.stream.nomeStream}}
+						</td>
+						<td><small>{{row.stream.nomeTenant}}</small></td>
+						<td><span title='{{row.stream.virtualEntityDescription}}'><small>{{row.stream.virtualEntityDescription|string_ellipse:15}}</small></span></td>
+						<td><small>{{row.stream.codiceVirtualEntity}}</small></td>
+						<td><small>{{row.stream.deploymentVersion}}</small></td>
+						<td><small>{{row.stream.visibility}}</small></td>
+						<td class='text-left'><span ng-bind-html="row.statusIcon"></span> <small>{{row.deploymentStatusCodeTranslated}}</small></td>
+						<td> 
+							<a class='btn btn-default btn-sm' href  title="{{'DASHBOARD_STREAM_TEST_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_TEST_BUTTON</span></a>
+							<a class='btn btn-default btn-sm' href ng-click='openLog(row.stream)' title="{{'DASHBOARD_STREAM_LOG_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_LOG_BUTTON</span></a>
+						</td>
+					</tr>
+					<tr ng-repeat-end class='table-action-row table-action-selected-row' ng-show="row.isSelected">
+						<td class='table-action-row-first'>&nbsp;</td>
+						<td colspan='9'>
+							<form class="form-inline pull-left">
+  								<div class="form-group">
+   									<label for="streamAction"><small><span translate>DASHBOARD_STREAM_ACTION_LABEL</span></small></label>&nbsp;
+   									<select class="form-control input-sm"  ng-model="row.action" ng-options="action as action for action in actions"></select>
+  								</div>
+		  						<div class="form-group">
+	  								<span translate>DASHBOARD_STREAM_STEP_LABEL</span></div>&nbsp;
+   									<label for="stepStart"><small><span translate>DASHBOARD_STREAM_START_STEP_LABEL</span></small></label>&nbsp;
+   									<input type="number" class="form-control input-sm" ng-model="row.startStep"/>
+  								</div>
+  								<div class="form-group">
+   									<label for="stepEnd"><small><span translate>DASHBOARD_STREAM_END_STEP_LABEL</span></small></label>&nbsp;
+   									<input type="number" class="form-control input-sm" ng-model="row.endStep"/>
+  								</div>
+							</form>	
+							<div class='pull-right'>feedback {{row.action}}</div>
+						</td>
+					</tr>				
+					
+				</tbody>
+			</table>
+			<div class='clearfix'>
+				<div class='pull-left'>
 					<pagination boundary-links="true" total-items="filteredStreams.length" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;"
 						next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
 					></pagination>
-	
-	
+				</div>
+				<div class='pull-right'>
+					<a class='btn btn-default ' href ng-click="execActions()"><span translate>DASHBOARD_STREAMS_EXEC_BUTTON</span></a>
 				</div>
 			</div>
 		</div>
+		<div class="alert alert-danger text-left" ng-show='errors.length>0'>
+			<strong translate>ERROR</strong>
+			<ul><li ng-repeat="error in errors"><span translate>{{error}}</span></li></ul>
+		</div>
+		<div class="alert alert-warning text-left" ng-show='warnings.length>0'>
+			<strong translate>WARNING</strong>
+			<ul><li ng-repeat="warning in warnings"><span translate>{{warning}}</span></li></ul>
+		</div>
+		<div class="alert alert-info text-left" ng-show='infos.length>0'>
+			<strong translate>INFO</strong>
+			<ul><li ng-repeat="info in infos "><span translate>{{info}}</span></li></ul>
+		</div>
 	</div>
+	
+	<script type="text/ng-template" id="streamInstalLog.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Log installazione</h3>
+        </div>
+        <div class="modal-body">
+			stream : {{stream}}
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="close()">OK</button>
+        </div>
+    </script>
+	<script type="text/ng-template" id="streamTest.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Test</h3>
+        </div>
+        <div class="modal-body">
+			stream : {{stream}}
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="close()">OK</button>
+        </div>
+    </script>
 </div>
