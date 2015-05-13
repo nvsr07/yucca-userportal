@@ -181,7 +181,20 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
-	};
+	},
+	API_FABRIC_PROXY_URL("API_FABRIC_PROXY_URL", Config.API_PROXY_FABRIC_BASE_URL ) {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+	API_DEPLOY_PROXY_URL("API_DEPLOY_PROXY_URL", Config.API_PROXY_DEPLOY_BASE_URL ) {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	}
+	;
 
 	private String nameEntity;
 	private String baseUrl;

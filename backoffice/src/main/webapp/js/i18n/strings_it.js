@@ -289,6 +289,8 @@ var translations_it = {
 	
 	DASHBOARD_WARNING_NO_STREAM: 'Selezionare almeno uno stream',
 	
+	DASHBOARD_STREAM_STEP_VALIDATION_ERROR: 'Gli step devono essere maggiori di zero, e lo step iniziale deve essere maggiore del finale',
+	
 	
 	
 	/* Home page */

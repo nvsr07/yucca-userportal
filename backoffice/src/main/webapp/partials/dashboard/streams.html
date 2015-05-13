@@ -95,8 +95,8 @@
 					</tr>
 					<tr ng-repeat-end class='table-action-row table-action-selected-row' ng-show="row.isSelected">
 						<td class='table-action-row-first'>&nbsp;</td>
-						<td colspan='9'>
-							<form class="form-inline pull-left">
+						<td colspan='4'>
+							<form class="form-inline install-form-inline">
   								<div class="form-group">
    									<label for="streamAction"><small><span translate>DASHBOARD_STREAM_ACTION_LABEL</span></small></label>&nbsp;
    									<select class="form-control input-sm"  ng-model="row.action" ng-options="action as action for action in actions"></select>
@@ -104,14 +104,33 @@
 		  						<div class="form-group">
 	  								<span translate>DASHBOARD_STREAM_STEP_LABEL</span></div>&nbsp;
    									<label for="stepStart"><small><span translate>DASHBOARD_STREAM_START_STEP_LABEL</span></small></label>&nbsp;
-   									<input type="number" class="form-control input-sm" ng-model="row.startStep"/>
+   									<input type="number" class="form-control input-sm input-step" ng-model="row.startStep"/>
   								</div>
   								<div class="form-group">
    									<label for="stepEnd"><small><span translate>DASHBOARD_STREAM_END_STEP_LABEL</span></small></label>&nbsp;
-   									<input type="number" class="form-control input-sm" ng-model="row.endStep"/>
+   									<input type="number" class="form-control input-sm input-step" ng-model="row.endStep"/>
   								</div>
 							</form>	
-							<div class='pull-right'>feedback {{row.action}}</div>
+						</div>
+						<td colspan='5'>
+							<div class='install-feedback-inline'>
+								<div ng-show='row.errorValidation!=null'>
+									<span class="text-danger">{{row.errorValidation|translate}}</span>
+								</div>
+								<div ng-show='row.actionFeedback!=null'>
+									<span class="text-info">{{row.actionFeedback}}</span>
+								</div>
+								
+								
+								<div ng-show='false'>
+									<div>Step <strong>{{row.feedback.lastStep.actionName}}</strong> - status: <strong>{{row.feedback.lastStep.status}}</strong></div>
+									<div class='install-progress-panel'>
+										<a href ng-repeat="step in row.feedback.steps" title="{{step.actionName}} - {{step.actionType}}" ng-class='step.style' style="{{step.width}}">
+											&nbsp;
+										</a>
+									</div>
+								</div>
+							</div>
 						</td>
 					</tr>				
 					
@@ -147,7 +166,9 @@
             <h3 class="modal-title">Log installazione</h3>
         </div>
         <div class="modal-body">
-			stream : {{stream}}
+			<div class='dashboard-log-panel'>
+				{{extendedLog}}
+			</div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="close()">OK</button>

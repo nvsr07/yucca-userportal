@@ -239,7 +239,8 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 		path = path.replaceAll(request.getContextPath() + request.getServletPath(), "");
 
-		return apiBaseUrl + path;
+		String fullPath = apiBaseUrl + path;
+		return fullPath;
 
 	}
 
