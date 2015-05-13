@@ -77,7 +77,7 @@ var translations_it = {
 	STREAM_FIELD_CREATION_DATE: 'Creato',
 	STREAM_FIELD_LASTUPDATE: 'Modificato',
 	STREAM_FIELD_EVENTS : 'Eventi',
-	STREAM_FIELD_VERSION : 'Versione installata',
+	STREAM_FIELD_VERSION : 'Versione',
 	STREAM_FIELD_IN_STORE: 'Nello store',
 	STREAM_FIELD_ICON: 'Icona per lo store',
 	STREAM_FIELD_TENANTSSHARING: 'Condividi con ',

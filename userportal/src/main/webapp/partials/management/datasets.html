@@ -79,7 +79,9 @@
 										{{dataset.info.datasetName}}
 									</a>
 								</td>
-								<td>{{dataset.configData.type}} / {{dataset.configData.subtype}}</td>
+								<td>{{dataset.configData.type}} / {{dataset.configData.subtype}} 
+									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-show="dataset.info.attachment" title='Dataset with binary attachment'></i>
+								</td>
 								<td>{{dataset.info.registrationDate|date}}</td>
 								<td><span translate>{{dataset.datasetVersion}}</span></td>
 							</tr>

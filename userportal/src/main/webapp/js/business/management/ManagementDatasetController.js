@@ -21,14 +21,22 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	fabricAPImanagement.getDatasets($scope.tenantCode).success(function(response) {
 		$scope.showLoading = false;
 
-		$scope.datasetList = response;
-		if($scope.datasetList!=null){
-			for (var i = 0; i < $scope.datasetList.length; i++) {
-				if(!$scope.datasetList[i].info  || $scope.datasetList[i].info ==null)
-					$scope.datasetList[i].info ={};
+		$scope.datasetList = [];
+		if(response!=null){
+			for (var i = 0; i <response.length; i++) {
+				if(response[i].configData && response[i].configData.subtype && response[i].configData.subtype!='binaryDataset'){
+					
+					if(!response[i].info  || response[i].info ==null)
+						response[i].info ={};
+	
+					if(!response[i].info.icon || response[i].info.icon == null)
+						response[i].info.icon  = "img/dataset-icon-default.png";
 
-				if(!$scope.datasetList[i].info.icon || $scope.datasetList[i].info.icon == null)
-					$scope.datasetList[i].info.icon  = "img/dataset-icon-default.png";
+					if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
+						response[i].info.attachment  = true;
+
+					$scope.datasetList.push(response[i]);
+				}
 
 			}
 

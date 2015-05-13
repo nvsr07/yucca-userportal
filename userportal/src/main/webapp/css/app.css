@@ -589,6 +589,8 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 /* management dataset */
 .management-datasetList-table{margin-top: 20px;}
 
+.management-datasetList-attach-icon{color: #00bbf0;  font-size: 18px;  padding-right: .5em; float: right;}
+
 .upload-drop-files-area { border: 2px dashed #ccc; border-radius: 2px; text-align: center; padding: 3em 1em; font-size: 16pt; font-weight: bold; background-color: white; }
 .upload-drop-files-area-hover { /*border-color: #737272;*/ /*background-color: #eee;*/ background-color: #D9F1FF; border-color: #0085CC; color: #0085CC; }
 .management-upload-selectfile-button{ padding: 3em 1em; background-color: #3f5152; color: white; cursor: pointer; border-radius: 2px; font-size: 16pt; font-weight: bold; border: 2px solid #3f5152; text-align: center; }
