@@ -708,6 +708,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if(componentName.indexOf(' ') >= 0){
 				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE');
 			}
+			else if(componentName.toLowerCase() === 'time'){
+				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_RESERVED_WORD_TIME');
+			}
 			else{
 
 				for (var int = 0; int < $scope.stream.componenti.element.length; int++) {

@@ -304,7 +304,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #home-landing-section .main-action-button::after {  content: '';  position: absolute;  top: 0;  width: 0;  height: 0; border-style: solid; right: -46px;  border-width: 23px;  border-color: transparent transparent transparent #222222;}
 #home-landing-section .main-action-username{display: block;text-align: right; font-size: 18px;}
 #home-landing-section .main-action-tenant{display: block;text-align: right; font-size: 12px;}
-#home-landing-section .home-logo{background: url(../img/logosdp_home.png) no-repeat left center transparent;height: 69px; width:336px;overflow: hidden;margin-top: 19px;}
+#home-landing-section .home-logo{background: url(../img/logosdp_home.png) no-repeat left center transparent;height: 69px; width:336px;overflow: hidden;margin-top: 19px;display: block;}
 #home-landing-section .main-action-panel-demo-link a{color: #fff;}
 
 #home-map-section{margin-top: 64px;}
