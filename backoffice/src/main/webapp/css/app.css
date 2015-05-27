@@ -6,6 +6,19 @@ a{color: black; text-decoration: underline;}
 /* body{font-family: Helvetica, Arial, Sans-Serif;font-size: 14px;line-height: 20px;font-weight: 100;} */
 
 
+@-webkit-keyframes blink {0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;}}
+@-moz-keyframes blink {0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;}}
+@-o-keyframes blink {0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;}}
+@keyframes blink {0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;}}
+
+
+.blink-img{ 	-webkit-animation: blink 2s; -webkit-animation-iteration-count: infinite;
+	   			-moz-animation: blink 2s; -moz-animation-iteration-count: infinite;
+	    		-o-animation: blink 2s; -o-animation-iteration-count: infinite;
+	    		animation: blink 2s; animation-iteration-count: infinite;
+			}		
+
+
 .main-body{/*background-color: #efefef; */border-bottom: solid 1px #bbb;}
 .content-gray{background-color: #efefef; }
 
@@ -53,7 +66,7 @@ footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 .entity-info .main-info{font-size: larger;}
 
 /* table */
-table{border-collapse: collapse; text-align: center;}
+table{border-collapse: collapse; text-align: left;}
 table>thead{color: #000; border: none; background-color:transparent; text-transform: uppercase;padding: 4px 5px;}
 table>thead>tr>th a{text-decoration: none; }
 table>tbody>tr>td, .table>tbody>tr>td{ vertical-align: middle;padding: 6px}
@@ -72,9 +85,12 @@ td .table-action-row{  border-top: dashed #ddd 1px!important;}
 .icon-warning{color: #edd400;}
 
 .install-feedback-inline{margin-right: 1em; font-size: 12px; background-color: white; border-radius: 2px; padding: 2px 0; border: solid 1px#ccc;}
+.install-feedback-info{padding: 0 6px;}
+.install-feedback-info i{color: #004a1f;   font-size: 14px; }
 .install-progress-panel{margin-top: 6px;}
-.install-progress-panel a{display: inline-block; height: 12px;margin: 0 .5%; background-color: white; border-radius:2px;text-decoration: none;}
+.install-progress-panel a{display: inline-block; height: auto;margin: 0 .5%; background-color: white; border-radius:2px;text-decoration: none;color: white; text-align: center; font-size: 9px;}
 
+.install-progress-panel .status_waiting{background-color: #eeeeec;}
 .install-progress-panel .status_skipped{background-color: #bdcdd4;}
 .install-progress-panel .status_begin{background-color: #edd400;}
 .install-progress-panel .status_working_input{background-color: #edd400;}

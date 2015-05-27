@@ -49,6 +49,9 @@ appFilters.filter('string_ellipse', function () {
         if (isNaN(length))
             length = 10;
 
+        if (text === undefined || text == null)
+        	text = "";
+
         if (end === undefined)
             end = "...";
 

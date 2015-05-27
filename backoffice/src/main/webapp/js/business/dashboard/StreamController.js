@@ -34,6 +34,7 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 			row.deploymentStatusCodeTranslated =  $translate.instant(row.stream.deploymentStatusCode);
 			row.isSelected = false;
 			row.isUpdating = false;
+			row.ellipseNameLimit = 34-row.stream.codiceStream.length;
 			if(!row.stream.deploymentStatusCode || row.stream.deploymentStatusCode==null)
 				row.stream.deploymentStatusCode = "draft";
 			
@@ -55,43 +56,6 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 			
 			if(row.stream.streamIcon || row.stream.streamIcon == null)
 				row.stream.streamIcon  = "img/stream-icon-default.png";
-			console.log("feedback",row);
-
-			row.feedback = {};
-			row.feedback.numStep = 8;
-			row.feedback.steps = [];
-			var step_width = "width:" + Math.trunc((100-row.feedback.numStep)/row.feedback.numStep) + "%";
-
-			for (var j = 0; j < row.feedback.numStep; j++) {
-				var step =  {stepnum: 1, date: "", actionType: 'WebServiceCall', actionName: 'addEventStreamInfo', skipped: 'false', status: 'end ok' }
-				step.width = step_width;
-				console.log("step",step);
-				step.style = stepStyle(step);
-				row.feedback.steps.push(step);
-				j++;
-
-				var step1 =  {stepnum: 1, date: "", actionType: 'WebServiceCall', actionName: 'addEventStreamInfo', skipped: 'false', status: 'begin' }
-				step1.width = step_width;
-				step1.style = stepStyle(step1);
-				row.feedback.steps.push(step1);
-				j++;
-				
-				var step2 =  {stepnum: 1, date: "", actionType: 'WebServiceCall', actionName: 'addEventStreamInfo', skipped: 'false', status: 'end ko' }
-				step2.width = step_width;
-				step2.style = stepStyle(step2);
-				row.feedback.steps.push(step2);
-				j++;
-				
-				var step3 =  {stepnum: 1, date: "", actionType: 'WebServiceCall', actionName: 'addEventStreamInfo', skipped: 'true', status: 'end ko' }
-				step3.width = step_width;
-				step3.style = stepStyle(step3);
-				row.feedback.steps.push(step3);
-				j++;
-				
-				
-
-			}
-			row.feedback.lastStep = row.feedback.steps[row.feedback.steps.length-1];
 			
 			$scope.streamsList.push(row);					
 		}
@@ -101,17 +65,19 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	
 	
 	function stepStyle(step){
-		var style = "";
-		if(step.skipped==true)
+		var style = "status_waiting";
+		if(step.skipped=='true')
 			style =  "status_skipped";
 		else if(step.status && step.status!=null)
 			style = "status_"+step.status.replace(" ", "_");
+	//	else 
+	//		style = "status_waiting;
 		return style;
 	}
 
-	$scope.searchTenantsFilter = function(stream) {
+	$scope.searchTenantsFilter = function(row) {
 		var keyword = new RegExp($scope.tenantsFilter, 'i');
-		return !$scope.tenantsFilter || keyword.test(stream.codiceTenant);
+		return !$scope.tenantsFilter || keyword.test(row.stream.codiceTenant);
 	};
 
 	$scope.$watch('tenantsFilter', function(newTenant) {
@@ -120,9 +86,9 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 		$scope.totalItems = $scope.filteredStreamsList.length;
 	});
 	
-	$scope.searchCodeFilter = function(stream) {
+	$scope.searchCodeFilter = function(row) {
 		var keyword = new RegExp($scope.codeFilter, 'i');
-		return !$scope.codeFilter || keyword.test(stream.codiceStream)|| keyword.test(stream.nomeStream);
+		return !$scope.codeFilter || keyword.test(row.stream.codiceStream)|| keyword.test(row.stream.nomeStream);
 	};
 
 	$scope.$watch('codeFilter', function(newCode) {
@@ -137,14 +103,13 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 
 	$scope.$watch('statusFilter', function(newStatus) {
 		$scope.currentPage = 1;
-		console.log("statusFilter",$scope.filteredStreamsList.length);
 		$scope.totalItems = $scope.filteredStreamsList.length;
 	});
 
 
-	$scope.searchVirtualentityFilter = function(stream) {
+	$scope.searchVirtualentityFilter = function(row) {
 		var keyword = new RegExp($scope.virtualentityFilter, 'i');
-		return !$scope.virtualentityFilter || keyword.test(stream.codiceVirtualEntity);
+		return !$scope.virtualentityFilter || keyword.test(row.stream.codiceVirtualEntity);
 	};
 
 	$scope.$watch('virtualentityFilter', function(newVirtualentity) {
@@ -232,7 +197,9 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	}
 	
 	var execAction = function(rowIndex){
-		$scope.streamsList[rowIndex].actionFeedback=null;
+		$scope.streamsList[rowIndex].actionIconClass='fa fa-rocket';
+		$scope.streamsList[rowIndex].actionFeedback='Started';
+
 
 		var operation = $scope.streamsList[rowIndex].action;
 		var stream = $scope.streamsList[rowIndex].stream;
@@ -243,32 +210,68 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 		console.log("actionParams",actionParams);
 		fabricBuildService.execAction(actionParams).success(function(response) {
 			console.log("response",response);
-			$scope.streamsList[rowIndex].actionFeedback='Deploy lanciato';
 		});
 		
 		$scope.streamsList[rowIndex].stepsLogUrl = createStepsLogUrl(operation, stream);
-		//chekStepsLog(rowIndex, $scope.streamsList[rowIndex].stepsLogUrl);
+		chekStepsLog(rowIndex, $scope.streamsList[rowIndex].stepsLogUrl);
 	};
-//	
+	
 	var chekStepsLog = function(rowIndex, stepsLogUrl) {
+		
         $timeout(function() {
+    		var step_width = null;
+    		var totalStep = null;
         	fabricBuildService.getLogs(stepsLogUrl).success(function(response) {
-        		if(response!=null){
-        			console.log("response",response);
+        	if(response!=null){
+	    			$scope.streamsList[rowIndex].actionIconClass='fa fa-bolt  blink-img';
+	    			$scope.streamsList[rowIndex].actionFeedback='Running';
+
         			var lines = response.split('\n');
         			if(lines!=null && lines.length>0){
-            			console.log("lines",lines);
+        				
+        				for(var line = 0; line < lines.length; line++){
+        					console.log("line |"  +lines[line] +"|");
+        					if(lines[line] && lines[line]!=null && lines[line]!="" && lines[line].length > 2){
+	    						var step = JSON.parse(lines[line]);
+	    						if(step_width == null && step.stepTotal!=null){
+	    							step_width = "width:" + ((100-step.stepTotal)/step.stepTotal) + "%";
+	    							totalStep = step.stepTotal;
+	    						}
+	            				if($scope.streamsList[rowIndex].feedback  == null){
+	            					$scope.streamsList[rowIndex].feedback = {}; 
+	            					$scope.streamsList[rowIndex].feedback.totalStep = step.stepTotal;
+	            					$scope.streamsList[rowIndex].feedback.steps = [];
+	            					for (var j = 0; j < step.stepTotal; j++) {
+	            						var num = j+1;
+	            						var empty_step = {"stepNum": num, "status": "waiting", "style": "status_waiting", "width":step_width};
+	            						$scope.streamsList[rowIndex].feedback.steps.push(empty_step);
+										
+									}
+	            				}
+	    						step.width = step_width;
+	    						step.style = stepStyle(step);
+	    						
+	    						$scope.streamsList[rowIndex].feedback.steps[step.stepNum-1] = step;
+        					}
+    					}
+        				$scope.streamsList[rowIndex].feedback.lastStep = $scope.streamsList[rowIndex].feedback.steps[$scope.streamsList[rowIndex].feedback.steps.length-1];
+        				
+        				if($scope.streamsList[rowIndex].feedback.lastStep.stepNum==totalStep && (step.skipped=='true'|| (step.status && step.status!=null && step.status.lastIndexOf('end', 0) === 0))){
+        					$scope.streamsList[rowIndex].feedback.finish = true;
+        					$scope.streamsList[rowIndex].actionIconClass='fa fa-flag-checkered';
+        					$scope.streamsList[rowIndex].actionFeedback='Finish';
+        				}        				
 
         			}
-
         		}
-        		
-        		
         	});
-
-        	chekStepsLog(rowIndex,stepsLogUrl);
+        	if($scope.streamsList[rowIndex].feedback==null || !$scope.streamsList[rowIndex].feedback.finish || $scope.streamsList[rowIndex].feedback.finish!=true)
+        		chekStepsLog(rowIndex,stepsLogUrl);
         }, 1000);
     };     
+    
+    
+   
     
    function createActionParams(operation, stream, startStep, endStep ){
 		var steps = startStep;
