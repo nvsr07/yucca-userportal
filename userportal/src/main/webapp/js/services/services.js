@@ -4,7 +4,7 @@
 
 var appServices = angular.module('userportal.services', [ 'userportal.config' ]);
 
-appServices.value('version', '1.1.0');
+appServices.value('version', '1.2.0');
 
 appServices.factory('readFilePreview', function($q) {
 	return {
