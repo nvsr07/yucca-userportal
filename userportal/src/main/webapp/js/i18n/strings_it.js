@@ -82,7 +82,7 @@ var translations_it = {
 	STREAM_FIELD_ICON: 'Icona per lo store',
 	STREAM_FIELD_TENANTSSHARING: 'Condividi con ',
 	STREAM_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
-	
+
 	STREAM_INPUT_FIELDS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
 	STREAM_AGGREGATE_DEFINITION: 'Stream esistenti',
@@ -603,14 +603,16 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_CREATE_COLUMNS: 'oppure prosegui senza caricare il file',
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_IMPORT_COLUMNS: 'Definisci le colonne caricando il file',
 	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Crea dataset',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_WITH_ATTACH_TITLE: 'Con allegati',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_NO_ATTACH_TITLE: 'Senza allegati',
 	
 	MANAGEMENT_NEW_DATASET_CHOOSE_DATASET_TYPE_QUESTION: 'Come vuoi creare il dataset?',
-	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY: 'File binario',
-	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY_DESC: 'Scegli questo se hai filmati, immagini o file binari. Definirai le varie componenti',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY: 'Definisci le colonne',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_BINARY_DESC: 'Scegli questo se hai filmati, immagini o file binari da allegare. Definirai la struttura delle colonne del dataset',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN: 'Definisci le colonne',
-	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN_DESC: 'Scegli questo per definire la struttura delle colonne del dataset',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_DEFINE_COLUMN_DESC: 'Scegli questo per definire la struttura delle colonne del dataset (senza allegati)',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE: 'Upload csv',
-	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE_DESC: 'Scegli questo per definire la struttura delle colonne di un dataset tramite l\'upload di un file csv',
+	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_UPLOAD_FILE_DESC: 'Scegli questo per definire la struttura delle colonne di un dataset tramite l\'upload di un file csv (senza allegati)',
 	
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA: 'Rilascia il file da caricare',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_OR: 'Oppure',
