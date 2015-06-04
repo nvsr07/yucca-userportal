@@ -437,6 +437,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.streamsList.push(responseList[i]);					
 			}
 		}
+		
+		$scope.streamsList.sort(function(a,b) { 
+				return a.nomeStream.toString().toLowerCase().localeCompare(b.nomeStream.toString().toLowerCase());
+				//return (a.nomeStream.toString().toLowerCase() > b.nomeStream.toLowerCase()) - (a.nomeStream.toLowerCase() < b.nomeStream.toLowerCase());
+			} );
 	});
 
 	fabricAPIservice.getTenants().success(function(response) {
