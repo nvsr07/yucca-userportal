@@ -18,7 +18,7 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	$scope.warnings = [];
 	$scope.infos = [];
 	
-	$scope.actions = ['install', 'upgrade', 'delete', 'migrate'];
+	$scope.actions = Constants.STREAM_ACTIONS;
 	
 	
 	fabricAPIservice.getVisibleStreams().success(function(response) {
@@ -284,9 +284,6 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 		return "installer_" + operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".json"; 
 	}
 	
-	function createActionLogUrl(operation, stream){
-		return operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".log"; 
-	}
     
 	$scope.openLog = function (selectedStream) {
 
@@ -296,8 +293,24 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	      controller: 'StreamInstallLogCtrl',
 	      size: 'lg',
 	      resolve: {
-	    	  logUrl: function () {
-	          return createActionLogUrl('install',selectedStream);
+	    	  stream: function () {
+	          return selectedStream;
+	        }
+	      }
+	    });
+
+	}
+	
+	$scope.openTest = function (selectedStream) {
+
+	    var modalInstance = $modal.open({
+	      animation: true,
+	      templateUrl: 'streamTest.html',
+	      controller: 'StreamTestCtrl',
+	      size: 'lg',
+	      resolve: {
+	    	  stream: function () {
+	          return selectedStream;
 	        }
 	      }
 	    });
@@ -306,12 +319,38 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	
 } ]);
 
-appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 'logUrl' , 'fabricBuildService', function ($scope, $modalInstance, logUrl, fabricBuildService) {
-	$scope.extendedLog = "";
-	fabricBuildService.getLogs(logUrl).success(function(response) {
-		console.log("response",response);
-		$scope.extendedLog = response;
-	});
+appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 'stream' , 'fabricBuildService', function ($scope, $modalInstance, stream, fabricBuildService) {
+	$scope.extendedLog = null;
+	$scope.extendedLogUrl = null;
+	$scope.streamName = stream.codiceStream + " - " + stream.nomeStream;
+	$scope.actions = Constants.STREAM_ACTIONS;
+	$scope.error = null;
+
+	$scope.showLog = function(action){
+		$scope.showLoading = true;
+		var urlParams = createActionLogUrl(stream, action);
+		$scope.extendedLogUrl = Constants.API_FABRIC_PROXY_URL + urlParams;
+			
+			
+		$scope.extendedLog = null;
+		$scope.error = null;
+		fabricBuildService.getLogs(urlParams).success(function(response) {
+			console.log("response",response);
+			$scope.showLoading = false;
+			$scope.error = null;
+			$scope.extendedLog = response;
+		}).error(function(response) {
+			console.log("response - error",response);
+			$scope.showLoading = false;
+			$scope.error = response;
+			$scope.extendedLog = null;
+		});
+	};
+	
+	function createActionLogUrl(stream, operation){
+		return operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".log"; 
+	}
+
 	
 	$scope.close = function () {
 	    $modalInstance.dismiss('cancel');
@@ -319,3 +358,149 @@ appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 
 	}
 ]);
 
+appControllers.controller('StreamTestCtrl', [ '$scope', '$modalInstance', 'stream' , 'fabricAPIservice', 'STREAM_API_INPUT_URL', '$filter',"$http",  'localStorageService',
+                                              function ($scope, $modalInstance, stream, fabricAPIservice, STREAM_API_INPUT_URL, $filter, $http, localStorageService ) {
+	$scope.streamName = stream.codiceStream + " - " + stream.nomeStream;
+	$scope.error = null;
+	$scope.stream = null;
+	$scope.user = null;
+	$scope.components = [];
+	$scope.password = null;
+	$scope.showLoading = true;
+	
+	
+	$scope.testUrl = STREAM_API_INPUT_URL;
+	$scope.paramsJson = "";
+
+	fabricAPIservice.getStream(stream.codiceTenant, stream.codiceVirtualEntity, stream.codiceStream).success(function(response) {
+		$scope.showLoading = false;
+		console.log("response",response.streams);
+		$scope.stream = response.streams.stream;
+		$scope.user = response.streams.stream.codiceTenant;
+		$scope.password  = localStorageService.get(response.streams.stream.codiceTenant + "-api-input-pwd");
+		$scope.warning = null;
+		
+		if(isValidStream()){
+			$scope.createParamsJson();
+			$scope.createTestUrl();
+		}else{
+			var message  = "<h4>Invalid stream</h4>"
+			if(!stream || stream== null){
+				message +='<div><i class="fa fa-times"></i> stream: <strong>null</strong></div>';
+			}
+			else{
+				message += createWarningMessage('codiceStream', $scope.stream.codiceStream);
+				message += createWarningMessage('codiceTenant', $scope.stream.codiceTenant);
+				message += createWarningMessage('codiceVirtualEntity', $scope.stream.codiceVirtualEntity);
+				
+				if($scope.stream.componenti && $scope.stream.componenti!=null){
+					message +='<div><i class="fa fa-check"></i> componenti: ';
+					for(var j = 0; j < $scope.stream.componenti.length; j++)
+						message += $scope.stream.componenti[j] +', ';
+					message += '</div>';
+
+				}
+				else
+					message +='<div><i class="fa fa-times"></i> componenti: <strong>null</strong></div>';
+
+			}
+			$scope.warning = message;
+		}
+	});
+	
+	var createWarningMessage = function(key, value){
+		var message = "";
+		if(key && key!=null)
+			message +='<div><i class="fa fa-check"></i> '+ key + ': ' + key +'</div>';
+		else
+			message +='<div><i class="fa fa-times"></i> '+ key + ':  <strong>null</strong></div>';
+		return message;
+	}
+	
+	$scope.createTestUrl = function(){
+		$scope.testUrl = STREAM_API_INPUT_URL + "/" + $scope.user;
+	}
+	
+	$scope.createParamsJson = function(){
+		console.log("createParamsJson components", $scope.components)
+
+		if(isValidStream() &&  $scope.components &&  $scope.components!=null){
+			var componentsJson = "";
+			console.log("createParamsJson componentsJson start", componentsJson);
+			var now = $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss') + 'Z';
+			
+			for(var j = 0; j < $scope.components.length; j++){
+				console.log("createParamsJson componentsJson "+j, componentsJson);
+				componentsJson += '{"components": {"'+$scope.stream.componenti.element[j].nome+'": "'+$scope.components[j]+'"}, "time": "'+now+'"}';
+				if(j<$scope.components.length-1)
+					componentsJson += ",";
+			}
+			console.log("createParamsJson componentsJson end", componentsJson);
+			$scope.paramsJson = '{"sensor": "'+$scope.stream.codiceVirtualEntity+'", "values": ['+componentsJson+'], "stream":"'+$scope.stream.codiceStream+'"}';
+		}
+		else
+			$scope.paramsJson = "";
+	}
+	
+	var isValidStream = function(){
+		if($scope.stream && $scope.stream!=null 
+				&& $scope.stream.codiceTenant && $scope.stream.codiceTenant!=null
+				&& $scope.stream.codiceStream && $scope.stream.codiceStream!=null
+				&& $scope.stream.codiceVirtualEntity && $scope.stream.codiceVirtualEntity!=null
+				&& $scope.stream.componenti && $scope.stream.componenti!=null
+				&& $scope.stream.componenti.element &&  $scope.stream.componenti.element!=null &&  $scope.stream.componenti.element.length>0)
+			return true;
+		else 
+			return false;
+	}
+
+	$scope.execTest = function(){
+		console.log("user", $scope.user);
+		console.log("password", $scope.password);
+		console.log("components", $scope.components);
+
+		$scope.showLoading = true;
+		$scope.createParamsJson();
+		$scope.createTestUrl();
+		$scope.testResult = null;
+		$scope.testError = null;
+		if(localStorageService.isSupported) {
+			localStorageService.set($scope.user + "-api-input-pwd", $scope.password);
+		}
+
+		//$http.defaults.headers.common['Authorization'] = 'Basic ' + Base64.encode($scope.user + ':' + $scope.password);
+		$http.defaults.headers.common['Authorization'] = 'Basic ' + btoa($scope.user + ':' + $scope.password);
+		console.log("Basic " +  btoa($scope.user + ':' + $scope.password));
+
+		$http({
+			method : 'POST',
+			data:$scope.paramsJson,
+			 headers: {
+				   'Content-Type': 'application/json'
+				 },
+			url : $scope.testUrl
+		}).
+	    success(function(data, status, headers, config) {
+	        console.log('success');
+			$scope.showLoading = false;
+	        $scope.testResult = "ok";
+	        $scope.testResultData = data;
+	    }).
+	    error(function(data, status, headers, config) {
+	        console.log('test error',data);
+			$scope.showLoading = false;
+	        $scope.testResult = "ko";
+	        $scope.testResultData = data;
+	    });
+		
+		
+		
+		
+	}
+	
+
+	$scope.close = function () {
+	    $modalInstance.dismiss('cancel');
+		};
+	}
+]);

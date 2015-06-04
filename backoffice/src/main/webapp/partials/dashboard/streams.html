@@ -89,7 +89,7 @@
 						<td><small>{{row.stream.visibility}}</small></td>
 						<td class='text-left'><span ng-bind-html="row.statusIcon"></span> <small>{{row.deploymentStatusCodeTranslated}}</small></td>
 						<td> 
-							<a class='btn btn-default btn-sm' href  title="{{'DASHBOARD_STREAM_TEST_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_TEST_BUTTON</span></a>
+							<a class='btn btn-default btn-sm' href ng-click='openTest(row.stream)' title="{{'DASHBOARD_STREAM_TEST_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_TEST_BUTTON</span></a>
 							<a class='btn btn-default btn-sm' href ng-click='openLog(row.stream)' title="{{'DASHBOARD_STREAM_LOG_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_LOG_BUTTON</span></a>
 						</td>
 					</tr>
@@ -163,11 +163,33 @@
 	
 	<script type="text/ng-template" id="streamInstalLog.html">
         <div class="modal-header">
-            <h3 class="modal-title">Log installazione</h3>
+            <h3 class="modal-title">Installation log <small>{{streamName}}</small> </h3>
         </div>
         <div class="modal-body">
-			<div class='dashboard-log-panel'>
-				{{extendedLog}}
+			<div class='clearfix'>
+				<div class='pull-left'>
+					<form class="form-inline">
+  						<div class="form-group">
+   							<label for="streamAction"><span translate>DASHBOARD_STREAM_ACTION_LABEL</span></label>&nbsp;
+   							<select class="form-control "  ng-model="logAction" ng-options="action as action for action in actions"></select>
+  						</div>
+						<button class="btn btn-default" ng-click="showLog(logAction)" ng-enabled='logAction!=null && logAction!=""'>Open</button>
+					</form>
+				</div>	
+				<div class='pull-right'><a ng-href="{{extendedLogUrl}}" target='_blank' ng-show='logAction!=null && logAction!=""'>Show log in a new window</a></div>
+			</div>
+			<div class="alert alert-danger text-left" ng-show='error!=null'>
+				<strong translate>ERROR</strong> 
+				<p><span ng-bind-html="error"></span></p>
+			</div>
+			<div class='ajax-loading-container' ng-show="showLoading">
+				<span class='ajax-loading-big'></span>
+				<h4>Loading...</h4>
+			</div>
+			<div class='dashboard-log-panel-container'>
+				<div class='dashboard-log-panel' ng-show='extendedLog!=null'>
+					{{extendedLog}}
+				</div>
 			</div>
         </div>
         <div class="modal-footer">
@@ -176,13 +198,60 @@
     </script>
 	<script type="text/ng-template" id="streamTest.html">
         <div class="modal-header">
-            <h3 class="modal-title">Test</h3>
+            <h3 class="modal-title">Test stream <small>{{streamName}}</small> </h3>
         </div>
-        <div class="modal-body">
-			stream : {{stream}}
+        <div class="modal-body dashboard-stream-test-dialog">
+			<div ng-show='true' class='form-panel'>
+				<div class='row'>
+					<div class='col-sm-2 col-offset-sm-1'><strong>User</strong></div>
+					<div class='col-sm-3'><input type='text' class="form-control " ng-model="user" ng-change = "createTestUrl()" /></div>
+					<div class='col-sm-2'><strong>Password</strong></div>
+					<div class='col-sm-3'><input type="password" class="form-control " ng-model="password" /></div>
+				</div>
+				<div class='row'><div class='col-sm-12'><p><strong>Components</strong></div></div>
+				<div class='row row-component' ng-repeat="c in stream.componenti.element">
+					<div class='col-sm-2 col-offset-sm-1 text-right component-label'>{{c.nome}}</div>
+   					<div class='col-sm-8'><input type='text' class="form-control " ng-model="components[$index]" ng-change="createParamsJson()" /></div>
+				</div>
+				<div class='row'><div class='col-sm-12'><div> &nbsp;</div></div></div>
+				<div class='row'>
+					<div class='col-sm-12 text-right'>
+						<button class="btn btn-default " ng-click="execTest()" ng-enabled='password!=null && password!="" && user!=null && user!=""'>Run</button>
+					</div>
+				</div>
+			</div>	
+			<div class='params-panel'>
+				<div class='row'>
+					<div class='col-sm-2'><strong>Test url</strong></div>
+					<div class='col-sm-10'><pre>{{testUrl}}</pre></div>
+				</div>
+				<div class='row'>
+					<div class='col-sm-2'><strong>Message params</strong></div>
+					<div class='col-sm-10'><pre>{{paramsJson}}</pre></div>
+				</div>
+			</div>
+			<div class="alert alert-warning text-left" ng-show='warning!=null'>
+				<strong translate>WARNING</strong> 
+				<p><span ng-bind-html="warning"></span></p>
+			</div>
+
+			<div class='dashboard-stream-test-feedbackpanel'>
+				<div class='ajax-loading-container' ng-show="showLoading">
+					<span class='ajax-loading-big'></span>
+					<h4>Loading...</h4>
+				</div>
+				<div class='test-result-ok' ng-show="testResult == 'ok'"> 
+					<h3><i class="fa fa-check"></i> Test ok</h3>
+				</div>
+				<div class='test-result-ko' ng-show="testResult == 'ko'"> 
+					<h3> <i class="fa fa-times"></i> Test ko</h3>
+					<div class="alert alert-danger"><span ng-bind-html="testResultData"></span></div>
+				</div>
+				
+			</div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="close()">OK</button>
+            <button class="btn btn-primary" ng-click="close()">Close</button>
         </div>
     </script>
 </div>

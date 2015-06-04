@@ -19,6 +19,9 @@ a{color: black; text-decoration: underline;}
 			}		
 
 
+.form-multiline .form-group {margin-bottom: 15px; margin-right: 30px;}
+.form-multiline label, .form-multiline .form-control {margin-right: 15px;}
+
 .main-body{/*background-color: #efefef; */border-bottom: solid 1px #bbb;}
 .content-gray{background-color: #efefef; }
 
@@ -129,7 +132,28 @@ ul .list-spaced li{line-height: 1.2em;}
 .table-noborder>tbody>tr>td{border-top: none;}
 
 
-.dashboard-log-panel{overflow: scroll;  font-family: monospace;  font-size: 12px;  height: 500px;}
+.dashboard-log-panel-container{ background-color: black; padding: 6px; border-radius: 4px; margin-top: 24px;}
+.dashboard-log-panel{overflow: scroll; font-family: courier, monospace; font-size: 14px; height: 500px; color: #9ade00; background-color: black; padding: .5em;line-height: 1.2em;}
+
+.dashboard-log-panel::-webkit-scrollbar{width:12px;background-color:black; height: 8px;} 
+.dashboard-log-panel::-webkit-scrollbar-thumb{background-color: #dc0000;  border-radius: 4px; border-left: solid 2px black;  border-right: solid 2px black;}
+.dashboard-log-panel::-webkit-scrollbar-thumb:hover{background-color:#ff4141;}
+.dashboard-log-panel::-webkit-scrollbar-thumb:active{background-color:#ff4141;}
+
+.dashboard-stream-test-dialog{padding: 0;}
+.dashboard-stream-test-dialog .form-panel{padding: 20px; background-color: #f2f5f7;}
+.dashboard-stream-test-dialog .form-panel .row-component{margin: .5em -15px;}
+.dashboard-stream-test-dialog .form-panel .row-component .component-label{padding: .5em 0:}
+.dashboard-stream-test-dialog .params-panel{padding: 20px;}
+.dashboard-stream-test-dialog .alert{padding: 20px;}
+.dashboard-stream-test-dialog .dashboard-stream-test-feedbackpanel{padding: 20px;}
+.dashboard-stream-test-dialog .dashboard-stream-test-feedbackpanel i{font-size: 32pt;}
+
+.dashboard-stream-test-dialog .test-result-ok{color: #60a917;}
+.dashboard-stream-test-dialog .test-result-ko{color: #e51400;}
+
+
+
 
 small pre{font-size: 11px;padding: 4px;}
 pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}

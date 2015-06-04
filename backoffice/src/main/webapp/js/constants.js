@@ -42,4 +42,4 @@ Constants.WEBSOCKET_NOT_CONNECTED = 'Not Connected';
 
 Constants.LINE_CHART_COLORS = ["#004586","#0084d1", "#d01e2a", "#f37a1f", "#f3c414", "#3d9e00", "#a6d615","#8f69c2","#e4477e"];
 
-
+Constants.STREAM_ACTIONS = ['install', 'upgrade', 'delete', 'migrate'];

@@ -1,4 +1,4 @@
-appServices.factory('fabricBuildService',["$http","$q","info", 'BUILD_FABRIC_DIRECT_URL', function($http, $q,info, BUILD_FABRIC_DIRECT_URL) {
+appServices.factory('fabricBuildService',["$http","$q","info", function($http, $q,info) {
 
 	var fabricBuild = {};
 	
@@ -13,7 +13,6 @@ appServices.factory('fabricBuildService',["$http","$q","info", 'BUILD_FABRIC_DIR
 
 	fabricBuild.execAction = function(operations) {
 		console.log("execAction - operations", operations);
-		console.log("execAction - BUILD_FABRIC_DIRECT_URL", BUILD_FABRIC_DIRECT_URL);
 		
 		return $http({
 			method : 'POST',
