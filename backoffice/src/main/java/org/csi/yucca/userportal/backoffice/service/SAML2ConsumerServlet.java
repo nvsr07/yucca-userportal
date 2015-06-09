@@ -89,12 +89,12 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setUsername(result.get("Subject"));
 					//newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
 
-//					try {
-//						newUser.setPermissions(loadPermissions(newUser));
-//					} catch (Exception e) {
-//						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-//						e.printStackTrace();
-//					}
+					try {
+						newUser.setPermissions(loadPermissions(newUser));
+					} catch (Exception e) {
+						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
+						e.printStackTrace();
+					}
 
 					//newUser.setActiveTenant(newUser.getTenants().get(0));
 					newUser.setToken(getTokenForTenant(newUser));
@@ -234,7 +234,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			xmlInput += "   <soapenv:Body>";
 			xmlInput += "      <ser:getAllowedUIResourcesForUser>";
 			xmlInput += "         <ser:userName>" + newUser.getUsername() + "</ser:userName>";
-			xmlInput += "         <ser:permissionRootPath>permission/Applications/userportal</ser:permissionRootPath>";
+			xmlInput += "         <ser:permissionRootPath>permission/Applications/backoffice</ser:permissionRootPath>";
 			xmlInput += "      </ser:getAllowedUIResourcesForUser>";
 			xmlInput += "   </soapenv:Body>";
 			xmlInput += "</soapenv:Envelope>";

@@ -1,6 +1,7 @@
 package org.csi.yucca.userportal.backoffice.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,10 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.backoffice.info.Info;
-import org.csi.yucca.userportal.backoffice.info.User;
 import org.csi.yucca.userportal.backoffice.utils.AuthorizeUtils;
 
-@WebFilter(filterName = "AuthorizationFilter", description = "Check if the session is valid", value = "/api/*", dispatcherTypes = { javax.servlet.DispatcherType.REQUEST })
+@WebFilter(filterName = "AuthorizationFilter", description = "Check if the session is valid", value = "/*", dispatcherTypes = { javax.servlet.DispatcherType.REQUEST })
 public class AuthorizeFilter implements Filter {
 
 	static Logger log = Logger.getLogger(AuthorizeFilter.class);
@@ -31,39 +31,33 @@ public class AuthorizeFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
+		String uri = request.getRequestURI();
 
-		if (request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO) == null) {
-			Info info = new Info();
-			//info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
-			User defaultUser = AuthorizeUtils.DEFAULT_USER();
+		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+		boolean isLoggedIn = (info != null && info.getUser() != null && info.getUser().getLoggedIn());
 
-			defaultUser.setToken(SAML2ConsumerServlet.getTokenForTenant(defaultUser));
-			
-			info.setUser(defaultUser);
-			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
-		}
-
-		try {
-
-			if (AuthorizeUtils.isAPIRequest(request)) {
-				if (!AuthorizeUtils.verifyAPIRequest(request)) {
-					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					response.getWriter().append("{\"error_message\":\"Unauthorized access\"}");
-					response.getWriter().flush();
-					return;
-				}
-
-			}
+		if (!isLoggedIn && !uri.startsWith("/backoffice/api/authorize") && !uri.startsWith("/backoffice/403.html")) {
+			response.sendRedirect("/backoffice/api/authorize?returnUrl=");
+			return;
+		} else if (!checkPermission(info.getUser().getPermissions()) && !uri.startsWith("/backoffice/api/authorize") && !uri.startsWith("/backoffice/403.html")) {
+			response.sendRedirect("/backoffice/403.html");
+			return;
+		} else
 			chain.doFilter(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("[AuthorizeFilter::doFilter] - ERROR " + e.getMessage());
-		} finally {
-			log.debug("[AuthorizeFilter::doFilter] - END ");
-
-		}
 	}
-	
+
+	private boolean checkPermission(List<String> permissions) {
+		boolean hasPermission = false;
+		if (permissions != null)
+			for (String permission : permissions) {
+				permission.equals("/permission/applications/backoffice/admin-backoffice");
+				hasPermission = true;
+				break;
+			}
+
+		return hasPermission;
+	}
+
 	public void destroy() {
 		// TODO Auto-generated method stub
 
