@@ -36,10 +36,10 @@ public class AuthorizeFilter implements Filter {
 		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 		boolean isLoggedIn = (info != null && info.getUser() != null && info.getUser().getLoggedIn());
 
-		if (!isLoggedIn && !uri.startsWith("/backoffice/api/authorize") && !uri.startsWith("/backoffice/403.html")) {
+		if (!isLoggedIn && !isAuthorizedPath(uri)) {
 			response.sendRedirect("/backoffice/api/authorize?returnUrl=");
 			return;
-		} else if (!checkPermission(info.getUser().getPermissions()) && !uri.startsWith("/backoffice/api/authorize") && !uri.startsWith("/backoffice/403.html")) {
+		} else if (isLoggedIn && !checkPermission(info.getUser().getPermissions()) && !isAuthorizedPath(uri)) {
 			response.sendRedirect("/backoffice/403.html");
 			return;
 		} else
@@ -56,6 +56,13 @@ public class AuthorizeFilter implements Filter {
 			}
 
 		return hasPermission;
+	}
+
+	private boolean isAuthorizedPath(String uri) {
+
+		return uri.startsWith("/backoffice/api/authorize") || uri.startsWith("/backoffice/403.html") || uri.startsWith("/backoffice/css")
+				|| uri.startsWith("/backoffice/js") || uri.startsWith("/backoffice/lib");
+
 	}
 
 	public void destroy() {

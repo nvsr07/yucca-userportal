@@ -13,7 +13,7 @@
 		<servlet-name>AuthorizeServlet</servlet-name>
 		<init-param>
 			<param-name>Issuer</param-name>
-			<param-value>backoffice</param-value>
+			<param-value>backoffice.localhost.8080</param-value>
 		</init-param>
 		<init-param>
 			<param-name>IdpUrl</param-name>
@@ -25,7 +25,7 @@
 		</init-param>
 		<init-param>
 			<param-name>AttributeConsumingServiceIndex</param-name>
-			<param-value>808292747</param-value>
+			<param-value>1597262009</param-value>
 		</init-param>
 		<init-param>
 			<param-name>IdpLoginPageStylePath</param-name>
