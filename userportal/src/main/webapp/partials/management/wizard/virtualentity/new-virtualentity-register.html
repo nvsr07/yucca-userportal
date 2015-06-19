@@ -3,14 +3,53 @@
 		<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER_TITLE</span></h3></div>
 		<div class='pull-right'><h3><small>Step 1/3</small></h3></div>
 	</div>
+	
+	<div class="col-sm-10 col-sm-offset-1">
+		<div class="alert alert-warning" ng-show='saveWarning'>
+			<strong><span translate>WARNING</span></strong> 
+			{{saveWarning|translate}}
+		</div>
+	</div>
+
+
 	<form class="form-horizontal" role="form" name="registerVirtualentityForm" ng-cloak>
 		<div class="form-group">
 			<label for="inputType" class="col-sm-2 control-label"><span translate>VIRTUALENTITY_FIELD_TYPE</span>  <span class='required-asterisk'>*</span></label>
-			<div class="col-sm-10">
-				<select id='inputType' class="form-control"	 ng-model="selectedType" required ng-click="selectTypeChange(selectedType)">
+			<div class="col-sm-5">
+				<!-- 	<select id='inputType' class="form-control"	 ng-model="selectedType" required ng-change="selectTypeChange(selectedType)">
 					<option  value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER'|translate}}</option>
-					<option  ng-disabled="type.idTipoVirtualEntity==3" ng-repeat="type in typesList track by type.idTipoVirtualEntity" value="{{type.idTipoVirtualEntity}}">{{type.descrizioneTipoVirtualEntity}}</option>
-				</select>					
+					<option  ng-repeat="type in typesList track by type.idTipoVirtualEntity" value="{{type.idTipoVirtualEntity}}">{{type.descrizioneTipoVirtualEntity}}</option>
+				</select>		
+				-->
+				
+				<select id='inputType' class="form-control" ng-model="virtualentity.idTipoVe"   ng-change="selectTypeChange(virtualentity.idTipoVe)"
+					ng-options=" type.idTipoVirtualEntity as type.descrizioneTipoVirtualEntity for type in typesList" 
+					 required >
+					<option  value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER'|translate}}</option>
+				</select>
+			</div>
+			<div class="col-sm-5 text-right">
+				<div ng-show='isTwitter()'>
+					<div ng-show='twitterCredentialLoading'>
+						<div class='ajax-loading'></div>
+					</div>
+					<div ng-show='!twitterCredentialLoading'>
+						<div ng-show='twitterCredentialFound'>
+							<span class='twitter-username-intro' translate>VIRTUALENTITY_FIELD_TWITTER_USER_NAME</span>
+							<img ng-src="{{twtMiniProfileImageURLHttps}}" title='User Twitter'/> <span class='twitter-username-label'>{{virtualentity.twtUsername}}</span> 
+							<a href ng-click="clearTwitterCredential()" class='btn btn-default btn-sm' translate>MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGOUT</a>
+						</div>
+						<div ng-show='!twitterCredentialFound'>
+							<a ng-href='{{twitterAuthUrl()}}' class="btn btn-default">
+								<i class="fa fa-twitter"></i>&nbsp;
+								<span translate>MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGIN</span>
+							</a>
+						</div>
+					</div>
+					<div ng-show="twitterError!=null" class="text-danger">
+						<small><strong translate>WARNING</strong> {{twitterError}}</small>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="form-group  has-feedback">
@@ -24,7 +63,7 @@
 					<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{validationCodeTooltip()|translate}}"
 						ng-show="registerVirtualentityForm.inputVirtualentityCode.$error.pattern && registerVirtualentityForm.inputVirtualentityCode.$dirty"></span>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-2 text-right">
 				<a ng-click='generateUUID()' class="btn btn-default" ng-disabled="!enableCodeGeneateButton()"><span translate>MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON</span></a>
 			</div>
 		</div>
@@ -46,7 +85,7 @@
 			<div class="col-sm-5">
 				<input type="text" class="form-control" id="inputVirtualentityName" placeholder="{{'VIRTUALENTITY_FIELD_NAME'|translate}}" ng-model="virtualentity.virtualEntityName" required  maxlength="250">
 			</div>
-			<div class="col-sm-5 form-hint">
+			<div class="col-sm-5 form-hint text-right" >
 				<span class='hint-message' ng-bind-html="'MANAGEMENT_DESCRIPTION_ON_STORE_HINT'|translate"></span>  <i class="fa fa-long-arrow-right hint-arrow"></i>  <i class="fa fa-user hint-store-icon"></i>
 			</div>
 		</div>			
@@ -59,8 +98,12 @@
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
 				<a ng-click='cancel()' class="btn " translate>BACK</a>
+				<!--  <a href ng-click='createVirtualentityTwitter()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid "  ng-show="isTwitter()">
+					<i class="fa fa-twitter"></i>&nbsp;
+					<span translate>MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER</span>
+				</a> -->
 				<a ng-click='goToPosition()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid "  ng-show="isDevice()" translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
-				<a ng-click='save()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid " ng-show="!isDevice()" translate>SAVE</a>
+				<a ng-click='save()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid" ng-show="!isDevice()" translate>SAVE</a>
 			</div>
 		</div>
 	</form>

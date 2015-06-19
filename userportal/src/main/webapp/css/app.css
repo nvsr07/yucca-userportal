@@ -417,7 +417,8 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .about-menu .tile-subtitle-link{background-color: #49bdb1; }
 .about-menu .tile-subtitle-link:hover{background-color: #00a694; }
 
-
+.twitter-username-intro{margin-right: 2em; color: #999;}
+.twitter-username-label{margin-left: .5em; margin-right: 2em;}
 
 
 

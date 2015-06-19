@@ -1,9 +1,5 @@
 package org.csi.yucca.userportal.userportal.service;
 
-import org.csi.yucca.userportal.userportal.info.Info;
-import org.csi.yucca.userportal.userportal.info.User;
-import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -14,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
 @WebServlet(description = "Configuration Parameter for clients", urlPatterns = { "/api/info" }, asyncSupported = true)
 public class InfoServlet extends HttpServlet {

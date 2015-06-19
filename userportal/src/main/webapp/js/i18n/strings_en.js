@@ -182,7 +182,8 @@ var translations_en = {
 	VIRTUALENTITY_FIELD_SUPPLY_TYPE_NETWORK: 'Network',
 	VIRTUALENTITY_FIELD_ADMIN_URI: 'Administration URI',
 	VIRTUALENTITY_FIELD_SOFTWARE_VERSION: 'Software version',
-		
+	VIRTUALENTITY_FIELD_TWITTER_USER_NAME: 'Twitter User',
+	
 	/* Dataset */
 	DATASET_FIELD_ID: 'ID',
 	DATASET_FIELD_VERSION: 'Version',
@@ -239,6 +240,7 @@ var translations_en = {
 	SCHOOL: 'School',
 	SECURITY: 'Security',
 	TRANSPORT: 'Transport',
+	SMART_COMMUNITY: 'Smart Community',
 	
 	/* Stream tags */
 	AIR: 'Air',
@@ -273,6 +275,8 @@ var translations_en = {
 	COMFORT: 'Comfort',
 	LIGHTNING: 'Lightning',
 	PEOPLE: 'People', 
+	MONEY: 'Money',
+	SEGNALAZIONI: 'Citizen Reports',
 	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Only integer number',
@@ -549,6 +553,9 @@ var translations_en = {
 	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER: 'Choose one...', 
 	MANAGEMENT_NEW_VIRTUALENTITY_CODE_HINT: 'Only for device', 
 	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT: 'Only for device', 
+	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGIN: 'Login Twitter',
+	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGOUT: 'Logout',
+	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR: 'To create a Feed Tweet smart object type you have login to Twitter to specify the Twitter user used',
 	
 	/* Management edit Virtual Entity  */
 	MANAGEMENT_EDIT_VIRTUAL_ENTITY_SUBTITLE: 'Edit ',

@@ -182,7 +182,8 @@ var translations_it = {
 	VIRTUALENTITY_FIELD_SUPPLY_TYPE_NETWORK: 'Network',
 	VIRTUALENTITY_FIELD_ADMIN_URI: 'URI Amministrazione',
 	VIRTUALENTITY_FIELD_SOFTWARE_VERSION: 'Versione Software',
-		
+	VIRTUALENTITY_FIELD_TWITTER_USER_NAME: 'Utente Twitter',
+	
 	/* Dataset */
 	DATASET_FIELD_ID: 'ID',
 	DATASET_FIELD_VERSION: 'Versione',
@@ -239,6 +240,7 @@ var translations_it = {
 	SCHOOL: 'Scuola',
 	SECURITY: 'Sicurezza',
 	TRANSPORT: 'Trasporti',
+	SMART_COMMUNITY: 'Smart Community',
 	
 	/* Stream tags */
 	AIR: 'Aria',
@@ -273,6 +275,8 @@ var translations_it = {
 	COMFORT: 'Comfort',
 	LIGHTNING: 'Luce',
 	PEOPLE: 'Persone', 
+	MONEY: 'Money',
+	SEGNALAZIONI: 'Segnalazioni',
 	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Solo numeri interi',
@@ -549,6 +553,9 @@ var translations_it = {
 	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER: 'Scegli...', 
 	MANAGEMENT_NEW_VIRTUALENTITY_CODE_HINT: 'Solo per i device', 
 	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT: 'Solo per i device', 
+	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGIN: 'Accedi a Twitter',
+	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGOUT: 'Logout',
+	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR: 'Per creare uno smart object di tipo Feed Tweet bisogna accedere a Twitter per specificare l\'utente Twitter da utlizzizzare',
 	
 	/* Management edit Virtual Entity  */
 	MANAGEMENT_EDIT_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ',

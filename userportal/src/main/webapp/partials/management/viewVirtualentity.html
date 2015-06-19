@@ -47,6 +47,10 @@
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_STATUS</span></strong></div>
 					<div class="col-sm-10">{{virtualentity.deploymentStatusDesc}}</div>
 				</div>	
+				<div class="row card-row" ng-show='virtualentity.twtUsername!=null'>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_TWITTER_USER_NAME</span></strong></div>
+					<div class="col-sm-10">{{virtualentity.twtUsername}}</div>
+				</div>	
 			</accordion-group>
 			<accordion-group is-open="status2.open" ng-show="isDevice()">
 				<accordion-heading>

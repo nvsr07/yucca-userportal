@@ -18,14 +18,23 @@ public class Config {
 	public static final String RBAC_WEBSERVICE_USER_KEY = "RBAC_WEBSERVICE_USER";
 	public static final String RBAC_WEBSERVICE_PASSWORD_KEY = "rbac.webservice.secret";
 
+	public static final String TWITTER_CONSUMER_KEY = "TWITTER_CONSUMER";
+	public static final String TWITTER_CONSUMER_SECRET_KEY  = "TWITTER_CONSUMER_SECRET";
+	
+	public static final String HTTP_PROXY_HOST_KEY = "HTTP_PROXY_HOST";
+	public static final String HTTP_PROXY_PORT_KEY  = "HTTP_PROXY_PORT";
+	
+	
 	
 	public static final String API_PROXY_SERVICES_BASE_URL = "/userportal/api/proxy/services/";
+	public static final String API_PROXY_SERVICES_TWITTER_BASE_URL = "/userportal/api/proxy/twitter/";
 	public static final String API_PROXY_MANAGEMENT_BASE_URL = "/userportal/api/proxy/management/";
 	public static final String API_PROXY_DATA_STATISTICS_URL = "/userportal/api/proxy/management/statistics/";
 	public static final String API_PROXY_DISCOVERY_BASE_URL = "/userportal/api/proxy/discovery/";
 	public static final String API_PROXY_ODATA_BASE_URL = "/userportal/api/proxy/odata/";
 	public static final String  SECDATA_NEWTOKEN = "/secdata/newtoken/";
 
+	
 	public static Properties loadClientConfiguration() throws IOException {
 		return loadConfiguration("client.properties");
 	}

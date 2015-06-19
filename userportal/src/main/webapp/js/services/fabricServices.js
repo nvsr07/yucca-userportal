@@ -270,6 +270,28 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		return deferred.promise;
 	};
 
+	fabricAPI.loadTwitterCredential = function() {
+		return $http({
+			method : 'GET',
+			url : Constants.API_SERVICES_TWITTER_USER_URL// + '?callback=JSON_CALLBACK'
+		});
+	};
+	
+	fabricAPI.clearTwitterCredential = function() {
+		return $http({
+			method : 'GET',
+			url : Constants.API_SERVICES_TWITTER_USER_URL+ '?action=clear'
+		});
+	};
+		
+
+	fabricAPI.verifyTwitterCredential = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_SERVICES_TWITTER_AUTH_URL + '?callback=JSON_CALLBACK'
+		});
+	};
+
 	fabricAPI.updateVirtualentity = function(virtualentity) {
 		var deferred = $q.defer();
 		var resultData = null;
