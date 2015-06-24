@@ -267,6 +267,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
 	$scope.validationPatternStreamCode = Constants.VALIDATION_PATTERN_CODE_STREAM;
+	
+	$scope.Lang_ISO_639_1 = Lang_ISO_639_1;
+	$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+	$scope.TWITTER_GEO_SEARCH_RADIUS_UNIT = Constants.TWITTER_GEO_SEARCH_RADIUS_UNIT;
 
 	
 	$scope.currentStep = 'register';
@@ -274,6 +278,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	                      {'name':'requestor', 'style':''},
 	                      {'name':'detail', 'style':''},
 	                      {'name':'components', 'style':''},
+	                      {'name':'tweetdata', 'style':''},
 	                      {'name':'share', 'style':''},
 	                      ];
 
@@ -290,9 +295,17 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.goToRegister  = function(){ $scope.currentStep = 'register'; refreshWizardToolbar();};
 	$scope.goToRequestor  = function(){ $scope.currentStep = 'requestor';refreshWizardToolbar();};
 	$scope.goToDetail  = function(){ $scope.currentStep = 'detail';refreshWizardToolbar();};
-	$scope.goToComponents  = function(){ $scope.currentStep = 'components';refreshWizardToolbar();};
+	$scope.goToComponents  = function(){
+		console.log("goToComponents",$scope.stream.idTipoVE);
+		console.log("Constants.VIRTUALENTITY_TYPE_TWITTER_ID",Constants.VIRTUALENTITY_TYPE_TWITTER_ID);
+		if($scope.stream.idTipoVE == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+			$scope.currentStep = 'tweetdata';refreshWizardToolbar();
+		}
+		else
+			$scope.currentStep = 'components';refreshWizardToolbar();
+	};
 	$scope.goToShare  = function(){
-		if(!$scope.stream.componenti.element || $scope.stream.componenti.element.length==0){
+		if($scope.stream.idTipoVE != Constants.VIRTUALENTITY_TYPE_TWITTER_ID && (!$scope.stream.componenti.element || $scope.stream.componenti.element.length==0)){
 			$scope.updateWarning = true;
 			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 		}
@@ -613,6 +626,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	};
 
+	$scope.selectVirtualEntity = function(virtualEntityCode){
+		console.log("selectVirtualEntity", virtualEntityCode);
+		for (var k = 0; k < $scope.virtualEntitiesList.length; k++) {
+			if($scope.virtualEntitiesList[k].codeVirtualEntity == virtualEntityCode){
+				$scope.stream.idTipoVE = $scope.virtualEntitiesList[k].idTipoVe;
+				break;
+			}
+		}
+		console.log("selectVirtualEntity", $scope.stream.idTipoVE);
+	};
 
 	$scope.loadStreamComponents = function(existingStream){
 		fabricAPIservice.getStream(existingStream.codiceTenant,existingStream.codiceVirtualEntity,existingStream.codiceStream).then(function(response) {

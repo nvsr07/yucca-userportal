@@ -22,6 +22,7 @@ var translations_it = {
 	NO: 'No',
 	OK: 'Ok',
 	BACK: 'Indietro',
+	CHOOSE: 'Scegli...',
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -82,6 +83,15 @@ var translations_it = {
 	STREAM_FIELD_ICON: 'Icona per lo store',
 	STREAM_FIELD_TENANTSSHARING: 'Condividi con ',
 	STREAM_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
+	
+	STREAM_FIELD_TWT_QUERY: 'Query di ricerca',
+	STREAM_FIELD_TWT_GEO_LON: 'Longitudine',
+	STREAM_FIELD_TWT_GEO_LAT: 'Latitudine',
+	STREAM_FIELD_TWT_GEO_RADIUS: 'Raggio',
+	STREAM_FIELD_TWT_GEO_UNIT: 'Unita\' di misura',
+	STREAM_FIELD_TWT_LANG: 'Lingua',
+	STREAM_FIELD_TWT_RATE: 'Percentuale di ricerca',
+	
 
 	STREAM_INPUT_FIELDS: 'Definizione stream in ingresso',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
@@ -105,6 +115,8 @@ var translations_it = {
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'es. 1.4',
 	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'es. wind',
 	STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER: 'es. 12',
+	
+	STREAM_FIELD_TWT_QUERY_PLACEHOLDER: 'es. acqua', 
 	
 	/* Stream List */
 	STREAM_LIST_TENANT_FILTER : 'Filtra per organizzazione',
@@ -481,14 +493,19 @@ var translations_it = {
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR: 'Richiedente',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL: 'Dettagli',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS: 'Componenti',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_TWEETDATA: 'Twitter',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE: 'Condividi',
 	
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER_TITLE: 'Registra lo Stream',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR_TITLE: 'Inserisci le informazioni del richiedente',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL_TITLE: 'Inserisci i dettagli',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS_TITLE: 'Descrivi le componenti',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_TWEETDATA_TITLE: 'Parametri di ricerca per Twitter',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE_TITLE: 'Definisci la modalit&agrave; di diffusione',
 	MANAGEMENT_NEW_STREAM_WIZARD_NEXT:'Prosegui',
+	
+	MANAGEMENT_NEW_STREAM_GEO_COORDINATES: 'Ricerca Geolocalizzata',
+	MANAGEMENT_NEW_STREAM_TWT_RATE_HINT: 'Percentuale del rate di chiamate dello smartobject riservato a questa ricerca',
 		
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ', 

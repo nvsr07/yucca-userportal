@@ -93,9 +93,6 @@ Constants.DISCOVERY_FIELD_OPERATIONS={
 		tenantCode:operationStringList,
 		measureUnit:operationStringList,
 		fps:operationNuberList
-//		streamCode:operationStringList,
-//		streamName:operationStringList,
-//		streamDescription:operationStringList,
 };
 
 Constants.BULK_DATASET_MAX_FILE_SIZE = 10000000;
@@ -103,5 +100,7 @@ Constants.STREAM_ICON_MAX_FILE_SIZE = 500000;
 Constants.DATASET_ICON_MAX_FILE_SIZE = 500000;
 
 Constants.LINE_CHART_COLORS = ["#004586","#0084d1", "#d01e2a", "#f37a1f", "#f3c414", "#3d9e00", "#a6d615","#8f69c2","#e4477e"];
+
+Constants.TWITTER_GEO_SEARCH_RADIUS_UNIT = {"mi":"miles","km":"kilometers"};
 
 

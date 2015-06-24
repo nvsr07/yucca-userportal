@@ -25,10 +25,16 @@
 				  		<span class='wizard-step-label wizard-step-label-notlast' translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL</span> 
 				  	</a>
 				  </li>
-				  <li role="presentation" ng-class="{active: currentStep == 'components'}">
+				  <li role="presentation" ng-class="{active: currentStep == 'components'}" ng-show="stream.idTipoVE != VIRTUALENTITY_TYPE_TWITTER_ID">
 				  	<a href='javascript:void(0)' ng-class="wizardSteps[3].style">
 				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>4</span>
 				  		<span class='wizard-step-label wizard-step-label-notlast' translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS</span> 
+				  	</a>
+				  </li>
+				  <li role="presentation" ng-class="{active: currentStep == 'tweetdata'}"  ng-show="stream.idTipoVE == VIRTUALENTITY_TYPE_TWITTER_ID">
+				  	<a href='javascript:void(0)' ng-class="wizardSteps[3].style">
+				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>4</span>
+				  		<span class='wizard-step-label wizard-step-label-notlast' translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_TWEETDATA</span> 
 				  	</a>
 				  </li>
 				  <li role="presentation" ng-class="{active: currentStep == 'share'}">
@@ -61,6 +67,9 @@
 						</slide>
 						<slide active="currentStep == 'components'">
 							<new-stream-wizard-components></new-stream-wizard-components>
+						</slide>
+						<slide active="currentStep == 'tweetdata'">
+							<new-stream-wizard-tweetdata></new-stream-wizard-tweetdata>
 						</slide>
 						<slide active="currentStep == 'share'">
 							<new-stream-wizard-share></new-stream-wizard-share>

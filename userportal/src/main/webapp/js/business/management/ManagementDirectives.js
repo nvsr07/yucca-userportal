@@ -71,6 +71,12 @@ appDirectives.directive('newStreamWizardComponents', function() {
 		templateUrl : 'partials/management/wizard/stream/new-stream-components.html?'+BuildInfo.timestamp,
 	};
 });
+appDirectives.directive('newStreamWizardTweetdata', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/stream/new-stream-tweetdata.html?'+BuildInfo.timestamp,
+	};
+});
 appDirectives.directive('newStreamWizardShare', function() {
 	return {
 		restrict : 'E',

@@ -1,0 +1,56 @@
+<div>
+	<div class='clearfix wizard-title' ng-cloak>
+		<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_TWEETDATA_TITLE</span></h3></div>
+		<div class='pull-right'><h3><small>Step 4/5</small></h3></div>
+	</div>
+	<form class="form-horizontal" role="form" name="tweetdataStreamForm" ng-cloak>
+		<div class="form-group has-feedback">
+			<label for="inputStreamTwtQuery" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_QUERY</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" ng-model="stream.twtQuery"  id="inputStreamTwtQuery"  name="inputStreamTwtQuery"
+				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true">
+			</div>
+			<label for="inputStreamTwtLang" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_LANG</span> </label>
+			<div class="col-sm-2">
+				<select class="input-sm form-control" ng-model="stream.twtLang" ng-options="k as v for (k, v) in Lang_ISO_639_1">
+	  				<option value="">{{'CHOOSE'|translate}}</option>
+	  			</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputStreamTwtGeoLat" class="col-sm-2 control-label"><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span> </label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" ng-model="stream.twtGeolocLat"  id="inputStreamTwtGeoLat"  name="inputStreamTwtGeoLat" ng-pattern="validationPatternFloat"
+				placeholder="{{'STREAM_FIELD_TWT_GEO_LAT'|translate}}">
+			</div>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" ng-model="stream.twtGeolocLon"  id="inputStreamTwtGeoLon"  name="inputStreamTwtGeoLon" ng-pattern="validationPatternFloat"
+				placeholder="{{'STREAM_FIELD_TWT_GEO_LON'|translate}}">
+			</div>
+			<label for="inputStreamTwtGeoRadius" class="col-sm-1  control-label"><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></label>
+			<div class="col-sm-1">
+				<input type="text" class="form-control" ng-model="stream.twtGeolocRadius"  id="inputStreamTwtGeoRadius"  name="inputStreamTwtGeoRadius" ng-pattern="validationPatternFloat">
+			</div>
+			<div class="col-sm-2">
+				<select class="input-sm form-control" ng-model="stream.twtUnit" ng-options="k as v for (k, v) in TWITTER_GEO_SEARCH_RADIUS_UNIT">
+	  				<option value="">{{'CHOOSE'|translate}}</option>
+	  			</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputStreamTwtRatePercentage" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_RATE</span></label>
+			<div class="col-sm-2">
+				<input  type="number" min="1" max="100" class="form-control" ng-model="stream.twtRatePercentage"  id="inputStreamTwtRatePercentage" placeholder="50">
+			</div>
+			<div class="col-sm-8 form-hint">
+				<span class='hint-message' ng-bind-html="'MANAGEMENT_NEW_STREAM_TWT_RATE_HINT'|translate"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class=" col-sm-12 form-toolbar">
+				<a ng-click='goToDetail()' class="btn " translate>BACK</a>
+				<a ng-click='goToShare()'  class="btn btn-wizard-next" ng-disabled="!isOwner() || tweetdataStreamForm.$invalid " translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+			</div>
+		</div>
+	</form>
+</div>
