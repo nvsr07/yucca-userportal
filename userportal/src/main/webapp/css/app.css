@@ -1,5 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Aldrich);
-@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+@import url(//fonts.googleapis.com/css?family=Aldrich);
+@import url(//fonts.googleapis.com/css?family=Ubuntu);
 body{font-family: 'Ubuntu', sans-serif;}
 h1, h2 {font-family: 'Aldrich', sans-serif;}
 a{color: black; text-decoration: underline;}

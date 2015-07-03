@@ -28,8 +28,6 @@ public class TwitterAuthServlet extends HttpServlet {
 	private static final String SESSION_KEY_TWITTER_VIRTUAL_ENTITY_WAITING = "newVirtualentity";
 
 	static Logger log = Logger.getLogger(TwitterAuthServlet.class);
-	
-	
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.info("TwitterAuthServlet::doGet] - START ");
@@ -118,9 +116,10 @@ public class TwitterAuthServlet extends HttpServlet {
 		Properties config = Config.loadServerConfiguration();
 
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setHttpProxyHost(Config.HTTP_PROXY_HOST_KEY);
-		cb.setHttpProxyPort(new Integer(Config.HTTP_PROXY_PORT_KEY));
-				cb.setOAuthConsumerKey(config.getProperty(Config.TWITTER_CONSUMER_KEY));
+
+		cb.setHttpProxyHost(config.getProperty(Config.HTTP_PROXY_HOST_KEY));
+		cb.setHttpProxyPort(new Integer(config.getProperty(Config.HTTP_PROXY_PORT_KEY)));
+		cb.setOAuthConsumerKey(config.getProperty(Config.TWITTER_CONSUMER_KEY));
 		cb.setOAuthConsumerSecret(config.getProperty(Config.TWITTER_CONSUMER_SECRET_KEY));
 
 		Twitter twitter = new TwitterFactory(cb.build()).getInstance();

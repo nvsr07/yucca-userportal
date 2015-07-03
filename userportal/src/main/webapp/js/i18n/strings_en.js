@@ -22,6 +22,7 @@ var translations_en = {
 	NO: 'No',
 	OK: 'Ok',
 	BACK: 'Back',
+	CHOOSE: 'Choose...',
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -82,6 +83,15 @@ var translations_en = {
 	STREAM_FIELD_ICON: 'Icon for the store',
 	STREAM_FIELD_TENANTSSHARING: 'Share with ',
 	STREAM_FIELD_TENANTSSHARED_WITH: 'Shared with',
+	
+	STREAM_FIELD_TWT_QUERY: 'Search Query',
+	STREAM_FIELD_TWT_GEO_LON: 'Longitude',
+	STREAM_FIELD_TWT_GEO_LAT: 'Latitude',
+	STREAM_FIELD_TWT_GEO_RADIUS: 'Radius',
+	STREAM_FIELD_TWT_GEO_UNIT: 'Unit of measure',
+	STREAM_FIELD_TWT_LANG: 'Language',
+	STREAM_FIELD_TWT_RATE: 'Percentage Search',
+	
 
 	STREAM_INPUT_FIELDS: 'Stream in Input Definition',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
@@ -105,6 +115,8 @@ var translations_en = {
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'e.g. 1.4',
 	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'e.g. wind',
 	STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER: 'e.g. 12',
+	
+	STREAM_FIELD_TWT_QUERY_PLACEHOLDER: 'eg. water', 
 	
 	/* Stream List */
 	STREAM_LIST_TENANT_FILTER : 'Filter by tenant',
@@ -317,17 +329,17 @@ var translations_en = {
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
 	HOME_STATISTIC_TOTAL_DATA: 'Available measures',
 	HOME_STATISTIC_TOTAL_DATA_TIP: 'Total measures available: ',
-	HOME_STATISTIC_TODAY_DATA: 'Measures yesterday',
-	HOME_STATISTIC_TODAY_DATA_TIP: 'Total measures recorded yesterday: ',
 	HOME_STATISTIC_CURRENT_MONTH_DATA: 'Measures this month',
 	HOME_STATISTIC_CURRENT_MONTH_DATA_TIP: 'Total  measures recorded this month: ',
+	HOME_STATISTIC_TODAY_DATA: 'Measures yesterday',
+	HOME_STATISTIC_TODAY_DATA_TIP: 'Total measures recorded yesterday: ',
 	HOME_STATISTIC_VIRTUALOBJECT_DATA: 'data from smart objects',
 	HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP: 'Total data from Smart Object: ',
 	HOME_STATISTIC_TENANT: 'Organizations',	
 	HOME_STATISTIC_VIRTUALENTITY: 'Active Smart Objects',	
 	HOME_STATISTIC_STREAM: 'Online stream',	
-	HOME_STATISTIC_LASTUPDATE_INFO: 'Statistics updated on ',
 	HOME_OPERATION_PANEL_TITLE:'What can you do with the platform',
+	HOME_STATISTIC_LASTUPDATE_INFO: 'Statistics updated on ',
 	HOME_ROLE_DEVELOPER: 'developer',
 	HOME_ROLE_DEVELOPER_INTRO: 'You can create stream  merging other existing stream',
 	HOME_ROLE_PUBLISHER: 'publisher',
@@ -487,8 +499,12 @@ var translations_en = {
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR_TITLE: 'Insert the requestor information',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL_TITLE: 'Insert some details',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS_TITLE: 'Describe the components',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_TWEETDATA_TITLE: 'Twitter Search Parameters',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE_TITLE: 'Define how to share',
 	MANAGEMENT_NEW_STREAM_WIZARD_NEXT:'Next',
+	
+	MANAGEMENT_NEW_STREAM_GEO_COORDINATES: 'Geographic search',
+	MANAGEMENT_NEW_STREAM_TWT_RATE_HINT: 'Percentuale del rate di chiamate dello smartobject riservato a questa ricerca',
 		
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Edit ', 

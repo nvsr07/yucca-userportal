@@ -207,130 +207,171 @@
 								<button class="btn btn-default" ng-click="valideteSiddhi(streamSiddhiQuery)"><span translate>STREAM_SIDDHI_VALIDATE_BUTTON</span></button>
 							</div>					
 						</div>
-					
-		<!-- 			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group"> -->
-		<!-- 				<label for="streamSiddhiDefaultQueryLabel" class="col-sm-2 control-label">{{'STREAM_SIDDHI_QUERY_DEFAULT'|translate}} <span class='required-asterisk'>*</span></label> -->
-		<!-- 				<textarea class="col-sm-8" rows="8"  ng-disabled="true">{{defaultQuery}}</textarea> -->
-		<!-- 			</div>									 -->
-					
-					
-							
-						<div class='form-label-separator'><span translate>STREAM_FIELD_COMPONENTS_OUTPUT</span></div>
-						<div class="form-group">
-							<div class="col-sm-2" id="management-edit-stream-component-help-fix">
-								<h5 class="help-title"><span translate>MANAGEMENT_EDIT_STREAM_COMPONENT_EXAMPLE_TITLE</span></h5>						
-								<small><pre pretty-json="componentJsonExample"/></small>
-							</div>
-							<div></div>
-							<div class="col-sm-10">
-								<a class="btn btn-default btn-xs"  ng-disabled="true"><span translate>MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON</span></a>
-									<table class="table">
-										<thead>
-											<tr>
-												<th><span translate>STREAM_FIELD_COMPONENTS_NAME</span></th>
-												<th><span ng-bind-html="'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate"></span></th>
-												<th><span translate>STREAM_FIELD_COMPONENTS_TOLERANCE</span></th>
-												<th><span translate>STREAM_FIELD_COMPONENTS_PHENOMENON</span></th>
-												<th><span translate>STREAM_FIELD_COMPONENTS_DATA_TYPE</span></th>
-												<th>&nbsp;</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="component in stream.componenti.element">
-												<td>
-													<span style="display: none"> {{component.idComponente}}</span>
-													{{component.nome}}
-													
-													<!-- <span ng-show="editingComponentIndex!=$index">{{component.nome}}</span>
-													<div class="has-feedback" ng-show="editingComponentIndex==$index">
-														<input type="text" class="form-control" ng-model="editComponentName"  id="editComponentName{{$index}}"  name="editComponentName{{$index}}"
-														placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}" ng-required="true" ng-pattern="validationPatternNoSpace">
-														<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_NO_SPACE_TOOLTIP'|translate}}"
-															ng-show="editStreamForm.editComponentName{{$index}}.$error.pattern  && editStreamForm.editComponentName{{$index}}.$dirty"></span>
-													</div>-->
-												</td>
-												<td>
-													<span ng-show="editingComponentIndex!=$index">{{component.measureUnitCategory}}: {{component.measureUnit}}</span>
-													<div class="has-feedback" ng-show="editingComponentIndex==$index">
-														<select class="input-sm form-control" ng-model="editComponentUnitOfMeasurement" id="editComponentUnitOfMeasurement{{$index}}"  ng-required="true"  name="editComponentUnitOfMeasurement{{$index}}"
+						<div ng-show="stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID">	
+							<div class='form-label-separator'><span translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span></div>
+								<div class="form-group has-feedback">
+									<label for="inputStreamTwtQuery" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_QUERY</span> <span class='required-asterisk'>*</span></label>
+									<div class="col-sm-6">
+										<input type="text" class="form-control" ng-model="stream.twtQuery"  id="inputStreamTwtQuery"  name="inputStreamTwtQuery"
+										placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true">
+									</div>
+									<label for="inputStreamTwtLang" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_LANG</span> </label>
+									<div class="col-sm-2">
+										<select class="input-sm form-control" ng-model="stream.twtLang" ng-options="k as v for (k, v) in Lang_ISO_639_1">
+							  				<option value="">{{'CHOOSE'|translate}}</option>
+							  			</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputStreamTwtGeoLat" class="col-sm-2 control-label"><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span> </label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="stream.twtGeolocLat"  id="inputStreamTwtGeoLat"  name="inputStreamTwtGeoLat" ng-pattern="validationPatternFloat"
+										placeholder="{{'STREAM_FIELD_TWT_GEO_LAT'|translate}}">
+									</div>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" ng-model="stream.twtGeolocLon"  id="inputStreamTwtGeoLon"  name="inputStreamTwtGeoLon" ng-pattern="validationPatternFloat"
+										placeholder="{{'STREAM_FIELD_TWT_GEO_LON'|translate}}">
+									</div>
+									<label for="inputStreamTwtGeoRadius" class="col-sm-1  control-label"><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></label>
+									<div class="col-sm-1">
+										<input type="text" class="form-control" ng-model="stream.twtGeolocRadius"  id="inputStreamTwtGeoRadius"  name="inputStreamTwtGeoRadius" ng-pattern="validationPatternFloat">
+									</div>
+									<div class="col-sm-2">
+										<select class="input-sm form-control" ng-model="stream.twtUnit" ng-options="k as v for (k, v) in TWITTER_GEO_SEARCH_RADIUS_UNIT">
+							  				<option value="">{{'CHOOSE'|translate}}</option>
+							  			</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputStreamTwtRatePercentage" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_RATE</span></label>
+									<div class="col-sm-2">
+										<input  type="number" min="1" max="100" class="form-control" ng-model="stream.twtRatePercentage"  id="inputStreamTwtRatePercentage" placeholder="50">
+									</div>
+									<div class="col-sm-8 form-hint">
+										<span class='hint-message' ng-bind-html="'MANAGEMENT_NEW_STREAM_TWT_RATE_HINT'|translate"></span>
+									</div>
+								</div>
+
+
+						</div>
+						<div ng-show="stream.idTipoVe != VIRTUALENTITY_TYPE_TWITTER_ID"> 
+							<div class='form-label-separator'><span translate>STREAM_FIELD_COMPONENTS_OUTPUT</span></div>
+							<div class="form-group">
+								<div class="col-sm-2" id="management-edit-stream-component-help-fix">
+									<h5 class="help-title"><span translate>MANAGEMENT_EDIT_STREAM_COMPONENT_EXAMPLE_TITLE</span></h5>						
+									<small><pre pretty-json="componentJsonExample"/></small>
+								</div>
+								<div></div>
+								<div class="col-sm-10">
+									<a class="btn btn-default btn-xs"  ng-disabled="true"><span translate>MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON</span></a>
+										<table class="table">
+											<thead>
+												<tr>
+													<th><span translate>STREAM_FIELD_COMPONENTS_NAME</span></th>
+													<th><span ng-bind-html="'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate"></span></th>
+													<th><span translate>STREAM_FIELD_COMPONENTS_TOLERANCE</span></th>
+													<th><span translate>STREAM_FIELD_COMPONENTS_PHENOMENON</span></th>
+													<th><span translate>STREAM_FIELD_COMPONENTS_DATA_TYPE</span></th>
+													<th>&nbsp;</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="component in stream.componenti.element">
+													<td>
+														<span style="display: none"> {{component.idComponente}}</span>
+														{{component.nome}}
+														
+														<!-- <span ng-show="editingComponentIndex!=$index">{{component.nome}}</span>
+														<div class="has-feedback" ng-show="editingComponentIndex==$index">
+															<input type="text" class="form-control" ng-model="editComponentName"  id="editComponentName{{$index}}"  name="editComponentName{{$index}}"
+															placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}" ng-required="true" ng-pattern="validationPatternNoSpace">
+															<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_NO_SPACE_TOOLTIP'|translate}}"
+																ng-show="editStreamForm.editComponentName{{$index}}.$error.pattern  && editStreamForm.editComponentName{{$index}}.$dirty"></span>
+														</div>-->
+													</td>
+													<td>
+														<span ng-show="editingComponentIndex!=$index">{{component.measureUnitCategory}}: {{component.measureUnit}}</span>
+														<div class="has-feedback" ng-show="editingComponentIndex==$index">
+															<select class="input-sm form-control" ng-model="editComponentUnitOfMeasurement" id="editComponentUnitOfMeasurement{{$index}}"  ng-required="true"  name="editComponentUnitOfMeasurement{{$index}}"
+						             					 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+						             					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option> 
+						             					 	</select>
+															<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED'|translate}}"
+																ng-show="editStreamForm.editComponentUnitOfMeasurement{{$index}}.$error.pattern  && editStreamForm.editComponentUnitOfMeasurement{{$index}}.$dirty"></span>
+														</div>
+													</td>
+													<td>
+														<span ng-show="editingComponentIndex!=$index">{{component.tolerance}}</span>
+														<div class="has-feedback" ng-show="editingComponentIndex==$index">
+										                	<input class="input-sm form-control" type="text" name="editComponentTolerance{{$index}}"  ng-required="true" id="editComponentTolerance{{$index}}" 
+										                		ng-model="editComponentTolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
+															<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED'|translate}}"
+																ng-show="editStreamForm.editComponentTolerance{{$index}}.$error.pattern  && editStreamForm.editComponentTolerance{{$index}}.$dirty"></span>
+														</div>
+													</td>
+													<td>
+														<span ng-show="editingComponentIndex!=$index">{{component.phenomenonCategory}}: {{component.phenomenon}}</span>
+														<div class="has-feedback" ng-show="editingComponentIndex==$index">
+															<select class="input-sm form-control" ng-model="editComponentPhenomenon" name="editComponentPhenomenon{{$index}}" ng-required="true"  id="editComponentPhenomenon{{$index}}" 
+						             					 		ng-options="phenomenom.phenomenon group by phenomenom.phenomenonType for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
+						             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
+						             					 	</select>
+															<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED'|translate}}"
+																ng-show="editStreamForm.editComponentPhenomenon{{$index}}.$error.pattern  && editStreamForm.editComponentPhenomenon{{$index}}.$dirty"></span>
+														</div>
+														
+													</td>
+													<td>{{component.dataType}}</td>
+													<td ng-show="editingComponentIndex!=$index">
+														<a href ng-click='startEditComponent($index)' class="btn btn-icon-edit btn-sm" title="{{'EDIT'|translate}}">
+															<i class='glyphicon glyphicon-pencil'></i>
+														</a>
+													</td>
+													<td ng-show="editingComponentIndex!=$index">
+														<a  href ng-click='removeComponent($index)' class="btn btn-icon-remove btn-sm" title="{{'DELETE'|translate}}"  ng-disabled="stream.deploymentVersion>1 && component.idComponente != null && component.idComponente != ''">
+															<i class='glyphicon glyphicon-trash'></i>
+														</a>
+													</td>
+													<td ng-show="editingComponentIndex==$index">
+														<a href ng-click='editComponent($index, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon)' ng-disabled="editStreamForm.$invalid" class="btn btn-icon-add btn-sm" title="{{'SAVE'|translate}}"><i class='glyphicon glyphicon-ok'></i></a>
+													</td>
+													<td ng-show="editingComponentIndex==$index">
+														<a href ng-click='cancelEditComponent($index)' class="btn btn-icon-undo btn-sm" title="{{'UNDO'|translate}}"><i class='glyphicon glyphicon-repeat'></i></a>
+													</td>
+												</tr>
+												<tr>
+					               					 <td ng-class="{ 'has-error': insertComponentError }">
+					               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponentName" 
+					               					 		 placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
+					             					 <td>
+					             					 	<select class="input-sm form-control" ng-model="newComponentUnitOfMeasurement" 
 					             					 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
 					             					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option> 
 					             					 	</select>
-														<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED'|translate}}"
-															ng-show="editStreamForm.editComponentUnitOfMeasurement{{$index}}.$error.pattern  && editStreamForm.editComponentUnitOfMeasurement{{$index}}.$dirty"></span>
-													</div>
-												</td>
-												<td>
-													<span ng-show="editingComponentIndex!=$index">{{component.tolerance}}</span>
-													<div class="has-feedback" ng-show="editingComponentIndex==$index">
-									                	<input class="input-sm form-control" type="text" name="editComponentTolerance{{$index}}"  ng-required="true" id="editComponentTolerance{{$index}}" 
-									                		ng-model="editComponentTolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
-														<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED'|translate}}"
-															ng-show="editStreamForm.editComponentTolerance{{$index}}.$error.pattern  && editStreamForm.editComponentTolerance{{$index}}.$dirty"></span>
-													</div>
-												</td>
-												<td>
-													<span ng-show="editingComponentIndex!=$index">{{component.phenomenonCategory}}: {{component.phenomenon}}</span>
-													<div class="has-feedback" ng-show="editingComponentIndex==$index">
-														<select class="input-sm form-control" ng-model="editComponentPhenomenon" name="editComponentPhenomenon{{$index}}" ng-required="true"  id="editComponentPhenomenon{{$index}}" 
+													</td>
+									                <td>
+									                	<input class="input-sm form-control" type="text" name="newComponentTolerance" id="newComponentTolerance" 
+									                		ng-model="newComponentTolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
+									                </td>
+					             					<td>
+					             					 	<select class="input-sm form-control" ng-model="newComponentPhenomenon" 
 					             					 		ng-options="phenomenom.phenomenon group by phenomenom.phenomenonType for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
 					             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 					             					 	</select>
-														<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED'|translate}}"
-															ng-show="editStreamForm.editComponentPhenomenon{{$index}}.$error.pattern  && editStreamForm.editComponentPhenomenon{{$index}}.$dirty"></span>
-													</div>
-													
-												</td>
-												<td>{{component.dataType}}</td>
-												<td ng-show="editingComponentIndex!=$index">
-													<a href ng-click='startEditComponent($index)' class="btn btn-icon-edit btn-sm" title="{{'EDIT'|translate}}">
-														<i class='glyphicon glyphicon-pencil'></i>
-													</a>
-												</td>
-												<td ng-show="editingComponentIndex!=$index">
-													<a  href ng-click='removeComponent($index)' class="btn btn-icon-remove btn-sm" title="{{'DELETE'|translate}}"  ng-disabled="stream.deploymentVersion>1 && component.idComponente != null && component.idComponente != ''">
-														<i class='glyphicon glyphicon-trash'></i>
-													</a>
-												</td>
-												<td ng-show="editingComponentIndex==$index">
-													<a href ng-click='editComponent($index, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon)' ng-disabled="editStreamForm.$invalid" class="btn btn-icon-add btn-sm" title="{{'SAVE'|translate}}"><i class='glyphicon glyphicon-ok'></i></a>
-												</td>
-												<td ng-show="editingComponentIndex==$index">
-													<a href ng-click='cancelEditComponent($index)' class="btn btn-icon-undo btn-sm" title="{{'UNDO'|translate}}"><i class='glyphicon glyphicon-repeat'></i></a>
-												</td>
-											</tr>
-											<tr>
-				               					 <td ng-class="{ 'has-error': insertComponentError }">
-				               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponentName" 
-				               					 		 placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
-				             					 <td>
-				             					 	<select class="input-sm form-control" ng-model="newComponentUnitOfMeasurement" 
-				             					 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
-				             					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option> 
-				             					 	</select>
-												</td>
-								                <td>
-								                	<input class="input-sm form-control" type="text" name="newComponentTolerance" id="newComponentTolerance" 
-								                		ng-model="newComponentTolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
-								                </td>
-				             					<td>
-				             					 	<select class="input-sm form-control" ng-model="newComponentPhenomenon" 
-				             					 		ng-options="phenomenom.phenomenon group by phenomenom.phenomenonType for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
-				             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
-				             					 	</select>
-												</td>
-				             					 <td>
-				             					 	<select class="input-sm form-control" ng-model="newComponentDataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType" >
-				             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
-				             					 	</select>
-												</td>
-				         						<td><a href ng-click='addComponent(newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
-											</tr>
-										</tbody>
-									</table>
-								<div class="alert alert-danger" ng-show='insertComponentErrors.length>0'>
-									<strong>{{updateError.error_message}}</strong>
-									<ul><li ng-repeat="insertComponentError in insertComponentErrors "><span translate>{{insertComponentError}}</span></li></ul>
+													</td>
+					             					 <td>
+					             					 	<select class="input-sm form-control" ng-model="newComponentDataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType" >
+					             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
+					             					 	</select>
+													</td>
+					         						<td><a href ng-click='addComponent(newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
+												</tr>
+											</tbody>
+										</table>
+									<div class="alert alert-danger" ng-show='insertComponentErrors.length>0'>
+										<strong>{{updateError.error_message}}</strong>
+										<ul><li ng-repeat="insertComponentError in insertComponentErrors "><span translate>{{insertComponentError}}</span></li></ul>
+									</div>
 								</div>
 							</div>
 						</div>

@@ -30,9 +30,9 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
 					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 				responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
-				
-				if(responseList[i].streamIcon || responseList[i].streamIcon == null)
+				if(!responseList[i].streamIcon || responseList[i].streamIcon == null){
 					responseList[i].streamIcon  = "img/stream-icon-default.png";
+				}
 
 				$scope.streamsList.push(responseList[i]);
 			}
@@ -634,6 +634,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				break;
 			}
 		}
+		if($scope.stream.idTipoVE == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
+			$scope.stream.twtRatePercentage = 100;
+		//else
+		//	$scope.stream.twtRatePercentage = 0;
 		console.log("selectVirtualEntity", $scope.stream.idTipoVE);
 	};
 
@@ -1061,6 +1065,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		var newStream = new Object();
 		newStream.stream = stream;
+//		if(!newStream.stream.twtGeolocLat || newStream.stream.twtGeolocLat==null || newStream.stream.twtGeolocLat=="") newStream.stream.twtGeolocLat = 0;
+//		if(!newStream.stream.twtGeolocLon || newStream.stream.twtGeolocLon==null || newStream.stream.twtGeolocLon=="") newStream.stream.twtGeolocLon = 0;
+//		if(!newStream.stream.twtGeolocRadius || newStream.stream.twtGeolocRadius==null || newStream.stream.twtGeolocRadius=="") newStream.stream.twtGeolocRadius = 0;
+//		if(!newStream.stream.twtRatePercentage || newStream.stream.twtRatePercentage==null || newStream.stream.twtRatePercentage=="") newStream.stream.twtRatePercentage = 100;
+
 		
 		if($scope.validationRes!=0 && $scope.stream.codiceVirtualEntity=="internal"){
 			$scope.errorMsg='STREAM_SIDDHI_PLEASE_VALIDATE';
