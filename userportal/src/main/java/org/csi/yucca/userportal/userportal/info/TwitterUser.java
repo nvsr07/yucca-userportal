@@ -18,12 +18,11 @@ public class TwitterUser {
 	private String twtUsertoken;
 	private String twtTokenSecret;
 	private String twtName;
-	private String twtSurname;
+	private Long twtIdUser;
 	private String twtMiniProfileImageURLHttps;
 
 	public TwitterUser() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public TwitterUser(User twitterUser, String twtUsertoken, String twtTokenSecret) {
@@ -34,6 +33,7 @@ public class TwitterUser {
 		if (twitterUser != null) {
 			setTwtUsername(twitterUser.getScreenName());
 			setTwtName(twitterUser.getName());
+			setTwtIdUser(twitterUser.getId());
 			setTwtMiniProfileImageURLHttps(twitterUser.getMiniProfileImageURLHttps());
 		}
 	}
@@ -93,13 +93,13 @@ public class TwitterUser {
 	public void setTwtName(String twtName) {
 		this.twtName = twtName;
 	}
-
-	public String getTwtSurname() {
-		return twtSurname;
+	
+	public Long getTwtIdUser() {
+		return twtIdUser;
 	}
-
-	public void setTwtSurname(String twtSurname) {
-		this.twtSurname = twtSurname;
+	
+	public void setTwtIdUser(Long twtIdUser) {
+		this.twtIdUser = twtIdUser;
 	}
 
 	public String toJson() {

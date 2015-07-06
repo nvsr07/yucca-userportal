@@ -21,7 +21,7 @@
 		</init-param>
 		<init-param>
 			<param-name>ConsumerUrl</param-name>
-			<param-value>http://int-userportal.smartdatanet.it/userportal/api/authorize</param-value>
+			<param-value>https://int-userportal.smartdatanet.it/userportal/api/authorize</param-value>
 		</init-param>
 		<init-param>
 			<param-name>AttributeConsumingServiceIndex</param-name>

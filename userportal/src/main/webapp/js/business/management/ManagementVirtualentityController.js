@@ -346,40 +346,40 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.creationError = null;
 	
 	$scope.isDevice = function() {
-		if($scope.virtualentity.idTipoVe == null)
+		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe == null)
 			return false;
 		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 	};
 
 	$scope.isTwitter = function() {
 		console.log("isTwitter",$scope.virtualentity.idTipoVe);
-		if($scope.virtualentity.idTipoVe == null)
+		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe == null)
 			return false;
 		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
 	};
 	
 
 	$scope.isInternal = function() {
-		if(!$scope.virtualentity.idTipoVe == null)
+		if(!$scope.virtualentity || !$scope.virtualentity.idTipoVe == null)
 			return false;
 		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
 
 	$scope.isCodeRequired = function() {
-		if($scope.virtualentity.idTipoVe==null)
-			return virtualentity.idTipoVe == Constants.VIRTUALENT$scope.virtualentity.idTipoVeICE_ID ||  virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe==null)
+			return virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID ||  virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 		return true;
 	};
 
 	$scope.enableCodeGeneateButton = function() {
-		if($scope.virtualentity.idTipoVe==null){
+		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe==null){
 			return false;
 		}
 		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ;
 	};
 
 	$scope.isCategoryRequired= function() {
-		if($scope.virtualentity.idTipoVe==null){
+		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe==null){
 			return false;
 		}
 		return true;
@@ -400,6 +400,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				$scope.virtualentity.twtUsertoken = response.twitterUser.twtUsertoken;
 				$scope.virtualentity.twtTokenSecret = response.twitterUser.twtTokenSecret;
 				$scope.virtualentity.twtName = response.twitterUser.twtName;
+				$scope.virtualentity.twtIdUser = response.twitterUser.twtIdUser;
 				$scope.twtMiniProfileImageURLHttps = response.twitterUser.twtMiniProfileImageURLHttps;
 			}
 			else{
@@ -408,6 +409,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				$scope.virtualentity.twtUsertoken = null;
 				$scope.virtualentity.twtTokenSecret = null;
 				$scope.virtualentity.twtName = null;
+				$scope.virtualentity.twtIdUser = null;
 				$scope.twtMiniProfileImageURLHttps = null;
 			}
 			console.log("[loadTwitterCredential] - isTwitter", $scope.isTwitter());
@@ -433,9 +435,9 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		$scope.virtualentity.codeVirtualEntity = "";
 		$scope.virtualentity.idCategoriaVe = null;
 		if($scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+			$scope.virtualentity.idCategoriaVe = Constants.VIRTUALENTITY_CATEGORY_NONE;
 			loadTwitterCredential();
 		}
-		//$scope.virtualentity.idTipoVe = selectedType;
 		return true;
 	};
 
@@ -451,7 +453,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 					$scope.virtualentity.twtTokenSecret && $scope.virtualentity.twtTokenSecret != null && $scope.virtualentity.twtTokenSecret != "")
 				return true;
 			else
-				return false
+				return false;
 		}
 		return true;
 	};
@@ -471,6 +473,8 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		$scope.isNewVirtualentity = true;
 	
 	$scope.loadVirtualentity = function(){
+		console.log("loadVirtualentity ------", $scope.isNewVirtualentity);
+		console.log("loadVirtualentity ------", $routeParams.entity_code);
 		if(!$scope.isNewVirtualentity){
 			fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.entity_code).success(function(response) {
 				$scope.virtualentity = response.virtualEntities.virtualEntity;
