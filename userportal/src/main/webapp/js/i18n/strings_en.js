@@ -195,6 +195,7 @@ var translations_en = {
 	VIRTUALENTITY_FIELD_ADMIN_URI: 'Administration URI',
 	VIRTUALENTITY_FIELD_SOFTWARE_VERSION: 'Software version',
 	VIRTUALENTITY_FIELD_TWITTER_USER_NAME: 'Twitter User',
+	VIRTUALENTITY_FIELD_TWITTER_MAX_STREAM: 'Max number of streams', 
 	
 	/* Dataset */
 	DATASET_FIELD_ID: 'ID',
@@ -299,6 +300,7 @@ var translations_en = {
 	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'The value cannot contains white spaces',
 	VALIDATION_PATTERN_CODE_STREAM_TOOLTIP: 'The code entered cannot contain white space or * . / # - ',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Insert a decimal number using dot as separator',
+	VALIDATION_MAX_STREAM_TWITTER_TOOLTIP: 'With this Smart Object is not possible create other streams', 
 	
 	/* stream status */
 	draft:'draft',
@@ -493,6 +495,7 @@ var translations_en = {
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR: 'Richiedente',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL: 'Dettagli',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS: 'Componenti',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_TWEETDATA: 'Twitter',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE: 'Condividi',
 	
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER_TITLE: 'Register the Stream',
@@ -608,6 +611,9 @@ var translations_en = {
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER_TITLE: 'Register the Smart Object',
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION_TITLE: 'Describe the positions',
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL_TITLE: 'Fill the additional fields',
+	
+	MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE: "Error while creation of the Smart Object", 
+	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL: "Verify that you have not already used this Twitter account. Is possible create a single Smart Object for each Twitter account", 
 
 	
 	/* Management new Dataset */

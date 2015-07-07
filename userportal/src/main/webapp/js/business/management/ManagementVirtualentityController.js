@@ -367,7 +367,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 	$scope.isCodeRequired = function() {
 		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe==null)
-			return virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID ||  virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+			return !$scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID ||  !$scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 		return true;
 	};
 
@@ -473,8 +473,6 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		$scope.isNewVirtualentity = true;
 	
 	$scope.loadVirtualentity = function(){
-		console.log("loadVirtualentity ------", $scope.isNewVirtualentity);
-		console.log("loadVirtualentity ------", $routeParams.entity_code);
 		if(!$scope.isNewVirtualentity){
 			fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.entity_code).success(function(response) {
 				$scope.virtualentity = response.virtualEntities.virtualEntity;
@@ -590,6 +588,9 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$location.path('management/viewVirtualentity/'+$scope.tenantCode +'/'+virtualentity.codeVirtualEntity);
 		}, function(result) {
 			$scope.creationError = angular.fromJson(result.data);
+			$scope.creationError.error_message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
+			if($scope.creationError && $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
+				$scope.creationError.error_detail =  'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL';
 			console.log("result.data ", result.data);
 		}, function(result) {
 			console.log('Got notification: ' + result);

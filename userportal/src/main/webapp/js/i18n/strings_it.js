@@ -195,6 +195,7 @@ var translations_it = {
 	VIRTUALENTITY_FIELD_ADMIN_URI: 'URI Amministrazione',
 	VIRTUALENTITY_FIELD_SOFTWARE_VERSION: 'Versione Software',
 	VIRTUALENTITY_FIELD_TWITTER_USER_NAME: 'Utente Twitter',
+	VIRTUALENTITY_FIELD_TWITTER_MAX_STREAM: 'Numero massimo di stream', 
 	
 	/* Dataset */
 	DATASET_FIELD_ID: 'ID',
@@ -299,6 +300,7 @@ var translations_it = {
 	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'Il valore deve essere senza spazi',
 	VALIDATION_PATTERN_CODE_STREAM_TOOLTIP: 'Il codice inserito non puo\' contenere spazi o i caratteri  * . / # - ',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Inserire un valore decimale utilizzando il punto come separatore',
+	VALIDATION_MAX_STREAM_TWITTER_TOOLTIP: 'Per questo Smart Object non si possono creare altri stream', 
 	
 	/* stream status */
 	draft:'Bozza',
@@ -609,6 +611,9 @@ var translations_it = {
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER_TITLE: 'Registra lo Smart Object',
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION_TITLE: 'Descrivi la posizione',
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL_TITLE: 'Completa i campi aggiuntivi',
+	
+	MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE: "Errore durante la creazione dello Smart Object", 
+	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL: "Verificare di non aver gia' utilizzato questo account Twitter. E' possibile creare un solo Smart Object per account Twitter", 
 
 	
 	/* Management new Dataset */

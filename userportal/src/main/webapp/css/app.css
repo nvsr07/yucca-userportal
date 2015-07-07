@@ -96,6 +96,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 /* validation */
 .ng-dirty.ng-invalid{border-color: #b50000;}
 .error-validation-icon{color: #b50000;}
+.error-validation-icon-select{ margin-right: .5em;}
 
 /* help */
 .help-panel{border:5px solid #DBDB01; color:#000000;}

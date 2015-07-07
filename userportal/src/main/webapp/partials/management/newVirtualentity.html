@@ -35,8 +35,8 @@
 				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate>WARNING</span></strong>&nbsp;&nbsp;<span translate>MANAGEMENT_SANDBOX_WARNING</span>
 			</div>
 			<div class="alert alert-danger" ng-show='creationError' ng-cloak>
-				<strong>{{creationError.error_message}}</strong>
-				{{creationError.error_detail}}
+				<strong>{{creationError.error_message|translate}}</strong>
+				<p>{{creationError.error_detail|translate}}</p>
 			</div>
 			<div class='row'>
 				<div class="col-sm-10 col-sm-offset-1">

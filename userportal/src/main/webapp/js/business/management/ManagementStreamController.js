@@ -267,6 +267,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
 	$scope.validationPatternStreamCode = Constants.VALIDATION_PATTERN_CODE_STREAM;
+	$scope.forms = {};
 	
 	$scope.Lang_ISO_639_1 = Lang_ISO_639_1;
 	$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
@@ -628,9 +629,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.selectVirtualEntity = function(virtualEntityCode){
 		console.log("selectVirtualEntity", virtualEntityCode);
+		console.log("$scope.registerStreamForm", $scope.forms.registerStreamForm);
 		for (var k = 0; k < $scope.virtualEntitiesList.length; k++) {
 			if($scope.virtualEntitiesList[k].codeVirtualEntity == virtualEntityCode){
 				$scope.stream.idTipoVE = $scope.virtualEntitiesList[k].idTipoVe;
+				if($scope.stream.idTipoVE == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.virtualEntitiesList[k].usedStreamCount>=$scope.virtualEntitiesList[k].twtMaxStreams)
+					$scope.forms.registerStreamForm.inputVirtualEntity.$setValidity("streamCount", false);
+				else
+					$scope.forms.registerStreamForm.inputVirtualEntity.$setValidity("streamCount", true);
 				break;
 			}
 		}
