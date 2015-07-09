@@ -135,6 +135,17 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 		
 	}
 	
+	var getPageOfRow = function(row){
+		var page = 1;
+		for (var k = 0; k < $scope.filteredStreamsList.length; k++) {
+			if(row.rowIndex == $scope.filteredStreamsList[k].rowIndex){
+				page=Math.trunc(page/pageSize)+1;
+				break; 
+			}
+		}
+		return page;
+	}
+	
 	$scope.selectAll = function($event){
 		console.log("selectAll", $event)
 		$scope.clearSelection();
@@ -233,10 +244,25 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
         					console.log("line |"  +lines[line] +"|");
         					if(lines[line] && lines[line]!=null && lines[line]!="" && lines[line].length > 2){
 	    						var step = JSON.parse(lines[line]);
+	    						
 	    						if(step_width == null && step.stepTotal!=null){
 	    							step_width = "width:" + ((100-step.stepTotal)/step.stepTotal) + "%";
 	    							totalStep = step.stepTotal;
 	    						}
+	    						if($scope.streamsList[rowIndex].feedback && $scope.streamsList[rowIndex].feedback!=null &&
+	    							$scope.streamsList[rowIndex].feedback.lastStep && $scope.streamsList[rowIndex].feedback.lastStep!=null){
+	    							console.log("last", $scope.streamsList[rowIndex].feedback.lastStep);
+	    							console.log("current", step.stepNum);
+	    							if($scope.streamsList[rowIndex].feedback.lastStep.stepNum>step.stepNum){
+	    								$scope.streamsList[rowIndex].feedback = null;
+	    							}
+	    							else if($scope.streamsList[rowIndex].feedback.lastStep != step){
+		    							console.log("change ", $scope.streamsList[rowIndex]);
+		    							$scope.currentPage = getPageOfRow($scope.streamsList[rowIndex]);
+		    						}
+
+	    						}
+	    						
 	            				if($scope.streamsList[rowIndex].feedback  == null){
 	            					$scope.streamsList[rowIndex].feedback = {}; 
 	            					$scope.streamsList[rowIndex].feedback.totalStep = step.stepTotal;
@@ -245,7 +271,6 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	            						var num = j+1;
 	            						var empty_step = {"stepNum": num, "status": "waiting", "style": "status_waiting", "width":step_width};
 	            						$scope.streamsList[rowIndex].feedback.steps.push(empty_step);
-										
 									}
 	            				}
 	    						step.width = step_width;
@@ -285,7 +310,7 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	}
 	
     
-	$scope.openLog = function (selectedStream) {
+	$scope.openLog = function (selectedRow) {
 
 	    var modalInstance = $modal.open({
 	      animation: true,
@@ -293,8 +318,8 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	      controller: 'StreamInstallLogCtrl',
 	      size: 'lg',
 	      resolve: {
-	    	  stream: function () {
-	          return selectedStream;
+	    	  row: function () {
+	          return selectedRow;
 	        }
 	      }
 	    });
@@ -317,18 +342,89 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 
 	}
 	
+
+
+	
 } ]);
 
-appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 'stream' , 'fabricBuildService', function ($scope, $modalInstance, stream, fabricBuildService) {
+appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 'row' , 'fabricBuildService', function ($scope, $modalInstance, row, fabricBuildService) {
 	$scope.extendedLog = null;
 	$scope.extendedLogUrl = null;
-	$scope.streamName = stream.codiceStream + " - " + stream.nomeStream;
+	console.log("StreamInstallLogCtrl - row", row)
+	$scope.streamName = row.stream.codiceStream + " - " + row.stream.nomeStream;
 	$scope.actions = Constants.STREAM_ACTIONS;
 	$scope.error = null;
+	// format log
+	var formatLog = function(log){
+	    var lines = log.split('\n');
+	    var formattedLog = "";
+	    if(lines!=null && lines.length>0){
+	         for(var k = 0; k < lines.length; k++){
+	            var lineSplit = lines[k].split(" - ", 3);
+	            if(lineSplit.length>1) {
+		            var date = "<span class='logDate'>"+lineSplit[0]+"</span>";
+		            var level = "<span class='logLevel logLevel"+lineSplit[1]+"'>"+lineSplit[1]+"</span>";
+		            var content =  removeImage(lineSplit[2]);
+		            content = linkify(content);
+		            content = colorize(content);
+		            formattedLog += "<p class='logLine'>"+date+level+content+"</p>"; 
+	            }
+	            else
+	            	formattedLog += lines[k];
+	        }
+	    }
+	    return formattedLog
+	    //$("#log").html(formattedLog)
+	}
 
+	var removeImage = function(stringIn){
+	    var imageStart = stringIn.indexOf("data:image");
+	    console.log("imageStart", imageStart);
+	    var stringOut = stringIn;
+	    if(imageStart>0){
+	        var imageEnd = stringIn.indexOf("\"", imageStart);
+	        stringOut = stringIn.substring(0,imageStart) + "<span class='logRemoveString'>Removed&hellip;</span>" + stringIn.substring(imageEnd);
+	        console.log("imageStart", imageEnd);
+
+	    }
+	    return stringOut;   
+	}
+
+	var colorize = function(stringIn){
+		// TODO create a function to colorize
+	    var colorizedText = stringIn.replace( /"idTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_idTenant">"idTenant"</span>:<span class="log_idTenant logValue">$1</span>');
+	    colorizedText = colorizedText.replace( /"codiceTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_codiceTenant">"codiceTenant"</span>:<span class="log_codiceTenant logValue">$1</span>');
+	    colorizedText = colorizedText.replace( /"idVirtualEntity"[ :]+"?([\w+ ]+)"?/,'<span class="log_idVirtualEntity">"idVirtualEntity"</span>:<span class="log_idVirtualEntity logValue">$1</span>');
+	    colorizedText = colorizedText.replace( /"codiceVirtualEntity"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceVirtualEntity">"codiceVirtualEntity"</span>:<span class="log_codiceVirtualEntity logValue">$1</span>');
+	    colorizedText = colorizedText.replace( /"idStream"[ :]+"?([\w+ ]+)"?/,'<span class="log_idStream">"idStream"</span>:<span class="log_idStream logValue">$1</span>');
+	    colorizedText = colorizedText.replace( /"codiceStream"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceStream">"codiceStream"</span>:<span class="log_codiceStream logValue">$1</span>');
+	    colorizedText = colorizedText.replace( /"esitoFabricController"[ :]+"?([\w+ +:+;]+)"?/,'<span class="log_esitoFabricController">"esitoFabricController"</span>:<span class="log_esitoFabricController logValue">$1</span>');
+	    colorizedText = colorizedText.replace( /"deploymentStatusDesc"[ :]+"?([\w+ ]+)"?/,'<span class="log_deploymentStatusDesc">"deploymentStatusDesc"</span>:<span class="log_deploymentStatusDesc logValue">$1</span>');
+	    return colorizedText;
+	}
+
+
+
+	var linkify = function(inputText) {
+	    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+	    //URLs starting with http://, https://, or ftp://
+	    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+	    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+	    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+	    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+	    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+	    //Change email addresses to mailto:: links.
+	    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+	    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+	    return replacedText;
+	}
 	$scope.showLog = function(action){
 		$scope.showLoading = true;
-		var urlParams = createActionLogUrl(stream, action);
+		var urlParams = createActionLogUrl(row.stream, action);
 		$scope.extendedLogUrl = Constants.API_FABRIC_PROXY_URL + urlParams;
 			
 			
@@ -338,7 +434,7 @@ appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 
 			console.log("response",response);
 			$scope.showLoading = false;
 			$scope.error = null;
-			$scope.extendedLog = response;
+			$scope.extendedLog = formatLog(response);
 		}).error(function(response) {
 			console.log("response - error",response);
 			$scope.showLoading = false;
@@ -347,6 +443,11 @@ appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 
 		});
 	};
 	
+	if(row.action!=null){
+		$scope.logAction =row.action;
+		$scope.showLog(row.action);
+	}
+
 	function createActionLogUrl(stream, operation){
 		return operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".log"; 
 	}

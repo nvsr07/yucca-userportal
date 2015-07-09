@@ -90,7 +90,7 @@
 						<td class='text-left'><span ng-bind-html="row.statusIcon"></span> <small>{{row.deploymentStatusCodeTranslated}}</small></td>
 						<td> 
 							<a class='btn btn-default btn-sm' href ng-click='openTest(row.stream)' title="{{'DASHBOARD_STREAM_TEST_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_TEST_BUTTON</span></a>
-							<a class='btn btn-default btn-sm' href ng-click='openLog(row.stream)' title="{{'DASHBOARD_STREAM_LOG_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_LOG_BUTTON</span></a>
+							<a class='btn btn-default btn-sm' href ng-click='openLog(row)' title="{{'DASHBOARD_STREAM_LOG_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_LOG_BUTTON</span></a>
 						</td>
 					</tr>
 					<tr ng-repeat-end class='table-action-row table-action-selected-row' ng-show="row.isSelected">
@@ -171,7 +171,7 @@
 					<form class="form-inline">
   						<div class="form-group">
    							<label for="streamAction"><span translate>DASHBOARD_STREAM_ACTION_LABEL</span></label>&nbsp;
-   							<select class="form-control "  ng-model="logAction" ng-options="action as action for action in actions"></select>
+   							<select class="form-control "  ng-model="logAction" ng-options="action as action for action in actions" ng-change="showLog(logAction)"></select>
   						</div>
 						<button class="btn btn-default" ng-click="showLog(logAction)" ng-enabled='logAction!=null && logAction!=""'>Open</button>
 					</form>
@@ -188,7 +188,7 @@
 			</div>
 			<div class='dashboard-log-panel-container'>
 				<div class='dashboard-log-panel' ng-show='extendedLog!=null'>
-					{{extendedLog}}
+					 <p ng-bind-html="extendedLog"></p>
 				</div>
 			</div>
         </div>

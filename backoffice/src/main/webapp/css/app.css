@@ -133,12 +133,35 @@ ul .list-spaced li{line-height: 1.2em;}
 
 
 .dashboard-log-panel-container{ background-color: black; padding: 6px; border-radius: 4px; margin-top: 24px;}
-.dashboard-log-panel{overflow: scroll; font-family: courier, monospace; font-size: 14px; height: 500px; color: #9ade00; background-color: black; padding: .5em;line-height: 1.2em;}
+.dashboard-log-panel{overflow: scroll;  font-family: "Lucida Console", Monaco, monospace; font-size: 14px; height: 500px; color: #F7FDF2; background-color: black; padding: .5em;line-height: 1.3em;}
 
 .dashboard-log-panel::-webkit-scrollbar{width:12px;background-color:black; height: 8px;} 
-.dashboard-log-panel::-webkit-scrollbar-thumb{background-color: #dc0000;  border-radius: 4px; border-left: solid 2px black;  border-right: solid 2px black;}
-.dashboard-log-panel::-webkit-scrollbar-thumb:hover{background-color:#ff4141;}
-.dashboard-log-panel::-webkit-scrollbar-thumb:active{background-color:#ff4141;}
+.dashboard-log-panel::-webkit-scrollbar-thumb{background-color: #F7FDF2;  border-radius: 4px; border-left: solid 2px black;  border-right: solid 2px black;}
+.dashboard-log-panel::-webkit-scrollbar-thumb:hover{background-color:#F7FDF2;}
+.dashboard-log-panel::-webkit-scrollbar-thumb:active{background-color:#F7FDF2;}
+
+
+
+
+.dashboard-log-panel a{color: #0050ef;}
+
+.dashboard-log-panel .logLine{color: #bbb;word-wrap:break-word;}
+.dashboard-log-panel .logDate{color: #FFEB3B; font-style: italic;margin-right:1em;}
+.dashboard-log-panel .logLevel{margin-right:1em; color: white;padding:.1em .2em; border-radius: 2px;}
+.dashboard-log-panel .logLevelDEBUG{background-color: #03A9F4;}
+.dashboard-log-panel .logLevelINFO{background-color: #60a917;}
+.dashboard-log-panel .logLevelWARNING{background-color: #FBC02D;}
+.dashboard-log-panel .logLevelERROR{background-color: #e51400;}
+.dashboard-log-panel .logRemoveString{ font-style: italic;color: #ccc;}
+.dashboard-log-panel .log_idTenant{color: #ff9800;}
+.dashboard-log-panel .log_codiceTenant{color: #ff9800;}
+.dashboard-log-panel .log_idVirtualEntity{color: #f472d0;}
+.dashboard-log-panel .log_codiceVirtualEntity{color: #f472d0;}
+.dashboard-log-panel .log_idStream{color: #9ade00;}
+.dashboard-log-panel .log_codiceStream{color: #9ade00;}
+.dashboard-log-panel .log_esitoFabricController{color: #d49725;}
+.dashboard-log-panel .log_deploymentStatusDesc{color: #aa00ff;}
+.dashboard-log-panel .logValue{font-weight: bold;}
 
 .dashboard-stream-test-dialog{padding: 0;}
 .dashboard-stream-test-dialog .form-panel{padding: 20px; background-color: #f2f5f7;}
