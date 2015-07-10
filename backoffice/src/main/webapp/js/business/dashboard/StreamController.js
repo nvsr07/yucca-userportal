@@ -27,42 +27,49 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
-			var row = {};
+			
+			var row = initRow(responseList[i]);
 			row.rowIndex = i;
-			row.stream = responseList[i];
-			row.statusIcon = Helpers.stream.statusIcon(row.stream);
-			row.deploymentStatusCodeTranslated =  $translate.instant(row.stream.deploymentStatusCode);
-			row.isSelected = false;
-			row.isUpdating = false;
-			row.ellipseNameLimit = 34-row.stream.codiceStream.length;
-			if(!row.stream.deploymentStatusCode || row.stream.deploymentStatusCode==null)
-				row.stream.deploymentStatusCode = "draft";
-			
-			if(row.stream.deploymentStatusCode=='req_inst'){
-				if(row.stream.deploymentVersion === 1)
-					row.action = 'install';
-				else
-					row.action = 'upgrade';
-			}
-			else if(row.stream.deploymentStatusCode=='inst'){
-				row.action = 'migrate';
-			}
-			else if(row.stream.deploymentStatusCode=='req_uninst'){
-				row.action = 'delete';
-			}
-
-			row.startStep = 0;
-			row.endStep = null;
-			
-			if(row.stream.streamIcon || row.stream.streamIcon == null)
-				row.stream.streamIcon  = "img/stream-icon-default.png";
-			
 			$scope.streamsList.push(row);					
 		}
 		
 		$scope.totalItems = $scope.streamsList.length;
 	});
 	
+	
+	var initRow = function(streamIn){
+		var row = {};
+		row.stream = streamIn;
+		row.statusIcon = Helpers.stream.statusIcon(row.stream);
+		row.deploymentStatusCodeTranslated =  $translate.instant(row.stream.deploymentStatusCode);
+		row.isSelected = false;
+		row.isUpdating = false;
+		row.updated = false;
+		row.ellipseNameLimit = 34-row.stream.codiceStream.length;
+		if(!row.stream.deploymentStatusCode || row.stream.deploymentStatusCode==null)
+			row.stream.deploymentStatusCode = "draft";
+		
+		if(row.stream.deploymentStatusCode=='req_inst'){
+			if(row.stream.deploymentVersion === 1)
+				row.action = 'install';
+			else
+				row.action = 'upgrade';
+		}
+		else if(row.stream.deploymentStatusCode=='inst'){
+			row.action = 'migrate';
+		}
+		else if(row.stream.deploymentStatusCode=='req_uninst'){
+			row.action = 'delete';
+		}
+
+		row.startStep = 0;
+		row.endStep = null;
+		
+		if(!row.stream.streamIcon || row.stream.streamIcon == null)
+			row.stream.streamIcon  = "img/stream-icon-default.png";
+	
+		return row;
+	}
 	
 	function stepStyle(step){
 		var style = "status_waiting";
@@ -119,11 +126,16 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	
 	
 	$scope.updateSelection = function($event, rowIndex) {
-		var checkbox = $event.target;
-		if(checkbox.checked)
-			$scope.streamsList[rowIndex].isSelected=true;
-		else
-			$scope.streamsList[rowIndex].isSelected=false;
+		$scope.streamsList[rowIndex].updated = false;
+//		var checkbox = $event.target;
+//		if(checkbox.checked){
+//			$scope.streamsList[rowIndex].isSelected=true;
+//			$scope.streamsList[rowIndex].updated = false;
+//		}
+//		else{
+//			$scope.streamsList[rowIndex].isSelected=false;
+//		}
+
 	};	
 	
 	$scope.clearSelection = function(){
@@ -176,7 +188,7 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 		var atLeastOneSelected = false;
 		if($scope.streamsList && $scope.streamsList!=null){
 			for (var i = 0; i < $scope.streamsList.length; i++) {
-				if($scope.streamsList[i].isSelected){
+				if($scope.streamsList[i].isSelected && !$scope.streamsList[i].isUpdating){
 					console.log("stream",$scope.streamsList[i].stream);
 					console.log("action",$scope.streamsList[i].action);
 					console.log("startStep",$scope.streamsList[i].startStep);
@@ -210,7 +222,7 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	var execAction = function(rowIndex){
 		$scope.streamsList[rowIndex].actionIconClass='fa fa-rocket';
 		$scope.streamsList[rowIndex].actionFeedback='Started';
-
+		$scope.streamsList[rowIndex].isUpdating = true;
 
 		var operation = $scope.streamsList[rowIndex].action;
 		var stream = $scope.streamsList[rowIndex].stream;
@@ -285,6 +297,11 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
         					$scope.streamsList[rowIndex].feedback.finish = true;
         					$scope.streamsList[rowIndex].actionIconClass='fa fa-flag-checkered';
         					$scope.streamsList[rowIndex].actionFeedback='Finish';
+        					$scope.streamsList[rowIndex].isUpdating = false;
+        					$scope.streamsList[rowIndex].updated = true;
+        					$scope.streamsList[rowIndex].isSelected=false;
+
+        					refreshStream($scope.streamsList[rowIndex]);
         				}        				
 
         			}
@@ -295,6 +312,12 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
         }, 1000);
     };     
     
+    var refreshStream = function(row){
+    	fabricAPIservice.getStream(row.stream.codiceTenant, row.stream.codiceVirtualEntity, row.stream.codiceStream).success(function(response) {
+    		console.log("refreshStream - response",response.streams);
+    		row.stream = response.streams.stream;
+    	});
+    }
     
    
     

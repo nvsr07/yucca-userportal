@@ -77,7 +77,7 @@
 					</tr>
 					
 					<tr  class='table-data-row' ng-class='{"table-action-selected-row": row.isSelected}' ng-repeat-start="row in filteredStreams = (streamsList | filter: searchCodeFilter | filter: searchTenantsFilter | filter: searchStatusFilter | filter: searchVirtualentityFilter | orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
-						<td class='table-data-row-first'><input type="checkbox" ng-model="row.isSelected" /><!-- ng-click="updateSelection($event, row.rowIndex)" /> --> 
+						<td class='table-data-row-first'><input type="checkbox" ng-model="row.isSelected" ng-click="updateSelection($event, row.rowIndex)" /><!-- ng-click="updateSelection($event, row.rowIndex)" /> --> 
 						<td class='text-left'>
 							<img ng-src="{{row.stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
 							<strong>{{row.stream.codiceStream}}</strong> - {{row.stream.nomeStream|string_ellipse:row.ellipseNameLimit}}
@@ -93,7 +93,7 @@
 							<a class='btn btn-default btn-sm' href ng-click='openLog(row)' title="{{'DASHBOARD_STREAM_LOG_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_LOG_BUTTON</span></a>
 						</td>
 					</tr>
-					<tr ng-repeat-end class='table-action-row table-action-selected-row' ng-show="row.isSelected">
+					<tr ng-repeat-end class='table-action-row table-action-selected-row' ng-show="row.isSelected || row.updated">
 						<td class='table-action-row-first'>&nbsp;</td>
 						<td colspan='3'>
 							<form class="form-inline install-form-inline">
