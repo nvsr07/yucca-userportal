@@ -299,7 +299,7 @@ var translations_en = {
 	VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP: 'The code entered cannot contain white space or * . / # ',
 	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'The value is too long',
 	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'The value cannot contains white spaces',
-	VALIDATION_PATTERN_CODE_STREAM_TOOLTIP: 'The code entered cannot contain white space or * . / # - ',
+	VALIDATION_PATTERN_CODE_STREAM_TOOLTIP: 'The code entered cannot contain white space or * . / # - or ',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Insert a decimal number using dot as separator',
 	VALIDATION_MAX_STREAM_TWITTER_TOOLTIP: 'With this Smart Object is not possible create other streams', 
 	

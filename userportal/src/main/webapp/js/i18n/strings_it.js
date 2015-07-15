@@ -295,10 +295,10 @@ var translations_it = {
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Solo numeri interi',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Solo numeri decimali',
 	VALIDATION_PATTERN_UUID_TOOLTIP: 'Il codice inserito non e\' conforme al pattern: 8-4-4-4-12 numeri esadecimali',
-	VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP: 'Il codice inserito non puo\' contenere spazi o i caratteri  * . / # ',
+	VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP: 'Il codice inserito non puo\' contenere spazi o i caratteri  * . / # o le lettere accentate',
 	VALIDATION_PATTERN_MAXLENGTH_TOOLTIP: 'Valore troppo lungo',
 	VALIDATION_PATTERN_NO_SPACE_TOOLTIP: 'Il valore deve essere senza spazi',
-	VALIDATION_PATTERN_CODE_STREAM_TOOLTIP: 'Il codice inserito non puo\' contenere spazi o i caratteri  * . / # - ',
+	VALIDATION_PATTERN_CODE_STREAM_TOOLTIP: 'Il codice inserito non puo\' contenere spazi o i caratteri  * . / # -  o le lettere accentate',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Inserire un valore decimale utilizzando il punto come separatore',
 	VALIDATION_MAX_STREAM_TWITTER_TOOLTIP: 'Per questo Smart Object non si possono creare altri stream', 
 	
