@@ -10,6 +10,7 @@ appServices.factory('fabricAPImanagement', function($http, $q) {
 	};
 
 	fabricAPI.getDataset = function(tenant_code, dataset_id) {
+		console.log("getDataset", Constants.API_MANAGEMENT_DATASET_URL+ tenant_code + '/' + dataset_id + '/?callback=JSON_CALLBACK');
 		return $http({
 			method : 'JSONP',
 			url : Constants.API_MANAGEMENT_DATASET_URL+ tenant_code + '/' + dataset_id + '/?callback=JSON_CALLBACK'

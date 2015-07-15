@@ -84,7 +84,8 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			var visible= "?visibleFrom=sandbox";
 			if(infoData.user.activeTenant!=undefined)
 				visible= "?visibleFrom="+infoData.user.activeTenant;			
-			console.debug(visible);
+			console.debug(visible);		
+			console.debug("url getStream", Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/'+visible+'&callback=JSON_CALLBACK');
 			$http({
 				method : 'JSONP',
 				url : Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/'+visible+'&callback=JSON_CALLBACK'
