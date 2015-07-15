@@ -640,8 +640,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				break;
 			}
 		}
-		if($scope.stream.idTipoVE == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
+		if($scope.stream.idTipoVE == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
 			$scope.stream.twtRatePercentage = 100;
+			$scope.stream.twtLang="it";
+		}
 		//else
 		//	$scope.stream.twtRatePercentage = 0;
 		console.log("selectVirtualEntity", $scope.stream.idTipoVE);

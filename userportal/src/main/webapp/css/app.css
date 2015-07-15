@@ -195,6 +195,20 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .dashboard-card-icon-preview-img{width: 64px; height: 64px;}
 .list-entity-icon-preview-img{width: 48px; height: 48px; margin-right: 1em;}
 
+/* tweet */
+.tweets-container{border: solid 1px #ddd;  padding: 1em;}
+.tweet-panel{;border-bottom: dashed 1px #ddd;  padding-bottom: 1em; cursor: pointer;}
+.tweet-panel:hover{background-color: #fcfcfc;}
+.tweet-info{font-size: .8em;}
+.tweet-statistic-icons span{margin-right: 1em;}
+.tweet-date{font-style: italic;color: #bbb;}
+.tweet-detail-container{border: solid 1px #ddd;  padding: 1em;word-wrap: break-word;}
+
+.tweet-user{color: #007afa; font-weight: bold;}
+.tweet-hashtag{color: #f04090; font-weight: bold;}
+.tweet-retweet{color: #4CAF50; }
+.tweet-favorite{color: #FBC02D;}
+
 /* pagination */
 /*.pagination>.active>a, .section-dashboard .pagination>.active>span, .section-dashboard .pagination>.active>a:hover, .section-dashboard .pagination>.active>span:hover, .section-dashboard .pagination>.active>a:focus, .section-dashboard .pagination>.active>span:focus{background-color: #00bbf0;border-color: #00bbf0; color: white;}
 .pagination>li>a:hover, .section-dashboard .pagination>li>span:hover, .pagination>li>a:focus, .section-dashboard .pagination>li>span:focus,.section-dashboard .pagination>li>a:hover{color: #0189AF}

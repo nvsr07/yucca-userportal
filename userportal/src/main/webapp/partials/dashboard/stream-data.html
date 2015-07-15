@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<div class='row'>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
 								<div class='graph-container' id='stream-statistic-chart'>
 			    					<nvd3-line-chart 
 										data="nvWsStatisticData" 
@@ -74,7 +74,36 @@
     					</div>
     				</tab>
     				<tab heading="{{'DASHBOARD_STREAM_DATA_CHART_TITLE'|translate}}">
-						<div class='row'>
+						<div class='row' ng-show="isTwitter">
+							<div class="col-sm-6" >
+								<h4><span translate>DASHBOARD_STREAM_DATA_LAST_TWEET_TITLE</span></h4>
+								<div class='tweets-container'>
+									<div class='tweet-panel' ng-repeat="tweet in tweetData" ng-click="showTweetDetail(tweet)">
+										<div><strong></strong></div>
+										<p ng-bind-html="tweet.messagePretty"></p>
+										<div class='clearfix tweet-info'>
+											<div class='pull-left tweet-statistic-icons'>
+												<i class="fa fa-retweet" ng-class="{'tweet-retweet': tweet.components.retweetCount>0}"></i> <span>{{tweet.components.retweetCount}}</span>
+												<i class="fa fa-star"  ng-class="{'tweet-favorite': tweet.components.favoriteCount>0}"></i> <span>{{tweet.components.favoriteCount}}</span>
+											</div>
+											<div class='pull-right tweet-date'>{{tweet.components.createdAt|date:"MM/dd/yyyy  H:mm"}}</div>
+										</div>	
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6" >
+								<h4><span translate>DASHBOARD_STREAM_DATA_TWEET_DETAIL_TITLE</span></h4>
+								<div class='tweet-detail-container'>
+									<div ng-repeat="(key, value) in tweetDetail.components">
+										<div class='row'>
+											<div class='col-sm-3'><strong>{{key}}</strong></div>
+											<div class='col-sm-9' ng-bind-html="value|prettifyTweet"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='row' ng-show="!isTwitter">
 							<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
 								<strong><span translate>DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL</span></strong>&nbsp;
 							</div>
@@ -84,7 +113,7 @@
 								</label>
 							</div>
 						</div>
-						<div class='row'>
+						<div class='row' ng-show="!isTwitter">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div class='graph-container' id='stream-data-chart'>
 									<nvd3-line-chart 
@@ -226,7 +255,28 @@
 					</div>	
 				</div>
 			</accordion-group>
-			
+			<accordion-group is-open="status5.open"  ng-show="isTwitter">
+				<accordion-heading>
+		 			<span translate>DASHBOARD_STREAM_TWITTER_INFO_TITLE</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+				</accordion-heading>
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
+					<div class='col-sm-6'>{{stream.twtQuery}}</div>
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_LANG</span></strong></div>
+					<div class='col-sm-2'>{{stream.twtLang}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_GEO</span></strong></div>
+					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.twtGeolocLat}},{{stream.twtGeolocLon}}</span></div>
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
+					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{stream.twtGeolocRadius}} {{stream.twtUnit}}</span></div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_RATE</span></strong></div>
+					<div class='col-sm-10'>{{stream.twtRatePercentage}}</div>
+				</div>	
+			</accordion-group>
 			<accordion-group is-open="status4.open">
 				<accordion-heading>
 		 			<span translate>DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE</span>

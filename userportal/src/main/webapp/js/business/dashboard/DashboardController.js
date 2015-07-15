@@ -398,13 +398,24 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	$scope.wsUrl = "";
 	$scope.chartComponentNames = [];
 	$scope.chartData = [];
+	$scope.tweetData = [];
 	$scope.clientConnection=Constants.WEBSOCKET_NOT_CONNECTED;
 	
+	var maxNumTweet = 6;
+
 	$scope.chartWidth = angular.element( document.querySelector( '#chart-container' )).width()-6;
 	
+	$scope.isTwitter = false;
+
 	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).then(function(response) {
 		console.debug("getStream response",response);
 		$scope.stream = response.streams.stream;
+		
+		if($scope.stream.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+			$scope.isTwitter = true;
+		}
+
+		
 		if($scope.stream.componenti == null)
 			$scope.stream.componenti = new Object();
 		
@@ -431,26 +442,28 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		}
 		
 		var colorCounter = 0;
-		var display = false;
+		var view = false;
 		var foundFirstToDisplay = false;
 		for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
 			var dataType = $scope.stream.componenti.element[int].dataType;
 			var isEnabled = false;
 			var color = "#ccc";
+			var display = "none";
 			if( "int" == dataType ||"long" == dataType ||"double" == dataType ||"float" == dataType ||"longitude" == dataType ||"latitude" == dataType){
 				isEnabled = true;
+				display = "normal";
 				if(!foundFirstToDisplay){
-					display = true;
+					view = true;
 					foundFirstToDisplay = true;
 				}
 				else
-					display = false;
+					view = false;
 				color = Constants.LINE_CHART_COLORS[colorCounter];
 				colorCounter++;
 				if(colorCounter>= Constants.LINE_CHART_COLORS.length)
 					colorCounter = 0;
 			}
-			$scope.chartComponentNames.push({name:$scope.stream.componenti.element[int].nome, view: display, enabled: isEnabled, color: color, dataType: $scope.stream.componenti.element[int].dataType });
+			$scope.chartComponentNames.push({name:$scope.stream.componenti.element[int].nome, view: view, enabled: isEnabled, display: display, color: color, dataType: $scope.stream.componenti.element[int].dataType });
 		}
 		if(!$scope.stream.streamIcon || $scope.stream.streamIcon == null)
 			$scope.stream.streamIcon  = "img/stream-icon-default.png";
@@ -492,6 +505,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	var allData = [];
 	$scope.lastMessageNotReceivedHint = 'DASHBOARD_STREAM_WS_LASTMESSAGE_NOT_RECEIVED';
 	var loadPastData = function(){
+
 		// call discovery service to retrieve  the apiCode
 		dataDiscoveryService.loadStreamDetail($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
 			var discoveryResultList = response.d.results;
@@ -500,6 +514,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				// call oData service to retrieve  the last 30 data
 
 				odataAPIservice.getStreamData(apiCode, 0, maxNumData, 'time%20desc').success(function(response) {
+					console.log("odataAPIservice.getStreamData",response);
 					var oDataResultList = response.d.results;
 					if(oDataResultList.length >0){
 						for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
@@ -515,11 +530,20 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 						$scope.wsLastMessageToShow = allData[0];
 						allData.reverse();
 						$scope.updateChart();
+						if($scope.isTwitter){
+							for (var tweetIndex = 0; tweetIndex  < maxNumTweet; tweetIndex++) {
+								if(tweetIndex<allData.length)
+									$scope.tweetData.push(allData[tweetIndex]);
+							}
+							console.log("$scope.tweetData", $scope.tweetData);
+						}		
 					}
 				});
 			}
 		});
 	};
+
+	
 
 	$scope.updateChart = function() {		
 		$scope.chartData = [];
@@ -538,6 +562,22 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				$scope.chartData.push({"key" : component.name , "values": data});
 			}
 		}
+	};
+	
+	$scope.tweetDetail = null;
+	$scope.updateTweet = function(lastTweet){
+		if($scope.isTwitter){
+			console.log("updateTweet lastTweet",lastTweet);
+			lastTweet.messagePretty = Helpers.render.prettifyTwitterMessage(lastTweet.components.getText);
+			//$scope.tweetDetail = lastTweet;
+			$scope.tweetData.push(lastTweet);
+			if($scope.tweetData.length>maxNumTweet)
+				$scope.tweetData.shift();
+		}
+	};
+	
+	$scope.showTweetDetail = function(tweet){
+		$scope.tweetDetail = tweet;
 	};
 	
 	var wsClient = webSocketService();
@@ -606,6 +646,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		}
 		
 		$scope.updateChart();
+		$scope.updateTweet(messageBody.values[0]);
 		
 		$scope.wsLastMessage = JSON.stringify(messageBody, null, "\t");
 		console.debug("$scope.wsLastMessage", $scope.wsLastMessage);

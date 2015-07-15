@@ -124,3 +124,13 @@ appFilters.filter('booleanToString', function() {
 		return output;
 	};
 });
+
+appFilters.filter('prettifyTweet', function() {
+	return function(input) {
+		var output = input;
+		if (input && input !=null) {
+			output = Helpers.render.prettifyTwitterMessage(input);
+	    }
+		return output;
+	};
+});

@@ -85,6 +85,7 @@ var translations_en = {
 	STREAM_FIELD_TENANTSSHARED_WITH: 'Shared with',
 	
 	STREAM_FIELD_TWT_QUERY: 'Search Query',
+	STREAM_FIELD_TWT_GEO: 'Geographic search',
 	STREAM_FIELD_TWT_GEO_LON: 'Longitude',
 	STREAM_FIELD_TWT_GEO_LAT: 'Latitude',
 	STREAM_FIELD_TWT_GEO_RADIUS: 'Radius',
@@ -411,6 +412,8 @@ var translations_en = {
 
 	DASHBOARD_STREAM_DATA_CHART_TITLE: 'Last 30 data', 
 	
+	DASHBOARD_STREAM_DATA_LAST_TWEET_TITLE: 'Last tweet',
+	DASHBOARD_STREAM_DATA_TWEET_DETAIL_TITLE: 'Tweet Detail',
 
 	DASHBOARD_STREAM_REALTIME_FPS: 'FPS', 
 	DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS: 'Sec. between events', 
@@ -422,6 +425,7 @@ var translations_en = {
 	DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE: 'Main Information', 
 	DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE: 'Detailed information', 
 	DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE: 'Sharing information', 
+	DASHBOARD_STREAM_TWITTER_INFO_TITLE: 'Twitter Configuration', 
 
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistics', 
 	

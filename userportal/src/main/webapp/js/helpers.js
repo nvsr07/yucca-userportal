@@ -203,3 +203,56 @@ Helpers.errors = {
 		return result;
 	}
 };
+
+
+Helpers.render = {
+		
+	safeTags : function (stringIn) {
+		var stringOut = "";
+		if(stringIn && stringIn!=null)
+			stringOut = stringIn.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+	    return stringOut;   
+
+	},
+		
+	prettifyTwitterUser : function(stringIn){
+		var outString = "";
+		if(stringIn && stringIn!=null)
+			outString = stringIn.replace(/(^|\W)(@[a-z\d][\w-]*)/ig, '$1<span class="tweet-user">$2</span>');
+		return outString;
+	},
+	prettifyTwitterHashtag : function(stringIn){
+		var outString = "";
+		if(stringIn && stringIn!=null)
+			outString = stringIn.replace(/(^|\W)(#[a-z\d][\w-]*)/ig, '$1<span class="tweet-hashtag">$2</span>');
+		return outString;
+	},
+	linkify: function(stringIn) {
+		var outString = "";
+		if(stringIn && stringIn!=null){
+		    var  replacePattern1, replacePattern2, replacePattern3;
+	
+		    //URLs starting with http://, https://, or ftp://
+		    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+		    outString = stringIn.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+	
+		    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+		    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+		    outString = outString.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+	
+		    //Change email addresses to mailto:: links.
+		    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+		    outString = outString.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+		}
+
+		return outString;
+	},
+	prettifyTwitterMessage: function(stringIn){
+		var pretty  = Helpers.render.safeTags(stringIn);
+		pretty = 	Helpers.render.linkify(pretty);
+		pretty = Helpers.render.prettifyTwitterHashtag(pretty);
+		pretty = Helpers.render.prettifyTwitterUser(pretty);
+		return pretty;
+	}
+		
+};
