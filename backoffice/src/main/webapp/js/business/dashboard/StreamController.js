@@ -383,68 +383,86 @@ appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 
 	    var formattedLog = "";
 	    if(lines!=null && lines.length>0){
 	         for(var k = 0; k < lines.length; k++){
-	            var lineSplit = lines[k].split(" - ", 3);
-	            if(lineSplit.length>1) {
+	            var lineSplit = lines[k].split(" - ");
+	            if(lineSplit && lineSplit!=null && lineSplit.length>1) {
 		            var date = "<span class='logDate'>"+lineSplit[0]+"</span>";
 		            var level = "<span class='logLevel logLevel"+lineSplit[1]+"'>"+lineSplit[1]+"</span>";
-		            var content =  removeImage(lineSplit[2]);
+		            var remainingLine = lineSplit.slice(2).join(" - ");
+		            var content  = safeTags(remainingLine);
+		            content =  removeImage(content);
 		            content = linkify(content);
 		            content = colorize(content);
 		            formattedLog += "<p class='logLine'>"+date+level+content+"</p>"; 
 	            }
 	            else
-	            	formattedLog += lines[k];
+	            	formattedLog += safeTags(lines[k]);
 	        }
 	    }
 	    return formattedLog
 	    //$("#log").html(formattedLog)
 	}
+	
+	var safeTags = function (stringIn) {
+		var stringOut = "";
+		if(stringIn && stringIn!=null)
+			stringOut = stringIn.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+	    return stringOut;   
+
+	}
 
 	var removeImage = function(stringIn){
-	    var imageStart = stringIn.indexOf("data:image");
-	    console.log("imageStart", imageStart);
-	    var stringOut = stringIn;
-	    if(imageStart>0){
-	        var imageEnd = stringIn.indexOf("\"", imageStart);
-	        stringOut = stringIn.substring(0,imageStart) + "<span class='logRemoveString'>Removed&hellip;</span>" + stringIn.substring(imageEnd);
-	        console.log("imageStart", imageEnd);
-
-	    }
+		var stringOut = "";
+		if(stringIn && stringIn!=null){
+		    var imageStart = stringIn.indexOf("data:image");
+		    console.log("imageStart", imageStart);
+		    var stringOut = stringIn;
+		    if(imageStart>0){
+		        var imageEnd = stringIn.indexOf("\"", imageStart);
+		        stringOut = stringIn.substring(0,imageStart) + "<span class='logRemoveString'>Removed&hellip;</span>" + stringIn.substring(imageEnd);
+		        console.log("imageStart", imageEnd);
+	
+		    }
+		}
 	    return stringOut;   
 	}
 
 	var colorize = function(stringIn){
-		// TODO create a function to colorize
-	    var colorizedText = stringIn.replace( /"idTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_idTenant">"idTenant"</span>:<span class="log_idTenant logValue">$1</span>');
-	    colorizedText = colorizedText.replace( /"codiceTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_codiceTenant">"codiceTenant"</span>:<span class="log_codiceTenant logValue">$1</span>');
-	    colorizedText = colorizedText.replace( /"idVirtualEntity"[ :]+"?([\w+ ]+)"?/,'<span class="log_idVirtualEntity">"idVirtualEntity"</span>:<span class="log_idVirtualEntity logValue">$1</span>');
-	    colorizedText = colorizedText.replace( /"codiceVirtualEntity"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceVirtualEntity">"codiceVirtualEntity"</span>:<span class="log_codiceVirtualEntity logValue">$1</span>');
-	    colorizedText = colorizedText.replace( /"idStream"[ :]+"?([\w+ ]+)"?/,'<span class="log_idStream">"idStream"</span>:<span class="log_idStream logValue">$1</span>');
-	    colorizedText = colorizedText.replace( /"codiceStream"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceStream">"codiceStream"</span>:<span class="log_codiceStream logValue">$1</span>');
-	    colorizedText = colorizedText.replace( /"esitoFabricController"[ :]+"?([\w+ +:+;]+)"?/,'<span class="log_esitoFabricController">"esitoFabricController"</span>:<span class="log_esitoFabricController logValue">$1</span>');
-	    colorizedText = colorizedText.replace( /"deploymentStatusDesc"[ :]+"?([\w+ ]+)"?/,'<span class="log_deploymentStatusDesc">"deploymentStatusDesc"</span>:<span class="log_deploymentStatusDesc logValue">$1</span>');
+		var colorizedText = "";
+		if(stringIn && stringIn!=null){
+		    colorizedText = stringIn.replace( /"idTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_idTenant">"idTenant"</span>:<span class="log_idTenant logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"codiceTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_codiceTenant">"codiceTenant"</span>:<span class="log_codiceTenant logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"idVirtualEntity"[ :]+"?([\w+ ]+)"?/,'<span class="log_idVirtualEntity">"idVirtualEntity"</span>:<span class="log_idVirtualEntity logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"codiceVirtualEntity"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceVirtualEntity">"codiceVirtualEntity"</span>:<span class="log_codiceVirtualEntity logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"idStream"[ :]+"?([\w+ ]+)"?/,'<span class="log_idStream">"idStream"</span>:<span class="log_idStream logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"codiceStream"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceStream">"codiceStream"</span>:<span class="log_codiceStream logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"esitoFabricController"[ :]+"?([\w+ +:+;]+)"?/,'<span class="log_esitoFabricController">"esitoFabricController"</span>:<span class="log_esitoFabricController logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"deploymentStatusDesc"[ :]+"?([\w+ ]+)"?/,'<span class="log_deploymentStatusDesc">"deploymentStatusDesc"</span>:<span class="log_deploymentStatusDesc logValue">$1</span>');
+		}
 	    return colorizedText;
 	}
 
 
 
-	var linkify = function(inputText) {
+	var linkify = function(stringIn) {
 	    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+	    replacedText = 0;
+		if(stringIn && stringIn!=null){
 
-	    //URLs starting with http://, https://, or ftp://
-	    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-	    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
-
-	    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-	    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-	    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
-
-	    //Change email addresses to mailto:: links.
-	    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-	    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
-
+		    //URLs starting with http://, https://, or ftp://
+		    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+		    replacedText = stringIn.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+	
+		    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+		    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+		    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+	
+		    //Change email addresses to mailto:: links.
+		    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+		    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+		}
 	    return replacedText;
 	}
+	
 	$scope.showLog = function(action){
 		$scope.showLoading = true;
 		var urlParams = createActionLogUrl(row.stream, action);
