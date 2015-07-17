@@ -187,6 +187,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			$scope.apiMetdataUrl = response.apiMetadataUrl;
 			$scope.dataset = response.metadata;
 			$scope.stream = response.stream;
+			$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
 			if(!$scope.dataset)
 				$scope.dataset = new Object();
 			if(!$scope.dataset.info)
