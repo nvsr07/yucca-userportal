@@ -212,7 +212,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .twitter-feedback-error-panel{border-color: #b50000;}
 .twitter-feedback-error-panel i{color: #b50000; font-size: 2.5em }
 .twitter-feedback-error-panel .twitter-feedback-message{line-height: 2.5em;  color: #b50000;}
-.twitter-feedback-ok-panel .tweet-panel{padding: .5em; border: solid 1px black; background-color: #fff;}
+.twitter-feedback-ok-panel .tweet-panel{padding: .5em; border: solid 1px black; background-color: #fff;word-wrap: break-word;}
 .twitter-feedback-ok-panel .twitter-feedback-icon{color: #3c763d; font-size: 2.5em}
 
 

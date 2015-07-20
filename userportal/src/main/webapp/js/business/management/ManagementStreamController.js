@@ -637,6 +637,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		for (var k = 0; k < $scope.virtualEntitiesList.length; k++) {
 			if($scope.virtualEntitiesList[k].codeVirtualEntity == virtualEntityCode){
 				$scope.stream.idTipoVE = $scope.virtualEntitiesList[k].idTipoVe;
+				if($scope.stream.idTipoVE == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+					$scope.stream.twtUserToken = $scope.virtualEntitiesList[k].twtUsertoken;
+					$scope.stream.twtTokenSecret = $scope.virtualEntitiesList[k].twtTokenSecret;
+					$scope.twitterPollingInterval  = $scope.virtualEntitiesList[k].twtMaxStreams*5+1;
+				}
 				if($scope.stream.idTipoVE == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.virtualEntitiesList[k].usedStreamCount>=$scope.virtualEntitiesList[k].twtMaxStreams)
 					$scope.forms.registerStreamForm.inputVirtualEntity.$setValidity("streamCount", false);
 				else
@@ -647,6 +652,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		if($scope.stream.idTipoVE == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
 			$scope.stream.twtRatePercentage = 100;
 			$scope.stream.twtLang="it";
+			
 		}
 		//else
 		//	$scope.stream.twtRatePercentage = 0;

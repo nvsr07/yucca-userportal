@@ -270,18 +270,19 @@
 									</div>
 									<div class='col-sm-7'>
 										<div class='tweet-panel'>
-												<div><strong></strong></div>
-												<p ng-bind-html="checkTwitterQueryResult.twitterMessage.getText|prettifyTweet"></p>
-												<div class='clearfix tweet-info'>
-													<div class='pull-left tweet-statistic-icons'>
-														<i class="fa fa-retweet" ng-class="{'tweet-retweet': checkTwitterQueryResult.twitterMessage.retweetCount>0}"></i> 
-														<span>{{checkTwitterQueryResult.twitterMessage.retweetCount}}</span>
-														<i class="fa fa-star"  ng-class="{'tweet-favorite': checkTwitterQueryResult.twitterMessage.favoriteCount>0}"></i> 
-														<span>{{checkTwitterQueryResult.twitterMessage.favoriteCount}}</span>
-													</div>
+											<div><strong></strong></div>
+											<p ng-bind-html="checkTwitterQueryResult.twitterMessage.getText|prettifyTweet"></p>
+											<div class='clearfix tweet-info'>
+												<div class='pull-left tweet-statistic-icons'>
+													<i class="fa fa-retweet" ng-class="{'tweet-retweet': checkTwitterQueryResult.twitterMessage.retweetCount>0}"></i> 
+													<span>{{checkTwitterQueryResult.twitterMessage.retweetCount}}</span>
+													<i class="fa fa-star"  ng-class="{'tweet-favorite': checkTwitterQueryResult.twitterMessage.favoriteCount>0}"></i> 
+													<span>{{checkTwitterQueryResult.twitterMessage.favoriteCount}}</span>
+												</div>
 												<div class='pull-right tweet-date'>{{checkTwitterQueryResult.twitterMessage.createdAt|date:"MM/dd/yyyy  H:mm"}}</div>
 											</div>										
 										</div>									
+									</div>
 								</div>
 							</div>
 						</div>
