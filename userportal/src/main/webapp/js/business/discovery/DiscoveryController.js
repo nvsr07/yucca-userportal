@@ -81,6 +81,7 @@ appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'd
 		$scope.isSearching = true;
 		$scope.showResultList = true;
 		clearResults();
+		$scope.VIRTUALENTITY_TYPE_TWITTER_TYPE = "Feed Tweet";
 		
 		asyncSingleDatasetService.async(SearchInputVal,true).then(function() {
 			$scope.isSearching = false;

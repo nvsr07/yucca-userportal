@@ -90,7 +90,29 @@
 			<div class='col-sm-10'> {{dataset.fps|nvl:' -'}}</div>
 		</div>	
 	</accordion-group>
-	<accordion-group is-open="status3.open" ng-show="dataset.Stream!=null" ng-cloak>
+	<accordion-group is-open="status3.open" ng-show="dataset.Stream.smartOType == VIRTUALENTITY_TYPE_TWITTER_TYPE && dataset.Stream.smartOType!=null">
+				<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+				</accordion-heading>
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
+					<div class='col-sm-6'>{{dataset.Stream.twtQuery}}</div>
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_LANG</span></strong></div>
+					<div class='col-sm-2'>{{dataset.Stream.twtLang}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong></div>
+					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{dataset.Stream.twtGeolocLat}},{{dataset.Stream.twtGeolocLon}}</span></div>
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
+					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{dataset.Stream.twtGeolocRadius}} {{dataset.Stream.twtUnit}}</span></div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_RATE</span></strong></div>
+					<div class='col-sm-10'>{{dataset.Stream.twtRatePercentage}}</div>
+				</div>	
+			</accordion-group>
+	<accordion-group is-open="status4.open" ng-show="dataset.Stream!=null" ng-cloak>
 	 	<accordion-heading>
  			<span translate>DISCOVERY_DETAIL_DATASET_SMART_OBJECT_INFO</span>
  			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
@@ -120,7 +142,7 @@
 			<div class='col-sm-10'> {{dataset.Stream.elevation|nvl:' -'}}</div>
 		</div>			
 	</accordion-group>
-	<accordion-group is-open="status4.open" ng-show="dataset.Stream!=null" ng-cloak>
+	<accordion-group is-open="status5.open" ng-show="dataset.Stream!=null" ng-cloak>
 	 	<accordion-heading>
  			<span translate>DISCOVERY_DETAIL_DATASET_COLUMNS</span>
  			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
@@ -148,7 +170,7 @@
 			</tbody>
 		</table>
 	</accordion-group>
-	<accordion-group is-open="!status5.open" ng-cloak>
+	<accordion-group is-open="!status6.open" ng-cloak>
 	 	<accordion-heading>
  			<span translate>DISCOVERY_DETAIL_ACCESS_DATA_TITLE</span>
  			<i class="pull-right glyphicon hide" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
