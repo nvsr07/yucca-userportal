@@ -17,6 +17,8 @@ public class Config {
 	public static final String RBAC_ROLES_WEBSERVICE_URL_KEY = "RBAC_ROLES_WEBSERVICE_URL";
 	public static final String RBAC_WEBSERVICE_USER_KEY = "RBAC_WEBSERVICE_USER";
 	public static final String RBAC_WEBSERVICE_PASSWORD_KEY = "rbac.webservice.secret";
+	
+	public static final String TWITTER_POLLER_URL_KEY="TWITTER_POLLER_URL";
 
 	public static final String TWITTER_CONSUMER_KEY = "TWITTER_CONSUMER";
 	public static final String TWITTER_CONSUMER_SECRET_KEY  = "TWITTER_CONSUMER_SECRET";

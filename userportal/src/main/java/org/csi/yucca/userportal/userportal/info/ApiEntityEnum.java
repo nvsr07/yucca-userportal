@@ -76,6 +76,18 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
+	API_SERVICES_TWITTER_QUERY_URL("API_SERVICES_TWITTER_QUERY_URL", Config.API_PROXY_SERVICES_TWITTER_BASE_URL + "query") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+
+			//Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			//if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
+			//	return true;
+			//}
+			//return false;
+			return true;
+		}
+	},
 	API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

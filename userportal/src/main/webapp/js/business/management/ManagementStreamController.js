@@ -598,6 +598,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 							$scope.addTenantSharing($scope.stream.tenantssharing.tenantsharing[i]);
 					}
 				}
+				if($scope.stream.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.stream.twtMaxStreamsOfVE){
+					$scope.twitterPollingInterval  = $scope.stream.twtMaxStreamsOfVE*5+1;
+				}
+
 			});
 		}
 		else{
@@ -1037,6 +1041,37 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 	});
 
+	
+	$scope.checkTwitterQuery = function(){
+		var twitterQuery = {};
+		twitterQuery.twtQuery = $scope.stream.twtQuery;
+		if($scope.stream.twtGeolocLat && $scope.stream.twtGeolocLat>0)
+			twitterQuery.twtGeolocLat = $scope.stream.twtGeolocLat;
+		if($scope.stream.twtGeolocLon && $scope.stream.twtGeolocLon>0)
+			twitterQuery.twtGeolocLon = $scope.stream.twtGeolocLon;
+		if($scope.stream.twtGeolocRadius && $scope.stream.twtGeolocRadius>0)
+			twitterQuery.twtGeolocRadius = $scope.stream.twtGeolocRadius;
+		twitterQuery.twtGeolocUnit = $scope.stream.twtUnit;
+		twitterQuery.twtLang = $scope.stream.twtLang;
+		twitterQuery.twtUserToken = $scope.stream.twtUserToken;
+		twitterQuery.twtTokenSecret = $scope.stream.twtTokenSecret;
+		twitterQuery.streamCode = $scope.stream.codiceVirtualEntity;
+		twitterQuery.streamVersion = $scope.stream.deploymentVersion;
+		twitterQuery.tenatcode = $scope.stream.tenantCode;
+		twitterQuery.virtualEntityCode = $scope.stream.codiceVirtualEntity;
+		
+		 
+		
+		$scope.checkTwitterQueryResult = {};
+		fabricAPIservice.checkTwitterQuery(twitterQuery).success(function(response) {
+			console.log("checkTwitterQuery - success", response);
+			$scope.checkTwitterQueryResult = response;
+
+		}).error(function(data, status, headers, config) {
+			console.log("checkTwitterQuery - error", data);
+			$scope.checkTwitterQueryResult = data;
+		});
+	};
 
 
 	var updateLifecycle = function(action) {

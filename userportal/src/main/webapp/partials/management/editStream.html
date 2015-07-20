@@ -192,6 +192,7 @@
 							<div id="validateMsg" class="col-sm-10 col-sm-offset-2">
 								<div class="alert-danger"><p ng-hide='validationRes!=1'>{{errorMsg|translate}}</p></div>
 								<div class="alert-success"><p ng-hide='validationRes!=0'><span translate>STREAM_SIDDHI_QUERY_SUCCESS</span></p></div>
+								
 							</div>	
 					
 						</div >
@@ -209,50 +210,80 @@
 						</div>
 						<div ng-show="stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID">	
 							<div class='form-label-separator'><span translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span></div>
-								<div class="form-group has-feedback">
-									<label for="inputStreamTwtQuery" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_QUERY</span> <span class='required-asterisk'>*</span></label>
-									<div class="col-sm-6">
-										<input type="text" class="form-control" ng-model="stream.twtQuery"  id="inputStreamTwtQuery"  name="inputStreamTwtQuery"
-										placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true">
-									</div>
-									<label for="inputStreamTwtLang" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_LANG</span> </label>
-									<div class="col-sm-2">
-										<select class="input-sm form-control" ng-model="stream.twtLang" ng-options="k as v for (k, v) in Lang_ISO_639_1">
-							  				<option value="">{{'CHOOSE'|translate}}</option>
-							  			</select>
-									</div>
+							<div class="form-group has-feedback">
+								<label for="inputStreamTwtQuery" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_QUERY</span> <span class='required-asterisk'>*</span></label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" ng-model="stream.twtQuery"  id="inputStreamTwtQuery"  name="inputStreamTwtQuery"
+									placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true">
 								</div>
-								<div class="form-group">
-									<label for="inputStreamTwtGeoLat" class="col-sm-2 control-label"><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span> </label>
-									<div class="col-sm-3">
-										<input type="text" class="form-control" ng-model="stream.twtGeolocLat"  id="inputStreamTwtGeoLat"  name="inputStreamTwtGeoLat" ng-pattern="validationPatternFloat"
-										placeholder="{{'STREAM_FIELD_TWT_GEO_LAT'|translate}}">
-									</div>
-									<div class="col-sm-3">
-										<input type="text" class="form-control" ng-model="stream.twtGeolocLon"  id="inputStreamTwtGeoLon"  name="inputStreamTwtGeoLon" ng-pattern="validationPatternFloat"
-										placeholder="{{'STREAM_FIELD_TWT_GEO_LON'|translate}}">
-									</div>
-									<label for="inputStreamTwtGeoRadius" class="col-sm-1  control-label"><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></label>
-									<div class="col-sm-1">
-										<input type="text" class="form-control" ng-model="stream.twtGeolocRadius"  id="inputStreamTwtGeoRadius"  name="inputStreamTwtGeoRadius" ng-pattern="validationPatternFloat">
-									</div>
-									<div class="col-sm-2">
-										<select class="input-sm form-control" ng-model="stream.twtUnit" ng-options="k as v for (k, v) in TWITTER_GEO_SEARCH_RADIUS_UNIT">
-							  				<option value="">{{'CHOOSE'|translate}}</option>
-							  			</select>
-									</div>
+								<label for="inputStreamTwtLang" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_LANG</span> </label>
+								<div class="col-sm-2">
+									<select class="input-sm form-control" ng-model="stream.twtLang" ng-options="k as v for (k, v) in Lang_ISO_639_1">
+						  				<option value="">{{'CHOOSE'|translate}}</option>
+						  			</select>
 								</div>
-								<div class="form-group">
-									<label for="inputStreamTwtRatePercentage" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_RATE</span></label>
-									<div class="col-sm-2">
-										<input  type="number" min="1" max="100" class="form-control" ng-model="stream.twtRatePercentage"  id="inputStreamTwtRatePercentage" placeholder="50">
-									</div>
-									<div class="col-sm-8 form-hint">
-										<span class='hint-message' ng-bind-html="'MANAGEMENT_NEW_STREAM_TWT_RATE_HINT'|translate"></span>
-									</div>
+							</div>
+							<div class="form-group">
+								<label for="inputStreamTwtGeoLat" class="col-sm-2 control-label"><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span> </label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" ng-model="stream.twtGeolocLat"  id="inputStreamTwtGeoLat"  name="inputStreamTwtGeoLat" ng-pattern="validationPatternFloat"
+									placeholder="{{'STREAM_FIELD_TWT_GEO_LAT'|translate}}">
 								</div>
-
-
+								<div class="col-sm-3">
+									<input type="text" class="form-control" ng-model="stream.twtGeolocLon"  id="inputStreamTwtGeoLon"  name="inputStreamTwtGeoLon" ng-pattern="validationPatternFloat"
+									placeholder="{{'STREAM_FIELD_TWT_GEO_LON'|translate}}">
+								</div>
+								<label for="inputStreamTwtGeoRadius" class="col-sm-1  control-label"><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></label>
+								<div class="col-sm-1">
+									<input type="text" class="form-control" ng-model="stream.twtGeolocRadius"  id="inputStreamTwtGeoRadius"  name="inputStreamTwtGeoRadius" ng-pattern="validationPatternFloat">
+								</div>
+								<div class="col-sm-2">
+									<select class="input-sm form-control" ng-model="stream.twtUnit" ng-options="k as v for (k, v) in TWITTER_GEO_SEARCH_RADIUS_UNIT">
+						  				<option value="">{{'CHOOSE'|translate}}</option>
+						  			</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><span translate>STREAM_FIELD_TWT_RATE</span></label>
+								<div class="col-sm-10">
+									<span>{{twitterPollingInterval}}</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label"><span translate>MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK</span></label>
+								<div class="col-sm-2">
+									<a href ng-click="checkTwitterQuery()" class='btn btn-default btn-sm' translate>MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_RESPONSE</a>
+								</div>
+								<div ng-show="checkTwitterQueryResult.result=='KO'" class='twitter-feedback-error-panel'>
+									<div class='col-sm-1 text-center text-danger'>
+										<div><i class="fa fa-times" title="Invalid Query"></i></div>
+										<div>Invalid</div>
+									</div>
+									<div class='col-sm-7'>
+										<span class='twitter-feedback-message'>{{checkTwitterQueryResult.message}}</span>
+									</div>									
+								</div>
+								<div ng-show="checkTwitterQueryResult.result=='OK'" class='twitter-feedback-ok-panel'>
+									<div class='col-sm-1 text-center text-success'>
+										<div><i class="fa fa-check twitter-feedback-icon" title="{{checkTwitterQueryResult.message}}"></i></div>
+										<div>Valid</div>
+									</div>
+									<div class='col-sm-7'>
+										<div class='tweet-panel'>
+												<div><strong></strong></div>
+												<p ng-bind-html="checkTwitterQueryResult.twitterMessage.getText|prettifyTweet"></p>
+												<div class='clearfix tweet-info'>
+													<div class='pull-left tweet-statistic-icons'>
+														<i class="fa fa-retweet" ng-class="{'tweet-retweet': checkTwitterQueryResult.twitterMessage.retweetCount>0}"></i> 
+														<span>{{checkTwitterQueryResult.twitterMessage.retweetCount}}</span>
+														<i class="fa fa-star"  ng-class="{'tweet-favorite': checkTwitterQueryResult.twitterMessage.favoriteCount>0}"></i> 
+														<span>{{checkTwitterQueryResult.twitterMessage.favoriteCount}}</span>
+													</div>
+												<div class='pull-right tweet-date'>{{checkTwitterQueryResult.twitterMessage.createdAt|date:"MM/dd/yyyy  H:mm"}}</div>
+											</div>										
+										</div>									
+								</div>
+							</div>
 						</div>
 						<div ng-show="stream.idTipoVe != VIRTUALENTITY_TYPE_TWITTER_ID"> 
 							<div class='form-label-separator'><span translate>STREAM_FIELD_COMPONENTS_OUTPUT</span></div>

@@ -90,7 +90,7 @@ var translations_it = {
 	STREAM_FIELD_TWT_GEO_RADIUS: 'Raggio',
 	STREAM_FIELD_TWT_GEO_UNIT: 'Unita\' di misura',
 	STREAM_FIELD_TWT_LANG: 'Lingua',
-	STREAM_FIELD_TWT_RATE: 'Percentuale di ricerca',
+	STREAM_FIELD_TWT_RATE: 'Intervallo di polling (sec)',
 	
 
 	STREAM_INPUT_FIELDS: 'Definizione stream in ingresso',
@@ -533,8 +533,10 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_ADD_TAG : 'Aggiungi tag', 
 	MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO : 'Stream salvato',
 	MANAGEMENT_EDIT_STREAM_ADD_TENANT_SHARING : 'Aggiungi tenant', 
-	MANAGEMENT_EDIT_STREAM_TENANT_SHARING_PLACEHOLDER: 'Choose one tenant...',
+	MANAGEMENT_EDIT_STREAM_TENANT_SHARING_PLACEHOLDER: 'Scegli un tenant...',
 	MANAGEMENT_EDIT_STREAM_TWITTER_DATA:'Dati Twitter',
+	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK: 'Verifica query',		
+	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_RESPONSE: 'Verifica query',		
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni Principali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',

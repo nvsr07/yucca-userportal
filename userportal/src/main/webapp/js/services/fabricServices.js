@@ -293,6 +293,14 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 
+	fabricAPI.checkTwitterQuery = function(tweetQuery) {
+		return $http({
+			method : 'POST',
+			data:tweetQuery,
+			url : Constants.API_SERVICES_TWITTER_QUERY_URL
+		});
+	};
+	
 	fabricAPI.updateVirtualentity = function(virtualentity) {
 		var deferred = $q.defer();
 		var resultData = null;

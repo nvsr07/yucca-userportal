@@ -1,4 +1,4 @@
-package org.csi.yucca.userportal.userportal.info;
+package org.csi.yucca.userportal.userportal.entity;
 
 import org.csi.yucca.userportal.userportal.utils.json.GSONExclusionStrategy;
 import org.csi.yucca.userportal.userportal.utils.json.IgnoredJSON;
