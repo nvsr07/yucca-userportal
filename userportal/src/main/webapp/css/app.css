@@ -54,7 +54,7 @@ table>thead{color: #000; border: none; background-color:transparent; text-transf
 table>thead>tr>th a{text-decoration: none; }
 table>tbody>tr>td, .table>tbody>tr>td{border: 2px solid #d5d5d5; vertical-align: middle;}
 
-
+.col-no-padding{padding: 0;}
 .icon-warning{color: #edd400;}
 
 .top-toolbar{margin-bottom: 1em;}
@@ -202,18 +202,25 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .tweet-info{font-size: .8em;}
 .tweet-statistic-icons span{margin-right: 1em;}
 .tweet-date{font-style: italic;color: #bbb;}
-.tweet-detail-container{border: solid 1px #ddd;  padding: 1em;word-wrap: break-word;}
+.tweet-detail-container{border: solid 1px #ddd;  padding: 1em;word-wrap: break-word;  font-size: .9em;}
 
 .tweet-user{color: #007afa; font-weight: bold;}
 .tweet-hashtag{color: #f04090; font-weight: bold;}
 .tweet-retweet{color: #4CAF50; }
 .tweet-favorite{color: #FBC02D;}
+.btn-twitter{background-color:#55ACEE; color: white;}
 
 .twitter-feedback-error-panel{border-color: #b50000;}
 .twitter-feedback-error-panel i{color: #b50000; font-size: 2.5em }
 .twitter-feedback-error-panel .twitter-feedback-message{line-height: 2.5em;  color: #b50000;}
 .twitter-feedback-ok-panel .tweet-panel{padding: .5em; border: solid 1px black; background-color: #fff;word-wrap: break-word;}
 .twitter-feedback-ok-panel .twitter-feedback-icon{color: #3c763d; font-size: 2.5em}
+
+
+.management-virtualentity-update-stream .alert{margin: 0px 0 10px;}
+.management-virtualentity-update-stream .stream-list{font-size: .9em;}
+.management-virtualentity-update-stream .list-entity-icon-preview-img{width: 32px; height:32px;}
+.management-virtualentity-update-stream .btn{margin-left:12px;}
 
 
 
@@ -256,6 +263,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .content-gray .mute{color: #666;}
 
 .ajax-loading{display: inline-block; height: 36px;background: url("../img/loading/loading-small.gif") center right no-repeat;}    /*http://loadergenerator.com/snake */
+.ajax-loading-label{display: inline-block; width: 36px; height: 36px;background: url("../img/loading/loading-small.gif") center left no-repeat;padding-left: 42px; line-height: 36px; font-size: 16pt;}    /*http://loadergenerator.com/snake */
 .ajax-loading-container{background-color: white;text-align: center; padding: 1em;}
 .ajax-loading-big{display: inline-block; background: url("../img/loading/loading-big.gif") center right no-repeat; height: 78px; width: 78px; margin: 20px;}   /*http://loadergenerator.com/snake */
 

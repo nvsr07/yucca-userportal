@@ -25,7 +25,8 @@ public class TwitterAuthServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String SESSION_KEY_TWITTER_REQUEST_TOKEN = "requestToken";
-	private static final String SESSION_KEY_TWITTER_VIRTUAL_ENTITY_WAITING = "newVirtualentity";
+	private static final String SESSION_KEY_TWITTER_VIRTUAL_ENTITY_WAITING = "virtualEntityInSession";
+	private static final String SESSION_KEY_TWITTER_VIRTUAL_ENTITY_REDIRECT_URL = "twitterVirtualEntityRedirectUrl";
 
 	static Logger log = Logger.getLogger(TwitterAuthServlet.class);
 
@@ -33,12 +34,15 @@ public class TwitterAuthServlet extends HttpServlet {
 		log.info("TwitterAuthServlet::doGet] - START ");
 
 		Twitter twitter = getTwitterApi(request);
-		String redirectUrl = "/userportal/index-template.html#/management/newVirtualentity/sandbox";
+		
+		
 		for (String key : request.getParameterMap().keySet()) {
 			String value = request.getParameter(key);
 			System.err.println("k: " + key + " v: " + value);
 
 		}
+		
+		String redirectUrl = "/";
 
 		try {
 			RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
@@ -51,6 +55,18 @@ public class TwitterAuthServlet extends HttpServlet {
 				String virtualEntityWaiting = request.getParameter(SESSION_KEY_TWITTER_VIRTUAL_ENTITY_WAITING);
 				if (virtualEntityWaiting != null)
 					request.getSession().setAttribute(SESSION_KEY_TWITTER_VIRTUAL_ENTITY_WAITING, virtualEntityWaiting);
+
+				String tenant = request.getParameter("tenant");
+				String virtualentityCode = request.getParameter("virtualentityCode");
+
+				String nextUrl = "/userportal/#/management/newVirtualentity/"+tenant;
+				if("edit".equals(request.getParameter("vitualEntityAction"))){
+					nextUrl = "/userportal/#/management/editVirtualentity/"+tenant+"/"+virtualentityCode;
+				}
+				
+				request.getSession().setAttribute(SESSION_KEY_TWITTER_VIRTUAL_ENTITY_REDIRECT_URL, nextUrl);
+
+				
 				redirectUrl = requestToken.getAuthenticationURL();
 			} else {
 				// coming back from twitter
@@ -69,8 +85,10 @@ public class TwitterAuthServlet extends HttpServlet {
 						request.getSession(true).setAttribute(TwitterUserServlet.SESSION_KEY_TWITTER_USER, twitterUser);
 					}
 					String virtualEntityWaiting = (String) request.getSession().getAttribute(SESSION_KEY_TWITTER_VIRTUAL_ENTITY_WAITING);
+					redirectUrl = (String) request.getSession().getAttribute(SESSION_KEY_TWITTER_VIRTUAL_ENTITY_REDIRECT_URL);
 					if (virtualEntityWaiting != null)
 						redirectUrl += "?" + SESSION_KEY_TWITTER_VIRTUAL_ENTITY_WAITING + "=" + virtualEntityWaiting;
+					request.getSession().removeAttribute(SESSION_KEY_TWITTER_VIRTUAL_ENTITY_REDIRECT_URL);
 					request.getSession().removeAttribute(SESSION_KEY_TWITTER_REQUEST_TOKEN);
 					request.getSession().removeAttribute(SESSION_KEY_TWITTER_VIRTUAL_ENTITY_WAITING);
 				} catch (TwitterException e) {

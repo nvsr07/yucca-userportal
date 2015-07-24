@@ -30,6 +30,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 //		}
 	});
 
+	
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
 	};

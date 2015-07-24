@@ -25,15 +25,19 @@
 		</div>
 	
 	</div>
-	<div class='content-gray'>
+	<div id='topForm' class='content-gray'>
 		<div class='container'>
 			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate>WARNING</span></strong>&nbsp;&nbsp;<span translate>MANAGEMENT_SANDBOX_WARNING</span></div>
 			<p>&nbsp;</p>
 			<div class='row'>
 				<div class="col-sm-10 col-sm-offset-1">
 					<div class="alert alert-danger" ng-show='updateError'>
-						<strong>{{updateError.error_message}}</strong>
-						{{updateError.error_detail}}
+						<strong>{{updateError.error_message|translate}}</strong>
+						{{updateError.error_detail|translate}}
+					</div>
+					<div class="alert alert-warning" ng-show='saveWarning'>
+						<strong><span translate>WARNING</span></strong> 
+						{{saveWarning|translate}}
 					</div>
 					<div class="alert alert-success" ng-show='updateInfo'>
 						<strong><span translate>MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO</span></strong> {{updateInfo.status}}
@@ -72,12 +76,65 @@
 								<textarea class="form-control" rows="2" id="inputVirtualentityDescription" placeholder="{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}" ng-model="virtualentity.virtualEntityDescription"></textarea>
 							</div>
 						</div>	
-						<div class="row card-row" ng-show='virtualentity.twtUsername!=null'>
+						<div class="row card-row"  ng-show='isTwitter()'>
 							<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_TWITTER_USER_NAME</span></strong></div>
-							<div class="col-sm-10">{{virtualentity.twtUsername}}</div>
+							<div class='col-sm-10'>
+								<div ng-show='twitterCredentialLoading'>
+									<div class='ajax-loading'></div>
+								</div>
+								<div ng-show='!twitterCredentialLoading'>
+									<div ng-show='virtualentity.twtUsername!=null'>
+										<img ng-src="{{twtMiniProfileImageURLHttps}}" title='User Twitter' ng-show='twtMiniProfileImageURLHttps!=null'/> 
+										<span class='twitter-username-label'>{{virtualentity.twtUsername}}</span> 
+										<a href ng-click="clearTwitterCredential()" class='btn btn-default btn-sm' translate>MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_CHANGE</a>
+									</div>
+									<div ng-show='virtualentity.twtUsername==null'>
+										<a ng-href='{{twitterAuthUrl()}}' class="btn btn-default">
+											<i class="fa fa-twitter"></i>&nbsp;
+											<span translate>MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGIN</span>
+										</a>
+									</div>
+								</div>
+								<div ng-show="twitterError!=null" class="text-danger">
+									<small><strong translate>WARNING</strong> {{twitterError}}</small>
+								</div>
+							</div>
 						</div>	
-						
-						
+						<div class="row card-row management-virtualentity-update-stream" ng-show="streamsToReinstall!=null">
+							<label class="col-sm-2 control-label"><span translate>MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS</span></label>
+							<div class="col-sm-10 ">
+								<div class="alert alert-warning">
+									<strong><span translate>WARNING</span></strong> 
+									<span translate>MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS_HELP</span>
+								</div>
+								<div ng-show="streamsToReinstall.length==0 && !showLoadingStreams">
+									<span translate>MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS_NO_STREAMS</span>
+								</div>
+								<div class='text-center' ng-show="showLoadingStreams">
+									<span class='ajax-loading-label'>Loading&hellip;</span>
+								</div>
+								<div class='row stream-list' ng-repeat="streamRow in streamsToReinstall">
+									<div class='col-sm-5'>
+										<img ng-src="{{streamRow.stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
+										<span title="{{streamRow.stream.codiceStream|string_ellipse:20}} - {{streamRow.stream.nomeStream|string_ellipse:15}}"><strong>{{streamRow.stream.codiceStream}}</strong> - {{streamRow.stream.nomeStream|string_ellipse:20}}</span>
+									</div>
+									<div class='col-sm-1 col-no-padding'>										
+										<span ng-bind-html="streamRow.stream.statusIcon" title="{{streamRow.stream.deploymentStatusCode|translate}}"></span> {{streamRow.stream.deploymentStatusCode|translate|string_ellipse:8}}
+									</div>
+									<div class='col-sm-6 col-sm-6'>
+										<a href class='btn btn-default btn-sm' ng-click='reinstallStream(streamRow)' ng-disabled="streamRow.isUpdating || streamRow.stream.deploymentStatusCode!=STREAM_STATUS_INST">
+											<span class="glyphicon glyphicon-save "></span> <span translate>MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON</span>
+										</a>
+										<a  href class='btn btn-default btn-sm' ng-click='unInstallStream(streamRow)' ng-disabled="streamRow.isUpdating || streamRow.stream.deploymentStatusCode!=STREAM_STATUS_INST">
+											<span class="glyphicon glyphicon-open "></span> <span translate>MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON</span>
+										</a>
+										<i class="fa fa-check text-success" ng-show='streamRow.updateOk'></i>
+										<i class="fa fa-times text-danger" ng-show='streamRow.updateKo'></i>
+										<span class="ajax-loading" ng-show='streamRow.isUpdating'></span>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div ng-show="isDevice()">
 							<div class='form-label-separator'><span translate>MANAGEMENT_EDIT_VIRTUALENTITY_COLLOCATION</span></div>
 							<div class="form-group">
@@ -114,7 +171,7 @@
 									<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_PATTERN_FLOAT_TOOLTIP'|translate}}"
 										ng-show="updateVirtualentityForm.inputVirtualentityElevation.$error.pattern && updateVirtualentityForm.inputVirtualentityElevation.$dirty"></span>
 								</div>
-							</div>		
+							</div>									
 							<div class="form-group  has-feedback">
 								<label for="RadioGroupEsposition" class="col-sm-2 control-label"><span translate>VIRTUALENTITY_FIELD_ESPOSITION</span></label>
 								<div class="col-sm-10">
@@ -178,7 +235,7 @@
 						<div class="row">
 							<div class=" col-sm-12 form-toolbar"  ng-show="isAuthorized('management/smartobjects/update')" >
 								<a  href='#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}' class="btn"><span translate>MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON</span></a>
-								<a  ng-click='updateVirtualentity()'  class="btn btn-default" ng-disabled="!isOwner() && editVirtualentityForm.$invalid"><span translate>MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON</span></a>
+								<a  ng-click='save()'  class="btn btn-default" ng-disabled="!isOwner() && editVirtualentityForm.$invalid"><span translate>MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON</span></a>
 							</div>
 						</div>
 					</form>

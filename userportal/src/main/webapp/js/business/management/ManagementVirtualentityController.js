@@ -286,6 +286,8 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 
 appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$location', function($scope, $routeParams, fabricAPIservice, info, $location) {
 	$scope.tenantCode = $routeParams.tenant_code;
+	
+	$scope.changeTwitterUser = false;
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
@@ -352,7 +354,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	};
 
 	$scope.isTwitter = function() {
-		console.log("isTwitter",$scope.virtualentity.idTipoVe);
+		//console.log("isTwitter",$scope.virtualentity.idTipoVe);
 		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe == null)
 			return false;
 		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
@@ -474,22 +476,39 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	
 	$scope.loadVirtualentity = function(){
 		if(!$scope.isNewVirtualentity){
-			fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.entity_code).success(function(response) {
-				$scope.virtualentity = response.virtualEntities.virtualEntity;
-				if(!$scope.virtualentity.virtualEntityPositions)
-					$scope.virtualentity.virtualEntityPositions = {};
-				$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
-				if($scope.virtualentity.virtualEntityPositions.position.length == 0){
-					$scope.virtualentity.virtualEntityPositions.position.push({});
-					$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
-					$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
+			
+			var editVirtualentity = $location.search().virtualEntityInSession;
+			
+			if(editVirtualentity && editVirtualentity!=null){
+				$scope.virtualentity  = JSON.parse(decodeURI(editVirtualentity));
+				if($scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+					console.log("loadTwitterCredential",loadTwitterCredential);
+					loadTwitterCredential();
 				}
-				Helpers.util.cleanNilInField($scope.virtualentity);
-				//selectedType = $scope.virtualentity.idTipoVe;
-			});
+				$scope.changeTwitterUser =  true;
+
+			}
+			else{
+				fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.entity_code).success(function(response) {
+					$scope.virtualentity = response.virtualEntities.virtualEntity;
+					if(!$scope.virtualentity.virtualEntityPositions)
+						$scope.virtualentity.virtualEntityPositions = {};
+					$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
+					if($scope.virtualentity.virtualEntityPositions.position.length == 0){
+						$scope.virtualentity.virtualEntityPositions.position.push({});
+						$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+						$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
+					}
+					if($scope.virtualentity.twtIdUser == 0)
+						$scope.virtualentity.twtIdUser = null;
+						
+					Helpers.util.cleanNilInField($scope.virtualentity);
+				});
+			}
+
 		}
 		else {
-			var newVirtualentity = $location.search().newVirtualentity;
+			var newVirtualentity = $location.search().virtualEntityInSession;
 			console.log("newVirtualentity", newVirtualentity);
 			if(newVirtualentity && newVirtualentity!=null){
 				//var newVirtualentityObj = JSON.parse(decodeURI(newVirtualentity));
@@ -532,16 +551,16 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.saveWarning = null;
 	$scope.save = function(){
 		$scope.saveWarning = null;
-		if($scope.isNewVirtualentity){
-			$scope.saveWarning = null;
-			if(!isTwitterOk()){
-				$scope.saveWarning = 'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR';
+		if(!isTwitterOk()){
+			$scope.saveWarning = 'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR';
+		}
+		else{
+			if($scope.isNewVirtualentity){
+				$scope.createVirtualentity($scope.virtualentity);
 			}
 			else
-				$scope.createVirtualentity($scope.virtualentity);
+				$scope.updateVirtualentity();
 		}
-		else
-			$scope.updateVirtualentity();
 	};
 
 	$scope.cancel = function(){    
@@ -597,12 +616,13 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		});
 	};	
 
+
 	
 	
 	$scope.updateVirtualentity = function() {
 		$scope.updateInfo = null;
 		$scope.updateError = null;
-		Helpers.util.scrollTo();
+		Helpers.util.scrollTo("topForm");
 
 		var newVirtualentity = new Object();
 		// FIXME remove when api will be updated
@@ -619,16 +639,29 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
 
 		}
+		
+		if($scope.virtualentity.twtIdUser == 0)
+			$scope.virtualentity.twtIdUser = null;
 
 		newVirtualentity.virtualEntity =  $scope.virtualentity;
 		console.log("newVirtualentity", newVirtualentity);
+		console.log("$scope.changeTwitterUser", $scope.changeTwitterUser);
 		var promise   = fabricAPIservice.updateVirtualentity(newVirtualentity);
 		promise.then(function(result) {
 			console.log("result qui ", result);
 			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
 			$scope.updateInfo = {status: result.status};
+			if($scope.changeTwitterUser ){
+				$scope.loadStreams();
+			}
+			else
+				$scope.changeTwitterUser = false;
+
 		}, function(result) {
 			$scope.updateError = angular.fromJson(result.data);
+			$scope.updateError.error_message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
+			if($scope.updateError && $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
+				$scope.updateError.error_detail =  'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL';
 			console.log("result.data ", result.data);
 		}, function(result) {
 			console.log('Got notification: ' + result);
@@ -636,9 +669,17 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 
 	};	
-	
+
 	$scope.twitterAuthUrl =  function() {
-		return Constants.API_SERVICES_TWITTER_AUTH_URL+"?newVirtualentity="+encodeURI(JSON.stringify($scope.virtualentity));
+		var vitualEntityAction = "new";
+		var virtualentityCode = "";
+		if(!$scope.isNewVirtualentity){
+			vitualEntityAction = "edit";
+			virtualentityCode = $routeParams.entity_code;
+		}
+		
+		return Constants.API_SERVICES_TWITTER_AUTH_URL+"?vitualEntityAction="+ vitualEntityAction +"&tenant=" + $scope.tenantCode + "&virtualentityCode=" + virtualentityCode  +
+				"&virtualEntityInSession="+encodeURI(JSON.stringify($scope.virtualentity));
 	};
 	
 	$scope.twitterError = null;
@@ -659,7 +700,89 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$scope.twitterError = data.message;
 		});
 	};
+	
+	$scope.streamsToReinstall = null;
+
+	$scope.STREAM_STATUS_INST = Constants.STREAM_STATUS_INST;
+	$scope.loadStreams = function(){
+		$scope.showLoadingStreams = true;
+		$scope.streamsToReinstall = [];
+		fabricAPIservice.getVisibleStreams().then(function(response) {
+			console.log("loadStreams",response);
+			$scope.showLoadingStreams = false;
+			var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+			for (var i = 0; i < responseList.length; i++) {
+				console.log("responseList",responseList[i].deploymentStatusCode,responseList[i].codiceVirtualEntity,$routeParams.entity_code);
+				if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST  && responseList[i].codiceVirtualEntity ==  $routeParams.entity_code){
+					responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
+					if(!responseList[i].streamIcon || responseList[i].streamIcon == null){
+						responseList[i].streamIcon  = "img/stream-icon-default.png";
+					}
+					var streamRow = {};
+					streamRow.stream = responseList[i];
+					streamRow.rowIndex = i;
+					streamRow.updateOk = false;
+					streamRow.updateKo = false;
+					streamRow.isUpdating = false;
+					$scope.streamsToReinstall.push(streamRow);					
+				}
+			}			
+		});
+	};
 
 	
 	
-} ]);
+	$scope.unInstallStream = function(streamRow){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST,streamRow, false);
+	};
+
+	$scope.reinstallStream = function(streamRow){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION,streamRow, true);
+	};
+
+	
+	var updateLifecycle = function(action,streamRow, install) {
+		console.log("updateLifecycle stream", streamRow);
+		console.log("updateLifecycle action", action);
+		streamRow.isUpdating = true;
+		var promise   = fabricAPIservice.lifecycleStream(action, streamRow.stream);
+		promise.then(function(result) {
+			console.log("result updateLifecycle ", result);
+			$scope.updateInfo = {status: result.status};
+			streamRow.updateOk=true;
+			streamRow.updateKo = false;
+			streamRow.isUpdating = false;
+			$scope.refreshStream(streamRow, install);
+			
+		}, function(result) {
+			console.log("result error ", result);
+			//$scope.updateError = angular.fromJson(result.data);
+
+			streamRow.updateOk=false;
+			streamRow.updateKo = true;
+			streamRow.isUpdating = false;
+			$scope.refreshStream(streamRow);
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
+	};
+	
+	$scope.refreshStream = function(streamRow, install){
+			fabricAPIservice.getStream(streamRow.stream.codiceTenant, streamRow.stream.codiceVirtualEntity, streamRow.stream.codiceStream).then(function(response) {
+				console.log("loadStream",response.streams.stream);
+				
+				if(! response.streams.stream.streamIcon ||  response.streams.stream.streamIcon == null)
+					 response.streams.stream.streamIcon  = "img/stream-icon-default.png";
+	
+				if(! response.streams.stream.deploymentStatusCode ||  response.streams.stream.deploymentStatusCode == null)
+					 response.streams.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
+				response.streams.stream.statusIcon = Helpers.stream.statusIcon(response.streams.stream);
+
+				streamRow.stream = response.streams.stream;
+				$scope.streamsToReinstall[streamRow.rowIndex] =  streamRow;
+				if(install)
+					updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST,streamRow, false);
+			});
+	};
+
+}]);

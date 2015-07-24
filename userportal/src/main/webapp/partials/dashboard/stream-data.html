@@ -79,8 +79,8 @@
 								<h4><span translate>DASHBOARD_STREAM_DATA_LAST_TWEET_TITLE</span></h4>
 								<div class='tweets-container'>
 									<div class='tweet-panel' ng-repeat="tweet in tweetData" ng-click="showTweetDetail(tweet)">
-										<div><strong></strong></div>
-										<p ng-bind-html="tweet.messagePretty"></p>
+										<div><strong>{{tweet.components.userName}}</strong></div>
+										<p ng-bind-html="tweet.components.getText|prettifyTweet"></p>
 										<div class='clearfix tweet-info'>
 											<div class='pull-left tweet-statistic-icons'>
 												<i class="fa fa-retweet" ng-class="{'tweet-retweet': tweet.components.retweetCount>0}"></i> <span>{{tweet.components.retweetCount}}</span>
@@ -99,6 +99,12 @@
 											<div class='col-sm-3'><strong>{{key}}</strong></div>
 											<div class='col-sm-9' ng-bind-html="value|prettifyTweet"></div>
 										</div>
+									</div>
+									<p>&nbsp;</p>
+									<div class='text-center' ng-show="tweetDetail!=null">
+										<a href='https://twitter.com/{{tweetDetail.components.userScreenName}}/status/{{tweetDetail.components.tweetid}}' class='btn btn-twitter' target='_blank'>
+											<i class="fa fa-twitter"></i> <span translate>DASHBOARD_STREAM_VIEW_ON_TWITTER_BUTTON</span>
+										</a>
 									</div>
 								</div>
 							</div>

@@ -68,11 +68,12 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 } ]);
 
 
-appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice', function($scope,info, fabricAPIservice, filterFilter) {
+appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice','$translate', function($scope,info, fabricAPIservice, $translate) {
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
 	$scope.tenantsFilter = null;
 	$scope.codeFilter = null;
+	$scope.statusFilter = $translate.instant(Constants.STREAM_STATUS_INST);
 	$scope.tenantCode = info.getActiveTenantCode();
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
@@ -91,11 +92,14 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 		$scope.showLoading = false;
 		
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+
 		for (var i = 0; i < responseList.length; i++) {
+			if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
+				responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
+			responseList[i].deploymentStatusCodeTranslated =  $translate.instant(responseList[i].deploymentStatusCode);
 			console.debug("responseList[i].visibility : ",responseList[i].visibility,responseList[i].codiceTenant);
-				$scope.streamsList.push(responseList[i]);					
+			$scope.streamsList.push(responseList[i]);					
 		}
-	
 		
 //		$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < $scope.streamsList.length; i++) {
@@ -118,11 +122,7 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 
 	$scope.$watch('tenantsFilter', function(newTenant) {
 		$scope.currentPage = 1;
-
-		// $scope.filteredStreamsList = $filter('filter')($scope.streamsList,
-		// $scope.tenant);
 		$scope.totalItems = $scope.filteredStreamsList.length;
-		console.log("newTenant", newTenant);
 	});
 	
 	$scope.searchCodeFilter = function(stream) {
@@ -132,12 +132,20 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 
 	$scope.$watch('codeFilter', function(newCode) {
 		$scope.currentPage = 1;
-
-		// $scope.filteredStreamsList = $filter('filter')($scope.streamsList,
-		// $scope.tenant);
 		$scope.totalItems = $scope.filteredStreamsList.length;
-		console.log("newCode", newCode);
 	});
+	
+	$scope.searchStatusFilter = function(stream) {
+		var keyword = new RegExp($scope.statusFilter, 'i');
+		console.log("searchStatusFilter",keyword,stream);
+		return !$scope.statusFilter || keyword.test(stream.deploymentStatusDesc) || keyword.test(stream.deploymentStatusCodeTranslated);
+	};
+
+	$scope.$watch('statusFilter', function(newStatus) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredStreamsList.length;
+	});
+
 
 } ]);
 
@@ -512,9 +520,12 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			if(discoveryResultList.length >0){
 				var apiCode  = discoveryResultList[0].Dataset.datasetCode;
 				// call oData service to retrieve  the last 30 data
-
-				odataAPIservice.getStreamData(apiCode, 0, maxNumData, 'time%20desc').success(function(response) {
-					console.log("odataAPIservice.getStreamData",response);
+				var collection = 'Measures';
+				if($scope.isTwitter){
+					collection = 'SocialFeeds';
+				}
+				odataAPIservice.getStreamData(apiCode, 0, maxNumData, 'time%20desc',collection).success(function(response) {
+					console.log("odataAPIservice.getStreamData",response, collection);
 					var oDataResultList = response.d.results;
 					if(oDataResultList.length >0){
 						for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
@@ -532,8 +543,11 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 						$scope.updateChart();
 						if($scope.isTwitter){
 							for (var tweetIndex = 0; tweetIndex  < maxNumTweet; tweetIndex++) {
-								if(tweetIndex<allData.length)
-									$scope.tweetData.push(allData[tweetIndex]);
+								if(tweetIndex<allData.length){
+									var tweet  = {};
+									tweet.components = allData[tweetIndex].data;
+									$scope.tweetData.push(tweet);
+								}
 							}
 							console.log("$scope.tweetData", $scope.tweetData);
 						}		
@@ -568,7 +582,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	$scope.updateTweet = function(lastTweet){
 		if($scope.isTwitter){
 			console.log("updateTweet lastTweet",lastTweet);
-			lastTweet.messagePretty = Helpers.render.prettifyTwitterMessage(lastTweet.components.getText);
+			//lastTweet.messagePretty = Helpers.render.prettifyTwitterMessage(lastTweet.components.getText);
 			//$scope.tweetDetail = lastTweet;
 			$scope.tweetData.push(lastTweet);
 			if($scope.tweetData.length>maxNumTweet)

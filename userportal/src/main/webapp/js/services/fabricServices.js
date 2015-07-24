@@ -40,6 +40,34 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 
+	
+	fabricAPI.getStreamsByVirtualentity = function(tenant_code, virtualentity_code) {
+		console.log("getStreamsByVirtualentity",tenant_code, virtualentity_code);
+		var deferred = $q.defer();
+		fabricAPI.getInfo().success(function(infoData){
+			console.debug(infoData);
+			var streamsUrl = '';
+			if(tenant_code)
+				streamsUrl = tenant_code + '/';
+			streamsUrl += virtualentity_code + '/';
+	
+			streamsUrl += '?visibleFrom=sandbox';
+			if(infoData.user.activeTenant!=undefined)
+				streamsUrl += '?visibleFrom='+infoData.user.activeTenant;			
+			else
+				streamsUrl += '?visibleFrom=sandbox';
+
+			console.log("url",  Constants.API_SERVICES_STREAM_URL + streamsUrl  + '&callback=JSON_CALLBACK');
+			
+			 $http({
+				method : 'JSONP',
+				url : Constants.API_SERVICES_STREAM_URL + streamsUrl  + '&callback=JSON_CALLBACK'
+			});
+		});
+		
+		return deferred.promise;
+	};
+
 	fabricAPI.getVisibleStreams = function() {
 		
 		var deferred = $q.defer();

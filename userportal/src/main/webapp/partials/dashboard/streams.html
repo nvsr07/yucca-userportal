@@ -16,6 +16,9 @@
 								<input type="text" class="form-control col-xs-2" ng-model="tenantsFilter" placeholder="{{'STREAM_LIST_TENANT_FILTER'|translate}}" />
 							</div>
 							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'STREAM_LIST_STATUS_FILTER'|translate}}" />
+							</div>
+							<div class="form-group">
 								<input type="text" class="form-control col-xs-2" ng-model="codeFilter" placeholder="{{'STREAM_LIST_CODE_FILTER'|translate}}" />
 							</div>
 						</form>
@@ -66,7 +69,7 @@
 								</td>
 							</tr>
 							
-							<tr ng-repeat="stream in filteredStreams = (streamsList | filter: searchCodeFilter | filter: searchTenantsFilter|  orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
+							<tr ng-repeat="stream in filteredStreams = (streamsList | filter: searchCodeFilter | filter: searchTenantsFilter|  filter: searchStatusFilter|  orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 								<td>{{stream.nomeTenant}}</td>
 								<td class='text-left'>
 									<a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">

@@ -1,6 +1,7 @@
 
 
-appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
+appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', '$translate', 
+                                                        function($scope, $route, $location, fabricAPIservice, info,  $translate) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 
 	$scope.streamsList = [];
@@ -13,7 +14,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.streamsList.length;
 	$scope.predicate = '';
-
+	
 	console.log("isOwner", info.isOwner( $scope.tenantCode));
 
 	$scope.isOwner = function(){
@@ -29,11 +30,12 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 			if(responseList[i].codiceTenant == $scope.tenantCode){
 				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
 					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
+				responseList[i].deploymentStatusCodeTranslated =  $translate.instant(responseList[i].deploymentStatusCode);
+				
 				responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
 				if(!responseList[i].streamIcon || responseList[i].streamIcon == null){
 					responseList[i].streamIcon  = "img/stream-icon-default.png";
 				}
-
 				$scope.streamsList.push(responseList[i]);
 			}
 
@@ -57,19 +59,17 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 	$scope.searchStatusFilter = function(stream) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(stream.deploymentStatusDesc);
+		return !$scope.statusFilter || keyword.test(stream.deploymentStatusDesc) || keyword.test(stream.deploymentStatusCodeTranslated);
 	};
 
 	$scope.$watch('codeFilter', function(newCode) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredStreamsList.length;
-		console.log("newCode", newCode);
 	});
 
 	$scope.$watch('statusFilter', function(newStatus) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredStreamsList.length;
-		console.log("newStatus", newStatus);
 	});
 
 	$scope.selectedStreams = [];

@@ -426,6 +426,7 @@ var translations_en = {
 	DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE: 'Detailed information', 
 	DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE: 'Sharing information', 
 	DASHBOARD_STREAM_TWITTER_INFO_TITLE: 'Twitter Configuration', 
+	DASHBOARD_STREAM_VIEW_ON_TWITTER_BUTTON: 'Look on Twitter', 
 
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistics', 
 	
@@ -580,6 +581,7 @@ var translations_en = {
 	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT: 'Only for device', 
 	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGIN: 'Login Twitter',
 	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGOUT: 'Logout',
+	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_CHANGE: 'Change Twitter User', 
 	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR: 'To create a Feed Tweet smart object type you have login to Twitter to specify the Twitter user used',
 	
 	/* Management edit Virtual Entity  */
@@ -591,6 +593,10 @@ var translations_en = {
 	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Additional Info',
 	MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON: 'Finish Editing',
 	MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON: 'Save',
+	
+	MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS: 'Installed Stream',
+	MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS_HELP: 'To activate the change of the user Twitter is necessary to reinstall stream',
+	MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS_NO_STREAMS: 'There are no streams installed related to this Smart Object',
 
 	MANAGEMENT_VIEW_VIRTUALENTITY_HISTORICAL_BUTTON: 'Historical',
 	MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON: 'Delete',

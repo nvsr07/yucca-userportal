@@ -85,6 +85,7 @@ var translations_it = {
 	STREAM_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	
 	STREAM_FIELD_TWT_QUERY: 'Query di ricerca',
+	STREAM_FIELD_TWT_GEO: 'Geolocalizzazione',
 	STREAM_FIELD_TWT_GEO_LON: 'Longitudine',
 	STREAM_FIELD_TWT_GEO_LAT: 'Latitudine',
 	STREAM_FIELD_TWT_GEO_RADIUS: 'Raggio',
@@ -425,6 +426,7 @@ var translations_it = {
 	DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE: 'Informazioni di Dettaglio', 
 	DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE: 'Informazioni di Condivisione', 
 	DASHBOARD_STREAM_TWITTER_INFO_TITLE: 'Configurazione Twitter', 
+	DASHBOARD_STREAM_VIEW_ON_TWITTER_BUTTON: 'Guarda su Twitter', 
 
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistiche', 
 	
@@ -579,6 +581,7 @@ var translations_it = {
 	MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT: 'Solo per i device', 
 	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGIN: 'Accedi a Twitter',
 	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGOUT: 'Logout',
+	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_CHANGE: 'Cambia Utente Twitter', 
 	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR: 'Per creare uno smart object di tipo Feed Tweet bisogna accedere a Twitter per specificare l\'utente Twitter da utlizzizzare',
 	
 	/* Management edit Virtual Entity  */
@@ -590,6 +593,10 @@ var translations_it = {
 	MANAGEMENT_EDIT_VIRTUALENTITY_OTHER_INFO: 'Informazioni Aggiuntive',
 	MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON: 'Fine modifica',
 	MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON: 'Salva',
+	
+	MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS: 'Stream installati',
+	MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS_HELP: 'Per rendere operativa la modifica dell\'utente Twitter e\' necessario reinstallare gli stream',
+	MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS_NO_STREAMS: 'Non sono presenti stream installati legati a questo Smart Object',
 
 	MANAGEMENT_VIEW_VIRTUALENTITY_HISTORICAL_BUTTON: 'Versioni storicizzate',
 	MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON: 'Elimina',
@@ -620,6 +627,7 @@ var translations_it = {
 	MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE: "Errore durante la creazione dello Smart Object", 
 	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL: "Verificare di non aver gia' utilizzato questo account Twitter. E' possibile creare un solo Smart Object per account Twitter", 
 
+	
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Crea',

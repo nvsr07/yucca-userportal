@@ -21,9 +21,6 @@
 					<form class="form-inline" role="form">
 						<div class="form-group">
 							<div class="form-group">
-								<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'VIRTUALENTITY_LIST_STATUS_FILTER'|translate}}" />
-							</div>
-							<div class="form-group">
 								<input type="text" class="form-control col-xs-2" ng-model="codeFilter" placeholder="{{'VIRTUALENTITY_LIST_CODE_FILTER'|translate}}" />
 							</div>
 						</div>
@@ -55,21 +52,10 @@
 							
 							</th>
 							<th>
-								<a href="" ng-click="predicate = 'streamsCount'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_STREAMS_COUNT</span> 
-								<span ng-show="predicate=='streamsCount' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='streamsCount' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-							
-							</th>
-							<th>
 								<a href="" ng-click="predicate = 'creationDate'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_CREATION_DATE</span> 
 								<span ng-show="predicate=='creationDate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 								<span ng-show="predicate=='creationDate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 							
-							</th>
-							<th>
-								<a href="" ng-click="predicate = 'deploymentStatusDesc'; reverse=!reverse"><span translate>VIRTUALENTITY_FIELD_STATUS</span> 
-								<span ng-show="predicate=='deploymentStatusDesc' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='deploymentStatusDesc' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 							</th>
 						</tr>
 					</thead>
@@ -82,14 +68,12 @@
 								</div>
 							</td>
 						</tr>
-						<tr ng-repeat="virtualentity in filteredVirtualentitiesList = ( virtualentitiesList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse  )  |startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+						<tr ng-repeat="virtualentity in filteredVirtualentitiesList = ( virtualentitiesList | filter: searchCodeFilter | orderBy:predicate:reverse  )  |startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
 							<td><input type="checkbox" name="selected" ng-checked="isSelected(virtualentity)"  ng-click="updateSelection($event, virtualentity)" ng-show="!isInternal(virtualentity)"/>
 							<td><a href="#/management/viewVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}">{{virtualentity.codeVirtualEntity}}</a></td>
 							<td>{{virtualentity.virtualEntityName}}</td>
 							<td>{{virtualentity.tipoVirtualEntity}}</td>
-							<td># TBD</td>
 							<td>{{virtualentity.creationDate|clearNil|date}}</td>
-							<td>{{virtualentity.deploymentStatusDesc}}</td>
 						</tr>
 					</tbody>
 				</table>
