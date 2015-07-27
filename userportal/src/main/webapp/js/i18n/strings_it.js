@@ -208,6 +208,7 @@ var translations_it = {
 	DATASET_FIELD_CONFIGDATA_TYPE: 'Tipo',
 	DATASET_FIELD_CONFIGDATA_SUBTYPE: 'Sottotipo',
 	DATASET_FIELD_CONFIGDATA_DATAVERSION: 'Versione',
+	DATASET_FIELD_CONFIGDATA_DELETED: 'Disintallato',
 	DATASET_FIELD_METADATA_NAME: 'Nome',
 	DATASET_FIELD_METADATA_DESCRIPTION: 'Descrizione',
 	DATASET_FIELD_METADATA_DISCLAIMER: 'Restrizioni contenute in licenza',
@@ -480,7 +481,8 @@ var translations_it = {
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM : 'Elimina',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo stream',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'Per abilitare l\'eliminazione selezionare almeno uno stream',
-	
+	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED : 'Mostra Disisntallati',
+
 	/* view stream */
 	MANAGEMENT_VIEW_STREAM: 'Stream',
 	MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON: 'Richiedi Installazione',
@@ -610,6 +612,8 @@ var translations_it = {
 	MANAGEMENT_DATASET_LIST_EDIT_DATASET: 'Modifica',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'Per abilitare la cancellazione selezionare almeno un Dataset',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET: 'Cancella',
+	MANAGEMENT_DATASET_LIST_SHOW_UNINSTALLED : 'Mostra Disisntallati',
+
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Scarica',

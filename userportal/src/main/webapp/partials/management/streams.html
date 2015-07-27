@@ -21,6 +21,12 @@
 					<div class="btn-group pull-right">
 						<form class="form-inline" role="form">
 							<div class="form-group">
+								<label class="checkbox inline">
+	   								<input type="checkbox" class="form-control col-xs-2" ng-model="viewUnistalledCheck">
+									<span translate>MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED&nbsp;</span>
+								</label>
+							</div>
+							<div class="form-group">
 								<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'STREAM_LIST_STATUS_FILTER'|translate}}" />
 							</div>
 							<div class="form-group">
@@ -74,7 +80,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchStatusFilter|  orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchStatusFilter| filter: viewUnistalledFilter| orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/>
 								<td class='text-left'>
 									<a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">

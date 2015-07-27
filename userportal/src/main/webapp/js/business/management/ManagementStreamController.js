@@ -10,6 +10,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.statusFilter = null;
 	$scope.showLoading = true;
 
+
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.streamsList.length;
@@ -61,6 +62,20 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		var keyword = new RegExp($scope.statusFilter, 'i');
 		return !$scope.statusFilter || keyword.test(stream.deploymentStatusDesc) || keyword.test(stream.deploymentStatusCodeTranslated);
 	};
+
+	$scope.viewUnistalledFilter = function(stream) {
+		if(!$scope.viewUnistalledCheck){
+			var keyword = new RegExp(Constants.STREAM_STATUS_UNINST, 'i');
+			return !keyword.test(stream.deploymentStatusDesc);
+		}
+		else
+			return true;
+	};
+	
+	$scope.$watch('viewUnistalledCheck', function(newCode) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredStreamsList.length;
+	});
 
 	$scope.$watch('codeFilter', function(newCode) {
 		$scope.currentPage = 1;
