@@ -541,6 +541,8 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_TWITTER_DATA: 'Twitter Data',
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK: 'Verify query',		
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_RESPONSE: 'Verify query',		
+	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_OK_NO_MESSAGE: 'The query is valid, but have not been returned no results',
+	MANAGEMENT_EDIT_STREAM_TWT_POLLING_HELP: 'The polling interval depends on the number of streams configurated in the creation of smart objects and the limits imposed by the Twitter API',
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
