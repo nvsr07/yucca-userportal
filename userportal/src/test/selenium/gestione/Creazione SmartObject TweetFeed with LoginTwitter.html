@@ -52,53 +52,63 @@
 	<td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>//input[@type='text']</td>
-	<td>Mio</td>
-</tr>
-<tr>
 	<td>click</td>
-	<td>link=aaMio</td>
+	<td>link=Crea nuovo Smart Object</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>link=Modifica</td>
-	<td></td>
+	<td>assertText</td>
+	<td>css=div.pull-left &gt; h3 &gt; span.ng-scope</td>
+	<td>Registra lo Smart Object</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>id=inputVirtualentityName</td>
-	<td>nomeTestMod</td>
+	<td>select</td>
+	<td>id=inputType</td>
+	<td>Feed Tweet</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>id=inputVirtualentityDescription</td>
-	<td>descrTestMod</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Cambia Utente Twitter</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
+	<td>clickAtAndWait</td>
 	<td>link=Accedi a Twitter</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
+	<td>type</td>
+	<td>name=session[username_or_email]</td>
+	<td>tophans@gmail.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=session[password]</td>
+	<td>Mappa..3e</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=allow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputTwtMaxStreams</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityCode</td>
+	<td>aaMio</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityName</td>
+	<td>nomeTest</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityDescription</td>
+	<td>descrTest</td>
+</tr>
+<tr>
+	<td>clickAt</td>
 	<td>link=Salva</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyElementPresent</td>
-	<td>//div[2]/div/div[2]/div/div[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Fine modifica</td>
 	<td></td>
 </tr>
 </tbody></table>
