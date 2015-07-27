@@ -21,7 +21,7 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 	$scope.actions = Constants.STREAM_ACTIONS;
 	
 	
-	fabricAPIservice.getVisibleStreams().success(function(response) {
+	fabricAPIservice.getStreams().success(function(response) {
 		$scope.showLoading = false;
 		console.log("response",response);
 

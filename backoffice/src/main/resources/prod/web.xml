@@ -13,7 +13,7 @@
 		<servlet-name>AuthorizeServlet</servlet-name>
 		<init-param>
 			<param-name>Issuer</param-name>
-			<param-value>userportal</param-value>
+			<param-value>backoffice</param-value>
 		</init-param>
 		<init-param>
 			<param-name>IdpUrl</param-name>
@@ -21,11 +21,11 @@
 		</init-param>
 		<init-param>
 			<param-name>ConsumerUrl</param-name>
-			<param-value>http://userportal.smartdatanet.it/userportal/api/authorize</param-value>
+			<param-value>http://sdnet-intapi.sdp.csi.it:90/backoffice/api/authorize</param-value>
 		</init-param>
 		<init-param>
 			<param-name>AttributeConsumingServiceIndex</param-name>
-			<param-value>599201868</param-value>
+			<param-value>92604097</param-value>
 		</init-param>
 		<init-param>
 			<param-name>IdpLoginPageStylePath</param-name>
