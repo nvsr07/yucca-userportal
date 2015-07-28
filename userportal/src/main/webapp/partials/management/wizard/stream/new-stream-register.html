@@ -22,7 +22,7 @@
            		  ng-options="virtualEntity.codeVirtualEntity as virtualEntity.virtualEntityName group by virtualEntity.tipoVirtualEntity for virtualEntity in virtualEntitiesList" ng-required="true" >
            			<option value="" class='mute'>{{'MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER'|translate}}</span></option>
            		</select>
-				<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'VALIDATION_MAX_STREAM_TWITTER_TOOLTIP'|translate}}"
+				<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon error-validation-icon-select' title="{{'VALIDATION_MAX_STREAM_TWITTER_TOOLTIP'|translate}}"
 					ng-show="forms.registerStreamForm.inputVirtualEntity.$error.streamCount  && forms.registerStreamForm.inputVirtualEntity.$dirty"></span>
 			</div>
 		</div>
