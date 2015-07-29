@@ -65,7 +65,7 @@ public class TwitterQueryServlet extends HttpServlet {
 			Properties config = Config.loadServerConfiguration();
 			String webserviceUrl = config.getProperty(Config.TWITTER_POLLER_URL_KEY);
 			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, null, null, xmlInput, SOAPAction, "text/xml");
-			
+
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			dbf.setNamespaceAware(true);
 
@@ -105,13 +105,16 @@ public class TwitterQueryServlet extends HttpServlet {
 		String errorMessage = null;
 
 		TwitterMessage twitterMessage = new TwitterMessage();
-		//NodeList invokeTwitterResponse = doc.getElementsByTagName("ns:invokeTwitterResponse");
-		//NodeList invokeTwitterResponse = doc.getElementsByTagNameNS("http://twitterpoller.yucca.csi.org", "invokeTwitterResponse");
+		// NodeList invokeTwitterResponse =
+		// doc.getElementsByTagName("ns:invokeTwitterResponse");
+		// NodeList invokeTwitterResponse =
+		// doc.getElementsByTagNameNS("http://twitterpoller.yucca.csi.org",
+		// "invokeTwitterResponse");
 
-		NodeList invokeTwitterResponse  = doc.getFirstChild().getFirstChild().getFirstChild().getChildNodes();
+		NodeList invokeTwitterResponse = doc.getFirstChild().getFirstChild().getFirstChild().getChildNodes();
 
 		if (invokeTwitterResponse != null && invokeTwitterResponse.getLength() > 0) {
-			
+
 			for (int i = 0; i < invokeTwitterResponse.item(0).getChildNodes().getLength(); i++) {
 				Node item = invokeTwitterResponse.item(0).getChildNodes().item(i);
 
@@ -139,8 +142,7 @@ public class TwitterQueryServlet extends HttpServlet {
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 									&& "contributors".equals(element.getLocalName()))
 								twitterMessage.setContributors(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "createdAt".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "createdAt".equals(element.getLocalName()))
 								twitterMessage.setCreatedAt(element.getTextContent());
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 									&& "currentUserRetweetId".equals(element.getLocalName()))
@@ -148,14 +150,11 @@ public class TwitterQueryServlet extends HttpServlet {
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 									&& "favoriteCount".equals(element.getLocalName()))
 								twitterMessage.setFavoriteCount(new Integer(element.getTextContent()));
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "favorited".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "favorited".equals(element.getLocalName()))
 								twitterMessage.setFavorited(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "getText".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "getText".equals(element.getLocalName()))
 								twitterMessage.setGetText(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "hashTags".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "hashTags".equals(element.getLocalName()))
 								twitterMessage.setHashTags(element.getTextContent());
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "lang".equals(element.getLocalName()))
 								twitterMessage.setLang(element.getTextContent());
@@ -165,20 +164,16 @@ public class TwitterQueryServlet extends HttpServlet {
 								twitterMessage.setLon(new Double(element.getTextContent()));
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "media".equals(element.getLocalName()))
 								twitterMessage.setMedia(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "mediaCnt".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "mediaCnt".equals(element.getLocalName()))
 								twitterMessage.setMediaCnt(new Integer(element.getTextContent()));
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "mediaUrl".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "mediaUrl".equals(element.getLocalName()))
 								twitterMessage.setMediaUrl(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "placeName".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "placeName".equals(element.getLocalName()))
 								twitterMessage.setPlaceName(element.getTextContent());
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 									&& "possiblySensitive".equals(element.getLocalName()))
 								twitterMessage.setPossiblySensitive(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "retweet".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "retweet".equals(element.getLocalName()))
 								twitterMessage.setRetweet(element.getTextContent());
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 									&& "retweetCount".equals(element.getLocalName()))
@@ -186,30 +181,33 @@ public class TwitterQueryServlet extends HttpServlet {
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 									&& "retweetedByMe".equals(element.getLocalName()))
 								twitterMessage.setRetweetedByMe(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "source".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "source".equals(element.getLocalName()))
 								twitterMessage.setSource(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "truncated".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "truncated".equals(element.getLocalName()))
 								twitterMessage.setTruncated(element.getTextContent());
-							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-									&& "tweetid".equals(element.getLocalName()))
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "tweetid".equals(element.getLocalName()))
 								twitterMessage.setTweetid(element.getTextContent());
 							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "url".equals(element.getLocalName()))
 								twitterMessage.setUrl(element.getTextContent());
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "userId".equals(element.getLocalName()))
+								twitterMessage.setUserId(element.getTextContent());
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "userName".equals(element.getLocalName()))
+								twitterMessage.setUserName(element.getTextContent());
+							if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
+									&& "userScreenName".equals(element.getLocalName()))
+								twitterMessage.setUserScreenName(element.getTextContent());
 						}
 					}
 				}
 			}
 		}
-		if(hasError){
+		if (hasError) {
 			responseJson.setResult("KO");
-			responseJson.setMessage("Code: " + errorCode + " - Message: " + errorMessage ) ;
+			responseJson.setMessage("Code: " + errorCode + " - Message: " + errorMessage);
 			responseJson.setTwitterMessage(null);
-		}
-		else{
+		} else {
 			responseJson.setResult("OK");
-			responseJson.setMessage("Valid Query") ;
+			responseJson.setMessage("Valid Query");
 			responseJson.setTwitterMessage(twitterMessage);
 		}
 		return responseJson;
@@ -326,9 +324,10 @@ public class TwitterQueryServlet extends HttpServlet {
 
 	public static void main(String[] args) {
 
-		//String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><ns:invokeTwitterResponse xmlns:ns=\"http://twitterpoller.yucca.csi.org\"><ns:return xsi:type=\"YuccaTwitterCepRecord\" xmlns:ax2574=\"http://dto.twitterpoller.yucca.csi.org/xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><errore xsi:nil=\"true\"/><sensor>CloodTwitter</sensor><stream>ClasStream3</stream><values><components><contributors xsi:nil=\"true\"/><createdAt>2015-07-14T16:46:17Z</createdAt><currentUserRetweetId>-1</currentUserRetweetId><favoriteCount>0</favoriteCount><favorited>false</favorited><getText>@google Complimenti x Plutone con sonda animazione azzeccata ! Bravi anche quando ricordate i natali di molti scienziati e personaggi</getText><hashTags xsi:nil=\"true\"/><lang>it</lang><lat>44.604801</lat><lon>8.5518689</lon><media xsi:nil=\"true\"/><mediaCnt xsi:nil=\"true\"/><mediaUrl xsi:nil=\"true\"/><placeName>Cassinelle, Piemonte (Italia-IT)</placeName><possiblySensitive>false</possiblySensitive><retweet>false</retweet><retweetCount>0</retweetCount><retweetedByMe>false</retweetedByMe><source>Twitter for Android</source><truncated>false</truncated><tweetid>620997757860466689</tweetid><url xsi:nil=\"true\"/></components><time>2015-07-14T16:46:17Z</time></values></ns:return></ns:invokeTwitterResponse></soapenv:Body></soapenv:Envelope>";
-		
-		String xml  = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><ns:invokeTwitterResponse xmlns:ns=\"http://twitterpoller.yucca.csi.org\">";
+		// String xml =
+		// "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><ns:invokeTwitterResponse xmlns:ns=\"http://twitterpoller.yucca.csi.org\"><ns:return xsi:type=\"YuccaTwitterCepRecord\" xmlns:ax2574=\"http://dto.twitterpoller.yucca.csi.org/xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><errore xsi:nil=\"true\"/><sensor>CloodTwitter</sensor><stream>ClasStream3</stream><values><components><contributors xsi:nil=\"true\"/><createdAt>2015-07-14T16:46:17Z</createdAt><currentUserRetweetId>-1</currentUserRetweetId><favoriteCount>0</favoriteCount><favorited>false</favorited><getText>@google Complimenti x Plutone con sonda animazione azzeccata ! Bravi anche quando ricordate i natali di molti scienziati e personaggi</getText><hashTags xsi:nil=\"true\"/><lang>it</lang><lat>44.604801</lat><lon>8.5518689</lon><media xsi:nil=\"true\"/><mediaCnt xsi:nil=\"true\"/><mediaUrl xsi:nil=\"true\"/><placeName>Cassinelle, Piemonte (Italia-IT)</placeName><possiblySensitive>false</possiblySensitive><retweet>false</retweet><retweetCount>0</retweetCount><retweetedByMe>false</retweetedByMe><source>Twitter for Android</source><truncated>false</truncated><tweetid>620997757860466689</tweetid><url xsi:nil=\"true\"/></components><time>2015-07-14T16:46:17Z</time></values></ns:return></ns:invokeTwitterResponse></soapenv:Body></soapenv:Envelope>";
+
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><ns:invokeTwitterResponse xmlns:ns=\"http://twitterpoller.yucca.csi.org\">";
 		xml += "<ns:return xsi:type=\"ax2576:YuccaTwitterCepRecord\" xmlns:ax2576=\"http://dto.twitterpoller.yucca.csi.org/xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><ax2576:errore xsi:nil=\"true\"/><ax2576:sensor>smartTweetInt</ax2576:sensor><ax2576:stream>smartTweetInt</ax2576:stream>"
 				+ "<ax2576:values><ax2576:components><ax2576:contributors xsi:nil=\"true\"/><ax2576:createdAt>2015-07-20T08:36:53Z</ax2576:createdAt><ax2576:currentUserRetweetId>-1</ax2576:currentUserRetweetId><ax2576:favoriteCount>0</ax2576:favoriteCount><ax2576:favorited>false</ax2576:favorited><ax2576:getText>Reabren "
 				+ "los bancos en Grecia pero se mantienen los controles de capital: EFE Desde este lunes se realizan oper... http://t.co/2ttn3V6ODP</ax2576:getText><ax2576:hashTags xsi:nil=\"true\"/>"
@@ -355,7 +354,7 @@ public class TwitterQueryServlet extends HttpServlet {
 
 			NodeList invokeTwitterResponse = doc.getElementsByTagNameNS("http://twitterpoller.yucca.csi.org", "invokeTwitterResponse");
 			System.out.println(invokeTwitterResponse.item(0).getTextContent());
-			
+
 			String nodeName = doc.getFirstChild().getFirstChild().getFirstChild().getNodeName();
 			System.out.println("nodeName " + nodeName);
 			String errorCode = null;
@@ -401,23 +400,18 @@ public class TwitterQueryServlet extends HttpServlet {
 								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 										&& "favorited".equals(element.getLocalName()))
 									twitterMessage.setFavorited(element.getTextContent());
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "getText".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "getText".equals(element.getLocalName()))
 									twitterMessage.setGetText(element.getTextContent());
 								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 										&& "hashTags".equals(element.getLocalName()))
 									twitterMessage.setHashTags(element.getTextContent());
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "lang".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "lang".equals(element.getLocalName()))
 									twitterMessage.setLang(element.getTextContent());
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "lat".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "lat".equals(element.getLocalName()))
 									twitterMessage.setLat(new Double(element.getTextContent()));
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "lon".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "lon".equals(element.getLocalName()))
 									twitterMessage.setLon(new Double(element.getTextContent()));
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "media".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "media".equals(element.getLocalName()))
 									twitterMessage.setMedia(element.getTextContent());
 								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 										&& "mediaCnt".equals(element.getLocalName()))
@@ -431,8 +425,7 @@ public class TwitterQueryServlet extends HttpServlet {
 								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 										&& "possiblySensitive".equals(element.getLocalName()))
 									twitterMessage.setPossiblySensitive(element.getTextContent());
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "retweet".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "retweet".equals(element.getLocalName()))
 									twitterMessage.setRetweet(element.getTextContent());
 								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 										&& "retweetCount".equals(element.getLocalName()))
@@ -440,18 +433,24 @@ public class TwitterQueryServlet extends HttpServlet {
 								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 										&& "retweetedByMe".equals(element.getLocalName()))
 									twitterMessage.setRetweetedByMe(element.getTextContent());
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "source".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "source".equals(element.getLocalName()))
 									twitterMessage.setSource(element.getTextContent());
 								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
 										&& "truncated".equals(element.getLocalName()))
 									twitterMessage.setTruncated(element.getTextContent());
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "tweetid".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "tweetid".equals(element.getLocalName()))
 									twitterMessage.setTweetid(element.getTextContent());
-								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
-										&& "url".equals(element.getLocalName()))
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "url".equals(element.getLocalName()))
 									twitterMessage.setUrl(element.getTextContent());
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("") && "userId".equals(element.getLocalName()))
+									twitterMessage.setUserId(element.getTextContent());
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
+										&& "userName".equals(element.getLocalName()))
+									twitterMessage.setUserName(element.getTextContent());
+								if (element.getTextContent() != null && !element.getTextContent().trim().equals("")
+										&& "userScreenName".equals(element.getLocalName()))
+									twitterMessage.setUserScreenName(element.getTextContent());
+
 							}
 						}
 					}

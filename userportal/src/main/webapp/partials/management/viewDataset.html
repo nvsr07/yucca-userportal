@@ -19,8 +19,7 @@
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate>DATASET_FIELD_VERSION</span></small></div>
-				<div><strong>{{dataset.datasetVersion}}</strong></div>
-			
+				<div><strong>{{dataset.datasetVersion}}</strong>  <span ng-show="dataset.configData.deleted==1" translate>DATASET_FIELD_CONFIGDATA_DELETED</span></div>
 			</div>
 		</div>
 		

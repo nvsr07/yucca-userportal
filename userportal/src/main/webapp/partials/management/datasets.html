@@ -18,6 +18,12 @@
 					<div class="btn-group pull-right">
 						<form class="form-inline" role="form">
 							<div class="form-group">
+								<label class="checkbox inline">
+	   								<input type="checkbox" class="form-control col-xs-2" ng-model="viewUnistalledCheck">
+									<span translate>MANAGEMENT_DATASET_LIST_SHOW_UNINSTALLED&nbsp;</span>
+								</label>
+							</div>
+							<div class="form-group">
 								<div class="form-group">
 									<input type="text" class="form-control col-xs-2" ng-model="nameFilter" placeholder="{{'DATASET_LIST_NAME_FILTER'|translate}}" />
 								</div>
@@ -70,7 +76,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
 								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
 								<td class='text-left'>
@@ -83,7 +89,7 @@
 									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-show="dataset.info.attachment" title='Dataset with binary attachment'></i>
 								</td>
 								<td>{{dataset.info.registrationDate|date}}</td>
-								<td><span translate>{{dataset.datasetVersion}}</span></td>
+								<td><span translate>{{dataset.datasetVersion}}</span> <span ng-show="{{dataset.configData.deleted==1}}" translate>DATASET_FIELD_CONFIGDATA_DELETED</span></td>
 							</tr>
 						</tbody>
 					</table>

@@ -52,15 +52,28 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 
 	$scope.searchNameFilter = function(dataset) {
 		var keyword = new RegExp($scope.nameFilter, 'i');
-
 		return !$scope.nameFilter || (dataset.info.datasetName && keyword.test(dataset.info.datasetName));
 	};
 
 	$scope.$watch('nameFilter', function(newName) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredDatasetsList.length;
-		console.log("newName", newName);
 	});
+	
+	$scope.viewUnistalledFilter = function(dataset) {
+		if(!$scope.viewUnistalledCheck){
+			return dataset.configData.deleted!=1;
+		}
+		else
+			return true;
+	};
+
+	$scope.$watch('viewUnistalledCheck', function(newCode) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+	});
+
+
 
 
 	$scope.selectedDatasets = [];

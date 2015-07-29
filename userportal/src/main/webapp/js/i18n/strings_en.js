@@ -208,6 +208,7 @@ var translations_en = {
 	DATASET_FIELD_CONFIGDATA_TYPE: 'Type',
 	DATASET_FIELD_CONFIGDATA_SUBTYPE: 'Subtype',
 	DATASET_FIELD_CONFIGDATA_DATAVERSION: 'Version',
+	DATASET_FIELD_CONFIGDATA_DELETED: 'Uninstalled',
 	DATASET_FIELD_METADATA_NAME: 'Name',
 	DATASET_FIELD_METADATA_DESCRIPTION: 'Description',
 	DATASET_FIELD_METADATA_DISCLAIMER: 'Disclaimer',
@@ -480,6 +481,7 @@ var translations_en = {
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM : 'Delete',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'To enable editing select a single stream',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'To enable deleting select at least one stream',
+	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED: 'Show Uninstalled',
 	
 	/* view stream */
 	MANAGEMENT_VIEW_STREAM: 'Stream',
@@ -539,6 +541,8 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_TWITTER_DATA: 'Twitter Data',
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK: 'Verify query',		
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_RESPONSE: 'Verify query',		
+	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_OK_NO_MESSAGE: 'The query is valid, but have not been returned no results',
+	MANAGEMENT_EDIT_STREAM_TWT_POLLING_HELP: 'The polling interval depends on the number of streams configurated in the creation of smart objects and the limits imposed by the Twitter API',
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
@@ -610,6 +614,7 @@ var translations_en = {
 	MANAGEMENT_DATASET_LIST_EDIT_DATASET: 'Edit',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'To enable deleting select at least one Dataset',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET: 'Delete',
+	MANAGEMENT_DATASET_LIST_SHOW_UNINSTALLED : 'Show Unistalled',
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Edit',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Download',
