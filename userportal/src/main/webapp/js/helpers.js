@@ -197,6 +197,17 @@ Helpers.util = {
 	}
 };
 
+Helpers.mongo = {
+	date2millis : function(dateIn) {
+		var time = null;
+		if(dateIn){
+			time = new Date(parseInt(oDataResult.time.replace("/Date(", "").replace(")/",""), 10));
+			time.setHours(time.getHours() + time.getTimezoneOffset() / 60);
+		}
+		return time;
+	}
+};
+
 Helpers.errors = {
 	wsErrorUrl : function(tenantCode) {
 		var result = "/topic/output." + tenantCode + ".errors";

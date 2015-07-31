@@ -476,6 +476,10 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		if(!$scope.stream.streamIcon || $scope.stream.streamIcon == null)
 			$scope.stream.streamIcon  = "img/stream-icon-default.png";
 
+		if($scope.stream.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.stream.twtMaxStreamsOfVE){
+			$scope.twitterPollingInterval  = $scope.stream.twtMaxStreamsOfVE*5+1;
+		}
+
 		loadPastData();
 		connectWS();
 	});
@@ -530,8 +534,9 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 					if(oDataResultList.length >0){
 						for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
 							var oDataResult = oDataResultList[oDataIndex];
-							var time = new Date(parseInt(oDataResult.time.replace("/Date(", "").replace(")/",""), 10));
-							time.setHours(time.getHours() + time.getTimezoneOffset() / 60);
+							//var time = new Date(parseInt(oDataResult.time.replace("/Date(", "").replace(")/",""), 10));
+							//time.setHours(time.getHours() + time.getTimezoneOffset() / 60);
+							var time = Helpers.mongo.date2millis(oDataResult.time);
 							var values = {};
 							for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
 								values[$scope.chartComponentNames[componentIndex].name] = oDataResult[$scope.chartComponentNames[componentIndex].name];
@@ -546,6 +551,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 								if(tweetIndex<allData.length){
 									var tweet  = {};
 									tweet.components = allData[tweetIndex].data;
+									tweet.components.createdAt = Helpers.mongo.date2millis(tweet.components.createdAt);
 									$scope.tweetData.push(tweet);
 								}
 							}

@@ -87,9 +87,22 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		if(contentDisposition!=null)
 			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
-		
+		//String jsonOut = getMethod.getResponseBodyAsString();
+		byte[] responsBytes = getMethod.getResponseBody();
+		String jsonOut = new String(responsBytes, "UTF-8");
+//		if(getMethod.getResponseHeader("Content-Type")!=null){
+//			String contentType = getMethod.getResponseHeader("Content-Type").getValue();
+//			if(contentType!= null && contentType.lastIndexOf("charset")<0){
+//				byte[] responseISO_8859_1 = getMethod.getResponseBody();
+//				String stringISO_8859_1 = new String(responseISO_8859_1, "ISO-8859-1");
+//				String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
+//				byte[] responseUTF_8 = new String(responseISO_8859_1, "ISO-8859-1").getBytes("UTF-8");
+//				//jsonOut = new String(responseUTF_8);
+//				jsonOut =stringUTF_8;
+//			}
+//		}
 
-		String jsonOut = getMethod.getResponseBodyAsString();
+		//String jsonOut = getMethod.getResponseBodyAsString();
 		if (isJSONPRequest(request))
 			jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
 		PrintWriter out = response.getWriter();
