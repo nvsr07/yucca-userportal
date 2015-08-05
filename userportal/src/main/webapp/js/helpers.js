@@ -198,14 +198,19 @@ Helpers.util = {
 };
 
 Helpers.mongo = {
-	date2millis : function(dateIn) {
-		var time = null;
-		if(dateIn){
-			time = new Date(parseInt(oDataResult.time.replace("/Date(", "").replace(")/",""), 10));
-			time.setHours(time.getHours() + time.getTimezoneOffset() / 60);
+		date2millis : function(dateIn) {
+			var time = null;
+			if(dateIn){
+				var offset = new Date().getTimezoneOffset();
+				var parts = /\/Date\((-?\d+)([+-]\d{4})?.*/.exec(dateIn);
+
+				if (parts[2] == undefined)
+				    parts[2] = 0;
+	                        var p  = parseInt(parts[2]);
+				time = new Date(parts[1] - (p * 60000));
+			}
+			return time;
 		}
-		return time;
-	}
 };
 
 Helpers.errors = {
@@ -220,8 +225,13 @@ Helpers.render = {
 		
 	safeTags : function (stringIn) {
 		var stringOut = "";
-		if(stringIn && stringIn!=null)
-			stringOut = stringIn.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+		if(stringIn && stringIn!=null){
+			var typeStringIN = typeof stringIn;
+			if (typeStringIN == "string")
+				stringOut = stringIn.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+			else 
+				stringOut = stringIn;
+		}
 	    return stringOut;   
 
 	},
@@ -241,19 +251,24 @@ Helpers.render = {
 	linkify: function(stringIn) {
 		var outString = "";
 		if(stringIn && stringIn!=null){
-		    var  replacePattern1, replacePattern2, replacePattern3;
-	
-		    //URLs starting with http://, https://, or ftp://
-		    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-		    outString = stringIn.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
-	
-		    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-		    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-		    outString = outString.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
-	
-		    //Change email addresses to mailto:: links.
-		    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-		    outString = outString.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+			var typeStringIN = typeof stringIn;
+			if (typeStringIN == "string"){
+			    var  replacePattern1, replacePattern2, replacePattern3;
+		
+			    //URLs starting with http://, https://, or ftp://
+			    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+			    outString = stringIn.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+		
+			    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+			    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+			    outString = outString.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+		
+			    //Change email addresses to mailto:: links.
+			    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+			    outString = outString.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+			} else 
+				stringOut = stringIn;
 		}
 
 		return outString;
