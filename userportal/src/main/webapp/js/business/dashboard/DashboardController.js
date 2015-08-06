@@ -548,9 +548,9 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 						$scope.updateChart();
 						if($scope.isTwitter){
 							for (var tweetIndex = 0; tweetIndex  < maxNumTweet; tweetIndex++) {
-								if(tweetIndex<allData.length){
+								if(tweetIndex < allData.length){
 									var tweet  = {};
-									tweet.components = allData[tweetIndex].data;
+									tweet.components = allData[allData.length-tweetIndex-1].data;
 									tweet.components.createdAt = Helpers.mongo.date2millis(tweet.components.createdAt);
 									$scope.tweetData.push(tweet);
 								}
