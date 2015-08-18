@@ -579,9 +579,10 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	$scope.wsLastMessage = "";
 	$scope.wsLastMessageToShow = "";
 	var timeCounter = 0;
-	$scope.lastDataIn30Sec = new Array();
+	$scope.lastDataIn30SecWithTime = new Array();
 	var semLastDataIn30Sec = false;
 	var lastValueTimeArrived = 0;
+	var saveTime = new Date().getTime();
 
 	$scope.connectionCallback=function(sms){		
 		$scope.clientConnection=sms;
@@ -630,7 +631,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			allData.push({datetime: time, data: values});
 			if (time != lastValueTimeArrived){
 				semLastDataIn30Sec = true;
-				$scope.lastDataIn30Sec.push(1);
+				$scope.lastDataIn30SecWithTime[saveTime]++;
 				lastValueTimeArrived = time;
 			}
 		}
@@ -639,7 +640,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		$scope.updateTweet(messageBody.values[0]);
 		
 		$scope.wsLastMessage = JSON.stringify(messageBody, null, "\t");
-		console.debug("$scope.wsLastMessage", $scope.wsLastMessage);
 
 		//if ($scope.wsLastMessageToShow == "")
 		$scope.lastMessageNotReceivedHint = "";
@@ -648,42 +648,36 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
 	$scope.nvWsStatisticForceY = 1;
 	
-	if(typeof Array.prototype.sum !== 'function') {
-		Array.prototype.sum = function() {
-			var total = 0;
-			for(var i = 0; i < this.length; i += 1) {
-				total += this[i];
-			}
-			return total;
-		};
-	}
-	
 	function calcolateSumOf30SecondsArray(){
 		counter++;
 
 		if ($scope.nvWsStatisticData[0]["values"].length >= maxNumStatisticData){
 			$scope.nvWsStatisticData[0]["values"].shift();
 		}
-		if (!semLastDataIn30Sec)
-			$scope.lastDataIn30Sec.push(0);
-		var numOfEvents = 0;
-		for(var i = 0; i < $scope.lastDataIn30Sec.length; i += 1) {
-			numOfEvents += $scope.lastDataIn30Sec[i];
+		if (!semLastDataIn30Sec){
+			$scope.lastDataIn30SecWithTime[saveTime = new Date().getTime()] = 0;
 		}
-		$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
+		var numOfEventsWithTime = 0;
+		for (num in $scope.lastDataIn30SecWithTime) {
+			numOfEventsWithTime += $scope.lastDataIn30SecWithTime[num];
+		}
+		$scope.nvWsStatisticData[0]["values"].push([timeCounter, numOfEventsWithTime]);
 		timeCounter +=2;
 
-		console.debug("numOfEvents", numOfEvents);
 		$(window).resize();
 	}
 	
 	function clear30SecondsArray(){
 		semLastDataIn30Sec = false;
-		if ($scope.lastDataIn30Sec.length > maxNumStatisticData){
-			$scope.lastDataIn30Sec.shift();
+		
+		var lengthWithTime = Object.keys($scope.lastDataIn30SecWithTime).length;
+		if (lengthWithTime > maxNumStatisticData){
+			var keysArr = Object.keys($scope.lastDataIn30SecWithTime);
+			delete $scope.lastDataIn30SecWithTime[keysArr[0]];
 		}
-		if ($scope.lastDataIn30Sec.length == 0)
-			$scope.lastDataIn30Sec.push(0);
+		lengthWithTime = Object.keys($scope.lastDataIn30SecWithTime).length;
+		if (lengthWithTime == 0)
+			$scope.lastDataIn30SecWithTime[saveTime = new Date().getTime()] = 0;
 	}
 
 	/*
