@@ -671,7 +671,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		semLastDataIn30Sec = false;
 		
 		var lengthWithTime = Object.keys($scope.lastDataIn30SecWithTime).length;
-		if (lengthWithTime > maxNumStatisticData){
+		if (lengthWithTime > (maxNumStatisticData / 2)){
 			var keysArr = Object.keys($scope.lastDataIn30SecWithTime);
 			delete $scope.lastDataIn30SecWithTime[keysArr[0]];
 		}
