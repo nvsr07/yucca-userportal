@@ -583,18 +583,18 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		if(newVirtualentity.virtualEntity.idTipoVe != Constants.VIRTUALENTITY_TYPE_DEVICE_ID)
 			newVirtualentity.virtualEntity.virtualEntityPositions=null;
 		else{
-			if(($scope.virtualentity.virtualEntityPositions.position[0].lat == "" ||$scope.virtualentity.virtualEntityPositions.position[0].lat==null)
-					&& ($scope.virtualentity.virtualEntityPositions.position[0].lon=="" || $scope.virtualentity.virtualEntityPositions.position[0].lon==null)){
-				newVirtualentity.virtualEntity.virtualEntityPositions=null;
-			} else {
-				if($scope.virtualentity.virtualEntityPositions.position[0].room == "" ||$scope.virtualentity.virtualEntityPositions.position[0].room ==null )
-					$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
-				if($scope.virtualentity.virtualEntityPositions.position[0].elevation == "" ||$scope.virtualentity.virtualEntityPositions.position[0].elevation ==null )
-					$scope.virtualentity.virtualEntityPositions.position[0].elevation = 0;
-				if($scope.virtualentity.virtualEntityPositions.position[0].floor == "" ||$scope.virtualentity.virtualEntityPositions.position[0].floor ==null )
-					$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
-				
-			};
+			if($scope.virtualentity.virtualEntityPositions.position[0].lat == "" ||
+						$scope.virtualentity.virtualEntityPositions.position[0].lat ==null )
+				$scope.virtualentity.virtualEntityPositions.position[0].lat = 0;
+			if($scope.virtualentity.virtualEntityPositions.position[0].lon == "" ||
+					$scope.virtualentity.virtualEntityPositions.position[0].lon ==null )
+			$scope.virtualentity.virtualEntityPositions.position[0].lon = 0;
+			if($scope.virtualentity.virtualEntityPositions.position[0].elevation == "" ||
+					$scope.virtualentity.virtualEntityPositions.position[0].elevation ==null )
+			$scope.virtualentity.virtualEntityPositions.position[0].elevation = 0;
+			if($scope.virtualentity.virtualEntityPositions.position[0].floor == "" ||
+					$scope.virtualentity.virtualEntityPositions.position[0].floor ==null )
+			$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
 			
 		}
 		
