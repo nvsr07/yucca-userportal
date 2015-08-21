@@ -125,8 +125,8 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	};
 } ]);
 
-appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAPIservice', 'fabricAPImanagement', 'info', '$location', 
-                                        function($scope, $route, $filter, fabricAPIservice, fabricAPImanagement, info,$location) {
+appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
+                                        function($scope, $route, $filter, fabricAPIservice, fabricAPImanagement, $modal, info, $location) {
 	$scope.$route = $route;
 
 	$scope.tenant = "";
@@ -161,16 +161,26 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAP
 		$scope.statistics.total_streams = response.lifetime.total_streams;
 		$scope.statistics.total_smart_objects = response.lifetime.total_smart_objects;
 
-		$scope.statistics.total_data = response.lifetime.total_data.data + response.lifetime.total_data.measures;
-		$scope.statistics.total_measures = response.lifetime.total_data.measures;
-		$scope.statistics.today_data = response.midnight.total_data.data + response.midnight.total_data.measures;
-		$scope.statistics.last_month_data = response.monthly.total_data.data + response.monthly.total_data.measures;
+		if (response.lifetime.total_data){
+			$scope.statistics.total_data = response.lifetime.total_data.data + response.lifetime.total_data.measures;
+			$scope.statistics.total_measures = response.lifetime.total_data.measures;
+			$scope.statistics.today_data = response.midnight.total_data.data + response.midnight.total_data.measures;
+			$scope.statistics.last_month_data = response.monthly.total_data.data + response.monthly.total_data.measures;
+		} else {
+			$scope.statistics.total_data = 0;
+			$scope.statistics.total_measures = 0;
+			$scope.statistics.today_data = 0;
+			$scope.statistics.last_month_data = 0;
+		}
+		
 		$scope.statistics.lastupdate = response.datetime.$date;
 		var domains= [];
-		for (var int = 0; int < response.lifetime.stream_frequency.domain.length; int++) {
-			var domain = response.lifetime.stream_frequency.domain[int];
-			console.log("domain:", domain);
-			domains.push({key: $translate(domain._id), y:domain.count});
+		if (response.lifetime.stream_frequency){
+			for (var int = 0; int < response.lifetime.stream_frequency.domain.length; int++) {
+				var domain = response.lifetime.stream_frequency.domain[int];
+				console.log("domain:", domain);
+				domains.push({key: $translate(domain._id), y:domain.count});
+			}
 		}
 
 		$scope.domainChartData = domains;
@@ -221,7 +231,36 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAP
 //	y : 25
 //	} 
 //	];
+	
+	$scope.animationsEnabled = true;
 
+	console.log('route', $route);
+	console.log('route.current.params', $route.current.params);
+	console.log('location', $location);
+	
+	if ($route.current.params.strong === "false"){
+		var modalInstance = $modal.open({
+			animation : $scope.animationsEnabled,
+			templateUrl : 'myModalContent.html',
+			controller : 'HomePageModalCtrl',
+			size : 0
+		});
+
+		modalInstance.result.then(function(selectedItem) {
+					$scope.selected = selectedItem;
+					console.log("selected in modalInstance.result.then", selectedItem);
+				}, function() {
+					console.info('Modal dismissed at: ' + new Date());
+		});
+	}
 
 } ]);
+
+appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'readFilePreview',
+                                                     function($scope, $routeParams, $location, $modalInstance, info, readFilePreview) {
+	
+	$scope.cancel = function () {
+	    $modalInstance.dismiss('cancel');
+	};
+}]);
 

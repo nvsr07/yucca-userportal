@@ -329,6 +329,7 @@ var translations_en = {
 	HOME_START_DEMO_BUTTON: 'Anonymous access to public data', 
 	HOME_LOGGED_IN_WELCOME: 'Welcome, ',
 	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
+	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Your credentials are not a level SUFFICIENT to access , contact Alla Casella smartdatanet@csi.it',
 	HOME_MAP_INTRO: 'Smart object currently active on the territory',
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
 	HOME_STATISTIC_TOTAL_DATA: 'Available measures',

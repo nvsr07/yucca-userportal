@@ -76,6 +76,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
 
 				User newUser = info.getUser();
+				Boolean strong = true;
 				
 				if (result == null) {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
@@ -144,8 +145,13 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					}
 				} else {
 					// something wrong, re-login
-				}
+					
+					//Add modalview
+					
+					//Utente senza strong authentication
 
+					strong = false;			
+				}
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
 
@@ -154,6 +160,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						+ URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 
+				if (!strong)
+					returnPath += "&strong=false";
+					
 				response.sendRedirect(returnPath);
 			} else {
 				try {

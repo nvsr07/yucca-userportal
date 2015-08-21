@@ -328,6 +328,7 @@ var translations_it = {
 	HOME_START_DEMO_BUTTON_DESC: 'Prova la piattaforma sul tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Accesso anonimo ai dati pubblici', 
 	HOME_LOGGED_IN_WELCOME: 'Benvenuto, ',
+	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
 	HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
 	HOME_MAP_INTRO: 'Sensori attualmente attivi sul territorio',
 	HOME_STATISTIC_PANEL_TITLE: 'Cosa c\'&egrave; nella piattaforma',
@@ -350,6 +351,7 @@ var translations_it = {
 	HOME_ROLE_PUBLISHER_INTRO: 'Puoi creare e gestire Stream, Smart Object e Dataset',
 	HOME_ROLE_SUBSCRIBER: 'subscriber',
 	HOME_ROLE_SUBSCRIBER_INTRO: 'Puoi usare i dati disponibili nella piattaforma',
+	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
 
 	HOME_ACTION_DEVELOPER_SEP_1: 'oppure elabora un nuovo stream',
 	HOME_ACTION_PUBLISHER_SEP_1: 'oppure aggiungi direttamente gli oggetti',
