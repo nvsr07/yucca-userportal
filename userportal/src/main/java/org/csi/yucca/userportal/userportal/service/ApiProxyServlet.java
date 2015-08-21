@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
@@ -206,8 +207,59 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		super.doDelete(req, resp);
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//System.out.println(req.getRequestURL());
+		//super.doDelete(req, resp);
+
+		DeleteMethod delMethod = new DeleteMethod(createTargetUrlWithParameters(request));
+				
+		String authorizationHeader = request.getHeader("Authorization");
+		if(authorizationHeader!=null)
+			delMethod.setRequestHeader("Authorization", authorizationHeader);
+
+		HttpClient httpclient = new HttpClient();
+		int result = httpclient.executeMethod(delMethod);
+		response.setStatus(result);
+		log.info("[ApiProxyServlet::doDelete] Content-Type: " + delMethod.getResponseHeader("Content-Type") );
+		if(delMethod.getResponseHeader("Content-Type")!=null)
+			response.setContentType(delMethod.getResponseHeader("Content-Type").getValue());
+		log.info("[ApiProxyServlet::doDelete] getResponseCharSet: " + delMethod.getResponseCharSet() );
+		response.setCharacterEncoding("UTF-8");
+		//if(getMethod.getResponseCharSet()==null)
+		//	response.setCharacterEncoding("UTF-8");
+		//else
+		//	response.setCharacterEncoding(getMethod.getResponseCharSet());
+		
+		log.info("[ApiProxyServlet::doDelete] response.getCharacterEncoding: " + response.getCharacterEncoding());
+		log.info("[ApiProxyServlet::doDelete] response.getContentType: " + response.getContentType());
+		//		for (Header header : getMethod.getResponseHeaders()) {
+		//			System.out.println(header.getName() + "-"+header.getValue());
+		//		}
+		//Header contentDisposition = getMethod.getResponseHeader("Content-Disposition");
+		//if(contentDisposition!=null)
+		//	response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
+
+		//String jsonOut = getMethod.getResponseBodyAsString();
+		byte[] responsBytes = delMethod.getResponseBody();
+		String jsonOut = new String(responsBytes, "UTF-8");
+//		if(getMethod.getResponseHeader("Content-Type")!=null){
+//			String contentType = getMethod.getResponseHeader("Content-Type").getValue();
+//			if(contentType!= null && contentType.lastIndexOf("charset")<0){
+//				byte[] responseISO_8859_1 = getMethod.getResponseBody();
+//				String stringISO_8859_1 = new String(responseISO_8859_1, "ISO-8859-1");
+//				String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
+//				byte[] responseUTF_8 = new String(responseISO_8859_1, "ISO-8859-1").getBytes("UTF-8");
+//				//jsonOut = new String(responseUTF_8);
+//				jsonOut =stringUTF_8;
+//			}
+//		}
+
+		//String jsonOut = getMethod.getResponseBodyAsString();
+		if (isJSONPRequest(request))
+			jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
+		PrintWriter out = response.getWriter();
+		out.println(jsonOut);
+		out.close();
 	}
 
 	private String getCallbackMethod(HttpServletRequest httpRequest) {
