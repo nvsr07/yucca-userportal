@@ -748,6 +748,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			
 			if(componentName.indexOf(' ') >= 0){
 				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE');
+			} else if(componentName.match(Constants.VALIDATION_PATTERN_ACCENT)){
+				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID');
 			} else if(componentName.toLowerCase() === 'time'){
 				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_RESERVED_WORD_TIME');
 			} else {
@@ -994,6 +996,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			}, function(result) {
 				$scope.updateError = angular.fromJson(result.data);
 				console.log("result.data ", result.data);
+				if(result.data && result.data.error_code == "YuccaInternaApiFiledNameException")
+					result.data.error_message = "MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID";
 				$scope.loadStream();
 			}, function(result) {
 				console.log('Got notification: ' + result);
@@ -1076,6 +1080,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}, function(result) {
 			$scope.updateError = angular.fromJson(result.data);
 			console.log("result.data ", result.data);
+
 			$scope.loadStream();
 		}, function(result) {
 			console.log('Got notification: ' + result);
@@ -1125,6 +1130,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.codiceStream);
 			}, function(result) {
 				$scope.creationError = angular.fromJson(result.data);
+				if(result.data && result.data.error_code == "YuccaInternaApiFiledNameException"){
+					result.data.error_message = "MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID";
+					$scope.goToComponents();
+				}
 				console.log("result.data ", result.data);
 			}, function(result) {
 				console.log('Got notification: ' + result);

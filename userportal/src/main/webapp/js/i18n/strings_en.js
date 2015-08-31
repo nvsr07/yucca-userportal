@@ -554,6 +554,7 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Warning',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'The field \'name\' is required',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'The field \'name\' must be unique in a stream',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID: 'The field \'name\' contains invalid  characters ',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_RESERVED_WORD_TIME:  '\'time\' is a reserved word. Choose a different name ',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'The field \'data type\' is required',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED: 'The field \'tollerance\' is required',

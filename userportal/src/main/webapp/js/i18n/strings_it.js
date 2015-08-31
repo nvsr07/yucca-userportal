@@ -556,6 +556,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Attenzione',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'Il campo \'Nome\' e\' obbligatorio',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'Il campo \'Nome\' deve essere univoco per stream ',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID: 'Il campo \'Nome\' contiene caratteri non validi ',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_RESERVED_WORD_TIME:  '\'time\' e\' una parola riservata. Scegliere un nome diverso ',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'Il campo \'Tipo di dato\' e\' obbligatorio',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED: 'Il campo \'Unita\' di misura\' e\' obbligatorio',
