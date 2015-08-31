@@ -1,2 +1,2 @@
 var BuildInfo = BuildInfo || {};
-BuildInfo.timestamp = 1436955671804;
+BuildInfo.timestamp = 1439886552175;
