@@ -1,10 +1,6 @@
 /* Controllers */
-
 //var appControllers = angular.module('userportal.controllers', []);
-
 //appControllers.controller('DashboardCtrl', ['$scope', function($scope) {}]);
-
-
 appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'fabricAPIservice', function($scope, $route, fabricAPIservice) {
 	$scope.tenantsList = null;
 	
@@ -22,8 +18,6 @@ appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'fabricAPIs
 	else if($route.current.templateUrl.indexOf("stream")>-1)
 		$scope.currentPanel  = 'stream';
 } ]);
-
-
 
 appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIservice', function($scope, $route, fabricAPIservice) {
 	
@@ -66,7 +60,6 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	freeboard.showLoadingIndicator(false);
 
 } ]);
-
 
 appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice','$translate', function($scope,info, fabricAPIservice, $translate) {
 	$scope.streamsList = [];
@@ -168,13 +161,11 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 			if(fpsNumber!=0){
 				$scope.stream.secondsBtwEvents = 1/fpsNumber;
 				$scope.stream.minutesBtwEvents = 1/(fpsNumber*60);
-			}
-			else{
+			} else {
 				$scope.stream.secondsBtwEvents = "-";
 				$scope.stream.minutesBtwEvents = "-";
 			}
-		}
-		else{
+		} else {
 			$scope.stream.fpm = "-";
 			$scope.stream.secondsBtwEvents = "-";
 			$scope.stream.minutesBtwEvents = "-";
@@ -199,7 +190,6 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 	//	$scope.wsStatisticData = [ { x : counter, y : 0 } ];
 	//	for (counter = 1; counter < maxNumStatisticData; counter++)
 	//		$scope.wsStatisticData.push({ x : counter, y : 0 });
-
 
 	$scope.nvWsStatisticData = [{key: "Events", color: '#2980b9', values: []}, {key: "Errors",color: '#c0392b',  values: []}];
 	for (counter = 1; counter < maxNumStatisticData; counter++){
@@ -252,7 +242,6 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 			$scope.nvWsStatisticData[1]["values"].shift();
 		}
 
-
 		var numOfEvents = angular.fromJson(message.body).event.payloadData.numEventsLast30Sec;
 
 		$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
@@ -278,22 +267,6 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 		console.debug("Error message", message);
 		totalError++;
 	};
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/*
 	
@@ -389,16 +362,9 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 	$scope.refreshLastMessage = function() {
 		$scope.wsLastMessageToShow = $scope.wsLastMessage;
 	};
-	
-	
-
 	//$scope.lineData = [ { x : 1, y : 5 }, { x : 20, y : 20 }, { x : 40, y : 10 }, { x : 60, y : 40 }, { x : 80, y : 5 }, { x : 100, y : 60 } ];
 } 
 ]);
-
-
-
-
 
 appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', 'odataAPIservice', 'dataDiscoveryService',  "$filter",
                                                    function($scope, $routeParams, fabricAPIservice, webSocketService, odataAPIservice, dataDiscoveryService, $filter) {
@@ -422,7 +388,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		if($scope.stream.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
 			$scope.isTwitter = true;
 		}
-
 		
 		if($scope.stream.componenti == null)
 			$scope.stream.componenti = new Object();
@@ -437,13 +402,11 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			if(fpsNumber!=0){
 				$scope.stream.secondsBtwEvents = 1/fpsNumber;
 				$scope.stream.minutesBtwEvents = 1/(fpsNumber*60);
-			}
-			else{
+			} else {
 				$scope.stream.secondsBtwEvents = "-";
 				$scope.stream.minutesBtwEvents = "-";
 			}
-		}
-		else{
+		} else {
 			$scope.stream.fpm = "-";
 			$scope.stream.secondsBtwEvents = "-";
 			$scope.stream.minutesBtwEvents = "-";
@@ -463,8 +426,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				if(!foundFirstToDisplay){
 					view = true;
 					foundFirstToDisplay = true;
-				}
-				else
+				} else
 					view = false;
 				color = Constants.LINE_CHART_COLORS[colorCounter];
 				colorCounter++;
@@ -545,12 +507,13 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 						}
 						$scope.wsLastMessageToShow = allData[0];
 						allData.reverse();
+						console.log(">>>>>>>>>>>>>>>>>>>> AGGIORNO!!");
 						$scope.updateChart();
 						if($scope.isTwitter){
 							for (var tweetIndex = 0; tweetIndex  < maxNumTweet; tweetIndex++) {
-								if(tweetIndex<allData.length){
+								if(tweetIndex < allData.length){
 									var tweet  = {};
-									tweet.components = allData[tweetIndex].data;
+									tweet.components = allData[allData.length-tweetIndex-1].data;
 									tweet.components.createdAt = Helpers.mongo.date2millis(tweet.components.createdAt);
 									$scope.tweetData.push(tweet);
 								}
@@ -562,8 +525,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			}
 		});
 	};
-
-	
 
 	$scope.updateChart = function() {		
 		$scope.chartData = [];
@@ -602,7 +563,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
 	var wsClient = webSocketService();
 	
-	
 	//var maxNumWsStatisticMessages = 3;
 	//$scope.wsStatisticMessages = [ [ "-", "-" ], [ "-", "-" ], [ "-", "-" ]];
 	var maxNumStatisticData = 30;
@@ -619,6 +579,10 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	$scope.wsLastMessage = "";
 	$scope.wsLastMessageToShow = "";
 	var timeCounter = 0;
+	$scope.lastDataIn30SecWithTime = new Array();
+	var semLastDataIn30Sec = false;
+	var lastValueTimeArrived = 0;
+	var saveTime = new Date().getTime();
 
 	$scope.connectionCallback=function(sms){		
 		$scope.clientConnection=sms;
@@ -640,11 +604,13 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			console.debug("subscribe wsUrl ", $scope.wsUrl);
 			wsClient.subscribe($scope.wsUrl, dataCallback);
 		
-			var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
+			/*var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
 			console.debug("subscribe wsStatUrl ", wsStatUrl);
 			wsClient.subscribe(wsStatUrl, statisticCallback);
-
+			console.debug(">>>>>>>>>> PUSH >>>>>>>>>>   wsClient", wsClient);*/
 			
+			setInterval(function(){ calcolateSumOf30SecondsArray() }, 2000);
+			setInterval(function(){ clear30SecondsArray() }, 2000);
 			
 		}, function() {
 		}, '/',$scope.connectionCallback);
@@ -663,24 +629,58 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			if(allData.length >= maxNumData)
 				allData.shift();
 			allData.push({datetime: time, data: values});
+			if (time != lastValueTimeArrived){
+				semLastDataIn30Sec = true;
+				$scope.lastDataIn30SecWithTime[saveTime]++;
+				lastValueTimeArrived = time;
+			}
 		}
 		
 		$scope.updateChart();
 		$scope.updateTweet(messageBody.values[0]);
 		
 		$scope.wsLastMessage = JSON.stringify(messageBody, null, "\t");
-		console.debug("$scope.wsLastMessage", $scope.wsLastMessage);
 
 		//if ($scope.wsLastMessageToShow == "")
 		$scope.lastMessageNotReceivedHint = "";
 		$scope.wsLastMessageToShow = $scope.wsLastMessage;
-
-
-
 	};
 	
 	$scope.nvWsStatisticForceY = 1;
+	
+	function calcolateSumOf30SecondsArray(){
+		counter++;
 
+		if ($scope.nvWsStatisticData[0]["values"].length >= maxNumStatisticData){
+			$scope.nvWsStatisticData[0]["values"].shift();
+		}
+		if (!semLastDataIn30Sec){
+			$scope.lastDataIn30SecWithTime[saveTime = new Date().getTime()] = 0;
+		}
+		var numOfEventsWithTime = 0;
+		for (num in $scope.lastDataIn30SecWithTime) {
+			numOfEventsWithTime += $scope.lastDataIn30SecWithTime[num];
+		}
+		$scope.nvWsStatisticData[0]["values"].push([timeCounter, numOfEventsWithTime]);
+		timeCounter +=2;
+
+		$(window).resize();
+	}
+	
+	function clear30SecondsArray(){
+		semLastDataIn30Sec = false;
+		
+		var lengthWithTime = Object.keys($scope.lastDataIn30SecWithTime).length;
+		if (lengthWithTime > (maxNumStatisticData / 2)){
+			var keysArr = Object.keys($scope.lastDataIn30SecWithTime);
+			delete $scope.lastDataIn30SecWithTime[keysArr[0]];
+		}
+		lengthWithTime = Object.keys($scope.lastDataIn30SecWithTime).length;
+		if (lengthWithTime == 0)
+			$scope.lastDataIn30SecWithTime[saveTime = new Date().getTime()] = 0;
+	}
+
+	/*
 	function statisticCallback(message) {
 		console.debug("message", message);
 		counter++;
@@ -695,7 +695,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
 		timeCounter +=2;
 
-	};
+	};*/
 
 } 
 ]);
@@ -737,7 +737,6 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope','info', '$routePar
 			subscribeWSClientError();
 		}, function(message) {
 			console.debug("Can't Connect on WebSocket");
-					//alert("Can't Connect on WebSocket");
 		}, '/',$scope.connectionCallback);
 	};
 	

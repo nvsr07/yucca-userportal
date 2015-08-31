@@ -9,8 +9,6 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.codeFilter = null;
 	$scope.statusFilter = null;
 	$scope.showLoading = true;
-
-
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.streamsList.length;
@@ -42,8 +40,6 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 
 		}
 		
-		
-		
 		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
 		//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
@@ -67,8 +63,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		if(!$scope.viewUnistalledCheck){
 			var keyword = new RegExp(Constants.STREAM_STATUS_UNINST, 'i');
 			return !keyword.test(stream.deploymentStatusDesc);
-		}
-		else
+		} else
 			return true;
 	};
 	
@@ -126,7 +121,6 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.deleteStream = function(){
 		//alert("Funzionalita non ancora abilitata!");
 		if($scope.selectedStreams.length>0){
-
 			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
 		}
 		else{
@@ -260,8 +254,6 @@ appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($sc
 //	};
 //} ]);
 
-
-
 appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$filter", 'readFilePreview', '$location',
                                                     function($scope, $routeParams, fabricAPIservice, info,$timeout,$filter,readFilePreview,$location) {
 	$scope.tenantCode = $routeParams.tenant_code;
@@ -295,8 +287,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	                      {'name':'detail', 'style':''},
 	                      {'name':'components', 'style':''},
 	                      {'name':'tweetdata', 'style':''},
-	                      {'name':'share', 'style':''},
-	                      ];
+	                      {'name':'share', 'style':''}];
 
 	var refreshWizardToolbar = function(){
 		var style = 'step-done';
@@ -331,7 +322,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	};
 
-	
 	$scope.defaultQuery = Constants.DEFAULT_SIDDHI;
 
 	$scope.internalStreams = [];
@@ -340,7 +330,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.streamSiddhiQuery="insert query here;";
 	$scope.streamSiddhiMirror="";
 	$scope.streamsList = [];
-
 
 	$scope.addStreamToArray = function(streamSelectedItem){
 		$scope.validationRes=2;
@@ -356,8 +345,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.internalStreams.splice(index,1);
 	};
 
-
-
 	// The ui-codemirror option
 	$scope.cmOption = {
 			lineNumbers: true,
@@ -372,8 +359,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.validationRes=2;
 	});
 	
-	
-	
 	$scope.valideteSiddhi = function(streamSiddhiQuery){
 		$scope.streamSiddhiQuery = streamSiddhiQuery;
 
@@ -387,7 +372,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.errorMsg="STREAM_SIDDHI_PLEASE_OUTPUTSTREAM";
 			return;
 		}
-		
 		
 		var siddhiStreamDefinitions = "";
 		var siddhiStreamArray = [];
@@ -419,7 +403,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 		
 		//OutputStream Definition
-		
 		siddhiStreamDefinitions += " define stream " + "outputStream(meta_source string, time string ";
 		if($scope.stream.componenti!= null && $scope.stream.componenti.element!=null ){
 			var componenti = $scope.stream.componenti.element;
@@ -451,7 +434,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if(response.faultstring != null){
 				$scope.validationRes=1;
 				$scope.errorMsg=response.faultstring;
-			}else{
+			} else {
 				$scope.validationRes=0;
 			}
 			console.debug(response);
@@ -489,7 +472,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		
 	});
 
-	
 	$scope.tagList = [];
 	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
@@ -583,10 +565,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 				$scope.streamSiddhiMirror= $scope.stream.internalQuery;	
 				setTimeout(function(){
-					  $scope.$apply(function(){
-						  $scope.streamSiddhiQuery=$scope.streamSiddhiMirror;
-					  });
-					  }, 100);
+							  $scope.$apply(function(){
+								  $scope.streamSiddhiQuery=$scope.streamSiddhiMirror;
+							  });
+						  }, 100);
 	
 				$scope.internalStreams=$scope.stream.streamInternalChildren.streamChildren;
 	
@@ -598,7 +580,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				if($scope.stream.componenti == null)
 					$scope.stream.componenti = new Object();
 				$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
-	
 	
 				if(!$scope.stream.deploymentStatusCode || $scope.stream.deploymentStatusCode == null)
 					$scope.stream.deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
@@ -618,8 +599,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				}
 
 			});
-		}
-		else{
+		} else {
 			$scope.stream  = {};
 			$scope.stream.visibility = 'public';
 			$scope.stream.streamIcon  = "img/stream-icon-default.png";
@@ -687,11 +667,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	};
 
-
-
 	$scope.loadStream();
-
-
 	$scope.addComponent = function(newComponentName, newComponentUnitOfMeasurement, newComponentTolerance, newComponentPhenomenon,newComponentDataType){
 		
 		$scope.validationRes=2;
@@ -772,11 +748,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			
 			if(componentName.indexOf(' ') >= 0){
 				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE');
-			}
-			else if(componentName.toLowerCase() === 'time'){
+			} else if(componentName.toLowerCase() === 'time'){
 				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_RESERVED_WORD_TIME');
-			}
-			else{
+			} else {
 
 				for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
 					if($scope.stream.componenti.element[int].nome == componentName && int!=index){
@@ -804,13 +778,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 						component.idDataType = componentDataType.idDataType;
 						component.dataType = componentDataType.dataType;
 					}
-				}
-				else{
+				} else {
 					$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE');
 				}
 			}
-		}
-		else
+		} else
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED');
 
 		if(componentUnitOfMeasurement == null || componentUnitOfMeasurement == ""){
@@ -819,8 +791,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		
 		if(componentTolerance == null || componentTolerance == ""){
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED');
-		}
-		else{
+		} else {
 			if( !Helpers.util.isNumber(componentTolerance))
 				$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER');
 		}
@@ -844,7 +815,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.editingComponentIndex = index;
 		return false;
 	};
-	
 
 	$scope.addTag = function(newTag){
 		console.log("addTag ",newTag);
@@ -910,8 +880,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.stream.tenantsShare.tenantList.splice(index,1);
 		return false;
 	};
-	
-
 	
 	$scope.selectedIcon;
 	$scope.onIconSelect = function($files) {
@@ -1062,7 +1030,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 	});
 
-	
 	$scope.checkTwitterQuery = function(){
 		var twitterQuery = {};
 		twitterQuery.twtQuery = $scope.stream.twtQuery;
@@ -1094,7 +1061,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		});
 	};
 
-
 	var updateLifecycle = function(action) {
 		console.log("updateLifecycle stream", $scope.stream);
 		console.log("updateLifecycle action", action);
@@ -1124,8 +1090,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		//stream.visibility = 'public';
 		//stream.accettazionePrivacy=0;
 		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
-
-		
 
 		var newStream = new Object();
 		newStream.stream = stream;

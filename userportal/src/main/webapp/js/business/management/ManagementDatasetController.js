@@ -13,6 +13,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	$scope.predicate = '';
 
 	console.log("isOwner", info.isOwner( $scope.tenantCode));
+	console.log("info", info);
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
@@ -37,9 +38,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 
 					$scope.datasetList.push(response[i]);
 				}
-
 			}
-
 		}
 
 		$scope.totalItems = $scope.datasetList.length;
@@ -73,9 +72,6 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		$scope.totalItems = $scope.filteredDatasetsList.length;
 	});
 
-
-
-
 	$scope.selectedDatasets = [];
 
 	$scope.isSelected = function(dataset) {
@@ -105,32 +101,109 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		return false;
 	};
 
-
-
+	$scope.canDelete = function() {
+		
+		return false;
+	};
 
 	$scope.editDataset = function(){
 		if($scope.selectedDatasets.length===1){
-
 			$location.path('management/editDataset/'+$scope.tenantCode +'/'+$scope.selectedDatasets[0].datasetCode);
-		}
-		else{
+		} else {
 			// FIXME error message...
 		}
 	};
+}]);
+
+
+appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modalInstance, selectedDataset, info, readFilePreview) {
+	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $scope', $scope);
+	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $routeParams', $routeParams);
+	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> fabricAPIservice', fabricAPIservice);
+	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> fabricAPImanagement', fabricAPImanagement);
+	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $location', $location);
+	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $modalInstance', $modalInstance);
+	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> selectedDataset', selectedDataset);
+	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> info', info);
+	
+	$scope.tenantCode = $routeParams.tenant_code;
+	
+	$scope.loadDataset = function(){
+		console.log(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> selectedDataset in loadDataset", selectedDataset);
+		$scope.selectedDataset = selectedDataset;
+		console.log(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $scope.selectedDataset in loadDataset", $scope.selectedDataset);
+		
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.selectedDataset.datasetCode).success(function(response) {
+			try{
+				console.debug(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> loadDataset- response", response);
+				$scope.datasetModalView = {};
+				$scope.datasetModalView.apiMetadataUrl = response.apiMetadataUrl;
+				$scope.datasetModalView.dataset = response.metadata;
+				$scope.datasetModalView.stream = response.stream;
+				$scope.datasetModalView.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+				if(!$scope.datasetModalView.dataset)
+					$scope.datasetModalView.dataset = new Object();
+				if(!$scope.datasetModalView.dataset.info)
+					$scope.datasetModalView.dataset.info = new Object();
+				if(!$scope.datasetModalView.dataset.info.tags)
+					$scope.datasetModalView.dataset.info.tags = [];
+				
+				$scope.datasetModalView.dataset.todo = true;
+				$scope.datasetModalView.dataset.okdo = false;
+				$scope.datasetModalView.dataset.kodo = false;
+	
+				//$scope.dataset.info.visibility = 'public';
+				if(!$scope.datasetModalView.dataset.info.icon || $scope.datasetModalView.dataset.info.icon == null)
+					$scope.datasetModalView.dataset.info.icon  = "img/dataset-icon-default.png";
+			} catch (e) {
+				console.error(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> getDataset ERROR", e);
+			}
+		});
+	};
+	
 	$scope.deleteDataset = function(){
-		//alert("Funzionalita non ancora abilitata!");
-		if($scope.selectedDatasets.length>0){
-
-			//$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].codiceStream);
-		}
-		else{
+		console.log("$scope.selectedDataset in deleteDataset", $scope.selectedDataset);
+		
+		var promiseForDelete = fabricAPImanagement.deleteDataset($scope.datasetModalView.dataset.configData.tenantCode, $scope.datasetModalView.dataset.idDataset, $scope.datasetModalView.dataset.datasetVersion);
+		promiseForDelete.then(function(result) {
+			console.log('Got notification 1: ', result);
+			
+			$scope.datasetModalView.dataset.todo = false;
+			$scope.datasetModalView.dataset.okdo = true;
+			$scope.datasetModalView.dataset.kodo = false;
+			/*if(result.errors && data.errors.length>0){
+				$scope.updateError = true;
+				$scope.updateErrors = data.errors;
+				Helpers.util.scrollTo();
+			} else {
+				$scope.updateInfo = {status: "Ok"};
+				$scope.loadDataset();
+			}*/
+		}, function(result) {
+			console.error('Got notification 2: ', result);
+			
+			$scope.datasetModalView.dataset.todo = false;
+			$scope.datasetModalView.dataset.okdo = false;
+			$scope.datasetModalView.dataset.kodo = true;
+			/*$scope.updateError = true;
+			$scope.updateErrors = angular.fromJson(result.data);
+			console.log("result.data ", result.data);
+			$scope.loadDataset();*/
+		}, function(result) {
 			// FIXME error message...
-		}
+		});
 	};
-} ]);
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', 'info', 'readFilePreview',
-                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, info,readFilePreview) {
+	$scope.loadDataset();
+	
+	$scope.cancel = function () {
+	    $modalInstance.dismiss('cancel');
+	};
+}]);
+
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -138,7 +211,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
-
 
 	$scope.updateInfo = null;
 	$scope.updateError = null;
@@ -152,13 +224,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				if(t.tenantCode!=$scope.tenantCode)
 					$scope.tenantsList.push(t);
 			}
+		} catch (e) {
+			console.error("getTenants ERROR",e);
 		}
-		catch (e) {
-			log.error("getTenants ERROR",e);
-		}
-		
 	});
-
 
 	$scope.tagList = [];
 	$scope.domainList = [];
@@ -167,7 +236,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
 		}
 	});
-
 
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
@@ -181,10 +249,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		$scope.dataTypeList = response.dataType.element;
 	});
 
-
-
-
-
 	$scope.dataset = null;
 	$scope.stream = null;
 	$scope.apiMetdataUrl = "";
@@ -195,23 +259,28 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 //	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
 
 	$scope.loadDataset = function(){
+		console.debug("$scope.datasetCode", $scope.datasetCode);
+		
 		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
-			console.debug("loadDataset- response",response);
-			$scope.apiMetdataUrl = response.apiMetadataUrl;
-			$scope.dataset = response.metadata;
-			$scope.stream = response.stream;
-			$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
-			if(!$scope.dataset)
-				$scope.dataset = new Object();
-			if(!$scope.dataset.info)
-				$scope.dataset.info = new Object();
-			if(!$scope.dataset.info.tags)
-				$scope.dataset.info.tags = [];
-
-			//$scope.dataset.info.visibility = 'public';
-			if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
-				$scope.dataset.info.icon  = "img/dataset-icon-default.png";
-
+			try{
+				console.debug("loadDataset- response",response);
+				$scope.apiMetdataUrl = response.apiMetadataUrl;
+				$scope.dataset = response.metadata;
+				$scope.stream = response.stream;
+				$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+				if(!$scope.dataset)
+					$scope.dataset = new Object();
+				if(!$scope.dataset.info)
+					$scope.dataset.info = new Object();
+				if(!$scope.dataset.info.tags)
+					$scope.dataset.info.tags = [];
+	
+				//$scope.dataset.info.visibility = 'public';
+				if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
+					$scope.dataset.info.icon  = "img/dataset-icon-default.png";
+			} catch (e) {
+				console.error("getDataset ERROR", e);
+			}
 		});
 
 	};
@@ -262,7 +331,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 					found = true;
 					break;
 				}
-
 			}
 			if(!found){
 				$scope.dataset.info.tenantssharing.tenantsharing.push(
@@ -275,7 +343,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				console.log("added", $scope.dataset.info.tenantssharing.tenantsharing );
 			}
 		}
-
 		return false;
 	};
 
@@ -329,8 +396,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		Helpers.util.scrollTo();
 		
 		console.log("updateDataset newDataset ", newDataset);
-
-
 		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetCode, newDataset);
 
 		promise.then(function(result) {
@@ -351,8 +416,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		}, function(result) {
 			console.log('Got notification: ' + result);
 		});
-
-
 	};	
 
 	$scope.requestInstallation = function(){
@@ -386,6 +449,46 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 //		}, function(result) {
 //		console.log('Got notification: ' + result);
 //		});
+	};
+	
+	$scope.animationsEnabled = true;
+
+	$scope.openModalView = function(size) {
+		var modalInstance = $modal.open({
+			animation : $scope.animationsEnabled,
+			templateUrl : 'myModalContent.html',
+			controller : 'ManagementDatasetModalCtrl',
+			size : size,
+			resolve : {
+				items : function() {
+					return $scope.items;
+				},
+				selectedDataset: function() {
+					console.log(">>>>>> $scope.dataset in selectedDataset", $scope.dataset);
+					return $scope.dataset;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(selectedItem) {
+					$scope.selected = selectedItem;
+					console.log("selected in modalInstance.result.then", selectedItem);
+				}, function() {
+					console.info('Modal dismissed at: ' + new Date());
+		});
+	};
+
+	$scope.canDelete = function() {
+		if ($scope.dataset){
+			console.log(">>>>>>>> $scope.dataset", $scope.dataset);
+			if ($scope.dataset.configData && $scope.dataset.configData.type == "dataset" &&  
+					($scope.dataset.configData.subtype == "bulkDataset" || 
+					 $scope.dataset.configData.subtype == "streamDataset" || 
+					 $scope.dataset.configData.subtype == "socialDataset")){
+				return true;
+			}
+		}
+		return false;
 	};
 } ]);
 
@@ -510,11 +613,8 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 				$scope.updateInfo = {status: "Upload OK"};
 			}
 		});
-
-
 	};	
-
-} ]);
+}]);
 
 
 appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 
@@ -573,11 +673,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				if(t.tenantCode!=$scope.tenantCode)
 					$scope.tenantsList.push(t);
 			}
+		} catch (e) {
+			console.error("getTenants ERROR",e);
 		}
-		catch (e) {
-			log.error("getTenants ERROR",e);
-		}
-		
 	});
 
 
@@ -599,8 +697,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			}
 		}
 	});
-
-
 
 	$scope.metadata = {info:{}, configData: {}};
 	$scope.metadata.info.icon  = "img/dataset-icon-default.png";
@@ -648,7 +744,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		return false;
 	};
 	
-	
 	$scope.addTenantSharing = function(newTenantSharing){
 		console.log("addTenantSharing ",newTenantSharing);
 		if(newTenantSharing){
@@ -690,7 +785,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		return false;
 	};
 
-
 	$scope.creationError = null;
 	$scope.saveError = null;
 	$scope.saveErrors = null;
@@ -713,7 +807,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.updateWarning = null;
 	$scope.maxFileSize = Constants.BULK_DATASET_MAX_FILE_SIZE;
 	$scope.choosenFileSize = null;
-
 	
 	$scope.selectedIcon;
 	$scope.onIconSelect = function($files) {
@@ -757,7 +850,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.previewColumns = [];
 	$scope.previewBinaries = [];
 	
-	
 	var readPreview = function(){
 		$scope.uploadDatasetError = null;
 		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
@@ -768,12 +860,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 					var firstRows = lines.slice(0, 5);
 					$scope.previewLines = [];
 					console.log("(firstRows.join",firstRows.join("\n"));
-
 					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator));
 
 					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator);
-
-
 					console.log("$scope.previewLines",$scope.previewLines);
 
 					$scope.metadata.info.fields = [];
@@ -801,7 +890,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				}
 		);
 	};
-
 
 	$scope.refreshColumnOrder = function(){
 		console.log("refreshColumnOrder");
@@ -855,7 +943,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			if($scope.previewColumns[int].sourceColumn == $scope.newColumnDefinition.sourceColumn){
 				checkSourceColumnDuplicate = true;
 			}
-
 		}
 		
 		if(checkNameDuplicate)
@@ -863,9 +950,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		
 		if(checkSourceColumnDuplicate)
 			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
-		
-		
-		
 		
 		if($scope.insertColumnErrors.length == 0){
 			if(!$scope.newColumnDefinition.fieldAlias || $scope.newColumnDefinition.fieldAlias == null || $scope.newColumnDefinition.fieldAlias == ""){
@@ -910,10 +994,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		
 //		if(checkSourceBinaryDuplicate)
 //			$scope.insertBinaryErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
-		
-		
-		
-		
 		if($scope.insertBinaryErrors.length == 0){
 			if(!$scope.newBinaryDefinition.fieldAlias || $scope.newBinaryDefinition.fieldAlias == null || $scope.newBinaryDefinition.fieldAlias == ""){
 				$scope.newBinaryDefinition.fieldAlias = $scope.newBinaryDefinition.fieldName;
@@ -931,10 +1011,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		//a$scope.refreshBinaryOrder();
 	};
 
-
-	
-	
-	
 	$scope.onDropCsvFieldComplete=function(fromIndex, toIndex,evt){
 		var columToMove = $scope.previewColumns[fromIndex];
 		columToMove.dragging = false;

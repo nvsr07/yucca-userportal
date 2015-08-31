@@ -76,33 +76,37 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
 
 				User newUser = info.getUser();
+				Boolean strong = true;
+				
 				if (result == null) {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
 					log.debug("[SAML2ConsumerServlet::doPost] - result null");
+					
+// GIGACLOOD: commented: why only one result?					
+//				} else if (result.size() == 1) {
+//					log.debug("[SAML2ConsumerServlet::doPost] - result size 1");
+//
+//					newUser = new User();
+//					newUser.setLoggedIn(true);
+//					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
+//					newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
+//
+//					try {
+//						newUser.setPermissions(loadPermissions(newUser));
+//					} catch (Exception e) {
+//						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
+//						e.printStackTrace();
+//					}
+//
+//					newUser.setActiveTenant(newUser.getTenants().get(0));
+//					newUser.setToken(getTokenForTenant(newUser));
+//
+//					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 
-				} else if (result.size() == 1) {
-					log.debug("[SAML2ConsumerServlet::doPost] - result size 1");
-
-					newUser = new User();
-					newUser.setLoggedIn(true);
-					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
-					newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
-
-					try {
-						newUser.setPermissions(loadPermissions(newUser));
-					} catch (Exception e) {
-						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-						e.printStackTrace();
-					}
-
-					newUser.setActiveTenant(newUser.getTenants().get(0));
-					newUser.setToken(getTokenForTenant(newUser));
-
-					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
-
-				} else if (result.size() > 1) {
+				} else if (result.size() > 0 && checkStrongAuthentication(result)) {
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1");
 					newUser = new User();
+					
 					newUser.setLoggedIn(true);
 					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
 					//String organizations = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
@@ -141,8 +145,13 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					}
 				} else {
 					// something wrong, re-login
-				}
+					
+					//Add modalview
+					
+					//Utente senza strong authentication
 
+					strong = false;			
+				}
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
 
@@ -151,6 +160,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						+ URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 
+				if (!strong)
+					returnPath += "&strong=false";
+					
 				response.sendRedirect(returnPath);
 			} else {
 				try {
@@ -173,6 +185,24 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		} finally {
 			log.debug("[SAML2ConsumerServlet::doPost] - END");
 		}
+	}
+
+	private boolean checkStrongAuthentication(Map<String, String> result) {
+		String riscontro = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_RISCONTRO));
+		String livello = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_LIVAUTH));
+		
+		// Non utilizzo shibboleth, ma credenziali interne 
+		if (livello == null)
+			return true;
+		try {
+			// user password e PIN
+			if (Integer.parseInt(livello)==4)
+				return (riscontro!= null && riscontro.equalsIgnoreCase("S"));
+			if (Integer.parseInt(livello)==8 || Integer.parseInt(livello)==16 )
+				return true;
+		} catch (NumberFormatException e) {
+		}
+		return false;
 	}
 
 	public static String getTokenForTenant(User newUser) {

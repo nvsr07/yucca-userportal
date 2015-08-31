@@ -1,5 +1,5 @@
-/******************************************************************************************************************************************/
 /*                                                                                                                                        */
+/******************************************************************************************************************************************/
 /*    WARNING: this file is for local developing: don't use it. Use /main/java/it/csi/sdp/userportal/i18n/MessagesBundle_it.properties    */
 /*                                                                                                                                        */
 /******************************************************************************************************************************************/
@@ -328,6 +328,7 @@ var translations_it = {
 	HOME_START_DEMO_BUTTON_DESC: 'Prova la piattaforma sul tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Accesso anonimo ai dati pubblici', 
 	HOME_LOGGED_IN_WELCOME: 'Benvenuto, ',
+	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
 	HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
 	HOME_MAP_INTRO: 'Sensori attualmente attivi sul territorio',
 	HOME_STATISTIC_PANEL_TITLE: 'Cosa c\'&egrave; nella piattaforma',
@@ -350,6 +351,7 @@ var translations_it = {
 	HOME_ROLE_PUBLISHER_INTRO: 'Puoi creare e gestire Stream, Smart Object e Dataset',
 	HOME_ROLE_SUBSCRIBER: 'subscriber',
 	HOME_ROLE_SUBSCRIBER_INTRO: 'Puoi usare i dati disponibili nella piattaforma',
+	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
 
 	HOME_ACTION_DEVELOPER_SEP_1: 'oppure elabora un nuovo stream',
 	HOME_ACTION_PUBLISHER_SEP_1: 'oppure aggiungi direttamente gli oggetti',
@@ -615,7 +617,12 @@ var translations_it = {
 	MANAGEMENT_DATASET_LIST_EDIT_DATASET: 'Modifica',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'Per abilitare la cancellazione selezionare almeno un Dataset',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET: 'Cancella',
+	MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET: 'Cancella i dati',
 	MANAGEMENT_DATASET_LIST_SHOW_UNINSTALLED : 'Mostra Disisntallati',
+	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Cancellazione del DATASET selezionato',
+	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'SEI SICURO DI VOLER CANCELLARE IL DATASET?',
+	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dataset cancellato correttamente',
+	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non è stato possibile cancellare il dataset! Riprovare in un secondo momento',
 
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
@@ -815,7 +822,7 @@ var translations_it = {
 	/* Info */
 	INFO_TITLE: 'About userportal', 
 	INFO_INTRO: '<p>La <strong>Yucca Platform</strong> &egrave; stata realizzata completamente utilizzando tecnologie <strong>Open Source</strong></p><p>Il codice sorgente &egrave; disponibile su github <a href="https://github.com/csipiemonte" target="_blank">github.com/csipiemonte</a>',
-	INFO_MAIN_FRAMEWORK_TITLE: 'Created with',
+	INFO_MAIN_FRAMEWORK_TITLE: 'Creato con',
 	INFO_LIBRARIES_TITLE: 'Presentation and libraries',
 	INFO_SOURCE_TOOL_TITLE: 'Source code and build tools',
 

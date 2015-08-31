@@ -199,7 +199,12 @@ public enum ApiEntityEnum {
 
 		}
 	},
-
+	API_MANAGEMENT_DATASET_DELETE("API_MANAGEMENT_DATASET_DELETE_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "metadata/clearDataset/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
+		}
+	},
 	API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

@@ -11,7 +11,7 @@
 						<button  href="javascript:void(0)" ng-click='editDataset()' class="btn  btn-edit" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canEdit()" title="{{'MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT'|translate}}">
 							<span class="glyphicon glyphicon-pencil "></span>&nbsp;<span translate>MANAGEMENT_DATASET_LIST_EDIT_DATASET</span>
 						</button>
-						<button href="javascript:void(0)" ng-click='deleteDataset()'class="btn  btn-delete" ng-disabled="true" title="{{'MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT'|translate}}">
+						<button href="javascript:void(0)" ng-click='open()'class="btn  btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" title="{{'MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT'|translate}}">
 							<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate>MANAGEMENT_DATASET_LIST_DELETE_DATASET</span>
 						</button>
 					</div>
@@ -35,25 +35,21 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>
-								</th>
+								<th></th>
 								<th>
 									<a href="" ng-click="predicate = 'datasetCode'; reverse=!reverse"><span translate>DATASET_FIELD_CONFIGDATA_CODE</span>
 									<span ng-show="predicate=='datasetCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='datasetCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-								
 								</th>
 								<th>
 									<a href="" ng-click="predicate  = 'info.datasetName'; reverse=!reverse"><span translate>DATASET_FIELD_METADATA_NAME</span>
 									<span ng-show="predicate=='info.datasetName' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='info.datasetName' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-								
 								</th>
 								<th>
 									<a href="" ng-click="predicate = 'configData.subtype'; reverse=!reverse"><span translate>DATASET_FIELD_CONFIGDATA_TYPE</span> / <span translate>DATASET_FIELD_CONFIGDATA_SUBTYPE</span>
 									<span ng-show="predicate=='configData.subtype' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='configData.subtype' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-								
 								</th>
 								<th>
 									<a href="" ng-click="predicate = 'info.registrationDate'; reverse=!reverse"><span translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span>
