@@ -48,52 +48,62 @@
 </tr>
 <tr>
 	<td>verifyElementPresent</td>
-	<td>link=Dataset</td>
+	<td>link=Stream</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>link=Dataset</td>
+	<td>link=Stream</td>
 	<td></td>
 </tr>
 <tr>
-	<td>verifyElementPresent</td>
-	<td>//td[2]</td>
+	<td>waitForElementPresent</td>
+	<td>css=td.text-left</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>//a/span[2]</td>
+	<td>link=Nuovo</td>
 	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=inputDatasetName</td>
-	<td>testDataSet</td>
 </tr>
 <tr>
 	<td>select</td>
-	<td>//div[@id='newDatasetWizard']/div/div/new-dataset-wizard-start/form/div[2]/div/select</td>
-	<td>Salute</td>
+	<td>//div[@id='newDatasetWizard']/div/div/new-stream-wizard-register/div/form/div[2]/div/select</td>
+	<td>regressione</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputStreamCode</td>
+	<td>tempTest</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputStreamName</td>
+	<td>Test Temp bis</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='newDatasetWizard']/div/div/new-stream-wizard-register/div/form/div[5]/div/select</td>
+	<td>Energia</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>link=Next</td>
+	<td>link=Prosegui</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=requestorName</td>
+	<td>id=nomeRichiedente</td>
 	<td>nome</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=requestorSurname</td>
+	<td>id=cognomeRichiedente</td>
 	<td>cognome</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=requestorEmail</td>
+	<td>id=mailRichiedente</td>
 	<td>mymail</td>
 </tr>
 <tr>
@@ -108,18 +118,13 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>xpath=(//a[contains(text(),'Next')])[2]</td>
+	<td>xpath=(//a[contains(text(),'Prosegui')])[2]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>id=inputDatasetDesc</td>
-	<td>testDescr</td>
-</tr>
-<tr>
 	<td>select</td>
-	<td>//div[@id='newDatasetWizard']/div/div[3]/new-dataset-wizard-metadata/form/div[2]/div/div/select</td>
-	<td>Fuoco</td>
+	<td>//div[@id='newDatasetWizard']/div/div[3]/new-stream-wizard-detail/div/form/div/div/div/select</td>
+	<td>Ghiacciaio</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -127,118 +132,83 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyElementPresent</td>
-	<td>//div[@id='newDatasetWizard']/div/div[3]/new-dataset-wizard-metadata/form/div[2]/div/p/span/span</td>
+	<td>type</td>
+	<td>id=inputStreamFps</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//a[contains(text(),'Prosegui')])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=newComponentName</td>
+	<td>wind</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='newDatasetWizard']/div/div[4]/new-stream-wizard-components/div/form/div[7]/div[2]/table/tbody/tr/td[2]/select</td>
+	<td>m</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=newComponentTolerance</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='newDatasetWizard']/div/div[4]/new-stream-wizard-components/div/form/div[7]/div[2]/table/tbody/tr/td[4]/select</td>
+	<td>rain</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//div[@id='newDatasetWizard']/div/div[4]/new-stream-wizard-components/div/form/div[7]/div[2]/table/tbody/tr/td[5]/select</td>
+	<td>int</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='newDatasetWizard']/div/div[4]/new-stream-wizard-components/div/form/div[7]/div[2]/table/tbody/tr/td[6]/a/i</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>id=RadioGroupVisibility_1</td>
+	<td>xpath=(//a[contains(text(),'Prosegui')])[4]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=inputDatasetLicence</td>
-	<td>lic</td>
+	<td>id=inputStreamLicense</td>
+	<td>licenza</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=inputDatasetDisclaimer</td>
+	<td>id=inputStreamDisclaimer</td>
 	<td>restr</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=inputDatasetCopyright</td>
+	<td>id=inputStreamCopyright</td>
 	<td>copy</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>xpath=(//a[contains(text(),'Next')])[3]</td>
+	<td>link=Salva bozza</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>link=Definisci le colonne</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>xpath=(//input[@type='text'])[10]</td>
-	<td>uno</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>xpath=(//input[@type='text'])[11]</td>
-	<td>due</td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>//div[@id='newDatasetWizard']/div/div[6]/new-dataset-wizard-columns/form/div/ng-include/div/div[4]/div[4]/select</td>
-	<td>int</td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>//div[@id='newDatasetWizard']/div/div[6]/new-dataset-wizard-columns/form/div/ng-include/div/div[4]/div[6]/select</td>
-	<td>sec</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//input[@type='checkbox']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//div[@id='newDatasetWizard']/div/div[6]/new-dataset-wizard-columns/form/div/ng-include/div/div[4]/div[10]/a/i</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>xpath=(//input[@type='text'])[16]</td>
-	<td>ssss</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>xpath=(//input[@type='text'])[17]</td>
-	<td>ffff</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//div[@id='newDatasetWizard']/div/div[6]/new-dataset-wizard-columns/form/div/ng-include/div/div[7]/div[3]/div[4]/a/i</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Crea dataset</td>
-	<td></td>
-</tr>
-<tr>
-	<td>waitForElementPresent</td>
+	<td>verifyElementPresent</td>
 	<td>css=div.url &gt; strong.ng-binding</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>link=Modifica</td>
+	<td>link=Richiedi Installazione</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>id=RadioGroupVisibility_0</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Salva</td>
-	<td></td>
-</tr>
-<tr>
-	<td>waitForElementPresent</td>
-	<td>//div[2]/div/div[2]/div/div[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Fine modifica</td>
+	<td>verifyElementPresent</td>
+	<td>//ng-include/div/div/div/div/div[2]</td>
 	<td></td>
 </tr>
 </tbody></table>
