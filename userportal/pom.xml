@@ -245,26 +245,12 @@
 			<build>
 				<resources>
 					<resource>
-						<directory>src/main/resources/int</directory>
-					</resource>
-				</resources>
-			</build>
-			<properties>
-				<webXmlPath>src/main/resources/int/</webXmlPath>
-			</properties>
-		</profile>
-		<profile>
-			<id>int-rete</id>
-			<build>
-				<resources>
-					<resource>
 						<directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int</directory>
 					</resource>
 				</resources>
 			</build>
 			<properties>
-				<webXmlPath>//csint1/dirtec/2014/Tecnologie e
-					attività/SmartDataPlatform/PropFiles/userportal/resources/int/</webXmlPath>
+				<webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int/</webXmlPath>
 			</properties>
 		</profile>
 		<profile>
@@ -277,8 +263,7 @@
 				</resources>
 			</build>
 			<properties>
-				<webXmlPath>//csint1/dirtec/2014/Tecnologie e
-					attività/SmartDataPlatform/PropFiles/userportal/resources/prod/</webXmlPath>
+				<webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod/</webXmlPath>
 			</properties>
 		</profile>
 	</profiles>
