@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="https://int-userportal.smartdatanet.it/" />
+<link rel="selenium.base" href="http://sdnet-intapi.sdp.csi.it:90/" />
 <title>New Test</title>
 </head>
 <body>
@@ -18,48 +18,53 @@
 </tr>
 <tr>
 	<td>open</td>
-	<td>/userportal/#/home</td>
+	<td>backoffice/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=username</td>
+	<td>smartlabUser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>smartlabUser</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input.btn.btn-primary</td>
 	<td></td>
 </tr>
 <tr>
 	<td>waitForElementPresent</td>
-	<td>css=a.btn.main-action-button &gt; span.ng-scope</td>
+	<td>//div[@id='newDatasetWizard']/div/div/dashboard-streams/div/div/div[2]/table/thead/tr/th[2]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>verifyElementPresent</td>
-	<td>link=Login</td>
+	<td>type</td>
+	<td>xpath=(//input[@type='text'])[3]</td>
+	<td>smartlab</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//input[@type='text'])[3]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>css=small &gt; a.btn.main-action-button &gt; span.ng-scope</td>
+	<td>type</td>
+	<td>xpath=(//input[@type='text'])[3]</td>
+	<td>sandbox</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
 	<td></td>
 </tr>
 <tr>
-	<td>verifyElementPresent</td>
-	<td>//button[@type='submit']</td>
-	<td>Cerca</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=a.main-menu-item.main-menu-item-management &gt; span.ng-scope</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyElementPresent</td>
-	<td>link=Dataset</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Dataset</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyElementPresent</td>
-	<td>//td[2]</td>
-	<td></td>
+	<td>type</td>
+	<td>xpath=(//input[@type='text'])[2]</td>
+	<td>Bozza</td>
 </tr>
 <!---->
 </tbody></table>
