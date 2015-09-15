@@ -293,6 +293,14 @@ var translations_it = {
 	MONEY: 'Money',
 	SEGNALAZIONI: 'Segnalazioni',
 	
+	TELEMEDICINE: 'Telemedicina',
+	TELE_REHABILITATION: 'Teleriabilitazione',
+	HOME_CARE: 'Assistenza domiciliare',
+	REEDUCATION: 'Rieducazione',
+	PATIENT: 'Pazienti',
+	PHYSIOTHERAPY: 'Fisioterapia',
+	
+	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Solo numeri interi',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Solo numeri decimali',
@@ -546,7 +554,6 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_OK_NO_MESSAGE: 'La query e\' valida, ma non ha restituito risultati',
 	MANAGEMENT_EDIT_STREAM_TWT_POLLING_HELP: 'L\'intervallo di polling dipende dal numero di stream impostato nella creazione dello smart object e dai limiti imposti dalle API di Twitter',
 	
-	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni Principali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
@@ -624,7 +631,6 @@ var translations_it = {
 	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'SEI SICURO DI VOLER CANCELLARE IL DATASET?',
 	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dataset cancellato correttamente',
 	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non è stato possibile cancellare il dataset! Riprovare in un secondo momento',
-
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Scarica',
@@ -642,7 +648,6 @@ var translations_it = {
 	MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE: "Errore durante la creazione dello Smart Object", 
 	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL: "Verificare di non aver gia' utilizzato questo account Twitter. E' possibile creare un solo Smart Object per account Twitter", 
 
-	
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Crea',

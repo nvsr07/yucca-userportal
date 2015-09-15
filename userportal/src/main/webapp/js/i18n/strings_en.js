@@ -293,6 +293,14 @@ var translations_en = {
 	MONEY: 'Money',
 	SEGNALAZIONI: 'Citizen Reports',
 	
+	TELEMEDICINE: 'Telemedicine',
+	TELE_REHABILITATION: 'Tele-rehabilitation',
+	HOME_CARE: 'Home care',
+	REEDUCATION: 'Reeducation',
+	PATIENT: 'Patient',
+	PHYSIOTHERAPY: 'Physiotherapy',
+	
+	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Only integer number',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Only decimal number',
@@ -328,8 +336,8 @@ var translations_en = {
 	HOME_START_DEMO_BUTTON_DESC: 'Try the platform using the tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Anonymous access to public data', 
 	HOME_LOGGED_IN_WELCOME: 'Welcome, ',
-	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
 	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Your credentials are not a level SUFFICIENT to access , contact Alla Casella smartdatanet@csi.it',
+	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
 	HOME_MAP_INTRO: 'Smart object currently active on the territory',
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
 	HOME_STATISTIC_TOTAL_DATA: 'Available measures',
