@@ -120,6 +120,19 @@
 		
 	</div>
 	<div id="home-operation-section-anchor">&nbsp;</div>
+	<div> <!-- ng-show="ModalDemoCtrl" -->
+	    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{'WARNING'|translate}}</h3>
+        </div>
+        <div class="modal-body">
+            <div><b>{{'HOME_LOGGED_NOT_STRONG_AUTHENTICATION'|translate}}</b></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
+        </div>
+    	</script>
+	</div>
 	<div id="home-operation-section" ng-cloak>
 		<h2><span translate>HOME_OPERATION_PANEL_TITLE</span></h2>
 		<div class='container'>

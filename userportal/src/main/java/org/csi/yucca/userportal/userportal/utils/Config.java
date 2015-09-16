@@ -15,6 +15,7 @@ public class Config {
 
 	public static final String RBAC_PERMISSIONS_WEBSERVICE_URL_KEY = "RBAC_PERMISSIONS_WEBSERVICE_URL";
 	public static final String RBAC_ROLES_WEBSERVICE_URL_KEY = "RBAC_ROLES_WEBSERVICE_URL";
+	public static final String RBAC_USER_STORE_WEBSERVICE_URL_KEY = "RBAC_USER_STORE_WEBSERVICE_URL";
 	public static final String RBAC_WEBSERVICE_USER_KEY = "RBAC_WEBSERVICE_USER";
 	public static final String RBAC_WEBSERVICE_PASSWORD_KEY = "rbac.webservice.secret";
 	

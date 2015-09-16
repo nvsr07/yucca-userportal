@@ -27,7 +27,7 @@
 	<td></td>
 </tr>
 <tr>
-	<td>waitForElementPresent</td>
+	<td>verifyElementPresent</td>
 	<td>link=Login</td>
 	<td></td>
 </tr>
@@ -37,7 +37,7 @@
 	<td></td>
 </tr>
 <tr>
-	<td>waitForElementPresent</td>
+	<td>verifyElementPresent</td>
 	<td>//button[@type='submit']</td>
 	<td>Cerca</td>
 </tr>
@@ -47,7 +47,7 @@
 	<td></td>
 </tr>
 <tr>
-	<td>waitForElementPresent</td>
+	<td>verifyElementPresent</td>
 	<td>//tr[3]/td[2]</td>
 	<td></td>
 </tr>
@@ -57,119 +57,64 @@
 	<td></td>
 </tr>
 <tr>
-	<td>waitForText</td>
+	<td>assertText</td>
 	<td>css=div.pull-left &gt; h3 &gt; span.ng-scope</td>
 	<td>Registra lo Smart Object</td>
 </tr>
 <tr>
 	<td>select</td>
 	<td>id=inputType</td>
-	<td>Device</td>
+	<td>Feed Tweet</td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>id=inputCategory</td>
-	<td>Gateway</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Genera</td>
+	<td>clickAtAndWait</td>
+	<td>link=Accedi a Twitter</td>
 	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=session[username_or_email]</td>
+	<td>tophans@gmail.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=session[password]</td>
+	<td>Mappa..3e</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=allow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>id=inputVirtualentityCode</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputTwtMaxStreams</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityCode</td>
+	<td>aaMio1</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=inputVirtualentityName</td>
-	<td>aaTestDevice_nopos</td>
+	<td>nomeTest</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=inputVirtualentityDescription</td>
-	<td>aaTestDescrDevice_nopos</td>
+	<td>descrTest</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>link=Prosegui</td>
+	<td>clickAt</td>
+	<td>link=Salva</td>
 	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=RadioGroupPositionType_0</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=RadioGroupEsposition_0</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=inputVirtualentityBuilding</td>
-	<td>Ed</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=inputVirtualentityFloor</td>
-	<td>1</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=inputVirtualentityRoom</td>
-	<td>Stanza</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>xpath=(//a[contains(text(),'Prosegui')])[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=inputVirtualentityModel</td>
-	<td>Mod</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=RadioGroupSupply_0</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=inputVirtualentityAdministrationURI</td>
-	<td>URI</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=inputVirtualentitySoftwareVersion</td>
-	<td>1</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>xpath=(//a[contains(text(),'Salva')])[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyElementPresent</td>
-	<td>css=div.url &gt; strong.ng-binding</td>
-	<td></td>
-</tr>
-<tr>
-	<td>waitForText</td>
-	<td>//div[2]/div[2]/div/div[2]/div[2]</td>
-	<td>indoor</td>
-</tr>
-<tr>
-	<td>verifyText</td>
-	<td>//div[2]/div[3]/div[2]</td>
-	<td>Ed</td>
-</tr>
-<tr>
-	<td>verifyText</td>
-	<td>//div[3]/div[4]</td>
-	<td>1</td>
-</tr>
-<tr>
-	<td>verifyText</td>
-	<td>//div[3]/div[6]</td>
-	<td>Stanza</td>
 </tr>
 </tbody></table>
 </body>

@@ -293,6 +293,14 @@ var translations_en = {
 	MONEY: 'Money',
 	SEGNALAZIONI: 'Citizen Reports',
 	
+	TELEMEDICINE: 'Telemedicine',
+	TELE_REHABILITATION: 'Tele-rehabilitation',
+	HOME_CARE: 'Home care',
+	REEDUCATION: 'Reeducation',
+	PATIENT: 'Patient',
+	PHYSIOTHERAPY: 'Physiotherapy',
+	
+	
 	/* Validations */
 	VALIDATION_PATTERN_INTEGER_TOOLTIP: 'Only integer number',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Only decimal number',
@@ -328,6 +336,7 @@ var translations_en = {
 	HOME_START_DEMO_BUTTON_DESC: 'Try the platform using the tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Anonymous access to public data', 
 	HOME_LOGGED_IN_WELCOME: 'Welcome, ',
+	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Your credentials are not a level SUFFICIENT to access , contact Alla Casella smartdatanet@csi.it',
 	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
 	HOME_MAP_INTRO: 'Smart object currently active on the territory',
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
@@ -553,6 +562,7 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TITLE: 'Warning',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_REQUIRED: 'The field \'name\' is required',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE: 'The field \'name\' must be unique in a stream',
+	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID: 'The field \'name\' contains invalid  characters ',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_RESERVED_WORD_TIME:  '\'time\' is a reserved word. Choose a different name ',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED: 'The field \'data type\' is required',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED: 'The field \'tollerance\' is required',
@@ -614,7 +624,12 @@ var translations_en = {
 	MANAGEMENT_DATASET_LIST_EDIT_DATASET: 'Edit',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'To enable deleting select at least one Dataset',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET: 'Delete',
+	MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET: 'Data delete',
 	MANAGEMENT_DATASET_LIST_SHOW_UNINSTALLED : 'Show Unistalled',
+	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Delete of selected DATASET',
+	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'ARE YOU SURE YOU WANT TO DELETE THE DATASET?',
+	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dataset deleted properly',
+	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'It was not possible to delete the data set ! Try again later',
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Edit',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Download',

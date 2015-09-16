@@ -53,7 +53,7 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>link=Crea nuovo Smart Object</td>
+	<td>css=a.btn.btn-new &gt; span.ng-scope</td>
 	<td></td>
 </tr>
 <tr>
@@ -64,51 +64,106 @@
 <tr>
 	<td>select</td>
 	<td>id=inputType</td>
-	<td>Feed Tweet</td>
+	<td>Application</td>
 </tr>
 <tr>
-	<td>clickAtAndWait</td>
-	<td>link=Accedi a Twitter</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=session[username_or_email]</td>
-	<td>tophans@gmail.com</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=session[password]</td>
-	<td>Mappa..3e</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=allow</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=inputTwtMaxStreams</td>
-	<td>2</td>
+	<td>select</td>
+	<td>id=inputCategory</td>
+	<td>Gateway</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=inputVirtualentityCode</td>
-	<td>aaMio</td>
+	<td>CodeForaaTestApplication2</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=inputVirtualentityName</td>
-	<td>nomeTest</td>
+	<td>aaTestApplication</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=inputVirtualentityDescription</td>
-	<td>descrTest</td>
+	<td>aaTestDescrApplication</td>
 </tr>
 <tr>
-	<td>clickAt</td>
-	<td>link=Salva</td>
+	<td>click</td>
+	<td>css=a.btn.btn-wizard-next.ng-scope</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=RadioGroupPositionType_0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=RadioGroupEsposition_0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityLatitude</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityLongitude</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityElevation</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityBuilding</td>
+	<td>Ed</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityFloor</td>
+	<td>Pian</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityRoom</td>
+	<td>0</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//a[contains(text(),'Prosegui')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityModel</td>
+	<td>Mod</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=RadioGroupSupply_0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentityAdministrationURI</td>
+	<td>URI</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=inputVirtualentitySoftwareVersion</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//a[contains(text(),'Salva')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>css=div.url &gt; strong.ng-binding</td>
 	<td></td>
 </tr>
 </tbody></table>
