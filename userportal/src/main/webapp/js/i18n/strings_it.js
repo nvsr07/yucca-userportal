@@ -68,6 +68,7 @@ var translations_it = {
 	STREAM_FIELD_COMPONENTS_PHENOMENON: 'Fenomeno',
 	STREAM_FIELD_COMPONENTS_DATA_TYPE: 'Tipo di dato',
 	STREAM_FIELD_COMPONENTS_DESCRIPTION: 'Descrizione',
+	STREAM_FIELD_COMPONENTS_SINCE_VERSION: 'Inserito in versione',
 	STREAM_FIELD_DOMAIN: 'Ambito tematico',
 	STREAM_FIELD_LICENCE: 'Licenza',
 	STREAM_FIELD_DISCLAIMER : 'Restrizioni contenute in licenza',

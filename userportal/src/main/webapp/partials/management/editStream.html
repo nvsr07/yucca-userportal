@@ -308,6 +308,7 @@
 													<th><span translate>STREAM_FIELD_COMPONENTS_TOLERANCE</span></th>
 													<th><span translate>STREAM_FIELD_COMPONENTS_PHENOMENON</span></th>
 													<th><span translate>STREAM_FIELD_COMPONENTS_DATA_TYPE</span></th>
+													<th><span translate>STREAM_FIELD_COMPONENTS_SINCE_VERSION</span></th>
 													<th>&nbsp;</th>
 												</tr>
 											</thead>
@@ -358,6 +359,7 @@
 														
 													</td>
 													<td>{{component.dataType}}</td>
+													<td>{{component.sinceVersion}}</td>
 													<td ng-show="editingComponentIndex!=$index">
 														<a href ng-click='startEditComponent($index)' class="btn btn-icon-edit btn-sm" title="{{'EDIT'|translate}}">
 															<i class='glyphicon glyphicon-pencil'></i>
@@ -399,6 +401,9 @@
 					             					 	<select class="input-sm form-control" ng-model="newComponentDataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType" >
 					             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 					             					 	</select>
+													</td>
+					             					 <td>
+					             					 	&nbsp;
 													</td>
 					         						<td><a href ng-click='addComponent(newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
 												</tr>
