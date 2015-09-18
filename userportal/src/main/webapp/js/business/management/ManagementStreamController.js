@@ -609,6 +609,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.stream.componenti.element = [];
 			$scope.stream.saveData = 1;
 			$scope.stream.publishStream = 1;
+			$scope.stream.deploymentVersion = 1;
 			//$scope.stream.tenantssharing = {};
 			//$scope.stream.tenantssharing.tenantsharing = [];
 //			var ownerTenant = {"idTenant":newTenantSharing.idTenant, 
@@ -671,8 +672,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.addComponent = function(newComponentName, newComponentUnitOfMeasurement, newComponentTolerance, newComponentPhenomenon,newComponentDataType){
 		
 		$scope.validationRes=2;
-
-		var component = validateComponent(-1, newComponentName, newComponentUnitOfMeasurement, newComponentTolerance, newComponentPhenomenon, newComponentDataType);
+		var newComponentSinceVersion =$scope.stream.deploymentVersion;
+		
+		var component = validateComponent(-1, newComponentName, newComponentUnitOfMeasurement, newComponentTolerance, newComponentPhenomenon, newComponentDataType, newComponentSinceVersion);
 
 		console.log("newCompoent",component);
 		if(component!=null){
@@ -722,7 +724,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		editComponentPhenomenon.phenomenonType = $scope.stream.componenti.element[index].phenomenonCategory;
 		if(!editComponentTolerance) 
 			editComponentTolerance = "0";
-		var component = validateComponent(index, editComponentName, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon, editComponentDataType);
+		editComponentSinceVersion = $scope.stream.componenti.element[index].sinceVersion;
+
+		
+		var component = validateComponent(index, editComponentName, editComponentUnitOfMeasurement, editComponentTolerance, editComponentPhenomenon, editComponentDataType, editComponentSinceVersion);
 		
 		if(component!=null){
 			component.idComponente = $scope.stream.componenti.element[index].idComponente;
@@ -733,7 +738,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		return false;
 	};
 	
-	var validateComponent = function(index, componentName, componentUnitOfMeasurement, componentTolerance, componentPhenomenon, componentDataType ){
+	var validateComponent = function(index, componentName, componentUnitOfMeasurement, componentTolerance, componentPhenomenon, componentDataType, componentSinceVersion ){
 		$scope.updateWarning = false;
 		$scope.warningMessages = [];
 		$scope.insertComponentErrors = [];
@@ -743,6 +748,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		console.log("validateComponent componentTolerance",componentTolerance);
 		console.log("validateComponent componentPhenomenon",componentPhenomenon);
 		console.log("validateComponent componentDataType",componentDataType);
+		console.log("validateComponent componentSinceVersion",componentSinceVersion);
 		if(componentName!=null && componentName!=""){
 			var found = false;
 			
@@ -780,6 +786,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 						component.idDataType = componentDataType.idDataType;
 						component.dataType = componentDataType.dataType;
 					}
+					component.sinceVersion = componentSinceVersion;
 				} else {
 					$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_UNIQUE');
 				}

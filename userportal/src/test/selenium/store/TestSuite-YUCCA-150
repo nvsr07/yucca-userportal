@@ -8,13 +8,11 @@
 <body>
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
-<tr><td><a href="Test-YUCCA-150-ricerca-per-parola.html">Test-YUCCA-150-ricerca-per-parola</a></td></tr>
-<tr><td><a href="Test-YUCCA-150-ricerca-per-piu-parole.html">Test-YUCCA-150-ricerca-per-piu-parole</a></td></tr>
-<tr><td><a href="Test-YUCCA-150-ricerca-per-tag e paginazione.html">Test-YUCCA-150-ricerca-per-tag e paginazione</a></td></tr>
-<tr><td><a href="Test-YUCCA-150-ricerca-per-parola-che non dia risultati.html">Test-YUCCA-150-ricerca-per-parola-che non dia risultati</a></td></tr>
-<tr><td><a href="Test-YUCCA-150-ricerca-per-parola-inglese.html">Test-YUCCA-150-ricerca-per-parola-inglese</a></td></tr>
-<tr><td><a href="Test-YUCCA-150-ricerca-per-piu-parola-inglese.html">Test-YUCCA-150-ricerca-per-piu-parola-inglese</a></td></tr>
-<tr><td><a href="Test-YUCCA-150-ricerca-per-parola-con_caratteri_speciali.html">Test-YUCCA-150-ricerca-per-parola-con_caratteri_speciali</a></td></tr>
+<tr><td><a href="../gestione/SmartObject/Creazione SmartObject Application.html">Creazione SmartObject Application</a></td></tr>
+<tr><td><a href="../gestione/SmartObject/Creazione SmartObject Device.html">Creazione SmartObject Device</a></td></tr>
+<tr><td><a href="../gestione/SmartObject/Creazione SmartObject Device_NOPOSITION.html">Creazione SmartObject Device_NOPOSITION</a></td></tr>
+<tr><td><a href="../gestione/SmartObject/Creazione SmartObject TweetFeed with LoginTwitter.html">Creazione SmartObject TweetFeed with LoginTwitter</a></td></tr>
+<tr><td><a href="../gestione/SmartObject/Creazione SmartObject TweetFeed without LoginTwitter.html">Creazione SmartObject TweetFeed without LoginTwitter</a></td></tr>
 </tbody></table>
 </body>
 </html>
