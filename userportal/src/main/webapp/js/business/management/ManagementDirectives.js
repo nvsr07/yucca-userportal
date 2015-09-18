@@ -103,3 +103,4 @@ appDirectives.directive('newVirtualentityWizardDetail', function() {
 		templateUrl : 'partials/management/wizard/virtualentity/new-virtualentity-detail.html?'+BuildInfo.timestamp,
 	};
 });
+

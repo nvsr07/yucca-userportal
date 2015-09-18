@@ -24,6 +24,19 @@ var translations_en = {
 	BACK: 'Back',
 	CHOOSE: 'Choose...',
 
+	DATE_DAY_PLACEHOLDER: 'dd',
+	DATE_MONTH_PLACEHOLDER: 'mm',
+	DATE_YEAR_PLACEHOLDER: 'yyyy',
+
+	/* languages */
+	el:"ελληνικά",
+	en:"English",
+	es:"Español",
+	fr:"Français",
+	it:"Italiano",
+	sl:"Slovenščina",
+	sr:"Српски",
+
 	/* main menu */
 	MENU_HOME : 'Home',
 	MENU_DASHBOARD : 'Dashboard',
@@ -237,6 +250,14 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Measurement unit',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with',
 	
+	DATASET_FIELD_METADATA_OPENDATA: 'Opendata',
+	DATASET_FIELD_METADATA_OPENDATA_SOURCEID: 'Data source',
+	DATASET_FIELD_METADATA_OPENDATA_SOURCEID_PLACEHOLDER: 'e.g. www.regione.piemonte.it',
+	DATASET_FIELD_METADATA_OPENDATA_LANG: 'Language of metadata card',
+	DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER: 'Language of metadata...',
+	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE: 'Last update of data',
+	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE_PLACEHOLDER: '12/09/2015',
+
 	/* Cookie */
 	COOKIE_MESSAGE: 'This site uses cookies to improve the browsing experience. Continuing navigation you accept the use of cookies',
 	COOKIE_ACCEPT: 'Accept',
@@ -743,6 +764,8 @@ var translations_en = {
 	MANAGEMENT_EDIT_DATASET_API_URL: 'API Url', 
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Genearl Info',
+	MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING: 'Visibility and sharing', 
+	MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT: 'Specifying the data source you will be indexed on the portal <a href="http://www.dati.piemonte.it" target="_blank">Dati Piemonte</a>',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Define data structure',
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'In the data structure you can change only the column\'s alias',
 

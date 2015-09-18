@@ -105,4 +105,14 @@ Constants.LINE_CHART_COLORS = ["#004586","#0084d1", "#d01e2a", "#f37a1f", "#f3c4
 
 Constants.TWITTER_GEO_SEARCH_RADIUS_UNIT = {"mi":"miles","km":"kilometers"};
 
+Constants.OPENDATA_LANGUAGES = {
+		"el":"ελληνικά",
+		"en":"English",
+		"es":"Español",
+		"fr":"Français",
+		"it":"Italiano",
+		"sl":"Slovenščina",
+		"sr":"Српски"
+};
+
 

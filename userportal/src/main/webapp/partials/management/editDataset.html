@@ -88,6 +88,28 @@
 							</div>
 						</div>			
 						<div class="form-group">
+							<label for="inputDatasetIcon" class="col-sm-2 control-label"><span translate>STREAM_FIELD_ICON</span></label>
+							<div class="col-sm-3">
+								<div ng-file-drop="onIconSelect($files)" class='upload-icon-drop-area' ng-file-drag-over-class="upload-icon-drop-area-hover" ng-show="dropSupported">
+									<div translate>MANAGEMENT_EDIT_DATASET_UPLOAD_ICON_DROPAREA</div>
+									<div class='desc'>256x256</div>
+									<div class='desc'>jpg | png</div>
+								</div>
+								<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+							</div>
+							<div class="col-sm-3">
+								<div ng-file-select="onIconSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
+									<span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
+								</div>
+							</div>
+							<div class="col-sm-3 col-sm-offset-1 text-right">
+								<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
+							</div>
+							
+						</div>			
+						
+						<div class='form-label-separator'> <span ng-bind-html="'MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING'|translate"></span></div>
+						<div class="form-group">
 							<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
 							<div class="col-sm-10">
 								<label class="radio-inline">
@@ -121,28 +143,51 @@
 								    </span>
 		    					</div>								
 							</div>
-						</div>			
-						<div class="form-group">
-							<label for="inputDatasetIcon" class="col-sm-2 control-label"><span translate>STREAM_FIELD_ICON</span></label>
-							<div class="col-sm-3">
-								<div ng-file-drop="onIconSelect($files)" class='upload-icon-drop-area' ng-file-drag-over-class="upload-icon-drop-area-hover" ng-show="dropSupported">
-									<div translate>MANAGEMENT_EDIT_DATASET_UPLOAD_ICON_DROPAREA</div>
-									<div class='desc'>256x256</div>
-									<div class='desc'>jpg | png</div>
+						</div>
+						<div ng-show="dataset.info.visibility=='public'">
+							<div class="form-group">
+								<label for="RadioGroupOpenadata" class="col-sm-2 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span></label>
+								<div class="col-sm-10">
+									<label class="radio-inline">
+				              			<input type="radio" name="RadioGroupOpenadata" value="true" id="RadioGroupOpenadata_0" ng-model="dataset.opendata.isOpendata" ng-disabled="dataset.info.visibility!='public'">
+				              			<span translate>YES</span>
+				            		</label>
+									<label class="radio-inline">
+				              			<input type="radio" name="RadioGroupOpenadata" value="false" id="RadioGroupOpenadata_1" ng-model="dataset.opendata.isOpendata" ng-disabled="dataset.info.visibility!='public'">
+				              			<span translate>NO</span>
+				            		</label>
 								</div>
-								<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
-							</div>
-							<div class="col-sm-3">
-								<div ng-file-select="onIconSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
-									<span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
-								</div>
-							</div>
-							<div class="col-sm-3 col-sm-offset-1 text-right">
-								<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
 							</div>
 							
-						</div>			
-						
+							<div ng-show="dataset.opendata.isOpendata=='true'">
+								<div class="form-group">
+									<label for="inputDatasetOpendataSourceId" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_OPENDATA_SOURCEID</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" id="inputDatasetOpendataSourceId" placeholder="{{'DATASET_FIELD_METADATA_OPENDATA_SOURCEID_PLACEHOLDER'|translate}}" 
+										ng-model="dataset.opendata.sourceId" >
+									</div>
+									<div class="col-sm-6 form-hint">
+										<span class='hint-message' ng-bind-html="'MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT'|translate"></span>
+									</div>
+									
+								</div>		
+								<div class="form-group">
+									<label for="inputDatasetDomain" class="col-sm-2 control-label"translate>DATASET_FIELD_METADATA_OPENDATA_LANG</label>
+									<div class="col-sm-10">
+										<select class="input-sm form-control" ng-model="dataset.opendata.language" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
+					    					<option value="" translate>DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER</option>
+					    				</select>
+									</div>
+								</div>		
+								<div class="form-group">
+									<label for="inputDatasetOpendataDataUpdateDate" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</label>
+									<div class="col-sm-2">
+										<input type="date" class="form-control"  ng-model="dataset.opendata.dataUpdateDate"  close-text="Close" />
+									</div>
+								</div>		
+							</div>
+							
+						</div>
 						<div class='form-label-separator' translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div>
 						<div class="form-group">
 							<label for="inputDatasetLicense" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_LICENSE</label>
@@ -163,7 +208,7 @@
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_METADATA_COPYRIGHT'|translate}}" ng-model="dataset.info.copyright" >
 							</div>
-						</div>							
+						</div>		
 						<div class='form-label-separator' translate>MANAGEMENT_EDIT_DATASET_COLUMNS</div>
 						<div class="col-sm-12"><span ng-bind-html="MANAGEMENT_EDIT_DATASET_COLUMNS_HELP|translate"></span></div>
 						<div class="col-sm-10 col-sm-offset-1">

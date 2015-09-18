@@ -40,6 +40,14 @@
 							<div class='col-sm-6'><span >{{dataset.info.dataDomain|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
+							<div class='col-sm-6'>
+								<ul class="list-inline">
+									<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
+								</ul>
+							</div>
+						</div>	
+						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
 							<div class='col-sm-2'>{{dataset.info.visibility}}</div>
 							<div class='col-sm-2 text-right'card-label" ng-show="dataset.info.visibility=='private'"><strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
@@ -49,18 +57,28 @@
 								</span> &nbsp;
 							</div>
 						</div>
-						<div class="row card-row">
-							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
-							<div class='col-sm-6'>
-								<ul class="list-inline">
-									<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
-								</ul>
-							</div>
-						</div>	
 					</div>
 					<div class="col-sm-2 text-right">
 						<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
 					</div>
+				</div>	
+			</accordion-group>
+			<accordion-group is-open="statusOpendata.open" ng-show="dataset.opendata.isOpendata=='true'">
+			 	<accordion-heading>
+		 			<span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': statusOpendata.open.open, 'glyphicon-plus': !statusOpendata.open.open}"></i>
+				</accordion-heading>
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA_SOURCEID'|translate"></span></strong></div>
+					<div class='col-sm-10'>{{dataset.opendata.sourceId}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_OPENDATA_LANG</span></strong></div>
+					<div class='col-sm-10'>{{dataset.opendata.language}} - {{dataset.opendata.language|translate}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</span></strong></div>
+					<div class='col-sm-10'>{{dataset.opendata.dataUpdateDate|date}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status1.open">

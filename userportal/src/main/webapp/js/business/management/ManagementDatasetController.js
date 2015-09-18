@@ -212,6 +212,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return info.isOwner( $scope.tenantCode);
 	};
 
+	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 
@@ -253,11 +254,12 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.stream = null;
 	$scope.apiMetdataUrl = "";
 
-
-//	if($scope.dataset.columns == null)
-//	$scope.dataset.columns = new Object();
-//	$scope.dataset.columns.column = Helpers.util.initArrayZeroOneElements($scope.dataset.columns.column);
-
+	$scope.onDateChange = function() {
+        if ($scope.dataset.opendata.datetimez) {
+        	$scope.dataset.opendata.datetimez = $scope.dataset.opendata.datetimez.getTime();
+        }
+    };
+	
 	$scope.loadDataset = function(){
 		console.debug("$scope.datasetCode", $scope.datasetCode);
 		
@@ -274,10 +276,24 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 					$scope.dataset.info = new Object();
 				if(!$scope.dataset.info.tags)
 					$scope.dataset.info.tags = [];
-	
-				//$scope.dataset.info.visibility = 'public';
+
 				if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
 					$scope.dataset.info.icon  = "img/dataset-icon-default.png";
+
+				if(!$scope.dataset.opendata){
+					$scope.dataset.opendata = {};
+					$scope.dataset.opendata.isOpendata = 'false';
+					$scope.dataset.opendata.language = 'it';
+				}
+				else if($scope.dataset.opendata.isOpendata){
+					$scope.dataset.opendata.isOpendata = 'true';
+					if($scope.dataset.opendata.dataUpdateDate && $scope.dataset.opendata.dataUpdateDate!=null){
+						var dataUpdateDate = new Date($scope.dataset.opendata.dataUpdateDate);
+						$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
+					}
+				}
+
+				//$scope.dataset.info.visibility = 'public';
 			} catch (e) {
 				console.error("getDataset ERROR", e);
 			}
@@ -306,6 +322,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return false;
 
 	};
+	
 
 	$scope.removeTag = function(index){
 		$scope.metadata.info.tags.splice(index,1);
@@ -375,7 +392,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				}
 		);
 	};
-
+	
 	$scope.canEdit = function() {
 		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
 	};
@@ -386,36 +403,52 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 	$scope.updateDataset = function() {
 		var newDataset =  $scope.dataset;
+		$scope.updateInfo = null;
+		$scope.updateError = false;
+		$scope.openadataDataUpdateDateStyle = "";
 
 		if(!newDataset.info.tags && newDataset.info.tags.length==0){
 			newDataset.info.tags = null;
 		}
 
-		$scope.updateInfo = null;
-		$scope.updateError = null;
-		Helpers.util.scrollTo();
-		
-		console.log("updateDataset newDataset ", newDataset);
-		var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetCode, newDataset);
+		if(newDataset.opendata.isOpendata !='true'){
+			newDataset.opendata = null;
+		}
+		else{
+			if(!newDataset.opendata.language || newDataset.opendata.language == null || newDataset.opendata.language == '')
+				newDataset.opendata.language = 'it';
+			
+			if(newDataset.opendata.dataUpdateDate!=null)
+				newDataset.opendata.dataUpdateDate = new Date(newDataset.opendata.dataUpdateDate).getTime();
 
-		promise.then(function(result) {
-			if(result.errors && data.errors.length>0){
+		}
+
+
+		
+		Helpers.util.scrollTo();
+		if(!$scope.updateError){
+			console.log("updateDataset newDataset ", newDataset);
+			var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetCode, newDataset);
+	
+			promise.then(function(result) {
+				if(result.errors && data.errors.length>0){
+					$scope.updateError = true;
+					$scope.updateErrors = data.errors;
+					Helpers.util.scrollTo();
+				}
+				else{
+					$scope.updateInfo = {status: "Ok"};
+					$scope.loadDataset();
+				}
+			}, function(result) {
 				$scope.updateError = true;
-				$scope.updateErrors = data.errors;
-				Helpers.util.scrollTo();
-			}
-			else{
-				$scope.updateInfo = {status: "Ok"};
+				$scope.updateErrors = angular.fromJson(result.data);
+				console.log("result.data ", result.data);
 				$scope.loadDataset();
-			}
-		}, function(result) {
-			$scope.updateError = true;
-			$scope.updateErrors = angular.fromJson(result.data);
-			console.log("result.data ", result.data);
-			$scope.loadDataset();
-		}, function(result) {
-			console.log('Got notification: ' + result);
-		});
+			}, function(result) {
+				console.log('Got notification: ' + result);
+			});
+		}
 	};	
 
 	$scope.requestInstallation = function(){
@@ -629,6 +662,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	                      {'name':'columns', 'style':''},
 	                      ];
 
+	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
+
 	var refreshWizardToolbar = function(){
 		var style = 'step-done';
 		for (var int = 0; int < $scope.wizardSteps.length; int++) {
@@ -638,6 +673,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		};
 	};
 	
+
 
 	$scope.choosenDatasetType='bulk_upload';
 
@@ -698,10 +734,13 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		}
 	});
 
-	$scope.metadata = {info:{}, configData: {}};
+	$scope.metadata = {info:{}, configData: {}, opendata: {}};
 	$scope.metadata.info.icon  = "img/dataset-icon-default.png";
 	$scope.metadata.info.visibility = "private";
 	$scope.metadata.info.importFileType = "csv";
+	$scope.metadata.opendata.language = 'it';
+	$scope.metadata.opendata.isOpendata = 'false';
+	$scope.metadata.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(new Date());
 
 	$scope.user = {};
 
@@ -1079,6 +1118,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.previewColumns = [];
 		$scope.previewBinaries = [];
 		$scope.metadata.info.fields = [];
+		
+		
 		$scope.currentStep = 'choosetype';refreshWizardToolbar();
 	};
 	$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
@@ -1162,6 +1203,20 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		}
 		
 		console.log("dataset dopo binary ", newDataset);
+		$scope.openadataDataUpdateDateStyle = "";
+
+		if(newDataset.opendata.isOpendata !='true'){
+			newDataset.opendata = null;
+		}
+		else{
+			if(!newDataset.opendata.language || newDataset.opendata.language == null || newDataset.opendata.language == '')
+				newDataset.opendata.language = 'it';
+
+			if(newDataset.opendata.dataUpdateDate && newDataset.opendata.dataUpdateDate!=null)
+				newDataset.opendata.dataUpdateDate = new Date(newDataset.opendata.dataUpdateDate).getTime();
+
+		}
+
 	
 		if(!hasErrors){
 			var fileName = null;

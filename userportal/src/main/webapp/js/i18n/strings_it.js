@@ -23,6 +23,19 @@ var translations_it = {
 	OK: 'Ok',
 	BACK: 'Indietro',
 	CHOOSE: 'Scegli...',
+	
+	DATE_DAY_PLACEHOLDER: 'gg',
+	DATE_MONTH_PLACEHOLDER: 'mm',
+	DATE_YEAR_PLACEHOLDER: 'aaaa',
+	
+	/* languages */
+	el:"ελληνικά",
+	en:"English",
+	es:"Español",
+	fr:"Français",
+	it:"Italiano",
+	sl:"Slovenščina",
+	sr:"Српски",
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -236,6 +249,14 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_IS_KEY: 'Chiave',
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
+	
+	DATASET_FIELD_METADATA_OPENDATA: 'Opendata',
+	DATASET_FIELD_METADATA_OPENDATA_SOURCEID: 'Sorgente dati',
+	DATASET_FIELD_METADATA_OPENDATA_SOURCEID_PLACEHOLDER: 'es. www.regione.piemonte.it',
+	DATASET_FIELD_METADATA_OPENDATA_LANG: 'Lingua scheda metadato',
+	DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER: 'Indica in che lingua sono scritti i metadati...',
+	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE: 'Data aggiornamento dati',
+	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE_PLACEHOLDER: '12/09/2015',
 	
 	/* Cookie */
 	COOKIE_MESSAGE: 'Questo sito fa uso di cookie per migliorare l\'esperienza di navigazione degli utenti. Proseguendo nella navigazione si accetta l\'uso dei cookie.',
@@ -744,6 +765,8 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_API_URL: 'Url accesso API', 
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Informazioni generali',
+	MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING: 'Visibilit&agrave; e condivisione', 
+	MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT: 'Indicando la sorgente dati verrai indicizzato sul portale <a href="http://www.dati.piemonte.it" target="_blank">Dati Piemonte</a>',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Definizione struttura dato',
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'Per la struttura del dato &eacute; possibile modificare solo gli alias delle colonne',
 

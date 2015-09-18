@@ -117,6 +117,21 @@ Helpers.util = {
 		}
 		return result;
 	},
+	
+	formatDateForInputHtml5: function(dateIn){
+		var dateOut = "";
+		try{
+			var day = dateIn.getDate();
+			var month = 1+ dateIn.getMonth();
+			
+			dateOut = ""+dateIn.getFullYear()+"-"+(month<10?"0":"")+month+"-"+(day<10?"0":"")+day;
+		}
+		catch (e) {
+			console.error("Helpers.util.formatDateForInputHtml5 - dateIn, error",dateOut, e);
+		}
+		return dateOut;
+		
+	}, 
 
 	arrayMoveDownElement : function(array, elementIndex) {
 		var result = [];
