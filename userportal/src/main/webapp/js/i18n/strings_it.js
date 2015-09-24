@@ -252,8 +252,8 @@ var translations_it = {
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	
 	DATASET_FIELD_METADATA_OPENDATA: 'Opendata',
-	DATASET_FIELD_METADATA_OPENDATA_SOURCEID: 'Sorgente dati',
-	DATASET_FIELD_METADATA_OPENDATA_SOURCEID_PLACEHOLDER: 'es. www.regione.piemonte.it',
+	DATASET_FIELD_METADATA_OPENDATA_AUTHOR: 'Autore',
+	DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER: 'es. Regione Piemonte',
 	DATASET_FIELD_METADATA_OPENDATA_LANG: 'Lingua scheda metadato',
 	DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER: 'Indica in che lingua sono scritti i metadati...',
 	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE: 'Data aggiornamento dati',
@@ -767,7 +767,7 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Informazioni generali',
 	MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING: 'Visibilit&agrave; e condivisione', 
-	MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT: 'Indicando la sorgente dati verrai indicizzato sul portale <a href="http://www.dati.piemonte.it" target="_blank">Dati Piemonte</a>',
+//	MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT: 'Indicando la sorgente dati verrai indicizzato sul portale <a href="http://www.dati.piemonte.it" target="_blank">Dati Piemonte</a>',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Definizione struttura dato',
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'Per la struttura del dato &eacute; possibile modificare solo gli alias delle colonne',
 

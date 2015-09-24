@@ -56,11 +56,13 @@ public enum ApiEntityEnum {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 
-			//Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			//if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
-			//	return true;
-			//}
-			//return false;
+			// Info info = (Info)
+			// request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			// if (AuthorizeUtils.getElementInPositionByRequest(request,
+			// 2).equals(info.getUser().getActiveTenant())) {
+			// return true;
+			// }
+			// return false;
 			return true;
 		}
 	},
@@ -68,11 +70,13 @@ public enum ApiEntityEnum {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 
-			//Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			//if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
-			//	return true;
-			//}
-			//return false;
+			// Info info = (Info)
+			// request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			// if (AuthorizeUtils.getElementInPositionByRequest(request,
+			// 2).equals(info.getUser().getActiveTenant())) {
+			// return true;
+			// }
+			// return false;
 			return true;
 		}
 	},
@@ -80,11 +84,13 @@ public enum ApiEntityEnum {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 
-			//Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			//if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
-			//	return true;
-			//}
-			//return false;
+			// Info info = (Info)
+			// request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			// if (AuthorizeUtils.getElementInPositionByRequest(request,
+			// 2).equals(info.getUser().getActiveTenant())) {
+			// return true;
+			// }
+			// return false;
 			return true;
 		}
 	},
@@ -176,6 +182,16 @@ public enum ApiEntityEnum {
 
 	// MANAGEMENT
 	API_MANAGEMENT_DATASET_DOWNLOAD_URL("API_MANAGEMENT_DATASET_DOWNLOAD_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/download/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			// return AuthorizeUtils.getElementInPositionByRequest(request,
+			// 3).equals(AuthorizeUtils.getTenantInSession(request));
+			return true;
+		}
+	},
+
+	// MANAGEMENT
+	API_MANAGEMENT_DATASET_OPENDATA_URL("API_MANAGEMENT_DATASET_OPENDATA_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/opendata/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			// return AuthorizeUtils.getElementInPositionByRequest(request,

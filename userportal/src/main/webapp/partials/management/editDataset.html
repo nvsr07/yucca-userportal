@@ -161,14 +161,14 @@
 							
 							<div ng-show="dataset.opendata.isOpendata=='true'">
 								<div class="form-group">
-									<label for="inputDatasetOpendataSourceId" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_OPENDATA_SOURCEID</label>
+									<label for="inputDatasetOpendataAuthor" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_OPENDATA_AUTHOR</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="inputDatasetOpendataSourceId" placeholder="{{'DATASET_FIELD_METADATA_OPENDATA_SOURCEID_PLACEHOLDER'|translate}}" 
-										ng-model="dataset.opendata.sourceId" >
+										<input type="text" class="form-control" id="inputDatasetOpendataAuthor" placeholder="{{'DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER'|translate}}" 
+										ng-model="dataset.opendata.author" >
 									</div>
-									<div class="col-sm-6 form-hint">
-										<span class='hint-message' ng-bind-html="'MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT'|translate"></span>
-									</div>
+									<!-- 	<div class="col-sm-6 form-hint">
+										<span class='hint-message' ng-bind-html="'MANAGEMENT_METADATA_OPENDATA_AUTHOR_HINT'|translate"></span>
+									</div> -->
 									
 								</div>		
 								<div class="form-group">

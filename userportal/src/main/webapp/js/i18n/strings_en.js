@@ -252,8 +252,8 @@ var translations_en = {
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with',
 	
 	DATASET_FIELD_METADATA_OPENDATA: 'Opendata',
-	DATASET_FIELD_METADATA_OPENDATA_SOURCEID: 'Data source',
-	DATASET_FIELD_METADATA_OPENDATA_SOURCEID_PLACEHOLDER: 'e.g. www.regione.piemonte.it',
+	DATASET_FIELD_METADATA_OPENDATA_AUTHOR: 'Author',
+	DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER: 'e.g. Regione Piemonte',
 	DATASET_FIELD_METADATA_OPENDATA_LANG: 'Language of metadata card',
 	DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER: 'Language of metadata...',
 	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE: 'Last update of data',
@@ -766,7 +766,7 @@ var translations_en = {
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING: 'Visibility and sharing', 
-	MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT: 'Specifying the data source you will be indexed on the portal <a href="http://www.dati.piemonte.it" target="_blank">Dati Piemonte</a>',
+	//MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT: 'Specifying the data source you will be indexed on the portal <a href="http://www.dati.piemonte.it" target="_blank">Dati Piemonte</a>',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Define data structure',
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'In the data structure you can change only the column\'s alias',
 
