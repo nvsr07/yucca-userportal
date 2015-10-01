@@ -359,6 +359,7 @@ var translations_it = {
 	HOME_START_DEMO_BUTTON: 'Accesso anonimo ai dati pubblici', 
 	HOME_LOGGED_IN_WELCOME: 'Benvenuto, ',
 	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
+	HOME_LOGGED_NOT_TENANT_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere (tecnico), rivolgersi alla casella smartdatanet@csi.it',
 	HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
 	HOME_MAP_INTRO: 'Sensori attualmente attivi sul territorio',
 	HOME_STATISTIC_PANEL_TITLE: 'Cosa c\'&egrave; nella piattaforma',

@@ -201,36 +201,13 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAP
 	};
 
 	$scope.domainChartColors = ["#00521F","#006627","#007A2F","#008F37","#00973A","#00B846","#00CC4E","#00E056", "#00F55E"];
-//	$scope.domainChartData =  [
-//	{ 
-//	key: "Agricoltura",
-//	y : 29
-//	} , 
-//	{ 
-//	key: "Energia",
-//	y : 13
-//	} , 
-//	{ 
-//	key: "Ambiente",
-//	y : 32
-//	} , 
-//	{ 
-//	key: "Salute",
-//	y : 19
-//	} , 
-//	{ 
-//	key: "Scuola",
-//	y : 5
-//	} , 
-//	{ 
-//	key: "Sicurezza",
-//	y : 9
-//	} , 
-//	{ 
-//	key: "Trasporti",
-//	y : 25
-//	} 
-//	];
+//	$scope.domainChartData =  [{ key: "Agricoltura", y : 29
+//	} , { key: "Energia", y : 13
+//	} , { key: "Ambiente", y : 32
+//	} , { key: "Salute", y : 19
+//	} , { key: "Scuola", y : 5
+//	} , { key: "Sicurezza", y : 9
+//	} , { key: "Trasporti", y : 25 }];
 	
 	$scope.animationsEnabled = true;
 
@@ -243,21 +220,50 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAP
 			animation : $scope.animationsEnabled,
 			templateUrl : 'myModalContent.html',
 			controller : 'HomePageModalCtrl',
-			size : 0
+			size : 0,
+		      resolve: {
+		    	  op: function () {
+		            return 'strong';
+		          }
+		        }
 		});
 
 		modalInstance.result.then(function(selectedItem) {
-					$scope.selected = selectedItem;
-					console.log("selected in modalInstance.result.then", selectedItem);
-				}, function() {
-					console.info('Modal dismissed at: ' + new Date());
+				$scope.selected = selectedItem;
+				console.log("selected in modalInstance.result.then", selectedItem);
+			}, function() {
+				console.info('Modal dismissed at: ' + new Date());
+		});
+	}
+	
+	if ($route.current.params.tenant === "false"){
+		var modalInstance = $modal.open({
+			animation : $scope.animationsEnabled,
+			templateUrl : 'myModalContent.html',
+			controller : 'HomePageModalCtrl',
+			size : 0,
+		      resolve: {
+		    	  op: function () {
+			            return 'tenant';
+		          }
+		        }
+		});
+
+		modalInstance.result.then(function(selectedItem) {
+				$scope.selected = selectedItem;
+				console.log("selected in modalInstance.result.then", selectedItem);
+			}, function() {
+				console.info('Modal dismissed at: ' + new Date());
 		});
 	}
 
 } ]);
 
-appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'readFilePreview',
-                                                     function($scope, $routeParams, $location, $modalInstance, info, readFilePreview) {
+appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'readFilePreview', 'op',
+                                                     function($scope, $routeParams, $location, $modalInstance, info, readFilePreview, op) {
+	
+	console.log('op', op);
+	$scope.op = op;
 	
 	$scope.cancel = function () {
 	    $modalInstance.dismiss('cancel');

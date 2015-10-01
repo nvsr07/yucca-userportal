@@ -77,6 +77,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				User newUser = info.getUser();
 				Boolean strong = true;
+				Boolean tenant = true;
 				
 				if (result == null) {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
@@ -133,6 +134,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
 					} catch (Exception e) {
+						
+						tenant = false;	
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
@@ -151,6 +154,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					//Utente senza strong authentication
 
 					strong = false;			
+					tenant = false;			
 				}
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
@@ -162,6 +166,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				if (!strong)
 					returnPath += "&strong=false";
+				
+				if (!tenant)
+					returnPath += "&tenant=false";
+
+				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 					
 				response.sendRedirect(returnPath);
 			} else {
