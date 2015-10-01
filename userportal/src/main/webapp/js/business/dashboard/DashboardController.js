@@ -490,7 +490,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				if($scope.isTwitter){
 					collection = 'SocialFeeds';
 				}
-				odataAPIservice.getStreamData(apiCode, 0, maxNumData, 'time%20desc',collection).success(function(response) {
+				odataAPIservice.getStreamData(apiCode, null, 0, maxNumData, 'time%20desc',collection).success(function(response) {
 					console.log("odataAPIservice.getStreamData",response, collection);
 					var oDataResultList = response.d.results;
 					if(oDataResultList.length >0){

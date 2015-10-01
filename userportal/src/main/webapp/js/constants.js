@@ -115,4 +115,5 @@ Constants.OPENDATA_LANGUAGES = {
 		"sr":"Српски"
 };
 
+Constants.ODATA_MAX_RESULT_SORTABLE = 100000;
 

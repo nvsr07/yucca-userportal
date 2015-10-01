@@ -1,0 +1,106 @@
+<div ng-controller="DataExplorerCtrl as dataExplorerCtrl" ng-cloak>
+	<div class='container-fluid'>
+		<h3 class='entity-title'><span translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.info.datasetName}}</small></h3>
+		<div class='clearfix entity-info entity-info-top'>
+			<div class='pull-left dataExplorer-icon-preview'>
+				<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='dataExplorer-icon-preview-img' >
+			</div>
+			<div class='pull-left'>
+				<div><small><span translate>DATASET_FIELD_METADATA_NAME</span></small></div>
+				<div class='main-info'><strong>{{dataset.info.datasetName}}</strong></div>
+			</div>
+			<div class='pull-right text-right'>
+				<div><small><span translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
+				<div><strong>{{dataset.info.registrationDate|date}}</strong></div>
+				
+			</div>
+		</div>
+		<div class='clearfix entity-info entity-info-bottom'>
+			<div class='pull-left'>
+				<div><small><span translate>DATASET_FIELD_CONFIGDATA_CODE</span></small></div>
+				<div class='url'><strong>{{dataset.datasetCode}}</strong></div>
+			</div>
+			<div class='pull-right text-right'>
+				<div><small><span translate>DATASET_FIELD_VERSION</span></small></div>
+				<div><strong>{{dataset.datasetVersion}}</strong>  <span ng-show="dataset.configData.deleted==1" translate>DATASET_FIELD_CONFIGDATA_DELETED</span></div>
+			</div>
+		</div>
+		<div class='row-fluid clearfix panel-dataexplorer-topbar'>
+			<div class='col-sm-3'>
+				<a href ng-click="currentSidebar = 'filter'" class='sidebar-menu-item'><i class='glyphicon glyphicon-filter'></i>&nbsp;<span translate>DATA_EXPLORER_FILTER_MENU_BUTTON</span></a> &nbsp;
+				<a href ng-click="currentSidebar = 'metadataDetail'" class='sidebar-menu-item'><i class='glyphicon glyphicon-record'></i>&nbsp;<span translate>DATA_EXPLORER_DETAIL_MENU_BUTTON</span></a>
+			</div>
+			<div class='col-sm-9 text-right'>
+				<span ng-show='usedFilter!=null'><strong><span translate>DATA_EXPLORER_USED_FILTER</span>:</strong> {{usedFilter}}</span>&nbsp;&nbsp;|&nbsp;&nbsp; 
+				<span ng-show='totalFound!=null'><strong><span translate>DATA_EXPLORER_TOTAL_FOUND</span>:</strong> {{totalFound}}</span>
+			</div>
+		</div>
+		<div class='row-fluid'>
+			<div ng-show='currentSidebar=="filter"' class='col-sm-3'>
+				<dataexplorer-sidebar-filter></dataexplorer-sidebar-filter>
+			</div>
+			
+			<div ng-show='currentSidebar=="metadataDetail"' class='col-sm-3'>
+				<dataexplorer-sidebar-metadatadetail></dataexplorer-sidebar-metadatadetail>
+			</div>
+			<div ng-class="{'col-sm-12':currentSidebar == 'none','col-sm-9':currentSidebar != 'none'}"> <!-- data -->
+				<div class='ajax-loading-container' ng-show="showLoading">
+					<span class='ajax-loading-big'></span>
+					<h4>Loading...</h4>
+				</div>
+				<div class="alert alert-danger" ng-show='errors.length!=0'>
+					<div class='row  text-left' ng-repeat="error in errors">
+						<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
+						<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
+					</div>		
+				</div>
+				<div ng-show="!showLoading">
+					<table class='table dataexplorer-table-grid'>
+						<thead>
+							<tr>
+								<th ng-repeat='column in columns track by $index'>
+									<div class='pull-left'>{{column["label"]}}</div>
+									<div class='pull-right' ng-show="column['showOrderButton']">
+										<i class='fa fa-sort' ng-show='column["order"]=="none"' ng-click='orderResult(column["label"],"desc")'></i>
+										<i class='fa fa-sort-desc' ng-show='column["order"]=="desc"' ng-click='orderResult(column["label"],"asc")'></i>
+										<i class='fa fa-sort-asc' ng-show='column["order"]=="asc"' ng-click='orderResult(column["label"],"none")'></i>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in dataList"><td  ng-repeat='column in columns track by $index'>{{data[column["label"]]}}</td></tr>
+						</tbody>
+					</table>
+					<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
+								next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+					</pagination>
+				</div>
+			</div>
+		</div>
+		
+
+		<!--  <h4><span translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span></h4>
+		<strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong>
+		<p><a href="{{apiMetdataUrl}}" target="_blank" class='management-dataset-download-link'>{{apiMetdataUrl}}</a></p>-->
+		<div class='row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="row card-toolbar">
+					<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
+						<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
+					</a>
+					<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData() && isAuthorized('management/datasets/upload')">
+						<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
+					</a>
+					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download')"  >
+						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
+					</a>
+<!-- 					<a href="javascript:void(0)" ng-click='openModalView()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" title="{{'MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT'|translate}}">
+						<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate>MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET</span>
+					</a>
+					 -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

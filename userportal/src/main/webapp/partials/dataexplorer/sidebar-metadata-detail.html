@@ -1,0 +1,195 @@
+<div class="panel panel-default panel-dataexplorer-sidebar">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<i class='glyphicon glyphicon-record'></i>&nbsp;
+			<span translate>DATA_EXPLORER_DETAIL_PANEL_TITLE</span>
+			<a href ng-click="currentSidebar = 'none'" class='panel-hide-button'>&times;</a>
+		</h3>
+	</div>
+	<div class="panel-body">
+		<accordion close-others="false">
+			<accordion-group is-open="!status0.open">
+			 	<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_DATASET_GENERAL_INFO</span>
+		 			<i class="pull-right glyphicon hide" ng-class="{'glyphicon-minus': status0.open, 'glyphicon-plus': !status0.open}"></i>
+				</accordion-heading>
+				<div class='panel-content'>
+					<p>					
+						<strong><span translate>DATASET_FIELD_METADATA_DESCRIPTION</span></strong><br/>
+						<span>{{dataset.info.description}}</span>
+					</p>
+					<p>
+						<strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong><br/>
+						<span >{{dataset.info.dataDomain|translate}}</span>
+					</p>	
+					<p>
+						<strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong><br/>
+						<ul class="list-inline">
+							<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
+						</ul>
+					</p>
+					<p>
+						<strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong><br/>
+						{{dataset.info.visibility}}
+					</p>
+					<p>
+						<strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong><br/>
+						<span  ng-repeat="tenantSharing in dataset.info.tenantssharing.tenantsharing">
+							<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
+						</span> &nbsp;
+					</p>
+				</div>	
+			</accordion-group>
+			<accordion-group is-open="statusOpendata.open" ng-show="dataset.opendata.isOpendata=='true'">
+			 	<accordion-heading>
+		 			<span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': statusOpendata.open.open, 'glyphicon-plus': !statusOpendata.open.open}"></i>
+				</accordion-heading>
+				<p>
+					<strong><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA_AUTHOR'|translate"></span></strong><br/>
+					{{dataset.opendata.author}}
+				</p>	
+				<p>
+					<strong><span translate>DATASET_FIELD_METADATA_OPENDATA_LANG</span></strong><br/>
+					{{dataset.opendata.language}} - {{dataset.opendata.language|translate}}
+				</p>	
+				<p>
+					<strong><span translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</span></strong><br/>
+					{{dataset.opendata.dataUpdateDate|date}}
+				</p>	
+			</accordion-group>
+			<accordion-group is-open="status1.open">
+			 	<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status1.open, 'glyphicon-plus': !status1.open}"></i>
+				</accordion-heading>
+				<p>
+					<strong><span translate>DATASET_FIELD_METADATA_LICENSE</span></strong><br/>
+					{{dataset.info.license|nvl:' -'}}
+				</p>	
+				<p>
+					<strong><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong><br/>
+					{{dataset.info.disclaimer|nvl:' -'}}
+				</p>	
+				<p>
+					<strong><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong><br/>
+					{{dataset.info.copyright|nvl:' -'}}
+				</p>	
+			</accordion-group>
+			<accordion-group is-open="status2.open" ng-show="stream!=null">
+				<accordion-heading>
+					<span translate>VIRTUALENTITY</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
+				</accordion-heading>
+				<p>
+					<strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong><br/>
+					{{stream.streams.stream.virtualEntityName|nvl:''}}
+				</p>	
+				<p>
+					<strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong><br/>
+					{{stream.streams.stream.virtualEntityCode|nvl:''}}
+				</p>	
+				<p>
+					<strong><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong><br/>
+					{{stream.streams.stream.virtualEntityDescription|nvl:''}}
+				</p>	
+				<p>
+					<strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong><br/>
+					{{stream.streams.stream.virtualEntityType|nvl:''}}
+				</p>	
+				<p>
+					<strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong><br/>
+					{{stream.streams.stream.virtualEntityCategory|nvl:''}}
+				</p>	
+				<p ng-show="stream.streams.stream.virtualEntityPositions.position!=null">
+					<strong><span translate>VIRTUALENTITY_FIELD_POSITION</span></strong><br/>
+					[{{stream.streams.stream.virtualEntityPositions.position[0].lat}};{{stream.streams.stream.virtualEntityPositions.position[0].lon}}]<br/>
+					<strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong><br/>
+					{{stream.streams.stream.virtualEntityPositions.position.elevation[0]|nvl:' -'}}
+				</p>	
+			</accordion-group>
+			<accordion-group is-open="status3.open" ng-show="stream!=null">
+				<accordion-heading>
+					<span translate>STREAM</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
+				</accordion-heading>
+				<p>
+					<strong><span translate>STREAM_FIELD_NAME</span></strong><br/>
+					{{stream.streamName|nvl:' -'}}
+				</p>	
+				<p>
+					<strong><span translate>STREAM_FIELD_CODE</span></strong><br/>
+					{{stream.streamCode|nvl:' -'}}
+				</p>	
+				<p>
+					<strong><span translate>STREAM_FIELD_FPS</span></strong><br/>
+					{{stream.streams.stream.fps|nvl:' -'}}
+				</p>	
+			</accordion-group>
+			<accordion-group is-open="status4.open" ng-show="stream.streams.stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID && stream.streams.stream.idTipoVe!=null">
+				<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+				</accordion-heading>
+				<p>
+					<strong><span translate>STREAM_FIELD_TWT_QUERY</span></strong><br/>
+					{{stream.streams.stream.twtQuery}}
+					<strong><span translate>STREAM_FIELD_TWT_LANG</span></strong><br/>
+					{{stream.streams.stream.twtLang}}
+				<p>	
+				<p>
+					<strong><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong><br/>
+					<span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.streams.stream.twtGeolocLat}},{{stream.streams.stream.twtGeolocLon}}</span>
+					<strong><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong><br/>
+					<span ng-show="stream.twtGeolocRadius!=0">{{stream.streams.stream.twtGeolocRadius}} {{stream.streams.stream.twtUnit}}</span>
+				<p>	
+				<p>
+					<strong><span translate>STREAM_FIELD_TWT_RATE</span></strong><br/>
+					{{stream.streams.stream.twtRatePercentage}}
+				<p>	
+			</accordion-group>
+			<accordion-group is-open="status5.open">
+				<accordion-heading>
+					<span translate>MANAGEMENT_EDIT_DATASET_COLUMNS</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
+				</accordion-heading>
+			
+				<p>
+					<table class="table table-supercondensed">
+						<thead>
+							<tr>
+								<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
+								<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+								<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
+								<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
+								<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
+								<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="field in dataset.info.fields">
+								<td>{{field.fieldName}}</td>
+								<td>{{field.fieldAlias}}</td>
+								<td>{{field.dataType|nvl:' - '}}</td>
+								<td>{{field.sourceColumn}}</td>
+								<td>{{field.measureUnit|nvl:' - '}}</td>
+								<td>{{field.isKey|booleanToString|translate}}</td>
+								
+						</tbody>
+					</table>
+				<p>
+			</accordion-group>
+			<accordion-group is-open="status6.open">
+				<accordion-heading>
+					<span translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+				</accordion-heading>
+				<p>
+					<strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong><br/>
+					<a href="{{apiMetdataUrl}}" target="_blank" class='management-dataset-download-link'>{{apiMetdataUrl}}</a>
+				</p>	
+			</accordion-group>
+		</accordion>
+	</div>
+</div>
+

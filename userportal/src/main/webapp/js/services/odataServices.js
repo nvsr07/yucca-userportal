@@ -2,11 +2,13 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 
 	var odataAPIservice = {};
 	
-	odataAPIservice.getStreamData = function(stream_code, skip, top, orderby, collection ) {
+	odataAPIservice.getStreamData = function(stream_code, filter, skip, top, orderby, collection ) {
 		if(!collection || collection == null)
 			collection = 'Measures';
 		//http://int-api.smartdatanet.it/odata/SmartDataOdataService.svc/ds_Provapositio_28/Measures?$format=json&$top=19&$skip=0&$orderby=time
 		var streamDataUrl = Constants.API_ODATA_URL+stream_code+"/"+collection+"?$format=json";
+		if(filter && filter!=null)
+			streamDataUrl += '&$filter='+filter;
 		if(skip && skip!=null)
 			streamDataUrl += '&$skip='+skip;
 		if(top && top!=null)
