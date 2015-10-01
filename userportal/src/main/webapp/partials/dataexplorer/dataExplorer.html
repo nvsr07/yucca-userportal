@@ -31,22 +31,26 @@
 				<a href ng-click="currentSidebar = 'metadataDetail'" class='sidebar-menu-item'><i class='glyphicon glyphicon-record'></i>&nbsp;<span translate>DATA_EXPLORER_DETAIL_MENU_BUTTON</span></a>
 			</div>
 			<div class='col-sm-9 text-right'>
-				<span ng-show='usedFilter!=null'><strong><span translate>DATA_EXPLORER_USED_FILTER</span>:</strong> {{usedFilter}}</span>&nbsp;&nbsp;|&nbsp;&nbsp; 
+				<span ng-show='usedFilter!=null'><strong><span translate>DATA_EXPLORER_USED_FILTER</span>:</strong> <span ng-bind-html="usedFilter"></span></span>
+				<span class=' panel-dataexplorer-topbar-separator-big'>|</span>
 				<span ng-show='totalFound!=null'><strong><span translate>DATA_EXPLORER_TOTAL_FOUND</span>:</strong> {{totalFound}}</span>
 			</div>
 		</div>
 		<div class='row-fluid'>
-			<div ng-show='currentSidebar=="filter"' class='col-sm-3'>
+			<div ng-show='currentSidebar=="filter"' class='col-sm-4 col-md-3'>
 				<dataexplorer-sidebar-filter></dataexplorer-sidebar-filter>
 			</div>
 			
-			<div ng-show='currentSidebar=="metadataDetail"' class='col-sm-3'>
+			<div ng-show='currentSidebar=="metadataDetail"' class='col-sm-4 col-md-3'>
 				<dataexplorer-sidebar-metadatadetail></dataexplorer-sidebar-metadatadetail>
 			</div>
-			<div ng-class="{'col-sm-12':currentSidebar == 'none','col-sm-9':currentSidebar != 'none'}"> <!-- data -->
+			<div ng-class="{'col-sm-12':currentSidebar == 'none','col-sm-8 col-md-9':currentSidebar != 'none'}"> <!-- data -->
 				<div class='ajax-loading-container' ng-show="showLoading">
 					<span class='ajax-loading-big'></span>
 					<h4>Loading...</h4>
+				</div>
+				<div class='alert alert-info' ng-show="dataList.length==0 && !showLoading && errors.length==0">
+					<span translate>DATA_EXPLORER_DATA_RESULT_EMPTY</span>
 				</div>
 				<div class="alert alert-danger" ng-show='errors.length!=0'>
 					<div class='row  text-left' ng-repeat="error in errors">

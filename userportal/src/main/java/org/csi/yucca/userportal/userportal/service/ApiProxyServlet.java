@@ -278,7 +278,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			for (String key : parameterMap.keySet()) {
 				i++;
 				if (!key.trim().equalsIgnoreCase("callback")) {
-					parametersOut += key + "=" +  URLEncoder.encode(parameterMap.get(key)[0],"UTF-8").replace("+","%20") ;
+					parametersOut += key + "=" +  URLEncoder.encode(parameterMap.get(key)[0],"UTF-8").replace("[+]","%2B").replace("+","%20") ;
 					if(i<parameterMap.size()){
 						parametersOut +="&";
 					}

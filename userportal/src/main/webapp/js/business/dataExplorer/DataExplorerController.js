@@ -11,20 +11,28 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	$scope.errors = [];
 	
 	var allFields = {};
+	$scope.columnsForFilter = [];
 
-	var operators_number = [{"value":"eq", "label":"=", "valueDelimiter": "", "isFunction": false},
-			                   {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false},
-		                       {"value":"ge", "label":">=", "valueDelimiter": "", "isFunction": false},
-		                       {"value":"gt", "label":">", "valueDelimiter": "", "isFunction": false},
-			                   {"value":"lt", "label":"<", "valueDelimiter": "", "isFunction": false},
-			                   {"value":"le", "label":"<=", "valueDelimiter": "", "isFunction": false}];
+	var operators_date = [{"value":"eq", "label":"=", "valueDelimiter": "", "isFunction": false, "isDate": true},
+			                   {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false, "isDate": true},
+		                       {"value":"ge", "label":">=", "valueDelimiter": "", "isFunction": false, "isDate": true},
+		                       {"value":"gt", "label":">", "valueDelimiter": "", "isFunction": false, "isDate": true},
+			                   {"value":"lt", "label":"<", "valueDelimiter": "", "isFunction": false, "isDate": true},
+			                   {"value":"le", "label":"<=", "valueDelimiter": "", "isFunction": false, "isDate": true}];
 
-	var operators_string = [{"value":"eq", "label":"equals", "valueDelimiter": "'", "isFunction": false},
-	                        {"value":"startswith", "label":"start with", "valueDelimiter": "'", "isFunction": true},
-	                        {"value":"endswith", "label":"end with", "valueDelimiter": "'", "isFunction": true},
-	                        {"value":"substringof", "label":"contains", "valueDelimiter": "'", "isFunction": true}];
+	var operators_number = [{"value":"eq", "label":"=", "valueDelimiter": "", "isFunction": false, "isDate": false},
+			                   {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false, "isDate": false},
+		                       {"value":"ge", "label":">=", "valueDelimiter": "", "isFunction": false, "isDate": false},
+		                       {"value":"gt", "label":">", "valueDelimiter": "", "isFunction": false, "isDate": false},
+			                   {"value":"lt", "label":"<", "valueDelimiter": "", "isFunction": false, "isDate": false},
+			                   {"value":"le", "label":"<=", "valueDelimiter": "", "isFunction": false, "isDate": false}];
 
-	var operators_boolean = [{"value":"eq", "label":"="}];
+	var operators_string = [{"value":"eq", "label":"equals", "valueDelimiter": "'", "isFunction": false, "isDate": false},
+	                        {"value":"startswith", "label":"start with", "valueDelimiter": "'", "isFunction": true, "isDate": false},
+	                        {"value":"endswith", "label":"end with", "valueDelimiter": "'", "isFunction": true, "isDate": false},
+	                        {"value":"substringof", "label":"contains", "valueDelimiter": "'", "isFunction": true, "isDate": false}];
+
+	var operators_boolean = [{"value":"eq", "label":"=", "isFunction": false, "isDate": false}];
 
 
 	
@@ -55,7 +63,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 				
 				allFields["streamCode"] = {"fieldName": "streamCode", "dataType": "string", "operators": operators_string};
 				allFields["sensor"] = {"fieldName": "sensor", "dataType": "string", "operators": operators_string};
-				allFields["time"] = {"fieldName": "time", "dataType": "date", "operators": operators_number};
+				allFields["time"] = {"fieldName": "time", "dataType": "date", "operators": operators_date};
 				allFields["internalId"] = {"fieldName": "internalId", "dataType": "string", "operators": operators_string};
 				allFields["datasetVersion"] = {"fieldName": "datasetVersion", "dataType": "long", "operators":operators_number};
 				allFields["idDataset"] = {"fieldName": "idDataset", "dataType": "string", "operators": operators_string};
@@ -67,10 +75,18 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 						operators = operators_string;
 					else if(field.dataType == "boolean")
 						operators = operators_boolean;
+					else if(field.dataType == "date")
+						operators = operators_date;
+					
 					
 					allFields[field.fieldName] = {"fieldName": field.fieldName, "dataType": field.dataType,"operators": operators};
 				}
 
+				for (var property in allFields) {
+					var field = allFields[property];
+					$scope.columnsForFilter.push({"label": property, "operators": field.operators, "dataType":field.dataType});
+					
+				}
 				
 				$scope.loadData();
 			} catch (e) {
@@ -94,6 +110,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	$scope.columns = [];
 	$scope.currentPage = 1;
 	$scope.orderBy = {"column":"time", "order": "desc"};
+	$scope.addFilterError = null;
 
 
 	
@@ -115,17 +132,24 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	};	
 
 	$scope.removeFilter = function($index){
+		$scope.addFilterError = null;
 		console.log("removeFilter", $index);
 		$scope.filters.splice($index,1);
 	};
 	
 	$scope.addFilter = function(){
-		console.log("add filter", $scope.newFilterOperator);
-		console.log("$scope.newFilterValue", $scope.newFilterValue);
-		$scope.filters.push({"column":$scope.newFilterColumn.label,"operator":$scope.newFilterOperator,"value":$scope.newFilterValue});
-		$scope.newFilterColumn = null;
-		$scope.newFilterOperator = null;
-		$scope.newFilterValue = null;
+		$scope.addFilterError = null;
+		if($scope.newFilterColumn && $scope.newFilterColumn!=null && $scope.newFilterColumn.label!=null && $scope.newFilterColumn.label!='' &&
+			$scope.newFilterOperator!=null && $scope.newFilterOperator!=''  &&
+			$scope.newFilterValue!=null && $scope.newFilterValue!='' ){
+				$scope.filters.push({"column":$scope.newFilterColumn.label,"operator":$scope.newFilterOperator,"value":$scope.newFilterValue});
+				$scope.newFilterColumn = null;
+				$scope.newFilterOperator = null;
+				$scope.newFilterValue = null;
+		}
+		else{
+			$scope.addFilterError = "DATA_EXPLORER_FILTER_ADD_FILTER_ERROR_MISSING_FIELDS";
+		}
 	};
 	
 	$scope.loadData = function(){
@@ -154,15 +178,22 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 			for (var j = 0; j < $scope.filters.length; j++) {
 				var filter = $scope.filters[j];
 				console.log("filter", filter);
-				if(filter.operator.isFunction){  // filter=substringof(Name, 'urn')
+				
+				if(filter.operator.isDate){ // time ge datetimeoffset'2014-08-01T07:00:00+01:00'
+					var d = new Date(filter.value);
+					var dateToParam =  d.getFullYear() + "-"+ (d.getMonth()+1) + "-" + d.getDate() + 'T' + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() +"%2B00:00";
+					filterParam += filter.column + " " + filter.operator.value + " datetimeoffset'"+ dateToParam + "'";
+				}else if(filter.operator.isFunction){  // filter=substringof(Name, 'urn')
 					filterParam += filter.operator.value + "(" +filter.column + "," + filter.operator.valueDelimiter +  filter.value + filter.operator.valueDelimiter+")";
 				}
 				else{//filter= Entry_No gt 610
 					filterParam += filter.column + " " + filter.operator.value + " " +filter.operator.valueDelimiter +  filter.value + filter.operator.valueDelimiter;
 				}
+				
+				
 				$scope.usedFilter += filter.column + " " + filter.operator.label + " " + filter.value;
 				if(j < $scope.filters.length-1){
-					$scope.usedFilter += ", ";
+					$scope.usedFilter += "<span class=' panel-dataexplorer-topbar-separator'>|</span>";
 					filterParam += " and ";
 				}
 			}
@@ -195,13 +226,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 							else
 								data[property] = value;
 							
-//							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
-//								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
-//								data[property] = d;
-//							}
-//							else
-//								data[property] = value;
-						    
 						    if(firstRow){
 						    	var order = 'none';
 						    	console.log("firsRow",$scope.orderBy.column, property);
