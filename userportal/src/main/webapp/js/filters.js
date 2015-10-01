@@ -128,8 +128,9 @@ appFilters.filter('booleanToString', function() {
 appFilters.filter('prettifyTweet', function() {
 	return function(input) {
 		var output = input;
-		if (input && input !=null) {
+		if ((typeof input != "undefined") && input !=null) {
 			output = Helpers.render.prettifyTwitterMessage(input);
+			output = output.toString();
 	    }
 		return output;
 	};
