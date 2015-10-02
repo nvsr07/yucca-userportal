@@ -35,7 +35,9 @@ import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 import org.csi.yucca.userportal.userportal.utils.Util;
+import org.opensaml.saml2.core.RequestAbstractType;
 import org.opensaml.xml.ConfigurationException;
+import org.opensaml.xml.io.MarshallingException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -121,6 +123,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						// the user for each tenant has a role tenantName_subscriber
 						tenants = loadRoles(newUser, "*_subscriber");
 					} catch (Exception e) {
+						tenant = false;	
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
@@ -135,7 +138,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						newUser.setPermissions(loadPermissions(newUser));
 					} catch (Exception e) {
 						
-						tenant = false;	
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
@@ -148,10 +150,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					}
 				} else {
 					// something wrong, re-login
-					
-					//Add modalview
-					
-					//Utente senza strong authentication
+					// Add modalview
+					// Utente senza strong authentication
 
 					strong = false;			
 					tenant = false;			
@@ -167,11 +167,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				if (!strong)
 					returnPath += "&strong=false";
 				
-				if (!tenant)
+				if (!tenant){
 					returnPath += "&tenant=false";
-
+					request.getSession().invalidate();
+				}
+				
+				if (strong && tenant)
+					returnPath += "&login=ok";
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
-					
 				response.sendRedirect(returnPath);
 			} else {
 				try {
@@ -181,12 +184,10 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// User defaultUser = AuthorizeUtils.DEFAULT_USER;
 					// defaultUser.setPermissions(AuthorizeUtils.DEFAULT_PERMISSIONS);
 					// info.setUser(defaultUser);
-					// request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO,
-					// info);
+					// request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
-					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath="
-							+ URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
+					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -119,7 +119,7 @@ public class SamlConsumerManager {
 		return idpUrl + "?SAMLRequest=" + encodedRequestMessage + "&RelayState=" + relayState;
 	}
 
-	private LogoutRequest buildLogoutRequest(String user) {
+	protected LogoutRequest buildLogoutRequest(String user) {
 
 		LogoutRequest logoutReq = new LogoutRequestBuilder().buildObject();
 
@@ -198,7 +198,7 @@ public class SamlConsumerManager {
 		return authRequest;
 	}
 
-	private String encodeRequestMessage(RequestAbstractType requestMessage) throws MarshallingException, IOException {
+	protected String encodeRequestMessage(RequestAbstractType requestMessage) throws MarshallingException, IOException {
 
 		Marshaller marshaller = Configuration.getMarshallerFactory().getMarshaller(requestMessage);
 		Element authDOM = marshaller.marshall(requestMessage);
