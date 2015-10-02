@@ -235,6 +235,60 @@ Helpers.mongo = {
 		}
 };
 
+Helpers.odata = {
+		decodeDataType : function(dataTypeOdata) {
+			var dataType = "";
+			if(dataTypeOdata!=null){
+				switch (dataTypeOdata) {
+					case "Edm.Boolean":
+						dataType = "boolean";
+					case "Edm.DateTime":
+					case "Edm.Time":
+					case "Edm.DateTimeOffset":
+						dataType = "date";
+					case "Edm.Decimal":
+					case "Edm.Double":
+					case "Edm.Int16":
+					case "Edm.Int32":
+					case "Edm.Int64":		
+						dataType = "number";
+						break;
+					case "Edm.String":
+					default:
+						dataType = "string";
+				}
+				if(dataTypeOdata == "Edm.String")
+					dataType = "string";
+			}
+		    return dataType;
+
+		    // Not Supported
+		    // Edm.SByte
+			// Edm.Binary
+			// Edm.Byte
+			// Edm.Guid
+			// Edm.Single
+			// Edm.Geography
+			// Edm.GeographyPoint
+			// Edm.GeographyLineString
+			// Edm.GeographyPolygon
+			// Edm.GeographyMultiPoint
+			// Edm.GeographyMultiLineString
+			// Edm.GeographyMultiPolygon
+			// Edm.GeographyCollection
+			// Edm.Geometry
+			// Edm.GeometryPoint
+			// Edm.GeometryLineString
+			// Edm.GeometryPolygon
+			// Edm.GeometryMultiPoint
+			// Edm.GeometryMultiLineString
+			// Edm.GeometryMultiPolygon
+			// Edm.GeometryCollection
+			// Edm.Stream
+		}
+	};
+
+
 Helpers.errors = {
 	wsErrorUrl : function(tenantCode) {
 		var result = "/topic/output." + tenantCode + ".errors";

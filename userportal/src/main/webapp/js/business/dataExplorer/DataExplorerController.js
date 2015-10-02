@@ -10,8 +10,9 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	$scope.stream = null;
 	$scope.errors = [];
 	
-	var allFields = {};
 	$scope.columnsForFilter = [];
+	
+	
 
 	var operators_date = [{"value":"eq", "label":"=", "valueDelimiter": "", "isFunction": false, "isDate": true},
 			                   {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false, "isDate": true},
@@ -36,10 +37,12 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 
 
 	
+	var datasetType = "";
+	var defaultOrderByColumn = "internalId";
+
 	
 	$scope.loadDataset = function(){
 		console.debug("$scope.datasetCode", $scope.datasetCode);
-		allFields = {};
 		
 		
 		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
@@ -61,42 +64,80 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 					$scope.dataset.info.icon  = "img/dataset-icon-default.png";
 				
 				
-				allFields["streamCode"] = {"fieldName": "streamCode", "dataType": "string", "operators": operators_string};
-				allFields["sensor"] = {"fieldName": "sensor", "dataType": "string", "operators": operators_string};
-				allFields["time"] = {"fieldName": "time", "dataType": "date", "operators": operators_date};
-				allFields["internalId"] = {"fieldName": "internalId", "dataType": "string", "operators": operators_string};
-				allFields["datasetVersion"] = {"fieldName": "datasetVersion", "dataType": "long", "operators":operators_number};
-				allFields["idDataset"] = {"fieldName": "idDataset", "dataType": "string", "operators": operators_string};
-				
-				for ( var fieldIndex in $scope.dataset.info.fields) {
-					var field = $scope.dataset.info.fields[fieldIndex];
-					var operators = operators_number;
-					if(field.dataType == "string")
-						operators = operators_string;
-					else if(field.dataType == "boolean")
-						operators = operators_boolean;
-					else if(field.dataType == "date")
-						operators = operators_date;
-					
-					
-					allFields[field.fieldName] = {"fieldName": field.fieldName, "dataType": field.dataType,"operators": operators};
-				}
 
-				for (var property in allFields) {
-					var field = allFields[property];
-					$scope.columnsForFilter.push({"label": property, "operators": field.operators, "dataType":field.dataType});
-					
-				}
-				
-				$scope.loadData();
+				$scope.loadMetadata();
 			} catch (e) {
 				var error = {"message":"Cannot load dataset","detail":"Error while loading dataset "+ $scope.datasetCode};
 				$scope.errors.push(error);
 				console.error("getDataset ERROR", e);
 			};
+		}).error(function(response) {
+			console.log("loadData Error: ", response);
+			$scope.showLoading = false;
+
+			var detail = "";
+			var error = {"message":"Cannot load dataset","detail":detail};
+			$scope.errors.push(error);
+
 		});
 
 	};
+	
+	$scope.loadMetadata = function(){
+		odataAPIservice.getMetadata($scope.datasetCode).success(function(response) {
+			console.log("odataAPIservice.getMetadata - xml",response);
+			var x2js = new X2JS();
+			var metadataJson =  x2js.xml_str2json(response);
+			console.log("odataAPIservice.getMetadata - json",metadataJson);
+			
+			
+			var measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];
+			console.log("odataAPIservice.getMetadata - metadata",metadataJson);
+			
+			datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
+
+			defaultOrderByColumn = "internalId";
+
+			for (var k = 0; k < measuresMetadata.Property.length; k++) {
+				var prop = measuresMetadata.Property[k];
+				var dataType = Helpers.odata.decodeDataType(prop["_Type"]);
+				var operators = operators_number;
+				switch (dataType) {
+				case "string":
+					operators = operators_string;					
+					break;
+				case "boolean":
+					operators = operators_boolean;					
+					break;
+				case "date":
+					operators = operators_date;					
+					break;
+				default:
+					operators = operators_number;
+					break;
+				}
+								
+				$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
+				if(prop["_Name"]=="time"){
+					defaultOrderByColumn = "time";
+				}
+				$scope.orderBy.column = defaultOrderByColumn;
+			}
+			
+			console.log("$scope.columnsForFilter",$scope.columnsForFilter);
+			$scope.loadData();
+
+		}).error(function(response) {
+			console.log("loadData Error: ", response);
+			$scope.showLoading = false;
+
+			var detail = "";
+			var error = {"message":"Cannot load metadatadata","detail":detail};
+			$scope.errors.push(error);
+
+		});
+	};
+
 
 	$scope.loadDataset();
 	
@@ -109,7 +150,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	$scope.dataList = [];
 	$scope.columns = [];
 	$scope.currentPage = 1;
-	$scope.orderBy = {"column":"time", "order": "desc"};
+	$scope.orderBy = {"column":"internalId", "order": "desc"};
 	$scope.addFilterError = null;
 
 
@@ -126,7 +167,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 		if(order && order!='none')
 			$scope.orderBy = {"column":column, "order": order};
 		else
-			$scope.orderBy = {"column":"time", "order": "desc"};
+			$scope.orderBy = {"column":defaultOrderByColumn, "order": "desc"};
 
 		$scope.loadData();
 	};	
@@ -152,12 +193,13 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 		}
 	};
 	
+	
 	$scope.loadData = function(){
 		
 		// call oData service to retrieve  the last 30 data
 		$scope.errors = [];
 
-		var collection = 'Measures';
+//		var collection = 'Measures';
 
 		var start = ($scope.currentPage -1)*dataForPage;
 		$scope.dataList = [];
@@ -166,9 +208,11 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 		$scope.showLoading = true;
 		
 		var sort = $scope.orderBy.column + "%20" + $scope.orderBy.order;
+		console.log("defaultOrderByColumn", defaultOrderByColumn);
 		if($scope.orderBy.order == 'none')
-			sort = "time%20desc";
-		console.log("loadData", $scope.datasetCode, start, dataForPage,sort,collection);
+			sort = defaultOrderByColumn +"%20desc";
+		
+		console.log("loadData", $scope.datasetCode, start, dataForPage,sort,datasetType);
 		
 		var filterParam = null;
 		$scope.usedFilter = "-";
@@ -200,9 +244,10 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 		}
 		
 		console.log("filterParam", filterParam);
+
 		
-		odataAPIservice.getStreamData($scope.datasetCode, filterParam, start, dataForPage,sort,collection).success(function(response) {
-			console.log("odataAPIservice.getStreamData",response, collection);
+		odataAPIservice.getStreamData($scope.datasetCode, filterParam, start, dataForPage,sort,datasetType).success(function(response) {
+			console.log("odataAPIservice.getStreamData",response, datasetType);
 			$scope.totalFound = response.d.__count;
 			var oDataResultList = response.d.results;
 			
@@ -217,26 +262,34 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 					for (var property in oDataResult) {
 						if(property!="__metadata"){
 							var value = oDataResult[property];
-							var field = allFields[property];
+							
+							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
+								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
+								data[property] = d;
+							}
+							else
+								data[property] = value;
+
+							/*var field = allFields[property];
 							
 							if(field.dataType == "date"){
 								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
 								data[property] = d;
 							}
 							else
-								data[property] = value;
+								data[property] = value;*/
 							
 						    if(firstRow){
 						    	var order = 'none';
 						    	
 						    	var showOrderButton = $scope.totalFound<Constants.ODATA_MAX_RESULT_SORTABLE?true:false;
-						    	if(property == 'time')
+						    	if(property == defaultOrderByColumn)
 						    		showOrderButton = true;
 						    	
 						    	
 						    	if($scope.orderBy.column == property)
 						    		order = $scope.orderBy.order;
-						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton, "operators": field.operators, "dataType":field.dataType};
+						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton};//, "operators": field.operators, "dataType":field.dataType};
 						    	$scope.columns.push(column);
 						    }
 						}

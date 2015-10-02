@@ -68,6 +68,20 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 		});
 	};
 
+	odataAPIservice.getMetadata  = function(stream_code) {
+		// https://int-api.smartdatanet.it/api/ds_Contgreciaon_201/$metadata
+		var metadataUrl = Constants.API_ODATA_URL+stream_code+"/$metadata";
+
+		var user = "Bearer "+info.info.user.token;
+		return $http({
+			method : 'GET',
+			url : metadataUrl,
+			headers: {
+				'Authorization': user
+				},
+			withCredentials : true
+		});
+	};
 	return odataAPIservice;
 });
 
