@@ -355,6 +355,7 @@ var translations_en = {
 	HOME_INTRO_HTML: 'Information from the world around us and open solutions: these are the distinctive points of the platform made available by Regione Piemonte for Ecosystem Smart Data Net',
 	HOME_START_BUTTON_DESC: 'Sign in with your credential',
 	HOME_START_BUTTON: 'Sign in',
+	HOME_FORCE_LOGOUT_BUTTON: 'Force Logout',
 	HOME_START_DEMO_BUTTON_DESC: 'Try the platform using the tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Anonymous access to public data', 
 	HOME_LOGGED_IN_WELCOME: 'Welcome, ',

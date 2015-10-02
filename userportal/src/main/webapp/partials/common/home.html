@@ -129,8 +129,8 @@
             <div ng-if="op=='strong'"><b>{{'HOME_LOGGED_NOT_STRONG_AUTHENTICATION'|translate}}</b></div>
             <div ng-if="op=='tenant'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
+        <div class="modal-footer" id="modal-footer">
+            <a class="btn main-action-button" href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_FORCE_LOGOUT_BUTTON</span></a>
         </div>
     	</script>
 	</div>
