@@ -155,29 +155,31 @@
 				</accordion-heading>
 			
 				<p>
-					<table class="table table-supercondensed">
-						<thead>
-							<tr>
-								<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="field in dataset.info.fields">
-								<td>{{field.fieldName}}</td>
-								<td>{{field.fieldAlias}}</td>
-								<td>{{field.dataType|nvl:' - '}}</td>
-								<td>{{field.sourceColumn}}</td>
-								<td>{{field.measureUnit|nvl:' - '}}</td>
-								<td>{{field.isKey|booleanToString|translate}}</td>
-								
-						</tbody>
-					</table>
-				<p>
+					<div class='table-supercondensed-container'>
+						<table class="table table-supercondensed">
+							<thead>
+								<tr>
+									<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
+									<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="field in dataset.info.fields">
+									<td>{{field.fieldName}}</td>
+									<td>{{field.fieldAlias}}</td>
+									<td>{{field.dataType|nvl:' - '}}</td>
+									<td>{{field.sourceColumn}}</td>
+									<td>{{field.measureUnit|nvl:' - '}}</td>
+									<td>{{field.isKey|booleanToString|translate}}</td>
+									
+							</tbody>
+						</table>
+					</div>
+				</p>
 			</accordion-group>
 			<accordion-group is-open="status6.open">
 				<accordion-heading>
