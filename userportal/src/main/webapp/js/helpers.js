@@ -225,7 +225,13 @@ Helpers.mongo = {
 	                        var p  = parseInt(parts[2]);
 				time = new Date(parts[1] - (p * 60000));
 			}
-			return time.format("dd/mm/yyyy HH:MM");
+			return time;
+		},
+		date2string : function(dateIn) {
+			var formattedDate = "";
+			if(dateIn)
+				formattedDate = Helpers.mongo.date2millis(dateIn).format("dd/mm/yyyy HH:MM");
+			return formattedDate;
 		}
 };
 

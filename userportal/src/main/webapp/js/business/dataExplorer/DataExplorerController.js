@@ -228,7 +228,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 							
 						    if(firstRow){
 						    	var order = 'none';
-						    	console.log("firsRow",$scope.orderBy.column, property);
 						    	
 						    	var showOrderButton = $scope.totalFound<Constants.ODATA_MAX_RESULT_SORTABLE?true:false;
 						    	if(property == 'time')
@@ -238,7 +237,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 						    	if($scope.orderBy.column == property)
 						    		order = $scope.orderBy.order;
 						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton, "operators": field.operators, "dataType":field.dataType};
-						    	console.log("firsRow",column);
 						    	$scope.columns.push(column);
 						    }
 						}
