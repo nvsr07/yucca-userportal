@@ -125,8 +125,8 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	};
 } ]);
 
-appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
-                                        function($scope, $route, $filter, fabricAPIservice, fabricAPImanagement, $modal, info, $location) {
+appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'fabricAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
+                                        function($scope, $route, $http, $filter, fabricAPIservice, fabricAPImanagement, $modal, info, $location) {
 	$scope.$route = $route;
 
 	$scope.tenant = "";
@@ -215,6 +215,7 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAP
 	console.log('route.current.params', $route.current.params);
 	console.log('location', $location);
 	
+	console.log('strong', $route.current.params.strong);
 	if ($route.current.params.strong === "false"){
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
@@ -235,7 +236,8 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAP
 				console.info('Modal dismissed at: ' + new Date());
 		});
 	}
-	
+
+	console.log('strong', $route.current.params.tenant);
 	if ($route.current.params.tenant === "false"){
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
@@ -254,6 +256,15 @@ appControllers.controller('HomeCtrl', [ '$scope', "$route", '$filter', 'fabricAP
 				console.log("selected in modalInstance.result.then", selectedItem);
 			}, function() {
 				console.info('Modal dismissed at: ' + new Date());
+		});
+	}
+	
+	debugger;
+	console.log('===============');
+	if (($route.current.params.tenant !== "false") && ($route.current.params.strong !== "false")){
+		var url ="https://int-userportal.smartdatanet.it/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
+		$http.get(url).success(function (res) {
+			console.log('res', res);
 		});
 	}
 
