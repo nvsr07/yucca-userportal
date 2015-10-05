@@ -261,7 +261,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	
 	debugger;
 	console.log('===============');
-	if (($route.current.params.tenant !== "false") && ($route.current.params.strong !== "false")){
+	if ($route.current.params.login === "ok"){
 		var url ="https://int-userportal.smartdatanet.it/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
 		$http.get(url).success(function (res) {
 			console.log('res', res);
