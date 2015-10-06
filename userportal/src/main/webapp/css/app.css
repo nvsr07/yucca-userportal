@@ -488,7 +488,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .btn-wizard-next{background-color: #00973a; color: white; position: relative;  margin-right: 2em; padding: 0 1em; line-height: 2em;}
 .btn-wizard-next::after{content: '';  position: absolute;  top: 0;  width: 0;  height: 0; border-style: solid; right: -2em;  border-width: 1em;  border-color: transparent transparent transparent #00973a;}
 .btn-wizard-next:hover{color: white; background-color: #005d23;}
- .btn-wizard-next:hover::after{border-color: transparent transparent transparent #005d23;}
+.btn-wizard-next:hover::after{border-color: transparent transparent transparent #005d23;}
 .btn-wizard-next.disabled::after, .btn-wizard-next[disabled]::after{border-color: transparent transparent transparent #ccc;}
 .btn-wizard-next.disabled, .btn-wizard-next[disabled]{background-color: #ccc;}
 
@@ -750,12 +750,28 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 .dataexplorer-table-grid>thead>tr>th{font-size: bold; text-transform: none;background-color: #e5e5e5; padding:.5em 1em;}
 .dataexplorer-table-grid>tbody>tr>td{border: solid 1px #c5c5c5;padding: .5em;}
 
+/* data browser */
+#databrowser .carousel-control, #databrowser .carousel-indicators{display: none;}
+#databrowser .browsedata-choosing-domain-box{font-size: 24pt;line-height: 48pt; border-bottom: 1px black solid;}
+#databrowser .browsedata-choosing-domain-box:hover{cursor:pointer; background-color: #f5f5f5;}
+#databrowser .browsedata-choosing-domain-box .fa-square-o{margin-right: 4px;}
+#databrowser .browsedata-choosing-domain-box-selected span{font-weight: bold; color: #00bbf0;}
+
+#databrowser .browsedata-choosing-tag-box{font-size: 16pt;line-height: 32pt; text-align: left;}
+#databrowser .browsedata-choosing-tag-box:hover{cursor:pointer; background-color: #f5f5f5;}
+#databrowser .browsedata-choosing-domain-box .fa-square-o{margin-right: 3px;}
+#databrowser .browsedata-choosing-tag-box-selected span{ color: #00bbf0;}
+#databrowser .browsedata-choosing-tag-box span{}
+
+
+#databrowser .browsedata-toolbar{padding: 1em 0; text-align: right;font-size: 18pt; }
+#databrowser .browsedata-toolbar a{font-size: 18pt; margin-left: 2em; }
 
 .sidebar-menu-item{background-color: #00bbf0;    padding: .3em.6em;    border-radius: 4px;    color: white;    text-decoration: none;}
 .panel-dataexplorer-topbar{margin-bottom: 1.2em;}
 .panel-dataexplorer-topbar-separator{margin: 0 .5em; color: #00bbf0;}
 .panel-dataexplorer-topbar-separator-big{margin: 0 1em;}
-.sidebar-menu-item: hover{background-color: #0189AF;}
+.sidebar-menu-item:hover{background-color: #0189AF;}
 .panel-dataexplorer-sidebar{ font-size: 10pt; border: solid 1px #ccc; }
 .panel-dataexplorer-sidebar .panel-heading{   background-color: #e5e5e5; border-radius: 0; padding: .5em; color: #000; margin:0; font-size: 14px;}
 .panel-dataexplorer-sidebar .panel-body{padding:0.5em;}

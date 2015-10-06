@@ -315,3 +315,166 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 
 } ]);
 
+
+appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$filter', 'info',
+                                                function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $filter, info) {
+	
+	$scope.currentStep = 'domains';
+	$scope.browseSteps = [{'name':'domains', 'style':''},
+	                      {'name':'tags', 'style':''},
+	                      {'name':'results', 'style':''}];
+	
+	$scope.goToChooseDomains  = function(){ $scope.currentStep = 'domains';};
+	$scope.goToChooseTags  = function(){ $scope.currentStep = 'tags';};
+	$scope.goToResults  = function(){ $scope.currentStep = 'results';$scope.findDatasets();};
+
+	$scope.domainList = [];
+	$scope.selectedDomains = [];
+	fabricAPIservice.getStreamDomains().success(function(response) {
+		for (var int = 0; int < response.streamDomains.element.length; int++) {
+			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+		
+		$scope.domainList.sort();
+	});
+	
+	$scope.isDomainSelected = function(domain){
+		return Helpers.util.arrayContainsString(domain,  $scope.selectedDomains);
+	};
+	
+	$scope.selectDomain = function(domain){
+		console.log(domain);
+		var domainIndex  = $scope.selectedDomains.indexOf(domain);
+		if(domainIndex>-1)
+			$scope.selectedDomains.splice(domainIndex, 1);
+		else
+			$scope.selectedDomains.push(domain);
+	};
+	
+	$scope.tagList = [];
+	$scope.selectedTags = [];
+	fabricAPIservice.getStreamTags().success(function(response) {
+		for (var int = 0; int < response.streamTags.element.length; int++) {
+			$scope.tagList.push(response.streamTags.element[int].tagCode);
+		}
+		$scope.tagList.sort();
+	});
+
+	$scope.isTagSelected = function(tag){
+		return Helpers.util.arrayContainsString(tag,  $scope.selectedTags);
+	};
+	
+	$scope.selectTag = function(tag){
+		console.log(tag);
+		var tagIndex  = $scope.selectedTags.indexOf(tag);
+		if(tagIndex>-1)
+			$scope.selectedTags.splice(tagIndex, 1);
+		else
+			$scope.selectedTags.push(tag);
+	};
+	
+	
+	
+	$scope.currentPage = 1;
+	var datasetForPage = 15;
+	$scope.showLoading = true;
+
+	$scope.totalFound = null;
+
+	$scope.datasetList = [];
+
+	
+	$scope.columns = [];
+	var order = 'none';
+
+
+	$scope.columns.push({"label":"DATASET", "order": order, "showOrderButton": true});
+	$scope.columns.push({"label":"DATASET_FIELD_METADATA_DATADOMAIN", "order": order, "showOrderButton": true});
+	$scope.columns.push({"label":"DATASET_FIELD_METADATA_TAGS", "order": order, "showOrderButton": false});
+	$scope.columns.push({"label":"DATASET_FIELD_CONFIGDATA_TENANT", "order": order, "showOrderButton": true});
+	$scope.columns.push({"label":"DATASET_FIELD_VERSION", "order": order, "showOrderButton": true});
+	$scope.columns.push({"label":"DATASET_FIELD_METADATA_LICENSE", "order": order, "showOrderButton": false});
+
+	
+
+
+	
+	
+	$scope.findDatasets = function(){
+		// call oData service to retrieve  the last 30 data
+		$scope.errors = [];
+
+		var start = ($scope.currentPage -1)*datasetForPage;
+		var sort = null;
+		$scope.datasetList = [];
+		
+		$scope.showLoading = true;
+		
+		
+		dataDiscoveryService.findDatasets($scope.selectedDomains, $scope.selectedTags, start, datasetForPage, sort).success(function(response) {
+			console.log("odataAPIservice.getStreamData",response);
+			$scope.totalFound = response.d.__count;
+			$scope.showLoading = false;
+			var datasetResultList = response.d.results;
+
+			if(datasetResultList.length >0){
+				var firstRow = true;
+				for (var datasetIndex = 0; datasetIndex < datasetResultList.length; datasetIndex++) {
+					var oDataResult = datasetResultList[datasetIndex];
+					var data = {};
+					for (var property in oDataResult) {
+						if(property!="__metadata"){
+							var value = oDataResult[property];
+							
+							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
+								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
+								data[property] = d;
+							}
+							else
+								data[property] = value;
+
+							/*var field = allFields[property];
+							
+							if(field.dataType == "date"){
+								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
+								data[property] = d;
+							}
+							else
+								data[property] = value;*/
+							
+//						    if(firstRow){
+//						    	var order = 'none';
+//						    	
+//						    	var showOrderButton = $scope.totalFound<Constants.ODATA_MAX_RESULT_SORTABLE?true:false;
+//						    	if(property == defaultOrderByColumn)
+//						    		showOrderButton = true;
+//						    	
+//						    	
+//						    	if($scope.orderBy.column == property)
+//						    		order = $scope.orderBy.order;
+//						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton};//, "operators": field.operators, "dataType":field.dataType};
+//						    	$scope.columns.push(column);
+//						    }
+						}
+					}
+			    	firstRow=false;
+					$scope.datasetList.push(data);
+				};
+				
+			};
+		}).error(function(response) {
+			console.log("loadData Error: ", response);
+			$scope.showLoading = false;
+
+			var detail = ""+ response.error.code + " - " + response.error.message.value;
+			var error = {"message":"Cannot load dataset","detail":detail};
+			$scope.errors.push(error);
+
+		});
+	};
+
+	
+}]);
+
+
+

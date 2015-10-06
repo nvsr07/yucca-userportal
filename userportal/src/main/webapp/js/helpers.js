@@ -161,6 +161,11 @@ Helpers.util = {
 		return "";
 	}, 
 	
+	arrayContainsString:function (element, array)
+	{
+	    return (array.indexOf(element) > -1);
+	},
+	
 	CSVtoArray : function(strData, strDelimiter) {
 		// Check to see if the delimiter is defined. If not,
 		// then default to comma.

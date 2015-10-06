@@ -1,38 +1,4 @@
 /* Controllers */
-/*
-appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route", function($scope, $route) {
-	$scope.$route = $route;
-	$scope.managementTab = $route.current.params.managementTab;
-	$scope.tenant = $route.current.params.tenant_code;
-
-	$scope.buildTimestamp = BuildInfo.timestamp;
-
-	$scope.changeLanguage = function(langKey) {
-		$translate.use(langKey);
-	};
-	$scope.isMenuActive= function(menuItem){
-
-		var result = false;
-		switch (menuItem){
-		case 'dashboard':
-			result =  ($scope.managementTab == 'dashboard');
-			break;
-		case 'streams':
-			result =  ($scope.managementTab == 'streams' || $scope.managementTab == 'editStream' || $scope.managementTab == 'viewStream' || $scope.managementTab == 'newStream'|| $scope.managementTab == 'newStreamInternal');
-			break;
-		case 'virtualentities':
-			result =  ($scope.managementTab == 'virtualentities' || $scope.managementTab == 'editVirtualentity' || $scope.managementTab == 'viewVirtualentity' || $scope.managementTab == 'newVirtualentity');
-			break;
-		case 'dataset':
-			result =  ($scope.managementTab == 'dataset');
-			break;
-		default:
-			break;
-		}
-		return result;
-	};
-}]);
- */
 
 appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'dataDiscoveryService','asyncSingleDatasetService', function($scope,$rootScope, $route, dataDiscoveryService,asyncSingleDatasetService) {
 	$scope.$route = $route;
@@ -75,7 +41,7 @@ appControllers.controller('DiscoveryCtrl', [ '$scope','$rootScope' ,'$route', 'd
 		$scope.datasetApiUrls = null;
 		$scope.datasetStreamsUrl = null;
 		$scope.datasetDownloadCsvUrl = null;
-	}
+	};
 
 	$scope.search = function(SearchInputVal){
 		$scope.isSearching = true;

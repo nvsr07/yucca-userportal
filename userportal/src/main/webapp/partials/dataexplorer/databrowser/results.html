@@ -1,0 +1,62 @@
+<h3><span translate>DATABROWSER_RESULTS_TITLE</span></h3>
+<div class=''>
+	<div class='ajax-loading-container' ng-show="showLoading">
+		<span class='ajax-loading-big'></span>
+		<h4>Loading...</h4>
+	</div>
+	<div class='alert alert-info' ng-show="dataList.length==0 && !showLoading && errors.length==0">
+		<span translate>DATA_EXPLORER_DATA_RESULT_EMPTY</span>
+	</div>
+	<div class="alert alert-danger" ng-show='errors.length!=0'>
+		<div class='row  text-left' ng-repeat="error in errors">
+			<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
+			<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
+		</div>		
+	</div>
+	<div ng-show="!showLoading" class='dataexplorer-table-grid-container'>
+		<table class='table dataexplorer-table-grid'>
+			<thead>
+				<tr>
+					<th ng-repeat='column in columns track by $index'>
+						<div class='pull-left'>{{column["label"]|translate}}</div>
+						<div class='pull-right' ng-show="column['showOrderButton']">
+							<i class='fa fa-sort' ng-show='column["order"]=="none"' ng-click='orderResult(column["label"],"desc")'></i>
+							<i class='fa fa-sort-desc' ng-show='column["order"]=="desc"' ng-click='orderResult(column["label"],"asc")'></i>
+							<i class='fa fa-sort-asc' ng-show='column["order"]=="asc"' ng-click='orderResult(column["label"],"none")'></i>
+						</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="data in datasetList">
+					<td><strong>{{data["datasetName"]}}</strong> <span class='muted' title="data['description']">{{data["description"]|string_ellipse:50}}</span></td>
+					<td>{{data["dataDomain"]|translate}}</td>
+					<td>
+						<ul class="list-inline">
+							<li ng-repeat="tag in data['tags']"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
+						</ul>
+					</td>
+					<td>{{data["tenantCode"]}}</td>
+					<td>{{data["datasetVersion"]}} - {{data["registrationDate"]|date}}</td>
+					<td>
+						{{data["license"]}} 
+						<i ng-show="data['copyright']!=null"class="fa fa-copyright" title="{{data['copyright']}}"></i> 
+						<i ng-show="data['disclaimer']!=null"class="fa fa-info-circle" title="{{data['disclaimer']}}"></i> 
+					</td>					
+					
+				</tr>
+			</tbody>
+		</table>
+		<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
+					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+		</pagination>
+	</div>
+	
+	<div class='browsedata-toolbar'>
+		<a ng-click='goToChooseDomains()' class="btn btn-default" translate>DATABROWSER_GO_TO_DOMAIN_BTN</a>
+		<a ng-click='goToChooseTags()' class="btn btn-default " translate>DATABROWSER_GO_TO_TAG_BTN</a>
+	</div>
+</div>
+
+
+

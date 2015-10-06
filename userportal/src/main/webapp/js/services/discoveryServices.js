@@ -534,6 +534,73 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 		});
 
 	};
+	
+	
+	
+	
+	
+	
+	
+	
+	//http://localhost:8080/userportal/api/proxy/discovery/ Datasets?&$format=json&$filter=(%20tags%20%20eq%20%20%27acqua%27%20and%20%20tenantCode%20%20eq%20%20%27sandbox%27)
+	
+	
+	
+	dataDiscovery.findDatasets = function(domainList, taglist, skip, top, orderby) {
+
+		//http://int-api.smartdatanet.it/odata/SmartDataOdataService.svc/ds_Provapositio_28/Measures?$format=json&$top=19&$skip=0&$orderby=time
+		var datasetsUrl = Constants.API_DISCOVERY_DATASET_URL+"Datasets?$format=json";
+		
+		var filter = "";
+		if(domainList && domainList!=null){
+			
+		}
+		if(taglist && taglist!=null){
+			
+		}
+		
+		if(filter!=""){
+			datasetsUrl += '&$filter='+filter;
+		}
+		if(skip && skip!=null)
+			datasetsUrl += '&$skip='+skip;
+		if(top && top!=null)
+			datasetsUrl += '&$top='+top;
+		if(orderby && orderby!=null)
+			datasetsUrl += '&$orderby='+orderby;
+		
+		//var user = "Bearer "+info.info.user.token;
+		return $http({
+			method : 'GET',
+			url : datasetsUrl
+//			headers: {
+//				'Authorization': user
+//				},
+//			withCredentials : true
+		});
+	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	return dataDiscovery;
 });
 

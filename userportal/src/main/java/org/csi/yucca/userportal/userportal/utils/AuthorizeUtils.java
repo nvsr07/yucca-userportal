@@ -26,7 +26,8 @@ public class AuthorizeUtils {
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/datasets/update", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/datasets/upload",
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/datasets/view", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/smartobjects",
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/streams", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/monitoring",
-			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/store");
+			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/store",
+			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/dataexplorer");
 
 	public static final User DEFAULT_USER() {
 		return new User("Guest", DEFAULT_TENANT, "Guest1", "Guest", null, DEFAULT_PERMISSIONS);
