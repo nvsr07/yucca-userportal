@@ -18,18 +18,13 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 	fabricAPIservice.getInfo().success(function(result) {
 		info.setInfo(result);
 		$scope.activeTenantCode = info.getActiveTenantCode();
-
 		$scope.userTenants = info.getInfo().user.tenants;
-
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
-
-
 		$scope.user = result.user;
 //		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
 //		$scope.storeUrl = '/store/site/pages/sso-filter.jag';
 //		}
 	});
-
 	
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
@@ -53,7 +48,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 		return false;
 	};
 
-
 	$scope.showCookieMessage = false;
 	//var acceptedCookiesOLD = $cookies.acceptedCookies;
 	console.debug("acceptedCookies",acceptedCookies);
@@ -61,7 +55,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 	var acceptedCookies = localStorageService.get("acceptedCookies");
 	if(acceptedCookies == null)
 		acceptedCookies = localStorageService.cookie.get("acceptedCookies");
-
 
 	if(acceptedCookies != "yes")
 		$scope.showCookieMessage = true;
@@ -77,9 +70,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 		}
 		$scope.showCookieMessage = false;
 	};
-
-
-
 } ]);
 
 appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', 'info', '$location', function($scope, $route, $translate,webSocketService, fabricAPIservice, info, $location) {
@@ -88,11 +78,6 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	$scope.currentUrl = function() {
 		return encodeURIComponent("#"+$location.path());
 	};
-
-	//$scope.user;
-
-	console.debug(":::::Client webSocket Singleton::::");
-	console.debug("Client webSocket Singleton::::",WebsocketStompSingleton.getInstance());
 
 	$scope.$on('$locationChangeStart', function(event) {
 		console.debug("::::: $locationChangeStart ::::");
@@ -106,20 +91,6 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 		}
 	});
 
-//	fabricAPIservice.getInfo().success(function(result) {
-//	console.debug("result", result);
-//	info.setInfo(result);
-//	$scope.managementUrl = '#/management/virtualentities/'+result.tenantCode;
-//	$scope.user = result.user;
-//	});
-
-
-
-//	$scope.isHomepage = function() {
-//	return $route.current.isHomepage;
-//	};
-
-
 	$scope.isUserLoggedIn = function() {
 		return $route.current.isHomepage;
 	};
@@ -128,11 +99,8 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'fabricAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
                                         function($scope, $route, $http, $filter, fabricAPIservice, fabricAPImanagement, $modal, info, $location) {
 	$scope.$route = $route;
-
 	$scope.tenant = "";
-
 	var $translate = $filter('translate');
-
 	showMap();
 
 	$scope.isHomepage = function() {
@@ -144,16 +112,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	if(scrollTo){
 		Helpers.util.scrollTo(scrollTo);
 	}
-//	$scope.tenant = info.getActiveTenantCode();
-//	fabricAPIservice.getInfo().success(function(result) {
-//	console.debug("result", result);
-//	$scope.tenant = result.tenantCode;
-//	});
-
 	$scope.statistics = {};
-
-	//$scope.domainChartData = [];
-
 
 	fabricAPImanagement.loadDataStatistics().success(function(response) {
 		console.debug("statistics", response);	
@@ -184,7 +143,6 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 		}
 
 		$scope.domainChartData = domains;
-		console.log("$scope.domainChartData",$scope.domainChartData);
 	});
 
 
@@ -211,11 +169,6 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	
 	$scope.animationsEnabled = true;
 
-	console.log('route', $route);
-	console.log('route.current.params', $route.current.params);
-	console.log('location', $location);
-	
-	console.log('strong', $route.current.params.strong);
 	if ($route.current.params.strong === "false"){
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
@@ -231,13 +184,11 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 		modalInstance.result.then(function(selectedItem) {
 				$scope.selected = selectedItem;
-				console.log("selected in modalInstance.result.then", selectedItem);
 			}, function() {
 				console.info('Modal dismissed at: ' + new Date());
 		});
 	}
 
-	console.log('strong', $route.current.params.tenant);
 	if ($route.current.params.tenant === "false"){
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
@@ -253,19 +204,18 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 		modalInstance.result.then(function(selectedItem) {
 				$scope.selected = selectedItem;
-				console.log("selected in modalInstance.result.then", selectedItem);
 			}, function() {
 				console.info('Modal dismissed at: ' + new Date());
 		});
 	}
 	
-	debugger;
-	console.log('===============');
+	$scope.linkLoginToStore = "";
+	$scope.linkLoginToStoreW = "0";
+	$scope.linkLoginToStoreH = "0";
 	if ($route.current.params.login === "ok"){
-		var url ="/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
-		$http.get(url).success(function (res) {
-			console.log('res', res);
-		});
+		$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
+		$scope.linkLoginToStoreW = "1";
+		$scope.linkLoginToStoreH = "1";
 	}
 
 } ]);
@@ -273,9 +223,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'readFilePreview', 'op',
                                                      function($scope, $routeParams, $location, $modalInstance, info, readFilePreview, op) {
 	
-	console.log('op', op);
 	$scope.op = op;
-	
 	$scope.cancel = function () {
 	    $modalInstance.dismiss('cancel');
 	};

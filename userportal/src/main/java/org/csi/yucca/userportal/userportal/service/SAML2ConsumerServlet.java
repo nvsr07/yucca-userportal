@@ -123,7 +123,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						// the user for each tenant has a role tenantName_subscriber
 						tenants = loadRoles(newUser, "*_subscriber");
 					} catch (Exception e) {
-						tenant = false;	
+						if (tenants.isEmpty())
+							tenant = false;	
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
@@ -157,7 +158,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					tenant = false;			
 				}
 				info.setUser(newUser);
-				// info.setTenantCode(newUser.getTenant());
+				//info.setTenantCode(newUser.getTenant());
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"
