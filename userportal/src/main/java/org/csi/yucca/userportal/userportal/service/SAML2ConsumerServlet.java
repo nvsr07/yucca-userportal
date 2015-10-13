@@ -123,16 +123,19 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						// the user for each tenant has a role tenantName_subscriber
 						tenants = loadRoles(newUser, "*_subscriber");
 					} catch (Exception e) {
-						tenant = false;	
+						
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
+					if (tenants.isEmpty())
+						tenant = false;	
 
 					newUser.setTenants(tenants);
 					newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
 					newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 					newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
-					newUser.setActiveTenant(tenants.get(0));
+					if (!tenants.isEmpty())
+						newUser.setActiveTenant(tenants.get(0));
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
@@ -141,7 +144,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
-					newUser.setActiveTenant(newUser.getTenants().get(0));
+					//newUser.setActiveTenant(newUser.getTenants().get(0));
 					newUser.setToken(getTokenForTenant(newUser));
 
 					for (Object key : result.keySet().toArray()) {
@@ -157,7 +160,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					tenant = false;			
 				}
 				info.setUser(newUser);
-				// info.setTenantCode(newUser.getTenant());
+				//info.setTenantCode(newUser.getTenant());
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"

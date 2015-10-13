@@ -575,4 +575,3 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 }]);
 
 
-
