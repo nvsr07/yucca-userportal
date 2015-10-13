@@ -5,7 +5,7 @@
 appDirectives.directive('dataexplorerSidebarFilter', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/dataexplorer/sidebar-filter.html?'+BuildInfo.timestamp,
+		templateUrl : 'partials/dataexplorer/dataexplorer/sidebar-filter.html?'+BuildInfo.timestamp,
 	};
 });
 
@@ -13,7 +13,7 @@ appDirectives.directive('dataexplorerSidebarFilter', function() {
 appDirectives.directive('dataexplorerSidebarMetadatadetail', function() {
 	return {
 		restrict : 'E',
-		templateUrl : 'partials/dataexplorer/sidebar-metadata-detail.html?'+BuildInfo.timestamp,
+		templateUrl : 'partials/dataexplorer/dataexplorer/sidebar-metadata-detail.html?'+BuildInfo.timestamp,
 	};
 });
 

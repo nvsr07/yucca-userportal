@@ -1,37 +1,61 @@
 
-<div ng-controller="DataBrowserCtrl as databrowserCtrl" id="databrowser">
-	<div class='container' ng-cloak>
+<div ng-controller="DataBrowserCtrl as databrowserCtrl" id="databrowser" class='container'  ng-cloak>
+	<div class='clearfix' ng-cloak>
 		<h3 class='content-edit-title'><span translate>DATABROWSER_TITLE</span></h3>
 	</div>
-	<div class='container'  ng-cloak>
-		<div class='row'>
-			<div class="col-sm-12 " >
+	<div class='clearfix databrowser-search-panel'>
+		<form role="form" class="form-horizontal" ng-cloak>
+			<div class="form-group">
+				<div class="col-sm-6 col-sm-offset-2">
+					<input type="search" class="form-control input-lg" ng-model="queryInput" id="simpleSearchInput" placeholder="{{'DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER'|translate}}"
+					ng-enter="goToResults('query')" >
+				</div>
+				<div class="col-sm-2">
+					<button type="submit" ng-click="goToResults('query')" class="btn btn-default btn-lg pull-right">
+						<span class="glyphicon glyphicon-search"></span>&nbsp;
+						<span translate>DISCOVERY_FILTER_SEARCH_BUTTON</span>
+					</button>
+				</div>
 			</div>
+		</form>
+		
+	</div>
+	<div class='clearfix title-container'>
+		<div class='pull-left'><h3><span ng-bind-html="stepTitle|translate"></span></h3></div>
+		<div class='title-right-label' ng-show='currentStep!=domains'>
+			<span class="query-label" ng-show='queryInput!=null'> 
+				<strong translate>DATAEXPLORER_QUERY_INPUT</strong> <span>{{queryInput}}</span>
+			</span>
+			<span class="tag-label" ng-show='selectedTags!=null && selectedTags.length>0'> 
+				<strong translate>DATASET_FIELD_METADATA_TAGS</strong> <span ng-repeat="tag in selectedTags"><span ng-bind-html="tag|translate"></span> &nbsp;</span>
+			</span>
+			<span class="domain-label" ng-show='selectedDomain!=null'>
+				<span class=' panel-dataexplorer-topbar-separator-big'>|</span>
+				<strong translate>DATASET_FIELD_METADATA_DATADOMAIN</strong> <span>{{selectedDomain|translate}}</span>
+			</span>
 		</div>
 	</div>
 	<p>&nbsp;</p>
 	<div class='content'>
-		<div class='container'>
-			<div class="alert alert-warning" ng-show='warningMessages.length>0'  ng-cloak>
-				<strong translate>WARNING</strong> <span translate>{{warningMessage}}</span>
-				<ul><li ng-repeat="warningMessage in warningMessages "><span translate>{{warningMessage}}</span></li></ul>
-			</div>
-			
-			
-			<div class='row'>
-				<div class="col-sm-12">
-					<carousel id='dataBrowserWizard' interval="-1">
-						<slide  active="currentStep == 'domains'">
-							<databrowser-domains></databrowser-domains>
-						</slide>
-						<slide active="currentStep == 'tags'">
-							<databrowser-tags></databrowser-tags>
-						</slide>
-						<slide active="currentStep == 'results'">
-							<databrowser-results></databrowser-results>
-						</slide>
-					</carousel>
-				</div>
+		<div class="alert alert-warning" ng-show='warningMessages.length>0'  ng-cloak>
+			<strong translate>WARNING</strong> <span translate>{{warningMessage}}</span>
+			<ul><li ng-repeat="warningMessage in warningMessages "><span translate>{{warningMessage}}</span></li></ul>
+		</div>
+		
+		
+		<div class='row'>
+			<div class="col-sm-12">
+				<carousel id='dataBrowserWizard' interval="-1">
+					<slide  active="currentStep == 'domains'">
+						<databrowser-domains></databrowser-domains>
+					</slide>
+					<slide active="currentStep == 'tags'">
+						<databrowser-tags></databrowser-tags>
+					</slide>
+					<slide active="currentStep == 'results'">
+						<databrowser-results></databrowser-results>
+					</slide>
+				</carousel>
 			</div>
 		</div>
 	</div>

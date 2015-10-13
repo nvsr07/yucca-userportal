@@ -166,6 +166,12 @@ Helpers.util = {
 	    return (array.indexOf(element) > -1);
 	},
 	
+	endsWith:function(str, suffix){
+		if(!str || str==null)
+			str = "";
+		return str.indexOf(suffix, str.length - suffix.length) !== -1;
+	}, 
+	
 	CSVtoArray : function(strData, strDelimiter) {
 		// Check to see if the delimiter is defined. If not,
 		// then default to comma.
@@ -216,6 +222,7 @@ Helpers.util = {
 		// Return the parsed data.
 		return (arrData);
 	}
+	
 };
 
 Helpers.mongo = {

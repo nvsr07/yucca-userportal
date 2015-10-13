@@ -250,8 +250,20 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
+	},
+	API_RESOURCES_URL("API_RESOURCES_URL", Config.API_PROXY_RESOURCES_BASE_URL) {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+	API_STORE_URL("API_STORE_URL", Config.API_PROXY_STORE_BASE_URL) {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
 	};
-
+	
 	private String nameEntity;
 	private String baseUrl;
 

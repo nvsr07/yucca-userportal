@@ -59,14 +59,14 @@
 			<input type="text" class="form-control" ng-model="fileEncoding" id="fileEncoding">
 		</div>
 		<div class="col-lg-4 col-md-2 col-sm-2 col-xs-2 text-left">
-			<label class="control-label" for="csvSeparator" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span></label>
+			<label class="control-label" for="csvSeparator" ><span translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span> </label>
 			<input type="text" class="form-control" ng-model="csvSeparator" id="csvSeparator">
 		</div>
 	</div>
 	<div class="row form-toolbar">
 		<div class=" col-sm-12">
 			<a ng-click='goToChooseType()' class="btn " translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-			<a ng-click='goToColumns()' class="btn btn-wizard-next" ng-disabled="!isOwner() || uploadDatasetForm.$invalid || selectedFile==null " translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+			<a ng-click='goToColumns(csvSeparator, fileEncoding)' class="btn btn-wizard-next" ng-disabled="!isOwner() || uploadDatasetForm.$invalid || selectedFile==null " translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 		</div>
 	</div>
 	<!-- <div class="row form-toolbar">

@@ -580,12 +580,12 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 			$scope.previewLines = null;
 		}
 		else
-			readPreview();
+			readPreview($scope.csvSeparator);
 	};
 
 	$scope.previewLines = [];
 
-	var readPreview = function(){
+	var readPreview = function(csvSeparator){
 		$scope.updateInfo = null;
 		$scope.updateError = null;
 		$scope.updateErrors = null;
@@ -601,9 +601,9 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 					$scope.previewLines = [];
 					console.log("(firstRows.join",firstRows.join("\n"));
 
-					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator));
+					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator));
 
-					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator);
+					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator);
 				}, 
 				function(error){
 					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
@@ -620,7 +620,7 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 		$scope.updateError = null;
 		$scope.updateErrors = null;
 		$scope.updateWarning = null;
-		console.log("uploadData START");
+		console.log("uploadData START", $scope.csvSeparator);
 
 		$scope.upload = $upload.upload({
 			url: Constants.API_MANAGEMENT_DATASET_ADD_DATA_URL + $scope.tenantCode + '/'+ $scope.datasetCode + '/', 
@@ -882,14 +882,14 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			$scope.previewLines = null;
 		}
 		else
-			readPreview();
+			readPreview($scope.csvSeparator);
 	};
 
 	$scope.previewLines = [];
 	$scope.previewColumns = [];
 	$scope.previewBinaries = [];
 	
-	var readPreview = function(){
+	var readPreview = function(csvSeparator){
 		$scope.uploadDatasetError = null;
 		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
 				function(contents){
@@ -899,9 +899,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 					var firstRows = lines.slice(0, 5);
 					$scope.previewLines = [];
 					console.log("(firstRows.join",firstRows.join("\n"));
-					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator));
+					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator));
 
-					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),$scope.csvSeparator);
+					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator);
 					console.log("$scope.previewLines",$scope.previewLines);
 
 					$scope.metadata.info.fields = [];
@@ -1123,8 +1123,27 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.currentStep = 'choosetype';refreshWizardToolbar();
 	};
 	$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
-	$scope.goToColumns  = function(){$scope.columnDefinitionType = "import"; readPreview(); $scope.currentStep = 'columns';refreshWizardToolbar();};
-	$scope.goToCreateColumns  = function(choosen){$scope.choosenDatasetType = choosen;$scope.columnDefinitionType = "create"; $scope.currentStep = 'columns';refreshWizardToolbar();};
+	$scope.goToColumns  = function(csvSeparator, fileEncoding){
+		$scope.columnDefinitionType = "import";  
+		readPreview(csvSeparator); 
+		console.log("csvSeparator", $scope.csvSeparator, csvSeparator);
+		$scope.csvSeparator=csvSeparator;
+		$scope.fileEncoding=fileEncoding;
+		$scope.currentStep = 'columns';
+		refreshWizardToolbar();
+	};
+	
+	$scope.setCsvSkipFirstRow = function(csvSkipFirstRow){
+		console.log("setCsvSkipFirstRow",csvSkipFirstRow);
+		$scope.csvSkipFirstRow = !csvSkipFirstRow;
+	};
+	
+	$scope.goToCreateColumns  = function(choosen){
+		$scope.choosenDatasetType = choosen;
+		$scope.columnDefinitionType = "create"; 
+		$scope.currentStep = 'columns';
+		refreshWizardToolbar();
+	};
 
 	 
 	var choosenDatasetTypeVar = "";

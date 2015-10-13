@@ -46,6 +46,10 @@ appFilters.filter('number_ellipse', function() {
 
 appFilters.filter('string_ellipse', function () {
     return function (text, length, end) {
+    	
+    	if(typeof text === "undefined"  || text == null)
+    		text = "";
+    	
         if (isNaN(length))
             length = 10;
 
@@ -61,6 +65,25 @@ appFilters.filter('string_ellipse', function () {
     };
 });
 
+
+
+appFilters.filter('datetimeFormatted', function() {
+    return function(dateIn) {
+    	var dateOut = "";
+    	if(dateIn && dateIn!=null)
+    		dateOut  = dateIn.format("dd/mm/yyyy HH:MM");
+        return dateOut;
+    };
+});
+
+appFilters.filter('dateFormatted', function() {
+    return function(dateIn) {
+    	var dateOut = "";
+    	if(dateIn && dateIn!=null)
+    		dateOut  = dateIn.format("dd/mm/yyyy");
+        return dateOut;
+    };
+});
 
 
 appFilters.filter('unsafe', function($sce) {

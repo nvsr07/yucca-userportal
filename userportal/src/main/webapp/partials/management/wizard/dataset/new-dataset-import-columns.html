@@ -9,8 +9,8 @@
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class='management-upload-preview-table-container'>
 				<table class='table  management-table-upload-preview table-supercondensed'>
-					<tr ng-repeat='line in previewLines' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
-						<td ng-repeat='item in line' title="{{item}}">{{item|nvl:' '|string_ellipse:30}}</td>
+					<tr ng-repeat='line in previewLines ' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
+						<td ng-repeat='item in line track by $index' title="{{item}}">{{item|nvl:' '|string_ellipse:30}}</td>
 					</tr>
 				</table>
 			</div>
@@ -39,7 +39,7 @@
 	<div class='row  text-left' >
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<p>
-				<label><input type="checkbox" ng-model="csvSkipFirstRow"> <span translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
+				<label><input type="checkbox" ng-model="csvSkipFirstRow" ng-click="setCsvSkipFirstRow(csvSkipFirstRow)"> <span translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
 				<small class='mute' translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
 			</p>
 		</div>

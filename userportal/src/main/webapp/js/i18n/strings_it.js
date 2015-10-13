@@ -230,7 +230,7 @@ var translations_it = {
 	DATASET_FIELD_METADATA_LICENSE: 'Licenza',
 	DATASET_FIELD_METADATA_COPYRIGHT: 'Copyright',
 	DATASET_FIELD_METADATA_VISIBILITY: 'Visibilit&agrave;',
-	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Data registrazione',
+	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Registrazione',
 	DATASET_FIELD_METADATA_DATADOMAIN: 'Dominio',
 	DATASET_FIELD_METADATA_FPS: 'FPS',
 	DATASET_FIELD_TENANTSSHARING: 'Condividi con ',
@@ -860,15 +860,19 @@ var translations_it = {
 	DATA_EXPLORER_DETAIL_MENU_BUTTON: 'Dettaglio',
 	DATA_EXPLORER_FILTER_APPLY: 'Applica',
 	DATA_EXPLORER_FILTER_ADD_FILTER_ERROR_MISSING_FIELDS: 'Valorizzare tutti i campi',
+	DATAEXPLORER_QUERY_INPUT: 'Query',
 	
 	DATABROWSER_TITLE: 'Naviga fra i dati',
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Scegli uno o pi&ugrave; domini',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Scegli uno o pi&ugrave; tag',
 	DATABROWSER_RESULTS_TITLE: 'Dataset trovati',
 	
+	DATA_BROWSER_SHOW_GRID: 'Griglia', 
+	DATA_BROWSER_SHOW_LIST: 'Lista', 
+	
 	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filtra per dominio',
-	DATABROWSER_GO_TO_TAG_BTN: 'Aggiungi filtri per tag',
-	DATABROWSER_GO_TO_RESULTS_BTN: 'Vai ai risultati',
+	DATABROWSER_GO_TO_TAG_BTN: 'Filtra per tag',
+	DATABROWSER_GO_TO_RESULTS_BTN: 'Visualizza i dati',
 
 	/* Market */
 	MARKET_TITLE: 'Market',

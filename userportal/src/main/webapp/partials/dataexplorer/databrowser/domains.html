@@ -1,19 +1,14 @@
-<h3><span translate>DATABROWSER_CHOOSE_DOMAIN_TITLE</span></h3>
-<div class='row'>
-	<div class="col-sm-8 col-sm-offset-2">
-		<div ng-repeat='domain in domainList' class='browsedata-choosing-domain-box'>
-			<div class='clearfix' ng-click='selectDomain(domain)' ng-class="{'browsedata-choosing-domain-box-selected':isDomainSelected(domain)}">
-				<div class='pull-left'><span translate>{{domain}}</span></div>
-				<div class='pull-right' ng-show='isDomainSelected(domain)'><i class="fa fa-check-square-o"></i></div>
-				<div class='pull-right'ng-show='!isDomainSelected(domain)'><i class="fa fa-square-o"></i></div>
-			</div>
-			
-		</div>
-		<div class='browsedata-toolbar'>
-			<a ng-click='goToChooseTags()' class="btn btn-default " translate>DATABROWSER_GO_TO_TAG_BTN</a>
-			<a ng-click='goToResults()' class="btn btn-default" translate>DATABROWSER_GO_TO_RESULTS_BTN</a>
-		</div>
+<div ng-repeat='domain in domainList' ng-if="$index % 2 == 0" class="row ">
+	<div class='col-sm-4 col-sm-offset-2 browsedata-choosing-domain-box' ng-click='selectDomain(domainList[$index])'ng-class="{'browsedata-choosing-domain-box-selected':domainList[$index]==selectedDomain}">
+		<span translate>{{domainList[$index]}}</span>
 	</div>
+	<div class='col-sm-4 browsedata-choosing-domain-box' ng-click='selectDomain(domainList[$index+1])' ng-class="{'browsedata-choosing-domain-box-selected':domainList[$index+1]==selectedDomain}">
+		<span translate>{{domainList[$index+1]}}</span>
+	</div>
+</div>
+	
+<div class='browsedata-toolbar'>
+	<a ng-click='goToChooseTags(true)' class="btn btn-default " translate>DATABROWSER_GO_TO_TAG_BTN</a>
 </div>
 
 

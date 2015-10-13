@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -120,7 +121,14 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			String contentType = request.getContentType();
 			String targetUrl = createTargetUrlWithParameters(request);
 			PostMethod post = new PostMethod(targetUrl);
-
+			
+			if(request.getCookies()!=null && request.getCookies().length>0){
+				String cookies = "";
+				for (Cookie cookie: request.getCookies()) {
+					cookies += cookie.getName() + "="+cookie.getValue() + ";";
+				}
+				post.setRequestHeader("Cookie", cookies);
+			}
 			log.debug("[ApiProxyServlet::doPost] - targetUrl: " + targetUrl);
 
 			if (contentType.startsWith("multipart/form-data")) {

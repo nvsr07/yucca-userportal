@@ -90,11 +90,21 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 			var metadataJson =  x2js.xml_str2json(response);
 			console.log("odataAPIservice.getMetadata - json",metadataJson);
 			
+			var measuresMetadata ="";
+			var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;
+			if(entityType!=null && entityType.constructor === Array)
+				measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];		
+			else
+				measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType;		
 			
-			var measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];
 			console.log("odataAPIservice.getMetadata - metadata",metadataJson);
+			var entitySet = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet;
 			
-			datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
+			
+			if(entitySet !=null && entitySet.constructor === Array)
+				datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
+			else
+				datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet._Name;
 
 			defaultOrderByColumn = "internalId";
 
@@ -245,6 +255,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 		
 		console.log("filterParam", filterParam);
 
+		//sort=null; //FIXME remove!!!
 		
 		odataAPIservice.getStreamData($scope.datasetCode, filterParam, start, dataForPage,sort,datasetType).success(function(response) {
 			console.log("odataAPIservice.getStreamData",response, datasetType);
@@ -316,17 +327,25 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 } ]);
 
 
-appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$filter', 'info',
-                                                function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $filter, info) {
+appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info',
+                                                function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $location, $filter,  $http, info) {
 	
 	$scope.currentStep = 'domains';
 	$scope.browseSteps = [{'name':'domains', 'style':''},
 	                      {'name':'tags', 'style':''},
 	                      {'name':'results', 'style':''}];
 	
-	$scope.goToChooseDomains  = function(){ $scope.currentStep = 'domains';};
-	$scope.goToChooseTags  = function(){ $scope.currentStep = 'tags';};
-	$scope.goToResults  = function(){ $scope.currentStep = 'results';$scope.findDatasets();};
+	$scope.stepTitle='DATABROWSER_CHOOSE_DOMAIN_TITLE';
+	
+	$scope.goToChooseDomains  = function(){ $scope.currentStep = 'domains'; $scope.stepTitle='DATABROWSER_CHOOSE_DOMAIN_TITLE';};
+	$scope.goToChooseTags  = function(clearDomain){ if(clearDomain) $scope.selectedDomain = null; $scope.currentStep = 'tags'; $scope.stepTitle='DATABROWSER_CHOOSE_TAG_TITLE';};
+	
+	$scope.goToResults  = function(searchType){ 
+		$scope.currentStep = 'results';
+		
+		$scope.stepTitle='DATABROWSER_RESULTS_TITLE';
+		$scope.selectPage(searchType);
+	};
 
 	$scope.domainList = [];
 	$scope.selectedDomains = [];
@@ -338,17 +357,10 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		$scope.domainList.sort();
 	});
 	
-	$scope.isDomainSelected = function(domain){
-		return Helpers.util.arrayContainsString(domain,  $scope.selectedDomains);
-	};
 	
 	$scope.selectDomain = function(domain){
-		console.log(domain);
-		var domainIndex  = $scope.selectedDomains.indexOf(domain);
-		if(domainIndex>-1)
-			$scope.selectedDomains.splice(domainIndex, 1);
-		else
-			$scope.selectedDomains.push(domain);
+		$scope.selectedDomain = domain;
+		$scope.goToChooseTags();
 	};
 	
 	$scope.tagList = [];
@@ -376,28 +388,59 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	
 	
 	$scope.currentPage = 1;
-	var datasetForPage = 15;
+	var datasetForPage = 12;
 	$scope.showLoading = true;
 
 	$scope.totalFound = null;
+	$scope.resultViewType = 'box';
 
 	$scope.datasetList = [];
 
 	
+	$scope.selectPage = function(searchType) {
+		
+		$scope.currentPage = 1;
+		switch (searchType) {
+		case 'query':
+			$scope.search();
+			break;
+		default:
+			$scope.findDatasets(); 
+			break;
+		}
+	};	
+
 	$scope.columns = [];
 	var order = 'none';
-
-
+	
 	$scope.columns.push({"label":"DATASET", "order": order, "showOrderButton": true});
 	$scope.columns.push({"label":"DATASET_FIELD_METADATA_DATADOMAIN", "order": order, "showOrderButton": true});
 	$scope.columns.push({"label":"DATASET_FIELD_METADATA_TAGS", "order": order, "showOrderButton": false});
 	$scope.columns.push({"label":"DATASET_FIELD_CONFIGDATA_TENANT", "order": order, "showOrderButton": true});
-	$scope.columns.push({"label":"DATASET_FIELD_VERSION", "order": order, "showOrderButton": true});
 	$scope.columns.push({"label":"DATASET_FIELD_METADATA_LICENSE", "order": order, "showOrderButton": false});
 
 	
 
+	var cleanMetadata = function(data){
+		if(typeof data["description"] === "undefined" || data["description"]==null)
+			data["description"] = "";
+		
+		if(typeof data["license"] === "undefined" || data["license"]==null)
+			data["license"] = "";
+		
+		if(typeof data["disclaimer"] === "undefined" || data["disclaimer"]==null)
+			data["disclaimer"] = null;
+		
+		if(typeof data["copyright"] === "undefined" || data["copyright"]==null)
+			data["copyright"] = null;
 
+    	//if(!data["datasetIcon"] || data["datasetIcon"] == null)
+    	//	data["datasetIcon"] = "img/stream-icon-default.png";
+    	
+		data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
+    	
+    	return data;
+	};
 	
 	
 	$scope.findDatasets = function(){
@@ -413,18 +456,19 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		
 		dataDiscoveryService.findDatasets($scope.selectedDomains, $scope.selectedTags, start, datasetForPage, sort).success(function(response) {
 			console.log("odataAPIservice.getStreamData",response);
-			$scope.totalFound = response.d.__count;
+			$scope.totalFound = 50;	//$scope.totalFound = response.d.__count;
 			$scope.showLoading = false;
 			var datasetResultList = response.d.results;
 
 			if(datasetResultList.length >0){
-				var firstRow = true;
 				for (var datasetIndex = 0; datasetIndex < datasetResultList.length; datasetIndex++) {
 					var oDataResult = datasetResultList[datasetIndex];
 					var data = {};
 					for (var property in oDataResult) {
 						if(property!="__metadata"){
 							var value = oDataResult[property];
+							if(typeof value == "undefined" || value==null)
+								value = "";
 							
 							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
 								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
@@ -432,33 +476,15 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 							}
 							else
 								data[property] = value;
-
-							/*var field = allFields[property];
 							
-							if(field.dataType == "date"){
-								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
-								data[property] = d;
+							if(property=="tags" && value!=null) {
+								data[property] = value.split(",");
 							}
-							else
-								data[property] = value;*/
-							
-//						    if(firstRow){
-//						    	var order = 'none';
-//						    	
-//						    	var showOrderButton = $scope.totalFound<Constants.ODATA_MAX_RESULT_SORTABLE?true:false;
-//						    	if(property == defaultOrderByColumn)
-//						    		showOrderButton = true;
-//						    	
-//						    	
-//						    	if($scope.orderBy.column == property)
-//						    		order = $scope.orderBy.order;
-//						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton};//, "operators": field.operators, "dataType":field.dataType};
-//						    	$scope.columns.push(column);
-//						    }
 						}
 					}
 			    	firstRow=false;
-					$scope.datasetList.push(data);
+
+					$scope.datasetList.push(cleanMetadata(data));
 				};
 				
 			};
@@ -472,8 +498,80 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 
 		});
 	};
+	
+	$scope.exploreData = function(data){
+		console.log("exploreData", data);
+		$location.path('dataexplorer/'+data.tenantCode+'/'+data.datasetCode);
+
+	};
+	
+	
 
 	
+	$scope.search = function(){
+		
+		console.log("search", $scope.queryInput);
+		$scope.showLoading = true;
+		$scope.errors = [];
+		
+		var start = ($scope.currentPage -1)*datasetForPage;
+
+		var transform = function(data){
+	        return $.param(data);
+	    };
+	    
+		var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":start,"end": datasetForPage};
+//		$http({
+//			method : 'POST',
+//	        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+//	        transformRequest: transform
+//			data:{"action":"searchAPIs","query":queryInput,"start":"0","end": "10"},
+//			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
+//		})
+		$http.post(
+				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				//'/store/site/blocks/search/api-search/ajax/search.jag',
+				searchParams, {
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+					transformRequest: transform}
+	    ).success(function(response) {
+			console.log("search response", response);
+			$scope.showLoading = false;
+
+			$scope.datasetList=[];
+			if(response.result && response.result!=null){
+				for (var datasetIndex = 0; datasetIndex < response.result.length; datasetIndex++) {
+					var dataFromSearch = response.result[datasetIndex];
+					var data = {};
+					data.datasetCode = dataFromSearch.name;
+					if(Helpers.util.endsWith(data.datasetCode, "_odata"))
+						data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-6);
+					if(Helpers.util.endsWith(data.datasetCode, "_stream"))
+						data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
+
+					data.datasetName = dataFromSearch.extraNomeStream;
+					data.description = dataFromSearch.extraApiDescription;
+					data.dataDomain = dataFromSearch.extraDomain;
+					data.tags = [];
+					if(dataFromSearch.tags!=null){
+						data.tags= dataFromSearch.tags.split(",");
+					}
+					data.tenantCode = dataFromSearch.extraCodiceTenant;
+					data.license = dataFromSearch.extraLicence;
+					data.copyright = dataFromSearch.extraCopyright;
+					data.disclaimer = dataFromSearch.extraDisclaimer;
+				
+					$scope.datasetList.push(cleanMetadata(data));
+				}
+			}
+		}).error(function(response) {
+			console.log("search response error", response);
+			$scope.showLoading = false;
+
+		});
+	};
+
+	// https://int-userportal.smartdatanet.it/store/site/blocks/search/api-search/ajax/search.jag -d 'action=searchAPIs&query=grecia&start=0&end=10'
 }]);
 
 

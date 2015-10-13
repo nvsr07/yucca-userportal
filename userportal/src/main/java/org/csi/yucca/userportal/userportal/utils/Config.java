@@ -12,6 +12,7 @@ public class Config {
 	public static final String API_MANAGEMENT_URL_KEY = "API_MANAGEMENT_URL";
 	public static final String API_DISCOVERY_URL_KEY = "API_DISCOVERY_URL";
 	public static final String API_ODATA_URL_KEY = "API_ODATA_URL";
+	public static final String API_STORE_URL_KEY = "API_STORE_URL";
 
 	public static final String RBAC_PERMISSIONS_WEBSERVICE_URL_KEY = "RBAC_PERMISSIONS_WEBSERVICE_URL";
 	public static final String RBAC_ROLES_WEBSERVICE_URL_KEY = "RBAC_ROLES_WEBSERVICE_URL";
@@ -35,6 +36,8 @@ public class Config {
 	public static final String API_PROXY_DATA_STATISTICS_URL = "/userportal/api/proxy/management/statistics/";
 	public static final String API_PROXY_DISCOVERY_BASE_URL = "/userportal/api/proxy/discovery/";
 	public static final String API_PROXY_ODATA_BASE_URL = "/userportal/api/proxy/odata/";
+	public static final String API_PROXY_STORE_BASE_URL = "/userportal/api/proxy/store/";
+	public static final String API_PROXY_RESOURCES_BASE_URL = "/userportal/api/proxy/resources/";
 	public static final String  SECDATA_NEWTOKEN = "/secdata/newtoken/";
 
 	
