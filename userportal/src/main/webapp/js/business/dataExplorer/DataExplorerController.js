@@ -5,6 +5,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
 
 	$scope.currentSidebar = 'none';
+	debugger;
 
 	$scope.dataset = null;
 	$scope.stream = null;
@@ -90,38 +91,52 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 			var metadataJson =  x2js.xml_str2json(response);
 			console.log("odataAPIservice.getMetadata - json",metadataJson);
 			
+			var measuresMetadata = null;
+			if (metadataJson.Edmx.DataServices.Schema.EntityContainer.EntityType)
+				if (metadataJson.Edmx.DataServices.Schema.EntityContainer.EntityType[0])
+					measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];
+				else
+					measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType;
+
+			console.log("odataAPIservice.getMetadata - metadata", metadataJson);
+			console.log("measuresMetadata", measuresMetadata);
 			
-			var measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];
-			console.log("odataAPIservice.getMetadata - metadata",metadataJson);
-			
-			datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
+			if (metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet)
+				if (metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0])
+					datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
+				else
+					datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet._Name;
+			else
+				datasetType = null;
 
 			defaultOrderByColumn = "internalId";
-
-			for (var k = 0; k < measuresMetadata.Property.length; k++) {
-				var prop = measuresMetadata.Property[k];
-				var dataType = Helpers.odata.decodeDataType(prop["_Type"]);
-				var operators = operators_number;
-				switch (dataType) {
-				case "string":
-					operators = operators_string;					
-					break;
-				case "boolean":
-					operators = operators_boolean;					
-					break;
-				case "date":
-					operators = operators_date;					
-					break;
-				default:
-					operators = operators_number;
-					break;
+			
+			if(measuresMetadata){
+				for (var k = 0; k < measuresMetadata.Property.length; k++) {
+					var prop = measuresMetadata.Property[k];
+					var dataType = Helpers.odata.decodeDataType(prop["_Type"]);
+					var operators = operators_number;
+					switch (dataType) {
+					case "string":
+						operators = operators_string;					
+						break;
+					case "boolean":
+						operators = operators_boolean;					
+						break;
+					case "date":
+						operators = operators_date;					
+						break;
+					default:
+						operators = operators_number;
+						break;
+					}
+									
+					$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
+					if(prop["_Name"]=="time"){
+						defaultOrderByColumn = "time";
+					}
+					$scope.orderBy.column = defaultOrderByColumn;
 				}
-								
-				$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
-				if(prop["_Name"]=="time"){
-					defaultOrderByColumn = "time";
-				}
-				$scope.orderBy.column = defaultOrderByColumn;
 			}
 			
 			console.log("$scope.columnsForFilter",$scope.columnsForFilter);
