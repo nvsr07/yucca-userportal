@@ -5,7 +5,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
 
 	$scope.currentSidebar = 'none';
-	debugger;
 
 	$scope.dataset = null;
 	$scope.stream = null;
