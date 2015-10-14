@@ -37,8 +37,15 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in datasetList">
-					<td><strong>{{data["datasetName"]}}</strong><br><small><span class='muted' title="{{data['description']}}">{{data["description"]|string_ellipse:50}}</span></small></td>
-					<td>{{data["dataDomain"]|translate}}</td>
+					<td class=''>
+						<div class='dataexplorer-table-grid-first-column'>
+							<img ng-src="{{datasetList[$index].datasetIcon}}" alt="logo dataset" class="img-responsive dataset-icon" >
+							<strong>{{data["datasetName"]}}</strong><br><small><span class='muted' title="{{data['description']}}">{{data["description"]|string_ellipse:50}}</span></small>
+						</div>
+					</td>
+					<td>
+						<div class='domain-column'><i class="icon-{{data['dataDomain']}} domain-icon" title="{{data['dataDomain']|translate}}"></i></div>
+					</td>
 					<td>
 						<ul class="list-inline">
 							<li ng-repeat="tag in data['tags']"><span class=""><span ng-bind-html="tag|translate"></span></span></li>
@@ -67,7 +74,7 @@
 							<div class='preview-info-container pull-right'>
 								<div class='clearfix preview-top-line'>
 									<div class='pull-left'><i>{{datasetList[$index].tenantCode}}</i></div>
-									<div class='pull-right'><i class='icon-{{datasetList[$index].dataDomain}} domain-icon' title={{datasetList[$index].dataDomain|translate}}></i></div>
+									<div class='pull-right'><i class='icon-{{datasetList[$index].dataDomain}} domain-icon' title='{{datasetList[$index].dataDomain|translate}}'></i></div>
 								</div>
 								<h4 title="{{datasetList[$index].datasetName}}">{{datasetList[$index].datasetName|string_ellipse:40}}</h4>
 								<div class='preview-desc'><small><span class='muted' title="{{datasetList[$index].description}}">{{datasetList[$index].description|string_ellipse:200}}</span></small></div>
@@ -138,7 +145,7 @@
 			</div>	
 		</div>
 		
-		<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
+		<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage(currentPage)" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
 					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
 		</pagination>
 	</div>

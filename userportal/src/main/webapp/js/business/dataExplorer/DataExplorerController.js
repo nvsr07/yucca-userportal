@@ -340,15 +340,19 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	$scope.goToChooseDomains  = function(){ $scope.currentStep = 'domains'; $scope.stepTitle='DATABROWSER_CHOOSE_DOMAIN_TITLE';};
 	$scope.goToChooseTags  = function(clearDomain){ if(clearDomain) $scope.selectedDomain = null; $scope.currentStep = 'tags'; $scope.stepTitle='DATABROWSER_CHOOSE_TAG_TITLE';};
 	
-	$scope.goToResults  = function(searchType){ 
+	var searchType = "";
+	$scope.goToResults  = function(searchTypeParam){ 
 		$scope.currentStep = 'results';
 		
 		$scope.stepTitle='DATABROWSER_RESULTS_TITLE';
-		$scope.selectPage(searchType);
+		$scope.currentPage = 1;
+
+		searchType  = searchTypeParam;
+		$scope.selectPage(1);
 	};
 
 	$scope.domainList = [];
-	$scope.selectedDomains = [];
+	//$scope.selectedDomains = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
@@ -397,9 +401,9 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	$scope.datasetList = [];
 
 	
-	$scope.selectPage = function(searchType) {
+	$scope.selectPage = function(currentPage) {
 		
-		$scope.currentPage = 1;
+		$scope.currentPage = currentPage;
 		switch (searchType) {
 		case 'query':
 			$scope.search();
@@ -454,9 +458,9 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		$scope.showLoading = true;
 		
 		
-		dataDiscoveryService.findDatasets($scope.selectedDomains, $scope.selectedTags, start, datasetForPage, sort).success(function(response) {
+		dataDiscoveryService.findDatasets($scope.selectedDomain, $scope.selectedTags, start, datasetForPage, sort).success(function(response) {
 			console.log("odataAPIservice.getStreamData",response);
-			$scope.totalFound = 50;	//$scope.totalFound = response.d.__count;
+			$scope.totalFound = response.d.__count;
 			$scope.showLoading = false;
 			var datasetResultList = response.d.results;
 
@@ -529,8 +533,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				//'/store/site/blocks/search/api-search/ajax/search.jag',
+				//Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}

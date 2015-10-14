@@ -76,7 +76,7 @@
 							<tr ng-repeat="data in dataList"><td  ng-repeat='column in columns track by $index'>{{data[column["label"]]}}</td></tr>
 						</tbody>
 					</table>
-					<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
+					<pagination boundary-links="false" total-items="totalFound" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
 								next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
 					</pagination>
 				</div>
