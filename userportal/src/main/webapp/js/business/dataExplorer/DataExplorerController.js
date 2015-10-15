@@ -83,6 +83,8 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 
 	};
 	
+	$scope.queryOdataLink = "-";
+	
 	$scope.loadMetadata = function(){
 		odataAPIservice.getMetadata($scope.datasetCode).success(function(response) {
 			console.log("odataAPIservice.getMetadata - xml",response);
@@ -135,6 +137,8 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 			}
 			
 			console.log("$scope.columnsForFilter",$scope.columnsForFilter);
+			$scope.queryOdataLink = "/userportal/api/proxy/odata/ds_Contgreciaon_201/Measures?$format=json&$top=15&$orderby=time%20desc";
+
 			$scope.loadData();
 
 		}).error(function(response) {
@@ -247,7 +251,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 				
 				$scope.usedFilter += filter.column + " " + filter.operator.label + " " + filter.value;
 				if(j < $scope.filters.length-1){
-					$scope.usedFilter += "<span class=' panel-dataexplorer-topbar-separator'>|</span>";
+					$scope.usedFilter += "<span class=' panel-dataexplorer-topbar-separator'>-</span>";
 					filterParam += " and ";
 				}
 			}
@@ -255,7 +259,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 		
 		console.log("filterParam", filterParam);
 
-		//sort=null; //FIXME remove!!!
+		$scope.queryOdataLink = createQueryOdata($scope.datasetCode, filterParam, start, dataForPage,sort,datasetType);
 		
 		odataAPIservice.getStreamData($scope.datasetCode, filterParam, start, dataForPage,sort,datasetType).success(function(response) {
 			console.log("odataAPIservice.getStreamData",response, datasetType);
@@ -322,6 +326,20 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 
 		});
 	};
+	
+	var createQueryOdata = function(stream_code, filter, skip, top, orderby, collection){
+		var streamDataUrl = Constants.API_ODATA_URL+stream_code+"/"+collection+"?$format=json";
+		if(filter && filter!=null)
+			streamDataUrl += '&$filter='+filter;
+		if(skip && skip!=null)
+			streamDataUrl += '&$skip='+skip;
+		if(top && top!=null)
+			streamDataUrl += '&$top='+top;
+		if(orderby && orderby!=null)
+			streamDataUrl += '&$orderby='+orderby;
+		return streamDataUrl;
+
+	};
 
 
 } ]);
@@ -337,8 +355,20 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	
 	$scope.stepTitle='DATABROWSER_CHOOSE_DOMAIN_TITLE';
 	
-	$scope.goToChooseDomains  = function(){ $scope.currentStep = 'domains'; $scope.stepTitle='DATABROWSER_CHOOSE_DOMAIN_TITLE';};
-	$scope.goToChooseTags  = function(clearDomain){ if(clearDomain) $scope.selectedDomain = null; $scope.currentStep = 'tags'; $scope.stepTitle='DATABROWSER_CHOOSE_TAG_TITLE';};
+	$scope.goToChooseDomains  = function(){ 
+		$scope.selectedDomain = null;
+		$scope.selectedTags = [];
+		$scope.queryInput = null;
+		$scope.currentStep = 'domains'; 
+		$scope.stepTitle='DATABROWSER_CHOOSE_DOMAIN_TITLE';
+	};
+	
+	$scope.goToChooseTags  = function(clearDomain){ 
+		if(clearDomain) 
+			$scope.selectedDomain = null; 
+		$scope.currentStep = 'tags'; 
+		$scope.stepTitle='DATABROWSER_CHOOSE_TAG_TITLE';
+	};
 	
 	var searchType = "";
 	$scope.goToResults  = function(searchTypeParam){ 
@@ -405,12 +435,15 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		
 		$scope.currentPage = currentPage;
 		switch (searchType) {
-		case 'query':
-			$scope.search();
-			break;
-		default:
-			$scope.findDatasets(); 
-			break;
+			case 'query':
+				$scope.selectedDomain = null;
+				$scope.selectedTags = [];
+				$scope.search();
+				break;
+			default:
+				$scope.inputQuery = null;
+				$scope.findDatasets(); 
+				break;
 		}
 	};	
 
@@ -517,6 +550,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		console.log("search", $scope.queryInput);
 		$scope.showLoading = true;
 		$scope.errors = [];
+		$scope.datasetList = [];
 		
 		var start = ($scope.currentPage -1)*datasetForPage;
 
@@ -533,8 +567,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-				//Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				'/store/site/blocks/search/api-search/ajax/search.jag',
+				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				//'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}

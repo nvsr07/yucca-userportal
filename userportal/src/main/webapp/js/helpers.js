@@ -254,10 +254,12 @@ Helpers.odata = {
 				switch (dataTypeOdata) {
 					case "Edm.Boolean":
 						dataType = "boolean";
+						break;
 					case "Edm.DateTime":
 					case "Edm.Time":
 					case "Edm.DateTimeOffset":
 						dataType = "date";
+						break;
 					case "Edm.Decimal":
 					case "Edm.Double":
 					case "Edm.Int16":
@@ -266,11 +268,14 @@ Helpers.odata = {
 						dataType = "number";
 						break;
 					case "Edm.String":
+						dataType = "string";
+						break;
 					default:
 						dataType = "string";
+						break;
 				}
-				if(dataTypeOdata == "Edm.String")
-					dataType = "string";
+//				if(dataTypeOdata == "Edm.String")
+//					dataType = "string";
 			}
 		    return dataType;
 

@@ -36,6 +36,7 @@
 				<span ng-show='totalFound!=null'><strong><span translate>DATA_EXPLORER_TOTAL_FOUND</span>:</strong> {{totalFound}}</span>
 			</div>
 		</div>
+			
 		<div class='row-fluid'>
 			<div ng-show='currentSidebar=="filter"' class='col-sm-4 col-md-3'>
 				<dataexplorer-sidebar-filter></dataexplorer-sidebar-filter>
@@ -76,6 +77,11 @@
 							<tr ng-repeat="data in dataList"><td  ng-repeat='column in columns track by $index'>{{data[column["label"]]}}</td></tr>
 						</tbody>
 					</table>
+					<div class='dataexplorer-url-container'>
+						<strong translate>DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL</strong>&nbsp;&nbsp;
+						<a class='query-odata-link' target='blank' ng-href='{{queryOdataLink}}'>{{queryOdataLink}}</a>
+					</div>
+					
 					<pagination boundary-links="false" total-items="totalFound" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
 								next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
 					</pagination>
@@ -87,23 +93,14 @@
 		<!--  <h4><span translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span></h4>
 		<strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong>
 		<p><a href="{{apiMetdataUrl}}" target="_blank" class='management-dataset-download-link'>{{apiMetdataUrl}}</a></p>-->
-		<div class='row'>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div class="row card-toolbar">
-					<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
-						<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
-					</a>
-					<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData() && isAuthorized('management/datasets/upload')">
-						<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
-					</a>
-					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download')"  >
-						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
-					</a>
-<!-- 					<a href="javascript:void(0)" ng-click='openModalView()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" title="{{'MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT'|translate}}">
-						<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate>MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET</span>
-					</a>
-					 -->
-				</div>
+		<div class='row dataexplorer-dowloadcsv-container'>
+			<div class="col-xs-12 text-left ">
+				<strong translate>DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL</strong>&nbsp;&nbsp;
+				<a class='dataexplorer-dowloadcsv-link' target='blank' ng-href='{{downloadCsvUrl}}'>{{downloadCsvUrl}}</a>
+				
+				<a  href='{{downloadCsvUrl}}' class=" dataexplorer-dowloadcsv-link-btn" ng-show="isAuthorized('management/datasets/download')"  >
+					<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
+				</a>
 			</div>
 		</div>
 	</div>

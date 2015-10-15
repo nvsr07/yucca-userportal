@@ -526,6 +526,7 @@ var translations_it = {
 	MANAGEMENT_VIEW_STREAM_HISTORICAL_BUTTON: 'Storico',
 	MANAGEMENT_VIEW_STREAM_DELETE_BUTTON: 'Elimina',
 	MANAGEMENT_VIEW_STREAM_EDIT_BUTTON: 'Modifica',
+	MANAGEMENT_VIEW_STREAM_CLONE_BUTTON: 'Clona',
 	MANAGEMENT_VIEW_STREAM_LIFECYCLE_OK_INFO: 'Ok',
 
 	/* Management new Stream from Virtual Entity */
@@ -861,14 +862,16 @@ var translations_it = {
 	DATA_EXPLORER_FILTER_APPLY: 'Applica',
 	DATA_EXPLORER_FILTER_ADD_FILTER_ERROR_MISSING_FIELDS: 'Valorizzare tutti i campi',
 	DATAEXPLORER_QUERY_INPUT: 'Query',
+	DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL: 'Query OData utilizzata', 
+	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Url per il download del dati in formato csv',
 	
 	DATABROWSER_TITLE: 'Naviga fra i dati',
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Scegli uno o pi&ugrave; domini',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Scegli uno o pi&ugrave; tag',
 	DATABROWSER_RESULTS_TITLE: 'Dataset trovati',
-	
-	DATA_BROWSER_SHOW_GRID: 'Griglia', 
-	DATA_BROWSER_SHOW_LIST: 'Lista', 
+	DATABROWSER_RESULTS_BACK_BTN: 'Nuova ricerca',
+	DATABROWSER_SHOW_GRID: 'Griglia', 
+	DATABROWSER_SHOW_LIST: 'Lista', 
 	
 	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filtra per dominio',
 	DATABROWSER_GO_TO_TAG_BTN: 'Filtra per tag',

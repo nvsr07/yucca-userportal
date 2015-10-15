@@ -53,3 +53,16 @@ appServices.factory('readFilePreview', function($q) {
 		
 	};
 });
+
+appServices.factory('sharedStream',  function () {
+	var stream = {};
+	
+	return {
+		getStream: function () {
+			return stream;
+		},
+		setStream: function(value) {
+			stream = value;
+		}
+	};
+});

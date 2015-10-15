@@ -1,9 +1,12 @@
 
 <div ng-controller="DataBrowserCtrl as databrowserCtrl" id="databrowser" class='container'  ng-cloak>
 	<div class='clearfix' ng-cloak>
-		<h3 class='content-edit-title'><span translate>DATABROWSER_TITLE</span></h3>
+		<h3 class='content-edit-title clearfix'>
+			<span class='pull-left'><span translate>DATABROWSER_TITLE</span></span>
+			<span clasS='pull-right' ng-hide="currentStep == 'tags'"><small><a ng-click='goToChooseTags(true)' href translate>DATABROWSER_GO_TO_TAG_BTN</a></small></span>
+		</h3>
 	</div>
-	<div class='clearfix databrowser-search-panel'>
+	<div class='clearfix databrowser-search-panel' ng-hide="currentStep == 'tags'">
 		<form role="form" class="form-horizontal" ng-cloak>
 			<div class="form-group">
 				<div class="col-sm-6 col-sm-offset-2">
@@ -23,10 +26,11 @@
 	<div class='clearfix title-container'>
 		<div class='pull-left'><h3><span ng-bind-html="stepTitle|translate"></span></h3></div>
 		<div class='title-right-label' ng-show='currentStep!=domains'>
-			<span class="query-label" ng-show='queryInput!=null'> 
+			<span class="query-label" ng-show='queryInput!=null && currentStep == "results"'> 
 				<strong translate>DATAEXPLORER_QUERY_INPUT</strong> <span>{{queryInput}}</span>
 			</span>
 			<span class="tag-label" ng-show='selectedTags!=null && selectedTags.length>0'> 
+				<span class=' panel-dataexplorer-topbar-separator-big'>|</span>
 				<strong translate>DATASET_FIELD_METADATA_TAGS</strong> <span ng-repeat="tag in selectedTags"><span ng-bind-html="tag|translate"></span> &nbsp;</span>
 			</span>
 			<span class="domain-label" ng-show='selectedDomain!=null'>

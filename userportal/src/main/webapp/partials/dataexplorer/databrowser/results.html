@@ -1,7 +1,7 @@
 <div class='table-header clearfix'>
 	<div class="pull-left table-toolabr-actions">
-		<a href ng-click="resultViewType = 'box'" ng-class="{'table-toolabr-actions-active':resultViewType=='box'}"><i class="fa fa-th"  title="{{'DATA_BROWSER_SHOW_GRID'|translate}}"></i></a>
-		<a href ng-click="resultViewType = 'list'"  ng-class="{'table-toolabr-actions-active':resultViewType=='list'}"><i class="fa fa-table" title="{{'DATA_BROWSER_SHOW_LIST'|translate}}"></i></a>
+		<a href ng-click="resultViewType = 'box'" ng-class="{'table-toolabr-actions-active':resultViewType=='box'}"><i class="fa fa-th"  title="{{'DATABROWSER_SHOW_GRID'|translate}}"></i></a>
+		<a href ng-click="resultViewType = 'list'"  ng-class="{'table-toolabr-actions-active':resultViewType=='list'}"><i class="fa fa-table" title="{{'DATABROWSER_SHOW_LIST'|translate}}"></i></a>
 	</div>
 	<div class='pull-right table-toolbar-info'><span ng-show='totalFound!=null'><strong><span translate>DATA_EXPLORER_TOTAL_FOUND</span>:</strong> {{totalFound}}</span></div>
 	
@@ -12,7 +12,7 @@
 		<span class='ajax-loading-big'></span>
 		<h4>Loading...</h4>
 	</div>
-	<div class='alert alert-info' ng-show="dataList.length==0 && !showLoading && errors.length==0">
+	<div class='alert alert-info' ng-show="datasetList.length==0 && !showLoading && errors.length==0">
 		<span translate>DATA_EXPLORER_DATA_RESULT_EMPTY</span>
 	</div>
 	<div class="alert alert-danger" ng-show='errors.length!=0'>
@@ -21,7 +21,7 @@
 			<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
 		</div>		
 	</div>
-	<div ng-show="!showLoading" class='dataexplorer-table-grid-container'>
+	<div ng-show="!showLoading && datasetList.length>0" class='dataexplorer-table-grid-container'>
 		<table class='table dataexplorer-table-grid' ng-show="resultViewType == 'list'">
 			<thead>
 				<tr>
@@ -153,7 +153,7 @@
 	
 	
 	<div class='browsedata-toolbar'>
-		<a ng-click='goToChooseTags()' class="btn btn-default " translate>BACK</a>
+		<a ng-click='goToChooseDomains()' class="btn btn-default " translate>DATABROWSER_RESULTS_BACK_BTN</a>
 	</div>
 </div>
 

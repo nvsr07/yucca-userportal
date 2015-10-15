@@ -190,6 +190,9 @@
 			<a  href='#' class="btn  btn-delete disabled" title="{{'COMING_SOON'|translate}}">
 				<span class="glyphicon glyphicon-trash "></span> <span translate>MANAGEMENT_VIEW_STREAM_DELETE_BUTTON</span>
 			</a>
+			<a  href ng-click='cloneStream()' class="btn btn-default">
+				<i class="fa fa-files-o" ></i> <span translate>MANAGEMENT_VIEW_STREAM_CLONE_BUTTON</span>
+			</a>
 			<a  href='#/management/editStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/streams/update')">
 				<span class="glyphicon glyphicon-pencil "></span> <span translate>MANAGEMENT_VIEW_STREAM_EDIT_BUTTON</span>
 			</a>

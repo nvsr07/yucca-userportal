@@ -134,128 +134,9 @@ appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($sc
 
 } ]);
 
-//appControllers.controller('ManagementNewStreamCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
-//	$scope.tenantCode = $route.current.params.tenant_code;
-//	$scope.user = {};
-//
-//	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
-//
-//
-//
-//	$scope.stream={};
-//	fabricAPIservice.getInfo().success(function(result) {
-//		console.debug("result managementnew stream", result);
-//		$scope.user = result.user;
-//		console.debug("info user", $scope.user);
-//		if($scope.user!=undefined && $scope.user.loggedIn==true){
-//			$scope.stream.nomeRichiedente=$scope.user.firstname;
-//			$scope.stream.cognomeRichiedente=$scope.user.lastname;
-//			$scope.stream.mailRichiedente=$scope.user.email;
-//		}
-//	});
-//
-//	$scope.isOwner = function(){
-//		return info.isOwner( $scope.tenantCode);
-//	};
-//
-//
-//
-//	$scope.virtualEntitiesList = [];
-//
-//
-//	//internal stream
-//	$scope.virtualentity=null;
-////	$scope.internalStreams = [];
-//	$scope.inputTypeStream = 1;
-////	$scope.streamSelectedItem=null;	
-////	$scope.streamSiddhiQuery=null;
-////	$scope.virtualentityInternal=null;
-//
-//	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
-//		console.log(response.virtualEntities.virtualEntity);
-//		for (var int = 0; int < response.virtualEntities.virtualEntity.length; int++) {
-//			var virtualentity = response.virtualEntities.virtualEntity[int];
-//			if(virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
-//				$scope.virtualEntitiesList.push(virtualentity);
-//			}else{
-//				$scope.virtualentityInternal=virtualentity;
-//			}
-//
-//		}
-//	});
-//
-//
-//
-//	$scope.domainList = [];
-//	fabricAPIservice.getStreamDomains().success(function(response) {
-//		for (var int = 0; int < response.streamDomains.element.length; int++) {
-//			$scope.domainList.push(response.streamDomains.element[int].codDomain);
-//		}
-//	});
-//
-//
-//	$scope.newTag = null;
-//	$scope.addTag = function(){
-//		if($scope.newTag){
-//			var found = false;	
-//			for (var int = 0; int < $scope.stream.streamTags.tag.length; int++) {
-//				var existingTag = $scope.stream.streamTags.tag[int];
-//				if(existingTag.tagCode == $scope.newTag){
-//					found = true;
-//					break;
-//				}
-//
-//			}
-//			if(!found)
-//				$scope.stream.streamTags.tag.push({"tagCode":$scope.newTag});
-//		}
-//		$scope.newTag = null;
-//		return false;
-//
-//	};
-//
-//	$scope.removeTag = function(index){
-//		$scope.stream.streamTags.tag.splice(index,1);
-//		return false;
-//	};
-//
-//
-//	$scope.creationError = null;
-//
-//	$scope.accettazionePrivacy=0;
-//	$scope.accettazioneResponsability=0;
-//
-//	$scope.createStream = function(virtualentity, stream) {
-//		stream.fps = 0;
-//		stream.saveData = 0;
-//		stream.publishStream = 1;
-//		stream.visibility = 'public';
-//		stream.accettazionePrivacy=0;
-//		stream.accettazionePrivacy=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
-//
-//
-//		var newStream = new Object();
-//		newStream.stream = stream;
-//
-//		var promise   = fabricAPIservice.createStream($scope.tenantCode, virtualentity.codeVirtualEntity,  newStream);
-//		promise.then(function(result) {
-//			console.log("result qui ", result);
-//			$location.path('management/editStream/'+$scope.tenantCode +'/'+virtualentity.codeVirtualEntity+'/'+newStream.stream.codiceStream);
-//		}, function(result) {
-//			$scope.creationError = angular.fromJson(result.data);
-//			console.log("result.data ", result.data);
-//		}, function(result) {
-//			console.log('Got notification: ' + result);
-//		});
-//	};	
-//
-//	$scope.cancel = function(){
-//		$location.path('management/streams/'+$scope.tenantCode);
-//	};
-//} ]);
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$filter", 'readFilePreview', '$location',
-                                                    function($scope, $routeParams, fabricAPIservice, info,$timeout,$filter,readFilePreview,$location) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$filter", 'readFilePreview', '$location', 'sharedStream',
+                                                    function($scope, $routeParams, fabricAPIservice, info,$timeout,$filter,readFilePreview,$location, sharedStream) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
@@ -325,7 +206,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.defaultQuery = Constants.DEFAULT_SIDDHI;
 
 	$scope.internalStreams = [];
-	$scope.inputTypeStream = 1;
+	$scope.extra = {};
+	$scope.extra.inputTypeStream = 1;
 	//$scope.streamSelectedItem=null;	
 	$scope.streamSiddhiQuery="insert query here;";
 	$scope.streamSiddhiMirror="";
@@ -521,19 +403,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				console.log("loadStream",response.streams.stream);
 				
 				
-//				if($scope.stream.saveData==1){
-//					$scope.saveData=true;
-//				}else{
-//					$scope.saveData=false;
-//				}
-	
-//				if($scope.stream.publishStream==1){
-//					$scope.publish=true;
-//				}else{
-//					$scope.publish=false;
-//				}
-				
-				
 				//FIXME publishStream forced to true , delete this line when the radio button is enabled.
 				$scope.stream.publishStream=1;
 				
@@ -600,25 +469,43 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 			});
 		} else {
-			$scope.stream  = {};
-			$scope.stream.visibility = 'public';
-			$scope.stream.streamIcon  = "img/stream-icon-default.png";
-			$scope.stream.streamTags = {};
-			$scope.stream.streamTags.tag = [];
-			$scope.stream.componenti = {};
-			$scope.stream.componenti.element = [];
-			$scope.stream.saveData = 1;
-			$scope.stream.publishStream = 1;
-			$scope.stream.deploymentVersion = 1;
-			//$scope.stream.tenantssharing = {};
-			//$scope.stream.tenantssharing.tenantsharing = [];
-//			var ownerTenant = {"idTenant":newTenantSharing.idTenant, 
-//				"tenantName": newTenantSharing.tenantName, 
-//				"tenantDescription": newTenantSharing.tenantDescription, 
-//				"tenantCode": $scope.tenantCode, 
-//				"isOwner": 1
-//			};
-//			$scope.stream.tenantssharing.tenantsharing.push(ownerTenant);
+			var streamClone = sharedStream.getStream();
+			if(streamClone!=null){
+				streamClone.statoStream = null;
+				streamClone.codiceStream = null;
+				$scope.stream = streamClone;
+
+				console.log("streamClone", streamClone);
+
+				if(streamClone.codiceVirtualEntity == "internal"){
+					$scope.extra.inputTypeStream = 0;
+					$scope.internalStreams = $scope.stream.streamInternalChildren.streamChildren;
+					$scope.streamSiddhiQuery = $scope.stream.internalQuery;
+				}
+
+				sharedStream.setStream(null);
+			}
+			else{
+				$scope.stream  = {};
+				$scope.stream.visibility = 'public';
+				$scope.stream.streamIcon  = "img/stream-icon-default.png";
+				$scope.stream.streamTags = {};
+				$scope.stream.streamTags.tag = [];
+				$scope.stream.componenti = {};
+				$scope.stream.componenti.element = [];
+				$scope.stream.saveData = 1;
+				$scope.stream.publishStream = 1;
+				$scope.stream.deploymentVersion = 1;
+				//$scope.stream.tenantssharing = {};
+				//$scope.stream.tenantssharing.tenantsharing = [];
+	//			var ownerTenant = {"idTenant":newTenantSharing.idTenant, 
+	//				"tenantName": newTenantSharing.tenantName, 
+	//				"tenantDescription": newTenantSharing.tenantDescription, 
+	//				"tenantCode": $scope.tenantCode, 
+	//				"isOwner": 1
+	//			};
+	//			$scope.stream.tenantssharing.tenantsharing.push(ownerTenant);
+			}
 		}
 //		if(!$scope.stream.tenantssharing || $scope.stream.tenantssharing == null)
 //			 $scope.stream.tenantssharing = {};
@@ -653,6 +540,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		//else
 		//	$scope.stream.twtRatePercentage = 0;
 		console.log("selectVirtualEntity", $scope.stream.idTipoVE);
+		console.log("$scope.stream", $scope.stream);
 	};
 
 	$scope.loadStreamComponents = function(existingStream){
@@ -1026,7 +914,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 	
 	$scope.virtualEntitiesList = [];
-	$scope.inputTypeStream = 1;
+	$scope.extra.inputTypeStream = 1;
 
 	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
 		console.log(response.virtualEntities.virtualEntity);
@@ -1148,5 +1036,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 	};	
 
+	$scope.cloneStream = function(){
+		console.log("cloneStream");
+		sharedStream.setStream($scope.stream);
+		$location.path('management/newStream/'+$scope.tenantCode);
+	};
 } ]);
 

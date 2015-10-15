@@ -515,6 +515,8 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 
 .content-edit-title, .entity-title{background-color: #717b7c;padding: .5em; margin-bottom: 1.2em; color: white;}
 .content-edit-title small, .entity-title small{color: white;}
+.content-edit-title a{color: white; text-decoration:none;}
+.content-edit-title a:hover{text-decoration:underline; }
 
 
 /* metrostyle */
@@ -747,8 +749,13 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 
 
 .dataexplorer-table-grid-container{overflow-x: auto; }
+.dataexplorer-dowloadcsv-container{line-height: 14pt; color: #bbb; margin: 45px 0;padding-top:15px; }
+.dataexplorer-dowloadcsv-link{font-family: monospace; text-decoration: none; margin-right: 3em; color: #bbb;}
+.dataexplorer-dowloadcsv-link-btn{color: #00bbf0; font-weight: bold; font-size: 14pt; text-decoration: none;}
+.dataexplorer-url-container{color: #bbb; margin-bottom: 1em;}
+.query-odata-link{font-family: monospace; text-decoration: none;color: #bbb;}
 
-table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border: solid 1px #c5c5c5;}
+table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border: solid 1px #c5c5c5; margin-bottom: 6px;}
 .dataexplorer-table-grid>thead>tr>th{font-size: bold; text-transform: none;background-color: #e5e5e5; padding:.5em 1em;}
 .dataexplorer-table-grid>tbody>tr>td{border: solid 1px #c5c5c5;padding: .5em;}
 .dataexplorer-table-grid .dataexplorer-table-grid-first-column {position: relative; min-height: 50px; padding-left: 50px;}
@@ -777,6 +784,7 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 #databrowser .browsedata-toolbar{padding: 1em 0; text-align: right;font-size: 18pt; }
 #databrowser .browsedata-toolbar a{font-size: 18pt; margin-left: 2em; }
 
+#databrowser .domains-panel{margin-bottom: 60px;}
 #databrowser .domain-label{margin-left: 2em;}
 
 #databrowser .title-right-label{position:absolute; right:0; bottom: 10px;}
