@@ -65,10 +65,10 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 				
 				
 
-				$scope.loadMetadata();
+				//$scope.loadMetadata();
 			} catch (e) {
 				var error = {"message":"Cannot load dataset","detail":"Error while loading dataset "+ $scope.datasetCode};
-				$scope.errors.push(error);
+				//$scope.errors.push(error);
 				console.error("getDataset ERROR", e);
 			};
 		}).error(function(response) {
@@ -77,12 +77,13 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 
 			var detail = "";
 			var error = {"message":"Cannot load dataset","detail":detail};
-			$scope.errors.push(error);
+			//$scope.errors.push(error);
 
 		});
 
 	};
 	
+
 	$scope.queryOdataLink = "-";
 	
 	$scope.loadMetadata = function(){
@@ -152,6 +153,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 		});
 	};
 
+	$scope.loadMetadata();
 
 	$scope.loadDataset();
 	
@@ -421,9 +423,12 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	
 	
 	
+	
 	$scope.currentPage = 1;
 	var datasetForPage = 12;
-	$scope.showLoading = true;
+	$scope.isNavigation = true;
+	$scope.showNavigationLoading = false;
+	$scope.showSearchLoading = false;
 
 	$scope.totalFound = null;
 	$scope.resultViewType = 'box';
@@ -438,6 +443,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			case 'query':
 				$scope.selectedDomain = null;
 				$scope.selectedTags = [];
+				$scope.datasetList = [];
+				searchStart = 0;
 				$scope.search();
 				break;
 			default:
@@ -482,19 +489,20 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	
 	$scope.findDatasets = function(){
 		// call oData service to retrieve  the last 30 data
+		$scope.isNavigation = true;
 		$scope.errors = [];
 
 		var start = ($scope.currentPage -1)*datasetForPage;
 		var sort = null;
 		$scope.datasetList = [];
 		
-		$scope.showLoading = true;
+		$scope.showNavigationLoading = true;
 		
 		
 		dataDiscoveryService.findDatasets($scope.selectedDomain, $scope.selectedTags, start, datasetForPage, sort).success(function(response) {
 			console.log("odataAPIservice.getStreamData",response);
 			$scope.totalFound = response.d.__count;
-			$scope.showLoading = false;
+			$scope.showNavigationLoading = false;
 			var datasetResultList = response.d.results;
 
 			if(datasetResultList.length >0){
@@ -527,7 +535,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			};
 		}).error(function(response) {
 			console.log("loadData Error: ", response);
-			$scope.showLoading = false;
+			$scope.showNavigationLoading = false;
 
 			var detail = ""+ response.error.code + " - " + response.error.message.value;
 			var error = {"message":"Cannot load dataset","detail":detail};
@@ -543,22 +551,26 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	};
 	
 	
-
+	var searchStart = 0;
+	var searchPage = 12;
+	
+	$scope.noMoreSearchData = false;
 	
 	$scope.search = function(){
-		
+		$scope.totalFound = null;
+		$scope.isNavigation = false;
 		console.log("search", $scope.queryInput);
-		$scope.showLoading = true;
+		$scope.showSearchLoading = true;
 		$scope.errors = [];
-		$scope.datasetList = [];
 		
-		var start = ($scope.currentPage -1)*datasetForPage;
-
+		//var start = ($scope.currentPage -1)*datasetForPage;
+		
 		var transform = function(data){
 	        return $.param(data);
 	    };
 	    
-		var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":start,"end": datasetForPage};
+	    var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":searchStart,"end": searchPage};
+		//var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":start,"end": datasetForPage};
 //		$http({
 //			method : 'POST',
 //	        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
@@ -567,44 +579,49 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				//'/store/site/blocks/search/api-search/ajax/search.jag',
+				//Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}
 	    ).success(function(response) {
 			console.log("search response", response);
-			$scope.showLoading = false;
+			$scope.showSearchLoading = false;
 
-			$scope.datasetList=[];
+			//$scope.datasetList=[];
+			$scope.noMoreSearchData = true;
 			if(response.result && response.result!=null){
 				for (var datasetIndex = 0; datasetIndex < response.result.length; datasetIndex++) {
 					var dataFromSearch = response.result[datasetIndex];
-					var data = {};
-					data.datasetCode = dataFromSearch.name;
-					if(Helpers.util.endsWith(data.datasetCode, "_odata"))
-						data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-6);
-					if(Helpers.util.endsWith(data.datasetCode, "_stream"))
-						data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
-
-					data.datasetName = dataFromSearch.extraNomeStream;
-					data.description = dataFromSearch.extraApiDescription;
-					data.dataDomain = dataFromSearch.extraDomain;
-					data.tags = [];
-					if(dataFromSearch.tags!=null){
-						data.tags= dataFromSearch.tags.split(",");
+					if(!Helpers.util.endsWith(dataFromSearch.name, "_stream")){
+						var data = {};
+						data.datasetCode = dataFromSearch.name;
+						if(Helpers.util.endsWith(data.datasetCode, "_odata"))
+							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-6);
+						//if(Helpers.util.endsWith(data.datasetCode, "_stream"))
+						//	data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
+	
+						data.datasetName = dataFromSearch.extraNomeStream;
+						data.description = dataFromSearch.extraApiDescription;
+						data.dataDomain = dataFromSearch.extraDomain;
+						data.tags = [];
+						if(dataFromSearch.tags!=null){
+							data.tags= dataFromSearch.tags.split(",");
+						}
+						data.tenantCode = dataFromSearch.extraCodiceTenant;
+						data.license = dataFromSearch.extraLicence;
+						data.copyright = dataFromSearch.extraCopyright;
+						data.disclaimer = dataFromSearch.extraDisclaimer;
+					
+						$scope.datasetList.push(cleanMetadata(data));
+						$scope.noMoreSearchData = false;
 					}
-					data.tenantCode = dataFromSearch.extraCodiceTenant;
-					data.license = dataFromSearch.extraLicence;
-					data.copyright = dataFromSearch.extraCopyright;
-					data.disclaimer = dataFromSearch.extraDisclaimer;
-				
-					$scope.datasetList.push(cleanMetadata(data));
 				}
+				searchStart += searchPage; 
 			}
 		}).error(function(response) {
 			console.log("search response error", response);
-			$scope.showLoading = false;
+			$scope.showSearchLoading = false;
 
 		});
 	};

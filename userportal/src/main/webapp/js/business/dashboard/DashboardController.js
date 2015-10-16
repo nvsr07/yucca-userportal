@@ -498,7 +498,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 							var oDataResult = oDataResultList[oDataIndex];
 							//var time = new Date(parseInt(oDataResult.time.replace("/Date(", "").replace(")/",""), 10));
 							//time.setHours(time.getHours() + time.getTimezoneOffset() / 60);
-							var time = Helpers.mongo.date2string(oDataResult.time);
+							var time = Helpers.mongo.date2millis(oDataResult.time);
 							var values = {};
 							for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
 								values[$scope.chartComponentNames[componentIndex].name] = oDataResult[$scope.chartComponentNames[componentIndex].name];

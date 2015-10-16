@@ -34,7 +34,7 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/management/:managementTab/:tenant_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code/:stream_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management'});
-	$routeProvider.when('/dataexplorer/:tenant_code/:entity_code', {templateUrl: 'partials/dataexplorer/dataExplorer.html?'+BuildInfo.timestamp,  activetab: 'management'});
+	$routeProvider.when('/dataexplorer/:tenant_code/:entity_code', {templateUrl: 'partials/dataexplorer/dataExplorer.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
 	$routeProvider.when('/dataexplorer/browsedata', {templateUrl: 'partials/dataexplorer/dataBrowser.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
 
 	$routeProvider.when('/discovery', {templateUrl: 'partials/discovery/index.html?'+BuildInfo.timestamp, activetab: 'discovery'});

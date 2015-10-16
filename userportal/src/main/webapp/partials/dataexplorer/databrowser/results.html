@@ -8,12 +8,14 @@
 </div>
 
 <div class=''>
-	<div class='ajax-loading-container' ng-show="showLoading">
-		<span class='ajax-loading-big'></span>
-		<h4>Loading...</h4>
-	</div>
-	<div class='alert alert-info' ng-show="datasetList.length==0 && !showLoading && errors.length==0">
-		<span translate>DATA_EXPLORER_DATA_RESULT_EMPTY</span>
+	<div ng-show='isNavigation'>
+		<div class='ajax-loading-container' ng-show="showNavigationLoading">
+			<span class='ajax-loading-big'></span>
+			<h4>Loading...</h4>
+		</div>
+		<div class='alert alert-info' ng-show="datasetList.length==0 && !showNavigationLoading && errors.length==0">
+			<span translate>DATA_EXPLORER_DATA_RESULT_EMPTY</span>
+		</div>
 	</div>
 	<div class="alert alert-danger" ng-show='errors.length!=0'>
 		<div class='row  text-left' ng-repeat="error in errors">
@@ -21,7 +23,7 @@
 			<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
 		</div>		
 	</div>
-	<div ng-show="!showLoading && datasetList.length>0" class='dataexplorer-table-grid-container'>
+	<div ng-show="!showNavigationLoading && datasetList.length>0" class='dataexplorer-table-grid-container'>
 		<table class='table dataexplorer-table-grid' ng-show="resultViewType == 'list'">
 			<thead>
 				<tr>
@@ -36,7 +38,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="data in datasetList">
+				<tr ng-repeat="data in datasetList" ng-click="exploreData(data)" class='browsedata-metadata-row'>
 					<td class=''>
 						<div class='dataexplorer-table-grid-first-column'>
 							<img ng-src="{{datasetList[$index].datasetIcon}}" alt="logo dataset" class="img-responsive dataset-icon" >
@@ -55,8 +57,8 @@
 					<td class='license-column'>
 						{{data["license"]}} 
 						<span class='license-column-icons'>
-							<i ng-show="data['copyright']!=null"class="fa fa-copyright" title="{{data['copyright']}}"></i> 
-							<i ng-show="data['disclaimer']!=null"class="fa fa-info-circle" title="{{data['disclaimer']}}"></i> 
+							<i ng-show="data['copyright']!=null && data['copyright']!=''"class="fa fa-copyright" title="{{data['copyright']}}"></i> 
+							<i ng-show="data['disclaimer']!=null && data['disclaimer']!=''"class="fa fa-info-circle" title="{{data['disclaimer']}}"></i> 
 						</span>
 					</td>					
 					
@@ -64,91 +66,52 @@
 			</tbody>
 		</table>
 		<div class='' ng-show="resultViewType == 'box'">
-			<div ng-repeat='data in datasetList' ng-if="$index % 3 == 0" class="row browsedata-metadata-box-row">
-				<div class='clearfix col-xs-4' ng-click='exploreData(datasetList[$index])'>
-					<div class=' browsedata-metadata-box '>
-						<div class='clearfix'>
-							<div  class='preview-img-container pull-left'  >
-								<img ng-src="{{datasetList[$index].datasetIcon}}" alt="logo dataset"class="img-responsive" >
-							</div>
-							<div class='preview-info-container pull-right'>
-								<div class='clearfix preview-top-line'>
-									<div class='pull-left'><i>{{datasetList[$index].tenantCode}}</i></div>
-									<div class='pull-right'><i class='icon-{{datasetList[$index].dataDomain}} domain-icon' title='{{datasetList[$index].dataDomain|translate}}'></i></div>
-								</div>
-								<h4 title="{{datasetList[$index].datasetName}}">{{datasetList[$index].datasetName|string_ellipse:40}}</h4>
-								<div class='preview-desc'><small><span class='muted' title="{{datasetList[$index].description}}">{{datasetList[$index].description|string_ellipse:200}}</span></small></div>
-								<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
-							</div>
+   			<div id="browsedata-metadata-box-container">
+				<div class=' browsedata-metadata-box' ng-repeat='data in datasetList' ng-click="exploreData(data)">
+					<div class='clearfix'>
+						<div  class='preview-img-container pull-left'  >
+							<img ng-src="{{data.datasetIcon}}" alt="logo dataset"class="img-responsive" >
 						</div>
-						<div class='license-column'>
-							<span title="{{datasetList[$index].license}}">{{datasetList[$index].license|string_ellipse:40}} </span>
-							<span class='license-column-icons'>
-								<i ng-show="datasetList[$index].copyright!=null"class="fa fa-copyright" title="{{datasetList[$index].copyright}}"></i> 
-								<i ng-show="datasetList[$index].disclaimer!=null"class="fa fa-info-circle" title="{{datasetList[$index].disclaimer}}"></i> 
-							</span>
+						<div class='preview-info-container pull-right'>
+							<div class='clearfix preview-top-line'>
+								<div class='pull-left'><i>{{data.tenantCode}}</i></div>
+								<div class='pull-right'><i class='icon-{{data.dataDomain}} domain-icon' title='{{data.dataDomain|translate}}'></i></div>
+							</div>
+							<h4 title="{{data.datasetName}}">{{data.datasetName|string_ellipse:40}}</h4>
+							<div class='preview-desc'><small><span class='muted' title="{{data.description}}">{{data.description|string_ellipse:200}}</span></small></div>
+							<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
 						</div>
 					</div>
-				</div>	
-				<div class='clearfix col-xs-4' ng-click='exploreData(datasetList[$index+1])' ng-show="{{datasetList[$index+1] !== undefined}}">
-					<div class=' browsedata-metadata-box '>
-						<div class='clearfix'>
-							<div  class='preview-img-container pull-left'  >
-								<img ng-src="{{datasetList[$index+1].datasetIcon}}" alt="logo dataset"class="img-responsive" >
-							</div>
-							<div class='preview-info-container pull-right'>
-								<div class='clearfix preview-top-line'>
-									<div class='pull-left'><i>{{datasetList[$index+1].tenantCode}}</i></div>
-									<div class='pull-right'><i class='icon-{{datasetList[$index+1].dataDomain}} domain-icon' title={{datasetList[$index+1].dataDomain|translate}}></i></div>
-								</div>
-								<h4 title="{{datasetList[$index+1].datasetName}}">{{datasetList[$index+1].datasetName|string_ellipse:40}}</h4>
-								<div class='preview-desc'><small><span class='muted' title="{{datasetList[$index+1].description}}">{{datasetList[$index+1].description|string_ellipse:200}}</span></small></div>
-								<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
-							</div>
-						</div>
-						<div class='license-column'>
-							<span title="{{datasetList[$index+1].license}}">{{datasetList[$index+1].license|string_ellipse:40}} </span>
-							<span class='license-column-icons'>
-								<i ng-show="datasetList[$index+1].copyright!=null"class="fa fa-copyright" title="{{datasetList[$index+1].copyright}}"></i> 
-								<i ng-show="datasetList[$index+1].disclaimer!=null"class="fa fa-info-circle" title="{{datasetList[$index+1].disclaimer}}"></i> 
-							</span>
-						</div>
+					<div class='license-column'>
+						<span title="{{data.license}}">{{data.license|string_ellipse:40}} </span>
+						<span class='license-column-icons'>
+							<i ng-show="data.copyright!=null && data.copyright!=''"class="fa fa-copyright" title="{{data.copyright}}"></i> 
+							<i ng-show="data.disclaimer!=null && data.disclaimer!=''"class="fa fa-info-circle" title="{{data.disclaimer}}"></i> 
+						</span>
 					</div>
-				</div>	
-				<div class='clearfix col-xs-4' ng-click='exploreData(datasetList[$index+2])' ng-show="{{datasetList[$index+2] !== undefined}}">
-					<div class=' browsedata-metadata-box '>
-						<div class='clearfix'>
-							<div  class='preview-img-container pull-left'  >
-								<img ng-src="{{datasetList[$index+2].datasetIcon}}" alt="logo dataset"class="img-responsive" >
-							</div>
-							<div class='preview-info-container pull-right'>
-								<div class='clearfix preview-top-line'>
-									<div class='pull-left'><i>{{datasetList[$index+2].tenantCode}}</i></div>
-									<div class='pull-right'><i class='icon-{{datasetList[$index+2].dataDomain}} domain-icon' title={{datasetList[$index+2].dataDomain|translate}}></i></div>
-								</div>
-								<h4 title="{{datasetList[$index+2].datasetName}}">{{datasetList[$index+2].datasetName|string_ellipse:40}}</h4>
-								<div class='preview-desc'><small><span class='muted' title="{{datasetList[$index+2].description}}">{{datasetList[$index+2].description|string_ellipse:200}}</span></small></div>
-								<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
-							</div>
-						</div>
-						<div class='license-column'>
-							<span title="{{datasetList[$index+2].license}}">{{datasetList[$index+2].license|string_ellipse:40}} </span>
-							<span class='license-column-icons'>
-								<i ng-show="datasetList[$index+2].copyright!=null"class="fa fa-copyright" title="{{datasetList[$index+2].copyright}}"></i> 
-								<i ng-show="datasetList[$index+2].disclaimer!=null"class="fa fa-info-circle" title="{{datasetList[$index+2].disclaimer}}"></i> 
-							</span>
-						</div>
-					</div>
-				</div>	
-				
-				
+				</div>
 			</div>	
 		</div>
-		
+	</div>
+	<div ng-show='isNavigation && !showNavigationLoading'>
 		<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage(currentPage)" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
 					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
 		</pagination>
 	</div>
+	<div ng-show='!isNavigation'>
+		<div class='ajax-loading-container' ng-show="showSearchLoading">
+			<span class='ajax-loading-big'></span>
+			<h4>Loading...</h4>
+		</div>
+		<div class='alert alert-info' ng-show="noMoreSearchData && !showSearchLoading && errors.length==0">
+			<span translate ng-show="datasetList.length==0">DATA_EXPLORER_DATA_RESULT_EMPTY</span>
+			<span translate ng-show="datasetList.length>0">DATA_EXPLORER_DATA_RESULT_NO_MORE_DATA</span>
+		</div>
+		
+		<div class='browsedata-load-more-toolbar' ng-show="!showSearchLoading && !noMoreSearchData">
+			<a href ng-click='search()' class='btn btn-default'>Ancora</a>
+		</div>
+		</div>
 	
 	
 	

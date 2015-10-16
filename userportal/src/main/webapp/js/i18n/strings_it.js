@@ -851,6 +851,7 @@ var translations_it = {
 	
 	/* data explorer */
 	DATA_EXPLORER_DATA_RESULT_EMPTY: 'Non sono stati trovati dati',
+	DATA_EXPLORER_DATA_RESULT_NO_MORE_DATA: 'Non sono stati trovati ulteriori dati',
 	DATA_EXPLORER_FILTER_PANEL_TITLE: 'Filtri',
 	DATA_EXPLORER_DETAIL_PANEL_TITLE: 'Dettaglio',
 	DATA_EXPLORER_USED_FILTER: 'Filtri', 
