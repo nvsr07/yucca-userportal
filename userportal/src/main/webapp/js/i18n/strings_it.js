@@ -659,6 +659,7 @@ var translations_it = {
 	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non è stato possibile cancellare il dataset! Riprovare in un secondo momento',
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
+	MANAGEMENT_VIEW_DATASET_CLONE_BUTTON: 'Clona',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Scarica',
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Aggiungi dati',
 	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'Accesso ai dati',

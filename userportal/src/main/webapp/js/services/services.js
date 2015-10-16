@@ -55,7 +55,7 @@ appServices.factory('readFilePreview', function($q) {
 });
 
 appServices.factory('sharedStream',  function () {
-	var stream = {};
+	var stream = null;
 	
 	return {
 		getStream: function () {
@@ -63,6 +63,19 @@ appServices.factory('sharedStream',  function () {
 		},
 		setStream: function(value) {
 			stream = value;
+		}
+	};
+});
+
+appServices.factory('sharedDataset',  function () {
+	var dataset = null;
+	
+	return {
+		getDataset: function () {
+			return dataset;
+		},
+		setDataset: function(value) {
+			dataset = value;
 		}
 	};
 });

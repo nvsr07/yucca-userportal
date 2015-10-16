@@ -202,8 +202,8 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 	};
 }]);
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview',
-                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -523,6 +523,13 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		}
 		return false;
 	};
+	
+	$scope.cloneDataset = function(){
+		console.log("cloneDataset");
+		sharedDataset.setDataset($scope.dataset);
+		$location.path('management/newDataset/'+$scope.tenantCode);
+	};
+
 } ]);
 
 
@@ -650,8 +657,8 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 }]);
 
 
-appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 
-                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload) {
+appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', 
+                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -733,13 +740,37 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			}
 		}
 	});
+	
+	$scope.metadata = sharedDataset.getDataset();
+	var isClone = false;
+	$scope.previewLines = [];
+	$scope.previewColumns = [];
+	$scope.previewBinaries = [];
 
-	$scope.metadata = {info:{}, configData: {}, opendata: {}};
-	$scope.metadata.info.icon  = "img/dataset-icon-default.png";
-	$scope.metadata.info.visibility = "private";
-	$scope.metadata.info.importFileType = "csv";
-	$scope.metadata.opendata.language = 'it';
-	$scope.metadata.opendata.isOpendata = 'false';
+	if($scope.metadata==null){
+		$scope.metadata = {info:{}, configData: {}, opendata: {}};
+		$scope.metadata.info.icon  = "img/dataset-icon-default.png";
+		$scope.metadata.info.visibility = "private";
+		$scope.metadata.info.importFileType = "csv";
+		$scope.metadata.opendata.language = 'it';
+		$scope.metadata.opendata.isOpendata = 'false';
+	}
+	else{
+		isClone = true;
+		$scope.metadata.info.datasetName = null;
+		$scope.previewColumns = [];
+		$scope.previewBinaries = [];
+		if($scope.metadata.info.fields.length>0){
+			for (var int = 0; int < $scope.metadata.info.fields.length; int++) {
+				var field = $scope.metadata.info.fields[int];
+				if(field.dataType == 'binary')
+					$scope.previewBinaries.push(field);
+				else
+					$scope.previewColumns.push(field);
+			}
+		}
+		
+	}
 	$scope.metadata.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(new Date());
 
 	$scope.user = {};
@@ -885,9 +916,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			readPreview($scope.csvSeparator);
 	};
 
-	$scope.previewLines = [];
-	$scope.previewColumns = [];
-	$scope.previewBinaries = [];
 	
 	var readPreview = function(csvSeparator){
 		$scope.uploadDatasetError = null;
@@ -1115,8 +1143,12 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.goToChooseType  = function(){
 		$scope.selectedFile = null;
 		$scope.previewLines = [];
-		$scope.previewColumns = [];
-		$scope.previewBinaries = [];
+		if(isClone)
+			isClone = false;
+		else{
+			$scope.previewColumns = [];
+			$scope.previewBinaries = [];
+		}
 		$scope.metadata.info.fields = [];
 		
 		
@@ -1158,8 +1190,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 		if(choosen == 'bulk_upload')
 			$scope.goToUpload();
-		else if(choosen == 'bulk_no_upload')
+		else if(choosen == 'bulk_no_upload'){
+			$scope.previewBinaries = [];
 			$scope.goToCreateColumns(choosen);
+		}
 		else{ //if(choosen == 'bulk_no_upload' || choosen == 'binary_no_upload')
 			$scope.goToCreateColumns(choosen);
 		}
@@ -1268,7 +1302,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		}
 
 	};	
-
 } ]);
 
 

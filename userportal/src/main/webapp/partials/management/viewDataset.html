@@ -222,6 +222,9 @@
 					<a  href='#/dataexplorer/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" >
 						<span class="glyphicon glyphicon-th-large"></span> {{'MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON'|translate}}
 					</a>
+					<a  href ng-click='cloneDataset()' class="btn btn-edit">
+						<i class="fa fa-files-o" ></i> <span translate>MANAGEMENT_VIEW_DATASET_CLONE_BUTTON</span>
+					</a>
 					<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
 						<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
 					</a>
