@@ -133,8 +133,8 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			console.log("loadData Error: ", response);
 			$scope.showLoading = false;
 
-			var detail = "";
-			var error = {"message":"Cannot load dataset","detail":detail};
+//			var detail = "";
+//			var error = {"message":"Cannot load dataset","detail":detail};
 			//$scope.errors.push(error);
 
 		});
@@ -353,8 +353,8 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 } ]);
 
 
-appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info',
-                                                function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $location, $filter,  $http, info) {
+appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info', 'dataexplorerBrowseData',
+                                                function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $location, $filter,  $http, info,dataexplorerBrowseData) {
 	
 	$scope.currentStep = 'domains';
 	$scope.browseSteps = [{'name':'domains', 'style':''},
@@ -362,11 +362,13 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	                      {'name':'results', 'style':''}];
 	
 	$scope.stepTitle='DATABROWSER_CHOOSE_DOMAIN_TITLE';
-	
+		
 	$scope.goToChooseDomains  = function(){ 
 		$scope.selectedDomain = null;
 		$scope.selectedTags = [];
 		$scope.queryInput = null;
+		dataexplorerBrowseData.setSearchResult(null);
+		fromBackButton = false;
 		$scope.currentStep = 'domains'; 
 		$scope.stepTitle='DATABROWSER_CHOOSE_DOMAIN_TITLE';
 	};
@@ -374,17 +376,21 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	$scope.goToChooseTags  = function(clearDomain){ 
 		if(clearDomain) 
 			$scope.selectedDomain = null; 
+		dataexplorerBrowseData.setSearchResult(null);
+		fromBackButton = false;
 		$scope.currentStep = 'tags'; 
 		$scope.stepTitle='DATABROWSER_CHOOSE_TAG_TITLE';
 	};
 	
 	var searchType = "";
 	$scope.goToResults  = function(searchTypeParam){ 
+		
 		$scope.currentStep = 'results';
 		
 		$scope.stepTitle='DATABROWSER_RESULTS_TITLE';
 		$scope.currentPage = 1;
-
+		dataexplorerBrowseData.setSearchResult(null);
+		fromBackButton = false;
 		searchType  = searchTypeParam;
 		$scope.selectPage(1);
 	};
@@ -441,23 +447,26 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 
 	$scope.datasetList = [];
 
-	
+	var fromBackButton = false;
 	$scope.selectPage = function(currentPage) {
 		
-		$scope.currentPage = currentPage;
-		switch (searchType) {
-			case 'query':
-				$scope.selectedDomain = null;
-				$scope.selectedTags = [];
-				$scope.datasetList = [];
-				searchStart = 0;
-				$scope.search();
-				break;
-			default:
-				$scope.inputQuery = null;
-				$scope.findDatasets(); 
-				break;
-		}
+		if(!fromBackButton){
+			$scope.currentPage = currentPage;
+			switch (searchType) {
+				case 'query':
+					$scope.selectedDomain = null;
+					$scope.selectedTags = [];
+					$scope.datasetList = [];
+					searchStart = 0;
+					$scope.search();
+					break;
+				default:
+					$scope.inputQuery = null;
+					$scope.findDatasets(); 
+					break;
+			}
+		}else
+			fromBackButton = false;
 	};	
 
 	$scope.columns = [];
@@ -492,7 +501,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
     	return data;
 	};
 	
-	
+	$scope.errors = [];
+
 	$scope.findDatasets = function(){
 		// call oData service to retrieve  the last 30 data
 		$scope.isNavigation = true;
@@ -539,6 +549,19 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 				};
 				
 			};
+			
+			var searchResult = {};
+			searchResult.currentPage = $scope.currentPage;
+			searchResult.searchType = 'browse';
+			searchResult.datasetList = $scope.datasetList;
+			searchResult.selectedDomain = $scope.selectedDomain;
+			searchResult.selectedTags = $scope.selectedTags;
+			searchResult.totalFound = $scope.totalFound;
+
+
+			
+			dataexplorerBrowseData.setSearchResult(searchResult);
+
 		}).error(function(response) {
 			console.log("loadData Error: ", response);
 			$scope.showNavigationLoading = false;
@@ -585,8 +608,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-				//Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				'/store/site/blocks/search/api-search/ajax/search.jag',
+				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				//'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}
@@ -625,12 +648,41 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 				}
 				searchStart += searchPage; 
 			}
+			
+			var searchResult = {};
+			searchResult.searchStart = searchStart;
+			searchResult.searchType = 'query';
+			searchResult.datasetList = $scope.datasetList;
+			searchResult.inputQuery = $scope.inputQuery;
+
+			
+			dataexplorerBrowseData.setSearchResult(searchResult);
+
 		}).error(function(response) {
 			console.log("search response error", response);
 			$scope.showSearchLoading = false;
 
 		});
 	};
+	
+	if(dataexplorerBrowseData.getSearchResult()!=null){
+		var searchResult = dataexplorerBrowseData.getSearchResult();
+
+		$scope.currentPage = searchResult.currentPage;
+		searchStart = searchResult.searchStart;
+		searchType  = searchResult.searchType;
+		$scope.selectedDomain = searchResult.selectedDomain;
+		$scope.selectedTags = searchResult.selectedTags;
+		$scope.inputQuery = searchResult.inputQuery;
+		$scope.totalFound = searchResult.totalFound;
+
+
+		$scope.datasetList = searchResult.datasetList;
+
+		fromBackButton = true;
+		$scope.currentStep = 'results';
+		$scope.stepTitle='DATABROWSER_RESULTS_TITLE';
+	}
 
 	// https://int-userportal.smartdatanet.it/store/site/blocks/search/api-search/ajax/search.jag -d 'action=searchAPIs&query=grecia&start=0&end=10'
 }]);

@@ -79,3 +79,16 @@ appServices.factory('sharedDataset',  function () {
 		}
 	};
 });
+
+appServices.factory('dataexplorerBrowseData',  function () {
+	var searchResult = null;
+	
+	return {
+		getSearchResult: function () {
+			return searchResult;
+		},
+		setSearchResult: function(value) {
+			searchResult = value;
+		}
+	};
+});
