@@ -1,5 +1,5 @@
-appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location',
-                                                     function($scope, $routeParams, fabricAPImanagement, odataAPIservice, dataDiscoveryService, $filter, info,$location) {
+appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location',
+                                                     function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info,$location) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -39,50 +39,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	
 	var datasetType = "";
 	var defaultOrderByColumn = "internalId";
-
-	
-	$scope.loadDatasetOld = function(){
-		console.debug("$scope.datasetCode", $scope.datasetCode);
-		
-		
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
-			$scope.errors = [];
-			try{
-				console.debug("loadDataset- response",response);
-				$scope.apiMetdataUrl = response.apiMetadataUrl;
-				$scope.dataset = response.metadata;
-				$scope.stream = response.stream;
-				$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
-				if(!$scope.dataset)
-					$scope.dataset = new Object();
-				if(!$scope.dataset.info)
-					$scope.dataset.info = new Object();
-				if(!$scope.dataset.info.tags)
-					$scope.dataset.info.tags = [];
-
-				if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
-					$scope.dataset.info.icon  = "img/dataset-icon-default.png";
-				
-				
-
-				//$scope.loadMetadata();
-			} catch (e) {
-				var error = {"message":"Cannot load dataset","detail":"Error while loading dataset "+ $scope.datasetCode};
-				//$scope.errors.push(error);
-				console.error("getDataset ERROR", e);
-			};
-		}).error(function(response) {
-			console.log("loadData Error: ", response);
-			$scope.showLoading = false;
-
-			var detail = "";
-			var error = {"message":"Cannot load dataset","detail":detail};
-			//$scope.errors.push(error);
-
-		});
-
-	};
-	
 
 	$scope.queryOdataLink = "-";
 	
