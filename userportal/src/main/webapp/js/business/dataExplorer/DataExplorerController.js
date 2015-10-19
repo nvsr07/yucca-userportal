@@ -1,5 +1,5 @@
-appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'odataAPIservice', '$filter', 'info',
-                                                     function($scope, $routeParams, fabricAPImanagement, odataAPIservice, $filter, info) {
+appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location',
+                                                     function($scope, $routeParams, fabricAPImanagement, odataAPIservice, dataDiscoveryService, $filter, info,$location) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -41,7 +41,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	var defaultOrderByColumn = "internalId";
 
 	
-	$scope.loadDataset = function(){
+	$scope.loadDatasetOld = function(){
 		console.debug("$scope.datasetCode", $scope.datasetCode);
 		
 		
@@ -152,7 +152,53 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 
 		});
 	};
+	
+	// http://localhost:8080/userportal/api/proxy/discovery/Datasets?$format=json&$filter=datasetCode%20eq%20%27ds_Provatime_14%27&$top=12
+	$scope.loadDataset = function(){
 
+		dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
+			$scope.errors = [];
+			try{
+				console.debug("loadDataset- response",response);
+				$scope.dataset = response.d.results[0];
+				
+				$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+$scope.dataset.tenantCode+"/"+$scope.dataset.datasetCode;
+				if(dataset.tags!=null )
+					$scope.dataset.tagsArray = $scope.dataset.tags.split[","];
+
+
+				//$scope.loadMetadata();
+			} catch (e) {
+				var error = {"message":"Cannot load dataset","detail":"Error while loading dataset "+ $scope.datasetCode};
+				//$scope.errors.push(error);
+				console.error("getDataset ERROR",error, e);
+			};
+		}).error(function(response) {
+			console.log("loadData Error: ", response);
+			$scope.showLoading = false;
+
+			var detail = "";
+			var error = {"message":"Cannot load dataset","detail":detail};
+			//$scope.errors.push(error);
+
+		});
+	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	$scope.loadMetadata();
 
 	$scope.loadDataset();
@@ -330,7 +376,11 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'fabri
 	};
 	
 	var createQueryOdata = function(stream_code, filter, skip, top, orderby, collection){
-		var streamDataUrl = Constants.API_ODATA_URL+stream_code+"/"+collection+"?$format=json";
+		
+		var host = $location.host();
+		var env = host.substring(0,host.indexOf("userportal.smartdatanet.it"));
+
+		var streamDataUrl = "http://"+env+"api.smartdatanet.it/api/"+stream_code+"/"+collection+"?$format=json";
 		if(filter && filter!=null)
 			streamDataUrl += '&$filter='+filter;
 		if(skip && skip!=null)

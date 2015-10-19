@@ -509,6 +509,18 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 
 	};
 
+	dataDiscovery.loadDatasetDetailFromDatasetCode = function(datasetCode){
+		// http://localhost:8080/userportal/api/proxy/discovery/Datasets?$format=json&$filter=datasetCode%20eq%20%27ds_Provatime_14%27&$top=12
+
+		var URLBaseQuery = Constants.API_DISCOVERY_DATASET_URL + "Datasets?$format=json&$filter=datasetCode eq '"+datasetCode+"'&$expand=Stream,Fields";
+		console.debug("dataDiscovery.loadDatasetDetailFromDatasetCode URL : ",URLBaseQuery);
+		return $http({
+			method : 'GET',
+			url:URLBaseQuery
+		});
+
+	};
+
 	dataDiscovery.loadStreamDetail = function(tenant_code, virtualentity_code, stream_code){
 		
 		//Streams?$expand=Dataset&$format=json&$filter=(smartOCode eq 'f8b8bd31-f37c-5a97-9cca-bd2f0f2c8c73'  and  'T' eq streamCode  )

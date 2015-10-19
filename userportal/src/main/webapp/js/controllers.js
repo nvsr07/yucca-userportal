@@ -72,6 +72,23 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 	};
 } ]);
 
+
+appControllers.factory("initCtrl", function(fabricAPIservice, info, $q) {
+    return {
+    	"getInfo": function() {
+    	    	var promise = fabricAPIservice.getInfo();
+    	        promise.success(function(result) {
+    	    		info.setInfo(result);
+    	    		$scope.activeTenantCode = info.getActiveTenantCode();
+    	    		$scope.userTenants = info.getInfo().user.tenants;
+    	    		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
+    	    		$scope.user = result.user;
+    	    	});
+    	        return promise;
+    	      }
+    	};
+});
+
 appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', 'info', '$location', function($scope, $route, $translate,webSocketService, fabricAPIservice, info, $location) {
 	$scope.$route = $route;
 	//$scope.managementUrl = null;

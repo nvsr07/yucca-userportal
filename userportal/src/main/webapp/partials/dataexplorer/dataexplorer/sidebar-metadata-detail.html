@@ -16,25 +16,25 @@
 				<div class='panel-content'>
 					<p>					
 						<strong><span translate>DATASET_FIELD_METADATA_DESCRIPTION</span></strong><br/>
-						<span>{{dataset.info.description}}</span>
+						<span>{{dataset.description}}</span>
 					</p>
 					<p>
 						<strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong><br/>
-						<span >{{dataset.info.dataDomain|translate}}</span>
+						<span >{{dataset.dataDomain|translate}}</span>
 					</p>	
 					<p>
 						<strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong><br/>
 						<ul class="list-inline">
-							<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
+							<li ng-repeat="tag in dataset.tagsArray"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
 						</ul>
 					</p>
 					<p>
 						<strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong><br/>
-						{{dataset.info.visibility}}
+						{{dataset.visibility}}
 					</p>
 					<p>
 						<strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong><br/>
-						<span  ng-repeat="tenantSharing in dataset.info.tenantssharing.tenantsharing">
+						<span  ng-repeat="tenantSharing in dataset.tenantssharing.tenantsharing">
 							<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
 						</span> &nbsp;
 					</p>
@@ -65,47 +65,47 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate>DATASET_FIELD_METADATA_LICENSE</span></strong><br/>
-					{{dataset.info.license|nvl:' -'}}
+					{{dataset.license|nvl:' -'}}
 				</p>	
 				<p>
 					<strong><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong><br/>
-					{{dataset.info.disclaimer|nvl:' -'}}
+					{{dataset.disclaimer|nvl:' -'}}
 				</p>	
 				<p>
 					<strong><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong><br/>
-					{{dataset.info.copyright|nvl:' -'}}
+					{{dataset.copyright|nvl:' -'}}
 				</p>	
 			</accordion-group>
-			<accordion-group is-open="status2.open" ng-show="stream!=null">
+			<accordion-group is-open="status2.open" ng-show="dataset.Stream!=null">
 				<accordion-heading>
 					<span translate>VIRTUALENTITY</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
 				</accordion-heading>
 				<p>
 					<strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong><br/>
-					{{stream.streams.stream.virtualEntityName|nvl:''}}
+					{{dataset.Stream.smartOName|nvl:''}}
 				</p>	
 				<p>
 					<strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong><br/>
-					{{stream.streams.stream.virtualEntityCode|nvl:''}}
+					{{dataset.Stream.smartOCode|nvl:''}}
 				</p>	
 				<p>
 					<strong><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong><br/>
-					{{stream.streams.stream.virtualEntityDescription|nvl:''}}
+					{{dataset.Stream.smartODescription|nvl:''}}
 				</p>	
 				<p>
 					<strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong><br/>
-					{{stream.streams.stream.virtualEntityType|nvl:''}}
+					{{dataset.Stream.smartOType|nvl:''}}
 				</p>	
 				<p>
 					<strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong><br/>
-					{{stream.streams.stream.virtualEntityCategory|nvl:''}}
+					{{dataset.Stream.smartOCategory|nvl:''}}
 				</p>	
-				<p ng-show="stream.streams.stream.virtualEntityPositions.position!=null">
+				<p ng-show="dataset.Stream.latitude!=null && dataset.Stream.longitude!=null">
 					<strong><span translate>VIRTUALENTITY_FIELD_POSITION</span></strong><br/>
-					[{{stream.streams.stream.virtualEntityPositions.position[0].lat}};{{stream.streams.stream.virtualEntityPositions.position[0].lon}}]<br/>
+					[{{dataset.Stream.latitude}};{{dataset.Stream.longitude}}]<br/>
 					<strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong><br/>
-					{{stream.streams.stream.virtualEntityPositions.position.elevation[0]|nvl:' -'}}
+					{{dataset.Stream.elevation|nvl:' -'}}
 				</p>	
 			</accordion-group>
 			<accordion-group is-open="status3.open" ng-show="stream!=null">
@@ -115,38 +115,42 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate>STREAM_FIELD_NAME</span></strong><br/>
-					{{stream.streamName|nvl:' -'}}
+					{{dataset.Stream..streamName|nvl:' -'}}
 				</p>	
 				<p>
 					<strong><span translate>STREAM_FIELD_CODE</span></strong><br/>
-					{{stream.streamCode|nvl:' -'}}
+					{{dataset.Stream..streamCode|nvl:' -'}}
 				</p>	
 				<p>
 					<strong><span translate>STREAM_FIELD_FPS</span></strong><br/>
-					{{stream.streams.stream.fps|nvl:' -'}}
+					{{dataset.fps|nvl:' -'}}
 				</p>	
 			</accordion-group>
-			<accordion-group is-open="status4.open" ng-show="stream.streams.stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID && stream.streams.stream.idTipoVe!=null">
+			<accordion-group is-open="status4.open" ng-show="dataset.Stream.twtQuery!=null">
 				<accordion-heading>
 		 			<span translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
 				</accordion-heading>
 				<p>
 					<strong><span translate>STREAM_FIELD_TWT_QUERY</span></strong><br/>
-					{{stream.streams.stream.twtQuery}}
+					{{dataset.Stream.twtQuery}}<br/>
+				</p>	
+				<p>
 					<strong><span translate>STREAM_FIELD_TWT_LANG</span></strong><br/>
-					{{stream.streams.stream.twtLang}}
-				<p>	
+					{{dataset.Stream.twtLang}}<br/>
+				</p>	
 				<p>
 					<strong><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong><br/>
-					<span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.streams.stream.twtGeolocLat}},{{stream.streams.stream.twtGeolocLon}}</span>
+					<span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">[{{dataset.Stream.twtGeolocLat}},{{dataset.Stream.twtGeolocLon}}]</span><br/>
+				</p>	
+				<p>
 					<strong><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong><br/>
-					<span ng-show="stream.twtGeolocRadius!=0">{{stream.streams.stream.twtGeolocRadius}} {{stream.streams.stream.twtUnit}}</span>
-				<p>	
+					<span ng-show="stream.twtGeolocRadius!=0">{{dataset.Stream.twtGeolocRadius}} {{dataset.Stream.twtUnit}}</span><br/>
+				</p>	
 				<p>
 					<strong><span translate>STREAM_FIELD_TWT_RATE</span></strong><br/>
-					{{stream.streams.stream.twtRatePercentage}}
-				<p>	
+					{{dataset.Stream.twtRatePercentage}}
+				</p>	
 			</accordion-group>
 			<accordion-group is-open="status5.open">
 				<accordion-heading>
@@ -168,7 +172,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="field in dataset.info.fields">
+								<tr ng-repeat="field in dataset.Fields.results">
 									<td>{{field.fieldName}}</td>
 									<td>{{field.fieldAlias}}</td>
 									<td>{{field.dataType|nvl:' - '}}</td>
@@ -188,7 +192,7 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong><br/>
-					<a href="{{apiMetdataUrl}}" target="_blank" class='management-dataset-download-link'>{{apiMetdataUrl}}</a>
+					<a href="{{dataset.API}}" target="_blank" class='management-dataset-download-link'>{{dataset.API}}</a>
 				</p>	
 			</accordion-group>
 		</accordion>
