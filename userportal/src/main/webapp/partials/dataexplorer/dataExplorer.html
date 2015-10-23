@@ -98,7 +98,7 @@
 											<div ng-show="!data[column['label']].loadingBinaryDetail && !data[column['label']].noBinaryFound">
 												<div class="panel panel-default dataexplorer-table-binary-td-detail-panel">
 													<div class="panel-heading">
-														<h4 class="panel-title">
+														<h4 class="panel-title nowrap">
 															<span title="{{'DATASET_BINARY_DETAIL_ID'|translate}}">{{data[column['label']].binaryDetail.idBinary}}</span> - 
 															<span title="{{'DATASET_BINARY_DETAIL_ALIASNAME'|translate}}">{{data[column['label']].binaryDetail.aliasNameBinary}}</span>
 															<a href ng-click="data[column['label']].showBinaryDetail=false" class='panel-hide-button'>&times;</a>
@@ -121,8 +121,9 @@
 															</a>
 															
 														</p>
-														<div class='dataexplorer-table-binary-td-bottombar text-right'>
-															<a href ng-click="previewBinary(data[column['label']].binaryDetail, 'file')" class='btn'>
+														<div class='dataexplorer-table-binary-td-bottombar text-right nowrap'>
+															<a href ng-click="previewBinary(data[column['label']].binaryDetail, 'file')" class='btn' 
+																ng-show="hasBinaryPreview(data[column['label']].binaryDetail.contentTypeBinary)">
 																<i class=' glyphicon glyphicon-eye-open'></i> <strong translate>DATASET_BINARY_DETAIL_PREVIEW</strong>
 															</a>
 															<a href="{{data[column['label']].binaryDetail.absoluteUrlDownloadBinary}}" title="data[column['label']].binaryDetail.absoluteUrlDownloadBinary"class='btn'>
@@ -200,14 +201,8 @@
   						Your browser does not support HTML5 video.
 					</video>
 				</div>
-				<div ng-show="isHtml()">
-					
-				</div>
-				<div ng-show="isXml()">
-					
-				</div>
-				<div ng-show="isText()">
-					
+				<div ng-show="showInIFrame()">
+					<p><iframe src="{{binaryPreview.absoluteUrlDownloadBinary}}" frameborder="0" height="400" width="95%"></iframe></p>
 				</div>
 				<div ng-show="isMetadata()">
 					{{binaryPreview.metadataBinary|json}}

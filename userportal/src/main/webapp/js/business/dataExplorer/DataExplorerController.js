@@ -368,6 +368,11 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				
 	};
 	
+	$scope.hasBinaryPreview = function(contentTypeBinary){
+		var mediaType = Helpers.util.getMediaTypeFromContentType(contentTypeBinary);
+		return mediaType == 'image' || mediaType == 'video' || mediaType == 'audio'; 
+	};
+	
 	$scope.previewBinary  = function(binary, type){
 		console.log("previewBinary",binary);
 	    var modalInstance = $modal.open({
@@ -415,6 +420,19 @@ appControllers.controller('DataExplorerPreviewBinaryCtrl', [ '$scope', '$modalIn
 	
 	$scope.isXml = function(){
 		return previewType!='metadata' && (binaryPreview.contentTypeBinary == 'text/xml' || binaryPreview.contentTypeBinary == 'application/xml') ; 
+	};
+
+	$scope.isTxt = function(){
+		return previewType!='metadata' && mediaType == 'text' ; 
+	};
+
+	$scope.isPdf = function(){
+		return previewType!='metadata' && (binaryPreview.contentTypeBinary == 'application/pdf' || binaryPreview.contentTypeBinary == 'application/xml') ; 
+	};
+
+	
+	$scope.showInIFrame = function(){
+		return $scope.isXml() || $scope.isXml() || $scope.isHtml() || $scope.isPdf() || $scope.isTxt();
 	};
 
 

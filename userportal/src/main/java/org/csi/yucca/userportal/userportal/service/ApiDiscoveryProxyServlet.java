@@ -8,6 +8,7 @@ import java.util.Properties;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
@@ -26,6 +27,13 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	protected void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	@Override
 	protected String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {

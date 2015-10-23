@@ -758,6 +758,8 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .dataexplorer-table-binary-td-topbar a:hover{background-color: #0189AF;}
 .dataexplorer-table-binary-td-topbar i{font-size: 11pt;}
 .dataexplorer-table-binary-td-detail-panel{ font-size: 10pt; border: solid 1px #ccc; margin: 1em 0 0 0;}
+.dataexplorer-table-binary-td-detail-panel .panel-title{position: relative;padding-right: 1em;}
+.dataexplorer-table-binary-td-detail-panel .panel-hide-button{display: inline;  float: none; position:absolute; right:0}
 .dataexplorer-table-binary-td-detail-panel .panel-heading{ background-color: #e5e5e5; border-radius: 0; padding: .5em; color: #000; margin:0; font-size: 11px;}
 .dataexplorer-table-binary-td-detail-panel .panel-body{padding:0.5em;}
 

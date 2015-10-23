@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
 @WebServlet(description = "Api proxy Servlet  for service", urlPatterns = { "/api/proxy/store/*" }, asyncSupported = false)
@@ -20,6 +22,12 @@ public class StoreProxyServlet extends ApiProxyServlet {
 			log.error("[StoreProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -1,11 +1,15 @@
 package org.csi.yucca.userportal.userportal.service;
 
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
 import java.io.IOException;
 import java.util.Properties;
 
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
 
 @WebServlet(description = "Api proxy Servlet  for service", urlPatterns = { "/api/proxy/odata/*" }, asyncSupported = false)
 public class ApiODataProxyServlet extends ApiProxyServlet {
@@ -20,6 +24,15 @@ public class ApiODataProxyServlet extends ApiProxyServlet {
 			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod) {
+		Info info  = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+		if(info!=null && info.getUser()!=null && info.getUser().getToken()!=null){
+			getMethod.setRequestHeader("Authorization", "Bearer "+info.getUser().getToken());
+		}
+		
 	}
 
 }

@@ -3,6 +3,7 @@ package org.csi.yucca.userportal.userportal.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -57,16 +59,20 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	}
 
 	protected abstract void setApiBaseUrl();
+	protected abstract void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod);
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		GetMethod getMethod = new GetMethod(createTargetUrlWithParameters(request));
 				
+		setOauthTokenInHeader(request, getMethod);
+
 		String authorizationHeader = request.getHeader("Authorization");
 		if(authorizationHeader!=null)
 			getMethod.setRequestHeader("Authorization", authorizationHeader);
 
+		
 		HttpClient httpclient = new HttpClient();
 		int result = httpclient.executeMethod(getMethod);
 		response.setStatus(result);
@@ -74,7 +80,6 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		if(getMethod.getResponseHeader("Content-Type")!=null)
 			response.setContentType(getMethod.getResponseHeader("Content-Type").getValue());
 		log.info("[ApiProxyServlet::doGet] getResponseCharSet: " + getMethod.getResponseCharSet() );
-		response.setCharacterEncoding("UTF-8");
 		//if(getMethod.getResponseCharSet()==null)
 		//	response.setCharacterEncoding("UTF-8");
 		//else
@@ -89,27 +94,45 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		if(contentDisposition!=null)
 			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
-		//String jsonOut = getMethod.getResponseBodyAsString();
-		byte[] responsBytes = getMethod.getResponseBody();
-		String jsonOut = new String(responsBytes, "UTF-8");
-//		if(getMethod.getResponseHeader("Content-Type")!=null){
-//			String contentType = getMethod.getResponseHeader("Content-Type").getValue();
-//			if(contentType!= null && contentType.lastIndexOf("charset")<0){
-//				byte[] responseISO_8859_1 = getMethod.getResponseBody();
-//				String stringISO_8859_1 = new String(responseISO_8859_1, "ISO-8859-1");
-//				String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
-//				byte[] responseUTF_8 = new String(responseISO_8859_1, "ISO-8859-1").getBytes("UTF-8");
-//				//jsonOut = new String(responseUTF_8);
-//				jsonOut =stringUTF_8;
-//			}
-//		}
+		if(response.getContentType()!=null && response.getContentType().startsWith("application/octet-stream")){
+			ServletOutputStream out = response.getOutputStream();
+			InputStream in = getMethod.getResponseBodyAsStream();
 
+			byte[] bytes = new byte[4096];
+			int bytesRead;
+
+			while ((bytesRead = in.read(bytes)) != -1) {
+				out.write(bytes, 0, bytesRead);
+			}
+
+			in.close();
+			out.close();
+		}
+		else{
 		//String jsonOut = getMethod.getResponseBodyAsString();
-		if (isJSONPRequest(request))
-			jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
-		PrintWriter out = response.getWriter();
-		out.println(jsonOut);
-		out.close();
+			byte[] responsBytes = getMethod.getResponseBody();
+			response.setCharacterEncoding("UTF-8");
+	
+			String jsonOut = new String(responsBytes, "UTF-8");
+	//		if(getMethod.getResponseHeader("Content-Type")!=null){
+	//			String contentType = getMethod.getResponseHeader("Content-Type").getValue();
+	//			if(contentType!= null && contentType.lastIndexOf("charset")<0){
+	//				byte[] responseISO_8859_1 = getMethod.getResponseBody();
+	//				String stringISO_8859_1 = new String(responseISO_8859_1, "ISO-8859-1");
+	//				String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
+	//				byte[] responseUTF_8 = new String(responseISO_8859_1, "ISO-8859-1").getBytes("UTF-8");
+	//				//jsonOut = new String(responseUTF_8);
+	//				jsonOut =stringUTF_8;
+	//			}
+	//		}
+	
+			//String jsonOut = getMethod.getResponseBodyAsString();
+			if (isJSONPRequest(request))
+				jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
+			PrintWriter out = response.getWriter();
+			out.println(jsonOut);
+			out.close();
+		}
 	}
 
 	@Override

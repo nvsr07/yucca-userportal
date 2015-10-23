@@ -1258,7 +1258,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		console.log("dataset dopo binary ", newDataset);
 		$scope.openadataDataUpdateDateStyle = "";
 
-		if(newDataset.opendata.isOpendata !='true'){
+		if(typeof newDataset.opendata !== 'undefined' && newDataset.opendata.isOpendata !='true'){
 			newDataset.opendata = null;
 		}
 		else{
