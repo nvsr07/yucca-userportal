@@ -683,8 +683,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				//'/store/site/blocks/search/api-search/ajax/search.jag',
+				//Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}

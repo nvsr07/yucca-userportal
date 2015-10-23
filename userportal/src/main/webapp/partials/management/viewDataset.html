@@ -48,6 +48,10 @@
 							</div>
 						</div>	
 						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong></div>
+							<div class='col-sm-10'>{{dataset.info.externalReference|nvl:' -'}}</div>
+						</div>	
+						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
 							<div class='col-sm-2'>{{dataset.info.visibility}}</div>
 							<div class='col-sm-2 text-right'card-label" ng-show="dataset.info.visibility=='private'"><strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>

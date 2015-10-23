@@ -235,6 +235,7 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FPS: 'FPS',
 	DATASET_FIELD_TENANTSSHARING: 'Share with ',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with ',
+	DATASET_FIELD_METADATA_EXTERNAL_REFERENCE: 'External Reference',
 		
 	DATASET_FIELD_METADATA_STARTINGESTIONDATE: 'Begin upload',
 	DATASET_FIELD_METADATA_ENDINGESTIONDATE: 'End upload',
@@ -259,7 +260,18 @@ var translations_en = {
 	DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER: 'Language of metadata...',
 	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE: 'Last update of data',
 	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE_PLACEHOLDER: '12/09/2015',
-
+	
+	DATASET_BINARY_DETAIL_ID: 'Id',
+	DATASET_BINARY_DETAIL_FILENAME: 'File',
+	DATASET_BINARY_DETAIL_ALIASNAME: 'Alias',
+	DATASET_BINARY_DETAIL_SIZE: 'Siz',
+	DATASET_BINARY_DETAIL_CONTENTTYPE: 'Content type',
+	DATASET_BINARY_DETAIL_PREVIEW: 'Preview',
+	DATASET_BINARY_DETAIL_URLDOWNLOAD: 'Download',
+	DATASET_BINARY_DETAIL_METADATA: 'Metadata',
+	DATASET_BINARY_DETAIL_METADATA_VIEW_BTN: 'View',
+	DATASET_BINARY_DETAIL_NOT_FOUND :'No file found',
+	
 	/* Cookie */
 	COOKIE_MESSAGE: 'This site uses cookies to improve the browsing experience. Continuing navigation you accept the use of cookies',
 	COOKIE_ACCEPT: 'Accept',
@@ -384,6 +396,7 @@ var translations_en = {
 	HOME_ROLE_PUBLISHER_INTRO: 'You can create and manage Streams, Smart Object and Dataset',
 	HOME_ROLE_SUBSCRIBER: 'subscriber',
 	HOME_ROLE_SUBSCRIBER_INTRO: 'You can use the data available in the platform',
+	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Your credentials are not of a valid for a standard access, contact the mail smartdatanet@csi.it',
 
 	HOME_ACTION_DEVELOPER_SEP_1: 'or create a new stream',
 	HOME_ACTION_PUBLISHER_SEP_1: 'or add directly the objects ',
@@ -525,6 +538,7 @@ var translations_en = {
 	MANAGEMENT_VIEW_STREAM_HISTORICAL_BUTTON: 'Historical',
 	MANAGEMENT_VIEW_STREAM_DELETE_BUTTON: 'Delete',
 	MANAGEMENT_VIEW_STREAM_EDIT_BUTTON: 'Edit',
+	MANAGEMENT_VIEW_STREAM_CLONE_BUTTON: 'Clone',
 	MANAGEMENT_VIEW_STREAM_LIFECYCLE_OK_INFO: 'Success',
 
 	/* Management new Stream from Virtual Entity */
@@ -657,6 +671,7 @@ var translations_en = {
 	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'It was not possible to delete the data set ! Try again later',
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Edit',
+	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Download',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Download',
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Add more data',
 	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'Data access',
@@ -848,20 +863,35 @@ var translations_en = {
 	
 	/* data explorer */
 	DATA_EXPLORER_DATA_RESULT_EMPTY: 'No data found',
+	DATA_EXPLORER_DATA_RESULT_NO_MORE_DATA: 'Non sono stati trovati ulteriori dati',
 	DATA_EXPLORER_FILTER_PANEL_TITLE: 'Filter',
 	DATA_EXPLORER_DETAIL_PANEL_TITLE: 'Detail',
 	DATA_EXPLORER_USED_FILTER: 'Filter', 
 	DATA_EXPLORER_TOTAL_FOUND: 'Total', 
 	DATA_EXPLORER_FILTER_MENU_BUTTON: 'Filter',
-	DATA_EXPLORER_FILTER_ADD_FILTER: 'Add Filter',
 	DATA_EXPLORER_FILTER_PREVIEW_FILTER: 'Selected filter', 
 	DATA_EXPLORER_FILTER_PREVIEW_FILTER_NO_FILTER: 'No filter selected', 
+	DATA_EXPLORER_FILTER_ADD_FILTER: 'Add Filter',
 	DATA_EXPLORER_DETAIL_MENU_BUTTON: 'Detail',
 	DATA_EXPLORER_FILTER_APPLY: 'Apply',
 	DATA_EXPLORER_FILTER_ADD_FILTER_ERROR_MISSING_FIELDS: 'Fill all fields',
+	DATA_EXPLORER_QUERY_INPUT: 'Query',
+	DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL: 'Used Query OData', 
+	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Download Url for data csv format',
+	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Details',
+	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Hide',
 	
 	DATABROWSER_TITLE: 'Browse data',
-
+	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Choose one or more domains',
+	DATABROWSER_CHOOSE_TAG_TITLE: 'Choose one or more tags',
+	DATABROWSER_RESULTS_TITLE: 'Dataset found',
+	DATABROWSER_RESULTS_BACK_BTN: 'New search',
+	DATABROWSER_SHOW_GRID: 'Grid', 
+	DATABROWSER_SHOW_LIST: 'List', 
+	
+	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filter by domain per dominio',
+	DATABROWSER_GO_TO_TAG_BTN: 'Filter by tag',
+	DATABROWSER_GO_TO_RESULTS_BTN: 'Show data',
 
 	/* Market */
 	MARKET_TITLE: 'Market',
