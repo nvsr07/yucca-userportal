@@ -116,7 +116,7 @@
 														<p ng-show="data[column['label']].binaryDetail.metadataBinary!=null">					
 															<strong><span translate>DATASET_BINARY_DETAIL_METADATA</span></strong>
 															
-															<a href ng-click="previewMetadata(data[column['label']].binaryDetail, 'metadata')" class='btn'>
+															<a href ng-click="previewBinary(data[column['label']].binaryDetail, 'metadata')" class='btn btn-inline-slim'>
 																<span translate>DATASET_BINARY_DETAIL_METADATA_VIEW_BTN</span>
 															</a>
 															
@@ -210,7 +210,7 @@
 					
 				</div>
 				<div ng-show="isMetadata()">
-					{{binaryPreview.metadata}}
+					{{binaryPreview.metadataBinary|json}}
 				</div>
        		</div>
         </div>

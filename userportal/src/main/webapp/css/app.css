@@ -779,6 +779,7 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 .dataexplorer-binary-preview-img{height: auto; max-width: 100%;}
 .dataexplorer-binary-preview-footer{text-align: center; color: #999;}
 .dataexplorer-binary-preview-footer span{margin: 0 1em;}
+.btn-inline-slim{background-color: #00bbf0; color: white; padding: .2em .5em; border-radius: 4px;}
 
 /* data browser */
 #databrowser .carousel-control, #databrowser .carousel-indicators{display: none;}
