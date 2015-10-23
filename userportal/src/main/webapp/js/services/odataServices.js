@@ -82,6 +82,22 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 			withCredentials : true
 		});
 	};
+	
+	
+	odataAPIservice.getBinaryAttachData = function(baseUrl, binaryCode){
+		//http://int-api.smartdatanet.it/odata/SmartDataOdataService.svc/Binariomerco_154/DataEntities('5625124873454fcbf9829960')/Binaries?$filter=idBinary%20eq%20%27provaDav2%27&$format=json
+		var binaryUrl = Constants.API_ODATA_URL+baseUrl+"?$filter=idBinary eq '"+binaryCode+"'&$format=json";
+
+		var user = "Bearer "+info.info.user.token;
+		return $http({
+			method : 'GET',
+			url : binaryUrl,
+			headers: {
+				'Authorization': user
+				},
+			withCredentials : true
+		});
+	};
 	return odataAPIservice;
 });
 

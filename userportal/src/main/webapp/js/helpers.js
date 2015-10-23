@@ -221,7 +221,18 @@ Helpers.util = {
 		}
 		// Return the parsed data.
 		return (arrData);
+	},
+	
+	getMediaTypeFromContentType: function(contentType){
+	    var mediaType = null;
+	    if(typeof contentType !== 'undefined' && contentType!=null && contentType.indexOf('/')>0){
+	    	mediaType = contentType.substring(0, contentType.indexOf('/'));
+	        
+	    }
+	    return mediaType;
 	}
+
+	
 	
 };
 

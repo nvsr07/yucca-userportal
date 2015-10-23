@@ -1,5 +1,5 @@
-appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location',
-                                                     function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info,$location) {
+appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location', '$modal', 
+                                                     function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info,$location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -140,21 +140,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		});
 	};
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	$scope.loadMetadata();
 
 	$scope.loadDataset();
@@ -278,16 +263,24 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
 					var oDataResult = oDataResultList[oDataIndex];
 					var data = {};
+					var baseBinaryUrl = "";
+					if(typeof oDataResult["Binaries"] !== 'undefined' && oDataResult["Binaries"]!=null){
+						baseBinaryUrl = $scope.datasetCode + "/DataEntities('"+oDataResult["internalId"]+"')/Binaries";// oDataResult["Binaries"].__deferred.uri;
+					}
 					for (var property in oDataResult) {
-						if(property!="__metadata"){
+						if(property!="__metadata" && property!="Binaries"){
 							var value = oDataResult[property];
-							
+							var isBinary = false;
 							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
 								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
-								data[property] = d;
+								data[property] =  {"value":d, "isBinary": false};
+							}
+							else if(typeof value["idBinary"] !== 'undefined' && value["idBinary"]!=null){
+								data[property] = {"value":value["idBinary"], "isBinary": true, "binaryBaseUrl": baseBinaryUrl};
+								isBinary = true;
 							}
 							else
-								data[property] = value;
+								data[property] = {"value":value, "isBinary": false};
 
 							/*var field = allFields[property];
 							
@@ -302,13 +295,15 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 						    	var order = 'none';
 						    	
 						    	var showOrderButton = $scope.totalFound<Constants.ODATA_MAX_RESULT_SORTABLE?true:false;
-						    	if(property == defaultOrderByColumn)
+						    	if(isBinary)
+						    		showOrderButton = false;
+						    	else if(property == defaultOrderByColumn)
 						    		showOrderButton = true;
 						    	
 						    	
 						    	if($scope.orderBy.column == property)
 						    		order = $scope.orderBy.order;
-						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton};//, "operators": field.operators, "dataType":field.dataType};
+						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton, "showBinaryIcon":isBinary};//, "operators": field.operators, "dataType":field.dataType};
 						    	$scope.columns.push(column);
 						    }
 						}
@@ -348,10 +343,90 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		return streamDataUrl;
 
 	};
+	
+
+	$scope.loadBinaryDetail = function(rowNum, column){
+		console.log("loadBinaryDetail",rowNum,  column, $scope.dataList[rowNum][column]);
+		$scope.dataList[rowNum][column].showBinaryDetail = true;
+		$scope.dataList[rowNum][column].loadingBinaryDetail = true;
+		odataAPIservice.getBinaryAttachData($scope.dataList[rowNum][column].binaryBaseUrl,$scope.dataList[rowNum][column].value).success(function(response) {
+			console.log("getBinaryAttachData",response);
+			$scope.dataList[rowNum][column].loadingBinaryDetail = false;
+			if(response.d.results.length>0){
+				$scope.dataList[rowNum][column].binaryDetail = response.d.results[0];
+				if(typeof $scope.dataList[rowNum][column].binaryDetail.urlDownloadBinary !== 'undefined' && $scope.dataList[rowNum][column].binaryDetail.urlDownloadBinary!=null &&
+					$scope.dataList[rowNum][column].binaryDetail.urlDownloadBinary.length>4){
+					// urlDownloadBinary -> /api/Binariomerco_154/attachment/153/1/provaDav remove /api
+					$scope.dataList[rowNum][column].binaryDetail.absoluteUrlDownloadBinary =   Constants.API_ODATA_URL + $scope.dataList[rowNum][column].binaryDetail.urlDownloadBinary.substring(5);
+					console.log("absoluteUrlDownloadBinary",$scope.dataList[rowNum][column].binaryDetail.absoluteUrlDownloadBinary);
+				}
+			}
+			else{
+				$scope.dataList[rowNum][column].noBinaryFound =true;
+			}
+		});
+				
+	};
+	
+	$scope.previewBinary  = function(binary, type){
+		console.log("previewBinary",binary);
+	    var modalInstance = $modal.open({
+	      animation: true,
+	      templateUrl: 'dataexplorerPreviewBinary.html',
+	      controller: 'DataExplorerPreviewBinaryCtrl',
+	      size: 'lg',
+	      resolve: {
+	    	  binaryPreview: function () {
+	          return binary;
+	        }, 
+	        previewType : function(){
+	        	return type;
+	        }
+	      }
+	    });
+	};
 
 
 } ]);
 
+
+appControllers.controller('DataExplorerPreviewBinaryCtrl', [ '$scope', '$modalInstance', 'binaryPreview', function ($scope, $modalInstance, binaryPreview, previewType) {
+	console.log("DataExplorerPreviewBinaryCtrl - binaryPreview", binaryPreview);
+	$scope.binaryPreview = binaryPreview;	
+	var mediaType = Helpers.util.getMediaTypeFromContentType(binaryPreview.contentTypeBinary);
+	console.log("mediaType",mediaType);
+	$scope.isImage = function(){
+		return previewType!='metadata' && mediaType == 'image'; 
+	};
+	
+	$scope.isVideo = function(){
+		return previewType!='metadata' && mediaType == 'video'; 
+	};
+
+	$scope.isAudio = function(){
+		var isAudio = previewType!='metadata' && mediaType == 'audio';
+		console.log("isAudio",isAudio);
+		return previewType!='metadata' && mediaType == 'audio'; 
+	};
+	
+	$scope.isHtml = function(){
+		return previewType!='metadata' && binaryPreview.contentTypeBinary == 'text/html'; 
+	};
+	
+	$scope.isXml = function(){
+		return previewType!='metadata' && (binaryPreview.contentTypeBinary == 'text/xml' || binaryPreview.contentTypeBinary == 'application/xml') ; 
+	};
+
+
+	$scope.isMetadata = function(){
+		return previewType=='metadata';
+	};
+	
+	$scope.close = function () {
+	    $modalInstance.dismiss('cancel');
+		};
+	}
+]);
 
 appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info', 'dataexplorerBrowseData',
                                                 function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $location, $filter,  $http, info,dataexplorerBrowseData) {
@@ -516,7 +591,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		
 		
 		dataDiscoveryService.findDatasets($scope.selectedDomain, $scope.selectedTags, start, datasetForPage, sort).success(function(response) {
-			console.log("odataAPIservice.getStreamData",response);
+			console.log("dataDiscoveryService.findDatasets",response);
 			$scope.totalFound = response.d.__count;
 			$scope.showNavigationLoading = false;
 			var datasetResultList = response.d.results;
@@ -608,8 +683,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				//'/store/site/blocks/search/api-search/ajax/search.jag',
+				//Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}

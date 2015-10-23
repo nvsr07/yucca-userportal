@@ -748,7 +748,21 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .management-new-dataset-columns-panel .form-group{margin-bottom: 0;}
 
 
+.modal-hide-button{float: right; display: block; text-decoration: none; font-weight:bold; color: gray;}
+
+
 .dataexplorer-table-grid-container{overflow-x: auto; }
+.dataexplorer-table-binary-td{text-align: left;}
+.dataexplorer-table-binary-td-topbar{line-height: 11pt; position: relative; padding-right: 1.5em;}
+.dataexplorer-table-binary-td-topbar a{color: #00bbf0; font-size: 11pt; text-decoration: none; position: absolute; top: 0; right: 0;}
+.dataexplorer-table-binary-td-topbar a:hover{background-color: #0189AF;}
+.dataexplorer-table-binary-td-topbar i{font-size: 11pt;}
+.dataexplorer-table-binary-td-detail-panel{ font-size: 10pt; border: solid 1px #ccc; margin: 1em 0 0 0;}
+.dataexplorer-table-binary-td-detail-panel .panel-heading{ background-color: #e5e5e5; border-radius: 0; padding: .5em; color: #000; margin:0; font-size: 11px;}
+.dataexplorer-table-binary-td-detail-panel .panel-body{padding:0.5em;}
+
+.dataexplorer-table-binary-td-bottombar{margin-top: 1em; border-top: 1px solid #00bbf0;}
+.dataexplorer-table-binary-td-bottombar a{margin-left: 1em;}
 .dataexplorer-dowloadcsv-container{line-height: 14pt; color: #bbb; margin: 45px 0;padding-top:15px; }
 .dataexplorer-dowloadcsv-link{font-family: monospace; text-decoration: none; margin-right: 3em; color: #bbb;}
 .dataexplorer-dowloadcsv-link-btn{color: #00bbf0; font-weight: bold; font-size: 14pt; text-decoration: none;}
@@ -757,9 +771,14 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 
 table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border: solid 1px #c5c5c5; margin-bottom: 6px;}
 .dataexplorer-table-grid>thead>tr>th{font-size: bold; text-transform: none;background-color: #e5e5e5; padding:.5em 1em;}
-.dataexplorer-table-grid>tbody>tr>td{border: solid 1px #c5c5c5;padding: .5em;}
+.dataexplorer-table-grid>tbody>tr>td{border: solid 1px #c5c5c5;padding: .5em;vertical-align: top;}
 .dataexplorer-table-grid .dataexplorer-table-grid-first-column {position: relative; min-height: 50px; padding-left: 50px;}
 .dataexplorer-table-grid .dataexplorer-table-grid-first-column .dataset-icon{width: 42px; height: 42px; position: absolute; top: 4px; left: 4px;}
+
+.dataexplorer-binary-preview-body{text-align: center;}
+.dataexplorer-binary-preview-img{height: auto; max-width: 100%;}
+.dataexplorer-binary-preview-footer{text-align: center; color: #999;}
+.dataexplorer-binary-preview-footer span{margin: 0 1em;}
 
 /* data browser */
 #databrowser .carousel-control, #databrowser .carousel-indicators{display: none;}

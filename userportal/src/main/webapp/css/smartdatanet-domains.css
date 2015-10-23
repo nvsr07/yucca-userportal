@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'smartdatanet-domains';
-  src: url('../font/smartdatanet-domains.eot?74191148');
-  src: url('../font/smartdatanet-domains.eot?74191148#iefix') format('embedded-opentype'),
-       url('../font/smartdatanet-domains.woff?74191148') format('woff'),
-       url('../font/smartdatanet-domains.ttf?74191148') format('truetype'),
-       url('../font/smartdatanet-domains.svg?74191148#smartdatanet-domains') format('svg');
+  src: url('../font/smartdatanet-domains.eot?88733784');
+  src: url('../font/smartdatanet-domains.eot?88733784#iefix') format('embedded-opentype'),
+       url('../font/smartdatanet-domains.woff?88733784') format('woff'),
+       url('../font/smartdatanet-domains.ttf?88733784') format('truetype'),
+       url('../font/smartdatanet-domains.svg?88733784#smartdatanet-domains') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'smartdatanet-domains';
-    src: url('../font/smartdatanet-domains.svg?74191148#smartdatanet-domains') format('svg');
+    src: url('../font/smartdatanet-domains.svg?88733784#smartdatanet-domains') format('svg');
   }
 }
 */
@@ -54,10 +54,11 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
  
-.icon-AGRICULTURE:before { content: '\e803'; } /* '' */
-.icon-ENVIRONMENT:before { content: '\e804'; } /* '' */
-.icon-HEALTH:before { content: '\e805'; } /* '' */
-.icon-ENERGY:before { content: '\e806'; } /* '' */
-.icon-SMART_COMMUNITY:before { content: '\e807'; } /* '' */
-.icon-SCHOOL:before { content: '\e808'; } /* '' */
-.icon-TRANSPORT:before { content: '\e809'; } /* '' */
+.icon-AGRICULTURE:before { content: '\e800'; } /* '' */
+.icon-ENERGY:before { content: '\e801'; } /* '' */
+.icon-SCHOOL:before { content: '\e802'; } /* '' */
+.icon-ENVIRONMENT:before { content: '\e803'; } /* '' */
+.icon-SECURITY:before { content: '\e804'; } /* '' */
+.icon-SMART_COMMUNITY:before { content: '\e805'; } /* '' */
+.icon-TRANSPORT:before { content: '\e806'; } /* '' */
+.icon-HEALTH:before { content: '\e807'; } /* '' */

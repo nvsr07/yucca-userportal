@@ -65,6 +65,9 @@
 							<tr>
 								<th ng-repeat='column in columns track by $index'>
 									<div class='pull-left'>{{column["label"]}}</div>
+									<div class='pull-right' ng-show="column['showBinaryIcon']">
+										<i class='glyphicon glyphicon-paperclip'></i>
+									</div>
 									<div class='pull-right' ng-show="column['showOrderButton']">
 										<i class='fa fa-sort' ng-show='column["order"]=="none"' ng-click='orderResult(column["label"],"desc")'></i>
 										<i class='fa fa-sort-desc' ng-show='column["order"]=="desc"' ng-click='orderResult(column["label"],"asc")'></i>
@@ -74,7 +77,71 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="data in dataList"><td  ng-repeat='column in columns track by $index'>{{data[column["label"]]}}</td></tr>
+							<tr ng-repeat="data in dataList">
+								<td  ng-repeat='column in columns track by $index'>
+									<div ng-show="data[column['label']].isBinary" class='dataexplorer-table-binary-td'>
+										<div class='clearfix dataexplorer-table-binary-td-topbar'>
+											{{data[column["label"]].value}}
+											<div class='dataexplorer-table-binary-td-topbar-expand-icon'>
+												<a href ng-click='loadBinaryDetail($parent.$index,column["label"])' ng-show="!data[column['label']].showBinaryDetail" title="{{'DATA_EXPLORER_BINARY_SHOW_DETAIL'|translate}}">
+													<i class='glyphicon glyphicon-plus'></i></a>
+											</div>
+										</div>
+										<div ng-show="data[column['label']].showBinaryDetail" class=''>
+											<div ng-show="data[column['label']].loadingBinaryDetail">Loading...</div>
+											<div class="alert alert-info" ng-show="data[column['label']].noBinaryFound">
+												<span translate>DATASET_BINARY_DETAIL_NOT_FOUND</span>
+												<button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="data[column['label']].showBinaryDetail=false">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div ng-show="!data[column['label']].loadingBinaryDetail && !data[column['label']].noBinaryFound">
+												<div class="panel panel-default dataexplorer-table-binary-td-detail-panel">
+													<div class="panel-heading">
+														<h4 class="panel-title">
+															<span title="{{'DATASET_BINARY_DETAIL_ID'|translate}}">{{data[column['label']].binaryDetail.idBinary}}</span> - 
+															<span title="{{'DATASET_BINARY_DETAIL_ALIASNAME'|translate}}">{{data[column['label']].binaryDetail.aliasNameBinary}}</span>
+															<a href ng-click="data[column['label']].showBinaryDetail=false" class='panel-hide-button'>&times;</a>
+														</h4>
+													</div>
+													<div class="panel-body">
+														<p>					
+															<strong><span translate>DATASET_BINARY_DETAIL_FILENAME</span></strong><br/>
+															<span>{{data[column['label']].binaryDetail.filenameBinary}}&nbsp;({{data[column['label']].binaryDetail.sizeBinary|format_filesize}})</span>
+														</p>
+														<p>					
+															<strong><span translate>DATASET_BINARY_DETAIL_CONTENTTYPE</span></strong><br/>
+															<span>{{data[column['label']].binaryDetail.contentTypeBinary}}</span>
+														</p>
+														<p ng-show="data[column['label']].binaryDetail.metadataBinary!=null">					
+															<strong><span translate>DATASET_BINARY_DETAIL_METADATA</span></strong>
+															
+															<a href ng-click="previewMetadata(data[column['label']].binaryDetail, 'metadata')" class='btn'>
+																<span translate>DATASET_BINARY_DETAIL_METADATA_VIEW_BTN</span>
+															</a>
+															
+														</p>
+														<div class='dataexplorer-table-binary-td-bottombar text-right'>
+															<a href ng-click="previewBinary(data[column['label']].binaryDetail, 'file')" class='btn'>
+																<i class=' glyphicon glyphicon-eye-open'></i> <strong translate>DATASET_BINARY_DETAIL_PREVIEW</strong>
+															</a>
+															<a href="{{data[column['label']].binaryDetail.absoluteUrlDownloadBinary}}" title="data[column['label']].binaryDetail.absoluteUrlDownloadBinary"class='btn'>
+																<i class='glyphicon glyphicon-download-alt'></i> <strong translate>DATASET_BINARY_DETAIL_URLDOWNLOAD</strong>
+															</a>
+														</div>
+														<!-- 	<div class='row'>
+															<div class='col-sm-12'>{{data[column['label']].binaryDetail.urlDownloadBinary}}</div>
+															</div> -->
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div ng-show="!data[column['label']].isBinary">
+										{{data[column["label"]].value}} 
+									</div>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 					<div class='dataexplorer-url-container'>
@@ -104,4 +171,56 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/ng-template" id="dataexplorerPreviewBinary.html">
+        <div class="modal-header">
+            <h3 class="modal-title">
+				<span translate>DATASET_BINARY_DETAIL_PREVIEW</span> 
+				<small>															
+					<span title="{{'DATASET_BINARY_DETAIL_ID'|translate}}">{{binaryPreview.idBinary}}</span> - 
+					<span title="{{'DATASET_BINARY_DETAIL_ALIASNAME'|translate}}">{{binaryPreview.aliasNameBinary}}</span>
+				</small> 
+				<a href ng-click="close()" class='modal-hide-button'>&times;</a>
+
+			</h3>
+        </div>
+        <div class="modal-body">
+			<div class='dataexplorer-binary-preview-body'>
+				<div ng-show="isImage()">
+					<img class='dataexplorer-binary-preview-img' ng-src="{{binaryPreview.absoluteUrlDownloadBinary}}" />
+				</div>
+				<div ng-show="isAudio()">
+					<audio controls>
+  						<source src="{{binaryPreview.absoluteUrlDownloadBinary}}" type="{{binaryPreview.contentTypeBinary}}">
+						Your browser does not support the audio element.
+					</audio>				
+				</div>
+				<div ng-show="isVideo()">
+					<video width="400" controls>
+ 						<source src="{{binaryPreview.absoluteUrlDownloadBinary}}" type="{{binaryPreview.contentTypeBinary}}">
+  						Your browser does not support HTML5 video.
+					</video>
+				</div>
+				<div ng-show="isHtml()">
+					
+				</div>
+				<div ng-show="isXml()">
+					
+				</div>
+				<div ng-show="isText()">
+					
+				</div>
+				<div ng-show="isMetadata()">
+					{{binaryPreview.metadata}}
+				</div>
+       		</div>
+        </div>
+        <div class="modal-footer">
+			<div class='dataexplorer-binary-preview-footer'>
+          		<span><strong><span translate>DATASET_BINARY_DETAIL_FILENAME</span></strong> {{binaryPreview.filenameBinary}}&nbsp;({{binaryPreview.sizeBinary|format_filesize}})</span> 
+				<span>|</span> 
+				<strong><span translate>DATASET_BINARY_DETAIL_CONTENTTYPE</span></strong> <span>{{binaryPreview.contentTypeBinary}}</span>
+			</div>
+        </div>
+    </script>
 </div>
+

@@ -260,6 +260,17 @@ var translations_it = {
 	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE: 'Data aggiornamento dati',
 	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE_PLACEHOLDER: '12/09/2015',
 	
+	DATASET_BINARY_DETAIL_ID: 'Id',
+	DATASET_BINARY_DETAIL_FILENAME: 'File',
+	DATASET_BINARY_DETAIL_ALIASNAME: 'Alias',
+	DATASET_BINARY_DETAIL_SIZE: 'Dimensione',
+	DATASET_BINARY_DETAIL_CONTENTTYPE: 'Content type',
+	DATASET_BINARY_DETAIL_PREVIEW: 'Anteprima',
+	DATASET_BINARY_DETAIL_URLDOWNLOAD: 'Scarica',
+	DATASET_BINARY_DETAIL_METADATA: 'Metadata',
+	DATASET_BINARY_DETAIL_METADATA_VIEW_BTN: 'Visualizza',
+	DATASET_BINARY_DETAIL_NOT_FOUND :'Non sono presenti file',
+	
 	/* Cookie */
 	COOKIE_MESSAGE: 'Questo sito fa uso di cookie per migliorare l\'esperienza di navigazione degli utenti. Proseguendo nella navigazione si accetta l\'uso dei cookie.',
 	COOKIE_ACCEPT: 'Ok',
@@ -863,9 +874,11 @@ var translations_it = {
 	DATA_EXPLORER_DETAIL_MENU_BUTTON: 'Dettaglio',
 	DATA_EXPLORER_FILTER_APPLY: 'Applica',
 	DATA_EXPLORER_FILTER_ADD_FILTER_ERROR_MISSING_FIELDS: 'Valorizzare tutti i campi',
-	DATAEXPLORER_QUERY_INPUT: 'Query',
+	DATA_EXPLORER_QUERY_INPUT: 'Query',
 	DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL: 'Query OData utilizzata', 
 	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Url per il download del dati in formato csv',
+	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Dettagli',
+	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Nascondi',
 	
 	DATABROWSER_TITLE: 'Naviga fra i dati',
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Scegli uno o pi&ugrave; domini',
