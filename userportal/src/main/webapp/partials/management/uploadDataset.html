@@ -106,7 +106,7 @@
 							<div class='management-upload-preview-table-container'>
 								<table class='table  management-table-upload-preview table-supercondensed'>
 									<tr ng-repeat='line in previewLines' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
-										<td ng-repeat='item in line' title="{{item}}">{{item|nvl:' '|string_ellipse:30}}</td>
+										<td ng-repeat='item in line track by $index' title="{{item}}">{{item|nvl:' '|string_ellipse:30}}</td>
 									</tr>
 								</table>
 							</div>
@@ -128,7 +128,8 @@
 				<div class="row" ng-show="!isUploading && isAuthorized('management/datasets/upload') ">
 					<div class=" col-sm-12 col-lg-12 form-toolbar" >
 						<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON</a>
-						<a ng-click='uploadData()' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || selectedFile==null" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>
+						<a ng-click='loadMoreData()' ng-show="!showUploadButton" class="btn btn-default" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_MORE_BUTTON</a>
+						<a ng-click='uploadData()' ng-show='showUploadButton' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || selectedFile==null" translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>
 					</div>
 				</div>
 				<div class="row"  ng-show="isUploading">

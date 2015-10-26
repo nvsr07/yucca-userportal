@@ -723,12 +723,13 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 						//if(Helpers.util.endsWith(data.datasetCode, "_stream"))
 						//	data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
 	
-						data.datasetName = dataFromSearch.extraNomeStream;
+						//data.datasetName = dataFromSearch.extraNomeStream;
+						data.datasetName = dataFromSearch.description;
 						data.description = dataFromSearch.extraApiDescription;
 						data.dataDomain = dataFromSearch.extraDomain;
 						data.tags = [];
-						if(dataFromSearch.tags!=null){
-							data.tags= dataFromSearch.tags.split(",");
+						if(dataFromSearch.Tags!=null){
+							data.tags= dataFromSearch.Tags.split(",");
 						}
 						data.tenantCode = dataFromSearch.extraCodiceTenant;
 						data.license = dataFromSearch.extraLicence;

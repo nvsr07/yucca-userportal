@@ -621,6 +621,11 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 
 
 	$scope.isUploading = false;
+	$scope.showUploadButton = true;
+	$scope.loadMoreData = function(){
+		$scope.showUploadButton = true;
+	};
+
 
 	$scope.uploadData = function() {
 		$scope.updateInfo = null;
@@ -643,13 +648,16 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 		}).success(function(data, status, headers, config) {
 			$scope.isUploading = false;
+			$scope.showUploadButton = false;
 			console.log("upload finish");
 			if(data.errors && data.errors.length>0){
 				$scope.updateError = true;
 				$scope.updateErrors = data.errors;
 				Helpers.util.scrollTo();
+				$scope.showUploadButton = true;
 			}
 			else{
+				$scope.selectedFile = null;
 				$scope.updateInfo = {status: "Upload OK"};
 			}
 		});
