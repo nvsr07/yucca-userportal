@@ -275,7 +275,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
 								data[property] =  {"value":d, "isBinary": false};
 							}
-							else if(typeof value["idBinary"] !== 'undefined' && value["idBinary"]!=null){
+							else if(value && value!=null  && typeof value["idBinary"] !== 'undefined' && value["idBinary"]!=null){
 								data[property] = {"value":value["idBinary"], "isBinary": true, "binaryBaseUrl": baseBinaryUrl};
 								isBinary = true;
 							}
