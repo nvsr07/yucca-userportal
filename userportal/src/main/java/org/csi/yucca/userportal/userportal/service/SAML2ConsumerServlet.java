@@ -167,16 +167,33 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						+ URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 
-				if (!strong)
-					returnPath += "&strong=false";
+				if (!strong){
+					int found = returnPath.indexOf("?");
+					if (found == -1){
+						returnPath += "?strong=false";
+					} else {
+						returnPath += "&strong=false";
+					}
+				}
 				
 				if (!tenant){
-					returnPath += "&tenant=false";
+					int found = returnPath.indexOf("?");
+					if (found == -1){
+						returnPath += "?tenant=false";
+					} else {
+						returnPath += "&tenant=false";
+					}
 					request.getSession().invalidate();
 				}
 				
-				if (strong && tenant)
-					returnPath += "&login=ok";
+				if (strong && tenant){
+					int found = returnPath.indexOf("?");
+					if (found == -1){
+						returnPath += "?login=ok";
+					} else {
+						returnPath += "&login=ok";
+					}
+				}
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 				response.sendRedirect(returnPath);
 			} else {
