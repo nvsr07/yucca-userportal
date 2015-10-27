@@ -50,11 +50,11 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 					if (parameterMap.get("$filter")!=null && parameterMap.get("$filter").length!=0) {
 						parametersOut =parameterMap.get("$filter")[0];
 						parametersOut +=  " and (";
-						parametersOut +=  " (tenantCode eq '"+tenantCode+"') or (tenantsharing eq '"+tenantCode+"') or";
+						parametersOut +=  " (tenantsharing eq '"+tenantCode+"') or"; //(tenantCode eq '"+tenantCode+"') or 
 						parametersOut += " ( visibility eq  'public'))";
 					}else{
 						parametersOut =  "&$filter=";
-							parametersOut +=  " (tenantCode eq '"+tenantCode+"') or (tenantsharing eq '"+tenantCode+"') or";
+							parametersOut +=  "  (tenantsharing eq '"+tenantCode+"') or"; //(tenantCode eq '"+tenantCode+"') or
 							parametersOut += " ( visibility eq  'public') ";
 						
 //					 parametersOut = "&$filter="+ "substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true";

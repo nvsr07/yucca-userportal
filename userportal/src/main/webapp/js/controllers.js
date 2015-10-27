@@ -4,8 +4,12 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', function($scope, $route, info, $location, $translate, fabricAPIservice, localStorageService) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', function($scope, $route, $modal, info, $location, $translate, fabricAPIservice, localStorageService) {
 	$scope.$route = $route;
+	
+	$scope.linkLoginToStore = "";
+	$scope.linkLoginToStoreW = "0";
+	$scope.linkLoginToStoreH = "0";
 
 	$scope.storeUrl = '/store/';	
 	console.log("storeUrl",$scope.storeUrl);
@@ -70,6 +74,64 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location',
 		}
 		$scope.showCookieMessage = false;
 	};
+	
+	console.log('location', $location.$$url);
+	var url = $location.$$url;
+	
+	//if (typeof $route.current !== 'undefined'){
+	if (url.indexOf("?") > -1){
+		//if (!jQuery.isEmptyObject($route.current.params)){
+			//if ($route.current.params.strong === "false"){
+			if (url.indexOf("strong=false") > -1){
+				var modalInstance = $modal.open({
+					animation : $scope.animationsEnabled,
+					templateUrl : 'myModalContent.html',
+					controller : 'HomePageModalCtrl',
+					size : 0,
+				      resolve: {
+				    	  op: function () {
+				            return 'strong';
+				          }
+				        }
+				});
+
+				modalInstance.result.then(function(selectedItem) {
+						$scope.selected = selectedItem;
+					}, function() {
+						console.info('Modal dismissed at: ' + new Date());
+				});
+			}
+
+			//if ($route.current.params.tenant === "false"){
+			if (url.indexOf("tenant=false") > -1){
+				var modalInstance = $modal.open({
+					animation : $scope.animationsEnabled,
+					templateUrl : 'myModalContent.html',
+					controller : 'HomePageModalCtrl',
+					size : 0,
+				      resolve: {
+				    	  op: function () {
+					            return 'tenant';
+				          }
+				        }
+				});
+
+				modalInstance.result.then(function(selectedItem) {
+						$scope.selected = selectedItem;
+					}, function() {
+						console.info('Modal dismissed at: ' + new Date());
+				});
+			}
+			
+			//if ($route.current.params.login === "ok"){
+			if (url.indexOf("login=ok") > -1){
+				$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
+				$scope.linkLoginToStoreW = "1";
+				$scope.linkLoginToStoreH = "1";
+			}
+		//}
+	}
+	
 } ]);
 
 
@@ -185,55 +247,6 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 //	} , { key: "Trasporti", y : 25 }];
 	
 	$scope.animationsEnabled = true;
-
-	if ($route.current.params.strong === "false"){
-		var modalInstance = $modal.open({
-			animation : $scope.animationsEnabled,
-			templateUrl : 'myModalContent.html',
-			controller : 'HomePageModalCtrl',
-			size : 0,
-		      resolve: {
-		    	  op: function () {
-		            return 'strong';
-		          }
-		        }
-		});
-
-		modalInstance.result.then(function(selectedItem) {
-				$scope.selected = selectedItem;
-			}, function() {
-				console.info('Modal dismissed at: ' + new Date());
-		});
-	}
-
-	if ($route.current.params.tenant === "false"){
-		var modalInstance = $modal.open({
-			animation : $scope.animationsEnabled,
-			templateUrl : 'myModalContent.html',
-			controller : 'HomePageModalCtrl',
-			size : 0,
-		      resolve: {
-		    	  op: function () {
-			            return 'tenant';
-		          }
-		        }
-		});
-
-		modalInstance.result.then(function(selectedItem) {
-				$scope.selected = selectedItem;
-			}, function() {
-				console.info('Modal dismissed at: ' + new Date());
-		});
-	}
-	
-	$scope.linkLoginToStore = "";
-	$scope.linkLoginToStoreW = "0";
-	$scope.linkLoginToStoreH = "0";
-	if ($route.current.params.login === "ok"){
-		$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
-		$scope.linkLoginToStoreW = "1";
-		$scope.linkLoginToStoreH = "1";
-	}
 
 } ]);
 
