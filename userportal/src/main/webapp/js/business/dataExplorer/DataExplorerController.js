@@ -634,10 +634,16 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 							if(property=="tags" && value!=null) {
 								data[property] = value.split(",");
 							}
+							
 						}
 					}
 			    	firstRow=false;
-
+			    	if(data.Stream && data.Stream!=null && data.Stream.smartOName && data.Stream.smartOName!=null)
+			    		data.customDescription = data.Stream.smartOName;
+			    	else{
+			    		data.customDescription = data.datasetName;
+			    		data.datasetName = data.description;
+			    	}
 					$scope.datasetList.push(cleanMetadata(data));
 				};
 				
@@ -701,8 +707,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-				//Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				'/store/site/blocks/search/api-search/ajax/search.jag',
+				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				//'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}
@@ -723,9 +729,9 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 						//if(Helpers.util.endsWith(data.datasetCode, "_stream"))
 						//	data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
 	
-						//data.datasetName = dataFromSearch.extraNomeStream;
 						data.datasetName = dataFromSearch.description;
-						data.description = dataFromSearch.extraApiDescription;
+						data.customDescription = dataFromSearch.extraApiDescription;
+						data.description = dataFromSearch.description;
 						data.dataDomain = dataFromSearch.extraDomain;
 						data.tags = [];
 						if(dataFromSearch.Tags!=null){

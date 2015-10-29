@@ -561,7 +561,7 @@ appServices.factory('dataDiscoveryService', function($http, $q) {
 	dataDiscovery.findDatasets = function(domain, taglist, skip, top, orderby) {
 
 		//http://int-api.smartdatanet.it/odata/SmartDataOdataService.svc/ds_Provapositio_28/Measures?$format=json&$top=19&$skip=0&$orderby=time
-		var datasetsUrl = Constants.API_DISCOVERY_DATASET_URL+"Datasets?$format=json";
+		var datasetsUrl = Constants.API_DISCOVERY_DATASET_URL+"Datasets?$expand=Stream&$format=json";
 		
 		var filter = "";
 		var filters = [];

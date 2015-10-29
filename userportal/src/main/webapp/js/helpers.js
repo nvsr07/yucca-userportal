@@ -154,16 +154,17 @@ Helpers.util = {
 		return result;
 	},
 
-	capitaliseFirstLetter:function (input)
-	{
+	capitaliseFirstLetter:function (input){
 		if(input && input!=null)
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		return "";
 	}, 
 	
-	arrayContainsString:function (element, array)
-	{
-	    return (array.indexOf(element) > -1);
+	arrayContainsString:function (element, array) {
+	    if(typeof array != 'undefined' && array!=null)
+	    	return (array.indexOf(element) > -1);
+	    else
+	    	return false;
 	},
 	
 	endsWith:function(str, suffix){
