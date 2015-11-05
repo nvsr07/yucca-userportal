@@ -889,8 +889,8 @@ var translations_it = {
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Dettagli',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Nascondi',
 	
-	DATABROWSER_TITLE: 'Naviga fra i dati',
-	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Scegli uno o pi&ugrave; domini',
+	DATABROWSER_TITLE: 'Naviga fra i dati e stream',
+	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Oppure scegli un dominio',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Scegli uno o pi&ugrave; tag',
 	DATABROWSER_RESULTS_TITLE: 'Dataset trovati',
 	DATABROWSER_RESULTS_BACK_BTN: 'Nuova ricerca',
