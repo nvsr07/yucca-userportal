@@ -43,6 +43,25 @@ app.config(['$routeProvider', function($routeProvider) {
 		}
 	
 	});
+	
+	$routeProvider.when('/dataexplorer/stream/:tenant_code/:entity_code', {templateUrl: 'partials/dataexplorer/detailStream.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer',
+		 resolve: {
+			 info: function(initCtrl) {
+			      return initCtrl.getInfo();
+			 }
+		}
+	
+	});
+	
+	$routeProvider.when('/dataexplorer/dataset/:tenant_code/:entity_code', {templateUrl: 'partials/dataexplorer/detailDataset.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer',
+		 resolve: {
+			 info: function(initCtrl) {
+			      return initCtrl.getInfo();
+			 }
+		}
+	
+	});
+	
 	$routeProvider.when('/dataexplorer/browsedata', {templateUrl: 'partials/dataexplorer/dataBrowser.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
 
 	$routeProvider.when('/discovery', {templateUrl: 'partials/discovery/index.html?'+BuildInfo.timestamp, activetab: 'discovery'});
