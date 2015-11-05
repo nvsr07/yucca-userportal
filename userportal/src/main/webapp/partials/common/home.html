@@ -9,6 +9,220 @@
  
 }
 </style>
+<div id='homepage-family-identity' ng-controller="HomeCtrl as homeController">
+	<div id='home-top-header'>
+		<div class='container'>
+   			<div class="row topbar-family-identity">
+		  			<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">  
+            			<h1><a href="http://www.smartdatanet.it/">smartdatanet</a></h1>
+   				</div>
+		        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
+            		<ul>
+            			<li><a class="developer" href="#" translate>HEADER_DEVELOPER_CENTER_LINK</a></li>
+            			<li><a  class="market" href="#" translate>HEADER_MARKET_PLACE_LINK</a></li>
+            		</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 yucca">
+	      			<h2>Yucca</h2>     
+	      			<p translate>HOME_TOP_HEADER_INTRO</p>      
+	  			</div>
+			</div>		
+		</div>
+	</div>
+	<div id='home-landing-section' ng-cloak style='display:none'>
+		<div class='row'>
+			<div class='col-sm-5 col-sm-offset-1'>
+				<a class='home-logo' href='http://www.smartdatanet.it/' target='_blank' ></a>
+				<p class='intro-desc'>
+					<span ng-bind-html="'HOME_INTRO_HTML'|translate"></span>
+				</p>
+			</div>
+			<div class='col-sm-6' >
+				<div class='main-title-container'>
+					<div class='home-lang-panel'>
+						<a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it"></a>
+						<a href="#"  ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en"></a>
+					</div>
+					<h1 class='main-title'>yucca</h1>
+				</div>
+				<div ng-show="!user.loggedIn">
+					<div class='main-action-panel row' >
+						<div  class='col-sm-1 col-sm-offset-1 first-block'>&nbsp;</div>
+						<div class='col-sm-8 action actions'>
+							<div class='row'>
+								<div class='col-sm-7 text-right main-action-button-desc'>
+									<span translate>HOME_START_BUTTON_DESC</span>  
+								</div>
+								<div  class='col-sm-5 text-center'>
+									<a class='btn main-action-button' href="/userportal/api/authorize?returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_START_BUTTON</span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class='row main-action-panel-demo-link'>
+						<div class='col-sm-8 col-sm-offset-3'>
+							<p><span translate>HOME_START_DEMO_BUTTON_DESC</span></p>
+							<small><a class='btn main-action-button' href="#/dataexplorer/browsedata"><span translate>HOME_START_DEMO_BUTTON</span></a></small>
+						</div>
+					</div>
+				</div>
+				<div ng-show="user.loggedIn">
+					<div class='main-action-panel row' >
+						<div  class='col-sm-1 col-sm-offset-1 first-block'>&nbsp;</div>
+						<div class='col-sm-8 action actions'>
+							<div class='row'>
+								<div class='col-sm-5 text-right'>
+									<span class='main-action-username'>
+										<span translate>HOME_LOGGED_IN_WELCOME</span> 
+									<strong>{{user.firstname}} {{user.lastname}}</span></strong>
+									<span class='main-action-tenant'>{{activeTenantCode}}</span>
+								</div>
+								<div  class='col-sm-7 text-center'>
+									<a class='btn main-action-button' href="#/dashboard/streams"><span translate>HOME_START_LOGGED_IN_BUTTON</span></a>
+								</div>
+							</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id='home-landing-section' ng-cloak>
+		<div class="container">
+			<div class="row">
+           		<div class="col-xs-12 col-sm-12 col-md-6 intro-desc">
+					<span ng-bind-html="'HOME_INTRO_HTML'|translate"></span>
+				</div>
+           		<div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1 action-start-panel" >
+           			<div ng-show="!user.loggedIn">
+ 		               	<p class="home-start-intro"><span translate>HOME_START_BUTTON_DESC</span></p>
+						<a class='btn btn-home-start btn-arrow-right'  href="/userportal/api/authorize?returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_START_BUTTON</span></a>
+						<p class='home-demo-intro'><span translate>HOME_START_DEMO_BUTTON_DESC</span></p>
+						<a class='btn btn-home-demo btn-arrow-right' href="#/dashboard/streams"><span translate>HOME_START_DEMO_BUTTON</span></a>
+					</div>
+					<div ng-show="user.loggedIn">	
+						<p class='home-demo-intro'>
+							<span translate>HOME_LOGGED_IN_WELCOME</span>
+							<strong>{{user.firstname}} {{user.lastname}}</strong>
+							<span class='main-action-tenant'>{{activeTenantCode}}</span>
+						</p>
+						<a class='btn btn-home-demo btn-arrow-right' href="#/dashboard/streams"><span translate>HOME_START_LOGGED_IN_BUTTON</span></a>
+           			</div>
+        		</div>
+         
+     		</div><!-- chiude row-->
+
+ 
+  
+  </div> 	
+	</div>
+	<div id='home-statistic-section' class='statistic-row' ng-cloak>
+		<div class='container'>
+			<h3><span ng-bind-html="'HOME_STATISTIC_PANEL_TITLE'|translate"></span></h3>
+			<div class='row'>
+				<div class='col-sm-4 statistic-data-panel'>
+					<p><span class='data-number-label' translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TOTAL_DATA_TIP"|translate}} {{statistics.total_data}}' ng-bind-html="statistics.total_data|format_big_number"></span></p>
+					<p><span class='data-number-label' translate>HOME_STATISTIC_CURRENT_MONTH_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_CURRENT_MONTH_DATA_TIP"|translate}} {{statistics.last_month_data}}'><span ng-bind-html="statistics.last_month_data|format_big_number"></span></span></p>
+					<p><span class='data-number-label' translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TODAY_DATA_TIP"|translate}} {{statistics.today_data}}' ng-bind-html="statistics.today_data|format_big_number"></span></p>
+				</div>
+				<div class='col-sm-4 statistic-chart-panel'>
+					<div id='domain-chart' style='height: 350px;'>
+					 	<nvd3-pie-chart
+				            data="domainChartData"
+				            id="home-domain-chart-id"
+				            showLabels="true"
+				            x="xDomainChartFunction()"
+				            y="yDomainChartFunction()"
+				            color="domainChartColors"
+				            donut="true"
+				            donutRatio=".35"
+				            donutLabelsOutside="true">
+				        	<svg height="300"></svg>
+				   	 	</nvd3-pie-chart>
+					</div>
+				</div>
+				<div class='col-sm-4 statistic-entity-panel'>
+					<p><span class='data-number'>{{statistics.total_tenants}}</span><span class='data-number-label' translate>HOME_STATISTIC_TENANT</span></p>
+					<p><span class='data-number'>{{statistics.total_smart_objects}}</span><span class='data-number-label' translate>HOME_STATISTIC_VIRTUALENTITY</span></p>
+					<p><span class='data-number'>{{statistics.total_streams}}</span><span class='data-number-label' translate>HOME_STATISTIC_STREAM</span></p>
+				</div>
+			</div>
+		</div>
+		<div class='lastupdate-info container'><span translate>HOME_STATISTIC_LASTUPDATE_INFO</span>{{statistics.lastupdate|date}}</div>
+		
+		
+	</div>
+	<div id="home-operation-section-anchor">&nbsp;</div>
+	<div id="home-operation-section" ng-cloak>
+		<h2><span translate>HOME_OPERATION_PANEL_TITLE</span></h2>
+		<div class='container'>
+			<div class="row ">
+				<div class='col-sm-4  operation-developer operation-panel' ng-show="isAuthorized('development/*')">
+					<div class='operation-panel-content'>
+						<div class="main-icon"><i class="fa fa-puzzle-piece"></i></div>
+						<div class='role-panel'><span translate>HOME_ROLE_DEVELOPER</span></div>
+						<p class='intro'><span ng-bind-html="'HOME_ROLE_DEVELOPER_INTRO'|translate"></span></p>
+						<a href="#/dashboard/streams" class='home-action'><span translate>HOME_ACTION_DASHBOARD</span></a>
+						<p><span translate>HOME_ACTION_DEVELOPER_SEP_1</span></p>
+						<a class='home-action' ng-href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM_INTERNAL</span></a>
+					</div>
+				</div>
+				<div class='col-sm-4 operation-manager operation-panel' ng-show="isAuthorized('management/*')" >
+					<div class='operation-panel-content'>
+						<div class="main-icon"><i class="fa fa-key"></i></div>
+						<div class='role-panel'><span translate>HOME_ROLE_PUBLISHER</span></div>
+						<p class='intro'><span ng-bind-html="'HOME_ROLE_PUBLISHER_INTRO'|translate"></span></p>
+						<a class='home-action'href="#/dashboard/streams"><span translate>HOME_ACTION_DASHBOARD</span></a>
+						<a class='home-action'ng-href="#/management/virtualentities/{{activeTenantCode}}"><span translate>HOME_ACTION_MANAGEMENT</span></a>
+						<p><span translate>HOME_ACTION_PUBLISHER_SEP_1</span></a></p>
+						<a class='home-action' ng-href="#/management/newVirtualentity/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_VIRTUAL_ENTITY</span></a>
+						<a class='home-action' ng-href="#/management/newStream/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_STREAM</span></a>
+						<a class='home-action' ng-href="#/management/newDataset/{{activeTenantCode}}"><span translate>HOME_ACTION_NEW_DATASET</span></a>
+					</div>
+				</div>
+				<div class='col-sm-4 operation-customer operation-panel' ng-show="isAuthorized('store/*')">
+					<div class='operation-panel-content'>
+						<div class="main-icon"><i class="fa fa-user "></i></div>
+						<div class='role-panel'><span translate>HOME_ROLE_SUBSCRIBER</span></div>
+						<p class='intro'><span ng-bind-html="'HOME_ROLE_SUBSCRIBER_INTRO'|translate"></span></p>
+						<a class='home-action'href="#/dashboard/streams"><span translate>HOME_ACTION_DASHBOARD</span></a>
+						<a class='home-action'href="#/dataexplorer/browsedata/"><span translate>HOME_ACTION_SEARCH</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id='home-map-section' >
+		<div class="container">
+			<h3><span translate>HOME_MAP_INTRO</span></h3>
+		</div>
+	 	<div id="map" class="map">
+	 		<div class='left-overlay-map'></div>
+			<div id="popup" class="ol-popup">
+   				<a href="#" id="popup-closer" class="ol-popup-closer"></a>
+ 				<div id="popup-content"></div>
+			</div>
+	 		<div class='right-overlay-map'></div>
+		</div>
+	</div>
+	
+</div>
+
+
+<!-- 
+<style>
+#map_canvas{
+  height:300px;
+  margin-left: auto ;
+  margin-right: auto ;
+  background-color: #efefef;
+  text-align: center ;
+  background: url(' http://maps.googleapis.com/maps/api/staticmap?center=45.0706029,7.6867102&zoom=12&size=1200x400&scale=2') no-repeat center center;
+ 
+}
+</style>
 <div id='homepage' ng-controller="HomeCtrl as homeController">
 
 	<div id='home-landing-section' ng-cloak>
@@ -163,3 +377,4 @@
 	</div>
 </div>
 
+-->

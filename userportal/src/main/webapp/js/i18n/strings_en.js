@@ -869,7 +869,8 @@ var translations_en = {
 	
 	/* data explorer */
 	DATA_EXPLORER_DATA_RESULT_EMPTY: 'No data found',
-	DATA_EXPLORER_DATA_RESULT_NO_MORE_DATA: 'Non sono stati trovati ulteriori dati',
+	DATA_EXPLORER_DATA_RESULT_NO_MORE_DATA: 'No more data found',
+	DATA_EXPLORER_MORE_DATA_BUTTON: 'More', 
 	DATA_EXPLORER_FILTER_PANEL_TITLE: 'Filter',
 	DATA_EXPLORER_DETAIL_PANEL_TITLE: 'Detail',
 	DATA_EXPLORER_USED_FILTER: 'Filter', 
@@ -889,10 +890,10 @@ var translations_en = {
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Details',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Hide',
 	
-	DATABROWSER_TITLE: 'Browse data',
-	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Choose one or more domains',
+	DATABROWSER_TITLE: 'Browse data and stream',
+	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Choose one domain',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Choose one or more tags',
-	DATABROWSER_RESULTS_TITLE: 'Dataset found',
+	DATABROWSER_RESULTS_TITLE: 'Stream and Dataset found',
 	DATABROWSER_RESULTS_BACK_BTN: 'New search',
 	DATABROWSER_SHOW_GRID: 'Grid', 
 	DATABROWSER_SHOW_LIST: 'List', 
