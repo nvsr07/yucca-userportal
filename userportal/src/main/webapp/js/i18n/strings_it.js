@@ -362,7 +362,12 @@ var translations_it = {
 	DATASET_LIST_NAME_FILTER: 'Filtra per nome',
 	DATASET_LIST_STATUS_FILTER: 'Filtra per stato',
 
+	/* header */
+	HEADER_DEVELOPER_CENTER_LINK: 'developer center',
+	HEADER_MARKET_PLACE_LINK: 'market place',
+	
 	/* Home page */
+	HOME_TOP_HEADER_INTRO: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Registra smart object e definisci gli stream trasmessi',
 	HOME_INTRO_HTML: 'Informazioni dal mondo che ci circonda e soluzioni open: sono questi i punti distintivi della Piattaforma messa a disposizione da Regione Piemonte per l\'Ecosistema Smart Data Net',
@@ -409,7 +414,7 @@ var translations_it = {
 	HOME_ACTION_NEW_VIRTUAL_ENTITY: 'Crea Smart Object',
 	HOME_ACTION_NEW_STREAM: 'Crea Stream',
 	HOME_ACTION_NEW_DATASET: 'Crea Dataset',
-	HOME_ACTION_SEARCH: 'Cerca un Dataset',
+	HOME_ACTION_SEARCH: 'Cerca nello Store',
 	HOME_ACTION_STORE: 'Accedi allo store',
 
 	

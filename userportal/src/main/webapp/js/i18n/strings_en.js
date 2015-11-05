@@ -362,7 +362,12 @@ var translations_en = {
 	DATASET_LIST_NAME_FILTER: 'Filter by name',
 	DATASET_LIST_STATUS_FILTER: 'Filter by status',
 
+	/* header */
+	HEADER_DEVELOPER_CENTER_LINK: 'developer center',
+	HEADER_MARKET_PLACE_LINK: 'market place',
+
 	/* Home page */
+	HOME_TOP_HEADER_INTRO: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Record smart objects and define transmitted streams',
 	HOME_INTRO_HTML: 'Information from the world around us and open solutions: these are the distinctive points of the platform made available by Regione Piemonte for Ecosystem Smart Data Net',
@@ -409,7 +414,7 @@ var translations_en = {
 	HOME_ACTION_NEW_VIRTUAL_ENTITY: 'Create Smart Objects',
 	HOME_ACTION_NEW_STREAM: 'Create Stream',
 	HOME_ACTION_NEW_DATASET: 'Create Dataset',
-	HOME_ACTION_SEARCH: 'Search a Dataset',
+	HOME_ACTION_SEARCH: 'Search in the Store',
 	HOME_ACTION_STORE: 'Go to the store',
 
 	

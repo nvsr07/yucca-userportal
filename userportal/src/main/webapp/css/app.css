@@ -404,16 +404,16 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 
 
 /* family-identity */
-#topbar-family-identity{background-color: #000; font-family: 'Aldrich', sans-serif; font-size: 20px;}
-#topbar-family-identity .logo a, #topbar-family-identity .logo a:hover {
+.topbar-family-identity{font-family: 'Aldrich', sans-serif; font-size: 20px;}
+.topbar-family-identity .logo a, .topbar-family-identity .logo a:hover {
   background: url(../img/familyidentity/logosdp_header_notext.png) no-repeat; font-size: 20px; text-decoration: none; color: #fff; height: 60px; 
   display: block; width: 200px; padding-left: 65px; padding-top: 13px;}
-#topbar-family-identity .link { text-align: right; margin-top: 20px;}
-#topbar-family-identity .link ul {padding-left: 0;}
-#topbar-family-identity .link ul li {display: inline-block; font-size: 20px; list-style: none;  width: auto;}
-#topbar-family-identity .link ul li a {color: #fff; text-decoration: none; height: 60px; padding-right: 40px; display: inline-block;padding-top: 10px;}
-#topbar-family-identity .link ul li a.developer {background: url(../img/familyidentity/logo_dev_center.png) no-repeat top right; margin-right: 0;}
-#topbar-family-identity .link ul li a.market {background: url(../img/familyidentity/logo_mkt_place.png)  no-repeat  top right;}
+.topbar-family-identity .link { text-align: right; margin-top: 20px;}
+.topbar-family-identity .link ul {padding-left: 0;}
+.topbar-family-identity .link ul li {display: inline-block; font-size: 20px; list-style: none;  width: auto;}
+.topbar-family-identity .link ul li a {color: #fff; text-decoration: none; height: 60px; padding-right: 40px; display: inline-block;padding-top: 10px;}
+.topbar-family-identity .link ul li a.developer {background: url(../img/familyidentity/logo_dev_center.png) no-repeat top right; margin-right: 0;}
+.topbar-family-identity .link ul li a.market {background: url(../img/familyidentity/logo_mkt_place.png)  no-repeat  top right;}
 
 #footer-family-identity { background-color: #000; color: #fff; padding-top: 70px; font-family: 'Roboto Condensed', sans-serif; font-weight: 400;}
 #footer-family-identity p { margin-bottom: 40px; font-size: 16px;text-align: left;}
@@ -430,6 +430,11 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 
 
 #homepage-family-identity #home-operation-section-anchor{background-color: #dbd91b;}
+
+#homepage-family-identity #home-top-header{background: url(../img/familyidentity/home-topheader.jpg) no-repeat;z-index: 10; color: white;}
+#homepage-family-identity #home-top-header .yucca{background: url(../img/familyidentity/home-logotree.png) no-repeat;background-size: 26% auto; height: 300px;}
+#homepage-family-identity #home-top-header .yucca h2 {padding-left: 320px;  font-size: 60px; font-family: 'Aldrich', sans-serif;}
+#homepage-family-identity #home-top-header .yucca  p {padding-left: 320px; font-size: 20px; font-family: 'Roboto Condensed', sans-serif;}
 
 #homepage-family-identity #home-operation-section h2{ font-size: 40px; padding-top: 10px; margin-bottom: 50px;text-transform: uppercase; font-weight: 700; font-family: 'Roboto', sans-serif;}
 #homepage-family-identity #home-operation-section .operation-panel{padding:0; min-height: 750px;}
