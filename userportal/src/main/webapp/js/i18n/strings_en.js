@@ -879,6 +879,8 @@ var translations_en = {
 	DATA_EXPLORER_QUERY_INPUT: 'Query',
 	DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL: 'Used Query OData', 
 	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Download Url for data csv format',
+	//DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Any data loaded in the last 24 hours may not be present',
+	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limited to the first 10,000 lines',
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Details',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Hide',
 	

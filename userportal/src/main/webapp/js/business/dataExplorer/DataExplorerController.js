@@ -2,10 +2,26 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
                                                      function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info,$location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
-	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
+
+	var getEnvirorment  = function(){
+		var host = $location.host();
+		var env = host.substring(0,host.indexOf("userportal.smartdatanet.it"));
+		return env;
+	};
+	
+	$scope.downloadCsvUrl =  Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
+//	$scope.downloadCsvUrl = ""; 
+//	if($scope.datasetCode!=null){
+//			// http://int-api.smartdatanet.it/api/Allegaticsp_160/download/160/current
+//		var datasetId = $scope.datasetCode.substring($scope.datasetCode.lastIndexOf("_")+1);
+//		var env  = getEnvirorment();
+//		$scope.downloadCsvUrl = "http://"+env+"api.smartdatanet.it/api/" + $scope.datasetCode + '/download/' + datasetId + '/current';
+//			
+//	}
+	
 
 	$scope.currentSidebar = 'none';
-
+	
 	$scope.dataset = null;
 	$scope.stream = null;
 	$scope.errors = [];
@@ -344,6 +360,8 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 
 	};
 	
+	
+	
 
 	$scope.loadBinaryDetail = function(rowNum, column){
 		console.log("loadBinaryDetail",rowNum,  column, $scope.dataList[rowNum][column]);
@@ -499,6 +517,38 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	});
 	
 	
+	//TODO manage sort in table results
+	//	var sortColumn = null;
+	//	var sortOrder = "desc";
+	//	$scope.orderResult = function(column, order) {
+	//		console.log("orderResult",column, order);
+	//		if(order && order!='none'){
+	//			//$scope.orderBy = {"column":column, "order": order};
+	//			sortColumn = column;
+	//			sortOrder = order;
+	//		}
+	//		else{
+	//			//$scope.orderBy = {"column":defaultOrderByColumn, "order": "desc"};
+	//			sortColumn = null;
+	//			sortOrder = "desc";
+	//		}
+	//		$scope.datasetList.sort(compare);
+	//		if(sortOrder == "desc"){
+	//			$scope.datasetList.reverse();
+	//		}
+	//		//$scope.loadData();
+	//	};	
+	//	
+	//	
+	//	function compare(a,b) {
+	//		if(typeof a !=  'undefined' && a!=null  && typeof b !=  'undefined' && b!=null && sortColumn!=null)
+	//		  if (a[sortColumn] < b[sortColumn])
+	//		    return -1;
+	//		  if (a[sortColumn] > b[sortColumn])
+	//		    return 1;
+	//		  return 0;
+	//	}
+
 	$scope.selectDomain = function(domain){
 		$scope.selectedDomain = domain;
 		$scope.goToChooseTags();
@@ -707,8 +757,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				//'/store/site/blocks/search/api-search/ajax/search.jag',
+				//Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+				'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}

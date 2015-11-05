@@ -29,10 +29,10 @@
 				<tr>
 					<th ng-repeat='column in columns track by $index'>
 						<div class=''>{{column["label"]|translate}}</div>
-						<div class='order-icons' ng-show="column['showOrderButton']">
-							<i class='fa fa-sort' ng-show='column["order"]=="none"' ng-click='orderResult(column["label"],"desc")'></i>
-							<i class='fa fa-sort-desc' ng-show='column["order"]=="desc"' ng-click='orderResult(column["label"],"asc")'></i>
-							<i class='fa fa-sort-asc' ng-show='column["order"]=="asc"' ng-click='orderResult(column["label"],"none")'></i>
+						<div class='order-icons' ng-show="column['showOrderButton']" style='display: none'>
+							<a href ng-click='orderResult(column["label"],"desc")' ng-show='column["order"]=="none"'><i class='fa fa-sort'></i></a>
+							<a href ng-show='column["order"]=="desc"' ><i class='fa fa-sort-desc'></i></a>
+							<a href ng-show='column["order"]=="asc"' ng-click='orderResult(column["label"],"none")'><i class='fa fa-sort-asc'></i></a>
 						</div>
 					</th>
 				</tr>

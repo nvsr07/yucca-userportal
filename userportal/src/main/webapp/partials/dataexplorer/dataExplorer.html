@@ -68,7 +68,7 @@
 									<div class='pull-right' ng-show="column['showBinaryIcon']">
 										<i class='glyphicon glyphicon-paperclip'></i>
 									</div>
-									<div class='pull-right' ng-show="column['showOrderButton']">
+									<div class='pull-right table-panel-orderarrow' ng-show="column['showOrderButton']" >
 										<i class='fa fa-sort' ng-show='column["order"]=="none"' ng-click='orderResult(column["label"],"desc")'></i>
 										<i class='fa fa-sort-desc' ng-show='column["order"]=="desc"' ng-click='orderResult(column["label"],"asc")'></i>
 										<i class='fa fa-sort-asc' ng-show='column["order"]=="asc"' ng-click='orderResult(column["label"],"none")'></i>
@@ -169,6 +169,9 @@
 				<a  href='{{downloadCsvUrl}}' class=" dataexplorer-dowloadcsv-link-btn" ng-show="isAuthorized('management/datasets/download')"  >
 					<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 				</a>
+			</div>
+			<div class="col-xs-12 text-left ">
+			<small class='mute'><i class='fa fa-lightbulb-o'></i> <i><span translate>DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT</span></i></small>
 			</div>
 		</div>
 	</div>

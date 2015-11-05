@@ -32,11 +32,9 @@
 						<li class="divider-vertical"></li>
 						<li  ng-show="isAuthorized('management/*')"><a ng-href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}"  class='main-menu-item main-menu-item-management'><span translate>MENU_MANAGEMENT</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('store/*')"><a href="#/discovery"  ng-class="{active: $route.current.activetab == 'discovery'}"  class='main-menu-item main-menu-item-discovery'><span translate>MENU_DISCOVERY</span></a></li>
+						<li ng-show="isAuthorized('store/*')"><a href="#/dataexplorer/browsedata?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_DATAEXPLORER</span></a></li>
 						<li class="divider-vertical"></li>
 						<li ng-show="isAuthorized('store/*')"><a ng-href="{{storeUrl}}?requestedPage=%2Fstore%2F&customCssPath=https%3A%2F%2Fuserportal.smartdatanet.it%2Fris%2Fauth%2Fcss%2Fauth.css"  class='main-menu-item main-menu-item-discovery'><span translate>MENU_STORE</span></a></li>
-						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('store/*')"><a href="#/dataexplorer/browsedata?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_DATAEXPLORER</span></a></li>
 					</ul>
 				</div>
 			</div>

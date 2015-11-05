@@ -46,9 +46,25 @@
 <body lang="en" ng-app="userportal">
 	<div ng-controller="GlobalCtrl as globalCtrl">
 		<div class='cookie-alert ng-hide' ng-show="showCookieMessage">
-			<span translate>COOKIE_MESSAGE</span>
+			<span translate>COOKIE_MESSAGE</span>&nbsp;
+			<a href='http://smartdatanet.it/yucca-cookies-policy.html' target='_blank'>Cookie Policy</a>&nbsp;
 			<a class='btn' ng-click='acceptCookie()' translate>OK</a>
 		</div>
+		<!-- <div id='topbar-family-identity'>
+			<div class="container">
+    			<div class="row testalino">
+ 		  			<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">  
+             			<h1><a href="http://www.smartdatanet.it/">smartdatanet</a></h1>
+    				</div>
+			        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
+	            		<ul>
+	            			<li><a class="developer" href="#">developer center</a></li>
+	            			<li><a  class="market" href="#">market place</a></li>
+	            		</ul>
+					</div>
+				</div>
+			</div>
+		</div> -->
 		<main-navbar ng-show="!isHomepage()"></main-navbar>
 		<div ng-view class='main-body'></div>
 		<main-footer></main-footer>

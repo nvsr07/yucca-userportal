@@ -23,6 +23,7 @@ var app = angular.module('userportal', [
 
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {templateUrl: 'partials/common/home.html?'+BuildInfo.timestamp, isHomepage: true});
+	$routeProvider.when('/home-family-identity', {templateUrl: 'partials/common/home-family-identity.html?'+BuildInfo.timestamp, isHomepage: true});
 //	$routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard/main.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 //	$routeProvider.when('/dashboard/main/:dashboard', {templateUrl: 'partials/dashboard/main.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/streams', {templateUrl: 'partials/dashboard/streams.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
