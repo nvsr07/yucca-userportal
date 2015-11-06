@@ -63,7 +63,7 @@
 						</div>
 					</div>
 					<div class="col-sm-2 text-right">
-						<img ng-src="{{dataset.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
+						<img ng-src="{{dataset.datasetIcon}}" alt="logo dataset" class='upload-icon-preview-img' >
 					</div>
 				</div>	
 			</accordion-group>
@@ -110,29 +110,29 @@
 				</accordion-heading>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
-					<div class='col-sm-10'>{{stream.virtualEntityName|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartOName|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong></div>
-					<div class='col-sm-10'>{{stream.virtualEntityCode|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartOCode|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
-					<div class='col-sm-10'>{{stream.virtualEntityDescription|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartODescription|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong></div>
-					<div class='col-sm-10'>{{stream.virtualEntityType|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartOType|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
-					<div class='col-sm-10'>{{stream.virtualEntityCategory|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartOCategory|nvl:''}}</div>
 				</div>	
-				<div class="row card-row"  ng-show="stream.streams.stream.virtualEntityPositions.position!=null">
+				<div class="row card-row"  ng-show="stream.smartOPositions.position!=null">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
-					<div class='col-sm-4'>[{{stream.virtualEntityPositions.position[0].lat}};{{stream.virtualEntityPositions.position[0].lon}}]</div>
+					<div class='col-sm-4'>[{{stream.smartOPPositions.position[0].lat}};{{stream.smartOPPositions.position[0].lon}}]</div>
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
-					<div class='col-sm-4'>{{stream.virtualEntityPositions.position.elevation[0]|nvl:' -'}}</div>
+					<div class='col-sm-4'>{{stream.smartOPPositions.position.elevation[0]|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status3.open" ng-show="stream!=null">
@@ -153,7 +153,7 @@
 					<div class='col-sm-10'>{{stream.fps|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
-			<accordion-group is-open="status4.open" ng-show="stream.streams.stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID && stream.streams.stream.idTipoVe!=null">
+			<accordion-group is-open="status4.open" ng-show="stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID && stream.idTipoVe!=null">
 				<accordion-heading>
 		 			<span translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
@@ -166,13 +166,13 @@
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong></div>
-					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.streams.stream.twtGeolocLat}},{{stream.streams.stream.twtGeolocLon}}</span></div>
+					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.twtGeolocLat}},{{stream.twtGeolocLon}}</span></div>
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
-					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{stream.streams.stream.twtGeolocRadius}} {{stream.streams.stream.twtUnit}}</span></div>
+					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{stream.twtGeolocRadius}} {{stream.twtUnit}}</span></div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_RATE</span></strong></div>
-					<div class='col-sm-10'>{{stream.streams.stream.twtRatePercentage}}</div>
+					<div class='col-sm-10'>{{stream.twtRatePercentage}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status5.open">
@@ -194,7 +194,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="field in dataset.info.fields">
+							<tr ng-repeat="field in dataset.Fields.results">
 								<td>{{field.fieldName}}</td>
 								<td>{{field.fieldAlias}}</td>
 								<td>{{field.dataType|nvl:' - '}}</td>
@@ -223,16 +223,13 @@
 		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="row card-toolbar">
-					<a  href='#/dataexplorer/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" >
+					<a  href='#/dataexplorer/{{tenantCode}}/{{dataset.datasetCode}}' class="btn btn-edit" >
 						<span class="glyphicon glyphicon-th-large"></span> {{'MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON'|translate}}
 					</a>
-					<a  href ng-click='cloneDataset()' class="btn btn-edit">
-						<i class="fa fa-files-o" ></i> <span translate>MANAGEMENT_VIEW_DATASET_CLONE_BUTTON</span>
-					</a>
-					<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
+					<a  href='#/management/editDataset/{{tenantCode}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
 						<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
 					</a>
-					<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData() && isAuthorized('management/datasets/upload')">
+					<a  href='#/management/uploadDataset/{{tenantCode}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData() && isAuthorized('management/datasets/upload')">
 						<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
 					</a>
 					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download')"  >

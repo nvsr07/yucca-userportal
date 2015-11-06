@@ -27,10 +27,15 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	$scope.stream = null;
 	$scope.errors = [];
 	
+	$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+	
 	$scope.processData = function(){
 		
-		if ($scope.dataset)
+		if ($scope.dataset){
 			$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/" + $scope.dataset.tenantCode + "/" + $scope.dataset.datasetCode;
+			$scope.apiMetdataUrl = $scope.dataset.API;
+		}
+			
 		
 		console.log("stream", $scope.stream);
 		console.log("dataset", $scope.dataset);
