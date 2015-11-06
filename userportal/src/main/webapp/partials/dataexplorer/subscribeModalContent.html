@@ -7,30 +7,26 @@
             	<span translate>DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE</span>
             </h4>
         </div>
-      <!-- 
-        <div class="modal-body" ng-show="datasetModalView.dataset.todo==true">
-            <div>
-                <b>{{'DATASET_FIELD_CONFIGDATA_CODE'|translate}}</b>: {{datasetModalView.dataset.datasetCode}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_TENANT'|translate}}</b>: {{datasetModalView.dataset.configData.tenantCode}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_TYPE'|translate}}</b>: {{datasetModalView.dataset.configData.type}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_SUBTYPE'|translate}}</b>: {{datasetModalView.dataset.configData.subtype}} <br />
-				<b>{{'DATASET_FIELD_METADATA_NAME'|translate}}</b>: {{datasetModalView.dataset.info.datasetName}}
-				<b>{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}</b>: {{datasetModalView.dataset.info.description}}
-            </div>
-        </div>
-        <div class="modal-body" ng-show="datasetModalView.dataset.okdo==true">
-            <div>{{'MANAGEMENT_DATASET_MODAL_DELETE_OKMSG'|translate}}</div>
-        </div>
-        <div class="modal-body" ng-show="datasetModalView.dataset.kodo==true">
-            <div>{{'MANAGEMENT_DATASET_MODAL_DELETE_KOMSG'|translate}}</div>
-        </div>
-        <div class="modal-footer" ng-show="datasetModalView.dataset.todo==true">
-            <button class="btn btn-primary" type="button" ng-click="deleteDataset()">SI</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">NO</button>
-        </div>
-         -->
+		<div class="modal-body table-responsive" ng-show="applicationList">
+				<table class="table">
+					<thead>
+						<tr>
+							<th></th>
+							<th><span translate>APPLICATIONS_NAME</span></th>
+							<th><span translate>APPLICATIONS_DESCRIPTION</span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="application in applicationList">
+							<td><input type="checkbox" name="selected" ng-checked="isSelected(application)"  ng-click="updateSelection($event, stream)"/>
+							<td>{{application.name}}</td>
+							<td>{{application.description}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>        
         <div class="modal-footer">
-			<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
             <button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
+            <button class="btn btn-primary" type="button" ng-click="subscribe()">sottoscrivi</button>
         </div>
 </div>

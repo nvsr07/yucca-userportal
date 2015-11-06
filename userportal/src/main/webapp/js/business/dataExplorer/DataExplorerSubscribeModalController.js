@@ -12,19 +12,24 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
      	$scope.cancel = function() {
      		$modalInstance.dismiss();
      	};
+
+     	$scope.subscribe = function() {
+     		$modalInstance.dismiss();
+     	};
+
      	
     	$scope.applicationList = null;
     	$scope.subscriptionList = null;
 
     	storeAPIservice.getApplications().success(function(response) {
     		console.log("response",response);
-    		$scope.applicationList = response;
+    		$scope.applicationList = response.applications;
 
     	});
 
     	storeAPIservice.getSubscriptions().success(function(response) {
     		console.log("response",response);
-    		$scope.subscriptionList = response;
+    		$scope.subscriptionList = response.subscriptions;
 
     	});
     	
