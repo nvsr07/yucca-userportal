@@ -545,6 +545,7 @@ var translations_en = {
 	MANAGEMENT_VIEW_STREAM_EDIT_BUTTON: 'Edit',
 	MANAGEMENT_VIEW_STREAM_CLONE_BUTTON: 'Clone',
 	MANAGEMENT_VIEW_STREAM_LIFECYCLE_OK_INFO: 'Success',
+	MANAGEMENT_VIEW_STREAM_DASHBOARD_BUTTON: 'Dashboard',
 
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Create',
@@ -821,7 +822,7 @@ var translations_en = {
 	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Search',
 	DISCOVERY_SIMPLESEARCH_MENU: 'Simple search',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Advanced search',
-	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. school or tags:AIR',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'insert name of Stream or Dataset',
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Search operator enabled <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> , <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> to use it <i>operator<strong>:</strong><i>value</i> ',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filter', 

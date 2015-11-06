@@ -28,8 +28,8 @@
 		</div>
 		<div class='clearfix entity-info entity-info-bottom'>
 			<div class='pull-left'>
-				<div><small><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></small></div>
-				<div class='url'><strong>{{wsUrl}}</strong></div>
+				<div><small><span translate>STREAM_FIELD_CODE</span></small></div>
+				<div class='url'><strong>{{stream.codiceStream}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate>STREAM_FIELD_VERSION</span></small></div>
@@ -47,12 +47,12 @@
 				<div class='row'>
 					<div class="col-sm-10">
 						<div class="row card-row">
-							<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_CODE</span></strong></div>
-							<div class="col-sm-10">{{stream.codiceStream}}</div>
-						</div>			
+							<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_DESCRIPTION</span></strong></div>
+							<div class='col-sm-6'><span >{{stream.nomeStream}}</span></div>
+						</div>	
 						<div class="row card-row">
-							<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY</span></strong></div>
-							<div class='col-sm-10'>{{stream.codiceVirtualEntity}} - {{stream.virtualEntityName}}</div>
+							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN/STREAM_FIELD_DOMAIN</span></strong></div>
+							<div class='col-sm-6'><span >{{stream.domainStream|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_STATUS</span></strong></div>
@@ -62,14 +62,25 @@
 							<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TAGS</span></strong></div>
 							<div class='col-sm-10'>
 								<ul class="list-inline">
-									<li ng-repeat="tag in stream.streamTags.tag"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
-									
+									<li ng-repeat="tag in stream.tags">
+										<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span>
+									</li>
 								</ul>
+							</div>
+						</div>
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'STREAM_FIELD_VISIBILITY'|translate"></span></strong></div>
+							<div class='col-sm-2'>{{stream.visibility}}</div>
+							<div class='col-sm-2 text-right'card-label" ng-show="stream.visibility=='private'"><strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
+							<div class='col-sm-6'>
+								<span  ng-repeat="tenantSharing in stream.tenantssharing.tenantsharing">
+									<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
+								</span> &nbsp;
 							</div>
 						</div>	
 						<div class="row card-row">
-							<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_DOMAIN</span></strong></div>
-							<div class='col-sm-10'>{{stream.domain|translate}}</div>
+							<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL</span></strong></div>
+							<div class='col-sm-10'>{{stream.saveData|booleanToString|translate}}</div>
 						</div>	
 					</div>
 					<div class="col-sm-2 text-right">
@@ -85,10 +96,6 @@
 	
 				<div class='card-label-separator'><span translate>MANAGEMENT_EDIT_STREAM_OTHER_INFO</span></div>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_FPS</span></strong></div>
-					<div class='col-sm-10'>{{stream.fps}}</div>
-				</div>	
-				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_LICENCE</span></strong></div>
 					<div class='col-sm-10'>{{stream.licence}}</div>
 				</div>	
@@ -99,6 +106,56 @@
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_COPYRIGHT</span></strong></div>
 					<div class='col-sm-10'>{{stream.copyright}}</div>
+				</div>	
+			</accordion-group>
+			<accordion-group is-open="status2.open" ng-show="stream!=null">
+				<accordion-heading>
+					<span translate>VIRTUALENTITY</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
+				</accordion-heading>
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
+					<div class='col-sm-10'>{{stream.smartOName|nvl:''}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong></div>
+					<div class='col-sm-10'>{{stream.smartOCode|nvl:''}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
+					<div class='col-sm-10'>{{stream.smartODescription|nvl:''}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong></div>
+					<div class='col-sm-10'>{{stream.smartOType|nvl:''}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
+					<div class='col-sm-10'>{{stream.smartOCategory|nvl:''}}</div>
+				</div>	
+				<div class="row card-row"  ng-show="stream.smartOPositions.position!=null">
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
+					<div class='col-sm-4'>[{{stream.smartOPPositions.position[0].lat}};{{stream.smartOPPositions.position[0].lon}}]</div>
+					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
+					<div class='col-sm-4'>{{stream.smartOPPositions.position.elevation[0]|nvl:' -'}}</div>
+				</div>	
+			</accordion-group>
+			<accordion-group is-open="status3.open" ng-show="stream!=null">
+				<accordion-heading>
+					<span translate>STREAM</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
+				</accordion-heading>
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_NAME</span></strong></div>
+					<div class='col-sm-10'>{{stream.streamName|nvl:' -'}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_CODE</span></strong></div>
+					<div class='col-sm-10'>{{stream.streamCode|nvl:' -'}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_FPS</span></strong></div>
+					<div class='col-sm-10'>{{stream.fps|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status3.open"  ng-show="stream.idTipoVe != VIRTUALENTITY_TYPE_TWITTER_ID">
@@ -164,10 +221,6 @@
 				</accordion-heading>
 				<div class='card-label-separator'><span translate>MANAGEMENT_EDIT_STREAM_SETTINGS</span></div>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL</span></strong></div>
-					<div class='col-sm-10'>{{stream.saveData|booleanToString|translate}}</div>
-				</div>	
-				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span ng-bind-html="'STREAM_FIELD_VISIBILITY'|translate"></span></strong></div>
 					<div class='col-sm-2'>{{stream.visibility}}</div>
 					<div class='col-sm-2 text-right'card-label" ng-show="stream.visibility=='private'"><strong><span translate>STREAM_FIELD_TENANTSSHARED_WITH</span></strong></div>
@@ -190,7 +243,10 @@
 			<a  href='#' class="btn  btn-delete disabled" title="{{'COMING_SOON'|translate}}">
 				<span class="glyphicon glyphicon-trash "></span> <span translate>MANAGEMENT_VIEW_STREAM_DELETE_BUTTON</span>
 			</a>
-			<a  href='#/management/editStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/streams/update')">
+			<a  href='#/dashboard/stream/{{tenantCode}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default btn-edit"" title="{{'COMING_SOON'|translate}}">
+				<span class="glyphicon glyphicon-equalizer "></span> <span translate>MANAGEMENT_VIEW_STREAM_DASHBOARD_BUTTON</span>
+			</a>
+			<a  href='#/management/editStream/{{tenantCode}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/streams/update')">
 				<span class="glyphicon glyphicon-pencil "></span> <span translate>MANAGEMENT_VIEW_STREAM_EDIT_BUTTON</span>
 			</a>
 			<a  href='javascript:void(0)' class="btn  btn-uninstall" ng-show="isOwner() && canUnistall() && isAuthorized('management/streams/req_disinst')" ng-click='requestUnistallation()'>

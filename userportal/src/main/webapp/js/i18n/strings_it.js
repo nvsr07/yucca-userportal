@@ -61,8 +61,8 @@ var translations_it = {
 	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
 	STREAM_FIELD_NAME: 'Nome',
 	STREAM_FIELD_DESCRIPTION:'Descrizione',	
-	STREAM_FIELD_CODE: 'Code',
-	STREAM_FIELD_TENANT_CODE : 'Code',
+	STREAM_FIELD_CODE: 'Codice',
+	STREAM_FIELD_TENANT_CODE : 'Codice',
 	STREAM_FIELD_TENANT_NAME : 'Name',
 	STREAM_FIELD_STATUS: 'Stato',
 	STREAM_FIELD_MESSAGE_SIZE: 'Dimensione Messaggio',
@@ -545,6 +545,7 @@ var translations_it = {
 	MANAGEMENT_VIEW_STREAM_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_STREAM_CLONE_BUTTON: 'Clona',
 	MANAGEMENT_VIEW_STREAM_LIFECYCLE_OK_INFO: 'Ok',
+	MANAGEMENT_VIEW_STREAM_DASHBOARD_BUTTON: 'Monitoraggio',
 
 	/* Management new Stream from Virtual Entity */
 	MANAGEMENT_NEW_STREAM_CREATE_BUTTON : 'Crea',
@@ -821,7 +822,7 @@ var translations_it = {
 	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Cerca',
 	DISCOVERY_SIMPLESEARCH_MENU: 'Ricerca semplice',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Ricerca avanzata',
-	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'e.g. temperatura oppure tags:AIR',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'inserire nome Stream o Dataset',
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags (keywords in lingua inglese)</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong>, <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i>',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filtro', 

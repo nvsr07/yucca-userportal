@@ -116,10 +116,10 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 //				items : function() {
 //					return $scope.items;
 //				},
-//				selectedDataset: function() {
-//					console.log(">>>>>> $scope.dataset in selectedDataset", $scope.dataset);
-//					return $scope.dataset;
-//				}
+				dataset: function() {
+					console.log(">>>>>> $scope.dataset in selectedDataset", $scope.dataset);
+					return $scope.dataset;
+				}
 			}
 		});
 //		$scope.modalInstance.result.then(function(selectedItem) {
