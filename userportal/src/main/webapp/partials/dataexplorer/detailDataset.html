@@ -43,7 +43,7 @@
 							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
 							<div class='col-sm-6'>
 								<ul class="list-inline">
-									<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
+									<li ng-repeat="tag in dataset.tagsArray"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
 								</ul>
 							</div>
 						</div>	
