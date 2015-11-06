@@ -157,7 +157,7 @@
 					<div class='col-sm-10'>{{stream.fps|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
-			<accordion-group is-open="status5.open"  ng-show="stream.idTipoVe != VIRTUALENTITY_TYPE_TWITTER_ID">
+			<accordion-group is-open="status5.open"> <!--  ng-show="stream.idTipoVe != VIRTUALENTITY_TYPE_TWITTER_ID"> -->
 				<accordion-heading>
 		 			<span translate>STREAM_FIELD_COMPONENTS</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
@@ -205,7 +205,7 @@
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_RATE</span></strong></div>
-					<div class='col-sm-1'>{{twitterPollingInterval}}</span>
+					<div class='col-sm-1'>{{(5 * stream.twtMaxStreamsOfVE) +1}}</span>
 					</div>
 					<div class="col-sm-9 ">
 						<i><span translate class='' >MANAGEMENT_EDIT_STREAM_TWT_POLLING_HELP</span></i>
@@ -215,23 +215,12 @@
 			</accordion-group>
 			<accordion-group is-open="status7.open">
 				<accordion-heading>
-		 			<span translate>MANAGEMENT_EDIT_STREAM_SETTINGS</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
+					<span translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
 				</accordion-heading>
-				<div class='card-label-separator'><span translate>MANAGEMENT_EDIT_STREAM_SETTINGS</span></div>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span ng-bind-html="'STREAM_FIELD_VISIBILITY'|translate"></span></strong></div>
-					<div class='col-sm-2'>{{stream.visibility}}</div>
-					<div class='col-sm-2 text-right'card-label" ng-show="stream.visibility=='private'"><strong><span translate>STREAM_FIELD_TENANTSSHARED_WITH</span></strong></div>
-					<div class='col-sm-6'>
-						<span  ng-repeat="tenantSharing in stream.tenantssharing.tenantsharing">
-							<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
-						</span> &nbsp;
-					</div>
-				</div>	
-				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE_LABEL</span></strong></div>
-					<div class='col-sm-10'>{{stream.publishStream|booleanToString|translate}}</div>
+					<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong></div>
+					<div class='col-sm-10'><a href="{{apiMetdataUrl}}" target="_blank" class='management-dataset-download-link'>{{apiMetdataUrl}}</a></div>
 				</div>	
 			</accordion-group>
 		</accordion>
