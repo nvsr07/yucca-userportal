@@ -1,14 +1,14 @@
 <div ng-controller="DataExplorerDetailCtrl as detailCtrl" ng-cloak>
 	<div class='container'>
-		<h3 class='entity-title'><span translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.info.datasetName}}</small></h3>
+		<h3 class='entity-title'><span translate>DATASET</span> <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small></h3>
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
 				<div><small><span translate>DATASET_FIELD_METADATA_NAME</span></small></div>
-				<div class='main-info'><strong>{{dataset.info.datasetName}}</strong></div>
+				<div class='main-info'><strong>{{dataset.datasetName}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
-				<div><strong>{{dataset.info.registrationDate|date}}</strong></div>
+				<div><strong>{{dataset.registrationDate|date}}</strong></div>
 			
 			</div>
 		</div>
@@ -33,11 +33,11 @@
 					<div class="col-sm-10">
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DESCRIPTION</span></strong></div>
-							<div class='col-sm-6'><span >{{dataset.info.description}}</span></div>
+							<div class='col-sm-6'><span >{{dataset.description}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong></div>
-							<div class='col-sm-6'><span >{{dataset.info.dataDomain|translate}}</span></div>
+							<div class='col-sm-6'><span >{{dataset.dataDomain|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
@@ -49,21 +49,21 @@
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong></div>
-							<div class='col-sm-10'>{{dataset.info.externalReference|nvl:' -'}}</div>
+							<div class='col-sm-10'>{{dataset.externalReference|nvl:' -'}}</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
-							<div class='col-sm-2'>{{dataset.info.visibility}}</div>
-							<div class='col-sm-2 text-right'card-label" ng-show="dataset.info.visibility=='private'"><strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
+							<div class='col-sm-2'>{{dataset.visibility}}</div>
+							<div class='col-sm-2 text-right'card-label" ng-show="dataset.visibility=='private'"><strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
 							<div class='col-sm-6'>
-								<span  ng-repeat="tenantSharing in dataset.info.tenantssharing.tenantsharing">
+								<span  ng-repeat="tenantSharing in dataset.tenantssharing.tenantsharing">
 									<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
 								</span> &nbsp;
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-2 text-right">
-						<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
+						<img ng-src="{{dataset.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
 					</div>
 				</div>	
 			</accordion-group>
@@ -92,15 +92,15 @@
 				</accordion-heading>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_LICENSE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.info.license|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{dataset.license|nvl:' -'}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong></div>
-					<div class='col-sm-10'>{{dataset.info.disclaimer|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{dataset.disclaimer|nvl:' -'}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong></div>
-					<div class='col-sm-10'>{{dataset.info.copyright|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{dataset.copyright|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status2.open" ng-show="stream!=null">
@@ -110,29 +110,29 @@
 				</accordion-heading>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
-					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityName|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.virtualEntityName|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CODE</span></strong></div>
-					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityCode|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.virtualEntityCode|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
-					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityDescription|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.virtualEntityDescription|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_TYPE</span></strong></div>
-					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityType|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.virtualEntityType|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
-					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityCategory|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.virtualEntityCategory|nvl:''}}</div>
 				</div>	
 				<div class="row card-row"  ng-show="stream.streams.stream.virtualEntityPositions.position!=null">
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
-					<div class='col-sm-4'>[{{stream.streams.stream.virtualEntityPositions.position[0].lat}};{{stream.streams.stream.virtualEntityPositions.position[0].lon}}]</div>
+					<div class='col-sm-4'>[{{stream.virtualEntityPositions.position[0].lat}};{{stream.virtualEntityPositions.position[0].lon}}]</div>
 					<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
-					<div class='col-sm-4'>{{stream.streams.stream.virtualEntityPositions.position.elevation[0]|nvl:' -'}}</div>
+					<div class='col-sm-4'>{{stream.virtualEntityPositions.position.elevation[0]|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status3.open" ng-show="stream!=null">
@@ -150,7 +150,7 @@
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_FPS</span></strong></div>
-					<div class='col-sm-10'>{{stream.streams.stream.fps|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{stream.fps|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status4.open" ng-show="stream.streams.stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID && stream.streams.stream.idTipoVe!=null">
@@ -160,9 +160,9 @@
 				</accordion-heading>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
-					<div class='col-sm-6'>{{stream.streams.stream.twtQuery}}</div>
+					<div class='col-sm-6'>{{stream.twtQuery}}</div>
 					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_LANG</span></strong></div>
-					<div class='col-sm-2'>{{stream.streams.stream.twtLang}}</div>
+					<div class='col-sm-2'>{{stream..twtLang}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong></div>
