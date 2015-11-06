@@ -38,7 +38,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="data in datasetList" ng-click="exploreData(data)" class='browsedata-metadata-row'>
+				<tr ng-repeat="data in datasetList" ng-click="openDetail(data)" class='browsedata-metadata-row'>
 					<td class=''>
 						<div class='dataexplorer-table-grid-first-column'>
 							<img ng-src="{{datasetList[$index].datasetIcon}}" alt="logo dataset" class="img-responsive dataset-icon" >
@@ -67,7 +67,7 @@
 		</table>
 		<div class='' ng-show="resultViewType == 'box'">
    			<div id="browsedata-metadata-box-container">
-				<div class=' browsedata-metadata-box' ng-repeat='data in datasetList' ng-click="exploreData(data)">
+				<div class=' browsedata-metadata-box' ng-repeat='data in datasetList' ng-click="openDetail(data)">
 					<div class='box-top'>
 						<div  class='preview-img-container'  >
 							<img ng-src="{{data.datasetIcon}}" alt="logo dataset"class="" >
@@ -77,8 +77,8 @@
 								<div class='pull-left'><i>{{data.tenantCode}}</i></div>
 								<div class='pull-right'><i class='icon-{{data.dataDomain}} domain-icon' title='{{data.dataDomain|translate}}'></i></div>
 							</div>
-							<h4 title="{{data.customDescription}}">{{data.customDescription|string_ellipse:40}}</h4>
-							<div class='preview-desc'><small><span class='muted' title="{{data.datasetName}}">{{data.datasetName|string_ellipse:200}}</span></small></div>
+							<h4 title="{{data.customDescription}}">{{data.customDescription|string_ellipse:25}}</h4>
+							<div class='preview-desc'><small><span class='muted' title="{{data.datasetName}}">{{data.datasetName|string_ellipse:50}}</span></small></div>
 							<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
 						</div>
 					</div>
@@ -109,7 +109,7 @@
 		</div>
 		
 		<div class='browsedata-load-more-toolbar' ng-show="!showSearchLoading && !noMoreSearchData">
-			<a href ng-click='search()' class='btn btn-default'>Ancora</a>
+			<a href ng-click='search()' class='btn btn-default' translate>DATA_EXPLORER_MORE_DATA_BUTTON</a>
 		</div>
 		</div>
 	
