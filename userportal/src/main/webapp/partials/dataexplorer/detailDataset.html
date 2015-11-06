@@ -103,7 +103,7 @@
 					<div class='col-sm-10'>{{dataset.copyright|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
-			<accordion-group is-open="status2.open">
+			<accordion-group is-open="status2.open" ng-show="stream!=null">
 				<accordion-heading>
 					<span translate>VIRTUALENTITY</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
@@ -135,7 +135,7 @@
 					<div class='col-sm-4'>{{stream.smartOPPositions.position.elevation[0]|nvl:' -'}}</div>
 				</div>	
 			</accordion-group>
-			<accordion-group is-open="status3.open">
+			<accordion-group is-open="status3.open" ng-show="stream!=null">
 				<accordion-heading>
 					<span translate>STREAM</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
