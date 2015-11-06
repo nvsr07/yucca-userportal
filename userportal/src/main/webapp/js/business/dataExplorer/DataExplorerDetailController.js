@@ -67,6 +67,32 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$routeParams', 
 
 	};
 
+	
+	$scope.openModalViewSubscribe = function(size) {
+		$scope.modalInstance = $modal.open({
+			animation : $scope.animationsEnabled,
+			templateUrl : 'partials/dataexplorer/subscribeModalContent.html',
+			controller: 'DataExplorerSubscribeModalCtrl',
+			size : size,
+			scope: $scope,
+			resolve : {
+//				items : function() {
+//					return $scope.items;
+//				},
+//				selectedDataset: function() {
+//					console.log(">>>>>> $scope.dataset in selectedDataset", $scope.dataset);
+//					return $scope.dataset;
+//				}
+			}
+		});
+//		$scope.modalInstance.result.then(function(selectedItem) {
+////			$scope.selected = selectedItem;
+//			console.log("selected in modalInstance.result.then", selectedItem);
+//		}, function() {
+//			console.info('Modal dismissed at: ' + new Date());
+//		});
+	};
+	
 } ]);
 
 

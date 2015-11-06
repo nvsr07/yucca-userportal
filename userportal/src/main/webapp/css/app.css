@@ -162,6 +162,8 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .btn-historical:hover{background-color: #3f5152;}
 .btn-download-dataset{color: white!important; background-color: #717b7c;border-color: #717b7c;border-radius: 0px;}
 .btn-download-dataset:hover{background-color: #3f5152;}
+.btn-subscribe{color: white!important; background-color: #717b7c;border-color: #717b7c;border-radius: 0px;}
+.btn-subscribe:hover{background-color: #3f5152;}
 
 .btn{border: none;-webkit-box-shadow: none;box-shadow:none;-moz-box-shadow:none; border-radius: 0px;border-radius: 0px;}
 .btn a, a.btn{ text-decoration: none;}

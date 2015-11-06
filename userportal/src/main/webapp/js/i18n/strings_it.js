@@ -889,6 +889,11 @@ var translations_it = {
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Dettagli',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Nascondi',
 	
+	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Sottoscrivi API',
+	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Sottoscrivi API',
+	DATA_EXPLORER_SUBSCRIBE_MODAL_TITLE: 'Subscribe API',
+	DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE: 'Choose an application and subscribe API',
+
 	DATABROWSER_TITLE: 'Naviga fra i dati e stream',
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Oppure scegli un dominio',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Scegli uno o pi&ugrave; tag',
