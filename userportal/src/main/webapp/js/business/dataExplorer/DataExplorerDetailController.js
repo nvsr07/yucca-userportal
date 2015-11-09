@@ -41,6 +41,17 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 				$scope.dataset.tagsArray = new Array();
 				$scope.dataset.tagsArray[0] = $scope.dataset.tags;
 			}
+			$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
+			$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
+			$scope.topic = $scope.datasetCode;
+		} else {
+			$scope.wsUrl = "ws://stream.smartdatanet.it/ws";
+			$scope.wsUrlSecured = "wss://stream.smartdatanet.it/wss";
+			$scope.wsUrlTopic = "/topic/output/" + $scope.tenantCode + "/" + $scope.virtualentityCode + "_" + $scope.streamCode;
+			
+			$scope.mqttUrl = "tcp://stream.smartdatanet.it:1883 ";
+			$scope.mqttUrlSecured = " tcp://stream.smartdatanet.it:8883";
+			$scope.mqttUrlTopic = "output/" + $scope.tenantCode + "/" + $scope.virtualentityCode + "_" + $scope.streamCode;
 		}
 			
 		

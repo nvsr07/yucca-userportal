@@ -617,6 +617,9 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER: 'The field \'tollerance\' must be numeric',
 	MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS: 'Isert at least one component',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE: 'The field \'Name\' cannot contain white space',
+	
+	MANAGEMENT_EDIT_STREAM_WS_LBL: 'Use the stream in real time with websocket',
+	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Use the stream in real time with MQTT',
     
 		/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
@@ -681,7 +684,7 @@ var translations_en = {
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Download',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Download',
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Add more data',
-	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'Data access',
+	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'API Data access',
 	MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON: 'Data explorer',
 	
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER: 'Register',
@@ -811,6 +814,8 @@ var translations_en = {
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON: 'Upload',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_MORE_BUTTON: 'Upload more data',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO: 'Upload data: ', 
+	
+	MANAGEMENT_EDIT_DATASET_DATA_URLS: 'OData URL format (ref. http://www.odata.org/): ', 
 		
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Choose tenant',
