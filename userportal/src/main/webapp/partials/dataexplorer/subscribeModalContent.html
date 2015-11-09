@@ -1,32 +1,68 @@
 <div>
-		<div class="modal-header">
-            <h3 class="modal-title">
-            	<span translate>DATA_EXPLORER_SUBSCRIBE_MODAL_TITLE</span>
-            </h3>
-            <h4 class="modal-title">
-            	<span translate>DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE</span>
-            </h4>
-        </div>
-		<div class="modal-body table-responsive" ng-show="applicationList">
-				<table class="table">
-					<thead>
-						<tr>
-							<th></th>
-							<th><span translate>APPLICATIONS_NAME</span></th>
-							<th><span translate>APPLICATIONS_DESCRIPTION</span></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="application in applicationList">
-							<td><input type="checkbox" name="selected" ng-checked="isSelected(application)"  ng-click="updateSelection($event, stream)"/>
-							<td>{{application.name}}</td>
-							<td>{{application.description}}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>        
+	<div class="modal-header">
+    	<h3 class="modal-title">
+    		<span translate>DATA_EXPLORER_SUBSCRIBE_MODAL_TITLE</span>
+    	</h3>
+   		<h4 class="modal-title">
+    		<span translate>DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE</span>
+    	</h4>
+	</div>
+	<div class="modal-body table-responsive" ng-show="applicationList">
+		<div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th><span translate>APPLICATIONS_NAME</span></th>
+						<th><span translate>APPLICATIONS_DESCRIPTION</span></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="application in applicationList">
+						<td>{{application.name}}</td>
+						<td>
+							<span ng-show="!application.isEditing">{{application.description}}</span>
+							<input ng-show="application.isEditing" class="input-sm form-control" type="text" name="editedDescriptions{{$index}}"  
+										                		ng-model="editedDescriptions[$index]" placeholder="{{'APPLICATIONS_DESCRIPTION'|translate}}">
+						</td>
+						<td	>
+							<a ng-show="!application.isEditing" href ng-click='startEditApplication($index)' class="btn btn-icon-edit btn-sm" title="{{'EDIT'|translate}}" ng-disable="!application.isBusy">
+								<i class='glyphicon glyphicon-pencil'></i>
+							</a>
+							<a ng-show="application.isEditing" href ng-click='saveEditApplication($index)' class="btn btn-icon-add btn-sm" title="{{'SAVE'|translate}}" ng-disable="!application.isBusy"><i class='glyphicon glyphicon-ok'></i></a>
+						</td>
+						<td>
+							<!-- <a  ng-show="!application.isEditing" href ng-click='removeApplication($index)' class="btn btn-icon-remove btn-sm" title="{{'DELETE'|translate}}" ng-disable="!application.isBusy">
+								<i class='glyphicon glyphicon-trash'></i>
+							</a>-->
+							<a ng-show="application.isEditing" href ng-click='cancelEditApplication($index)' class="btn btn-icon-plus btn-sm" title="{{'UNDO'|translate}}" ng-disable="!application.isBusy"><i class='glyphicon glyphicon-repeat'></i></a>
+						</td>
+						<td>
+							<a ng-show="!application.isSubscribed" href ng-click='subscribeApplication($index)' class="btn btn-icon-plus btn-sm" title="{{'UNDO'|translate}}" 
+								ng-disable="!application.isBusy"><i class='glyphicon glyphicon-plus'></i> <span translate>DATA_EXPLORER_SUBSCRIBE_ADD_SUBSCRIPTION</span></a>
+							<a ng-show="application.isSubscribed" href ng-click='unsubscribeApplication($index)' class="btn btn-icon-minus btn-sm" title="{{'UNDO'|translate}}" 
+								ng-disable="!application.isBusy"><i class='glyphicon glyphicon-minus'></i> <span translate>DATA_EXPLORER_SUBSCRIBE_REMOVE_SUBSCRIPTION</span></a>
+						</td>
+					</tr>
+					<tr><td colspan='5'><h4 translate>DATA_EXPLORER_SUBSCRIBE_NEW_APPLICATION_TITLE</h4></td></tr>
+					<tr>
+						<td>
+							<input class="input-sm form-control" type="text" name="newApplicationName" ng-model="newApplicationName" placeholder="{{'APPLICATIONS_NAME'|translate}}" required="required">
+						</td>
+						<td>
+							<input class="input-sm form-control" type="text" name="newApplicationDescription" ng-model="newApplicationDescription" placeholder="{{'APPLICATIONS_DESCRIPTION'|translate}}">
+						</td>
+						<td>
+							<a href ng-click='addApplication($index)' class="btn btn-icon-plus btn-sm" title="{{'SAVE'|translate}}" 
+								ng-disable="!application.isBusy"><i class='glyphicon glyphicon-plus'></i> <span translate>SAVE</span></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
+            <button class="btn btn-primary" type="button" ng-click="cancel()" translate>CANCEL</button>
             <button class="btn btn-primary" type="button" ng-click="subscribe()">sottoscrivi</button>
         </div>
+	</div>
 </div>
