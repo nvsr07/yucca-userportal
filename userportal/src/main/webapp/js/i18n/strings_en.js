@@ -600,6 +600,7 @@ var translations_en = {
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
+	MANAGEMENT_EDIT_STREAM_LEGAL_INFO: 'Legal Info',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA: 'Drop here the icon',
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Or click here to choose',
@@ -822,7 +823,7 @@ var translations_en = {
 	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Search',
 	DISCOVERY_SIMPLESEARCH_MENU: 'Simple search',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Advanced search',
-	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'insert name of Stream or Dataset',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: ' ',
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Search operator enabled <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> , <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> to use it <i>operator<strong>:</strong><i>value</i> ',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filter', 

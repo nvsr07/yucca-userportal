@@ -36,14 +36,14 @@
 							<div class='col-sm-6'><span >{{dataset.description}}</span></div>
 						</div>	
 						<div class="row card-row">
-							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN/STREAM_FIELD_DOMAIN</span></strong></div>
+							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_DATADOMAIN</span>/<span translate>STREAM_FIELD_DOMAIN</span></strong></div>
 							<div class='col-sm-6'><span >{{dataset.dataDomain|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
 							<div class='col-sm-6'>
 								<ul class="list-inline">
-									<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
+									<li ng-repeat="tag in dataset.tagsArray"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
 								</ul>
 							</div>
 						</div>	
@@ -58,8 +58,8 @@
 							</div>
 						</div>
 						<div class="row card-row">
-							<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL</span></strong></div>
-							<div class='col-sm-10'>{{stream.saveData|booleanToString|translate}}</div>
+							<div class="col-sm-2 card-label"><strong><span translate><!-- MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL --></span></strong></div>
+							<div class='col-sm-10'><!-- {{stream.saveData|booleanToString|translate}} --></div>
 						</div>	
 					</div>
 					<div class="col-sm-2 text-right">
@@ -186,27 +186,54 @@
 						<thead>
 							<tr>
 								<th translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
-								<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
 								<th translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
+								<th translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+								<th translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
 								<th translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+								<th translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="field in dataset.Fields.results">
 								<td>{{field.fieldName}}</td>
+								<td>{{field.measureUnitCategory|nvl:' - '}}:{{field.measureUnit|nvl:' - '}}</td>
 								<td>{{field.fieldAlias}}</td>
-								<td>{{field.dataType|nvl:' - '}}</td>
 								<td>{{field.sourceColumn}}</td>
-								<td>{{field.measureUnit|nvl:' - '}}</td>
 								<td>{{field.isKey|booleanToString|translate}}</td>
+								<td>{{field.dataType|nvl:' - '}}</td>
 								
 						</tbody>
 					</table>
 				</div>
 			</accordion-group>
-			<accordion-group is-open="status6.open">
+			<accordion-group is-open="status6.open"  ng-show="dataset.stream.smartOType == VIRTUALENTITY_TYPE_TWITTER_ID">
+				<accordion-heading>
+		 			<span translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status6.open, 'glyphicon-plus': !status6.open}"></i>
+				</accordion-heading>
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
+					<div class='col-sm-6'>{{stream.twtQuery}}</div>
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_LANG</span></strong></div>
+					<div class='col-sm-2'>{{stream.twtLang}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong></div>
+					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.twtGeolocLat}},{{stream.twtGeolocLon}}</span></div>
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
+					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{stream.twtGeolocRadius}} {{stream.twtUnit}}</span></div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_RATE</span></strong></div>
+					<div class='col-sm-1'>{{twitterPollingInterval}}</span>
+					</div>
+					<div class="col-sm-9 ">
+						<i><span translate class='' >MANAGEMENT_EDIT_STREAM_TWT_POLLING_HELP</span></i>
+					</div>
+					
+				</div>	
+			</accordion-group>
+			<accordion-group is-open="status7.open">
 				<accordion-heading>
 					<span translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>

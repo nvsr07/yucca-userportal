@@ -600,6 +600,7 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni Principali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
+	MANAGEMENT_EDIT_STREAM_LEGAL_INFO: 'Informazioni legali',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA: 'Rilascia qui l\'icona',
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Oppure clicca qui per selezionare ',
@@ -822,7 +823,7 @@ var translations_it = {
 	DISCOVERY_FILTER_SIMPLESEARCH_LABEL: 'Cerca',
 	DISCOVERY_SIMPLESEARCH_MENU: 'Ricerca semplice',
 	DISCOVERY_ADVANCEDSEARCH_MENU: 'Ricerca avanzata',
-	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: 'inserire nome Stream o Dataset',
+	DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER: ' ',
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags (keywords in lingua inglese)</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong>, <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i>',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filtro', 
