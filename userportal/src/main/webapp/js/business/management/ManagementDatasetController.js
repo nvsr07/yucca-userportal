@@ -969,7 +969,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.refreshColumnOrder = function(){
 		console.log("refreshColumnOrder");
 		if($scope.previewColumns && $scope.previewColumns.length>0){
-			var order = 1;
+			var order = 0;
 			$scope.metadata.info.fields = [];
 			for (var int = 0; int < $scope.previewColumns.length; int++) {
 				var column  = $scope.previewColumns[int];
@@ -985,7 +985,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 								"dataType":dataType, 
 								"isKey":column.isKey?1:0, 
 								"measureUnit":measureUnit,
-								"dateTimeFormat":column.dateTimeFormat}
+								"dateTimeFormat":column.dateTimeFormat,
+								"order":order}
 					);
 					order++;
 				}
@@ -1259,7 +1260,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 						"dataType":"binary", 
 						"isKey":0, 
 						"measureUnit":null,
-						"dateTimeFormat":null}
+						"dateTimeFormat":null,
+						"order":(startSourceColumn + i -1)}
 					);
 		}
 		
