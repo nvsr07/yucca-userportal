@@ -563,8 +563,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		var newComponentSinceVersion =$scope.stream.deploymentVersion;
 		
 		var component = validateComponent(-1, newComponentName, newComponentUnitOfMeasurement, newComponentTolerance, newComponentPhenomenon, newComponentDataType, newComponentSinceVersion);
-
-		console.log("newCompoent",component);
+		component.order = $scope.stream.componenti.element.length; 
+		console.log("newComponent",component);
 		if(component!=null){
 			$scope.stream.componenti.element.push(component);
 			component = null;
