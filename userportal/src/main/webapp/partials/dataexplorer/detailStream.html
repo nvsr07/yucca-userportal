@@ -219,8 +219,24 @@
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
 				</accordion-heading>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong></div>
-					<div class='col-sm-10'><a href="{{apiMetdataUrl}}" target="_blank" class='management-dataset-download-link'>{{apiMetdataUrl}}</a></div>
+					<div class="col-sm-10"><strong><span translate>MANAGEMENT_EDIT_STREAM_WS_LBL</span></strong></div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-12 well well-small api_urls" style="margin-left: 10px; margin-right: 10px">
+						<div class='col-sm-10'><span class='management-dataset-download-link'>{{wsUrl}}</span></div>
+						<div class='col-sm-10'><span class='management-dataset-download-link'>{{wsUrlSecured}} (secured)</span></div>
+						<div class='col-sm-12'><span class='management-dataset-download-link'>topic: {{wsUrlTopic}}</span></div>
+					</div>	
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-10"><strong><span translate>MANAGEMENT_EDIT_STREAM_MQTT_LBL</span></strong></div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-12 well well-small api_urls" style="margin-left: 10px; margin-right: 10px">
+						<div class='col-sm-10'><span class='management-dataset-download-link'>{{mqttUrl}}</span></div>
+						<div class='col-sm-10'><span class='management-dataset-download-link'>{{mqttUrlSecured}} (secured)</span></div>
+						<div class='col-sm-12'><span class='management-dataset-download-link'>topic: {{mqttUrlTopic}}</span></div>
+					</div>	
 				</div>	
 			</accordion-group>
 		</accordion>

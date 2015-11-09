@@ -617,6 +617,9 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER: 'Il campo \'Tolleranza\' deve essere numerico',
 	MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS: 'Inserire almeno un componente',
 	MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_NOSPACE: 'Il campo \'Nome\' non puo\' contenere spazi',
+	
+	MANAGEMENT_EDIT_STREAM_WS_LBL: 'Fruizione dello stream in real time con web socket',
+	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Fruizione dello stream in real time con MQTT',
     
 		/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Object',
@@ -681,7 +684,7 @@ var translations_it = {
 	MANAGEMENT_VIEW_DATASET_CLONE_BUTTON: 'Clona',
 	MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON: 'Scarica',
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Aggiungi dati',
-	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'Accesso ai dati',
+	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'API di Accesso ai dati',
 	MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON: 'Data explorer',
 	
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER: 'Registra',
@@ -811,6 +814,8 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON: 'Carica dati',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_MORE_BUTTON: 'Carica altri dati',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO: 'Dati caricati: ', 
+	
+	MANAGEMENT_EDIT_DATASET_DATA_URLS: 'URL in formato OData (rif. http://www.odata.org/): ', 
 		
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',
