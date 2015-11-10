@@ -5,15 +5,19 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
      	
      	$scope.updateMessage = null;
      	$scope.errorMessage = null;
+		$scope.apiName = null;
+		$scope.apiVersion = null;
+		$scope.apiProvider = null;
+
      	
      	$scope.updating = false;
      	
 		if($scope.dataset.API!=null){
 			var apiUrl = $scope.dataset.API;
 			var params = Helpers.util.getQueryParams(apiUrl.substring(apiUrl.lastIndexOf("?")));
-			$scope.dataset.apiName = params.name;
-			$scope.dataset.apiVersion = params.version;
-			$scope.dataset.apiProvider = params.provider;
+			$scope.apiName = params.name;
+			$scope.apiVersion = params.version;
+			$scope.apiProvider = params.provider;
 		}
 
      	
@@ -31,11 +35,22 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
     	$scope.editedDescriptions =  [];
     	
     	
-    	var isApplicationSubscribed  = function(appName){
+    	var isApplicationSubscribed  = function(appName, apiName, apiVersion, apiProvider){
     		var found = false;
     		for (var subscriptionIndex = 0; subscriptionIndex < subscriptionList.length; subscriptionIndex++) {
     			if(subscriptionList[subscriptionIndex].name == appName){
-    				found = true;
+    				for (var subscriptionAPIIndex = 0;subscriptionAPIIndex< subscriptionList[subscriptionIndex].subscriptions.length;subscriptionAPIIndex++)
+   					{
+    					if (
+    							subscriptionList[subscriptionIndex].subscriptions[subscriptionAPIIndex].name == apiName &&
+    							subscriptionList[subscriptionIndex].subscriptions[subscriptionAPIIndex].version == apiVersion &&
+    							subscriptionList[subscriptionIndex].subscriptions[subscriptionAPIIndex].provider == apiProvider
+    						)
+    					{
+    						found = true;
+    					}
+   					}
+    				
     				break;
     			}
 			}
@@ -54,7 +69,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
 	        			for (var appIndex = 0; appIndex < $scope.applicationList.length; appIndex++) {
 							$scope.applicationList[appIndex].isBusy = false;
 							$scope.applicationList[appIndex].isEditing = false;
-							$scope.applicationList[appIndex].isSubscribed = isApplicationSubscribed($scope.applicationList[appIndex].name);
+							$scope.applicationList[appIndex].isSubscribed = isApplicationSubscribed($scope.applicationList[appIndex].name, $scope.apiName, $scope.apiVersion, $scope.apiProvider);
 							$scope.editedDescriptions[appIndex] = $scope.applicationList[appIndex].description;
 							
 	        			}
@@ -98,7 +113,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
     		$scope.updating = true;
     		
     		$scope.applicationList[index].isBusy = true;
-    		storeAPIservice.updateApplication($scope.dataset.apiName, $scope.dataset.apiVersion, $scope.dataset.apiProvider, $scope.applicationList[index]).success(function(response) {
+    		storeAPIservice.updateApplication($scope.applicationList[index]).success(function(response) {
     	     	$scope.updateMessage = "DATA_EXPLORER_SUBSCRIBE_OK_UPDATE_APP";
     			$scope.applicationList[index].isBusy = false;
     			loadApplications();
@@ -125,7 +140,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
          	$scope.errorMessage = null;
     		var newApplication = {"name":$scope.newApplicationName, "description": $scope.newApplicationDescription};
     		$scope.updating = true;
-    		storeAPIservice.createApplication($scope.dataset.apiName, $scope.dataset.apiVersion, $scope.dataset.apiProvider, newApplication).success(function(response) {
+    		storeAPIservice.createApplication(newApplication).success(function(response) {
     	     	$scope.updateMessage = "DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP";
     			loadApplications();
 	   			$scope.newApplicationName = null;
@@ -145,7 +160,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
     		
     		$scope.applicationList[index].isBusy = true;
     		$scope.updating = true;
-    		storeAPIservice.removeSubscription($scope.dataset.apiName, $scope.dataset.apiVersion, $scope.dataset.apiProvider, app.id).success(function(response) {
+    		storeAPIservice.removeSubscription($scope.apiName, $scope.apiVersion, $scope.apiProvider, app.id).success(function(response) {
     	     	$scope.updateMessage = "DATA_EXPLORER_SUBSCRIBE_OK_UNSUBSCRIBE";
     			$scope.applicationList[index].isBusy = false;
     			loadApplications();
@@ -164,7 +179,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
 
     		$scope.updating = true;
     		$scope.applicationList[index].isBusy = true;
-    		storeAPIservice.addSubscription($scope.dataset.apiName, $scope.dataset.apiVersion, $scope.dataset.apiProvider, app.id).success(function(response) {
+    		storeAPIservice.addSubscription($scope.apiName, $scope.apiVersion, $scope.apiProvider, app.id).success(function(response) {
     			$scope.applicationList[index].isBusy = false;
     	     	$scope.updateMessage = "DATA_EXPLORER_SUBSCRIBE_OK_SUBSCRIBE";
     			loadApplications();

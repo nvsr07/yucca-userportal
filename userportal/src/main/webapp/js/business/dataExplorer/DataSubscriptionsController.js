@@ -164,7 +164,7 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 		$scope.updating = true;
 		
 		$scope.applicationList[index].isBusy = true;
-		storeAPIservice.updateApplication(null, null, null, $scope.applicationList[index]).success(function(response) {
+		storeAPIservice.updateApplication($scope.applicationList[index]).success(function(response) {
 	     	$scope.updateMessage = "DATA_EXPLORER_SUBSCRIBE_OK_UPDATE_APP";
 			$scope.applicationList[index].isBusy = false;
 			$scope.loadApplications();
@@ -191,7 +191,7 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
      	$scope.errorMessage = null;
 		var newApplication = {"name":$scope.newApplicationName, "description": $scope.newApplicationDescription};
 		$scope.updating = true;
-		storeAPIservice.createApplication(null, null, null, newApplication).success(function(response) {
+		storeAPIservice.createApplication(newApplication).success(function(response) {
 	     	$scope.updateMessage = "DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP";
 	     	$scope.loadApplications();
    			$scope.newApplicationName = null;

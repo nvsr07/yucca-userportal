@@ -69,7 +69,7 @@
 						<li class="divider-vertical"></li>
 						<li  ng-show="isAuthorized('management/*')"  class='border-left'><a ng-href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}"  class='main-menu-item main-menu-item-management'><span translate>MENU_MANAGEMENT</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('store/*')"  class='border-left'><a href="#/dataexplorer/browsedata?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_DATAEXPLORER</span></a></li>
+						<li ng-show="isAuthorized('store/*')"  class='border-left'><a href="#/dataexplorer/browsedata?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_STORE</span></a></li>
 						<li class="divider-vertical"></li>
 						<li ng-show="isAuthorized('store/*') && user.loggedIn" class='border-left'><a href="#/dataexplorer/subscriptions?" ng-class="{active: $route.current.activetab == 'subscriptions'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_SUBSCRIPTIONS</span></a></li>
 					</ul>

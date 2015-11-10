@@ -57,7 +57,7 @@ appServices.factory('storeAPIservice',["$http","$q","info", "$location", functio
 		);
 	};
 
-	storeAPI.createApplication = function(name, version, provider, application) {
+	storeAPI.createApplication = function(application) {
 	    var params =  {"action":"addApplication","application":application.name, "tier":"Unlimited", "description":application.description, "callbackUrl":""};
 		return $http.post(getStoreBaseUrl()+'/store/site/blocks/application/application-add/ajax/application-add.jag?',
 				params, 
@@ -66,7 +66,7 @@ appServices.factory('storeAPIservice',["$http","$q","info", "$location", functio
 		);
 	};
 
-	storeAPI.updateApplication = function(name, version, provider, application) {
+	storeAPI.updateApplication = function(application) {
 	    var params =  {"action":"updateApplication","applicationOld":application.name, "applicationNew":application.name, "tier":"Unlimited","callbackUrlNew":"", "descriptionNew":application.description};
 		return $http.post(getStoreBaseUrl()+'/store/site/blocks/application/application-update/ajax/application-update.jag?',
 				params, 
