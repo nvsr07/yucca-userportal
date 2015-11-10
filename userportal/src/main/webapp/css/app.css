@@ -901,6 +901,25 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 
 #databrowser .databrowser-search-panel{margin: 1em 0;}
 
+
+
+#subscribeApiDialog h4{font-size: 22px;margin: 0 0 1em 0;background-color: white;;padding: .5em 0; font-weight: bold;}
+#subscribeApiDialog .subpanel{padding: 0 2em;}
+#subscribeApiDialog .form-inline{margin-top: 1em;}
+#subscribeApiDialog .form-inline label{margin-right: 1em;}
+#subscribeApiDialog .form-inline input{margin-right: 2em;}
+#subscribeApiDialog .modal-footer a{margin-right: 2em;}
+.subscribeApi-icon-preview-img {width: 72px;height: 72px;}
+.table-application-api>tbody>tr>td {border-width: 1px 0;line-height: 2em; text-align: left;}
+.table-application-api i{font-size: 1.5em;}
+.table-application-api .icon-td{width: 54px;}
+.subscribeApi-dataset-info{margin-right: 1em; font-size: 1.4em;}
+.btn-add-subscription{background-color: #00bbf0; color: white;}
+.btn-remove-subscription{text-decoration: underline; white-space: nowrap;}
+#subscribeApiDialog .loadingPanel{position: absolute; width: 100%; height: 100%; text-align: center; left:0; top: 0;
+								font-size: 24pt;z-index: 1000; background-color: white; opacity: 0.9; filter: alpha(opacity=90); padding-top: 20%;}
+
+
 .table-header{line-height: 18pt; margin-bottom:.5em;}
 .table-toolabr-actions{font-size: 18pt;}
 .table-toolabr-actions a{margin-right:.5em;text-align: left;}
@@ -908,7 +927,7 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 .table-toolabr-actions-active i,.table-toolabr-actions-active i:hover{color: #000;}
 .table-toolabr-info{}
 .table-panel-orderarrow{cursor: pointer;}
-
+.
 .sidebar-menu-item{background-color: #00bbf0;    padding: .3em.6em;    border-radius: 4px;    color: white;    text-decoration: none;}
 .panel-dataexplorer-topbar{margin-bottom: 1.2em;}
 .panel-dataexplorer-topbar-separator{margin: 0 .5em; color: #00bbf0;}

@@ -231,6 +231,21 @@ Helpers.util = {
 	        
 	    }
 	    return mediaType;
+	},
+	
+	getQueryParams: function(qs) {
+		var params = {};
+		if(typeof qs !== 'undefined' && qs!=null){
+		    qs = qs.split('+').join(' ');
+	
+		    var tokens;
+		    var re = /[?&]?([^=]+)=([^&]*)/g;
+	
+		    while (tokens = re.exec(qs)) {
+		        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+		    }
+		}
+	    return params;
 	}
 
 	
