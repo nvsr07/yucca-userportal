@@ -45,6 +45,7 @@ var translations_it = {
 	MENU_MARKET : 'Market',
 	MENU_STORE : 'Store',
 	MENU_DATAEXPLORER: 'Data Explorer',
+	MENU_SUBSCRIPTIONS: 'Sottoscrizioni',
 	MENU_LANG_EN : 'Inglese',
 	MENU_LANG_IT : 'Italiano',
 	MENU_SING_IN: 'Login',
@@ -621,7 +622,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_WS_LBL: 'Fruizione dello stream in real time con web socket',
 	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Fruizione dello stream in real time con MQTT',
     
-		/* Management Virtual Entity  */
+	/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Object',
 
 	/* Management Stream List */
@@ -913,6 +914,9 @@ var translations_it = {
 	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filtra per dominio',
 	DATABROWSER_GO_TO_TAG_BTN: 'Filtra per tag',
 	DATABROWSER_GO_TO_RESULTS_BTN: 'Visualizza i dati',
+	
+	/* Subscriptions */
+	SUBSCRIPTIONS_TITLE: 'Sottoscrizioni',
 
 	/* Market */
 	MARKET_TITLE: 'Market',
