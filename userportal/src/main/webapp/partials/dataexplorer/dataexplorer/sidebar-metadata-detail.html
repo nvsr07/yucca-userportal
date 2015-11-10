@@ -129,7 +129,7 @@
 			<accordion-group is-open="status4.open" ng-show="dataset.Stream.twtQuery!=null">
 				<accordion-heading>
 		 			<span translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
 				</accordion-heading>
 				<p>
 					<strong><span translate>STREAM_FIELD_TWT_QUERY</span></strong><br/>
@@ -155,7 +155,7 @@
 			<accordion-group is-open="status5.open">
 				<accordion-heading>
 					<span translate>MANAGEMENT_EDIT_DATASET_COLUMNS</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
 				</accordion-heading>
 			
 				<p>
@@ -188,11 +188,11 @@
 			<accordion-group is-open="status6.open">
 				<accordion-heading>
 					<span translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status6.open, 'glyphicon-plus': !status6.open}"></i>
 				</accordion-heading>
 				<p>
-					<strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong><br/>
-					<a href="{{dataset.API}}" target="_blank" class='management-dataset-download-link'>{{dataset.API}}</a>
+					<strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong><br/><br/>
+					<a ng-href="#/dataexplorer/dataset/{{dataset.tenantCode}}/{{dataset.datasetCode}}" ><span translate>DATA_EXPLORER_DETAIL_BACK_TO_DATASET_CARD</span></a>
 				</p>	
 			</accordion-group>
 		</accordion>

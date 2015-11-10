@@ -181,33 +181,33 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
 translations_it["CLOSE"] = "Chiudi";
 translations_it["WAIT"] = "Attendere...";
 
-translations_it["DATA_EXPLORER_SUBSCRIBE_MODAL_TITLE"] = "Sottoscrivi API";
-translations_it["DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE"] = "Scegli un'applicazione e sottoscrivi le API";
-
-
-translations_it["APPLICATIONS_NAME"] = "Nome";
-translations_it["APPLICATIONS_DESCRIPTION"] = "Descrizione";
-
-translations_it["DATA_EXPLORER_APPLICATIONS_LIST_TITLE"] = "Applicazioni";
-
-translations_it["DATA_EXPLORER_SUBSCRIBE_NEW_APPLICATION_TITLE"] = "Crea nuova applicazione";
-translations_it["DATA_EXPLORER_SUBSCRIBE_ADD_SUBSCRIPTION"] = "Sottoscrivi";
-translations_it["DATA_EXPLORER_SUBSCRIBE_REMOVE_SUBSCRIPTION"] = "Annulla Sottoscrizione";
-
-translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_LOAD_APP"] = "Caricamento applicazioni fallito";
-translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_LOAD_SUBSCRIPTIONS"] = "Caricamento sottoscrizioni fallito";
-translations_it["DATA_EXPLORER_SUBSCRIBE_OK_SUBSCRIBE"] = "Subscribe effettuata con successo";
-translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_SUBSCRIBE"] = "Subscribe fallita";
-translations_it["DATA_EXPLORER_SUBSCRIBE_OK_UNSUBSCRIBE"] = "Unsubscribe effettuata con successo";
-translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_UNSUBSCRIBE"] = "Unsubscribe fallita";
-translations_it["DATA_EXPLORER_SUBSCRIBE_OK_UPDATE_APP"] = "Applicazione aggiornata";
-translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_UPDATE_APP"] = "Aggiornamento applicazione fallito";
-translations_it["DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP"] = "Applicazione creata";
-translations_it["DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP"] = "Creazione applicazione fallito";
-
-translations_it["DATA_EXPLORER_SUBSCRIBE_CREATE_APP_BTN"] = "Crea applicazione";
-
-translations_it["DATA_EXPLORER_SUBSCRIBE_GO_TO_SUBSCRIPTIONS"] = "Vai alle tue sottoscrizioni";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_MODAL_TITLE"] = "Sottoscrivi API";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE"] = "Scegli un'applicazione e sottoscrivi le API";
+//
+//
+//translations_it["APPLICATIONS_NAME"] = "Nome";
+//translations_it["APPLICATIONS_DESCRIPTION"] = "Descrizione";
+//
+//translations_it["DATA_EXPLORER_APPLICATIONS_LIST_TITLE"] = "Applicazioni";
+//
+//translations_it["DATA_EXPLORER_SUBSCRIBE_NEW_APPLICATION_TITLE"] = "Crea nuova applicazione";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_ADD_SUBSCRIPTION"] = "Sottoscrivi";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_REMOVE_SUBSCRIPTION"] = "Annulla Sottoscrizione";
+//
+//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_LOAD_APP"] = "Caricamento applicazioni fallito";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_LOAD_SUBSCRIPTIONS"] = "Caricamento sottoscrizioni fallito";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_SUBSCRIBE"] = "Subscribe effettuata con successo";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_SUBSCRIBE"] = "Subscribe fallita";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_UNSUBSCRIBE"] = "Unsubscribe effettuata con successo";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_UNSUBSCRIBE"] = "Unsubscribe fallita";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_UPDATE_APP"] = "Applicazione aggiornata";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_UPDATE_APP"] = "Aggiornamento applicazione fallito";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP"] = "Applicazione creata";
+//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP"] = "Creazione applicazione fallito";
+//
+//translations_it["DATA_EXPLORER_SUBSCRIBE_CREATE_APP_BTN"] = "Crea applicazione";
+//
+//translations_it["DATA_EXPLORER_SUBSCRIBE_GO_TO_SUBSCRIPTIONS"] = "Vai alle tue sottoscrizioni";
 
 translations_en["APPLICATIONS_NAME"] = "Subscribe API";
 translations_en["APPLICATIONS_DESCRIPTION"] = "Choose an application and subscribe API";

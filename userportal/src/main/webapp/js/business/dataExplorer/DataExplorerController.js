@@ -135,8 +135,9 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				$scope.dataset = response.d.results[0];
 				
 				$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+$scope.dataset.tenantCode+"/"+$scope.dataset.datasetCode;
-				if(dataset.tags!=null )
-					$scope.dataset.tagsArray = $scope.dataset.tags.split[","];
+				if($scope.dataset.tags!=null ){
+					$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
+				}
 
 
 				//$scope.loadMetadata();

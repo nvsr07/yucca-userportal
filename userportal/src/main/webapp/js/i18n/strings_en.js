@@ -23,6 +23,8 @@ var translations_en = {
 	OK: 'Ok',
 	BACK: 'Back',
 	CHOOSE: 'Choose...',
+	CLOSE: 'Close',
+	WAIT: 'Wait...',
 
 	DATE_DAY_PLACEHOLDER: 'dd',
 	DATE_MONTH_PLACEHOLDER: 'mm',
@@ -368,7 +370,7 @@ var translations_en = {
 	HEADER_MARKET_PLACE_LINK: 'market place',
 
 	/* Home page */
-	HOME_TOP_HEADER_INTRO: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+	HOME_TOP_HEADER_INTRO: 'A cloud platform to achieve self service application solutions based on Internet of Things and Big Data. Interconnects applications, social networks, systems and objects located throughout. Collects data and information and allows processing and advanced analysis to enable the creation of end-to-end',
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Record smart objects and define transmitted streams',
 	HOME_INTRO_HTML: 'Information from the world around us and open solutions: these are the distinctive points of the platform made available by Regione Piemonte for Ecosystem Smart Data Net',
@@ -622,7 +624,7 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_WS_LBL: 'Use the stream in real time with websocket',
 	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Use the stream in real time with MQTT',
     
-		/* Management Virtual Entity  */
+	/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
 
 	/* Management Stream List */
@@ -687,6 +689,7 @@ var translations_en = {
 	MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON: 'Add more data',
 	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'API Data access',
 	MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON: 'Data explorer',
+	MANAGEMENT_VIEW_DATASET_GO_TO_DATASET_CARD: 'Go to Dataset card',
 	
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER: 'Register',
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION: 'Positions',
@@ -881,6 +884,7 @@ var translations_en = {
 	DATA_EXPLORER_MORE_DATA_BUTTON: 'More', 
 	DATA_EXPLORER_FILTER_PANEL_TITLE: 'Filter',
 	DATA_EXPLORER_DETAIL_PANEL_TITLE: 'Detail',
+	DATA_EXPLORER_DETAIL_BACK_TO_DATASET_CARD: 'Back to Dataset card',
 	DATA_EXPLORER_USED_FILTER: 'Filter', 
 	DATA_EXPLORER_TOTAL_FOUND: 'Total', 
 	DATA_EXPLORER_FILTER_MENU_BUTTON: 'Filter',
@@ -897,13 +901,10 @@ var translations_en = {
 	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limited to the first 10,000 lines',
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Details',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Hide',
-
+	
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Subscribe API',
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Subscribe API',
-	DATA_EXPLORER_SUBSCRIBE_MODAL_TITLE: 'Subscribe API',
-	DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE: 'Choose an application and subscribe API',
-	
-	
+
 	DATABROWSER_TITLE: 'Browse data and stream',
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Choose one domain',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Choose one or more tags',
@@ -915,6 +916,33 @@ var translations_en = {
 	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filter by domain per dominio',
 	DATABROWSER_GO_TO_TAG_BTN: 'Filter by tag',
 	DATABROWSER_GO_TO_RESULTS_BTN: 'Show data',
+	
+	DATA_EXPLORER_SUBSCRIBE_MODAL_TITLE: 'Subscribe API',
+	DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE: 'Choose an application and subscribe API',
+	
+	APPLICATIONS_NAME: 'Nome',
+	APPLICATIONS_DESCRIPTION: 'Descrizione',
+	
+	DATA_EXPLORER_APPLICATIONS_LIST_TITLE: 'Applications',
+	
+	DATA_EXPLORER_SUBSCRIBE_NEW_APPLICATION_TITLE: 'Create new  applicazione',
+	DATA_EXPLORER_SUBSCRIBE_ADD_SUBSCRIPTION: 'Subscribe',
+	DATA_EXPLORER_SUBSCRIBE_REMOVE_SUBSCRIPTION: 'Unsubscribe',
+	
+	DATA_EXPLORER_SUBSCRIBE_ERROR_LOAD_APP: 'Loading application failed',
+	DATA_EXPLORER_SUBSCRIBE_ERROR_LOAD_SUBSCRIPTIONS: 'Loading subscriptions failed',
+	DATA_EXPLORER_SUBSCRIBE_OK_SUBSCRIBE: 'Subscribe successfull',
+	DATA_EXPLORER_SUBSCRIBE_ERROR_SUBSCRIBE: 'Subscribe failed',
+	DATA_EXPLORER_SUBSCRIBE_OK_UNSUBSCRIBE: 'Unsubscribe successfull',
+	DATA_EXPLORER_SUBSCRIBE_ERROR_UNSUBSCRIBE: 'Unsubscribe failed',
+	DATA_EXPLORER_SUBSCRIBE_OK_UPDATE_APP: 'Application updated',
+	DATA_EXPLORER_SUBSCRIBE_ERROR_UPDATE_APP: 'Application update failed',
+	DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP: 'Application created',
+	DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP: 'Creating application failed',
+	
+	DATA_EXPLORER_SUBSCRIBE_CREATE_APP_BTN: 'Create application',
+	
+	DATA_EXPLORER_SUBSCRIBE_GO_TO_SUBSCRIPTIONS: 'Go to your subscriptions',
 	
 	/* Subscriptions */
 	SUBSCRIPTIONS_TITLE: 'Subscriptions',
