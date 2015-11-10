@@ -62,6 +62,14 @@ app.config(['$routeProvider', function($routeProvider) {
 	
 	});
 	
+	$routeProvider.when('/dataexplorer/subscriptions', {templateUrl: 'partials/dataexplorer/dataSubscriptions.html?'+BuildInfo.timestamp,  activetab: 'subscriptions', resolve: {
+		 info: function(initCtrl) {
+		      return initCtrl.getInfo();
+			 }
+		}
+	
+	});
+	
 	$routeProvider.when('/dataexplorer/browsedata', {templateUrl: 'partials/dataexplorer/dataBrowser.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
 
 	$routeProvider.when('/discovery', {templateUrl: 'partials/discovery/index.html?'+BuildInfo.timestamp, activetab: 'discovery'});

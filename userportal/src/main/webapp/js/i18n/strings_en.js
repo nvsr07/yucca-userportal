@@ -45,6 +45,7 @@ var translations_en = {
 	MENU_MARKET : 'Market',
 	MENU_STORE : 'Store',
 	MENU_DATAEXPLORER: 'Data Explorer',
+	MENU_SUBSCRIPTIONS: 'Subscriptions',
 	MENU_LANG_EN : 'English',
 	MENU_LANG_IT : 'Italian',
 	MENU_SING_IN: 'Sign in',
@@ -914,6 +915,9 @@ var translations_en = {
 	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filter by domain per dominio',
 	DATABROWSER_GO_TO_TAG_BTN: 'Filter by tag',
 	DATABROWSER_GO_TO_RESULTS_BTN: 'Show data',
+	
+	/* Subscriptions */
+	SUBSCRIPTIONS_TITLE: 'Subscriptions',
 
 	/* Market */
 	MARKET_TITLE: 'Market',

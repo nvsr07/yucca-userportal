@@ -34,6 +34,8 @@
 						<li class="divider-vertical"></li>
 						<li ng-show="isAuthorized('store/*')"><a href="#/dataexplorer/browsedata?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_DATAEXPLORER</span></a></li>
 						<li class="divider-vertical"></li>
+						<li ng-show="isAuthorized('store/*')"><a href="#/dataexplorer/subscriptions?" ng-class="{active: $route.current.activetab == 'subscriptions'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_SUBSCRIPTIONS</span></a></li>
+						<li class="divider-vertical"></li>
 						<li ng-show="isAuthorized('store/*')"><a ng-href="{{storeUrl}}?requestedPage=%2Fstore%2F&customCssPath=https%3A%2F%2Fuserportal.smartdatanet.it%2Fris%2Fauth%2Fcss%2Fauth.css"  class='main-menu-item main-menu-item-discovery'><span translate>MENU_STORE</span></a></li>
 					</ul>
 				</div>
