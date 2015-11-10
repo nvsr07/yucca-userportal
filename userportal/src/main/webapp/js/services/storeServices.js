@@ -4,12 +4,15 @@ appServices.factory('storeAPIservice',["$http","$q","info", "$location", functio
 
 	getStoreBaseUrl = function(){
 		var host = $location.host();
+		console.log('host', host);
 		if(host == 'localhost')
 			baseUrl = 'https://int-userportal.smartdatanet.it';
 		else{
 			var env = host.substring(0,host.indexOf("userportal.smartdatanet.it"));
 			baseUrl = 'https://'+env+'userportal.smartdatanet.it';
 		}
+
+		console.log('baseUrl', baseUrl);
 		return baseUrl;
 	}
 	
@@ -66,6 +69,24 @@ appServices.factory('storeAPIservice',["$http","$q","info", "$location", functio
 	storeAPI.updateApplication = function(name, version, provider, application) {
 	    var params =  {"action":"updateApplication","applicationOld":application.name, "applicationNew":application.name, "tier":"Unlimited","callbackUrlNew":"", "descriptionNew":application.description};
 		return $http.post(getStoreBaseUrl()+'/store/site/blocks/application/application-update/ajax/application-update.jag?',
+				params, 
+				{headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+				transformRequest: transform}
+		);
+	};
+	
+	storeAPI.generateToken = function(appName, validityTime) {
+	    var params =  {"action":"generateApplicationKey", "application":appName, "keytype":"PRODUCTION", "authorizedDomains":"ALL", "validityTime":validityTime};
+		return $http.post(getStoreBaseUrl()+'/store/site/blocks/subscription/subscription-add/ajax/subscription-add.jag?',
+				params, 
+				{headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+				transformRequest: transform}
+		);
+	};
+	
+	storeAPI.rigenerateToken = function(appName, keyclinet, oldAccessToken, clientId, clientSecret, validityTime) {
+	    var params =  {"action":"refreshToken", "application":appName, "clientId":clientId, "clientSecret": clientSecret, "keytype":"PRODUCTION", "oldAccessToken":oldAccessToken, "authorizedDomains":"ALL", "validityTime":validityTime};
+		return $http.post(getStoreBaseUrl()+'/store/site/blocks/subscription/subscription-add/ajax/subscription-add.jag?',
 				params, 
 				{headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 				transformRequest: transform}
