@@ -19,9 +19,11 @@ a{color: black; text-decoration: underline;}
 .logo-text-net{color: #707c7c;}
 
 .menu-flag-icon{display: inline-block; height: 50px; width: 40px;}
+.menu-flag-icon img{ border: white 1px solid;}
+/*
 .menu-flag-icon-en{background: url("../img/flags/en.png") center center no-repeat; }
 .menu-flag-icon-it{background: url("../img/flags/it.png") center center no-repeat; }
-
+*/
 footer{text-align: center;   width: 100%; height: auto;  background-color:#fff; padding-top: 4em;}
 footer ul {list-style-type: none;}
 footer ul li { display:inline; text-align: center;}
@@ -489,18 +491,43 @@ border-bottom-color: transparent;border-radius: 0px 4px 0px 0px;-webkit-border-r
 #homepage-family-identity #home-landing-section .btn-arrow-left:after {background-color: #707b7b;}
     
 /* top toolbar */
-.top-header{background: url(../img/home/top-navbar-bg.png) no-repeat center center white;height: 158px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.top-header{background: url(../img/familyidentity/top-navbar-bg.jpg) no-repeat center center black; }
+.top-header .yucca{background: url(../img/familyidentity/top-navbar-logotree.png) no-repeat;}
+.top-header .yucca .first-bar {padding-left: 173px;}
+.top-header .yucca .first-bar a{color: white;}
+.top-header .yucca .first-bar-menu{margin-top: 54px;}
+.top-header .yucca h2{display: inline-block; font-size: 60px; line-height: 158px; font-family: 'Aldrich', sans-serif; margin: 0;color: white;}
+.top-header .yucca .first-bar .nav>li>a:hover, .nav>li>a:focus{background-color: transparent; color: white;}
+.top-header  .dropdown-menu{background-color:#687676;}
+.top-header .dropdown-menu>li>a:hover, .top-header  a.dropdown-menu>li>a:focus{background-color: #384D4D;}
+/*
 .top-header-logo{margin-top: 34px;}
-.top-header-right{}
 .top-header-right h1{font-size: 72px; color: white;margin-top: 14px; margin-left: 84px;}
 .top-toolbar{height: 50px; margin-bottom:0;}
-
-.bottom-header{background: url(../img/home/bottom-navbar-bg.png) no-repeat center center white; overflow:hidden; height: 60px; margin-bottom: 30px;}
-.bottom-header .first-block{background: url(../img/home/bottom-navbar-first-bg.png) no-repeat center right white; overflow:hidden;height: 60px;}
-.bottom-header .main-menu{background-color:#00bbf0; height: 60px; }
-.bottom-header .navbar-nav{height: 60px; }
-.bottom-header .navbar-nav>li>a{color: white; line-height: 61px; padding-top: 0; padding-bottom:0; height: 60px; text-decoration: none;}
-.bottom-header .navbar-nav>li>a:hover{background-color: #0189AF;}
+*/
+.bottom-header{background-color:#687676; margin-bottom: 30px; padding: 20px;}
+.bottom-header .main-menu{background-color:#687676; height: auto; }
+.bottom-header .border-left{border-left: solid 1px white;}
+.bottom-header .navbar-nav>li>a{color: white; text-decoration: none; padding: 30px 50px;}
+.bottom-header .navbar-nav>li>a:hover{background-color: #384D4D;}
 
 
 
@@ -628,9 +655,9 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .main-menu-profile-button{border: 1px solid white; border-radius: 4px; background-color: transparent;}
 .main-menu-profile-button:hover{border: 1px solid #ccc; border-radius: 4px; background-color: transparent;}
 .main-menu-caret{border-left: 8px solid transparent;border-right: 8px solid transparent;border-top: 8px solid #ccc;}
-.main-menu-caret:hover{border-top: 8px solid #333;}
-.main-menu-username{display: block;text-align: right; font-size: 18px;}
-.main-menu-tenant{display: block;text-align: right; font-size: 12px; color: #ccc;}
+.main-menu-caret:hover{border-top: 8px solid white;}
+.main-menu-username{display: block;text-align: right; font-size: 18px;color: white;}
+.main-menu-tenant{display: block;text-align: right; font-size: 12px; color: white;}
 
 /* common */
 .terms-of-privacy{background-color: #f9f9f9; font-size: 11px; text-align: justify;height:100%;height: 8.5em;overflow-y: auto}
