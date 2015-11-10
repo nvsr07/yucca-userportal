@@ -946,6 +946,14 @@ var translations_en = {
 	
 	/* Subscriptions */
 	SUBSCRIPTIONS_TITLE: 'Subscriptions',
+	ACCESS_TOKEN: 'Access token',
+	TOKEN_VALIDITY: 'Validity Token',
+	CONSUMER_KEY: 'Consumer Key',
+	CONSUMER_SECRET: 'Consumer Secret',
+	TOKEN_OPERATION: 'Operation',
+	GENERATE_TOKEN_BTN: 'Generate Token',
+	RE_GENERATE_TOKEN_BTN: 'Re-generate Token',
+	TOKEN_VALID_PLACEHOLDER: 'insert timestamp',
 
 	/* Market */
 	MARKET_TITLE: 'Market',

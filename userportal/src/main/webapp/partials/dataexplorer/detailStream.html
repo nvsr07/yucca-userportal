@@ -222,7 +222,7 @@
 					<div class="col-sm-10"><strong><span translate>MANAGEMENT_EDIT_STREAM_WS_LBL</span></strong></div>
 				</div>	
 				<div class="row card-row">
-					<div class="col-sm-12 well well-small api_urls" style="margin-left: 10px; margin-right: 10px">
+					<div class="col-sm-11 well well-small api_urls" style="margin-left: 10px">
 						<div class='col-sm-10'><span class='management-dataset-download-link'>{{wsUrl}}</span></div>
 						<div class='col-sm-10'><span class='management-dataset-download-link'>{{wsUrlSecured}} (secured)</span></div>
 						<div class='col-sm-12'><span class='management-dataset-download-link'>topic: {{wsUrlTopic}}</span></div>
@@ -232,7 +232,7 @@
 					<div class="col-sm-10"><strong><span translate>MANAGEMENT_EDIT_STREAM_MQTT_LBL</span></strong></div>
 				</div>	
 				<div class="row card-row">
-					<div class="col-sm-12 well well-small api_urls" style="margin-left: 10px; margin-right: 10px">
+					<div class="col-sm-11 well well-small api_urls" style="margin-left: 10px">
 						<div class='col-sm-10'><span class='management-dataset-download-link'>{{mqttUrl}}</span></div>
 						<div class='col-sm-10'><span class='management-dataset-download-link'>{{mqttUrlSecured}} (secured)</span></div>
 						<div class='col-sm-12'><span class='management-dataset-download-link'>topic: {{mqttUrlTopic}}</span></div>
@@ -241,26 +241,14 @@
 			</accordion-group>
 		</accordion>
 		<div class="row card-toolbar">
-			<a  href='#' class="btn  disabled btn-historical" title="{{'COMING_SOON'|translate}}">
-				<span class="glyphicon glyphicon-time "></span> <span translate>MANAGEMENT_VIEW_STREAM_HISTORICAL_BUTTON</span>
+			<a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}" class="btn btn-edit" >
+				<span class="glyphicon glyphicon-th-large"></span> {{'MANAGEMENT_VIEW_STREAM_DASHBOARD_BUTTON'|translate}}
 			</a>
-			<a  href='#' class="btn  btn-delete disabled" title="{{'COMING_SOON'|translate}}">
-				<span class="glyphicon glyphicon-trash "></span> <span translate>MANAGEMENT_VIEW_STREAM_DELETE_BUTTON</span>
+			<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download')"  >
+				<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 			</a>
-			<a  href='#/dashboard/stream/{{tenantCode}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default btn-edit"" title="{{'COMING_SOON'|translate}}">
-				<span class="glyphicon glyphicon-equalizer "></span> <span translate>MANAGEMENT_VIEW_STREAM_DASHBOARD_BUTTON</span>
-			</a>
-			<a  href='#/management/editStream/{{tenantCode}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-default btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/streams/update')">
-				<span class="glyphicon glyphicon-pencil "></span> <span translate>MANAGEMENT_VIEW_STREAM_EDIT_BUTTON</span>
-			</a>
-			<a  href='javascript:void(0)' class="btn  btn-uninstall" ng-show="isOwner() && canUnistall() && isAuthorized('management/streams/req_disinst')" ng-click='requestUnistallation()'>
-				<span class="glyphicon glyphicon-open "></span> <span translate>MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON</span>
-			</a>
-			<a  href='javascript:void(0)' class="btn  btn-new" ng-show="isOwner() && canCreateNewVersion() && isAuthorized('management/streams/update')" ng-click='createNewVersion()'>
-				<span class="glyphicon glyphicon-export "></span> <span translate>MANAGEMENT_VIEW_STREAM_NEWVERSION_BUTTON</span>
-			</a>
-			<a  href='javascript:void(0)' class="btn  btn-install" ng-show="isOwner() && canInstall() && isAuthorized('management/streams/req_inst')" ng-click='requestInstallation()'>
-				<span class="glyphicon glyphicon-save "></span> <span translate>MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON</span>
+				<a href="javascript:void(0)" ng-click='openModalViewSubscribe("lg")' class="btn btn-subscribe"  ng-show="user.loggedIn" title="{{'DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT'|translate}}">
+				<span class="glyphicon glyphicon-list-alt  "></span> {{'DATA_EXPLORER_SUBSCRIBE_API_BUTTON'|translate}}
 			</a>
 		</div>
 	</div>

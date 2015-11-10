@@ -50,6 +50,7 @@
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
 							<div class='col-sm-2'>{{dataset.visibility}}</div>
+							
 							<div class='col-sm-2 text-right'card-label" ng-show="dataset.visibility=='private'"><strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
 							<div class='col-sm-6'>
 								<span  ng-repeat="tenantSharing in dataset.tenantssharing.tenantsharing">
@@ -57,6 +58,10 @@
 								</span> &nbsp;
 							</div>
 						</div>
+						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong></div>
+							<div class='col-sm-2'>{{dataset.externalReference}}</div>
+						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate><!-- MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL --></span></strong></div>
 							<div class='col-sm-10'><!-- {{stream.saveData|booleanToString|translate}} --></div>
@@ -67,22 +72,22 @@
 					</div>
 				</div>	
 			</accordion-group>
-			<accordion-group is-open="statusOpendata.open" ng-show="dataset.opendata.isOpendata=='true'">
+			<accordion-group is-open="statusOpendata.open" ng-show="dataset.isOpendata==true">
 			 	<accordion-heading>
 		 			<span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': statusOpendata.open.open, 'glyphicon-plus': !statusOpendata.open.open}"></i>
 				</accordion-heading>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA_AUTHOR'|translate"></span></strong></div>
-					<div class='col-sm-10'>{{dataset.opendata.author}}</div>
+					<div class='col-sm-10'>{{dataset.author}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_OPENDATA_LANG</span></strong></div>
-					<div class='col-sm-10'>{{dataset.opendata.language}} - {{dataset.opendata.language|translate}}</div>
+					<div class='col-sm-10'>{{dataset.language}} - {{dataset.opendata.language|translate}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.opendata.dataUpdateDate|date}}</div>
+					<div class='col-sm-10'>{{dataset.dataUpdateDate|date}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status1.open">
@@ -258,59 +263,15 @@
 					<a  href='#/dataexplorer/{{tenantCode}}/{{dataset.datasetCode}}' class="btn btn-edit" >
 						<span class="glyphicon glyphicon-th-large"></span> {{'MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON'|translate}}
 					</a>
-					<a  href='#/management/editDataset/{{tenantCode}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
-						<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
-					</a>
-					<a  href='#/management/uploadDataset/{{tenantCode}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData() && isAuthorized('management/datasets/upload')">
-						<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
-					</a>
 					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download')"  >
 						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 					</a>
-<!-- CP -->
- 					<a href="javascript:void(0)" ng-click='openModalViewSubscribe("lg")' class="btn btn-subscribe"  decomment-ng-show="$scope.user.loggedIn" title="{{'DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT'|translate}}">
+ 					<a href="javascript:void(0)" ng-click='openModalViewSubscribe("lg")' class="btn btn-subscribe"  ng-show="user.loggedIn" title="{{'DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT'|translate}}">
 						<span class="glyphicon glyphicon-list-alt  "></span> {{'DATA_EXPLORER_SUBSCRIBE_API_BUTTON'|translate}}
 					</a>
-<!-- CP -->
 				</div>
 			</div>
 		</div>
-	</div>
-	<div> <!-- ng-show="ModalDemoCtrl" -->
-	    <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">{{'MANAGEMENT_DATASET_MODAL_DELETE_TITLE'|translate}}</h3>
-            <h4 class="modal-title" ng-show="datasetModalView.dataset.todo==true">{{'MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE'|translate}}</h4>
-        </div>
-        <div class="modal-body" ng-show="datasetModalView.dataset.todo==true">
-            <div>
-                <b>{{'DATASET_FIELD_CONFIGDATA_CODE'|translate}}</b>: {{datasetModalView.dataset.datasetCode}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_TENANT'|translate}}</b>: {{datasetModalView.dataset.configData.tenantCode}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_TYPE'|translate}}</b>: {{datasetModalView.dataset.configData.type}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_SUBTYPE'|translate}}</b>: {{datasetModalView.dataset.configData.subtype}} <br />
-				<b>{{'DATASET_FIELD_METADATA_NAME'|translate}}</b>: {{datasetModalView.dataset.info.datasetName}}
-				<b>{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}</b>: {{datasetModalView.dataset.info.description}}
-            </div>
-        </div>
-        <div class="modal-body" ng-show="datasetModalView.dataset.okdo==true">
-            <div>{{'MANAGEMENT_DATASET_MODAL_DELETE_OKMSG'|translate}}</div>
-        </div>
-        <div class="modal-body" ng-show="datasetModalView.dataset.kodo==true">
-            <div>{{'MANAGEMENT_DATASET_MODAL_DELETE_KOMSG'|translate}}</div>
-        </div>
-        <div class="modal-footer" ng-show="datasetModalView.dataset.todo==true">
-            <button class="btn btn-primary" type="button" ng-click="deleteDataset()">SI</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">NO</button>
-        </div>
-        <div class="modal-footer" ng-show="datasetModalView.dataset.okdo==true">
-			<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
-            <button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
-        </div>
-        <div class="modal-footer" ng-show="datasetModalView.dataset.kodo==true">
-			<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
-            <button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
-        </div>
-    	</script>
 	</div>
 	
 </div>
