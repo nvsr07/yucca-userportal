@@ -58,35 +58,38 @@
 						</td>
 					</tr>
 					<tr ng-repeat-end ng-show="isShowSubscription(application.id)">
-						<td colspan="5" ng-show="!haveSubscription(application.id)"><span translate>SUBSCRIPTIONS_ALERT_NO_SUBSCRIPTION</span></td>
-						<td colspan="5" ng-show="haveSubscription(application.id)">
-							<div ng-repeat="sub in subscriptionList">
-								<div class="panel">
-									<span translate>SUBSCRIPTIONS_ACCESS_TOKEN</span>
-									<span>{{sub.prodKey}}</span>
-								</div>
-								<div class="panel">
-									<span translate>SUBSCRIPTIONS_TOKEN_VALIDITY</span>
-									<span><input class="input-sm" size="16" type="text" name="validityTime" ng-model="validityTime" placeholder="{{'SUBSCRIPTIONS_TOKEN_VALID_PLACEHOLDER'|translate}}" /></span>
-								</div>
-								<div class="panel">
-									<span translate>SUBSCRIPTIONS_CONSUMER_KEY</span>
-									<span>{{sub.prodConsumerKey}}</span>
-								</div>
-								<div class="panel">
-									<span translate>SUBSCRIPTIONS_CONSUMER_SECRET</span>
-									<span>{{sub.prodConsumerSecret}}</span>
-								</div>
-								<div class="panel">
-									<span translate>SUBSCRIPTIONS_TOKEN_OPERATION</span>
-									<div>
-										<button class="btn btn-primary" type="button" ng-click="generateToken(validityTime)" translate ng-show="sub.prodKey == null">SUBSCRIPTIONS_GENERATE_TOKEN_BTN</button>
-										<button class="btn btn-primary" type="button" ng-click="rigenerateToken(validityTime)" translate ng-show="sub.prodKey != null">SUBSCRIPTIONS_RE_GENERATE_TOKEN_BTN</button>
+						<td colspan="5" " class='subscriptions-tokens-col'>
+							<div class='subscriptions-tokens-panel'>
+								<span ng-show="!haveSubscription(application.id)" translate>SUBSCRIPTIONS_ALERT_NO_SUBSCRIPTION</span>
+								<div ng-show="haveSubscription(application.id)">
+									<div ng-repeat="sub in subscriptionList">
+										<div class="row">
+											<div class='col-sm-6'>
+												<label><span translate>SUBSCRIPTIONS_ACCESS_TOKEN</span></label>
+												<span>{{sub.prodKey}}</span>
+											</div>
+											<div class='col-sm-6'>
+												<label><span translate>SUBSCRIPTIONS_TOKEN_VALIDITY</span></label>
+												<span><input class="input-sm" size="16" type="text" name="validityTime" ng-model="validityTime" placeholder="{{'SUBSCRIPTIONS_TOKEN_VALID_PLACEHOLDER'|translate}}" /></span>
+												<button class="btn btn-primary" type="button" ng-click="generateToken(validityTime)" translate ng-show="sub.prodKey == null">SUBSCRIPTIONS_GENERATE_TOKEN_BTN</button>
+												<button class="btn btn-primary" type="button" ng-click="rigenerateToken(validityTime)" translate ng-show="sub.prodKey != null">SUBSCRIPTIONS_RE_GENERATE_TOKEN_BTN</button>
+											</div>
+										</div>
+										<div class="row">
+											<div class='col-sm-6'>
+												<label><span translate>SUBSCRIPTIONS_CONSUMER_KEY</span></label>
+												<span>{{sub.prodConsumerKey}}</span>
+											</div>
+											<div class='col-sm-6'>
+												<label><span translate>SUBSCRIPTIONS_CONSUMER_SECRET</span></label>
+												<span>{{sub.prodConsumerSecret}}</span>
+											</div>
+										</div>
+										<div><label><span translate>SUBSCRIPTIONS_API_SUBSCRIBED</span></label></div>
+										<div class='subscriptions-api-panel'>
+											<img ng-repeat="api in sub.subscriptions" ng-src="{{api.thumburl}}" alt="{{api.name}}" title="{{api.name}}" class="upload-icon-preview-img">
+										</div>
 									</div>
-								</div>
-								<div><span translate>SUBSCRIPTIONS_API_SUBSCRIBED</span></div>
-								<div>
-									<img ng-repeat="api in sub.subscriptions" ng-src="{{api.thumburl}}" alt="{{api.name}}" title="{{api.name}}" class="upload-icon-preview-img" style="padding: 5px">
 								</div>
 							</div>
 						</td>

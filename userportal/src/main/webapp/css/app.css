@@ -945,8 +945,15 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 .btn-remove-subscription{text-decoration: underline; white-space: nowrap;}
 #subscribeApiDialog .loadingPanel{position: absolute; width: 100%; height: 100%; text-align: center; left:0; top: 0;
 								font-size: 24pt;z-index: 1000; background-color: white; opacity: 0.9; filter: alpha(opacity=90); padding-top: 20%;}
+								
+								
+.subscriptions-tokens-panel{padding: 1em;margin: 0 1em; border: 1px solid #00bff0;}
+.subscriptions-tokens-panel label{font-weight: bold; text-transform: uppercase; margin-left: 2em; margin-right: 1em;}
+.table-application-api>tbody>tr>td{border-bottom-width: 0;}
+.table-application-api>tbody>tr>td.subscriptions-tokens-col{border-top-width: 0;}
 
-
+.subscriptions-api-panel{padding: 0 2em;}
+.subscriptions-api-panel img{margin: 0 5px;}
 .table-header{line-height: 18pt; margin-bottom:.5em;}
 .table-toolabr-actions{font-size: 18pt;}
 .table-toolabr-actions a{margin-right:.5em;text-align: left;}
