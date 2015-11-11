@@ -19,7 +19,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 		return env;
 	};
 	
-	$scope.downloadCsvUrl =  Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
+	
 
 	$scope.currentSidebar = 'none';
 	
@@ -44,6 +44,18 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
 			$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
 			$scope.topic = $scope.datasetCode;
+			
+			// api/proxy/odata/ds_Tweet6_357/donwload/357/all 
+			if ($scope.dataset.Stream != null)
+			{
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
+			}
+			else 
+			{
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+			}
+
+			
 		} else {
 			$scope.wsUrl = "ws://stream.smartdatanet.it/ws";
 			$scope.wsUrlSecured = "wss://stream.smartdatanet.it/wss";
