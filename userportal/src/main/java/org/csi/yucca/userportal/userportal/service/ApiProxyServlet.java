@@ -37,6 +37,7 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
@@ -97,14 +98,9 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		if(response.getContentType()!=null && response.getContentType().startsWith("application/octet-stream")){
 			ServletOutputStream out = response.getOutputStream();
 			InputStream in = getMethod.getResponseBodyAsStream();
-
-			byte[] bytes = new byte[4096];
-			int bytesRead;
-
-			while ((bytesRead = in.read(bytes)) != -1) {
-				out.write(bytes, 0, bytesRead);
-			}
-
+			log.info("[ApiProxyServlet::doGet] startcopy");
+			IOUtils.copyLarge(in,out);
+			log.info("[ApiProxyServlet::doGet] stopcopy");
 			in.close();
 			out.close();
 		}
