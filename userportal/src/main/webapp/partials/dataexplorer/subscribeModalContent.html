@@ -6,11 +6,11 @@
 	    		<small><span translate>DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE</span></small>
 	    	</h3>
 			<div class='pull-right subscribeApi-icon-preview'>
-				<img ng-src="{{dataset.datasetIcon}}" alt="logo dataset" class='subscribeApi-icon-preview-img' >
+				<img ng-src="{{metadata.icon}}" alt="logo dataset" class='subscribeApi-icon-preview-img' >
 			</div>
 			<div class='pull-right text-right subscribeApi-dataset-info'>
-				<div><small><span>{{dataset.datasetCode}}</span></small></div>
-				<div class='main-info'><strong>{{dataset.datasetName}}</strong></div>
+				<div><small><span>{{metadata.code}}</span></small></div>
+				<div class='main-info'><strong>{{metadata.name}}</strong></div>
 			</div>
 				
 		</div>
@@ -88,6 +88,6 @@
 	</div>
     <div class="modal-footer">
         <a href ng-click="cancel()" translate>CLOSE</a>
-        <a class="btn btn-primary" href="#/dataexplorer/subscriptions?" translate>DATA_EXPLORER_SUBSCRIBE_GO_TO_SUBSCRIPTIONS</button>
+        <a class="btn btn-primary" href="#/dataexplorer/subscriptions?" translate>DATA_EXPLORER_SUBSCRIBE_GO_TO_SUBSCRIPTIONS</a>
     </div>
 </div>

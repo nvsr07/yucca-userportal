@@ -135,8 +135,10 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 //					return $scope.items;
 //				},
 				dataset: function() {
-					console.log(">>>>>> $scope.dataset in selectedDataset", $scope.dataset);
 					return $scope.dataset;
+				}, 
+				stream: function() {
+					return $scope.stream;
 				}
 			}
 		});

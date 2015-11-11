@@ -1,7 +1,10 @@
-appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeParams','storeAPIservice', '$location', '$modalInstance', 'info', 'dataset',
-                                                          function($scope, $routeParams, storeAPIservice, $location, $modalInstance, info, dataset ) {
-     	console.log('DataExplorerSubscribeModalCtrl  dataset', dataset);
+appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeParams','storeAPIservice', '$location', '$modalInstance', 'info', 'dataset', 'stream',
+                                                          function($scope, $routeParams, storeAPIservice, $location, $modalInstance, info, dataset, stream ) {
+ 	console.log('DataExplorerSubscribeModalCtrl  dataset', dataset);
+ 	console.log('DataExplorerSubscribeModalCtrl  stream', stream);
      	$scope.dataset = dataset;
+     	$scope.stream = stream;
+     	$scope.metadata = {};
      	
      	$scope.updateMessage = null;
      	$scope.errorMessage = null;
@@ -12,12 +15,24 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
      	
      	$scope.updating = false;
      	
-		if($scope.dataset.API!=null){
+		if($scope.dataset!=null && $scope.dataset.API!=null){
 			var apiUrl = $scope.dataset.API;
 			var params = Helpers.util.getQueryParams(apiUrl.substring(apiUrl.lastIndexOf("?")));
 			$scope.apiName = params.name;
 			$scope.apiVersion = params.version;
 			$scope.apiProvider = params.provider;
+			$scope.metadata.name = $scope.dataset.datasetName;
+			$scope.metadata.code = $scope.dataset.datasetCode;
+			$scope.metadata.icon = $scope.dataset.datasetIcon;
+		}
+		else if($scope.stream!=null) {
+			//sandbox.4e2615eb-65f7-4a62-c6b3-fd44f2c8ac36_meteo_stream
+			$scope.apiName = $scope.stream.codiceTenant + "." + $scope.stream.codiceVirtualEntity + "_" + $scope.stream.codiceStream +"_stream";
+			$scope.apiVersion = "1.0";
+			$scope.apiProvider = "admin";
+			$scope.metadata.name = $scope.stream.nomeStream;
+			$scope.metadata.code = $scope.stream.codiceVirtualEntity;
+			$scope.metadata.icon = $scope.stream.streamIcon;
 		}
 
      	
@@ -192,42 +207,3 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
     	};
     	
      }]);
-
-translations_it["CLOSE"] = "Chiudi";
-translations_it["WAIT"] = "Attendere...";
-
-//translations_it["DATA_EXPLORER_SUBSCRIBE_MODAL_TITLE"] = "Sottoscrivi API";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_MODAL_SUBTITLE"] = "Scegli un'applicazione e sottoscrivi le API";
-//
-//
-//translations_it["APPLICATIONS_NAME"] = "Nome";
-//translations_it["APPLICATIONS_DESCRIPTION"] = "Descrizione";
-//
-//translations_it["DATA_EXPLORER_APPLICATIONS_LIST_TITLE"] = "Applicazioni";
-//
-//translations_it["DATA_EXPLORER_SUBSCRIBE_NEW_APPLICATION_TITLE"] = "Crea nuova applicazione";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_ADD_SUBSCRIPTION"] = "Sottoscrivi";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_REMOVE_SUBSCRIPTION"] = "Annulla Sottoscrizione";
-//
-//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_LOAD_APP"] = "Caricamento applicazioni fallito";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_LOAD_SUBSCRIPTIONS"] = "Caricamento sottoscrizioni fallito";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_SUBSCRIBE"] = "Subscribe effettuata con successo";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_SUBSCRIBE"] = "Subscribe fallita";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_UNSUBSCRIBE"] = "Unsubscribe effettuata con successo";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_UNSUBSCRIBE"] = "Unsubscribe fallita";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_UPDATE_APP"] = "Applicazione aggiornata";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_ERROR_UPDATE_APP"] = "Aggiornamento applicazione fallito";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP"] = "Applicazione creata";
-//translations_it["DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP"] = "Creazione applicazione fallito";
-//
-//translations_it["DATA_EXPLORER_SUBSCRIBE_CREATE_APP_BTN"] = "Crea applicazione";
-//
-//translations_it["DATA_EXPLORER_SUBSCRIBE_GO_TO_SUBSCRIPTIONS"] = "Vai alle tue sottoscrizioni";
-
-translations_en["APPLICATIONS_NAME"] = "Subscribe API";
-translations_en["APPLICATIONS_DESCRIPTION"] = "Choose an application and subscribe API";
-
-
-
-
-
