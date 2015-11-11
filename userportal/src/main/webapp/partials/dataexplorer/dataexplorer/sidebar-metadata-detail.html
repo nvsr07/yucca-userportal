@@ -32,18 +32,12 @@
 						<strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong><br/>
 						{{dataset.visibility}}
 					</p>
-					<p>
-						<strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong><br/>
-						<span  ng-repeat="tenantSharing in dataset.tenantssharing.tenantsharing">
-							<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
-						</span> &nbsp;
-					</p>
 				</div>	
 			</accordion-group>
-			<accordion-group is-open="statusOpendata.open" ng-show="dataset.opendata.isOpendata=='true'">
+			<accordion-group is-open="statusOpendata.open" ng-show="dataset.opendata.isOpendata==true">
 			 	<accordion-heading>
 		 			<span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': statusOpendata.open.open, 'glyphicon-plus': !statusOpendata.open.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': statusOpendata.open, 'glyphicon-plus': !statusOpendata.open}"></i>
 				</accordion-heading>
 				<p>
 					<strong><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA_AUTHOR'|translate"></span></strong><br/>
