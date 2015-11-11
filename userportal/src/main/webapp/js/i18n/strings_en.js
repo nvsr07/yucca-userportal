@@ -946,14 +946,16 @@ var translations_en = {
 	
 	/* Subscriptions */
 	SUBSCRIPTIONS_TITLE: 'Subscriptions',
-	ACCESS_TOKEN: 'Access token',
-	TOKEN_VALIDITY: 'Validity Token',
-	CONSUMER_KEY: 'Consumer Key',
-	CONSUMER_SECRET: 'Consumer Secret',
-	TOKEN_OPERATION: 'Operation',
-	GENERATE_TOKEN_BTN: 'Generate Token',
-	RE_GENERATE_TOKEN_BTN: 'Re-generate Token',
-	TOKEN_VALID_PLACEHOLDER: 'insert timestamp',
+	SUBSCRIPTIONS_ACCESS_TOKEN: 'Access token',
+	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validity Token',
+	SUBSCRIPTIONS_CONSUMER_KEY: 'Consumer Key',
+	SUBSCRIPTIONS_CONSUMER_SECRET: 'Consumer Secret',
+	SUBSCRIPTIONS_TOKEN_OPERATION: 'Operation',
+	SUBSCRIPTIONS_GENERATE_TOKEN_BTN: 'Generate Token',
+	SUBSCRIPTIONS_RE_GENERATE_TOKEN_BTN: 'Re-generate Token',
+	SUBSCRIPTIONS_TOKEN_VALID_PLACEHOLDER: 'insert timestamp',
+	SUBSCRIPTIONS_ALERT_NO_SUBSCRIPTION: 'NO API SUBSCRIBED TO THIS APPLICATION',
+	SUBSCRIPTIONS_API_SUBSCRIBED: 'API subscribed',
 
 	/* Market */
 	MARKET_TITLE: 'Market',
