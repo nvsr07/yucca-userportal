@@ -51,12 +51,6 @@
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
 							<div class='col-sm-2'>{{dataset.visibility}}</div>
 							
-							<div class='col-sm-2 text-right'card-label" ng-show="dataset.visibility=='private'"><strong><span translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
-							<div class='col-sm-6'>
-								<span  ng-repeat="tenantSharing in dataset.tenantssharing.tenantsharing">
-									<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
-								</span> &nbsp;
-							</div>
 						</div>
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong></div>
