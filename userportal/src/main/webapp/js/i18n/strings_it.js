@@ -905,7 +905,7 @@ var translations_it = {
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Sottoscrivi API',
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Sottoscrivi API',
 
-	DATABROWSER_TITLE: 'Naviga fra i dati e stream',
+	DATABROWSER_TITLE: 'Naviga fra dati e stream',
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Oppure scegli un dominio',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Scegli uno o pi&ugrave; tag',
 	DATABROWSER_RESULTS_TITLE: 'Stream e Dataset trovati',
