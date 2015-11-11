@@ -40,8 +40,9 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
      		$modalInstance.dismiss();
      	};
 
-     	$scope.subscribe = function() {
+     	$scope.goToSubscriptions = function() {
      		$modalInstance.dismiss();
+    		$location.path('dataexplorer/subscriptions');
      	};
 
      	
