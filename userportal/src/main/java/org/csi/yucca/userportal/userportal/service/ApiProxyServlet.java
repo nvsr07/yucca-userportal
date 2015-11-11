@@ -95,7 +95,13 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		if(contentDisposition!=null)
 			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
-		if(response.getContentType()!=null && response.getContentType().startsWith("application/octet-stream")){
+		if(
+				response.getContentType()!=null && 
+				(
+						response.getContentType().startsWith("application/octet-stream") ||
+						response.getContentType().startsWith("text/csv")
+				)
+			){
 			ServletOutputStream out = response.getOutputStream();
 			InputStream in = getMethod.getResponseBodyAsStream();
 			log.info("[ApiProxyServlet::doGet] startcopy");
