@@ -9,15 +9,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		return env;
 	};
 	
-	$scope.downloadCsvUrl =  Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
-//	$scope.downloadCsvUrl = ""; 
-//	if($scope.datasetCode!=null){
-//			// http://int-api.smartdatanet.it/api/Allegaticsp_160/download/160/current
-//		var datasetId = $scope.datasetCode.substring($scope.datasetCode.lastIndexOf("_")+1);
-//		var env  = getEnvirorment();
-//		$scope.downloadCsvUrl = "http://"+env+"api.smartdatanet.it/api/" + $scope.datasetCode + '/download/' + datasetId + '/current';
-//			
-//	}
 	
 
 	$scope.currentSidebar = 'none';
@@ -64,6 +55,18 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			var x2js = new X2JS();
 			var metadataJson =  x2js.xml_str2json(response);
 			console.log("odataAPIservice.getMetadata - json",metadataJson);
+			
+
+			if ($scope.dataset.Stream == null)
+			{
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
+			}
+			else 
+			{
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+			}
+
+			
 			
 			var measuresMetadata ="";
 			var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;

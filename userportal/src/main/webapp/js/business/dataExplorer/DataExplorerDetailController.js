@@ -46,7 +46,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			$scope.topic = $scope.datasetCode;
 			
 			// api/proxy/odata/ds_Tweet6_357/donwload/357/all 
-			if ($scope.dataset.Stream != null)
+			if ($scope.dataset.Stream == null)
 			{
 				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
 			}
