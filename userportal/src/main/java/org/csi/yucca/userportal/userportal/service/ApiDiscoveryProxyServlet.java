@@ -2,6 +2,7 @@ package org.csi.yucca.userportal.userportal.service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -42,6 +43,7 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 		
 		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 		String tenantCode = info.getUser().getActiveTenant();
+		List<String> tenants = info.getUser().getTenants();
 		
 		Map<String, String[]> parameterMap =  new HashMap<String, String[]>(request.getParameterMap());
 		
@@ -50,12 +52,16 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 					if (parameterMap.get("$filter")!=null && parameterMap.get("$filter").length!=0) {
 						parametersOut =parameterMap.get("$filter")[0];
 						parametersOut +=  " and (";
-						parametersOut +=  " (tenantsharing eq '"+tenantCode+"') or"; //(tenantCode eq '"+tenantCode+"') or 
+						for (String tenant : tenants) {
+							parametersOut +=  " (tenantsharing eq '"+tenant+"') or"; 
+						}
 						parametersOut += " ( visibility eq  'public'))";
 					}else{
 						parametersOut =  "&$filter=";
-							parametersOut +=  "  (tenantsharing eq '"+tenantCode+"') or"; //(tenantCode eq '"+tenantCode+"') or
-							parametersOut += " ( visibility eq  'public') ";
+						for (String tenant : tenants) {
+							parametersOut +=  " (tenantsharing eq '"+tenant+"') or"; 
+						}
+						parametersOut += " ( visibility eq  'public') ";
 						
 //					 parametersOut = "&$filter="+ "substringof('"+tenantCode+"',tenantCode) eq true or substringof('public',visibility ) eq true";
 				}
