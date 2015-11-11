@@ -47,13 +47,10 @@
 					<form class="form-horizontal" role="form" name="editDatasetForm" accept-charset="UTF-8">
 						<div class="form-group">
 							<label for="inputDatasetDesc" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" ng-model="dataset.info.description"  id="inputDatasetDesc" placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}" maxlength="3000">
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="4" resize="none" ng-model="dataset.info.description"  placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}" id="inputDatasetDesc" maxlength="3000">
+								</textarea>					
 							</div>
-							<div class="col-sm-5 form-hint">
-								<span class='hint-message' ng-bind-html="'MANAGEMENT_DESCRIPTION_ON_STORE_HINT'|translate"></span>  <i class="fa fa-long-arrow-right hint-arrow"></i>  <i class="fa fa-user hint-store-icon"></i>
-							</div>
-						
 						</div>
 						<div class="form-group">
 							<label for="inputDatasetDomain" class="col-sm-2 control-label"translate>DATASET_FIELD_METADATA_DATADOMAIN</label>
