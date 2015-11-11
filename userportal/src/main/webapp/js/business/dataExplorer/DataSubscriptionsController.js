@@ -27,14 +27,11 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 	
 	$scope.loadApplications = function(){
 		storeAPIservice.getApplications().success(function(response) {
-			console.log("storeAPIservice.getApplications - xml",response);
 			$scope.applicationList = response.applications;
-
 			$scope.loadSubscription(false);
 		}).error(function(response) {
 			console.log("loadApplications Error: ", response);
 			$scope.showLoading = false;
-
 			var detail = "";
 			var error = {"message":"Cannot load application","detail":detail};
 			$scope.errors.push(error);
@@ -43,8 +40,8 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 	};
 	
 	$scope.loadSubscription = function(flag){
+		$scope.subscriptionList = [];
 		storeAPIservice.getSubscriptions().success(function(response) {
-			console.log("storeAPIservice.getSubscriptions - xml",response);
 			$scope.allSubscriptionList = response.subscriptions;
 			
 			if (flag)
@@ -54,9 +51,7 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
     			for (var appIndex = 0; appIndex < $scope.applicationList.length; appIndex++) {
 					$scope.applicationList[appIndex].isBusy = false;
 					$scope.applicationList[appIndex].isEditing = false;
-					//$scope.applicationList[appIndex].isSubscribed = isApplicationSubscribed($scope.applicationList[appIndex].name);
 					$scope.editedDescriptions[appIndex] = $scope.applicationList[appIndex].description;
-					
     			}
     		}
 
@@ -65,7 +60,6 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 		}).error(function(response) {
 			console.log("loadSubscription Error: ", response);
 			$scope.showLoading = false;
-
 			var detail = "";
 			var error = {"message":"Cannot load suscription","detail":detail};
 			$scope.errors.push(error);
@@ -76,23 +70,14 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 	$scope.loadApplications();
 	
 	$scope.viewSubscription = function(idApp, nameApp){
-		console.log('nameApp = ', nameApp);
-		console.log('idApp = ', idApp);
-		
 		$scope.nameAppView = nameApp;
 		$scope.idAppView = idApp;
 		
 		$scope.subscriptionList = [];
-		console.log('before subscriptionList', $scope.subscriptionList);
 		angular.forEach($scope.allSubscriptionList, function(value, key) {
-
-			console.log('key = ', key);
-			console.log('value = ', value);
 			if (value.id == idApp){
 				this.push(value);
 				$scope.validityTime = value.prodValidityTime / 1000; //30758400000
-				console.log('value', value);
-				
 				$scope.oldTokenView = value.prodKey;
 				$scope.keyclientView = value.prodConsumerKey;
 				$scope.keysecretView = value.prodConsumerSecret;
@@ -100,29 +85,46 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 		  
 		}, $scope.subscriptionList);
 		
+		console.log("subscriptionList", $scope.subscriptionList);
+		
 		if ($scope.subscriptionList.length == 0){
-			$scope.subscriptionList.push({id: idApp, name: nameApp, prodAuthorizedDomains: null, prodConsumerKey: null, prodConsumerSecret: null, prodKey: null});
+			$scope.subscriptionList.push({id: idApp, name: nameApp, prodAuthorizedDomains: null, prodConsumerKey: null, prodConsumerSecret: null, prodKey: null, subscriptions: []});
 		}
-
-		console.log('validityTime', $scope.validityTime);
-		console.log('after subscriptionList', $scope.subscriptionList);
+	}
+	
+	$scope.isShowSubscription = function(appId){
+		var rtn = false;
+		if ($scope.subscriptionList.length > 0){
+			angular.forEach($scope.subscriptionList, function(value, key) {
+				if (value.id == appId){
+					rtn = true;
+				}
+			});
+			console.log('subscriptionList', $scope.subscriptionList);
+		}
+		return rtn;
+	};
+	
+	$scope.haveSubscription = function(appId){
+		var rtn = false;
+		angular.forEach($scope.allSubscriptionList, function(value, key) {
+			if (value.id == appId){
+				rtn = true;
+			}
+		});
+		return rtn;
 	}
 	
 	$scope.generateToken = function(validityTime){
 		$scope.validityTime = validityTime;
-		
 		storeAPIservice.generateToken($scope.nameAppView, $scope.validityTime).success(function(response) {
-			console.log('response generateToken', response);
-
-			$scope.loadSubscription();
+			$scope.loadSubscription(true);
 		}).error(function(response) {
 			console.log("generateToken Error: ", response);
 			$scope.showLoading = false;
-
 			var detail = "";
 			var error = {"message":"Cannot generateToken","detail":detail};
 			$scope.errors.push(error);
-
 		});
 	};
 	
@@ -130,23 +132,15 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 		$scope.validityTime = validityTime;
 		console.log('validityTime', $scope.validityTime);
 		storeAPIservice.rigenerateToken($scope.nameAppView, $scope.keyclientView, $scope.oldTokenView, $scope.keyclientView, $scope.keysecretView, $scope.validityTime).success(function(response) {
-
-			console.log('validityTime', $scope.validityTime);
-
 			$scope.loadSubscription(true);
-			
-			console.log('after subscriptionList', $scope.subscriptionList);
 		}).error(function(response) {
 			console.log("generateToken Error: ", response);
 			$scope.showLoading = false;
-	
 			var detail = "";
 			var error = {"message":"Cannot generateToken","detail":detail};
 			$scope.errors.push(error);
 		});
 	};
-	
-
 	
 	$scope.startEditApplication  = function(index){
      	$scope.updateMessage = null;

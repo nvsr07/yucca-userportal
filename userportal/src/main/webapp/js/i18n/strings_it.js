@@ -905,7 +905,7 @@ var translations_it = {
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Sottoscrivi API',
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Sottoscrivi API',
 
-	DATABROWSER_TITLE: 'Naviga fra i dati e stream',
+	DATABROWSER_TITLE: 'Naviga fra dati e stream',
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Oppure scegli un dominio',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Scegli uno o pi&ugrave; tag',
 	DATABROWSER_RESULTS_TITLE: 'Stream e Dataset trovati',
@@ -946,14 +946,16 @@ var translations_it = {
 	
 	/* Subscriptions */
 	SUBSCRIPTIONS_TITLE: 'Sottoscrizioni',
-	ACCESS_TOKEN: 'Token di accesso',
-	TOKEN_VALIDITY: 'Validità del token',
-	CONSUMER_KEY: 'Consumer Key',
-	CONSUMER_SECRET: 'Consumer Secret',
-	TOKEN_OPERATION: 'Operazione',
-	GENERATE_TOKEN_BTN: 'Genera Token',
-	RE_GENERATE_TOKEN_BTN: 'Rigenera Token',
-	TOKEN_VALID_PLACEHOLDER: 'inserisci il timestamp',
+	SUBSCRIPTIONS_ACCESS_TOKEN: 'Token di accesso',
+	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validità del token',
+	SUBSCRIPTIONS_CONSUMER_KEY: 'Consumer Key',
+	SUBSCRIPTIONS_CONSUMER_SECRET: 'Consumer Secret',
+	SUBSCRIPTIONS_TOKEN_OPERATION: 'Operazione',
+	SUBSCRIPTIONS_GENERATE_TOKEN_BTN: 'Genera Token',
+	SUBSCRIPTIONS_RE_GENERATE_TOKEN_BTN: 'Rigenera Token',
+	SUBSCRIPTIONS_TOKEN_VALID_PLACEHOLDER: 'inserisci il timestamp',
+	SUBSCRIPTIONS_ALERT_NO_SUBSCRIPTION: 'NON CI SONO API SOTTOSCRITTE A QUESTA APPLICAZIONE',
+	SUBSCRIPTIONS_API_SUBSCRIBED: 'API sottoscritte',
 
 	/* Market */
 	MARKET_TITLE: 'Market',
