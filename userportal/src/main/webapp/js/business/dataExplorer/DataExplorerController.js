@@ -612,7 +612,9 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 					break;
 				default:
 					$scope.inputQuery = null;
-					//$scope.findDatasets(); 
+					$scope.selectedTags = [];
+					$scope.datasetList = [];
+					searchStart = 0;
 					$scope.search();
 					break;
 			}
@@ -777,7 +779,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	    
 	    var searchParams =  {"action":"searchAPIs","query":$scope.queryInput,"start":searchStart,"end": searchPage};
 	    if($scope.selectedDomain!=null){
-	    	searchParams =  {"action":"getPaginatedAPIsWithTag","tag":$scope.selectedDomain,"start":searchStart,"end": searchPage};
+	    	searchParams =  {"action":"searchAPIs","query":$scope.selectedDomain,"start":searchStart,"end": searchPage};
 	    }
 	    
 		//var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":start,"end": datasetForPage};
@@ -789,8 +791,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-//				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				'/store/site/blocks/search/api-search/ajax/search.jag',
+				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+//				'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}
