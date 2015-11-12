@@ -294,7 +294,8 @@ var translations_it = {
 	SECURITY: 'Sicurezza',
 	TRANSPORT: 'Trasporti',
 	SMART_COMMUNITY: 'Smart Community',
-	
+	CULTURE: 'Cultura',
+
 	/* Stream tags */
 	AIR: 'Aria',
 	CARBON: 'Carbonio',

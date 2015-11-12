@@ -723,7 +723,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			searchResult.selectedDomain = $scope.selectedDomain;
 			searchResult.selectedTags = $scope.selectedTags;
 			searchResult.totalFound = $scope.totalFound;
-
+			searchResult.queryInput = $scope.queryInput;
 
 			
 			dataexplorerBrowseData.setSearchResult(searchResult);
@@ -791,8 +791,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
 		$http.post(
-//				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				'/store/site/blocks/search/api-search/ajax/search.jag',
+				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+//				'/store/site/blocks/search/api-search/ajax/search.jag',
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}
@@ -846,7 +846,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			searchResult.searchStart = searchStart;
 			searchResult.searchType = 'query';
 			searchResult.datasetList = $scope.datasetList;
-			searchResult.inputQuery = $scope.inputQuery;
+			searchResult.queryInput = $scope.queryInput;
+			searchResult.selectedDomain = $scope.selectedDomain;
 
 			
 			dataexplorerBrowseData.setSearchResult(searchResult);
@@ -866,7 +867,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		searchType  = searchResult.searchType;
 		$scope.selectedDomain = searchResult.selectedDomain;
 		$scope.selectedTags = searchResult.selectedTags;
-		$scope.inputQuery = searchResult.inputQuery;
+		$scope.queryInput = searchResult.queryInput;
 		$scope.totalFound = searchResult.totalFound;
 
 

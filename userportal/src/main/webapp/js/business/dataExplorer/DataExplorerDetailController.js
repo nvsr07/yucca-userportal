@@ -36,7 +36,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			$scope.apiMetdataUrl = $scope.dataset.API;
 			$scope.VIRTUALENTITY_TYPE_TWITTER_ID = "Feed Tweet";
 			if($scope.dataset.tags!=null )
-				$scope.dataset.tagsArray = $scope.dataset.tags.split[","];
+				$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
 			if ((typeof($scope.dataset.tagsArray) == 'undefined') && ($scope.dataset.tags != "")){
 				$scope.dataset.tagsArray = new Array();
 				$scope.dataset.tagsArray[0] = $scope.dataset.tags;
