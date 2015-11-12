@@ -779,7 +779,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	    
 	    var searchParams =  {"action":"searchAPIs","query":$scope.queryInput,"start":searchStart,"end": searchPage};
 	    if($scope.selectedDomain!=null){
-	    	searchParams =  {"action":"searchAPIs","query":$scope.selectedDomain,"start":searchStart,"end": searchPage};
+	    	searchParams =  {"action":"searchAPIs","query":"domainStream="+$scope.selectedDomain+" dataDomain="+$scope.selectedDomain,"start":searchStart,"end": searchPage};
 	    }
 	    
 		//var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":start,"end": datasetForPage};
