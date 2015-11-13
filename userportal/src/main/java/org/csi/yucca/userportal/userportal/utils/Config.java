@@ -28,7 +28,7 @@ public class Config {
 	public static final String HTTP_PROXY_HOST_KEY = "HTTP_PROXY_HOST";
 	public static final String HTTP_PROXY_PORT_KEY  = "HTTP_PROXY_PORT";
 	
-	
+	public static final String TAG_DOMAINS_URL_KEY = "TAG_DOMAINS_URL";
 	
 	public static final String API_PROXY_SERVICES_BASE_URL = "/userportal/api/proxy/services/";
 	public static final String API_PROXY_SERVICES_TWITTER_BASE_URL = "/userportal/api/proxy/twitter/";

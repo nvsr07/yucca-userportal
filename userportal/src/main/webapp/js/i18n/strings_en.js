@@ -286,7 +286,7 @@ var translations_en = {
 	
 	
 	/* Stream domains */
-	AGRICULTURE: 'Agriculture',
+	/*AGRICULTURE: 'Agriculture',
 	ENERGY: 'Energy',
 	ENVIRONMENT: 'Environment',
 	HEALTH: 'Health',
@@ -294,10 +294,10 @@ var translations_en = {
 	SECURITY: 'Security',
 	TRANSPORT: 'Transport',
 	SMART_COMMUNITY: 'Smart Community',
-	CULTURE: 'Culture',
+	CULTURE: 'Culture',*/
 	
 	/* Stream tags */
-	AIR: 'Air',
+	/*AIR: 'Air',
 	CARBON: 'Carbon',
 	CONSUMPTION: 'Consumption',
 	DIOXIDE: 'Dioxide',
@@ -330,7 +330,7 @@ var translations_en = {
 	LIGHTNING: 'Lightning',
 	PEOPLE: 'People', 
 	MONEY: 'Money',
-	SEGNALAZIONI: 'Citizen Reports',
+	SEGNALAZIONI: 'Citizen Reports',*/
 	
 	TELEMEDICINE: 'Telemedicine',
 	TELE_REHABILITATION: 'Tele-rehabilitation',
