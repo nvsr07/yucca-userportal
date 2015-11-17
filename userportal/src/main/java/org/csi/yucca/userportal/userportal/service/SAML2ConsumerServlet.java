@@ -9,6 +9,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -145,7 +146,23 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 					//newUser.setActiveTenant(newUser.getTenants().get(0));
-					newUser.setToken(getTokenForTenant(newUser));
+					//newUser.setToken(getTokenForTenant(newUser));
+					Map<String,String> tokens = new HashMap<String, String>();
+					
+					if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0){
+						newUser.setToken(getTokenForTenant(newUser.getActiveTenant()));
+						tokens.put(newUser.getActiveTenant(), newUser.getToken());
+					} else {
+						newUser.setToken(getTokenForTenant("sandbox"));
+						tokens.put("sandbox", newUser.getToken());
+					}
+					
+					for (String tnt : newUser.getTenants()) {
+						if (!tnt.equals(newUser.getActiveTenant())){
+							tokens.put(tnt, getTokenForTenant(tnt));
+						}
+					}
+					newUser.setTenantsTokens(tokens);
 
 					for (Object key : result.keySet().toArray()) {
 						String value = (String) result.get(key);
@@ -235,7 +252,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return false;
 	}
 
-	public static String getTokenForTenant(User newUser) {
+	public static String getTokenForTenant(String tenant) {
 
 		String apiBaseUrl = "";
 
@@ -243,10 +260,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			Properties config = Config.loadServerConfiguration();
 			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
 
-			if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0)
+			/*if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0)
 				apiBaseUrl += Config.SECDATA_NEWTOKEN + newUser.getActiveTenant();
 			else
-				apiBaseUrl += Config.SECDATA_NEWTOKEN + "sandbox";
+				apiBaseUrl += Config.SECDATA_NEWTOKEN + "sandbox";*/
+			apiBaseUrl += Config.SECDATA_NEWTOKEN + tenant;
 
 			HttpClient client = HttpClientBuilder.create().build();
 			HttpGet httpget = new HttpGet(apiBaseUrl);
