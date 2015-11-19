@@ -1,4 +1,7 @@
 <div class='table-header clearfix'>
+	<div class='browsedata-toolbar' ng-show="datasetList.length>9">
+		<a ng-click='goToChooseDomains()' class="btn btn-default " translate>DATABROWSER_RESULTS_BACK_BTN</a>
+	</div>
 	<div class="pull-left table-toolabr-actions">
 		<a href ng-click="resultViewType = 'box'" ng-class="{'table-toolabr-actions-active':resultViewType=='box'}"><i class="fa fa-th"  title="{{'DATABROWSER_SHOW_GRID'|translate}}"></i></a>
 		<a href ng-click="resultViewType = 'list'"  ng-class="{'table-toolabr-actions-active':resultViewType=='list'}"><i class="fa fa-table" title="{{'DATABROWSER_SHOW_LIST'|translate}}"></i></a>
@@ -42,7 +45,7 @@
 					<td class=''>
 						<div class='dataexplorer-table-grid-first-column'>
 							<img ng-src="{{datasetList[$index].datasetIcon}}" alt="logo dataset" class="img-responsive dataset-icon" >
-							<strong>{{data["datasetName"]}}</strong><br><small><span class='muted' title="{{data['description']}}">{{data["description"]|string_ellipse:50}}</span></small>
+							<strong>{{data["customDescription"]}}</strong><br><small><span class='muted' title="{{data['datasetName']}}">{{data["datasetName"]|string_ellipse:50}}</span></small>
 						</div>
 					</td>
 					<td>

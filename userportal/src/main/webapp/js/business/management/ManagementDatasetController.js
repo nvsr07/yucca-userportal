@@ -325,7 +325,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	
 
 	$scope.removeTag = function(index){
-		$scope.metadata.info.tags.splice(index,1);
+		$scope.dataset.info.tags.splice(index,1);
 		return false;
 	};
 	

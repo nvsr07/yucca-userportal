@@ -28,7 +28,7 @@ public class InfoServlet extends HttpServlet {
 					&& request.getParameter("activeTenant")!=null && !request.getParameter("activeTenant").equals("")){
 				
 				info.getUser().setActiveTenant(request.getParameter("activeTenant"));
-				String token = SAML2ConsumerServlet.getTokenForTenant(info.getUser());
+				String token = SAML2ConsumerServlet.getTokenForTenant(info.getUser().getActiveTenant());
 				info.getUser().setToken(token);
 			}
 			String infoJson = info.toJson();

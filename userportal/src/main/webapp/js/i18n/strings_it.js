@@ -286,7 +286,7 @@ var translations_it = {
 	
 	
 	/* Stream domains */
-	AGRICULTURE: 'Agricoltura',
+	/*AGRICULTURE: 'Agricoltura',
 	ENERGY: 'Energia',
 	ENVIRONMENT: 'Ambiente',
 	HEALTH: 'Salute',
@@ -294,9 +294,10 @@ var translations_it = {
 	SECURITY: 'Sicurezza',
 	TRANSPORT: 'Trasporti',
 	SMART_COMMUNITY: 'Smart Community',
-	
+	CULTURE: 'Cultura',*/
+
 	/* Stream tags */
-	AIR: 'Aria',
+	/*AIR: 'Aria',
 	CARBON: 'Carbonio',
 	CONSUMPTION: 'Consumo',
 	DIOXIDE: 'Biossido',
@@ -329,7 +330,7 @@ var translations_it = {
 	LIGHTNING: 'Luce',
 	PEOPLE: 'Persone', 
 	MONEY: 'Money',
-	SEGNALAZIONI: 'Segnalazioni',
+	SEGNALAZIONI: 'Segnalazioni',*/
 	
 	TELEMEDICINE: 'Telemedicina',
 	TELE_REHABILITATION: 'Teleriabilitazione',

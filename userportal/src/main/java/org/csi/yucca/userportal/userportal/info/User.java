@@ -2,6 +2,7 @@ package org.csi.yucca.userportal.userportal.info;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 
@@ -15,6 +16,7 @@ public class User {
 	private boolean loggedIn;
 	private List<String> permissions;
 	private String token;
+	private Map<String, String> tenantsTokens;
 
 	public User() {
 	}
@@ -124,5 +126,13 @@ public class User {
 
 	public void setActiveTenant(String activeTenant) {
 		this.activeTenant = activeTenant;
+	}
+
+	public Map<String, String> getTenantsTokens() {
+		return tenantsTokens;
+	}
+
+	public void setTenantsTokens(Map<String, String> tenantsTokens) {
+		this.tenantsTokens = tenantsTokens;
 	}
 }

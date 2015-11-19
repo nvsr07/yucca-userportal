@@ -1,9 +1,10 @@
 
-.icon-AGRICULTURE:before { content: '\e800'; } /* '' */
-.icon-ENERGY:before { content: '\e801'; } /* '' */
-.icon-SCHOOL:before { content: '\e802'; } /* '' */
-.icon-ENVIRONMENT:before { content: '\e803'; } /* '' */
-.icon-SECURITY:before { content: '\e804'; } /* '' */
-.icon-SMART_COMMUNITY:before { content: '\e805'; } /* '' */
-.icon-TRANSPORT:before { content: '\e806'; } /* '' */
-.icon-HEALTH:before { content: '\e807'; } /* '' */
+.icon-CULTURE:before { content: '\e800'; } /* '' */
+.icon-SMART_COMMUNITY:before { content: '\e801'; } /* '' */
+.icon-SECURITY:before { content: '\e802'; } /* '' */
+.icon-ENERGY:before { content: '\e803'; } /* '' */
+.icon-TRANSPORT:before { content: '\e804'; } /* '' */
+.icon-SCHOOL:before { content: '\e805'; } /* '' */
+.icon-HEALTH:before { content: '\e806'; } /* '' */
+.icon-ENVIRONMENT:before { content: '\e807'; } /* '' */
+.icon-AGRICULTURE:before { content: '\e808'; } /* '' */
