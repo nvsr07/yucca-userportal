@@ -205,7 +205,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		$scope.addFilterError = null;
 		if($scope.newFilterColumn && $scope.newFilterColumn!=null && $scope.newFilterColumn.label!=null && $scope.newFilterColumn.label!='' &&
 			$scope.newFilterOperator!=null && $scope.newFilterOperator!=''  &&
-			$scope.newFilterValue!=null && $scope.newFilterValue!='' ){
+			$scope.newFilterValue!=null && ($scope.newFilterValue==0 || $scope.newFilterValue!='')){
 				$scope.filters.push({"column":$scope.newFilterColumn.label,"operator":$scope.newFilterOperator,"value":$scope.newFilterValue});
 				$scope.newFilterColumn = null;
 				$scope.newFilterOperator = null;
@@ -252,6 +252,9 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 					filterParam += filter.column + " " + filter.operator.value + " datetimeoffset'"+ dateToParam + "'";
 				}else if(filter.operator.isFunction){  // filter=substringof(Name, 'urn')
 					filterParam += filter.operator.value + "(" +filter.column + "," + filter.operator.valueDelimiter +  filter.value + filter.operator.valueDelimiter+")";
+				}
+				else if(filter.operator.value == "eq"){
+					filterParam +=  filter.operator.valueDelimiter +  filter.value + filter.operator.valueDelimiter + " " + filter.operator.value + " " +filter.column;
 				}
 				else{//filter= Entry_No gt 610
 					filterParam += filter.column + " " + filter.operator.value + " " +filter.operator.valueDelimiter +  filter.value + filter.operator.valueDelimiter;
@@ -790,9 +793,15 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 //			data:{"action":"searchAPIs","query":queryInput,"start":"0","end": "10"},
 //			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
 //		})
+	    
+	    var storeUrl = '/store/site/blocks/search/api-search/ajax/search.jag';
+		if($location.host()=='localhost')
+			storeUrl = Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+
 		$http.post(
 //				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
-				'/store/site/blocks/search/api-search/ajax/search.jag',
+				//'/store/site/blocks/search/api-search/ajax/search.jag',
+				storeUrl,
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
 					transformRequest: transform}
