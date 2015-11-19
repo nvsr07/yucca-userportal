@@ -612,7 +612,9 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 					break;
 				default:
 					$scope.inputQuery = null;
-					//$scope.findDatasets(); 
+					$scope.selectedTags = [];
+					$scope.datasetList = [];
+					searchStart = 0;
 					$scope.search();
 					break;
 			}
@@ -721,7 +723,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			searchResult.selectedDomain = $scope.selectedDomain;
 			searchResult.selectedTags = $scope.selectedTags;
 			searchResult.totalFound = $scope.totalFound;
-
+			searchResult.queryInput = $scope.queryInput;
 
 			
 			dataexplorerBrowseData.setSearchResult(searchResult);
@@ -777,7 +779,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	    
 	    var searchParams =  {"action":"searchAPIs","query":$scope.queryInput,"start":searchStart,"end": searchPage};
 	    if($scope.selectedDomain!=null){
-	    	searchParams =  {"action":"getPaginatedAPIsWithTag","tag":$scope.selectedDomain,"start":searchStart,"end": searchPage};
+	    	searchParams =  {"action":"searchAPIs","query":"domainStream="+$scope.selectedDomain+" dataDomain="+$scope.selectedDomain,"start":searchStart,"end": searchPage};
 	    }
 	    
 		//var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":start,"end": datasetForPage};
@@ -844,7 +846,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			searchResult.searchStart = searchStart;
 			searchResult.searchType = 'query';
 			searchResult.datasetList = $scope.datasetList;
-			searchResult.inputQuery = $scope.inputQuery;
+			searchResult.queryInput = $scope.queryInput;
+			searchResult.selectedDomain = $scope.selectedDomain;
 
 			
 			dataexplorerBrowseData.setSearchResult(searchResult);
@@ -864,7 +867,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		searchType  = searchResult.searchType;
 		$scope.selectedDomain = searchResult.selectedDomain;
 		$scope.selectedTags = searchResult.selectedTags;
-		$scope.inputQuery = searchResult.inputQuery;
+		$scope.queryInput = searchResult.queryInput;
 		$scope.totalFound = searchResult.totalFound;
 
 
