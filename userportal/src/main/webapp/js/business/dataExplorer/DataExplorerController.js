@@ -50,82 +50,94 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 	$scope.queryOdataLink = "-";
 	
 	$scope.loadMetadata = function(){
-		odataAPIservice.getMetadata($scope.datasetCode).success(function(response) {
-			console.log("odataAPIservice.getMetadata - xml",response);
-			var x2js = new X2JS();
-			var metadataJson =  x2js.xml_str2json(response);
-			console.log("odataAPIservice.getMetadata - json",metadataJson);
-			
-
-			if ($scope.dataset.Stream == null)
-			{
-				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
-			}
-			else 
-			{
-				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
-			}
-
-			
-			
-			var measuresMetadata ="";
-			var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;
-			if(entityType!=null && entityType.constructor === Array)
-				measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];		
-			else
-				measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType;		
-			
-			console.log("odataAPIservice.getMetadata - metadata",metadataJson);
-			var entitySet = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet;
-			
-			
-			if(entitySet !=null && entitySet.constructor === Array)
-				datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
-			else
-				datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet._Name;
-
-			defaultOrderByColumn = "internalId";
-
-			for (var k = 0; k < measuresMetadata.Property.length; k++) {
-				var prop = measuresMetadata.Property[k];
-				var dataType = Helpers.odata.decodeDataType(prop["_Type"]);
-				var operators = operators_number;
-				switch (dataType) {
-				case "string":
-					operators = operators_string;					
-					break;
-				case "boolean":
-					operators = operators_boolean;					
-					break;
-				case "date":
-					operators = operators_date;					
-					break;
-				default:
-					operators = operators_number;
-					break;
+		if ($scope.dataset){
+			console.log("datasetCode", $scope.datasetCode);
+			console.log("dataset.tenantCode", $scope.dataset.tenantCode);
+			console.log("dataset.tenantsharing", $scope.dataset.tenantsharing);
+			odataAPIservice.getMetadataMultiToken($scope.datasetCode, $scope.dataset.tenantCode, $scope.dataset.tenantsharing).success(function(response) {
+				console.log("odataAPIservice.getMetadata - xml",response);
+				var x2js = new X2JS();
+				var metadataJson =  x2js.xml_str2json(response);
+				console.log("odataAPIservice.getMetadata - json",metadataJson);
+				
+		
+				if ($scope.dataset.Stream == null)
+				{
+					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
 				}
-								
-				$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
-				if(prop["_Name"]=="time"){
-					defaultOrderByColumn = "time";
+				else 
+				{
+					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				}
-				$scope.orderBy.column = defaultOrderByColumn;
-			}
-			
-			console.log("$scope.columnsForFilter",$scope.columnsForFilter);
-			$scope.queryOdataLink = "/userportal/api/proxy/odata/ds_Contgreciaon_201/Measures?$format=json&$top=15&$orderby=time%20desc";
-
-			$scope.loadData();
-
-		}).error(function(response) {
-			console.log("loadData Error: ", response);
+		
+				
+				
+				var measuresMetadata ="";
+				var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;
+				if(entityType!=null && entityType.constructor === Array)
+					measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];		
+				else
+					measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType;		
+				
+				console.log("odataAPIservice.getMetadata - metadata",metadataJson);
+				var entitySet = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet;
+				
+				
+				if(entitySet !=null && entitySet.constructor === Array)
+					datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
+				else
+					datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet._Name;
+		
+				defaultOrderByColumn = "internalId";
+		
+				for (var k = 0; k < measuresMetadata.Property.length; k++) {
+					var prop = measuresMetadata.Property[k];
+					var dataType = Helpers.odata.decodeDataType(prop["_Type"]);
+					var operators = operators_number;
+					switch (dataType) {
+					case "string":
+						operators = operators_string;					
+						break;
+					case "boolean":
+						operators = operators_boolean;					
+						break;
+					case "date":
+						operators = operators_date;					
+						break;
+					default:
+						operators = operators_number;
+						break;
+					}
+									
+					$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
+					if(prop["_Name"]=="time"){
+						defaultOrderByColumn = "time";
+					}
+					$scope.orderBy.column = defaultOrderByColumn;
+				}
+				
+				console.log("$scope.columnsForFilter",$scope.columnsForFilter);
+				$scope.queryOdataLink = "/userportal/api/proxy/odata/ds_Contgreciaon_201/Measures?$format=json&$top=15&$orderby=time%20desc";
+		
+				$scope.loadData();
+		
+			}).error(function(response) {
+				console.log("loadData Error: ", response);
+				$scope.showLoading = false;
+		
+				var detail = "";
+				var error = {"message":"Cannot load metadatadata","detail":detail};
+				$scope.errors.push(error);
+		
+			});
+		} else {
+	
+			var detail = "NOT FOUND";
+			console.log("loadData Error: ", detail);
 			$scope.showLoading = false;
-
-			var detail = "";
 			var error = {"message":"Cannot load metadatadata","detail":detail};
 			$scope.errors.push(error);
-
-		});
+		}
 	};
 	
 	// http://localhost:8080/userportal/api/proxy/discovery/Datasets?$format=json&$filter=datasetCode%20eq%20%27ds_Provatime_14%27&$top=12
@@ -134,16 +146,24 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
 			$scope.errors = [];
 			try{
+				
 				console.debug("loadDataset- response",response);
 				$scope.dataset = response.d.results[0];
-				
-				$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+$scope.dataset.tenantCode+"/"+$scope.dataset.datasetCode;
-				if($scope.dataset.tags!=null ){
-					$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
+
+				if ($scope.dataset){
+					$scope.loadMetadata();
+					
+					$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+$scope.dataset.tenantCode+"/"+$scope.dataset.datasetCode;
+					if($scope.dataset.tags!=null ){
+						$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
+					}
+				} else {
+					var detail = "NOT FOUND";
+					console.log("loadData Error: ", detail);
+					$scope.showLoading = false;
+					var error = {"message":"Cannot load metadatadata","detail":detail};
+					$scope.errors.push(error);
 				}
-
-
-				//$scope.loadMetadata();
 			} catch (e) {
 				var error = {"message":"Cannot load dataset","detail":"Error while loading dataset "+ $scope.datasetCode};
 				//$scope.errors.push(error);
@@ -160,10 +180,10 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		});
 	};
 	
-	$scope.loadMetadata();
+	//$scope.loadMetadata();
 
 	$scope.loadDataset();
-	
+
 	var dataForPage = 15;
 	$scope.showLoading = true;
 
@@ -176,9 +196,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 	$scope.orderBy = {"column":"internalId", "order": "desc"};
 	$scope.addFilterError = null;
 
-
-	
-	
 	$scope.filters = [];
 	
 	$scope.selectPage = function() {
@@ -235,7 +252,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		if($scope.orderBy.order == 'none')
 			sort = defaultOrderByColumn +"%20desc";
 		
-		console.log("loadData", $scope.datasetCode, start, dataForPage,sort,datasetType);
+		console.log("loadData", $scope.datasetCode, start, dataForPage, sort, datasetType);
 		
 		var filterParam = null;
 		$scope.usedFilter = "-";
@@ -271,9 +288,11 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		
 		console.log("filterParam", filterParam);
 
-		$scope.queryOdataLink = createQueryOdata($scope.datasetCode, filterParam, start, dataForPage,sort,datasetType);
+		$scope.queryOdataLink = createQueryOdata($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType);
 		
-		odataAPIservice.getStreamData($scope.datasetCode, filterParam, start, dataForPage,sort,datasetType).success(function(response) {
+		console.log("queryOdataLink", $scope.queryOdataLink);
+
+		odataAPIservice.getStreamDataMultiToken($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType, $scope.dataset.tenantCode, $scope.dataset.tenantsharing).success(function(response) {
 			console.log("odataAPIservice.getStreamData",response, datasetType);
 			$scope.totalFound = response.d.__count;
 			var oDataResultList = response.d.results;
@@ -353,6 +372,9 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		
 		var host = $location.host();
 		var env = host.substring(0,host.indexOf("userportal.smartdatanet.it"));
+		if (host == "localhost"){
+			env = "int-";
+		}
 
 		var streamDataUrl = "http://"+env+"api.smartdatanet.it/api/"+stream_code+"/"+collection+"?$format=json";
 		if(filter && filter!=null)

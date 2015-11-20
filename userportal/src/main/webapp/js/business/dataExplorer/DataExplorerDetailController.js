@@ -5,13 +5,6 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	$scope.streamCode = ($routeParams.stream_code) ? $routeParams.stream_code : '';
 	$scope.virtualentityCode = ($routeParams.virtualentity_code) ? $routeParams.virtualentity_code : '';
 	$scope.datasetType = $route.current.dataset_type;
-	
-	console.log("routeParams", $routeParams);
-	console.log("route", $route);
-	console.log("route.current", $route.current);
-	console.log("scope", $scope);
-	console.log("location", $location);
-	console.log("scope.datasetType", $scope.datasetType);
 
 	var getEnvirorment  = function(){
 		var host = $location.host();
@@ -19,8 +12,6 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 		return env;
 	};
 	
-	
-
 	$scope.currentSidebar = 'none';
 	
 	$scope.dataset = null;
@@ -46,16 +37,11 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			$scope.topic = $scope.datasetCode;
 			
 			// api/proxy/odata/ds_Tweet6_357/donwload/357/all 
-			if ($scope.dataset.Stream == null)
-			{
+			if ($scope.dataset.Stream == null) {
 				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
-			}
-			else 
-			{
+			} else {
 				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 			}
-
-			
 		} else {
 			$scope.wsUrl = "ws://stream.smartdatanet.it/ws";
 			$scope.wsUrlSecured = "wss://stream.smartdatanet.it/wss";
@@ -92,7 +78,6 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 
 		});
 	};
-	
 	
 	//http://localhost:8080/userportal/api/proxy/discovery/Streams?$expand=Dataset&$format=json&$filter=(tenantCode eq "sandbox"  and  smartOCode eq "9c25107f-fdd7-4010-83bb-9c0213153602"  and  streamCode eq "deviceStream")
 	$scope.loadStream = function(){
