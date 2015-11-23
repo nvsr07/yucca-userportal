@@ -21,7 +21,7 @@ import twitter4j.JSONException;
 import twitter4j.JSONObject;
 
 @WebServlet(description = "Configuration language TAGS for clients", urlPatterns = { "/api/domains" }, initParams = { @WebInitParam(name = "language", value = "it"), }, asyncSupported = true)
-public class domainServiceServlet extends I18nServlet {
+public class DomainServiceServlet extends I18nServlet {
 
 	private static final long serialVersionUID = 1L;
 

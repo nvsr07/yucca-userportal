@@ -818,7 +818,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	    
 	    var storeUrl = '/store/site/blocks/search/api-search/ajax/search.jag';
 		if($location.host()=='localhost')
-			storeUrl = Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
+			storeUrl = Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag';
 
 		$http.post(
 //				Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag',
