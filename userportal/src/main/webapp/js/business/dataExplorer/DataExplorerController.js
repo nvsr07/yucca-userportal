@@ -1,5 +1,5 @@
 appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location', '$modal', 
-                                                     function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info,$location, $modal) {
+                                                     function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info, $location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 
@@ -8,8 +8,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		var env = host.substring(0,host.indexOf("userportal.smartdatanet.it"));
 		return env;
 	};
-	
-	
 
 	$scope.currentSidebar = 'none';
 	
@@ -18,8 +16,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 	$scope.errors = [];
 	
 	$scope.columnsForFilter = [];
-	
-	
 
 	var operators_date = [{"value":"eq", "label":"=", "valueDelimiter": "", "isFunction": false, "isDate": true},
 			                   {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false, "isDate": true},
@@ -36,14 +32,13 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			                   {"value":"le", "label":"<=", "valueDelimiter": "", "isFunction": false, "isDate": false}];
 
 	var operators_string = [{"value":"eq", "label":"equals", "valueDelimiter": "'", "isFunction": false, "isDate": false},
+	                        {"value":"ne", "label":"not equals", "valueDelimiter": "'", "isFunction": false, "isDate": false},
 	                        {"value":"startswith", "label":"start with", "valueDelimiter": "'", "isFunction": true, "isDate": false},
 	                        {"value":"endswith", "label":"end with", "valueDelimiter": "'", "isFunction": true, "isDate": false},
 	                        {"value":"substringof", "label":"contains", "valueDelimiter": "'", "isFunction": true, "isDate": false}];
 
 	var operators_boolean = [{"value":"eq", "label":"=", "isFunction": false, "isDate": false}];
 
-
-	
 	var datasetType = "";
 	var defaultOrderByColumn = "internalId";
 
@@ -59,7 +54,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				var x2js = new X2JS();
 				var metadataJson =  x2js.xml_str2json(response);
 				console.log("odataAPIservice.getMetadata - json",metadataJson);
-				
 		
 				if ($scope.dataset.Stream == null)
 				{
@@ -69,9 +63,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				{
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				}
-		
-				
-				
+
 				var measuresMetadata ="";
 				var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;
 				if(entityType!=null && entityType.constructor === Array)
@@ -120,7 +112,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				$scope.queryOdataLink = "/userportal/api/proxy/odata/ds_Contgreciaon_201/Measures?$format=json&$top=15&$orderby=time%20desc";
 		
 				$scope.loadData();
-		
 			}).error(function(response) {
 				console.log("loadData Error: ", response);
 				$scope.showLoading = false;
@@ -128,10 +119,8 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				var detail = "";
 				var error = {"message":"Cannot load metadatadata","detail":detail};
 				$scope.errors.push(error);
-		
 			});
 		} else {
-	
 			var detail = "NOT FOUND";
 			console.log("loadData Error: ", detail);
 			$scope.showLoading = false;
@@ -146,13 +135,11 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
 			$scope.errors = [];
 			try{
-				
 				console.debug("loadDataset- response",response);
 				$scope.dataset = response.d.results[0];
 
 				if ($scope.dataset){
 					$scope.loadMetadata();
-					
 					$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+$scope.dataset.tenantCode+"/"+$scope.dataset.datasetCode;
 					if($scope.dataset.tags!=null ){
 						$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
@@ -172,7 +159,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		}).error(function(response) {
 			console.log("loadData Error: ", response);
 			$scope.showLoading = false;
-
 //			var detail = "";
 //			var error = {"message":"Cannot load dataset","detail":detail};
 			//$scope.errors.push(error);
@@ -180,13 +166,10 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		});
 	};
 	
-	//$scope.loadMetadata();
-
 	$scope.loadDataset();
 
 	var dataForPage = 15;
 	$scope.showLoading = true;
-
 
 	$scope.totalFound = null;
 	$scope.usedFilter = "-";
@@ -233,13 +216,10 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		}
 	};
 	
-	
 	$scope.loadData = function(){
 		
 		// call oData service to retrieve  the last 30 data
 		$scope.errors = [];
-
-//		var collection = 'Measures';
 
 		var start = ($scope.currentPage -1)*dataForPage;
 		$scope.dataList = [];
@@ -277,7 +257,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 					filterParam += filter.column + " " + filter.operator.value + " " +filter.operator.valueDelimiter +  filter.value + filter.operator.valueDelimiter;
 				}
 				
-				
 				$scope.usedFilter += filter.column + " " + filter.operator.label + " " + filter.value;
 				if(j < $scope.filters.length-1){
 					$scope.usedFilter += "<span class=' panel-dataexplorer-topbar-separator'>-</span>";
@@ -287,11 +266,9 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		}
 		
 		console.log("filterParam", filterParam);
-
 		$scope.queryOdataLink = createQueryOdata($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType);
 		
 		console.log("queryOdataLink", $scope.queryOdataLink);
-
 		odataAPIservice.getStreamDataMultiToken($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType, $scope.dataset.tenantCode, $scope.dataset.tenantsharing).success(function(response) {
 			console.log("odataAPIservice.getStreamData",response, datasetType);
 			$scope.totalFound = response.d.__count;
@@ -299,7 +276,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			
 			$scope.showLoading = false;
 
-			
 			if(oDataResultList.length >0){
 				var firstRow = true;
 				for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
@@ -314,7 +290,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 							var value = oDataResult[property];
 							var isBinary = false;
 							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
-								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
+								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'dd/MM/yyyy HH:mm:ss');
 								data[property] =  {"value":d, "isBinary": false};
 							}
 							else if(value && value!=null  && typeof value["idBinary"] !== 'undefined' && value["idBinary"]!=null){
@@ -324,15 +300,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 							else
 								data[property] = {"value":value, "isBinary": false};
 
-							/*var field = allFields[property];
-							
-							if(field.dataType == "date"){
-								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'short');
-								data[property] = d;
-							}
-							else
-								data[property] = value;*/
-							
 						    if(firstRow){
 						    	var order = 'none';
 						    	
@@ -353,10 +320,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			    	firstRow=false;
 					$scope.dataList.push(data);
 				};
-				
 			};
-			
-			
 		}).error(function(response) {
 			console.log("loadData Error: ", response);
 			$scope.showLoading = false;
@@ -386,12 +350,8 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		if(orderby && orderby!=null)
 			streamDataUrl += '&$orderby='+orderby;
 		return streamDataUrl;
-
 	};
 	
-	
-	
-
 	$scope.loadBinaryDetail = function(rowNum, column){
 		console.log("loadBinaryDetail",rowNum,  column, $scope.dataList[rowNum][column]);
 		$scope.dataList[rowNum][column].showBinaryDetail = true;
@@ -420,7 +380,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		return mediaType == 'image' || mediaType == 'video' || mediaType == 'audio'; 
 	};
 	
-	$scope.previewBinary  = function(binary, type){
+	$scope.previewBinary = function(binary, type){
 		console.log("previewBinary",binary);
 	    var modalInstance = $modal.open({
 	      animation: true,
@@ -437,9 +397,33 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 	      }
 	    });
 	};
-
-
+	
+	$scope.detailModal = function(ds){
+		console.log("ds", ds);
+	    var detailModalInstance = $modal.open({
+	      animation: true,
+	      templateUrl: 'dataexplorerDetailModal.html',
+	      controller: 'DataExplorerDetailModalCtrl',
+	      size: 'lg',
+	      resolve: {
+	    	  dataset : function(){
+	        	return ds;
+	    	  }
+	      }
+	    });
+	};
 } ]);
+
+appControllers.controller('DataExplorerDetailModalCtrl', [ '$scope', '$modalInstance', 'dataset', function ($scope, $modalInstance, dataset) {
+		console.log("DataExplorerDetailModalCtrl - dataset", dataset);
+		
+		$scope.dataset = dataset;
+		
+		$scope.close = function () {
+			$modalInstance.dismiss('cancel');
+		};
+	}
+]);
 
 
 appControllers.controller('DataExplorerPreviewBinaryCtrl', [ '$scope', '$modalInstance', 'binaryPreview','previewType', function ($scope, $modalInstance, binaryPreview, previewType) {

@@ -928,7 +928,7 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 #databrowser .title-right-label{position:absolute; right:0; bottom: 10px;}
 
 #databrowser .databrowser-search-panel{margin: 1em 0;}
-
+#addFilterBtn {margin-top: 10px;}
 
 
 #subscribeApiDialog h4{font-size: 22px;margin: 0 0 1em 0;background-color: white;;padding: .5em 0; font-weight: bold;}
