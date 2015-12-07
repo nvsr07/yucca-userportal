@@ -3,6 +3,7 @@ package org.csi.yucca.userportal.userportal.info;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,10 +30,21 @@ public enum ApiEntityEnum {
 			String activeTenant = request.getParameter("visibleFrom");
 			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 			if ((activeTenant != null && !"".equals(activeTenant))) {
-				if (activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)) {
+				String resultKey = "";
+				if (activeTenant.contains("|")){
+					for (Entry<String, String> entry : info.getUser().getTenantsTokens().entrySet()) {
+						resultKey += entry.getKey() + "|";
+					}
+					resultKey = resultKey.substring(0, resultKey.length()-1);
+				}
+				if (activeTenant.equals(resultKey) && AuthorizeUtils.isReadMethod(request)) {
 					return true;
 				} else {
-					return false;
+					if (activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)) {
+						return true;
+					} else {
+						return false;
+					}
 				}
 			}
 			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {

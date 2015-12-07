@@ -17,18 +17,30 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 		SubscriptedElementsList = [];
 	};
 
-	function ConnectTheSocket(on_connect, on_error, vhost,count,updateStatus){
+	function ConnectTheSocket(on_connect, on_error, vhost, count, updateStatus, tenantStream){
+		console.debug(':::: Unsubscribe for ::tenantStream::', tenantStream);
 
-		fabricAPIservice.getInfo().success(function(info){
-			if(info != null && info.user!=null && info.user.tenants !=null){
-				infoTenant =  info;
-				console.debug("infoTenant  ",infoTenant);
-				var user = "Bearer "+infoTenant.user.token;
+		fabricAPIservice.getInfo().success(function(infoTenant){
+			if(infoTenant != null && infoTenant.user!=null && infoTenant.user.tenants !=null){
+				console.debug("infoTenant = ", infoTenant);
+				var tenantsTokens = "";
+				angular.forEach(infoTenant.user.tenantsTokens, function(value, key) {
+					if (key == tenantStream)
+						tenantsTokens = value;
+				});
+				console.debug("tenantsTokens = ", tenantsTokens);
+				var user = "";
+				if (tenantsTokens == ""){
+					user = "Bearer " + infoTenant.user.token;
+				} else {
+					user = "Bearer " + tenantsTokens;
+				}
+				
 				var password = "";
+				console.debug("user = ", user);
 
-				selfCallback=updateStatus;
+				selfCallback = updateStatus;
 				CancelAllSubscriptions();
-
 
 				/*
 				 * Fai la disconnect
@@ -39,7 +51,6 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 						connectedFlag=false;
 					});
 				}
-
 
 				updateStatus(Constants.WEBSOCKET_CONNECTING);
 				stompClient = Stomp.client(WEB_SOCKET_BASE_URL);
@@ -54,7 +65,7 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 					if (count<5) {
 						console.debug("Tentativo di riconnessione numero : ",count);
 						updateStatus(Constants.WEBSOCKET_CONNECTING);
-						setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost,++count,updateStatus);},count*1000);
+						setTimeout(function(){ new ConnectTheSocket(on_connect, on_error, vhost, ++count, updateStatus);},count*1000);
 						console.debug("awake.. ");		         	       
 					} else{
 						updateStatus(Constants.WEBSOCKET_NOT_CONNECTED);
@@ -64,19 +75,19 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 						});
 					}			
 				}, vhost);
-
 			}
 		});
 	};
 
 
 	function NGStomp() {
-		console.debug("Stomp",Stomp);
+		console.debug("Stomp = ", Stomp);
 		this.count=1;
+		this.streamTenant = null;
 	}
 
-	NGStomp.prototype.subscribe = function(queue, callback) {
-		selfCallback(Constants.WEBSOCKET_CONNECTED);
+	NGStomp.prototype.subscribe = function(queue, callback, tenantStream) {
+	 	selfCallback(Constants.WEBSOCKET_CONNECTED);
 		var subscribedClient = stompClient.subscribe(queue, function() {
 			selfCallback(Constants.WEBSOCKET_CONNECTED);//if I receive a message It means I'm connected
 			var args = arguments;			
@@ -100,14 +111,14 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 	};
 
 
-	NGStomp.prototype.connect = function(on_connect, on_error, vhost,updateStatus) {
+	NGStomp.prototype.connect = function(on_connect, on_error, vhost, updateStatus) {
 		this.count=1;
 		if(!updateStatus)
 			updateStatus = function(sms){
 			//console.debug(sms);
 		};
 		updateStatus(Constants.WEBSOCKET_CONNECTING);
-		new ConnectTheSocket(on_connect, on_error, vhost,this.count,updateStatus);
+		new ConnectTheSocket(on_connect, on_error, vhost, this.count, updateStatus, this.streamTenant);
 
 	};
 
@@ -124,6 +135,10 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 			});
 		});
 	};
+	
+	NGStomp.prototype.updateStreamTenant = function(tnt){
+		this.streamTenant = tnt;
+	}
 
 	return function(url,updateStatus) {
 		if(!SingletonClient){
@@ -161,9 +176,8 @@ var WebsocketStompSingleton= (function() {
 	var createClient = function(settings,count,updateStatus){ 
 		var intSettings = settings;	                    
 		var client = Stomp.client(intSettings.ws_url);
-		var usr = "Bearer "+infoUser.info.user.token;
-		client.connect(usr,"",
-				function(frame) { //success Callback
+		var usr = "Bearer " + infoUser.info.user.token;
+		client.connect(usr, "", function(frame) { //success Callback
 			updateStatus(Constants.WEBSOCKET_CONNECTED);
 			for(var i =0; i< SubscriptionList.length ; i++){
 				var widget = SubscriptionList[i];

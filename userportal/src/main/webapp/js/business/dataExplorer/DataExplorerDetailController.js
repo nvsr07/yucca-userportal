@@ -87,6 +87,12 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 					try{
 						console.debug("loadStream- response",response);
 						$scope.stream = response.streams.stream;
+						if($scope.stream.opendata.isOpendata == 1){
+							var d = new Date($scope.stream.opendata.dataUpdateDate);
+							var mm = d.getMonth()+1;
+							var day = (d.getDate() < 10) ? "0" + d.getDate() : d.getDate();
+							$scope.stream.opendata.dataUpdateDate = day + "/" + mm + "/" + d.getFullYear();
+						}
 						$scope.dataset = null;
 						
 						$scope.processData();

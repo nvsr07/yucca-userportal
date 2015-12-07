@@ -135,13 +135,14 @@ appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($sc
 } ]);
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info','$timeout',"$filter", 'readFilePreview', '$location', 'sharedStream',
-                                                    function($scope, $routeParams, fabricAPIservice, info,$timeout,$filter,readFilePreview,$location, sharedStream) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream',
+                                                    function($scope, $routeParams, fabricAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
+	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
 	$scope.validationRes=2;
 	$scope.errorMsg="Errore";
 	$scope.successMsg="Successo";
@@ -355,7 +356,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	});
 
 	$scope.tagList = [];
-	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
@@ -441,7 +441,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 				$scope.internalStreams=$scope.stream.streamInternalChildren.streamChildren;
 	
-				console.debug("$scope.stream internal",$scope.stream);
+				console.debug("$scope.stream internal",$scope.internalStreams);
 				if(!$scope.stream.streamTags)
 					$scope.stream.streamTags = new Object();
 				$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
@@ -464,9 +464,18 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					}
 				}
 				if($scope.stream.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.stream.twtMaxStreamsOfVE){
-					$scope.twitterPollingInterval  = $scope.stream.twtMaxStreamsOfVE*5+1;
+					$scope.twitterPollingInterval = $scope.stream.twtMaxStreamsOfVE*5+1;
 				}
-
+				if($scope.stream.opendata.isOpendata == 1){
+					var d = new Date($scope.stream.opendata.dataUpdateDate);
+					var mm = d.getMonth()+1;
+					var day = (d.getDate() < 10) ? "0" + d.getDate() : d.getDate();
+					if ($routeParams.managementTab == "editStream")
+						$scope.stream.opendata.dataUpdateDate = d.getFullYear() + "-" + mm + "-" + day;
+					else 
+						$scope.stream.opendata.dataUpdateDate = day + "/" + mm + "/" + d.getFullYear();
+				}
+				console.debug("$routeParams = ",$routeParams);
 			});
 		} else {
 			var streamClone = sharedStream.getStream();
@@ -496,6 +505,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.saveData = 1;
 				$scope.stream.publishStream = 1;
 				$scope.stream.deploymentVersion = 1;
+				$scope.stream.opendata = {};
+				$scope.stream.opendata.isOpendata = 0;
+				$scope.stream.opendata.author = null;
+				$scope.stream.opendata.dataUpdateDate = 0;
+				$scope.stream.opendata.language = null;
+				$scope.stream.externalReference = null;
 				//$scope.stream.tenantssharing = {};
 				//$scope.stream.tenantssharing.tenantsharing = [];
 	//			var ownerTenant = {"idTenant":newTenantSharing.idTenant, 
@@ -628,7 +643,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.editingComponentIndex = -1;
 		}
 		
-		return false;
+		return false; 
 	};
 	
 	var validateComponent = function(index, componentName, componentUnitOfMeasurement, componentTolerance, componentPhenomenon, componentDataType, componentSinceVersion ){
@@ -883,6 +898,17 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.updateWarning = true;
 			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 		}
+		
+		if (newStream.stream.visibility=='private'){
+			newStream.stream.opendata = {};
+			newStream.stream.opendata.isOpendata = 0;
+			newStream.stream.opendata.author = null;
+			newStream.stream.opendata.dataUpdateDate = 0;
+			newStream.stream.opendata.language = null;
+		} else {
+			var opendataDate = new Date(newStream.stream.opendata.dataUpdateDate);
+			newStream.stream.opendata.dataUpdateDate = opendataDate.getTime();
+		}
 
 		Helpers.util.scrollTo();
 		if(!$scope.updateWarning){
@@ -1021,6 +1047,17 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					"idChildStream": $scope.internalStreams[i].idStream
 				});
 			}
+			
+			if (newStream.stream.visibility=='private'){
+				newStream.stream.opendata = {};
+				newStream.stream.opendata.isOpendata = 0;
+				newStream.stream.opendata.author = null;
+				newStream.stream.opendata.dataUpdateDate = 0;
+				newStream.stream.opendata.language = null;
+			} else {
+				var opendataDate = new Date(newStream.stream.opendata.dataUpdateDate);
+				newStream.stream.opendata.dataUpdateDate = opendataDate.getTime();
+			}
 
 			console.log("createStream - newStream", newStream);
 	
@@ -1046,5 +1083,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		sharedStream.setStream($scope.stream);
 		$location.path('management/newStream/'+$scope.tenantCode);
 	};
+
+	console.log("Stream - ", $scope.stream);
 } ]);
 

@@ -9,7 +9,6 @@ appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'fabricAPIs
 		$scope.tenantsList = response.tenants.tenant;		
 	});
 	
-	
 	$scope.currentPanel  = 'main';
 	if($route.current.templateUrl.indexOf("streams")>-1)
 		$scope.currentPanel  = 'streams';
@@ -30,7 +29,6 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	fabricAPIservice.getTenants().success(function(response) {
 		console.debug("response", response.tenants);
 		$scope.tenantsList = response.tenants.tenant;		
-	
 	});
 	
 	freeboard.initialize(false);
@@ -58,7 +56,6 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 //	    });
 //	});
 	freeboard.showLoadingIndicator(false);
-
 } ]);
 
 appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice','$translate', function($scope,info, fabricAPIservice, $translate) {
@@ -74,12 +71,11 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 	$scope.predicate = '';
 	$scope.showLoading = true;
 
-//	console.debug("$scope.tenantCode", $scope.tenantCode);
 //	fabricAPIservice.getInfo().success(function(info){
 //		if(info != null && info.user!=null && info.user.tenants !=null){
 //			$scope.tenantCode = info.user.tenants[0];
 //		}
-		console.debug("$scope.tenantCode",$scope.tenantCode);
+	console.debug("$scope.tenantCode",$scope.tenantCode);
 	fabricAPIservice.getVisibleStreams().then(function(response) {
 		// Dig into the responde to get the relevant data
 		$scope.showLoading = false;
@@ -206,6 +202,7 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 	$scope.wsLastMessageToShow = "";
 
 	var connectWS = function(){
+		console.debug("++++++++++++++++++++++++++++++++connectWS");
 		wsClient.connect(function(message) {
 			console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
 			
@@ -380,6 +377,12 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	$scope.chartWidth = angular.element( document.querySelector( '#chart-container' )).width()-6;
 	
 	$scope.isTwitter = false;
+	var tenantsTokens = "";
+	fabricAPIservice.getInfo().success(function(info){
+		if(info != null && info.user!=null && info.user.tenants !=null){
+			tenantsTokens = info.user.tenantsTokens;
+		}
+	});
 
 	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).then(function(response) {
 		console.debug("getStream response",response);
@@ -420,7 +423,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			var isEnabled = false;
 			var color = "#ccc";
 			var display = "none";
-			if( "int" == dataType ||"long" == dataType ||"double" == dataType ||"float" == dataType ||"longitude" == dataType ||"latitude" == dataType){
+			if( "int" == dataType || "long" == dataType || "double" == dataType || "float" == dataType || "longitude" == dataType || "latitude" == dataType){
 				isEnabled = true;
 				display = "normal";
 				if(!foundFirstToDisplay){
@@ -443,6 +446,19 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		}
 
 		loadPastData();
+		var codiceTenant = "";
+		var keepGoing = true;
+		angular.forEach($scope.stream.tenantssharing.tenantsharing, function(value) {
+			if (keepGoing){
+				angular.forEach(tenantsTokens, function(ttValue, ttKey) {
+					if ((ttKey == value.tenantCode) && (keepGoing)){
+						codiceTenant = ttKey;
+						keepGoing = false;
+					}
+				});
+			}
+		});
+		wsClient.updateStreamTenant(codiceTenant);
 		connectWS();
 	});
 
@@ -490,7 +506,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				if($scope.isTwitter){
 					collection = 'SocialFeeds';
 				}
-				odataAPIservice.getStreamData(apiCode, null, 0, maxNumData, 'time%20desc',collection).success(function(response) {
+				odataAPIservice.getStreamDataMultiToken(apiCode, null, 0, maxNumData, 'time%20desc',collection, discoveryResultList[0].Dataset.tenantCode, discoveryResultList[0].Dataset.tenantsharing).success(function(response) {
 					console.log("odataAPIservice.getStreamData",response, collection);
 					var oDataResultList = response.d.results;
 					if(oDataResultList.length >0){
@@ -534,7 +550,9 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				for (var int = 0; int < allData.length; int++) {
 					
 					var singleData  = allData[int].data[component.name];
-					if(component.dataType == "int" || component.dataType == "long" || component.dataType == "double" || component.dataType == "float" || component.dataType == "longitude" || component.dataType == "latitude")
+					if(component.dataType == "int" || component.dataType == "long" || 
+					   component.dataType == "double" || component.dataType == "float" || 
+					   component.dataType == "longitude" || component.dataType == "latitude")
 						singleData = Number(singleData);
 					
 					data.push([allData[int].datetime, singleData]);
@@ -601,7 +619,9 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			
 			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
 			console.debug("subscribe wsUrl ", $scope.wsUrl);
-			wsClient.subscribe($scope.wsUrl, dataCallback);
+			console.debug("subscribe stream ", $scope.stream);
+			console.log("======> tenantStream", $scope.stream.nomeTenant);
+			wsClient.subscribe($scope.wsUrl, dataCallback, $scope.stream.nomeTenant);
 		
 			/*var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
 			console.debug("subscribe wsStatUrl ", wsStatUrl);

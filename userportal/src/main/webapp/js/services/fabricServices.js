@@ -107,12 +107,23 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 	fabricAPI.getStream = function(tenant_code, virtualentity_code, stream_code) {
 //FIXME
 		var deferred = $q.defer();
+		var tenantForRequest = "";
 		fabricAPI.getInfo().success(function(infoData){
 			console.debug(infoData);
 			var visible= "?visibleFrom=sandbox";
-			if(infoData.user.activeTenant!=undefined)
-				visible= "?visibleFrom="+infoData.user.activeTenant;			
-			console.debug(visible);		
+			
+			if(infoData.user.tenantsTokens != undefined){
+				angular.forEach(info.info.user.tenantsTokens, function(value, key) {
+					tenantForRequest += key + "|";
+					console.log("tenantForRequest", tenantForRequest);
+				});
+				
+				console.log('tokenForRequest in getStreamDataMultiToken', tenantForRequest);
+				visible= "?visibleFrom=" + tenantForRequest.substr(0, tenantForRequest.length - 1);	
+			} else if(infoData.user.activeTenant != undefined)
+				visible= "?visibleFrom=" + infoData.user.activeTenant;		
+			
+			console.debug("===================> visible - ", visible);		
 			console.debug("url getStream", Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/'+visible+'&callback=JSON_CALLBACK');
 			$http({
 				method : 'JSONP',
