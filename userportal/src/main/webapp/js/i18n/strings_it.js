@@ -31,13 +31,13 @@ var translations_it = {
 	DATE_YEAR_PLACEHOLDER: 'aaaa',
 	
 	/* languages */
-	el:"ελληνικά",
+	el:"e???????",
 	en:"English",
-	es:"Español",
-	fr:"Français",
+	es:"Espa�ol",
+	fr:"Fran�ais",
 	it:"Italiano",
-	sl:"Slovenščina",
-	sr:"Српски",
+	sl:"Sloven�cina",
+	sr:"??????",
 
 	/* main menu */
 	MENU_HOME : 'Home',
@@ -697,7 +697,7 @@ var translations_it = {
 	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Cancellazione del DATASET selezionato',
 	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'SEI SICURO DI VOLER CANCELLARE IL DATASET?',
 	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dataset cancellato correttamente',
-	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non è stato possibile cancellare il dataset! Riprovare in un secondo momento',
+	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non � stato possibile cancellare il dataset! Riprovare in un secondo momento',
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_DATASET_CLONE_BUTTON: 'Clona',
@@ -963,7 +963,7 @@ var translations_it = {
 	/* Subscriptions */
 	SUBSCRIPTIONS_TITLE: 'Sottoscrizioni',
 	SUBSCRIPTIONS_ACCESS_TOKEN: 'Token di accesso',
-	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validità del token',
+	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validit� del token',
 	SUBSCRIPTIONS_CONSUMER_KEY: 'Consumer Key',
 	SUBSCRIPTIONS_CONSUMER_SECRET: 'Consumer Secret',
 	SUBSCRIPTIONS_TOKEN_OPERATION: 'Operazione',
