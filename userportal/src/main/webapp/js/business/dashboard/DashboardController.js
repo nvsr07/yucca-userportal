@@ -382,7 +382,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
 	$scope.maxDataResult={ value:120};
 	$scope.maxDataResultMin=1;
-	$scope.maxDataResultMax=120;
+	$scope.maxDataResultMax=1000;
 
 	var maxNumTweet = 6;
 
@@ -597,26 +597,13 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
 	var wsClient = webSocketService();
 	
-	//var maxNumWsStatisticMessages = 3;
-	//$scope.wsStatisticMessages = [ [ "-", "-" ], [ "-", "-" ], [ "-", "-" ]];
-	//var maxNumStatisticData = 30;
-	var counter = 0;
 
 	$scope.nvWsStatisticData = [{key: "Events", color: '#2980b9', values: []}];
 	$scope.nvWsStatisticData[0]["values"].push([0,0]);
 
-//	for (counter = 1; counter < maxNumStatisticData; counter++){
-//		$scope.nvWsStatisticData[0]["values"].push([0,20]);
-//	}
-
 	// last message
 	$scope.wsLastMessage = "";
 	$scope.wsLastMessageToShow = "";
-	var timeCounter = 0;
-	var lastDataIn30SecWithTime = new Array();
-	var semLastDataIn30Sec = false;
-	var lastValueTimeArrived = 0;
-	var saveTime = new Date().getTime();
 
 	$scope.connectionCallback=function(sms){		
 		$scope.clientConnection=sms;
@@ -640,13 +627,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			console.log("======> tenantStream", $scope.stream.nomeTenant);
 			wsClient.subscribe($scope.wsUrl, dataCallback, $scope.stream.nomeTenant);
 		
-			/*var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
-			console.debug("subscribe wsStatUrl ", wsStatUrl);
-			wsClient.subscribe(wsStatUrl, statisticCallback);
-			console.debug(">>>>>>>>>> PUSH >>>>>>>>>>   wsClient", wsClient);*/
-			
-			//$interval(function(){calcolateSumOf30SecondsArray(); }, 2000);
-			//$interval(function(){clear30SecondsArray(); }, 2000);
+
 			$interval(function(){updateStatistics(); }, 2000);
 					
 		}, function() {
@@ -670,11 +651,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			if(allData.length >= $scope.maxDataResult.value)
 				allData.shift();
 			allData.push({datetime: time, data: values});
-			if (time != lastValueTimeArrived){
-				semLastDataIn30Sec = true;
-				lastDataIn30SecWithTime[saveTime]++;
-				lastValueTimeArrived = time;
-			}
 		}
 		
 		allTime.push(new Date().getTime());
@@ -685,7 +661,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		
 		$scope.wsLastMessage = JSON.stringify(messageBody, null, "\t");
 
-		//if ($scope.wsLastMessageToShow == "")
 		$scope.lastMessageNotReceivedHint = "";
 		$scope.wsLastMessageToShow = $scope.wsLastMessage;
 	};
@@ -703,10 +678,6 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			for (var timeIndex = 0; timeIndex < allTime.length; timeIndex++) {
 				var time = allTime[timeIndex];
 				var elapsed = now-time;
-				console.log("now",timeCounter, now, elapsed, dataCounter);
-				//console.log("elapsed",elapsed);
-				//console.log(" - $scope.statisticTimeInterval.interval*1000",now - $scope.statisticTimeInterval.interval*1000);
-				//console.log("(timeCounter+1)*sampling*1000",(timeCounter+1)*sampling*1000);
 				if(-elapsed >(timeCounter-1)*sampling*1000
 					&& -elapsed <(timeCounter)*sampling*1000){
 					dataCounter++;
@@ -716,75 +687,9 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			dataCounter = 0;
 		}
 		console.log("data",$scope.nvWsStatisticData);
-		
-			
-			
-			
-			
-//		for (var tIndex = 0; tIndex < allTime.length; tIndex++) {
-//			var time = allTime[tIndex];
-//			if(time > minTime){
-//				if(time>timeCounter + $scope.samplingFrequency*1000){
-//					$scope.nvWsStatisticData[0]["values"].push([timeCounter, dataCounter]);
-//					timeCounter +=$scope.samplingFrequency*1000;
-//					dataCounter = 0;
-//				}
-//				else
-//					dataCounter++;
-//			}
-//		}
 
 	};
 	
-	var  calcolateSumOf30SecondsArray = function(){
-		counter++;
-		console.log("1",$scope.nvWsStatisticData[0]["values"].length ,$scope.statisticTimeInterval.interval);
-		if ($scope.nvWsStatisticData[0]["values"].length >= $scope.statisticTimeInterval.interval){
-			$scope.nvWsStatisticData[0]["values"].slice($scope.nvWsStatisticData[0]["values"].length-$scope.statisticTimeInterval.interval);
-		}
-		
-		if (!semLastDataIn30Sec){
-			lastDataIn30SecWithTime[saveTime = new Date().getTime()] = 0;
-		}
-		var numOfEventsWithTime = 0;
-		for (num in lastDataIn30SecWithTime) {
-			numOfEventsWithTime += lastDataIn30SecWithTime[num];
-		}
-		$scope.nvWsStatisticData[0]["values"].push([timeCounter, numOfEventsWithTime]);
-		timeCounter +=2;
-
-		$(window).resize();
-	};
-	
-	var clear30SecondsArray = function(){
-		semLastDataIn30Sec = false;
-		var lengthWithTime = Object.keys(lastDataIn30SecWithTime).length;
-		if (lengthWithTime > ($scope.statisticTimeInterval.interval / 2)){
-			var keysArr = Object.keys(lastDataIn30SecWithTime);
-			delete lastDataIn30SecWithTime[keysArr[0]];
-		}
-		lengthWithTime = Object.keys(lastDataIn30SecWithTime).length;
-		if (lengthWithTime == 0)
-			lastDataIn30SecWithTime[saveTime = new Date().getTime()] = 0;
-	};
-
-	/*
-	function statisticCallback(message) {
-		console.debug("message", message);
-		counter++;
-
-		if ($scope.nvWsStatisticData[0]["values"].length > maxNumStatisticData){
-			$scope.nvWsStatisticData[0]["values"].shift();
-		}
-
-
-		var numOfEvents = parseInt(angular.fromJson(message.body).event.payloadData.numEventsLast30Sec);
-
-		$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
-		timeCounter +=2;
-
-	};*/
-
 } 
 ]);
 
