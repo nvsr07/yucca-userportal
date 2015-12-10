@@ -70,28 +70,30 @@
 		</table>
 		<div class='' ng-show="resultViewType == 'box'">
    			<div id="browsedata-metadata-box-container">
-				<div class=' browsedata-metadata-box' ng-repeat='data in datasetList' ng-click="openDetail(data)">
-					<div class='box-top'>
-						<div  class='preview-img-container'  >
-							<img ng-src="{{data.datasetIcon}}" alt="logo dataset"class="" >
-						</div>
-						<div class='preview-info-container'>
-							<div class='clearfix preview-top-line'>
-								<div class='pull-left'><i>{{data.tenantCode}}</i></div>
-								<div class='pull-right'><i class='icon-{{data.dataDomain}} domain-icon' title='{{data.dataDomain|translate}}'></i></div>
+				<div class='col-sm-4' ng-repeat='data in datasetList' ng-click="openDetail(data)">
+						<div class="browsedata-metadata-box boxInStore">
+							<div class='box-top'>
+								<div  class='preview-img-container'  >
+									<img ng-src="{{data.datasetIcon}}" alt="logo dataset"class="" >
+								</div>
+								<div class='preview-info-container'>
+									<div class='clearfix preview-top-line'>
+										<div class='pull-left'><i>{{data.tenantCode}}</i></div>
+										<div class='pull-right'><i class='icon-{{data.dataDomain}} domain-icon' title='{{data.dataDomain|translate}}'></i></div>
+									</div>
+									<h4 title="{{data.customDescription}}">{{data.customDescription|string_ellipse:25}}</h4>
+									<div class='preview-desc'><small><span class='muted' title="{{data.datasetName}}">{{data.datasetName|string_ellipse:50}}</span></small></div>
+									<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
+								</div>
 							</div>
-							<h4 title="{{data.customDescription}}">{{data.customDescription|string_ellipse:25}}</h4>
-							<div class='preview-desc'><small><span class='muted' title="{{data.datasetName}}">{{data.datasetName|string_ellipse:50}}</span></small></div>
-							<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
+							<div class='license-column'>
+								<span title="{{data.license}}">{{data.license|string_ellipse:40}} </span>
+								<span class='license-column-icons'>
+									<i ng-show="data.copyright!=null && data.copyright!=''"class="fa fa-copyright" title="{{data.copyright}}"></i> 
+									<i ng-show="data.disclaimer!=null && data.disclaimer!=''"class="fa fa-info-circle" title="{{data.disclaimer}}"></i> 
+								</span>
+							</div>
 						</div>
-					</div>
-					<div class='license-column'>
-						<span title="{{data.license}}">{{data.license|string_ellipse:40}} </span>
-						<span class='license-column-icons'>
-							<i ng-show="data.copyright!=null && data.copyright!=''"class="fa fa-copyright" title="{{data.copyright}}"></i> 
-							<i ng-show="data.disclaimer!=null && data.disclaimer!=''"class="fa fa-info-circle" title="{{data.disclaimer}}"></i> 
-						</span>
-					</div>
 				</div>
 			</div>	
 		</div>
@@ -119,7 +121,7 @@
 	
 	
 	<div class='browsedata-toolbar'>
-		<a ng-click='goToChooseDomains()' class="btn btn-default " translate>DATABROWSER_RESULTS_BACK_BTN</a>
+		<a ng-click='goToChooseDomains(true)' class="btn btn-default " translate>DATABROWSER_RESULTS_BACK_BTN</a>
 	</div>
 </div>
 

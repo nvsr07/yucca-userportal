@@ -507,16 +507,22 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	};
 	
 	var searchType = "";
-	$scope.goToResults  = function(searchTypeParam){ 
+	$scope.goToResults  = function(searchTypeParam, clearDomain){ 
+		if(clearDomain) 
+			$scope.selectedDomain = null; 
 		
-		$scope.currentStep = 'results';
-		
-		$scope.stepTitle='DATABROWSER_RESULTS_TITLE';
-		$scope.currentPage = 1;
-		dataexplorerBrowseData.setSearchResult(null);
-		fromBackButton = false;
-		searchType  = searchTypeParam;
-		$scope.selectPage(1);
+		if (($scope.selectedDomain == null) && ($scope.queryInput == null)){
+			$scope.goToChooseDomains();
+		} else {
+			$scope.currentStep = 'results';
+			
+			$scope.stepTitle='DATABROWSER_RESULTS_TITLE';
+			$scope.currentPage = 1;
+			dataexplorerBrowseData.setSearchResult(null);
+			fromBackButton = false;
+			searchType  = searchTypeParam;
+			$scope.selectPage(1);
+		}
 	};
 
 	$scope.domainList = [];
@@ -592,9 +598,6 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			$scope.selectedTags.push(tag);
 	};
 	
-	
-	
-	
 	$scope.currentPage = 1;
 	var datasetForPage = 12;
 	$scope.isNavigation = false;
@@ -602,7 +605,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	$scope.showSearchLoading = false;
 
 	$scope.totalFound = null;
-	$scope.resultViewType = 'box';
+	$scope.resultViewType = 'list'; //'box';
 
 	$scope.datasetList = [];
 
@@ -613,7 +616,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			$scope.currentPage = currentPage;
 			switch (searchType) {
 				case 'query':
-					$scope.selectedDomain = null;
+					//$scope.selectedDomain = null;
 					$scope.selectedTags = [];
 					$scope.datasetList = [];
 					searchStart = 0;
@@ -682,7 +685,6 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		$scope.datasetList = [];
 		
 		$scope.showNavigationLoading = true;
-		
 		
 		dataDiscoveryService.findDatasets($scope.selectedDomain, $scope.selectedTags, start, datasetForPage, sort).success(function(response) {
 			console.log("dataDiscoveryService.findDatasets",response);
@@ -774,6 +776,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	$scope.noMoreSearchData = false;
 	
 	$scope.search = function(){
+		
 		$scope.totalFound = null;
 		$scope.isNavigation = false;
 		console.log("search", $scope.queryInput);
@@ -787,7 +790,10 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	    };
 	    
 	    var searchParams =  {"action":"searchAPIs","query":$scope.queryInput,"start":searchStart,"end": searchPage};
-	    if($scope.selectedDomain!=null){
+	    if(($scope.selectedDomain!=null) && ($scope.queryInput!=null)){
+	    	var newQueryInput = "(domainStream="+$scope.selectedDomain+" dataDomain="+$scope.selectedDomain+") && ("+$scope.queryInput+")";
+	    	searchParams =  {"action":"searchAPIs","query": newQueryInput,"start":searchStart,"end": searchPage};
+	    } else if($scope.selectedDomain!=null){
 	    	searchParams =  {"action":"searchAPIs","query":"domainStream="+$scope.selectedDomain+" dataDomain="+$scope.selectedDomain,"start":searchStart,"end": searchPage};
 	    }
 	    
@@ -863,7 +869,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			searchResult.datasetList = $scope.datasetList;
 			searchResult.queryInput = $scope.queryInput;
 			searchResult.selectedDomain = $scope.selectedDomain;
-
+			console.log("selectedDomain", $scope.selectedDomain);
 			
 			dataexplorerBrowseData.setSearchResult(searchResult);
 
@@ -880,7 +886,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		$scope.currentPage = searchResult.currentPage;
 		searchStart = searchResult.searchStart;
 		searchType  = searchResult.searchType;
-		$scope.selectedDomain = searchResult.selectedDomain;
+		$scope.selectedDomain = searchResult.selectedDomain;console.log("selectedDomain", $scope.selectedDomain);
 		$scope.selectedTags = searchResult.selectedTags;
 		$scope.queryInput = searchResult.queryInput;
 		$scope.totalFound = searchResult.totalFound;
