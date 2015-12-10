@@ -66,6 +66,11 @@ table>tbody>tr>td, .table>tbody>tr>td{border: 2px solid #d5d5d5; vertical-align:
 
 .top-toolbar{margin-bottom: 1em;}
 
+.input-range-panel label{margin-right: 1.5em; line-height: 2em}
+.input-range-panel input{width: auto; display: inline-block;height: 14px;font-size: 10px;}
+.input-range-panel .input-range-value{margin: 0 1em;}
+.input-range-refresh .input-range-value{margin: 0 1em;}
+
 .compact-panel{border: 2px solid #1074c2; border-radius: 4px; margin-bottom: 1em;}
 .compact-panel-title{background-color: #1074c2;overflow: auto; padding: 0 1em; color: white; }
 .compact-panel table .row-title{background-color: #efefef; font-weight: bold;}

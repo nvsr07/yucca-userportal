@@ -48,9 +48,19 @@
 				<tabset>
     				<tab heading="{{'DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE'|translate}}">
 						<div class='row'>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-								&nbsp;
+							<div class="col-sm-6 input-range-panel">
+  								<label for="statisticTimeInterval" translate>DASHBOARD_STREAM_WS_STATISTICS_CHART_TIME_INTERVAL</label> 
+  								<input type="range" id="statisticTimeInterval" name="statisticTimeInterval" ng-model="statisticTimeInterval.interval" min="{{statisticTimeIntervalMin}}" max="{{statisticTimeIntervalMax}}">
+	  							<span class='input-range-value'>{{statisticTimeInterval.interval|format_time_from_seconds}}</span>
 							</div>
+							<div class="col-sm-6 input-range-panel">
+  								<label for="samplingFrequency" translate>DASHBOARD_STREAM_WS_STATISTICS_SAMPLING_FREQUENCY</label> 
+  								<input type="range" id="samplingFrequency" name="samplingFrequency" ng-model="samplingFrequency.value" min="{{samplingFrequencyMin}}" max="{{samplingFrequencyMax}}">
+	  							<span class='input-range-value'>{{samplingFrequency.value|format_time_from_seconds}}</span>
+							</div>
+							
+							
+							
 						</div>
 						<div class='row'>
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
@@ -110,6 +120,12 @@
 							</div>
 						</div>
 						<div class='row' ng-show="!isTwitter">
+							<div class="col-sm-12 input-range-panel">
+  								<label for="maxDataResult" translate>DASHBOARD_STREAM_DATA_MAX_RESULT_INTERVAL</label> 
+  								<input class='input-range' type="range" id="maxDataResult" name="maxDataResult" ng-model="maxDataResult.value" min="{{maxDataResultMin}}" max="{{maxDataResultMax}}">
+	  							<span class='input-range-value'>{{maxDataResult.value}}</span>
+	  							<a href class='btn input-range-refresh' ng-click='reloadData()'><i class='glyphicon glyphicon-refresh'></i> <span translate>REFRESH</span></a>
+							</div>
 							<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
 								<strong><span translate>DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL</span></strong>&nbsp;
 							</div>

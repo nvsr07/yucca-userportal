@@ -111,6 +111,26 @@ appFilters.filter('format_filesize', function() {
 	};
 });
 
+appFilters.filter('format_time_from_seconds', function() {
+	return function(input) {
+		var output = "";
+		if (input) {
+   	 	var sec_num = parseInt(input);
+   	 	var hours   = Math.floor(sec_num / 3600);
+  		var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  		var seconds = sec_num - (hours * 3600) - (minutes * 60);
+      	
+	    if(hours>0)
+	        output += hours+"h "; 
+				if(minutes>0)
+	        output += minutes+"m "; 
+				if(seconds>0 )
+	        output += seconds+"s "; 
+	    }
+		return output;	
+	};
+});
+
 appFilters.filter('format_big_number', function() {
 	return function(input) {
 		var output = "";

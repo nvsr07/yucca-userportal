@@ -25,6 +25,7 @@ var translations_en = {
 	CHOOSE: 'Choose...',
 	CLOSE: 'Close',
 	WAIT: 'Wait...',
+	REFRESH: 'Refresh',
 
 	DATE_DAY_PLACEHOLDER: 'dd',
 	DATE_MONTH_PLACEHOLDER: 'mm',
@@ -489,6 +490,7 @@ var translations_en = {
 	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. between events', 
 	
 	
+	DASHBOARD_STREAM_DATA_MAX_RESULT_INTERVAL: 'Max number of data to be displayed', 
 	DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL: 'Choose the serie to be displayed', 
 	DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE: 'Main Information', 
 	DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE: 'Detailed information', 
@@ -499,7 +501,9 @@ var translations_en = {
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistics', 
 	
 	DASHBOARD_STREAM_WS_URL_TITLE : 'Web Socket Url',
-	DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE : 'Number of Events in the last 30 sec',
+	DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE : 'Number of Events',
+	DASHBOARD_STREAM_WS_STATISTICS_CHART_TIME_INTERVAL : 'Time range',
+	DASHBOARD_STREAM_WS_STATISTICS_SAMPLING_FREQUENCY: 'Sampling frequency',
 	DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_TIME : 'Time',
 	DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_COUNT : 'Events',
 	DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE : 'Last message received',

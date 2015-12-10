@@ -25,6 +25,7 @@ var translations_it = {
 	CHOOSE: 'Scegli...',
 	CLOSE: 'Chiudi',
 	WAIT: 'Attendere...',
+	REFRESH: 'Aggiorna',
 
 	DATE_DAY_PLACEHOLDER: 'gg',
 	DATE_MONTH_PLACEHOLDER: 'mm',
@@ -33,10 +34,10 @@ var translations_it = {
 	/* languages */
 	el:"e???????",
 	en:"English",
-	es:"Español",
-	fr:"Français",
+	es:"Espaï¿½ol",
+	fr:"Franï¿½ais",
 	it:"Italiano",
-	sl:"Slovenšcina",
+	sl:"Slovenï¿½cina",
 	sr:"??????",
 
 	/* main menu */
@@ -489,6 +490,7 @@ var translations_it = {
 	DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS: 'Min. tra eventi', 
 	
 	
+	DASHBOARD_STREAM_DATA_MAX_RESULT_INTERVAL: 'Numero massimo di dati da visualizzare',
 	DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL: 'Seleziona le serie da visualizzare', 
 	DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE: 'Informazioni Principali', 
 	DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE: 'Informazioni di Dettaglio', 
@@ -499,7 +501,9 @@ var translations_it = {
 	DASHBOARD_STREAM_REALTIME_STATISTIC_TITLE: 'Statistiche', 
 	
 	DASHBOARD_STREAM_WS_URL_TITLE : 'URL Web Socket',
-	DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE : 'Numero di eventi negli ultimi 30 sec',
+	DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE : 'Numero di eventi',
+	DASHBOARD_STREAM_WS_STATISTICS_CHART_TIME_INTERVAL : 'Intervallo di tempo',
+	DASHBOARD_STREAM_WS_STATISTICS_SAMPLING_FREQUENCY: 'Frequeza di campionamento',
 	DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_TIME : 'Ora',
 	DASHBOARD_STREAM_WS_STATISTICS_TABLE_HEAD_COUNT : 'Eventi',
 	DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE : 'Ultimo messaggio ricevuto',
@@ -697,7 +701,7 @@ var translations_it = {
 	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Cancellazione del DATASET selezionato',
 	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'SEI SICURO DI VOLER CANCELLARE IL DATASET?',
 	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dataset cancellato correttamente',
-	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non è stato possibile cancellare il dataset! Riprovare in un secondo momento',
+	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non ï¿½ stato possibile cancellare il dataset! Riprovare in un secondo momento',
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_DATASET_CLONE_BUTTON: 'Clona',
@@ -963,7 +967,7 @@ var translations_it = {
 	/* Subscriptions */
 	SUBSCRIPTIONS_TITLE: 'Sottoscrizioni',
 	SUBSCRIPTIONS_ACCESS_TOKEN: 'Token di accesso',
-	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validità del token',
+	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validitï¿½ del token',
 	SUBSCRIPTIONS_CONSUMER_KEY: 'Consumer Key',
 	SUBSCRIPTIONS_CONSUMER_SECRET: 'Consumer Secret',
 	SUBSCRIPTIONS_TOKEN_OPERATION: 'Operazione',
