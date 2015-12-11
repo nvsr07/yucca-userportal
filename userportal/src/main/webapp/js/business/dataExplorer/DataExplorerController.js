@@ -18,18 +18,18 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 	$scope.columnsForFilter = [];
 
 	var operators_date = [{"value":"eq", "label":"=", "valueDelimiter": "", "isFunction": false, "isDate": true},
-			                   {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false, "isDate": true},
-		                       {"value":"ge", "label":">=", "valueDelimiter": "", "isFunction": false, "isDate": true},
-		                       {"value":"gt", "label":">", "valueDelimiter": "", "isFunction": false, "isDate": true},
-			                   {"value":"lt", "label":"<", "valueDelimiter": "", "isFunction": false, "isDate": true},
-			                   {"value":"le", "label":"<=", "valueDelimiter": "", "isFunction": false, "isDate": true}];
+			              {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false, "isDate": true},
+		                  {"value":"ge", "label":">=", "valueDelimiter": "", "isFunction": false, "isDate": true},
+		                  {"value":"gt", "label":">", "valueDelimiter": "", "isFunction": false, "isDate": true},
+			              {"value":"lt", "label":"<", "valueDelimiter": "", "isFunction": false, "isDate": true},
+			              {"value":"le", "label":"<=", "valueDelimiter": "", "isFunction": false, "isDate": true}];
 
 	var operators_number = [{"value":"eq", "label":"=", "valueDelimiter": "", "isFunction": false, "isDate": false},
-			                   {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false, "isDate": false},
-		                       {"value":"ge", "label":">=", "valueDelimiter": "", "isFunction": false, "isDate": false},
-		                       {"value":"gt", "label":">", "valueDelimiter": "", "isFunction": false, "isDate": false},
-			                   {"value":"lt", "label":"<", "valueDelimiter": "", "isFunction": false, "isDate": false},
-			                   {"value":"le", "label":"<=", "valueDelimiter": "", "isFunction": false, "isDate": false}];
+			                {"value":"ne", "label":"!=", "valueDelimiter": "", "isFunction": false, "isDate": false},
+		                    {"value":"ge", "label":">=", "valueDelimiter": "", "isFunction": false, "isDate": false},
+		                    {"value":"gt", "label":">", "valueDelimiter": "", "isFunction": false, "isDate": false},
+			                {"value":"lt", "label":"<", "valueDelimiter": "", "isFunction": false, "isDate": false},
+			                {"value":"le", "label":"<=", "valueDelimiter": "", "isFunction": false, "isDate": false}];
 
 	var operators_string = [{"value":"eq", "label":"equals", "valueDelimiter": "'", "isFunction": false, "isDate": false},
 	                        {"value":"ne", "label":"not equals", "valueDelimiter": "'", "isFunction": false, "isDate": false},
@@ -275,7 +275,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			var oDataResultList = response.d.results;
 			
 			$scope.showLoading = false;
-
 			if(oDataResultList.length >0){
 				var firstRow = true;
 				for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
@@ -285,19 +284,19 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 					if(typeof oDataResult["Binaries"] !== 'undefined' && oDataResult["Binaries"]!=null){
 						baseBinaryUrl = $scope.datasetCode + "/DataEntities('"+oDataResult["internalId"]+"')/Binaries";// oDataResult["Binaries"].__deferred.uri;
 					}
+
 					for (var property in oDataResult) {
-						if(property!="__metadata" && property!="Binaries"){
+						if(property!="__metadata" && property!="Binaries" && property!="sensor" && property!="internalId" && property!="datasetVersion" && property!="idDataset"){
+							console.log("========property 1", property);
 							var value = oDataResult[property];
-							var isBinary = false;
+							var isBinary = false; 
 							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
 								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'dd/MM/yyyy HH:mm:ss');
 								data[property] =  {"value":d, "isBinary": false};
-							}
-							else if(value && value!=null  && typeof value["idBinary"] !== 'undefined' && value["idBinary"]!=null){
+							} else if(value && value!=null  && typeof value["idBinary"] !== 'undefined' && value["idBinary"]!=null){
 								data[property] = {"value":value["idBinary"], "isBinary": true, "binaryBaseUrl": baseBinaryUrl};
 								isBinary = true;
-							}
-							else
+							} else
 								data[property] = {"value":value, "isBinary": false};
 
 						    if(firstRow){
@@ -309,6 +308,37 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 						    	else if(property == defaultOrderByColumn)
 						    		showOrderButton = true;
 						    	
+						    	if($scope.orderBy.column == property)
+						    		order = $scope.orderBy.order;
+						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton, "showBinaryIcon":isBinary};//, "operators": field.operators, "dataType":field.dataType};
+						    	$scope.columns.push(column);
+						    }
+						}
+					}
+
+
+					for (var property in oDataResult) {
+						if((property!="__metadata" && property!="Binaries") && (property=="sensor" || property=="internalId" || property=="datasetVersion" || property=="idDataset")){
+							console.log("========property 2", property);
+							var value = oDataResult[property];
+							var isBinary = false;
+							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
+								var d = $filter('date')(new Date(Helpers.mongo.date2millis(value)), 'dd/MM/yyyy HH:mm:ss');
+								data[property] =  {"value":d, "isBinary": false};
+							} else if(value && value!=null  && typeof value["idBinary"] !== 'undefined' && value["idBinary"]!=null){
+								data[property] = {"value":value["idBinary"], "isBinary": true, "binaryBaseUrl": baseBinaryUrl};
+								isBinary = true;
+							} else
+								data[property] = {"value":value, "isBinary": false};
+
+						    if(firstRow){
+						    	var order = 'none';
+						    	
+						    	var showOrderButton = $scope.totalFound<Constants.ODATA_MAX_RESULT_SORTABLE?true:false;
+						    	if(isBinary)
+						    		showOrderButton = false;
+						    	else if(property == defaultOrderByColumn)
+						    		showOrderButton = true;
 						    	
 						    	if($scope.orderBy.column == property)
 						    		order = $scope.orderBy.order;
