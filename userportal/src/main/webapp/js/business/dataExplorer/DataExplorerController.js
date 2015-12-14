@@ -831,14 +831,6 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 						
 						data.datasetCode = dataFromSearch.name;
 						
-						if(Helpers.util.endsWith(data.datasetCode, "_odata")){
-							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-6);
-							data.type='dataset';
-						}
-						else if(Helpers.util.endsWith(data.datasetCode, "_stream")){
-							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
-							data.type='stream';
-						}
 	
 						data.datasetName = dataFromSearch.description;
 						data.customDescription = dataFromSearch.extraApiDescription;
@@ -855,7 +847,18 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 						data.streamCode = dataFromSearch.extraCodiceStream;
 						data.virtualentityCode = dataFromSearch.extraVirtualEntityCode;
 
-						data.datasetIcon = "http://"+getEnvirorment() + "userportal.smartdatanet.it"+dataFromSearch.thumbnailurl;
+						if(Helpers.util.endsWith(data.datasetCode, "_odata")){
+							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-6);
+							data.type='dataset';
+							data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
+						}
+						else if(Helpers.util.endsWith(data.datasetCode, "_stream")){
+							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
+							data.type='stream';
+							data.datasetIcon = Constants.API_RESOURCES_URL + "stream/icon/"+data.tenantCode+"/"+data.streamCode;
+						}
+
+						//data.datasetIcon = "http://"+getEnvirorment() + "userportal.smartdatanet.it"+dataFromSearch.thumbnailurl;
 						$scope.datasetList.push(cleanMetadata(data));
 						$scope.noMoreSearchData = false;
 				//	}
