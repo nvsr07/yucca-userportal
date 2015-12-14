@@ -176,6 +176,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .btn a, a.btn{ text-decoration: none;}
 .btn-default{color: white!important; background-color: #3f5152;border-color: #3f5152;}
 .btn-default:hover{background-color: #162c2d;border-color: #162c2d;}
+.btn-default:focus{background-color: #162c2d;border-color: #162c2d;}
 .btn-detail{font-size: 18pt; color: #717B7C}
 .form-control{border-radius: 0;border: solid 1px #717b7c; }
 
