@@ -920,8 +920,9 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 
 #databrowser .dataexplorer-table-grid-container th{text-align: left; position: relative; padding-right: .5em;}
 #databrowser .dataexplorer-table-grid-container .order-icons{position: absolute; right:10px; top: 8px;}
-#databrowser .dataexplorer-table-grid-container td{text-align: left;}
+#databrowser .dataexplorer-table-grid-container td{text-align: left;    vertical-align: middle;}
 #databrowser .dataexplorer-table-grid-container .domain-column{text-align: center; font-size: 24px;}
+#databrowser .dataexplorer-table-grid-container .type-column{text-align: center; font-size: 24px;}
 #databrowser .license-column{position: relative; padding-right:3em; min-height: 24pt;}
 #databrowser .license-column-icons{color: #00bbf0; font-size: 1.2em;position: absolute; right:10px;}
 
@@ -1017,6 +1018,7 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 .browsedata-metadata-box .preview-img-container{}
 .browsedata-metadata-box .box-top{position: relative;}
 .browsedata-metadata-box .preview-img-container img{width: 96px; height: 96px; position: absolute; top:0; left:0;}
+.browsedata-metadata-box .preview-img-container .entity-type{position: absolute; top:104px; left:0; color: #b5b5b5;}
 .browsedata-metadata-box .preview-top-line{color: #b5b5b5; line-height: 18pt;}
 .browsedata-metadata-box .preview-info-container{padding-left: 128px; margin:.5em;min-height: 96px;}
 .browsedata-metadata-box .preview-desc{min-height: 2em;}

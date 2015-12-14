@@ -30,6 +30,7 @@
 		<table class='table dataexplorer-table-grid' ng-show="resultViewType == 'list'">
 			<thead>
 				<tr>
+					<th>&nbsp;</th>
 					<th ng-repeat='column in columns track by $index'>
 						<div class=''>{{column["label"]|translate}}</div>
 						<div class='order-icons' ng-show="column['showOrderButton']" style='display: none'>
@@ -42,6 +43,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in datasetList" ng-click="openDetail(data)" class='browsedata-metadata-row'>
+					<td><div class='type-column'><i class="{{data['typeIcon']}} type-icon" title="{{data['type']|translate}}"></i></div></td>
 					<td class=''>
 						<div class='dataexplorer-table-grid-first-column'>
 							<img ng-src="{{datasetList[$index].datasetIcon}}" alt="logo dataset" class="img-responsive dataset-icon" >
@@ -75,6 +77,9 @@
 							<div class='box-top'>
 								<div  class='preview-img-container'  >
 									<img ng-src="{{data.datasetIcon}}" alt="logo dataset"class="" >
+									<div class='entity-type'>
+										<i class="{{data['typeIcon']}} type-icon" title="{{data['type']|translate}}"></i> <span translate>{{data['type']}}</span>
+									</div>
 								</div>
 								<div class='preview-info-container'>
 									<div class='clearfix preview-top-line'>

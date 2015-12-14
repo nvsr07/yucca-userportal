@@ -880,11 +880,13 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 						if(Helpers.util.endsWith(data.datasetCode, "_odata")){
 							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-6);
 							data.type='dataset';
+							data.typeIcon ='glyphicon glyphicon-align-justify';
 							data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
 						}
 						else if(Helpers.util.endsWith(data.datasetCode, "_stream")){
 							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
 							data.type='stream';
+							data.typeIcon ='glyphicon glyphicon-signal';
 							data.datasetIcon = Constants.API_RESOURCES_URL + "stream/icon/"+data.tenantCode+"/"+data.streamCode;
 						}
 
