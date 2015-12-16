@@ -493,7 +493,12 @@ function X2JS(config) {
 			// IE9+ now is here
 			if(!isIEParser) {
 				try {
-					parsererrorNS = parser.parseFromString("INVALID", "text/xml").childNodes[0].namespaceURI;
+					var userAgent = navigator.userAgent;
+					if (userAgent.indexOf("Firefox") >= 0){
+						parsererrorNS = "http://www.w3.org/1999/xhtml";
+					} else {
+						parsererrorNS = parser.parseFromString("INVALID", "text/xml").childNodes[0].namespaceURI;
+					}
 				}
 				catch(err) {					
 					parsererrorNS = null;
@@ -505,12 +510,10 @@ function X2JS(config) {
 					//throw new Error('Error parsing XML: '+xmlDocStr);
 					xmlDoc = null;
 				}
-			}
-			catch(err) {
+			} catch(err) {
 				xmlDoc = null;
 			}
-		}
-		else {
+		} else {
 			// IE :(
 			if(xmlDocStr.indexOf("<?")==0) {
 				xmlDocStr = xmlDocStr.substr( xmlDocStr.indexOf("?>") + 2 );
