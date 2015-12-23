@@ -201,15 +201,17 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		$scope.filters.splice($index,1);
 	};
 	
+	$scope.newFilterValue = {value: null};
+	
 	$scope.addFilter = function(){
 		$scope.addFilterError = null;
 		if($scope.newFilterColumn && $scope.newFilterColumn!=null && $scope.newFilterColumn.label!=null && $scope.newFilterColumn.label!='' &&
 			$scope.newFilterOperator!=null && $scope.newFilterOperator!=''  &&
-			$scope.newFilterValue!=null && ($scope.newFilterValue==0 || $scope.newFilterValue!='')){
-				$scope.filters.push({"column":$scope.newFilterColumn.label,"operator":$scope.newFilterOperator,"value":$scope.newFilterValue});
+			$scope.newFilterValue.value!=null && ($scope.newFilterValue.value==0 || $scope.newFilterValue.value!='')){
+				$scope.filters.push({"column": $scope.newFilterColumn.label, "operator": $scope.newFilterOperator, "value": $scope.newFilterValue.value});
 				$scope.newFilterColumn = null;
 				$scope.newFilterOperator = null;
-				$scope.newFilterValue = null;
+				$scope.newFilterValue.value = null;
 		}
 		else{
 			$scope.addFilterError = "DATA_EXPLORER_FILTER_ADD_FILTER_ERROR_MISSING_FIELDS";
@@ -287,7 +289,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 
 					for (var property in oDataResult) {
 						if(property!="__metadata" && property!="Binaries" && property!="sensor" && property!="internalId" && property!="datasetVersion" && property!="idDataset"){
-							console.log("========property 1", property);
 							var value = oDataResult[property];
 							var isBinary = false; 
 							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
@@ -319,7 +320,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 
 					for (var property in oDataResult) {
 						if((property!="__metadata" && property!="Binaries") && (property=="sensor" || property=="internalId" || property=="datasetVersion" || property=="idDataset")){
-							console.log("========property 2", property);
 							var value = oDataResult[property];
 							var isBinary = false;
 							if(value && value!=null && value.toString().lastIndexOf("/Date", 0) === 0 ){
@@ -937,4 +937,41 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	// https://int-userportal.smartdatanet.it/store/site/blocks/search/api-search/ajax/search.jag -d 'action=searchAPIs&query=grecia&start=0&end=10'
 }]);
 
+appControllers.controller('DatepickerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location', '$modal', 
+                                                function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info, $location, $modal) {
+	
+	  $scope.today = function() {
+		  $scope.dt = new Date();
+	  };
+	  $scope.today();
 
+	  $scope.clear = function () {
+		  $scope.dt = null;
+	  };
+
+	  // Disable weekend selection
+	  $scope.disabled = function(date, mode) {
+		  return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+	  };
+
+	  $scope.toggleMin = function() {
+		  $scope.minDate = $scope.minDate ? null : new Date();
+	  };
+	  $scope.toggleMin();
+
+	  $scope.open = function($event) {
+		   $event.preventDefault();
+		   $event.stopPropagation();
+
+		   $scope.opened = true;
+	  };
+
+	  $scope.dateOptions = {
+		   formatYear: 'yy',
+		   startingDay: 1
+	  };
+
+	  $scope.formats = [ 'dd/MM/yyyy', 'dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+	  $scope.format = $scope.formats[0];
+
+	}]);
