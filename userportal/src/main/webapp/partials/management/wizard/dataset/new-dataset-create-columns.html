@@ -1,23 +1,23 @@
 <div ng-cloak class='management-new-dataset-columns-panel'>
 	<div class="alert alert-danger management-upload-column-error-panel " ng-show='saveError'>
 		<div>
-			<strong><span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
-			<span translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
+			<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
+			<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
 		</div>
 	</div>
 	<div class='row text-left'>
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h4 translate>MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_TITLE</h4>
-			<p translate>MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_INTRO</p>
+			<h4 translate-cloak translate>MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_TITLE</h4>
+			<p translate-cloak translate>MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_INTRO</p>
 		</div>
 	</div>
 	<div class='row management-table-upload-column-header'>
-		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span title="{{'DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN_HINT'|translate}}"translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group"><span translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT</span> | <span translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></div>
-		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</span></div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span title="{{'DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN_HINT'|translate}}"translate-cloak translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</span></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT</span> | <span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></div>
+		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</span></div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
 	</div>
@@ -39,7 +39,7 @@
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCommonField(column)">
 		 	<select class="input-sm form-control" ng-model="column.measureUnit"   ng-change="refreshColumnOrder()"
 		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
-		 		<option value="" translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
+		 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 		 	</select>
         </div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCoordinatesField(column)">
@@ -47,7 +47,7 @@
         </div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><label>
 			<input type="checkbox" ng-model="column.isKey">
-			<span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label>
+			<span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label>
 		</div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 management-table-upload-column-drag-panel"   ng-drag="true" ng-drag-data="$index" ng-drag-success="onDragCsvFieldComplete($data,$event)" >
 			<label class='' title='{{"MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT"|translate}}' ><i class='glyphicon glyphicon-resize-vertical'></i></label>
@@ -77,7 +77,7 @@
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCommonField(newColumnDefinition)">
 		 	<select class="input-sm form-control" ng-model="newColumnDefinition.measureUnit"
 		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
-		 		<option value="" translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
+		 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 		 	</select>
         </div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCoordinatesField(newColumnDefinition)">
@@ -85,7 +85,7 @@
         </div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><label>
 			<input type="checkbox" ng-model="column.isKey" ng-disabled="newColumnDefinition.skipColumn">
-			<span translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label>
+			<span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label>
 		</div>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;
 		</div>
@@ -97,20 +97,20 @@
 	</div>
 	<div class="alert alert-danger text-left" ng-show='insertColumnErrors.length>0'>
 		<strong>{{updateError.error_message}}</strong>
-		<ul><li ng-repeat="insertColumnError in insertColumnErrors "><span translate>{{insertColumnError}}</span></li></ul>
+		<ul><li ng-repeat="insertColumnError in insertColumnErrors "><span translate-cloak translate>{{insertColumnError}}</span></li></ul>
 	</div>
 	<div ng-show="choosenDatasetType=='binary_no_upload'">
 		<p>&nbsp;</p>
 		<div class='row text-left'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<h4 translate>MANAGEMENT_NEW_DATASET_BINARY_TITLE</h4>
-				<p translate>MANAGEMENT_NEW_DATASET_BINARY_INTRO</p>
+				<h4 translate-cloak translate>MANAGEMENT_NEW_DATASET_BINARY_TITLE</h4>
+				<p translate-cloak translate>MANAGEMENT_NEW_DATASET_BINARY_INTRO</p>
 			</div>
 		</div>
 		<div class='row  management-table-upload-column-header'>
 			<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&num;</div>
-			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group"><span translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
-			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
+			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
+			<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
 			<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">&nbsp;</div>
 		</div>
 		<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewBinaries track by $index">
@@ -138,7 +138,7 @@
 		</div>
 		<div class="alert alert-danger text-left" ng-show='insertBinaryErrors.length>0'>
 			<strong>{{updateError.error_message}}</strong>
-			<ul><li ng-repeat="insertError in insertBinaryErrors "><span translate>{{insertError}}</span></li></ul>
+			<ul><li ng-repeat="insertError in insertBinaryErrors "><span translate-cloak translate>{{insertError}}</span></li></ul>
 		</div>
 	</div>
 	

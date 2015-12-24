@@ -1,39 +1,39 @@
 <div ng-controller="DataExplorerCtrl as dataExplorerCtrl" ng-cloak>
 	<div class='container-fluid'>
-		<h3 class='entity-title'><span translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small></h3>
+		<h3 class='entity-title'><span translate-cloak translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small></h3>
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left dataExplorer-icon-preview'>
 				<img ng-src="{{dataset.datasetIcon}}" alt="logo dataset" class='dataExplorer-icon-preview-img' >
 			</div>
 			<div class='pull-left'>
-				<div><small><span translate>DATASET_FIELD_METADATA_NAME</span></small></div>
+				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span></small></div>
 				<div class='main-info'><strong>{{dataset.datasetName}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
-				<div><small><span translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
+				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
 				<div><strong>{{dataset.registrationDate|date}}</strong></div>
 				
 			</div>
 		</div>
 		<div class='clearfix entity-info entity-info-bottom'>
 			<div class='pull-left'>
-				<div><small><span translate>DATASET_FIELD_CONFIGDATA_CODE</span></small></div>
+				<div><small><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_CODE</span></small></div>
 				<div class='url'><strong>{{dataset.datasetCode}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
-				<div><small><span translate>DATASET_FIELD_VERSION</span></small></div>
+				<div><small><span translate-cloak translate>DATASET_FIELD_VERSION</span></small></div>
 				<div><strong>{{dataset.datasetVersion}}</strong></div>
 			</div>
 		</div>
 		<div class='row-fluid clearfix panel-dataexplorer-topbar'>
 			<div class='col-sm-3'>
-				<a href ng-click="currentSidebar = 'filter'" class='sidebar-menu-item'><i class='glyphicon glyphicon-filter'></i>&nbsp;<span translate>DATA_EXPLORER_FILTER_MENU_BUTTON</span></a> &nbsp;
-				<a href ng-click="detailModal(dataset)" class='sidebar-menu-item'><i class='glyphicon glyphicon-record'></i>&nbsp;<span translate>DATA_EXPLORER_DETAIL_MENU_BUTTON</span></a>
+				<a href ng-click="currentSidebar = 'filter'" class='sidebar-menu-item'><i class='glyphicon glyphicon-filter'></i>&nbsp;<span translate-cloak translate>DATA_EXPLORER_FILTER_MENU_BUTTON</span></a> &nbsp;
+				<a href ng-click="detailModal(dataset)" class='sidebar-menu-item'><i class='glyphicon glyphicon-record'></i>&nbsp;<span translate-cloak translate>DATA_EXPLORER_DETAIL_MENU_BUTTON</span></a>
 			</div>
 			<div class='col-sm-9 text-right'>
-				<span ng-show='usedFilter!=null'><strong><span translate>DATA_EXPLORER_USED_FILTER</span>:</strong> <span ng-bind-html="usedFilter"></span></span>
+				<span ng-show='usedFilter!=null'><strong><span translate-cloak translate>DATA_EXPLORER_USED_FILTER</span>:</strong> <span ng-bind-html="usedFilter"></span></span>
 				<span class=' panel-dataexplorer-topbar-separator-big'>|</span>
-				<span ng-show='totalFound!=null'><strong><span translate>DATA_EXPLORER_TOTAL_FOUND</span>:</strong> {{totalFound}}</span>
+				<span ng-show='totalFound!=null'><strong><span translate-cloak translate>DATA_EXPLORER_TOTAL_FOUND</span>:</strong> {{totalFound}}</span>
 			</div>
 		</div>
 			
@@ -51,7 +51,7 @@
 					<h4>Loading...</h4>
 				</div>
 				<div class='alert alert-info' ng-show="dataList.length==0 && !showLoading && errors.length==0">
-					<span translate>DATA_EXPLORER_DATA_RESULT_EMPTY</span>
+					<span translate-cloak translate>DATA_EXPLORER_DATA_RESULT_EMPTY</span>
 				</div>
 				<div class="alert alert-danger" ng-show='errors.length!=0'>
 					<div class='row  text-left' ng-repeat="error in errors">
@@ -90,7 +90,7 @@
 										<div ng-show="data[column['label']].showBinaryDetail" class=''>
 											<div ng-show="data[column['label']].loadingBinaryDetail">Loading...</div>
 											<div class="alert alert-info" ng-show="data[column['label']].noBinaryFound">
-												<span translate>DATASET_BINARY_DETAIL_NOT_FOUND</span>
+												<span translate-cloak translate>DATASET_BINARY_DETAIL_NOT_FOUND</span>
 												<button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="data[column['label']].showBinaryDetail=false">
 													<span aria-hidden="true">&times;</span>
 												</button>
@@ -106,28 +106,28 @@
 													</div>
 													<div class="panel-body">
 														<p>					
-															<strong><span translate>DATASET_BINARY_DETAIL_FILENAME</span></strong><br/>
+															<strong><span translate-cloak translate>DATASET_BINARY_DETAIL_FILENAME</span></strong><br/>
 															<span>{{data[column['label']].binaryDetail.filenameBinary}}&nbsp;({{data[column['label']].binaryDetail.sizeBinary|format_filesize}})</span>
 														</p>
 														<p>					
-															<strong><span translate>DATASET_BINARY_DETAIL_CONTENTTYPE</span></strong><br/>
+															<strong><span translate-cloak translate>DATASET_BINARY_DETAIL_CONTENTTYPE</span></strong><br/>
 															<span>{{data[column['label']].binaryDetail.contentTypeBinary}}</span>
 														</p>
 														<p ng-show="data[column['label']].binaryDetail.metadataBinary!=null">					
-															<strong><span translate>DATASET_BINARY_DETAIL_METADATA</span></strong>
+															<strong><span translate-cloak translate>DATASET_BINARY_DETAIL_METADATA</span></strong>
 															
 															<a href ng-click="previewBinary(data[column['label']].binaryDetail, 'metadata')" class='btn btn-inline-slim'>
-																<span translate>DATASET_BINARY_DETAIL_METADATA_VIEW_BTN</span>
+																<span translate-cloak translate>DATASET_BINARY_DETAIL_METADATA_VIEW_BTN</span>
 															</a>
 															
 														</p>
 														<div class='dataexplorer-table-binary-td-bottombar text-right nowrap'>
 															<a href ng-click="previewBinary(data[column['label']].binaryDetail, 'file')" class='btn' 
 																ng-show="hasBinaryPreview(data[column['label']].binaryDetail.contentTypeBinary)">
-																<i class=' glyphicon glyphicon-eye-open'></i> <strong translate>DATASET_BINARY_DETAIL_PREVIEW</strong>
+																<i class=' glyphicon glyphicon-eye-open'></i> <strong translate-cloak translate>DATASET_BINARY_DETAIL_PREVIEW</strong>
 															</a>
 															<a href="{{data[column['label']].binaryDetail.absoluteUrlDownloadBinary}}" title="data[column['label']].binaryDetail.absoluteUrlDownloadBinary"class='btn'>
-																<i class='glyphicon glyphicon-download-alt'></i> <strong translate>DATASET_BINARY_DETAIL_URLDOWNLOAD</strong>
+																<i class='glyphicon glyphicon-download-alt'></i> <strong translate-cloak translate>DATASET_BINARY_DETAIL_URLDOWNLOAD</strong>
 															</a>
 														</div>
 														<!-- 	<div class='row'>
@@ -146,7 +146,7 @@
 						</tbody>
 					</table>
 					<div class='dataexplorer-url-container'>
-						<strong translate>DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL</strong>&nbsp;&nbsp;
+						<strong translate-cloak translate>DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL</strong>&nbsp;&nbsp;
 						<a class='query-odata-link' target='blank' ng-href='{{queryOdataLink}}'>{{queryOdataLink}}</a>
 					</div>
 					
@@ -158,12 +158,12 @@
 		</div>
 		
 
-		<!--  <h4><span translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span></h4>
-		<strong><span translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong>
+		<!--  <h4><span translate-cloak translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span></h4>
+		<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong>
 		<p><a href="{{apiMetdataUrl}}" target="_blank" class='management-dataset-download-link'>{{apiMetdataUrl}}</a></p>-->
 		<div class='row dataexplorer-dowloadcsv-container'>
 			<div class="col-xs-12 text-left ">
-				<strong translate>DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL</strong>&nbsp;&nbsp;
+				<strong translate-cloak translate>DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL</strong>&nbsp;&nbsp;
 				<!-- a class='dataexplorer-dowloadcsv-link' target='blank' ng-href='{{downloadCsvUrl}}'>{{downloadCsvUrl}}</a -->
 				
 				<a href="{{downloadCsvUrl}}" class="btn  btn-download-dataset ng-binding">
@@ -171,7 +171,7 @@
 				</a>
 			</div>
 			<div class="col-xs-12 text-left ">
-			<small class='mute'><i class='fa fa-lightbulb-o'></i> <i><span translate>DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT</span></i></small>
+			<small class='mute'><i class='fa fa-lightbulb-o'></i> <i><span translate-cloak translate>DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT</span></i></small>
 			</div>
 		</div>
 	</div>
@@ -182,7 +182,7 @@
 	<script type="text/ng-template" id="dataexplorerPreviewBinary.html">
         <div class="modal-header">
             <h3 class="modal-title">
-				<span translate>DATASET_BINARY_DETAIL_PREVIEW</span> 
+				<span translate-cloak translate>DATASET_BINARY_DETAIL_PREVIEW</span> 
 				<small>															
 					<span title="{{'DATASET_BINARY_DETAIL_ID'|translate}}">{{binaryPreview.idBinary}}</span> - 
 					<span title="{{'DATASET_BINARY_DETAIL_ALIASNAME'|translate}}">{{binaryPreview.aliasNameBinary}}</span>
@@ -218,9 +218,9 @@
         </div>
         <div class="modal-footer">
 			<div class='dataexplorer-binary-preview-footer'>
-          		<span><strong><span translate>DATASET_BINARY_DETAIL_FILENAME</span></strong> {{binaryPreview.filenameBinary}}&nbsp;({{binaryPreview.sizeBinary|format_filesize}})</span> 
+          		<span><strong><span translate-cloak translate>DATASET_BINARY_DETAIL_FILENAME</span></strong> {{binaryPreview.filenameBinary}}&nbsp;({{binaryPreview.sizeBinary|format_filesize}})</span> 
 				<span>|</span> 
-				<strong><span translate>DATASET_BINARY_DETAIL_CONTENTTYPE</span></strong> <span>{{binaryPreview.contentTypeBinary}}</span>
+				<strong><span translate-cloak translate>DATASET_BINARY_DETAIL_CONTENTTYPE</span></strong> <span>{{binaryPreview.contentTypeBinary}}</span>
 			</div>
         </div>
     </script>

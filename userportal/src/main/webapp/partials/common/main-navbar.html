@@ -7,8 +7,8 @@
    				</div>
 		        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
             		<ul>
-            			<li><a class="developer" href="http://developer.smartdatanet.it/" target='_blank' translate>HEADER_DEVELOPER_CENTER_LINK</a></li>
-            			<!-- <li><a  class="market" href="#" translate>HEADER_MARKET_PLACE_LINK</a></li> -->
+            			<li><a class="developer" href="http://developer.smartdatanet.it/" target='_blank' translate-cloak translate>developer center</a></li>
+            			<!-- <li><a  class="market" href="#" translate-cloak translate>HEADER_MARKET_PLACE_LINK</a></li> -->
             		</ul>
 				</div>
 			</div>
@@ -38,24 +38,6 @@
 			
 		</div>
 	</div>
-<!-- 	<div class="container ">
-			<div class='top-toolbar'>
-				<main-navbar-profile></main-navbar-profile>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it"></a></li>
-					<li><a href="#"  ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en"></a></li>
-					<li><p class="navbar-text">&nbsp;</p></li>
-				</ul>
-			</div>
-			<div class='row'>
-				<div class='col-sm-6'>
-					<a class="navbar-brand logo" href="http://www.smartdatanet.it"><img src="img/logosdp_header.png" alt="logo"  class='top-header-logo'/> </a>
-				</div>
-				<div class='col-sm-6 top-header-right'>
-					<h1>yucca</h1>
-				</div>
-			</div>
-		</div> -->	
 	<div class="bottom-header">
 		<div class="container ">
 			<div class="row">
@@ -63,15 +45,15 @@
 				<div class='col-sm-10 main-menu'>
 					<ul class="nav navbar-nav" ng-show="!isHomepage()">
 						<li class="space-vertical"></li>
-						<li ><a href="#/" ng-class="{active: $route.current.activetab == 'home'}" class='main-menu-item main-menu-item-dashboard'><span translate>MENU_HOME</span></a></li>
+						<li ><a href="#/" ng-class="{active: $route.current.activetab == 'home'}" class='main-menu-item main-menu-item-dashboard'><span translate-cloak translate>MENU_HOME</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('monitoring/*')" class='border-left'><a href="#/dashboard/streams" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'><span translate>MENU_DASHBOARD</span></a></li>
+						<li ng-show="isAuthorized('monitoring/*')" class='border-left'><a href="#/dashboard/streams" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'><span translate-cloak translate>MENU_DASHBOARD</span></a></li>
 						<li class="divider-vertical"></li>
-						<li  ng-show="isAuthorized('management/*')"  class='border-left'><a ng-href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}"  class='main-menu-item main-menu-item-management'><span translate>MENU_MANAGEMENT</span></a></li>
+						<li  ng-show="isAuthorized('management/*')"  class='border-left'><a ng-href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}"  class='main-menu-item main-menu-item-management'><span translate-cloak translate>MENU_MANAGEMENT</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('store/*')"  class='border-left'><a href="#/dataexplorer/browsedata?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_STORE</span></a></li>
+						<li ng-show="isAuthorized('store/*')"  class='border-left'><a href="#/dataexplorer/browsedata?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'><span translate-cloak translate>MENU_STORE</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('store/*') && user.loggedIn" class='border-left'><a href="#/dataexplorer/subscriptions?" ng-class="{active: $route.current.activetab == 'subscriptions'}" class='main-menu-item main-menu-item-dataexplorer'><span translate>MENU_SUBSCRIPTIONS</span></a></li>
+						<li ng-show="isAuthorized('store/*') && user.loggedIn" class='border-left'><a href="#/dataexplorer/subscriptions?" ng-class="{active: $route.current.activetab == 'subscriptions'}" class='main-menu-item main-menu-item-dataexplorer'><span translate-cloak translate>MENU_SUBSCRIPTIONS</span></a></li>
 					</ul>
 				</div>
 			</div>

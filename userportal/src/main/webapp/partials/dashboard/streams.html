@@ -1,7 +1,7 @@
 <div class='section-dashboard' ng-cloak>
 	<div class="container">
 		<div class='title-container row'>
-			<h1><span translate>DASHBOARD_TITLE</span></h1>
+			<h1><span translate-cloak translate>DASHBOARD_TITLE</span></h1>
 			<div class="title-menu">
 				<dashboard-menu></dashboard-menu>
 			</div>
@@ -29,31 +29,31 @@
 						<thead>
 							<tr>
 								<th>
-									<a href="" ng-click="predicate = 'nomeTenant'; reverse=!reverse"><span translate>DASHBOARD_STREAM_LIST_TENANT</span> 
+									<a href="" ng-click="predicate = 'nomeTenant'; reverse=!reverse"><span translate-cloak translate>DASHBOARD_STREAM_LIST_TENANT</span> 
 									<span ng-show="predicate=='nomeTenant' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='nomeTenant' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'codiceStream'; reverse=!reverse"><span translate>DASHBOARD_STREAM_LIST_STREAM_NAME</span> 
+									<a href="" ng-click="predicate = 'codiceStream'; reverse=!reverse"><span translate-cloak translate>DASHBOARD_STREAM_LIST_STREAM_NAME</span> 
 										<span ng-show="predicate=='codiceStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 										<span ng-show="predicate=='codiceStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span>
 									</a>
 								
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'virtualEntityDescription'; reverse=!reverse"><span translate>STREAM_FIELD_VIRTUALENTITY_DESCRIPTION</span> 
+									<a href="" ng-click="predicate = 'virtualEntityDescription'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_VIRTUALENTITY_DESCRIPTION</span> 
 									<span ng-show="predicate=='virtualEntityDescription' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='virtualEntityDescription' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'domainStream'; reverse=!reverse"><span translate>STREAM_FIELD_DOMAIN</span> 
+									<a href="" ng-click="predicate = 'domainStream'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_DOMAIN</span> 
 									<span ng-show="predicate=='domainStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='domainStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'deploymentStatusCode'; reverse=!reverse"><span translate>DASHBOARD_STREAM_LIST_STATUS</span> 
+									<a href="" ng-click="predicate = 'deploymentStatusCode'; reverse=!reverse"><span translate-cloak translate>DASHBOARD_STREAM_LIST_STATUS</span> 
 									<span ng-show="predicate=='deploymentStatusCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='deploymentStatusCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>

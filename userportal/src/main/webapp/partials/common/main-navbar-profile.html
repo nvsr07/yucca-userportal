@@ -1,7 +1,7 @@
 <ul class="nav navbar-nav navbar-right" ng-cloak>
 	<li class='main-menu-profile-item' ng-show="user.loggedIn"><span class='main-menu-username'>{{user.firstname}} {{user.lastname}}</span><span class='main-menu-tenant'>{{activeTenantCode}}</span></li>
 	<li class='main-menu-item'>
-		<a href='/userportal/api/authorize?returnUrl={{currentUrl()}}' ng-show="!user.loggedIn"><span translate>MENU_SING_IN</span></a>
+		<a href='/userportal/api/authorize?returnUrl={{currentUrl()}}' ng-show="!user.loggedIn"><span translate-cloak translate>MENU_SING_IN</span></a>
 		<div class="dropdown" ng-show="user.loggedIn" dropdown>
 			<button class="btn btn-default main-menu-profile-button dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" dropdown-toggle>
 				<span class="caret main-menu-caret"></span>
@@ -13,7 +13,7 @@
 		 		</a>
 		 	</li>
 		   	<li role="presentation" class="divider"></li>
-		    <li role="presentation"><a role="menuitem" tabindex="-1" href="/userportal/api/authorize?logout={{user.username}}&returnUrl={{currentUrl()}}"><span translate>MENU_SING_OUT</span></a></li>
+		    <li role="presentation"><a role="menuitem" tabindex="-1" href="/userportal/api/authorize?logout={{user.username}}&returnUrl={{currentUrl()}}"><span translate-cloak translate>MENU_SING_OUT</span></a></li>
 		  </ul>
 		</div>
 	</li>

@@ -2,8 +2,8 @@
 	<div class="container">
 		<div class='title-container row'>
 			<h1>
-				<span translate>DASHBOARD_ERROR_LOG_TITLE</span>  
-				<small><span translate>DASHBOARD_ERROR_LOG_SUBTITLE</span></small>
+				<span translate-cloak translate>DASHBOARD_ERROR_LOG_TITLE</span>  
+				<small><span translate-cloak translate>DASHBOARD_ERROR_LOG_SUBTITLE</span></small>
 			</h1>
 			<div class="title-menu">
 				<dashboard-menu></dashboard-menu>
@@ -15,12 +15,12 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 				<h4>
-					<span translate>DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_TITLE</span> 
-					<small><span translate>DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_SUBTITLE</span></small>
+					<span translate-cloak translate>DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_TITLE</span> 
+					<small><span translate-cloak translate>DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_SUBTITLE</span></small>
 				</h4>
 				<div class="list-group">
 					<a  ng-click='selectTenant("*");' class="list-group-item">
-						<span translate>DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_ITEM</span>
+						<span translate-cloak translate>DASHBOARD_ERROR_LOG_TENANT_MENU_PLATFORM_ITEM</span>
 						<small class="text-muted"><i>Undefined tenant</i></small>
 					</a> 
 					<a ng-repeat="tenant in tenantsList" ng-click=" selectTenant(tenant);"	class="list-group-item">{{tenant}}</a>
@@ -33,10 +33,10 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th><a><span translate>DASHBOARD_ERROR_LIST_CODE</span> </a></th>
-								<th><a><span translate>DASHBOARD_ERROR_LIST_NAME</span> </a></th>
-								<th><a><span translate>DASHBOARD_ERROR_LIST_TENANT</span> </a></th>
-								<th><a><span translate>DASHBOARD_ERROR_LIST_DATE</span> </a></th>
+								<th><a><span translate-cloak translate>DASHBOARD_ERROR_LIST_CODE</span> </a></th>
+								<th><a><span translate-cloak translate>DASHBOARD_ERROR_LIST_NAME</span> </a></th>
+								<th><a><span translate-cloak translate>DASHBOARD_ERROR_LIST_TENANT</span> </a></th>
+								<th><a><span translate-cloak translate>DASHBOARD_ERROR_LIST_DATE</span> </a></th>
 							</tr>
 						</thead>
 					</table>

@@ -887,7 +887,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
 							data.type='stream';
 							data.typeIcon ='glyphicon glyphicon-signal';
-							data.datasetIcon = Constants.API_RESOURCES_URL + "stream/icon/"+data.tenantCode+"/"+data.streamCode;
+							data.datasetIcon = Constants.API_RESOURCES_URL + "stream/icon/"+data.tenantCode+"/"+data.virtualentityCode+"/"+data.streamCode;
 						}
 
 						//data.datasetIcon = "http://"+getEnvirorment() + "userportal.smartdatanet.it"+dataFromSearch.thumbnailurl;

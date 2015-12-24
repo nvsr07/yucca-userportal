@@ -1,7 +1,7 @@
 
 <div ng-controller="ManagementNewDatasetWizardCtrl as datasetWizardCtrl">
 	<div class='container' ng-cloak>
-		<h3 class='content-edit-title'><span translate>MANAGEMENT_NEW_DATASET_TITLE</span></h3>
+		<h3 class='content-edit-title'><span translate-cloak translate>MANAGEMENT_NEW_DATASET_TITLE</span></h3>
 	</div>
 	<div class='container'  ng-cloak>
 		<div class='row'>
@@ -50,11 +50,11 @@
 	<div class='content-gray'>
 		<div class='container'>
 			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'  ng-cloak>
-				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate>WARNING</span></strong>&nbsp;&nbsp;<span translate>MANAGEMENT_SANDBOX_WARNING</span>
+				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span>
 			</div>
 			<div class="alert alert-warning" ng-show='warningMessages.length>0'  ng-cloak>
-				<strong translate>WARNING</strong> <span translate>{{warningMessage}}</span>
-				<ul><li ng-repeat="warningMessage in warningMessages "><span translate>{{warningMessage}}</span></li></ul>
+				<strong translate-cloak translate>WARNING</strong> <span translate-cloak translate>{{warningMessage}}</span>
+				<ul><li ng-repeat="warningMessage in warningMessages "><span translate-cloak translate>{{warningMessage}}</span></li></ul>
 			</div>
 			
 			

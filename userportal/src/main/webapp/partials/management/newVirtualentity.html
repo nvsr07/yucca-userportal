@@ -1,6 +1,6 @@
 <div ng-controller="ManagementVirtualentityWizardCtrl as virtualentityWizardCtrl">
 	<div class='container' ng-cloak>
-		<h3 class='content-edit-title'><span translate>MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE</span></h3>
+		<h3 class='content-edit-title'><span translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE</span></h3>
 	</div>
 	<div class='container' ng-cloak>
 		<div class='row'>
@@ -9,19 +9,19 @@
 				  <li role="presentation" ng-class="{active: currentStep == 'register'}">
 				  	<a href='javascript:void(0)' ng-class="wizardSteps[0].style">
 				  		<span class='wizard-step-counter'>1</span>
-				  		<span class='wizard-step-label wizard-step-label-notlast' translate>MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER</span> 
+				  		<span class='wizard-step-label wizard-step-label-notlast' translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER</span> 
 				  	</a>
 				  </li>
 				  <li role="presentation" ng-class="{active: currentStep == 'position'}">
 				  	<a href='javascript:void(0)' ng-class="wizardSteps[1].style">
 				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>2</span>
-				  		<span class='wizard-step-label wizard-step-label-notlast' translate>MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION</span> 
+				  		<span class='wizard-step-label wizard-step-label-notlast' translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION</span> 
 				  	</a>
 				  </li>
 				  <li role="presentation" ng-class="{active: currentStep == 'detail'}">
 				  	<a href='javascript:void(0)' ng-class="wizardSteps[2].style">
 				  		<span class='wizard-step-counter wizard-step-counter-notfirst'>3</span>
-				  		<span class='wizard-step-label wizard-step-label-notlast' translate>MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL</span> 
+				  		<span class='wizard-step-label wizard-step-label-notlast' translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL</span> 
 				  	</a>
 				  </li>
 			</ul>
@@ -32,7 +32,7 @@
 	<div class='content-gray'>
 		<div class='container'  ng-controller="ManagementVirtualentityCtrl as virtualentityCtrl">
 			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"' ng-cloak>
-				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate>WARNING</span></strong>&nbsp;&nbsp;<span translate>MANAGEMENT_SANDBOX_WARNING</span>
+				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span>
 			</div>
 			<div class="alert alert-danger" ng-show='creationError' ng-cloak>
 				<strong>{{creationError.error_message|translate}}</strong>

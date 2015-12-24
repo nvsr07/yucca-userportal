@@ -8,15 +8,15 @@
 	
 	<div class="modal-body table-responsive" ng-show="applicationList">
 		<div class='loadingPanel' ng-show="updating">
-			<div><span translate>WAIT</span></div>
+			<div><span translate-cloak translate>WAIT</span></div>
 			<div><span class='ajax-loading-big'></span></div>
 		</div>
-		<h4><span translate>DATA_EXPLORER_APPLICATIONS_LIST_TITLE</span></h4>
+		<h4><span translate-cloak translate>DATA_EXPLORER_APPLICATIONS_LIST_TITLE</span></h4>
 	
 		<div class='subpanel'>
 			<div class="alert alert-danger alert-dismissible" ng-show='errorMessage'>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="clearMessages()"><span aria-hidden="true">&times;</span></button>
-				<strong translate>WARNING</strong> {{errorMessage|translate}}
+				<strong translate-cloak translate>WARNING</strong> {{errorMessage|translate}}
 			</div>
 			<div class="alert alert-success alert-dismissible" ng-show='updateMessage'>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="clearMessages()"><span aria-hidden="true">&times;</span></button>
@@ -25,8 +25,8 @@
 			<table class="table table-application-api">
 				<thead>
 					<tr>
-						<th><span translate>APPLICATIONS_NAME</span></th>
-						<th><span translate>APPLICATIONS_DESCRIPTION</span></th>
+						<th><span translate-cloak translate>APPLICATIONS_NAME</span></th>
+						<th><span translate-cloak translate>APPLICATIONS_DESCRIPTION</span></th>
 						<th colspan="3">&nbsp;</th>
 					</tr>
 				</thead>
@@ -60,16 +60,16 @@
 					<tr ng-repeat-end ng-show="isShowSubscription(application.id)">
 						<td colspan="5" " class='subscriptions-tokens-col'>
 							<div class='subscriptions-tokens-panel'>
-								<span ng-show="!haveSubscription(application.id)" translate>SUBSCRIPTIONS_ALERT_NO_SUBSCRIPTION</span>
+								<span ng-show="!haveSubscription(application.id)" translate-cloak translate>SUBSCRIPTIONS_ALERT_NO_SUBSCRIPTION</span>
 								<div ng-show="haveSubscription(application.id)">
 									<div ng-repeat="sub in subscriptionList">
 										<div class="row">
 											<div class='col-sm-6'>
-												<label><span translate>SUBSCRIPTIONS_ACCESS_TOKEN</span></label>
+												<label><span translate-cloak translate>SUBSCRIPTIONS_ACCESS_TOKEN</span></label>
 												<span>{{sub.prodKey}}</span>
 											</div>
 											<div class='col-sm-6'>
-												<label><span translate>SUBSCRIPTIONS_TOKEN_VALIDITY</span></label>
+												<label><span translate-cloak translate>SUBSCRIPTIONS_TOKEN_VALIDITY</span></label>
 												<span><input class="input-sm" size="16" type="text" name="validityTime" ng-model="validityTime" placeholder="{{'SUBSCRIPTIONS_TOKEN_VALID_PLACEHOLDER'|translate}}" /></span>
 												<button class="btn btn-primary" type="button" ng-click="generateToken(validityTime)" translate ng-show="sub.prodKey == null">SUBSCRIPTIONS_GENERATE_TOKEN_BTN</button>
 												<button class="btn btn-primary" type="button" ng-click="rigenerateToken(validityTime)" translate ng-show="sub.prodKey != null">SUBSCRIPTIONS_RE_GENERATE_TOKEN_BTN</button>
@@ -77,15 +77,15 @@
 										</div>
 										<div class="row">
 											<div class='col-sm-6'>
-												<label><span translate>SUBSCRIPTIONS_CONSUMER_KEY</span></label>
+												<label><span translate-cloak translate>SUBSCRIPTIONS_CONSUMER_KEY</span></label>
 												<span>{{sub.prodConsumerKey}}</span>
 											</div>
 											<div class='col-sm-6'>
-												<label><span translate>SUBSCRIPTIONS_CONSUMER_SECRET</span></label>
+												<label><span translate-cloak translate>SUBSCRIPTIONS_CONSUMER_SECRET</span></label>
 												<span>{{sub.prodConsumerSecret}}</span>
 											</div>
 										</div>
-										<div><label><span translate>SUBSCRIPTIONS_API_SUBSCRIBED</span></label></div>
+										<div><label><span translate-cloak translate>SUBSCRIPTIONS_API_SUBSCRIBED</span></label></div>
 										<div class='subscriptions-api-panel'>
 											<img ng-repeat="api in sub.subscriptions" ng-src="{{api.thumburl}}" alt="{{api.name}}" title="{{api.name}}" class="upload-icon-preview-img">
 										</div>
@@ -98,18 +98,18 @@
 			</table>
 		</div>
 		
-		<h4 translate>DATA_EXPLORER_SUBSCRIBE_NEW_APPLICATION_TITLE</h4>
+		<h4 translate-cloak translate>DATA_EXPLORER_SUBSCRIBE_NEW_APPLICATION_TITLE</h4>
 		<div class='subpanel'>
 			<form class="form-inline">
 				<div class="form-group">
-   					<label for="newApplicationName" translate>APPLICATIONS_NAME</label>
+   					<label for="newApplicationName" translate-cloak translate>APPLICATIONS_NAME</label>
     				<input class="input-sm form-control" type="text" name="newApplicationName" ng-model="newApplicationName" placeholder="{{'APPLICATIONS_NAME'|translate}}" required="required">
   				</div>
   				<div class="form-group">
-	    			<label for="newApplicationDescription" translate>APPLICATIONS_DESCRIPTION</label>
+	    			<label for="newApplicationDescription" translate-cloak translate>APPLICATIONS_DESCRIPTION</label>
 	    			<input class="input-sm form-control" type="text" name="newApplicationDescription" ng-model="newApplicationDescription" placeholder="{{'APPLICATIONS_DESCRIPTION'|translate}}">
   				</div>
-  				<a href ng-click='createApplication()' class="btn btn-icon-plus " title="{{'SAVE'|translate}}" ><i class='glyphicon glyphicon-plus'></i> <span translate>DATA_EXPLORER_SUBSCRIBE_CREATE_APP_BTN</span></a>
+  				<a href ng-click='createApplication()' class="btn btn-icon-plus " title="{{'SAVE'|translate}}" ><i class='glyphicon glyphicon-plus'></i> <span translate-cloak translate>DATA_EXPLORER_SUBSCRIBE_CREATE_APP_BTN</span></a>
 			</form>
 		</div>
 	</div>

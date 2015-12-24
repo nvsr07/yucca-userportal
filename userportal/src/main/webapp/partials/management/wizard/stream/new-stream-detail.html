@@ -1,11 +1,11 @@
 <div>
 	<div class='clearfix wizard-title' ng-cloak>
-		<div class='pull-left'><h3><span translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL_TITLE</span></h3></div>
+		<div class='pull-left'><h3><span translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL_TITLE</span></h3></div>
 		<div class='pull-right'><h3><small>Step 3/5</small></h3></div>
 	</div>
 	<form class="form-horizontal" role="form" name="detailStreamForm" ng-cloak>
 		<div class="form-group">
-			<label for="inputStreamAddTag" class="col-sm-2 control-label"><span translate>STREAM_FIELD_TAGS</span></label>
+			<label for="inputStreamAddTag" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_TAGS</span></label>
 			<div class="col-sm-10">
 				<p class="text-left">
 					<span  ng-repeat="tag in stream.streamTags.tag">
@@ -25,7 +25,7 @@
 			</div>
 		</div>		
 		<div class="form-group has-feedback">
-			<label for="inputStreamFps" class="col-sm-2 control-label"><span translate>STREAM_FIELD_FPS</span></label>
+			<label for="inputStreamFps" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_FPS</span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="inputStreamFps" placeholder="{{'STREAM_FIELD_FPS'|translate}}" name="inputStreamFps" ng-model="stream.fps" ng-pattern="validationPatternFloat"
 				 ng-enabled="stream.idTipoVE != VIRTUALENTITY_TYPE_TWITTER_ID">
@@ -34,21 +34,21 @@
 			</div>
 		</div>			
 		<div class="form-group">
-			<label for="RadioGroupSaveData" class="col-sm-2 control-label"><span translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL</span></label>
+			<label for="RadioGroupSaveData" class="col-sm-2 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL</span></label>
 			<div class="col-sm-10 text-left">
 				<label class="radio-inline">
-             			<input type="radio" name="RadioGroupSaveData" value="1"  id="RadioGroupSaveData_0" ng-model="stream.saveData" ><span translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA</span>
+             			<input type="radio" name="RadioGroupSaveData" value="1"  id="RadioGroupSaveData_0" ng-model="stream.saveData" ><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA</span>
            		</label>
 				<label class="radio-inline active">
-             			<input type="radio" name="RadioGroupSaveData" value="0" id="RadioGroupSaveData_1" ng-model="stream.saveData" ><span translate>MANAGEMENT_EDIT_STREAM_DONT_SAVE_DATA</span>
+             			<input type="radio" name="RadioGroupSaveData" value="0" id="RadioGroupSaveData_1" ng-model="stream.saveData" ><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_DONT_SAVE_DATA</span>
            		</label>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputStreamIcon" class="col-sm-2 control-label"><span translate>STREAM_FIELD_ICON</span></label>
+			<label for="inputStreamIcon" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_ICON</span></label>
 			<div class="col-sm-3">
 				<div ng-file-drop="onIconSelect($files)" class='upload-icon-drop-area' ng-file-drag-over-class="upload-icon-drop-area-hover" ng-show="dropSupported">
-					<div translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA</div>
+					<div translate-cloak translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA</div>
 					<div class='desc'>256x256</div>
 					<div class='desc'>jpg | png</div>
 				</div>
@@ -56,7 +56,7 @@
 			</div>
 			<div class="col-sm-3">
 				<div ng-file-select="onIconSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
-					<span translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
+					<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
 				</div>
 			</div>
 			<div class="col-sm-3 col-sm-offset-1 text-right">
@@ -68,8 +68,8 @@
 	
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
-				<a ng-click='goToRequestor()' class="btn " translate>BACK</a>
-				<a ng-click='goToComponents()' class="btn btn-wizard-next" ng-disabled="!isOwner() || detailStreamForm.$invalid " translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+				<a ng-click='goToRequestor()' class="btn " translate-cloak translate>BACK</a>
+				<a ng-click='goToComponents()' class="btn btn-wizard-next" ng-disabled="!isOwner() || detailStreamForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
 			</div>
 		</div>
 	</form>

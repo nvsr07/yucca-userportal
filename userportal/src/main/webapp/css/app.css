@@ -6,6 +6,7 @@ h1, h2 {font-family: 'Roboto', sans-serif;}
 a{color: black; text-decoration: underline;}
 /* body{font-family: Helvetica, Arial, Sans-Serif;font-size: 14px;line-height: 20px;font-weight: 100;} */
 
+.translate-cloak{color: transparent;} 
 
 .main-body{/*background-color: #efefef; */border-bottom: solid 1px #bbb;}
 .content-gray{background-color: #efefef; }

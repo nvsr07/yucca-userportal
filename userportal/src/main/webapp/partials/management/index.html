@@ -1,16 +1,16 @@
 <div ng-controller="ManagementNavigationCtrl as navigationCtrl" class="section-management">
 	<div class="container " ng-cloak>
 		<div class='title-container clearfix'>
-			<h1  class='pull-left'><span translate>MANAGEMENT_TITLE</span><small> {{tenant}}</small></h1>
+			<h1  class='pull-left'><span translate-cloak translate>MANAGEMENT_TITLE</span><small> {{tenant}}</small></h1>
 			<div class="title-menu">
 				<a ng-disable="!isAuthorized('management/smartobjects/*')" href="#/management/virtualentities/{{activeTenantCode}}" ng-class="{active: isMenuActive('virtualentities')}"  class='btn  btn-top-toolbar'>
-					<span translate>MANAGEMENT_MENU_VIRTUAL_ENTITIES</span>
+					<span translate-cloak translate>MANAGEMENT_MENU_VIRTUAL_ENTITIES</span>
 				</a>
 				<a ng-disable="!isAuthorized('management/streams/*')" href="#/management/streams/{{activeTenantCode}}" ng-class="{active: isMenuActive('streams')}" class='btn btn-top-toolbar'>
-					<span translate>MANAGEMENT_MENU_STREAMS</span>
+					<span translate-cloak translate>MANAGEMENT_MENU_STREAMS</span>
 				</a>
 				<a ng-disable="!isAuthorized('management/datasets/*')" href="#/management/datasets/{{activeTenantCode}}" ng-class="{active: isMenuActive('datasets')}" class='btn btn-top-toolbar'>
-					<span translate>MANAGEMENT_MENU_DATASET</span>
+					<span translate-cloak translate>MANAGEMENT_MENU_DATASET</span>
 				</a>
 			</div>
 		</div>

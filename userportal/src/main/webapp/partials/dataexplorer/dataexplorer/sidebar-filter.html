@@ -2,13 +2,13 @@
 	<div class="panel-heading">
 		<h3 class="panel-title">
 			<i class='glyphicon glyphicon-filter'></i>&nbsp;
-			<span translate>DATA_EXPLORER_FILTER_PANEL_TITLE</span>
+			<span translate-cloak translate>DATA_EXPLORER_FILTER_PANEL_TITLE</span>
 			<a href ng-click="currentSidebar = 'none'" class='panel-hide-button'>&times;</a>
 		</h3>
 	</div>
 	<div class="panel-body">
 		<div class='clearfix'>
-			<h4><span translate>DATA_EXPLORER_FILTER_ADD_FILTER</span></h4>
+			<h4><span translate-cloak translate>DATA_EXPLORER_FILTER_ADD_FILTER</span></h4>
 			<div class="alert alert-warning" ng-show='addFilterError!=null'>
 				{{addFilterError|translate}}
 			</div>
@@ -32,11 +32,11 @@
 				</div>
 			</div>
 			<div class="bottom-toolbar text-right">
-				<a id="addFilterBtn" href ng-click='addFilter($index); loadData();' class='btn btn-default'><i class='glyphicon glyphicon-plus'></i>&nbsp;<span translate>DATA_EXPLORER_FILTER_APPLY</span></a>
+				<a id="addFilterBtn" href ng-click='addFilter($index); loadData();' class='btn btn-default'><i class='glyphicon glyphicon-plus'></i>&nbsp;<span translate-cloak translate>DATA_EXPLORER_FILTER_APPLY</span></a>
 			</div>
-			<h4><span translate>DATA_EXPLORER_FILTER_PREVIEW_FILTER</span></h4>
+			<h4><span translate-cloak translate>DATA_EXPLORER_FILTER_PREVIEW_FILTER</span></h4>
 			<p ng-show="filters.length==0">
-				<i><span translate>DATA_EXPLORER_FILTER_PREVIEW_FILTER_NO_FILTER</span></i>
+				<i><span translate-cloak translate>DATA_EXPLORER_FILTER_PREVIEW_FILTER_NO_FILTER</span></i>
 			</p>
 			<table class='table table-dataexplorer-filter-list'>
 				<tbody>

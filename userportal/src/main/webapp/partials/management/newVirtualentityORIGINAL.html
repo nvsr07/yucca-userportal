@@ -1,5 +1,5 @@
 <div class='container'>
-	<h3 class='content-edit-title'><span translate>VIRTUALENTITY</span> <small><span translate>MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE</span> </small></h3>
+	<h3 class='content-edit-title'><span translate-cloak translate>VIRTUALENTITY</span> <small><span translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_SUBTITLE</span> </small></h3>
 </div>
 <div class='content-gray'>
 	<div class='container'>
@@ -11,7 +11,7 @@
 				</div>
 				<form class="form-horizontal" role="form" name="newVirtualentityForm">
 						<div class="form-group">
-						<label for="inputType" class="col-sm-2 control-label"><span translate>VIRTUALENTITY_FIELD_TYPE</span>  <span class='required-asterisk'>*</span></label>
+						<label for="inputType" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_TYPE</span>  <span class='required-asterisk'>*</span></label>
 						<div class="col-sm-10">
 							<select id='inputType' class="form-control"	 ng-model="selectedType" required ng-click="selectTypeChange()">
 								<option  value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER'|translate}}</option>
@@ -21,7 +21,7 @@
 					</div>
 					<div class="form-group  has-feedback">
 						<label for="inputVirtualentityCode" class="col-sm-2 control-label">
-							<span translate>VIRTUALENTITY_FIELD_CODE</span> <span class='required-asterisk'>*</span> 
+							<span translate-cloak translate>VIRTUALENTITY_FIELD_CODE</span> <span class='required-asterisk'>*</span> 
 							<!-- <abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CODE_HINT'|translate}}"><strong>&#x25cf;</strong></abbr> -->
 						</label>
 						<div class="col-sm-8">
@@ -32,12 +32,12 @@
 									ng-show="newVirtualentityForm.inputVirtualentityCode.$error.pattern && updateVirtualentityForm.inputVirtualentityCode.$dirty"></span>
 						</div>
 						<div class="col-sm-2">
-							<a ng-click='generateUUID()' class="btn btn-default" ng-disabled="!enableCodeGeneateButton()"><span translate>MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON</span></a>
+							<a ng-click='generateUUID()' class="btn btn-default" ng-disabled="!enableCodeGeneateButton()"><span translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON</span></a>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="inputCategory" class="col-sm-2 control-label" >
-							<span translate>VIRTUALENTITY_FIELD_CATEGORY</span> <span class='required-asterisk'>*</span>
+							<span translate-cloak translate>VIRTUALENTITY_FIELD_CATEGORY</span> <span class='required-asterisk'>*</span>
 							<!-- <abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT'|translate}}"><strong>&#x25cf;</strong></abbr>  --> 
 						</label>
 						<div class="col-sm-10">
@@ -48,13 +48,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="inputVirtualentityName" class="col-sm-2 control-label"><span translate>VIRTUALENTITY_FIELD_NAME</span></label>
+						<label for="inputVirtualentityName" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_NAME</span></label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="inputVirtualentityName" placeholder="{{'VIRTUALENTITY_FIELD_NAME'|translate}}" ng-model="virtualentity.virtualEntityName">
 						</div>
 					</div>			
 					<div class="form-group">
-						<label for="inputVirtualentityDescription" class="col-sm-2 control-label"><span translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></label>
+						<label for="inputVirtualentityDescription" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></label>
 						<div class="col-sm-10">
 							<textarea class="form-control" rows="2" id="inputVirtualentityDescription" placeholder="{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}" ng-model="virtualentity.virtualEntityDescription"></textarea>
 						</div>
@@ -62,8 +62,8 @@
 		
 					<div class="row">
 						<div class="col-sm-12 form-toolbar"  ng-show="isAuthorized('management/smartobjects/update')" >
-							<a ng-click='cancel()' class="btn"><span translate>CANCEL</span></a>
-							<a ng-click='createVirtualentity(virtualentity)' class="btn btn-default" ng-disabled="!isOwner() || newVirtualentityForm.$invalid"><span translate>MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON</span></a>
+							<a ng-click='cancel()' class="btn"><span translate-cloak translate>CANCEL</span></a>
+							<a ng-click='createVirtualentity(virtualentity)' class="btn btn-default" ng-disabled="!isOwner() || newVirtualentityForm.$invalid"><span translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_CREATE_BUTTON</span></a>
 						</div>
 					</div>
 				</form>

@@ -1,18 +1,18 @@
 <div class='section-dashboard' ng-controller="DashboardDataStreamCtrl as streamsDataCtrl" ng-cloak>
 	<div class="container">
 		<div class='title-container row'>
-			<h1><span translate>DASHBOARD_STREAM_TITLE</span> <strong>{{stream.codiceStream}}</strong></h1>
+			<h1><span translate-cloak translate>DASHBOARD_STREAM_TITLE</span> <strong>{{stream.codiceStream}}</strong></h1>
 			<div class="title-menu">
 				<dashboard-menu></dashboard-menu>
 			</div>
 		</div>
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
-				<div><small><span translate>STREAM_FIELD_NAME</span></small></div>
+				<div><small><span translate-cloak translate>STREAM_FIELD_NAME</span></small></div>
 				<div class='main-info'><strong>{{stream.nomeStream}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
-				<div><small><span translate>STREAM_FIELD_CREATION_DATE</span></small></div>
+				<div><small><span translate-cloak translate>STREAM_FIELD_CREATION_DATE</span></small></div>
 				<div><strong>{{stream.registrationDate}}</strong></div>
 			
 			</div>
@@ -20,11 +20,11 @@
 		<div class='clearfix entity-info entity-info-bottom'>
 			<p>&nbsp;</p>
 			<div class='pull-left'>
-				<div><small><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></small></div>
+				<div><small><span translate-cloak translate>DASHBOARD_STREAM_WS_URL_TITLE</span></small></div>
 				<div class='url'><strong>{{wsUrl}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
-				<div><small><span translate>STREAM_FIELD_VERSION</span></small></div>
+				<div><small><span translate-cloak translate>STREAM_FIELD_VERSION</span></small></div>
 				<div><strong>{{stream.deploymentVersion}}</strong></div>
 			
 			</div>
@@ -32,8 +32,8 @@
 		<div class='clearfix'>
 			<div class='pull-left'>
 				<p>
-					<span translate>DASHBOARD_STREAM_REALTIME_FPS</span>  <span class='important'>{{stream.fps|number_ellipse:0.01:1000}}</span> - <span translate>DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS</span>  <span class='important'>{{stream.secondsBtwEvents|number_ellipse:0.01:1000}}</span> | 
-					<span translate>DASHBOARD_STREAM_REALTIME_FPM</span>  <span class='important'>{{stream.fpm|number_ellipse:0.01:1000}}</span> - <span translate>DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS</span>   <span class='important'>{{stream.minutesBtwEvents|number_ellipse:0.01:1000}}</span>
+					<span translate-cloak translate>DASHBOARD_STREAM_REALTIME_FPS</span>  <span class='important'>{{stream.fps|number_ellipse:0.01:1000}}</span> - <span translate-cloak translate>DASHBOARD_STREAM_REALTIME_SEC_BTW_EVENTS</span>  <span class='important'>{{stream.secondsBtwEvents|number_ellipse:0.01:1000}}</span> | 
+					<span translate-cloak translate>DASHBOARD_STREAM_REALTIME_FPM</span>  <span class='important'>{{stream.fpm|number_ellipse:0.01:1000}}</span> - <span translate-cloak translate>DASHBOARD_STREAM_REALTIME_MIN_BTW_EVENTS</span>   <span class='important'>{{stream.minutesBtwEvents|number_ellipse:0.01:1000}}</span>
 				</p>
 				<p>
 					<span class="clientConnectBullet {{clientConnectionClass}}"></span> {{clientConnection}} &nbsp;
@@ -49,12 +49,12 @@
     				<tab heading="{{'DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE'|translate}}">
 						<div class='row'>
 							<div class="col-sm-6 input-range-panel">
-  								<label for="statisticTimeInterval" translate>DASHBOARD_STREAM_WS_STATISTICS_CHART_TIME_INTERVAL</label> 
+  								<label for="statisticTimeInterval" translate-cloak translate>DASHBOARD_STREAM_WS_STATISTICS_CHART_TIME_INTERVAL</label> 
   								<input type="range" id="statisticTimeInterval" name="statisticTimeInterval" ng-model="statisticTimeInterval.interval" min="{{statisticTimeIntervalMin}}" max="{{statisticTimeIntervalMax}}">
 	  							<span class='input-range-value'>{{statisticTimeInterval.interval|format_time_from_seconds}}</span>
 							</div>
 							<div class="col-sm-6 input-range-panel">
-  								<label for="samplingFrequency" translate>DASHBOARD_STREAM_WS_STATISTICS_SAMPLING_FREQUENCY</label> 
+  								<label for="samplingFrequency" translate-cloak translate>DASHBOARD_STREAM_WS_STATISTICS_SAMPLING_FREQUENCY</label> 
   								<input type="range" id="samplingFrequency" name="samplingFrequency" ng-model="samplingFrequency.value" min="{{samplingFrequencyMin}}" max="{{samplingFrequencyMax}}">
 	  							<span class='input-range-value'>{{samplingFrequency.value|format_time_from_seconds}}</span>
 							</div>
@@ -86,7 +86,7 @@
     				<tab heading="{{'DASHBOARD_STREAM_DATA_CHART_TITLE'|translate}}">
 						<div class='row' ng-show="isTwitter">
 							<div class="col-sm-6" >
-								<h4><span translate>DASHBOARD_STREAM_DATA_LAST_TWEET_TITLE</span></h4>
+								<h4><span translate-cloak translate>DASHBOARD_STREAM_DATA_LAST_TWEET_TITLE</span></h4>
 								<div class='tweets-container'>
 									<div class='tweet-panel' ng-repeat="tweet in tweetData" ng-click="showTweetDetail(tweet)">
 										<div><strong>{{tweet.components.userName}}</strong></div>
@@ -102,7 +102,7 @@
 								</div>
 							</div>
 							<div class="col-sm-6" >
-								<h4><span translate>DASHBOARD_STREAM_DATA_TWEET_DETAIL_TITLE</span></h4>
+								<h4><span translate-cloak translate>DASHBOARD_STREAM_DATA_TWEET_DETAIL_TITLE</span></h4>
 								<div class='tweet-detail-container'>
 									<div ng-repeat="(key, value) in tweetDetail.components">
 										<div class='row'>
@@ -113,7 +113,7 @@
 									<p>&nbsp;</p>
 									<div class='text-center' ng-show="tweetDetail!=null">
 										<a href='https://twitter.com/{{tweetDetail.components.userScreenName}}/status/{{tweetDetail.components.tweetid}}' class='btn btn-twitter' target='_blank'>
-											<i class="fa fa-twitter"></i> <span translate>DASHBOARD_STREAM_VIEW_ON_TWITTER_BUTTON</span>
+											<i class="fa fa-twitter"></i> <span translate-cloak translate>DASHBOARD_STREAM_VIEW_ON_TWITTER_BUTTON</span>
 										</a>
 									</div>
 								</div>
@@ -121,13 +121,13 @@
 						</div>
 						<div class='row' ng-show="!isTwitter">
 							<div class="col-sm-12 input-range-panel">
-  								<label for="maxDataResult" translate>DASHBOARD_STREAM_DATA_MAX_RESULT_INTERVAL</label> 
+  								<label for="maxDataResult" translate-cloak translate>DASHBOARD_STREAM_DATA_MAX_RESULT_INTERVAL</label> 
   								<input class='input-range' type="range" id="maxDataResult" name="maxDataResult" ng-model="maxDataResult.value" min="{{maxDataResultMin}}" max="{{maxDataResultMax}}">
 	  							<span class='input-range-value'>{{maxDataResult.value}}</span>
-	  							<a href class='btn input-range-refresh' ng-click='reloadData()'><i class='glyphicon glyphicon-refresh'></i> <span translate>REFRESH</span></a>
+	  							<a href class='btn input-range-refresh' ng-click='reloadData()'><i class='glyphicon glyphicon-refresh'></i> <span translate-cloak translate>REFRESH</span></a>
 							</div>
 							<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
-								<strong><span translate>DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL</span></strong>&nbsp;
+								<strong><span translate-cloak translate>DASHBOARD_STREAM_DATA_FILTER_CHART_LABEL</span></strong>&nbsp;
 							</div>
 							<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 								<label class="checkbox-inline chart-legend-checkbox"  style='background-color: {{component.color}}' ng-repeat="component in chartComponentNames ">
@@ -163,14 +163,14 @@
 		<p>&nbsp;</p>
 	<!-- <div class='row'>
 			<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-				<h3><strong><span translate>STREAM_FIELD_NAME</span></strong> &nbsp;{{stream.nomeStream}}</h3>
+				<h3><strong><span translate-cloak translate>STREAM_FIELD_NAME</span></strong> &nbsp;{{stream.nomeStream}}</h3>
 				<p>
-					<strong><span translate>STREAM_FIELD_CREATION_DATE</span></strong> {{stream.registrationDate}} &nbsp;
-					<strong><span translate>STREAM_FIELD_LASTUPDATE</span></strong> {{stream.registrationDate}} 
+					<strong><span translate-cloak translate>STREAM_FIELD_CREATION_DATE</span></strong> {{stream.registrationDate}} &nbsp;
+					<strong><span translate-cloak translate>STREAM_FIELD_LASTUPDATE</span></strong> {{stream.registrationDate}} 
 				</p>					
 			</div>
 			<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
- 				<h3><strong><span translate>DASHBOARD_STREAM_WS_URL_TITLE</span></strong> </h3>
+ 				<h3><strong><span translate-cloak translate>DASHBOARD_STREAM_WS_URL_TITLE</span></strong> </h3>
  				<p>
     				<pre>{{wsUrl}}</pre>
   				</p>
@@ -179,29 +179,29 @@
 		<accordion close-others="false">
 			<accordion-group is-open="status1.open">
 				<accordion-heading>
-		 			<span translate>DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE</span>
+		 			<span translate-cloak translate>DASHBOARD_STREAM_DATA_MAIN_INFO_TITLE</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status1.open, 'glyphicon-plus': !status1.open}"></i>
 				</accordion-heading>
 
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_CODE</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_CODE</span></strong></div>
 						<div class="col-sm-10">{{stream.codiceStream}}</div>
 					</div>			
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>VIRTUALENTITY</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY</span></strong></div>
 						<div class='col-sm-10'>{{stream.codiceVirtualEntity}} - {{stream.virtualEntityName}}</div>
 					</div>	
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_VERSION</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_VERSION</span></strong></div>
 						<div class='col-sm-10'>{{stream.deploymentVersion|nvl:' -'}}</div>
 					</div>	
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_STATUS</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_STATUS</span></strong></div>
 						<div class='col-sm-10'>{{stream.deploymentStatusDesc|nvl:' -'}}</div>
 					</div>	
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TAGS</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TAGS</span></strong></div>
 						<div class='col-sm-10'>
 							<ul class="list-inline">
 								<li ng-repeat="tag in stream.streamTags.tag"><span class="label label-custom label-tag"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
@@ -209,18 +209,18 @@
 						</div>
 					</div>	
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_DOMAIN</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_DOMAIN</span></strong></div>
 						<div class='col-sm-10'>{{stream.domain|translate}}</div>
 					</div>	
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>TENANT</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>TENANT</span></strong></div>
 						<div class='col-sm-10'>{{stream.codiceTenant|nvl:''}} {{stream.nomeTenant|nvl:''}}</div>
 					</div>	
 				</div>
 			</accordion-group>
 			<accordion-group is-open="status2.open">
 				<accordion-heading>
-		 			<span translate>DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE</span>
+		 			<span translate-cloak translate>DASHBOARD_STREAM_DATA_DETAIL_INFO_TITLE</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
 				</accordion-heading>
 
@@ -251,20 +251,20 @@
 			</accordion-group>
 			<accordion-group is-open="status3.open">
 				<accordion-heading>
-		 			<span translate>DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE</span>
+		 			<span translate-cloak translate>DASHBOARD_STREAM_DATA_SHARE_INFO_TITLE</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
 				</accordion-heading>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_LICENCE</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_LICENCE</span></strong></div>
 						<div class='col-sm-10'>{{stream.licence|nvl:' -'}}</div>
 					</div>	
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_DISCLAIMER</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_DISCLAIMER</span></strong></div>
 						<div class='col-sm-10'>{{stream.disclaimer}}</div>
 					</div>	
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_COPYRIGHT</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_COPYRIGHT</span></strong></div>
 						<div class='col-sm-10'>{{stream.copyright|nvl:' -'}}</div>
 					</div>	
 					<div class="row card-row">
@@ -272,41 +272,41 @@
 						<div class='col-sm-10'>{{stream.visibility|nvl:' -'}}</div>
 					</div>	
 					<div class="row card-row">
-						<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_IN_STORE</span></strong></div>
+						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_IN_STORE</span></strong></div>
 						<div class='col-sm-10'>TBD</div>
 					</div>	
 				</div>
 			</accordion-group>
 			<accordion-group is-open="status5.open"  ng-show="isTwitter">
 				<accordion-heading>
-		 			<span translate>DASHBOARD_STREAM_TWITTER_INFO_TITLE</span>
+		 			<span translate-cloak translate>DASHBOARD_STREAM_TWITTER_INFO_TITLE</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
 				</accordion-heading>
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
 					<div class='col-sm-6'>{{stream.twtQuery}}</div>
-					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_LANG</span></strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_LANG</span></strong></div>
 					<div class='col-sm-2'>{{stream.twtLang}}</div>
 				</div>	
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_GEO</span></strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_GEO</span></strong></div>
 					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.twtGeolocLat}},{{stream.twtGeolocLon}}</span></div>
-					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
 					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{stream.twtGeolocRadius}} {{stream.twtUnit}}</span></div>
 				</div>	
 				<div class="row card-row">
-					<div class="col-sm-2 card-label"><strong><span translate>STREAM_FIELD_TWT_RATE</span></strong></div>
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_RATE</span></strong></div>
 					<div class='col-sm-10'>{{twitterPollingInterval}}</div>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="status4.open">
 				<accordion-heading>
-		 			<span translate>DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE</span>
+		 			<span translate-cloak translate>DASHBOARD_STREAM_WS_LASTMESSAGE_PANEL_TITLE</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
 				</accordion-heading>				
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-show="lastMessageNotReceivedHint!=''">
 					<div class='alert alert-info'>
-						<span translate>{{lastMessageNotReceivedHint}}</span>
+						<span translate-cloak translate>{{lastMessageNotReceivedHint}}</span>
 					</div>
 				</div>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
