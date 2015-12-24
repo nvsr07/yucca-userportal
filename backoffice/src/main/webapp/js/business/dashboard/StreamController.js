@@ -1,4 +1,4 @@
-appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice', 'fabricBuildService', '$translate', '$modal', '$timeout' ,
+appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice', 'fabricBuildService', '$translate', '$modal', '$timeout' ,
                                            function($scope, $route, fabricAPIservice, fabricBuildService, $translate, $modal,$timeout) {
 	console.log("$modal", $modal);
 		
@@ -239,74 +239,80 @@ appControllers.controller('StreamsCtrl', [ '$scope', "$route", 'fabricAPIservice
 		chekStepsLog(rowIndex, $scope.streamsList[rowIndex].stepsLogUrl);
 	};
 	
+	var someOneIsUpdating = false;
+	
 	var chekStepsLog = function(rowIndex, stepsLogUrl) {
-		
-        $timeout(function() {
+		console.log("chekStepsLog", someOneIsUpdating, rowIndex, $scope.streamsList[rowIndex].actionFeedback);
+        var checkStepTimeout = $timeout(function() {
     		var step_width = null;
     		var totalStep = null;
-        	fabricBuildService.getLogs(stepsLogUrl).success(function(response) {
-        	if(response!=null){
-	    			$scope.streamsList[rowIndex].actionIconClass='fa fa-bolt  blink-img';
-	    			$scope.streamsList[rowIndex].actionFeedback='Running';
-
-        			var lines = response.split('\n');
-        			if(lines!=null && lines.length>0){
-        				
-        				for(var line = 0; line < lines.length; line++){
-        					console.log("line |"  +lines[line] +"|");
-        					if(lines[line] && lines[line]!=null && lines[line]!="" && lines[line].length > 2){
-	    						var step = JSON.parse(lines[line]);
-	    						
-	    						if(step_width == null && step.stepTotal!=null){
-	    							step_width = "width:" + ((100-step.stepTotal)/step.stepTotal) + "%";
-	    							totalStep = step.stepTotal;
-	    						}
-	    						if($scope.streamsList[rowIndex].feedback && $scope.streamsList[rowIndex].feedback!=null &&
-	    							$scope.streamsList[rowIndex].feedback.lastStep && $scope.streamsList[rowIndex].feedback.lastStep!=null){
-	    							console.log("last", $scope.streamsList[rowIndex].feedback.lastStep);
-	    							console.log("current", step.stepNum);
-	    							if($scope.streamsList[rowIndex].feedback.lastStep.stepNum>step.stepNum){
-	    								$scope.streamsList[rowIndex].feedback = null;
-	    							}
-	    							else if($scope.streamsList[rowIndex].feedback.lastStep != step){
-		    							console.log("change ", $scope.streamsList[rowIndex]);
-		    							$scope.currentPage = getPageOfRow($scope.streamsList[rowIndex]);
-		    						}
-
-	    						}
-	    						
-	            				if($scope.streamsList[rowIndex].feedback  == null){
-	            					$scope.streamsList[rowIndex].feedback = {}; 
-	            					$scope.streamsList[rowIndex].feedback.totalStep = step.stepTotal;
-	            					$scope.streamsList[rowIndex].feedback.steps = [];
-	            					for (var j = 0; j < step.stepTotal; j++) {
-	            						var num = j+1;
-	            						var empty_step = {"stepNum": num, "status": "waiting", "style": "status_waiting", "width":step_width};
-	            						$scope.streamsList[rowIndex].feedback.steps.push(empty_step);
-									}
-	            				}
-	    						step.width = step_width;
-	    						step.style = stepStyle(step);
-	    						
-	    						$scope.streamsList[rowIndex].feedback.steps[step.stepNum-1] = step;
-        					}
-    					}
-        				$scope.streamsList[rowIndex].feedback.lastStep = $scope.streamsList[rowIndex].feedback.steps[$scope.streamsList[rowIndex].feedback.steps.length-1];
-        				
-        				if($scope.streamsList[rowIndex].feedback.lastStep.stepNum==totalStep && (step.skipped=='true'|| (step.status && step.status!=null && step.status.lastIndexOf('end', 0) === 0))){
-        					$scope.streamsList[rowIndex].feedback.finish = true;
-        					$scope.streamsList[rowIndex].actionIconClass='fa fa-flag-checkered';
-        					$scope.streamsList[rowIndex].actionFeedback='Finish';
-        					$scope.streamsList[rowIndex].isUpdating = false;
-        					$scope.streamsList[rowIndex].updated = true;
-        					$scope.streamsList[rowIndex].isSelected=false;
-
-        					refreshStream($scope.streamsList[rowIndex]);
-        				}        				
-
-        			}
-        		}
-        	});
+    		if(!someOneIsUpdating || $scope.streamsList[rowIndex].actionFeedback=='Running'){
+    			console.log("chekStepsLog chiamo ", rowIndex);
+	        	fabricBuildService.getLogs(stepsLogUrl).success(function(response) {
+		        	if(response!=null){
+			    			$scope.streamsList[rowIndex].actionIconClass='fa fa-bolt  blink-img';
+			    			$scope.streamsList[rowIndex].actionFeedback='Running';
+			    			someOneIsUpdating = true;
+		        			var lines = response.split('\n');
+		        			if(lines!=null && lines.length>0){
+		        				
+		        				for(var line = 0; line < lines.length; line++){
+		        					//console.log("line |"  +lines[line] +"|");
+		        					if(lines[line] && lines[line]!=null && lines[line]!="" && lines[line].length > 2){
+			    						var step = JSON.parse(lines[line]);
+			    						
+			    						if(step_width == null && step.stepTotal!=null){
+			    							step_width = "width:" + ((100-step.stepTotal)/step.stepTotal) + "%";
+			    							totalStep = step.stepTotal;
+			    						}
+			    						if($scope.streamsList[rowIndex].feedback && $scope.streamsList[rowIndex].feedback!=null &&
+			    							$scope.streamsList[rowIndex].feedback.lastStep && $scope.streamsList[rowIndex].feedback.lastStep!=null){
+			    							//console.log("last", $scope.streamsList[rowIndex].feedback.lastStep);
+			    							//console.log("current", step.stepNum);
+			    							if($scope.streamsList[rowIndex].feedback.lastStep.stepNum>step.stepNum){
+			    								$scope.streamsList[rowIndex].feedback = null;
+			    							}
+			    							else if($scope.streamsList[rowIndex].feedback.lastStep != step){
+				    							console.log("change ", $scope.streamsList[rowIndex]);
+				    							$scope.currentPage = getPageOfRow($scope.streamsList[rowIndex]);
+				    						}
+		
+			    						}
+			    						
+			            				if($scope.streamsList[rowIndex].feedback  == null){
+			            					$scope.streamsList[rowIndex].feedback = {}; 
+			            					$scope.streamsList[rowIndex].feedback.totalStep = step.stepTotal;
+			            					$scope.streamsList[rowIndex].feedback.steps = [];
+			            					for (var j = 0; j < step.stepTotal; j++) {
+			            						var num = j+1;
+			            						var empty_step = {"stepNum": num, "status": "waiting", "style": "status_waiting", "width":step_width};
+			            						$scope.streamsList[rowIndex].feedback.steps.push(empty_step);
+											}
+			            				}
+			    						step.width = step_width;
+			    						step.style = stepStyle(step);
+			    						
+			    						$scope.streamsList[rowIndex].feedback.steps[step.stepNum-1] = step;
+		        					}
+		    					}
+		        				$scope.streamsList[rowIndex].feedback.lastStep = $scope.streamsList[rowIndex].feedback.steps[$scope.streamsList[rowIndex].feedback.steps.length-1];
+		        				
+		        				if($scope.streamsList[rowIndex].feedback.lastStep.stepNum==totalStep && (step.skipped=='true'|| (step.status && step.status!=null && step.status.lastIndexOf('end', 0) === 0))){
+		        					$scope.streamsList[rowIndex].feedback.finish = true;
+		        					$scope.streamsList[rowIndex].actionIconClass='fa fa-flag-checkered';
+		        					$scope.streamsList[rowIndex].actionFeedback='Finish';
+		        					$scope.streamsList[rowIndex].isUpdating = false;
+		        					$scope.streamsList[rowIndex].updated = true;
+		        					$scope.streamsList[rowIndex].isSelected=false;
+		
+		        					refreshStream($scope.streamsList[rowIndex]);
+		        					someOneIsUpdating = false;
+		        				    $timeout.cancel(checkStepTimeout);
+		        				}        						
+		        			}
+		        		}
+	        	});
+    		}
         	if($scope.streamsList[rowIndex].feedback==null || !$scope.streamsList[rowIndex].feedback.finish || $scope.streamsList[rowIndex].feedback.finish!=true)
         		chekStepsLog(rowIndex,stepsLogUrl);
         }, 1000);
@@ -388,81 +394,21 @@ appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 
 		            var date = "<span class='logDate'>"+lineSplit[0]+"</span>";
 		            var level = "<span class='logLevel logLevel"+lineSplit[1]+"'>"+lineSplit[1]+"</span>";
 		            var remainingLine = lineSplit.slice(2).join(" - ");
-		            var content  = safeTags(remainingLine);
-		            content =  removeImage(content);
-		            content = linkify(content);
-		            content = colorize(content);
+		            var content  = Helpers.render.safeTags(remainingLine);
+		            content =  Helpers.render.removeImage(content);
+		            content = Helpers.render.linkify(content);
+		            content = Helpers.render.colorize(content);
 		            formattedLog += "<p class='logLine'>"+date+level+content+"</p>"; 
 	            }
 	            else
-	            	formattedLog += safeTags(lines[k]);
+	            	formattedLog += Helpers.render.safeTags(lines[k]);
 	        }
 	    }
 	    return formattedLog
 	    //$("#log").html(formattedLog)
 	}
 	
-	var safeTags = function (stringIn) {
-		var stringOut = "";
-		if(stringIn && stringIn!=null)
-			stringOut = stringIn.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
-	    return stringOut;   
 
-	}
-
-	var removeImage = function(stringIn){
-		var stringOut = "";
-		if(stringIn && stringIn!=null){
-		    var imageStart = stringIn.indexOf("data:image");
-		    console.log("imageStart", imageStart);
-		    var stringOut = stringIn;
-		    if(imageStart>0){
-		        var imageEnd = stringIn.indexOf("\"", imageStart);
-		        stringOut = stringIn.substring(0,imageStart) + "<span class='logRemoveString'>Removed&hellip;</span>" + stringIn.substring(imageEnd);
-		        console.log("imageStart", imageEnd);
-	
-		    }
-		}
-	    return stringOut;   
-	}
-
-	var colorize = function(stringIn){
-		var colorizedText = "";
-		if(stringIn && stringIn!=null){
-		    colorizedText = stringIn.replace( /"idTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_idTenant">"idTenant"</span>:<span class="log_idTenant logValue">$1</span>');
-		    colorizedText = colorizedText.replace( /"codiceTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_codiceTenant">"codiceTenant"</span>:<span class="log_codiceTenant logValue">$1</span>');
-		    colorizedText = colorizedText.replace( /"idVirtualEntity"[ :]+"?([\w+ ]+)"?/,'<span class="log_idVirtualEntity">"idVirtualEntity"</span>:<span class="log_idVirtualEntity logValue">$1</span>');
-		    colorizedText = colorizedText.replace( /"codiceVirtualEntity"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceVirtualEntity">"codiceVirtualEntity"</span>:<span class="log_codiceVirtualEntity logValue">$1</span>');
-		    colorizedText = colorizedText.replace( /"idStream"[ :]+"?([\w+ ]+)"?/,'<span class="log_idStream">"idStream"</span>:<span class="log_idStream logValue">$1</span>');
-		    colorizedText = colorizedText.replace( /"codiceStream"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceStream">"codiceStream"</span>:<span class="log_codiceStream logValue">$1</span>');
-		    colorizedText = colorizedText.replace( /"esitoFabricController"[ :]+"?([\w+ +:+;]+)"?/,'<span class="log_esitoFabricController">"esitoFabricController"</span>:<span class="log_esitoFabricController logValue">$1</span>');
-		    colorizedText = colorizedText.replace( /"deploymentStatusDesc"[ :]+"?([\w+ ]+)"?/,'<span class="log_deploymentStatusDesc">"deploymentStatusDesc"</span>:<span class="log_deploymentStatusDesc logValue">$1</span>');
-		}
-	    return colorizedText;
-	}
-
-
-
-	var linkify = function(stringIn) {
-	    var replacedText, replacePattern1, replacePattern2, replacePattern3;
-	    replacedText = 0;
-		if(stringIn && stringIn!=null){
-
-		    //URLs starting with http://, https://, or ftp://
-		    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-		    replacedText = stringIn.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
-	
-		    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-		    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-		    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
-	
-		    //Change email addresses to mailto:: links.
-		    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-		    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
-		}
-	    return replacedText;
-	}
-	
 	$scope.showLog = function(action){
 		$scope.showLoading = true;
 		var urlParams = createActionLogUrl(row.stream, action);

@@ -22,7 +22,6 @@ appServices.factory('fabricBuildService',["$http","$q","info", function($http, $
 	};
 
 	fabricBuild.getLogs = function(urlParams) {
-		console.log("fabricBuild.getLogs", urlParams);
 		return $http({
 			method : 'GET',
 			url : Constants.API_FABRIC_PROXY_URL + urlParams,

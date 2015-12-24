@@ -4,9 +4,9 @@
 		<div class='title-container clearfix' ng-cloak>
 			<h1 class='pull-left'><span translate>DASHBOARD_TITLE</span></h1>
 			<div class="title-menu">
-				<a href ng-click="currentSection='streamsSection'" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'streamsSection'}" translate>DASHBOARD_MENU_STREAMS</a>
-				<a href ng-click="currentSection='tenantsSection'" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'tenantsSection'}" translate>DASHBOARD_MENU_TENANTS</a>
-				<a href ng-click="currentSection='usersSection'" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'usersSection'}" translate>DASHBOARD_MENU_USERS</a>
+				<a href ng-click="changeSection('streamsSection')" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'streamsSection'}" translate>DASHBOARD_MENU_STREAMS</a>
+				<a href ng-click="changeSection('tenantsSection')" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'tenantsSection'}" translate>DASHBOARD_MENU_TENANTS</a>
+				<a href ng-click="changeSection('usersSection')" class='btn  btn-top-toolbar' ng-class="{active: currentSection == 'usersSection'}" translate>DASHBOARD_MENU_USERS</a>
 			</div>
 		</div>
 	</div>

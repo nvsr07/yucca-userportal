@@ -56,7 +56,6 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		if(info.getActiveTenantCode()!=undefined)
 			visible= "?visibleFrom="+info.getActiveTenantCode();
 		
-		console.debug(visible);
 		return $http({
 			method : 'JSONP',
 			url : Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/'+visible+'&callback=JSON_CALLBACK'
@@ -69,6 +68,15 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			url : Constants.API_SERVICES_TENANT_LIST_URL+ '?callback=JSON_CALLBACK'
 		});
 	};
+	
+	fabricAPI.getEcosystems = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_SERVICES_ECOSYSTEM_LIST_URL+ '?callback=JSON_CALLBACK'
+		});
+	};
+	
+	
 
 	fabricAPI.getVirtualentities = function(tenant_code) {
 		if(tenant_code && tenant_code!=null && tenant_code!="")
@@ -281,6 +289,24 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		return deferred.promise;
 
 	};
+	
+	
+	fabricAPI.createTenant = function(tenant) {
+		var deferred = $q.defer();
+		var resultData = null;
+		console.debug("Tenant", tenant);
+		$http.post(Constants.API_SERVICES_TENANT_URL + tenant.tenant.tenantCode, tenant, {
+			crossDomain : true,
+		}).success(function(responseData) {
+			resultData = {status: "ok", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+			resultData = {status: "ko - "+responseStatus, data: responseData};
+			deferred.reject(resultData);
+		});
+		return deferred.promise;
+	};
+
 
 
 	return fabricAPI;

@@ -41,6 +41,25 @@ public enum ApiEntityEnum {
 			return false;
 		}
 	},
+	API_SERVICES_TENANT("API_SERVICES_TENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+
+			String activeTenant = request.getParameter("visibleFrom");
+			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+//			if((activeTenant!=null && !"".equals(activeTenant)) ){				
+//				if(activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)){
+//					return true;
+//				}else{
+//					return false;
+//				}				
+//			}
+			if("admin".equals(info.getUser().getUsername())){
+				return true;
+			}
+			return false;
+		}
+	},
 	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -99,6 +118,13 @@ public enum ApiEntityEnum {
 	},
 
 	API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
+	},
+
+	API_SERVICES_ECOSYSTEM_LIST("API_SERVICES_ECOSYSTEM_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "ecosystems/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);

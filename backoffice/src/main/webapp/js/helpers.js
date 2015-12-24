@@ -53,6 +53,40 @@ Helpers.stream = {
 	}
 };
 
+Helpers.tenant = {
+		statusIcon : function(tenant) {
+			var icon = "";
+			if (tenant.codDeploymentStatus) {
+				var cssClass = "";
+				switch (tenant.codDeploymentStatus) {
+				case "draft":
+					cssClass = "glyphicon-pencil action-edit";
+					break;
+				case "req_inst":
+					cssClass = "glyphicon-cog action-request-installation";
+					break;
+				case "inst":
+					cssClass = "glyphicon-save action-install";
+					break;
+				case "req_uninst":
+					cssClass = "glyphicon-cog action-uninstall";
+					break;
+				case "uninst":
+					cssClass = "glyphicon-time action-historical";
+					break;
+				case "reject":
+					cssClass = "glyphicon-remove-circle action-rejected";
+					break;
+					
+				}
+				icon = "<span class='glyphicon " + cssClass + "'></span>";
+			}
+
+			return icon;
+		}
+	};
+
+
 Helpers.util = {
 	isStringEmpty : function(str) {
 		return (!str || 0 === str.length);
@@ -194,7 +228,13 @@ Helpers.util = {
 		}
 		// Return the parsed data.
 		return (arrData);
+	},
+	
+	getEnvirorment: function(host){
+		var env = host.substring(0,host.indexOf("userportal.smartdatanet.it"));
+		return env;
 	}
+
 };
 
 Helpers.errors = {
@@ -202,4 +242,76 @@ Helpers.errors = {
 		var result = "/topic/output." + tenantCode + ".errors";
 		return result;
 	}
+};
+
+Helpers.render = {
+	
+	safeTags : function (stringIn) {
+		var outString = "";
+		if((typeof stringIn != "undefined") && stringIn!=null){
+			var typeStringIN = typeof stringIn;
+			if (typeStringIN == "string")
+				outString = stringIn.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+			else 
+				outString = stringIn;
+		}
+	    return outString;   
+
+	},
+	linkify: function(stringIn) {
+		var outString = "";
+		if((typeof stringIn != "undefined") && stringIn!=null){
+			var typeStringIN = typeof stringIn;
+			if (typeStringIN == "string"){
+			    var  replacePattern1, replacePattern2, replacePattern3;
+		
+			    //URLs starting with http://, https://, or ftp://
+			    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+			    outString = stringIn.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+		
+			    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+			    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+			    outString = outString.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+		
+			    //Change email addresses to mailto:: links.
+			    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+			    outString = outString.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+			} else 
+				outString = stringIn;
+		}
+
+		return outString;
+	},
+	
+	removeImage: function(stringIn){
+		var stringOut = "";
+		if(stringIn && stringIn!=null){
+		    var imageStart = stringIn.indexOf("data:image");
+		    console.log("imageStart", imageStart);
+		    var stringOut = stringIn;
+		    if(imageStart>0){
+		        var imageEnd = stringIn.indexOf("\"", imageStart);
+		        stringOut = stringIn.substring(0,imageStart) + "<span class='logRemoveString'>Removed&hellip;</span>" + stringIn.substring(imageEnd);
+		        console.log("imageStart", imageEnd);
+	
+		    }
+		}
+	    return stringOut;   
+	},
+
+	colorize: function(stringIn){
+		var colorizedText = "";
+		if(stringIn && stringIn!=null){
+		    colorizedText = stringIn.replace( /"idTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_idTenant">"idTenant"</span>:<span class="log_idTenant logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"codiceTenant"[ :]+"?([\w+ ]+)"?/,'<span class="log_codiceTenant">"codiceTenant"</span>:<span class="log_codiceTenant logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"idVirtualEntity"[ :]+"?([\w+ ]+)"?/,'<span class="log_idVirtualEntity">"idVirtualEntity"</span>:<span class="log_idVirtualEntity logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"codiceVirtualEntity"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceVirtualEntity">"codiceVirtualEntity"</span>:<span class="log_codiceVirtualEntity logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"idStream"[ :]+"?([\w+ ]+)"?/,'<span class="log_idStream">"idStream"</span>:<span class="log_idStream logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"codiceStream"[ :]+"?([\w+ +:+;+-]+)"?/,'<span class="log_codiceStream">"codiceStream"</span>:<span class="log_codiceStream logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"esitoFabricController"[ :]+"?([\w+ +:+;]+)"?/,'<span class="log_esitoFabricController">"esitoFabricController"</span>:<span class="log_esitoFabricController logValue">$1</span>');
+		    colorizedText = colorizedText.replace( /"deploymentStatusDesc"[ :]+"?([\w+ ]+)"?/,'<span class="log_deploymentStatusDesc">"deploymentStatusDesc"</span>:<span class="log_deploymentStatusDesc logValue">$1</span>');
+		}
+	    return colorizedText;
+	}
+	
 };
