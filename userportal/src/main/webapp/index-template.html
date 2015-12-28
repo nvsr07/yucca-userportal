@@ -54,9 +54,9 @@
 <body lang="en" ng-app="userportal">
 	<div ng-controller="GlobalCtrl as globalCtrl">
 		<div class='cookie-alert ng-hide' ng-show="showCookieMessage">
-			<span translate>COOKIE_MESSAGE</span>&nbsp;
+			<span translate translate-cloak>COOKIE_MESSAGE</span>&nbsp;
 			<a href='http://smartdatanet.it/yucca-cookies-policy.html' target='_blank'>Cookie Policy</a>&nbsp;
-			<a class='btn' ng-click='acceptCookie()' translate>OK</a>
+			<a class='btn' ng-click='acceptCookie()' translate-cloak translate>OK</a>
 		</div>
 		<!--<div id='topbar-family-identity'  ng-cloak>
 			<div class="container">

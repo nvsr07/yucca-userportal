@@ -239,12 +239,16 @@
 								</tbody>
 							</table>
 						</div>
-						<div class="row">
-							<div class=" col-sm-12 form-toolbar" ng-show="isAuthorized('management/datasets/update') ">
+						<div class="row"  ng-show="!isUploading">
+							<div class=" col-sm-12 form-toolbar" ng-show="isAuthorized('management/datasets/update')">
 								<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate-cloak translate>MANAGEMENT_EDIT_DATASET_FINISH_BUTTON</a>
 								<a  ng-click='updateDataset()'  class="btn btn-default" ng-disabled="!isOwner() || editDatasetForm.$invalid" translate-cloak translate>MANAGEMENT_EDIT_DATASET_SAVE_BUTTON</a>
-		
 							</div>
+						</div>
+						<div class="row"  ng-show="isUploading" ng-cloak>
+							<div class=" col-sm-12 col-lg-12 form-toolbar">
+								<div class='ajax-loading'><span translate-cloak translate>LOADING</span></div>
+							</div>				
 						</div>
 					</form>
 				</div>

@@ -267,11 +267,14 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 
 		console.log("newVirtualentity", newVirtualentity);
 
+		$scope.isUpdating = true;
 		var promise   = fabricAPIservice.createVirtualentity($scope.tenantCode, $scope.codeVirtualEntity,  newVirtualentity);
 		promise.then(function(result) {
+			$scope.isUpdating = false;
 			console.log("result qui ", result);
 			$location.path('management/editVirtualentity/'+$scope.tenantCode +'/'+$scope.codeVirtualEntity);
 		}, function(result) {
+			$scope.isUpdating = false;
 			$scope.creationError = angular.fromJson(result.data);
 			console.log("result.data ", result.data);
 		}, function(result) {
@@ -600,12 +603,15 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		
 		console.log("virtualentity.codeVirtualEntity", virtualentity.codeVirtualEntity);
 		console.log("newVirtualentity", newVirtualentity);
-
+	
+		$scope.isUpdating = false;
 		var promise   = fabricAPIservice.createVirtualentity($scope.tenantCode, virtualentity.codeVirtualEntity,  newVirtualentity);
 		promise.then(function(result) {
 			console.log("result qui ", result);
+			$scope.isUpdating = true;
 			$location.path('management/viewVirtualentity/'+$scope.tenantCode +'/'+virtualentity.codeVirtualEntity);
 		}, function(result) {
+			$scope.isUpdating = true;
 			$scope.creationError = angular.fromJson(result.data);
 			$scope.creationError.error_message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
 			if($scope.creationError && $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
@@ -622,7 +628,6 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.updateVirtualentity = function() {
 		$scope.updateInfo = null;
 		$scope.updateError = null;
-		Helpers.util.scrollTo("topForm");
 
 		var newVirtualentity = new Object();
 		// FIXME remove when api will be updated
@@ -646,9 +651,13 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		newVirtualentity.virtualEntity =  $scope.virtualentity;
 		console.log("newVirtualentity", newVirtualentity);
 		console.log("$scope.changeTwitterUser", $scope.changeTwitterUser);
+		$scope.isUpdating = true;
+
 		var promise   = fabricAPIservice.updateVirtualentity(newVirtualentity);
 		promise.then(function(result) {
 			console.log("result qui ", result);
+			Helpers.util.scrollTo("topForm");
+			$scope.isUpdating = false;
 			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
 			$scope.updateInfo = {status: result.status};
 			if($scope.changeTwitterUser ){
@@ -658,6 +667,8 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				$scope.changeTwitterUser = false;
 
 		}, function(result) {
+			Helpers.util.scrollTo("topForm");
+			$scope.isUpdating = false;
 			$scope.updateError = angular.fromJson(result.data);
 			$scope.updateError.error_message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
 			if($scope.updateError && $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)

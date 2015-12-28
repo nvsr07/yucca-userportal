@@ -96,7 +96,7 @@
 			</div>
 		</div>	
 		<div class="form-group">
-			<div class=" col-sm-12 form-toolbar">
+			<div class=" col-sm-12 form-toolbar" ng-show="!isUpdating">
 				<a ng-click='cancel()' class="btn " translate-cloak translate>BACK</a>
 				<!--  <a href ng-click='createVirtualentityTwitter()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid "  ng-show="isTwitter()">
 					<i class="fa fa-twitter"></i>&nbsp;
@@ -105,6 +105,10 @@
 				<a ng-click='goToPosition()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid "  ng-show="isDevice()" translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
 				<a ng-click='save()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid" ng-show="!isDevice()" translate-cloak translate>SAVE</a>
 			</div>
+			<div class=" col-sm-12 col-lg-12 form-toolbar " ng-show="isUpdating" > 
+				<div class='ajax-loading'><span translate-cloak translate>LOADING</span></div>
+			</div>				
+
 		</div>
 	</form>
 </div>

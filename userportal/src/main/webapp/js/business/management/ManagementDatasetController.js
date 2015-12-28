@@ -425,12 +425,15 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 
 		
-		Helpers.util.scrollTo();
 		if(!$scope.updateError){
 			console.log("updateDataset newDataset ", newDataset);
+			$scope.isUploading = true;
+
 			var promise   = fabricAPImanagement.updateDataset($scope.tenantCode, $scope.datasetCode, newDataset);
 	
 			promise.then(function(result) {
+				$scope.isUploading = false;
+				Helpers.util.scrollTo();
 				if(result.errors && data.errors.length>0){
 					$scope.updateError = true;
 					$scope.updateErrors = data.errors;
@@ -441,6 +444,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 					$scope.loadDataset();
 				}
 			}, function(result) {
+				Helpers.util.scrollTo();
+				$scope.isUploading = false;
 				$scope.updateError = true;
 				$scope.updateErrors = angular.fromJson(result.data);
 				console.log("result.data ", result.data);
@@ -1285,6 +1290,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			var fileName = null;
 			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)
 				fileName = $scope.selectedFile.name;
+			$scope.isUploading = true;
 			$scope.upload = $upload.upload({
 				url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
 				//headers: { 'Content-Transfer-Encoding': '8bit' },

@@ -110,10 +110,14 @@
 			</div>
 		</div>			
 		<div class="form-group">
-			<div class=" col-sm-12 form-toolbar">
+			<div class=" col-sm-12 form-toolbar" ng-show="!isUpdating" >
 				<a ng-click='goToComponents()' class="btn " translate-cloak translate>BACK</a>
 				<a ng-click='save()' class="btn btn-wizard-next" ng-disabled="!isOwner() || shareStreamForm.$invalid " translate-cloak translate>SAVE_DRAFT</a>
 			</div>
+			<div class=" col-sm-12 col-lg-12 form-toolbar " ng-show="isUpdating" > 
+				<div class='ajax-loading'><span translate-cloak translate>LOADING</span></div>
+			</div>				
+
 		</div>
 	</form>
 </div>

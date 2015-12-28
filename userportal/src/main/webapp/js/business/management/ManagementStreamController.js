@@ -910,16 +910,21 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			newStream.stream.opendata.dataUpdateDate = opendataDate.getTime();
 		}
 
-		Helpers.util.scrollTo();
 		if(!$scope.updateWarning){
 
 			var promise   = fabricAPIservice.updateStream(newStream);
 
+			$scope.isUpdating = true;
+
 			promise.then(function(result) {
+				Helpers.util.scrollTo();
+				$scope.isUpdating = false;
 				$scope.updateInfo = {status: result.status};
 				$scope.loadStream();
 
 			}, function(result) {
+				Helpers.util.scrollTo();
+				$scope.isUpdating = false;
 				$scope.updateError = angular.fromJson(result.data);
 				console.log("result.data ", result.data);
 				if(result.data && result.data.error_code == "YuccaInternaApiFiledNameException")
@@ -1060,12 +1065,15 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			}
 
 			console.log("createStream - newStream", newStream);
-	
+
+			$scope.isUpdating = true;
 			var promise   = fabricAPIservice.createStream($scope.tenantCode, stream.codiceVirtualEntity,  newStream);
 			promise.then(function(result) {
+				$scope.isUpdating = false;
 				console.log("result qui ", result);
 				$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.codiceStream);
 			}, function(result) {
+				$scope.isUpdating = false;
 				$scope.creationError = angular.fromJson(result.data);
 				if(result.data && result.data.error_code == "YuccaInternaApiFiledNameException"){
 					result.data.error_message = "MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID";
