@@ -1,0 +1,55 @@
+@media only screen and (max-width: 991px) {
+ /* tablets and desktop */
+#homepage-family-identity #home-top-header .yucca{ padding-top: 0px;}
+#homepage-family-identity #home-operation-section .role-panel{font-size: 36px;}
+#homepage-family-identity #home-top-header{height: auto;}
+#homepage-family-identity #home-top-header .yucca{height: auto;}
+}
+
+@media only screen and (max-width: 767px) {
+ /* phones */
+ 
+	#homepage-family-identity #home-top-header{height: auto;}
+	#homepage-family-identity #home-top-header .yucca {height: auto;}
+	 
+	#homepage-family-identity #home-top-header .yucca{background-image: none;}
+	#homepage-family-identity #home-top-header .yucca h2{padding-left: 0; text-align: center;}
+	#homepage-family-identity #home-top-header .yucca p{padding-left: 0; text-align: center; font-size: 18px;}
+	#homepage-family-identity #home-landing-section {padding-top: 25px;}
+	#homepage-family-identity #home-landing-section .intro-desc {text-align: center;}
+	#homepage-family-identity #home-landing-section .action-start-panel{text-align: center; }
+	#homepage-family-identity #home-landing-section .home-start-intro {padding-right: 0; margin-top: 25px;}
+	#homepage-family-identity #home-landing-section .btn-home-start{text-align: center;}
+	#homepage-family-identity #home-landing-section .home-demo-intro {padding-right: 0; margin-top: 25px;}
+	#homepage-family-identity #home-landing-section .btn-arrow-right:before{width: 0;}
+	#homepage-family-identity #home-landing-section .btn-arrow-right:after{width: 0;}
+	#homepage-family-identity #home-landing-section .btn{white-space: normal; }
+	#homepage-family-identity .btn-home-demo{width: auto;}
+	
+	#home-statistic-section {padding: 10px 0 0 0;}
+	#home-statistic-section h3 {margin-bottom: 0;}
+	#home-statistic-section .statistic-data-panel{text-align: center;}
+	#home-statistic-section .statistic-chart-panel{text-align: center;}
+	#home-statistic-section .statistic-entity-panel{text-align: center;}
+	
+	#home-operation-section {padding: 10px 0;}
+	#homepage-family-identity #home-operation-section h2{font-size: 32px; margin-bottom: 30px;}
+	#homepage-family-identity #home-operation-section .main-icon{font-size: 48px; display: inline-block;}
+	#homepage-family-identity #home-operation-section .role-panel{ display: inline-block; line-height: 48px; padding-bottom: 30px;border-bottom-width: 0;}
+	#homepage-family-identity #home-operation-section .operation-panel-content .intro{border-top: solid 1px #000; font-size: 20px; padding:1em 0; margin: 0 1em; }
+	#homepage-family-identity #home-operation-section .operation-panel{margin-bottom: 30px; min-height: auto;}
+
+	#home-map-section .right-overlay-map{display: none;}
+	#home-map-section .left-overlay-map{display: none;}
+	
+	#footer-family-identity p{text-align: center;}
+	#footer-family-identity .logo-csi{margin-top: 20px;}
+	#footer-family-identity ul{padding-left: 0;}
+	#footer-family-identity ul li{text-align: center;}
+
+}
+
+
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+ /* portrait phones */
+}
