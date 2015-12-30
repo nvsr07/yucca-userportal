@@ -16,7 +16,8 @@ var app = angular.module('userportal', [
   'angularFileUpload',
   'ngDraggable',
   'ui.codemirror',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'akoenig.deckgrid'
   //'ngCookies'
   //'ngDragDrop'
 ]);

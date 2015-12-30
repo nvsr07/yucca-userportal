@@ -71,37 +71,84 @@
 			</tbody>
 		</table>
 		<div class='' ng-show="resultViewType == 'box'">
-   			<div id="browsedata-metadata-box-container">
-				<div class='col-sm-4' ng-repeat='data in datasetList' ng-click="openDetail(data)">
-						<div class="browsedata-metadata-box boxInStore">
-							<div class='box-top'>
-								<div  class='preview-img-container'  >
-									<img ng-src="{{data.datasetIcon}}" alt="logo dataset"class="" >
-									<div class='entity-type'>
-										<i class="{{data['typeIcon']}} type-icon" title="{{data['type']|translate}}"></i> <span translate-cloak translate>{{data['type']}}</span>
-									</div>
-								</div>
-								<div class='preview-info-container'>
-									<div class='clearfix preview-top-line'>
-										<div class='pull-left'><i>{{data.tenantCode}}</i></div>
-										<div class='pull-right'><i class='icon-{{data.dataDomain}} domain-icon' title='{{data.dataDomain|translate}}'></i></div>
-									</div>
-									<h4 title="{{data.customDescription}}">{{data.customDescription|string_ellipse:25}}</h4>
-									<div class='preview-desc'><small><span class='muted' title="{{data.datasetName}}">{{data.datasetName|string_ellipse:50}}</span></small></div>
-									<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
+			<div deckgrid source="datasetList" cardTemplate="partials/dataexplorer/databrowser/card-template.html" class="deckgrid"></div>
+			
+   			<!-- <div id="browsedata-metadata-box-container">
+				<div class='col-sm-4' ng-repeat='data in datasetList' ng-click="openDetail(data)"> -->
+				<!-- <div class="browsedata-metadata-box boxInStore">
+						<div class='box-top'>
+							<div  class='preview-img-container'  >
+								<img ng-src="{{data.datasetIcon}}" alt="logo dataset"class="" >
+								<div class='entity-type'>
+									<i class="{{data['typeIcon']}} type-icon" title="{{data['type']|translate}}"></i> <span translate-cloak translate>{{data['type']}}</span>
 								</div>
 							</div>
-							<div class='license-column'>
-								<span title="{{data.license}}">{{data.license|string_ellipse:40}} </span>
-								<span class='license-column-icons'>
-									<i ng-show="data.copyright!=null && data.copyright!=''"class="fa fa-copyright" title="{{data.copyright}}"></i> 
-									<i ng-show="data.disclaimer!=null && data.disclaimer!=''"class="fa fa-info-circle" title="{{data.disclaimer}}"></i> 
-								</span>
+							<div class='preview-info-container'>
+								<div class='clearfix preview-top-line'>
+									<div class='pull-left'><i>{{data.tenantCode}}</i></div>
+									<div class='pull-right'><i class='icon-{{data.dataDomain}} domain-icon' title='{{data.dataDomain|translate}}'></i></div>
+								</div>
+								<h4 title="{{data.customDescription}}">{{data.customDescription|string_ellipse:25}}</h4>
+								<div class='preview-desc'><small><span class='muted' title="{{data.datasetName}}">{{data.datasetName|string_ellipse:50}}</span></small></div>
+								<div class=' tags-list'><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></div>
 							</div>
 						</div>
+						<div class='license-column'>
+							<span title="{{data.license}}">{{data.license|string_ellipse:40}} </span>
+							<span class='license-column-icons'>
+								<i ng-show="data.copyright!=null && data.copyright!=''"class="fa fa-copyright" title="{{data.copyright}}"></i> 
+								<i ng-show="data.disclaimer!=null && data.disclaimer!=''"class="fa fa-info-circle" title="{{data.disclaimer}}"></i> 
+							</span>
+						</div>
+					</div> -->
+					<!-- 
+					<div class="browsedata-metadata-box boxInStore">
+						<header class='clearfix'>
+							<div class='pull-left'>
+								<div><small translate-cloak translate>{{data['type']}}</small></div>
+								<div><strong>{{data.objectName}}</strong></div>
+							</div>
+							<div class='pull-right'>
+								<i class="{{data['typeIcon']}} type-icon" title="{{data['type']|translate}}"></i> 
+							</div>
+						</header>
+						<div class='box-content'>
+							<section>
+								<strong>{{data['datasetName']}}</strong>
+								<p>{{data['customDescription']}}</p>
+							</section>
+							<section ng-show="data['virtualentityCode]!=null">
+								<div><strong translate>VIRTUALENTITY</strong></div>
+								<p>{{data['virtualentityCode']}}<br>{{data['virtualentityDescription']}}</p>
+							</section>
+							<section>
+								<i class="icon-{{data['dataDomain']}} domain-icon" title="{{data['dataDomain']|translate}}"></i> <span translate-cloak translate>{{data['dataDomain']}}</span>
+							</section>
+							<section>
+								<div><strong translate>TENANT</strong></div>
+								<p>{{data.tenantCode}}</p>
+							</section>
+							<section><span ng-repeat="tag in data['tags']"><span ng-bind-html="tag|translate"></span> </span></section>
+							<section ng-show='data["license"]!=null && data.copyright!='''>
+								<div><strong translate>STREAM_FIELD_LICENCE</strong></div>
+								<p>{{data["license"]}}</p>
+							</section>
+							<section ng-show='data["copyright"]!=null && data.copyright!='''>
+								<div><strong translate>STREAM_FIELD_COPYRIGHT</strong></div>
+								<p>&copy; {{data["copyright"]}}</p>
+							</section>
+							<section ng-show='data["disclaimer"]!=null && disclaimer'''>
+								<div><strong translate>STREAM_FIELD_DISCLAIMER</strong></div>
+								<p>{{data["disclaimer"]}}</p>
+							</section>
+						</div>
+						<footer>
+							<img ng-src="{{data.datasetIcon}}" alt="logo dataset"class="" >
+						</footer>
+					</div>
 				</div>
-			</div>	
-		</div>
+			</div>	 -->
+		</div> 
 	</div>
 	<div ng-show='isNavigation && !showNavigationLoading'>
 		<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage(currentPage)" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
@@ -109,8 +156,8 @@
 		</pagination>
 	</div>
 	<div ng-show='!isNavigation'>
-		<div class='ajax-loading-container' ng-show="showSearchLoading">
-			<span class='ajax-loading-big'></span>
+		<div class='ajax-loading-container ajax-loading-container-lightgray' ng-show="showSearchLoading">
+			<span class='ajax-loading-big ajax-loading-big-lightgray'></span>
 			<h4>Loading...</h4>
 		</div>
 		<div class='alert alert-info' ng-show="noMoreSearchData && !showSearchLoading && errors.length==0">

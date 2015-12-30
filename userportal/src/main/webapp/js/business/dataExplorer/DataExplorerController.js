@@ -639,6 +639,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 
 	$scope.datasetList = [];
 
+
 	var fromBackButton = false;
 	$scope.selectPage = function(currentPage) {
 		
@@ -703,8 +704,19 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
     	return data;
 	};
 	
+	var createCard = function(datasetData){
+		var now = new Date().getTime();
+		var card = {
+             template : "partials/dataexplorer/databrowser/card-template.html",
+             tabs : ["home", "work"],
+             data : datasetData,
+             added : now,
+           };
+		return card;
+	};
+	
 	$scope.errors = [];
-
+/*
 	$scope.findDatasets = function(){
 		// call oData service to retrieve  the last 30 data
 		$scope.isNavigation = true;
@@ -778,7 +790,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			$scope.errors.push(error);
 
 		});
-	};
+	};*/
 	
 	$scope.exploreData = function(data){
 		console.log("exploreData", data);
@@ -786,7 +798,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 
 	};
 	
-	$scope.openDetail = function(data){
+	var getDetailPath = function(data){
 		console.log("exploreData", data);
 		var path = 'dataexplorer/' +  data.type+ '/' + data.tenantCode+'/';
 		switch (data.type) {
@@ -797,7 +809,22 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 			path += data.datasetCode;
 			break;
 		}
-		$location.path(path);
+		return path;
+	};
+	
+	$scope.openDetail = function(data){
+		console.log("exploreData", data);
+//		var path = 'dataexplorer/' +  data.type+ '/' + data.tenantCode+'/';
+//		switch (data.type) {
+//		case "stream":
+//			path += data.virtualentityCode + '/' + data.streamCode;
+//			break;
+//		default:
+//			path += data.datasetCode;
+//			break;
+//		}
+//		$location.path(path);
+		$location.path(data.detailPath);
 	};
 	
 	var searchStart = 0;
@@ -876,22 +903,27 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 						data.disclaimer = dataFromSearch.extraDisclaimer;
 						data.streamCode = dataFromSearch.extraCodiceStream;
 						data.virtualentityCode = dataFromSearch.extraVirtualEntityCode;
+						data.virtualentityDescription = dataFromSearch.extraVirtualEntityDescription;
 
 						if(Helpers.util.endsWith(data.datasetCode, "_odata")){
 							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-6);
 							data.type='dataset';
 							data.typeIcon ='glyphicon glyphicon-align-justify';
 							data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
+							data.objectName = data.datasetCode;
 						}
 						else if(Helpers.util.endsWith(data.datasetCode, "_stream")){
 							data.datasetCode = data.datasetCode.substring(0,data.datasetCode.length-7);
 							data.type='stream';
 							data.typeIcon ='glyphicon glyphicon-signal';
 							data.datasetIcon = Constants.API_RESOURCES_URL + "stream/icon/"+data.tenantCode+"/"+data.virtualentityCode+"/"+data.streamCode;
+							data.objectName = data.streamCode + " " + data.virtualentityCode;
 						}
 
+						data.detailPath = getDetailPath(data);
 						//data.datasetIcon = "http://"+getEnvirorment() + "userportal.smartdatanet.it"+dataFromSearch.thumbnailurl;
 						$scope.datasetList.push(cleanMetadata(data));
+						               
 						$scope.noMoreSearchData = false;
 				//	}
 				}
