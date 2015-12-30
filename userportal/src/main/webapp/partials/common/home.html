@@ -13,10 +13,10 @@
 	<div id='home-top-header'>
 		<div class='container'>
    			<div class="row topbar-family-identity">
-		  			<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">  
+		  			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 logo">  
             			<h1><a href="http://www.smartdatanet.it/">smartdatanet</a></h1>
    				</div>
-		        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
+		        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 link">
             		<ul>
             			<li><a class="developer" href="http://developer.smartdatanet.it/" target='_blank'>developer center</a></li>
             			<!-- <li><a  class="market" href="#" translate-cloak translate>HEADER_MARKET_PLACE_LINK</a></li> -->
@@ -31,6 +31,7 @@
 			</div>		
 		</div>
 	</div>
+	<!-- 
 	<div id='home-landing-section' ng-cloak style='display:none'>
 		<div class='row'>
 			<div class='col-sm-5 col-sm-offset-1'>
@@ -89,13 +90,14 @@
 			</div>
 		</div>
 	</div>
+	 -->
 	<div id='home-landing-section' ng-cloak>
 		<div class="container">
 			<div class="row">
            		<div class="col-xs-12 col-sm-12 col-md-6 intro-desc">
 					<span ng-bind-html="'HOME_INTRO_HTML'|translate"></span>
 				</div>
-           		<div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1 action-start-panel" >
+           		<div class="col-xs-12 col-sm-12 col-md-6 action-start-panel" >
            			<div ng-show="!user.loggedIn">
  		               	<p class="home-start-intro"><span translate-cloak translate>HOME_START_BUTTON_DESC</span></p>
 						<a class='btn btn-home-start btn-arrow-right'  href="/userportal/api/authorize?returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate-cloak translate>HOME_START_BUTTON</span></a>
