@@ -233,6 +233,13 @@ public enum ApiEntityEnum {
 			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
 		}
 	},
+	API_MANAGEMENT_DATASET_REQUEST_UNISTALL("API_MANAGEMENT_DATASET_REQUEST_UNISTALL_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "metadata/requestUninstallDataset/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			boolean auth = AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
+			return auth;
+		}
+	},
 	API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
