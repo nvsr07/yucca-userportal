@@ -76,6 +76,22 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 		$scope.subscriptionList = [];
 		angular.forEach($scope.allSubscriptionList, function(value, key) {
 			if (value.id == idApp){
+				console.log('value', value);
+				angular.forEach(value.subscriptions, function(vSubs, kSubs) {
+					console.log(vSubs, kSubs, value.subscriptions[kSubs]);
+					value.subscriptions[kSubs]['newIcon'] = "/userportal/api/proxy/resources";
+					var length = value.subscriptions[kSubs].name.length;
+					if (value.subscriptions[kSubs].name.substr(-6) == "_odata"){
+						//dataset
+						vSubs.newIcon += "/dataset/icon/unknow/" + value.subscriptions[kSubs].name.substr(0, length-6);
+					} else if (value.subscriptions[kSubs].name.indexOf(".") > -1){
+						//stream
+						var tmp = value.subscriptions[kSubs].name.split(".");
+						var tmpCode = tmp[1].split("_");
+						value.subscriptions[kSubs].newIcon += "/stream/icon/" + tmp[0] + "/" + tmp[1].substr(0, tmp[1].length-7);
+					}
+				});
+				console.log("value", value);
 				this.push(value);
 				$scope.validityTime = value.prodValidityTime / 1000; //30758400000
 				$scope.oldTokenView = value.prodKey;
