@@ -1,4 +1,4 @@
-appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', function($scope, $route, $location, fabricAPImanagement, info, filterFilter) {
+appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', '$modal', function($scope, $route, $location, fabricAPImanagement, info, $modal, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.showLoading = true;
 
@@ -11,6 +11,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	$scope.pageSize = 10;
 	$scope.totalItems = $scope.datasetList.length;
 	$scope.predicate = '';
+	$scope.deleteDS = false;
 
 	console.log("isOwner", info.isOwner( $scope.tenantCode));
 	console.log("info", info);
@@ -18,32 +19,35 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
-
-	fabricAPImanagement.getDatasets($scope.tenantCode).success(function(response) {
-		$scope.showLoading = false;
-
-		$scope.datasetList = [];
-		if(response!=null){
-			for (var i = 0; i <response.length; i++) {
-				if(response[i].configData && response[i].configData.subtype && response[i].configData.subtype!='binaryDataset'){
-					
-					if(!response[i].info  || response[i].info ==null)
-						response[i].info ={};
 	
-					if(!response[i].info.icon || response[i].info.icon == null)
-						response[i].info.icon  = "img/dataset-icon-default.png";
+	$scope.getDatasets = function(){
 
-					if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
-						response[i].info.attachment  = true;
+		fabricAPImanagement.getDatasets($scope.tenantCode).success(function(response) {
+			$scope.showLoading = false;
+	
+			$scope.datasetList = [];
+			if(response!=null){
+				for (var i = 0; i <response.length; i++) {
+					if(response[i].configData && response[i].configData.subtype && response[i].configData.subtype!='binaryDataset'){
+						
+						if(!response[i].info  || response[i].info ==null)
+							response[i].info ={};
+		
+						if(!response[i].info.icon || response[i].info.icon == null)
+							response[i].info.icon  = "img/dataset-icon-default.png";
+	
+						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
+							response[i].info.attachment  = true;
 
-					$scope.datasetList.push(response[i]);
+						$scope.datasetList.push(response[i]);
+					}
 				}
 			}
-		}
-
-		$scope.totalItems = $scope.datasetList.length;
-	});
-
+	
+			$scope.totalItems = $scope.datasetList.length;
+		});
+	}
+	$scope.getDatasets();
 
 	$scope.selectPage = function() {
 		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
@@ -102,7 +106,11 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	};
 
 	$scope.canDelete = function() {
-		
+		if($scope.selectedDatasets.length==1 && 
+				($scope.selectedDatasets[0].configData && $scope.selectedDatasets[0].configData.type == "dataset" && $scope.selectedDatasets[0].configData.subtype == "bulkDataset")){
+			$scope.deleteDS = true;
+			return true;
+		}
 		return false;
 	};
 
@@ -113,30 +121,93 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 			// FIXME error message...
 		}
 	};
+
+	$scope.deleteDataset = function(){
+		if($scope.selectedDatasets.length===1){
+			$scope.detailModal($scope.selectedDatasets[0]);
+		} else {
+			// FIXME error message...
+		}
+	};
+	
+	$scope.detailModal = function(ds){
+		console.log('ds', ds);
+	    var detailModalInstance = $modal.open({
+	      animation: true,
+	      templateUrl: 'deleteDatasetUninstall.html',
+	      controller: 'ManagementDatasetUninstallModalCtrl',
+	      size: 'lg',
+	      resolve: {
+	    	  ds : function(){
+	    		console.log('ds 2', ds);
+	        	return ds;
+	    	  },
+	    	  tenant : function(){
+	    		console.log('$scope.tenantCode', $scope.tenantCode);
+	        	return $scope.tenantCode;
+	    	  }
+	      }
+	    });
+	    
+	    detailModalInstance.result.then(function (result) {
+	    	console.log('result', result);
+	        if (result){
+	        	//$scope.datasetList = [];
+		    	//console.log('fatto');
+		    	//$scope.getDatasets();
+	        	updateSelected('remove', ds);
+	        	$route.reload();
+	        }
+	      }, function () {
+	      	console.log('Modal dismissed at: ' + new Date());
+	      });
+	};
 }]);
 
+appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$location', '$modalInstance', 'fabricAPImanagement', 'ds', 'tenant', 
+                                                                   function($scope, $location, $modalInstance, fabricAPImanagement, ds, tenant) {
+
+	$scope.ds = ds; 
+	$scope.tenant = tenant; 
+	
+	$scope.ok = function(){
+			
+		var promise = fabricAPImanagement.requestUnistallDataset($scope.tenant, $scope.ds.idDataset);
+		
+		promise.then(function(result) {
+			if(result.errors && data.errors.length>0){
+				$scope.updateError = true;
+				$scope.updateErrors = data.errors;
+				Helpers.util.scrollTo();
+			}
+			else{
+				$scope.updateInfo = {status: "Ok"};
+			}
+		}, function(result) {
+			$scope.updateError = true;
+			$scope.updateErrors = angular.fromJson(result.data);
+			console.log("result.data ", result.data);
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
+		$modalInstance.close(true);
+	}
+	
+	$scope.cancel = function () {
+	    $modalInstance.dismiss('cancel');
+	};
+}]);
 
 appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
                                                      function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modalInstance, selectedDataset, info, readFilePreview) {
-	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $scope', $scope);
-	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $routeParams', $routeParams);
-	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> fabricAPIservice', fabricAPIservice);
-	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> fabricAPImanagement', fabricAPImanagement);
-	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $location', $location);
-	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $modalInstance', $modalInstance);
-	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> selectedDataset', selectedDataset);
-	console.log('>>>>>>>> ManagementDatasetModalCtrl >>>>>>>> info', info);
 	
 	$scope.tenantCode = $routeParams.tenant_code;
 	
 	$scope.loadDataset = function(){
-		console.log(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> selectedDataset in loadDataset", selectedDataset);
 		$scope.selectedDataset = selectedDataset;
-		console.log(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> $scope.selectedDataset in loadDataset", $scope.selectedDataset);
 		
 		fabricAPImanagement.getDataset($scope.tenantCode, $scope.selectedDataset.datasetCode).success(function(response) {
 			try{
-				console.debug(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> loadDataset- response", response);
 				$scope.datasetModalView = {};
 				$scope.datasetModalView.apiMetadataUrl = response.apiMetadataUrl;
 				$scope.datasetModalView.dataset = response.metadata;

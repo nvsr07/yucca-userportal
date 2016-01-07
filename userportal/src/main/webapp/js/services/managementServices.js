@@ -16,6 +16,26 @@ appServices.factory('fabricAPImanagement', function($http, $q) {
 			url : Constants.API_MANAGEMENT_DATASET_URL+ tenant_code + '/' + dataset_id + '/?callback=JSON_CALLBACK'
 		});
 	};
+	
+	fabricAPI.requestUnistallDataset = function(tenant, idDataset){
+		var deferred = $q.defer();
+		var resultData = null;
+		
+		var requestUnistallURL = Constants.API_MANAGEMENT_DATASET_REQUEST_UNISTALL_URL + tenant + '/' + idDataset + '/?callback=JSON_CALLBACK';
+		
+		$http.delete(requestUnistallURL, {}).success(function(responseData) {
+			console.log("deleteDataset - response OK", responseData);
+			resultData = {status: "OK - ", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+			console.log("deleteDataset - response KO", responseData);
+			resultData = {status: "KO - "+responseStatus, data: responseData};
+			deferred.reject(resultData);
+		});
+
+		console.log("deleteDataset - deferred", deferred);
+		return deferred.promise;
+	};
 
 	fabricAPI.deleteDataset = function(tenant_code, dataset_id, dataset_version) {
 		var deferred = $q.defer();
