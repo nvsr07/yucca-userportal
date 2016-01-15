@@ -1,15 +1,15 @@
 <div  class='section-dashboard' ng-controller="DashboardErrorLogCtrl as errorLogCtrl" ng-cloak>
-	<div class="container">
-		<div class='title-container row'>
-			<h1>
-				<span translate-cloak translate>DASHBOARD_ERROR_LOG_TITLE</span>  
-				<small><span translate-cloak translate>DASHBOARD_ERROR_LOG_SUBTITLE</span></small>
-			</h1>
-			<div class="title-menu">
-				<dashboard-menu></dashboard-menu>
+	<div class='page-top-panel'>
+		<div class="title-container" ng-cloak>
+			<div class='container clearfix'>
+				<h1  class='pull-left'><span translate-cloak translate>DASHBOARD_ERROR_LOG_TITLE</span> <small><span translate-cloak translate>DASHBOARD_ERROR_LOG_SUBTITLE</span></small></h1>
+				<div class="pull-right title-menu">
+					<dashboard-menu></dashboard-menu>
+				</div>
 			</div>
 		</div>
-		<p>&nbsp;</p>
+	</div>
+	<div class="container">
 		<p><span class="clientConnectBullet {{clientConnectionClass}}"></span> {{clientConnection}}</p>
 		<p><span ng-bind-html="'DASHBOARD_ERROR_LOG_INTRO'|translate"></span></p>
 		<div class="row">

@@ -1,11 +1,15 @@
 <div class='section-dashboard' ng-cloak>
-	<div class="container">
-		<div class='title-container row'>
-			<h1><span translate-cloak translate>DASHBOARD_TITLE</span></h1>
-			<div class="title-menu">
-				<dashboard-menu></dashboard-menu>
+	<div class='page-top-panel'>
+		<div class="title-container" ng-cloak>
+			<div class='container clearfix'>
+				<h1  class='pull-left'><span translate-cloak translate>DASHBOARD_TITLE</span></h1>
+				<div class="pull-right title-menu">
+					<dashboard-menu></dashboard-menu>
+				</div>
 			</div>
 		</div>
+	</div>
+	<div class="container">
 		<div class=row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-controller="DashboardCtrl as streamsCtrl">
 

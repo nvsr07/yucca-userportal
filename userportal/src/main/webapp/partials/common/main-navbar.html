@@ -1,41 +1,47 @@
 <div ng-controller="NavigationCtrl as navigation" ng-cloak>
 	<div class="top-header">
 		<div class='container'>
-   			<div class="row topbar-family-identity">
-		  			<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">  
-            			<h1><a href="http://www.smartdatanet.it/">smartdatanet</a></h1>
-   				</div>
-		        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
-            		<ul>
-            			<li><a class="developer" href="http://developer.smartdatanet.it/" target='_blank' translate-cloak translate>developer center</a></li>
-            			<!-- <li><a  class="market" href="#" translate-cloak translate>HEADER_MARKET_PLACE_LINK</a></li> -->
-            		</ul>
+			<div class='top-header-logo-bg'>
+	   			<div class="row topbar-family-identity">
+			  			<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">  
+	            			<h1><a href="http://www.smartdatanet.it/">smartdatanet</a></h1>
+	   				</div>
+			        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
+	            		<ul>
+	            			<li><a class="developer" href="http://developer.smartdatanet.it/" target='_blank' translate-cloak translate>developer center</a></li>
+	            			<!-- <li><a  class="market" href="#" translate-cloak translate>HEADER_MARKET_PLACE_LINK</a></li> -->
+	            		</ul>
+					</div>
 				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 yucca">
+		      			<div class='first-bar clearfix'>
+		      				<h2>Yucca</h2>
+		      				<div class='first-bar-menu pull-right'>
+			      				<div>
+			      					<main-navbar-profile></main-navbar-profile>
+								</div>
+								<div>
+									<ul class="nav navbar-nav navbar-right">
+										<li>
+											<a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it">
+												<img src='./img/flags/it.png'>
+											</a>
+										</li>
+										<li>
+											<a href="#"  ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en">
+												<img src='./img/flags/en.png'>
+											</a>
+										</li>
+										<li><p class="navbar-text">&nbsp;</p></li>
+									</ul>
+								</div>
+							</div>    
+		      			</div> 
+			  		</div>
+				</div>		
+				
 			</div>
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 yucca">
-	      			<div class='first-bar clearfix'>
-	      				<h2>Yucca</h2>
-	      				<div class='first-bar-menu pull-right'>
-		      				<main-navbar-profile></main-navbar-profile>
-							<ul class="nav navbar-nav navbar-right">
-								<li>
-									<a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it">
-										<img src='./img/flags/it.png'>
-									</a>
-								</li>
-								<li>
-									<a href="#"  ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en">
-										<img src='./img/flags/en.png'>
-									</a>
-								</li>
-								<li><p class="navbar-text">&nbsp;</p></li>
-							</ul>
-						</div>    
-	      			</div> 
-		  		</div>
-			</div>		
-			
 		</div>
 	</div>
 	<div class="bottom-header">

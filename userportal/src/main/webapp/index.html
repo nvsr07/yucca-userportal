@@ -12,16 +12,22 @@
 <link rel="stylesheet" href="css/freeboard-adapted.css" />
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.css">
 <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/nvd3/nv.d3.min.css">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="../ris/userportal/lib/codemirror/addon/hint/show-hint.css" />
 
 <link rel="stylesheet" type="text/css" href="css/app.css">
+<link rel="stylesheet" type="text/css" href="css/responsive.css">
 <link rel="stylesheet" type="text/css" href="css/smartdatanet-domains.css">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
 <link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
 
 <link href="../ris/userportal/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="js-min/i18n/df5374b4.strings_en.js"></script>
+
+<script src="js-min/i18n/075d82e6.strings_it.js"></script>
 
 <link rel="shortcut icon" href="favicon.png">
 <!-- Optional theme -->
@@ -46,9 +52,9 @@
 <body lang="en" ng-app="userportal">
 	<div ng-controller="GlobalCtrl as globalCtrl">
 		<div class='cookie-alert ng-hide' ng-show="showCookieMessage">
-			<span translate>COOKIE_MESSAGE</span>&nbsp;
+			<span translate translate-cloak>COOKIE_MESSAGE</span>&nbsp;
 			<a href='http://smartdatanet.it/yucca-cookies-policy.html' target='_blank'>Cookie Policy</a>&nbsp;
-			<a class='btn' ng-click='acceptCookie()' translate>OK</a>
+			<a class='btn' ng-click='acceptCookie()' translate-cloak translate>OK</a>
 		</div>
 		<!--<div id='topbar-family-identity'  ng-cloak>
 			<div class="container">
@@ -100,6 +106,8 @@
 	<script type="text/javascript" src="../ris/userportal/lib/stomp/stomp.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.js"></script>
 	
+	<script type="text/javascript" src="../ris/userportal/lib/angular-deckgrid/angular-deckgrid.js"></script>
+	
 	<!-- <script type="text/javascript" src="../ris/userportal/lib/nvd3/d3.v3.min.js"></script> -->
 	<!--  <script type="text/javascript" src="../ris/userportal/lib/d3/d3.min.js"></script> -->
 	<script type="text/javascript" src="../ris/userportal/lib/nvd3/lib/d3.v3.js"></script>
@@ -108,81 +116,54 @@
 	<script type="text/javascript" src="../ris/userportal/lib/codemirror/addon/hint/show-hint.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/codemirror/addon/hint/sql-hint.js"></script>
 	<script type="text/javascript" src="js/customization/codemirror/mode/sql/sql.js"></script>
-	<script type="text/javascript" src="js/customization/x2js/xml2json.min.js"></script>
-	 
+	<script type="text/javascript" src="js/customization/x2js/xml2json.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular-ui-codemirror/ui-codemirror.js"></script>
-
 	<script type="text/javascript" src="../ris/userportal/lib/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.min.js"></script>
-
 	<script type="text/javascript" src="../ris/userportal/lib/ng-file-upload/angular-file-upload-shim.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/ng-file-upload/angular-file-upload.js"></script>
-
 	<script type="text/javascript" src="../ris/userportal/lib/ngDraggable/ngDraggable.js"></script>
 
 	<!-- 
-	
-	
 	<script src="sql.js"></script>
-
 	<script type="text/javascript" src="api/i18n?language=it"></script>
 	<script type="text/javascript" src="api/i18n?language=en"></script>	
  	-->
-
-
-
-
 	<script type="text/javascript" src="api/config"></script>
-
 	<script type="text/javascript" src="js/build_info.js"></script>
-	
-
-	<script src="js-min/91fb516f.sensormap.js"></script>
-	
-	<script src="js-min/i18n/b6943ca2.strings_en.js"></script>
-
-	<script src="js-min/i18n/668d17eb.strings_it.js"></script>
+	<script src="js-min/4b968a57.sensormap.js"></script>
 
 	<script type="text/javascript" src="/userportal/api/tags?language=en"></script>
 	<script type="text/javascript" src="/userportal/api/tags?language=it"></script>
 	<script type="text/javascript" src="/userportal/api/domains?language=en"></script>
 	<script type="text/javascript" src="/userportal/api/domains?language=it"></script>
 	
-	<script src="js-min/a4083f19.app.js"></script>
-	
-	
-	<script src="js-min/9e4a9e2f.helpers.js"></script>
-	<script src="js-min/0aa2e8c7.constants.js"></script>
-	<script src="js-min/services/f5901900.services.js"></script>
-	<script src="js-min/services/791af592.discoveryServices.js"></script>
-	<script src="js-min/services/7fc43647.fabricServices.js"></script>
-	<script src="js-min/services/6d33d2f2.managementServices.js"></script>
-	<script src="js-min/services/ff7b7b88.websocketServices.js"></script>
-	<script src="js-min/services/32b46879.odataServices.js"></script>
-	<script src="js-min/services/85ce1ff3.storeServices.js"></script>
-
-
-
-	
-	<script src="js-min/16eb9edd.controllers.js"></script>
-	<script src="js-min/business/dashboard/622c1b76.DashboardController.js"></script>
-	<script src="js-min/business/management/f0f63382.ManagementController.js"></script>
-	<script src="js-min/business/management/f2ba506c.ManagementStreamController.js"></script>
-	<script src="js-min/business/management/5c27c4d8.ManagementVirtualentityController.js"></script>
-	<script src="js-min/business/management/b5378ffc.ManagementDatasetController.js"></script>
-	<script src="js-min/business/dataExplorer/83daf8aa.DataExplorerController.js"></script>
-	<script src="js-min/business/discovery/0c2bd775.DiscoveryController.js"></script>
-	<script src="js-min/business/dataExplorer/0d484f23.DataExplorerSubscribeModalController.js"></script>
-	<script src="js-min/business/dataExplorer/1288bf8a.DataExplorerDetailController.js"></script>
-	<script src="js-min/business/dataExplorer/b83cba9e.DataSubscriptionsController.js"></script>
-
-	<script src="js-min/78c2b7ed.filters.js"></script>
-	<script src="js-min/aa7aef49.directives.js"></script>
-	<script src="js-min/business/dashboard/8d4ed1e6.DashboardDirectives.js"></script>
-	<script src="js-min/business/management/4bdcdc0f.ManagementDirectives.js"></script>
-	<script src="js-min/business/discovery/99a2814e.DiscoveryDirectives.js"></script>
-	<script src="js-min/business/dataExplorer/183d513f.DataExplorerDirectives.js"></script>
-	
-	<script src="js-min/9b0f57f4.Lang_ISO_639-1.js"></script>
-
+	<script src="js-min/7652d3d8.app.js"></script>
+	<script src="js-min/472aa066.helpers.js"></script>
+	<script src="js-min/88e68bce.constants.js"></script>
+	<script src="js-min/services/b12a9bba.services.js"></script>
+	<script src="js-min/services/aca7c6f3.discoveryServices.js"></script>
+	<script src="js-min/services/75dc6add.fabricServices.js"></script>
+	<script src="js-min/services/67c53cf3.managementServices.js"></script>
+	<script src="js-min/services/508b0f9c.websocketServices.js"></script>
+	<script src="js-min/services/2f2ac0ae.odataServices.js"></script>
+	<script src="js-min/services/082c9fa5.storeServices.js"></script>
+	<script src="js-min/09d955fa.controllers.js"></script>
+	<script src="js-min/business/dashboard/3ead2082.DashboardController.js"></script>
+	<script src="js-min/business/management/ded1daa1.ManagementController.js"></script>
+	<script src="js-min/business/management/1d55d58f.ManagementStreamController.js"></script>
+	<script src="js-min/business/management/8313f1b8.ManagementVirtualentityController.js"></script>
+	<script src="js-min/business/management/996f9361.ManagementDatasetController.js"></script>
+	<script src="js-min/business/dataExplorer/9fab7197.DataExplorerController.js"></script>
+	<script src="js-min/business/discovery/0feb4521.DiscoveryController.js"></script>
+	<script src="js-min/business/dataExplorer/b0f31ac3.DataExplorerSubscribeModalController.js"></script>
+	<script src="js-min/business/dataExplorer/998b34f5.DataExplorerDetailController.js"></script>
+	<script src="js-min/business/dataExplorer/15d658ca.DataSubscriptionsController.js"></script>
+	<script src="js-min/499d479a.filters.js"></script>
+	<script src="js-min/831262fd.directives.js"></script>
+	<script src="js-min/business/dashboard/c6498f54.DashboardDirectives.js"></script>
+	<script src="js-min/business/management/a80007ea.ManagementDirectives.js"></script>
+	<script src="js-min/business/discovery/2acf7f9e.DiscoveryDirectives.js"></script>
+	<script src="js-min/business/dataExplorer/beab76ca.DataExplorerDirectives.js"></script>
+	<script src="js-min/3a142ab4.Lang_ISO_639-1.js"></script>
 </body>
 </html>
