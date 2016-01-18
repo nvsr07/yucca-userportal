@@ -1,12 +1,12 @@
 <a ng-href='#/{{card.detailPath}}' class='browsedata-metadata-box-link'>
 	<div class="browsedata-metadata-box" ng-click="openDetail(card)">
 		<header class='clearfix'>
-			<div class='pull-left'>
+			<div class='browsedata-metadata-box-title-panel'>
 				<div><small translate-cloak translate>{{card['type']}}</small></div>
 				<div><strong>{{card.objectName}}</strong></div>
 			</div>
-			<div class='pull-right'>
-				<i class="{{card['typeIcon']}} type-icon" title="{{card['type']|translate}}"></i> 
+			<div class='browsedata-metadata-box-type-panel'>
+				<img ng-src="/userportal/img/icons/{{card['type']}}_icon_white.png" alt="{{card['type']|translate}}">
 			</div>
 		</header>
 		<div class='box-content'>

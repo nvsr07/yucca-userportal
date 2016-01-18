@@ -10,7 +10,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	$scope.linkLoginToStore = "";
 	$scope.linkLoginToStoreW = "0";
 	$scope.linkLoginToStoreH = "0";
-
+	
 	$scope.storeUrl = '/store/';	
 	console.log("storeUrl",$scope.storeUrl);
 
@@ -28,6 +28,12 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 //		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
 //		$scope.storeUrl = '/store/site/pages/sso-filter.jag';
 //		}
+		try{
+			$scope.BuildInfo.timestamp = BuildInfo.timestamp;
+		}
+		catch (e) {
+			$scope.BuildInfo.timestamp = new Date().getMilliseconds();
+		}
 	});
 	
 	$scope.changeLanguage = function(langKey) {

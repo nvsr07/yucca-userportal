@@ -1,6 +1,12 @@
 <div ng-controller="DataExplorerCtrl as dataExplorerCtrl" ng-cloak class='section-store'>
-	<div class='container-fluid'>
-		<h3 class='entity-title'><span translate-cloak translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small></h3>
+	<div class='page-top-panel'>
+		<div class="title-container" ng-cloak>
+			<h3 class='container'>
+				<span translate-cloak translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small>
+			</h3>
+		</div>
+	</div>
+	<div class='container'>
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left dataExplorer-icon-preview'>
 				<img ng-src="{{dataset.datasetIcon}}" alt="logo dataset" class='dataExplorer-icon-preview-img' >
@@ -25,6 +31,8 @@
 				<div><strong>{{dataset.datasetVersion}}</strong></div>
 			</div>
 		</div>
+	</div>
+	<div class='container-fluid'>
 		<div class='row-fluid clearfix panel-dataexplorer-topbar'>
 			<div class='col-sm-3'>
 				<a href ng-click="currentSidebar = 'filter'" class='sidebar-menu-item'><i class='glyphicon glyphicon-filter'></i>&nbsp;<span translate-cloak translate>DATA_EXPLORER_FILTER_MENU_BUTTON</span></a> &nbsp;

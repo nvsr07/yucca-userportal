@@ -1,6 +1,12 @@
 <div ng-controller="DataExplorerDetailCtrl as detailCtrl" ng-cloak class='section-store'>
+	<div class='page-top-panel'>
+		<div class="title-container" ng-cloak>
+			<h3 class='container'>
+				<span translate-cloak translate>DATASET</span> <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small>
+			</h3>
+		</div>
+	</div>
 	<div class='container'>
-		<h3 class='entity-title'><span translate-cloak translate>DATASET</span> <small>{{dataset.datasetCode}} - {{dataset.datasetName}}</small></h3>
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span></small></div>
@@ -22,13 +28,16 @@
 				<div><strong>{{dataset.datasetVersion}}</strong>  <span ng-show="dataset.configData.deleted==1" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</span></div>
 			</div>
 		</div>
-		
-		<accordion close-others="false">
-			<accordion-group is-open="!status0.open">
-			 	<accordion-heading>
+	</div>
+	<accordion close-others="false">
+		<accordion-group is-open="!status0.open">
+			<accordion-heading>
+				<div class='container'>
 		 			<span translate-cloak translate>DISCOVERY_DETAIL_DATASET_GENERAL_INFO</span>
 		 			<i class="pull-right glyphicon hide" ng-class="{'glyphicon-minus': status0.open, 'glyphicon-plus': !status0.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 				<div class='row'>
 					<div class="col-sm-10">
 						<div class="row card-row">
@@ -65,12 +74,16 @@
 						<img ng-src="{{dataset.datasetIcon}}" alt="logo dataset" class='upload-icon-preview-img' >
 					</div>
 				</div>	
-			</accordion-group>
-			<accordion-group is-open="statusOpendata.open" ng-show="dataset.isOpendata==true">
-			 	<accordion-heading>
+			</div>
+		</accordion-group>
+		<accordion-group is-open="statusOpendata.open" ng-show="dataset.isOpendata==true">
+			<accordion-heading>
+				<div class='container'>
 		 			<span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': statusOpendata.open, 'glyphicon-plus': !statusOpendata.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA_AUTHOR'|translate"></span></strong></div>
 					<div class='col-sm-10'>{{dataset.author}}</div>
@@ -83,12 +96,16 @@
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</span></strong></div>
 					<div class='col-sm-10'>{{dataset.dataUpdateDate|date}}</div>
 				</div>	
-			</accordion-group>
-			<accordion-group is-open="status1.open">
-			 	<accordion-heading>
+			</div>
+		</accordion-group>
+		<accordion-group is-open="status1.open">
+			<accordion-heading>
+				<div class='container'>
 		 			<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status1.open, 'glyphicon-plus': !status1.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</span></strong></div>
 					<div class='col-sm-10'>{{dataset.license|nvl:' -'}}</div>
@@ -101,12 +118,16 @@
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong></div>
 					<div class='col-sm-10'>{{dataset.copyright|nvl:' -'}}</div>
 				</div>	
-			</accordion-group>
-			<accordion-group is-open="status2.open" ng-show="stream!=null">
-				<accordion-heading>
+			</div>
+		</accordion-group>
+		<accordion-group is-open="status2.open" ng-show="stream!=null">
+			<accordion-heading>
+				<div class='container'>
 					<span translate-cloak translate>VIRTUALENTITY</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status2.open, 'glyphicon-plus': !status2.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
 					<div class='col-sm-10'>{{stream.smartOName|nvl:''}}</div>
@@ -133,12 +154,16 @@
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
 					<div class='col-sm-4'>{{stream.smartOPPositions.position.elevation[0]|nvl:' -'}}</div>
 				</div>	
-			</accordion-group>
-			<accordion-group is-open="status3.open" ng-show="stream!=null">
-				<accordion-heading>
+			</div>
+		</accordion-group>
+		<accordion-group is-open="status3.open" ng-show="stream!=null">
+			<accordion-heading>
+				<div class='container'>
 					<span translate-cloak translate>STREAM</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_NAME</span></strong></div>
 					<div class='col-sm-10'>{{stream.streamName|nvl:' -'}}</div>
@@ -151,12 +176,16 @@
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_FPS</span></strong></div>
 					<div class='col-sm-10'>{{stream.fps|nvl:' -'}}</div>
 				</div>	
-			</accordion-group>
-			<accordion-group is-open="status4.open" ng-show="stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID && stream.idTipoVe!=null">
-				<accordion-heading>
+			</div>
+		</accordion-group>
+		<accordion-group is-open="status4.open" ng-show="stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID && stream.idTipoVe!=null">
+			<accordion-heading>
+				<div class='container'>
 		 			<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status4.open, 'glyphicon-plus': !status4.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
 					<div class='col-sm-6'>{{stream.twtQuery}}</div>
@@ -173,12 +202,16 @@
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_RATE</span></strong></div>
 					<div class='col-sm-10'>{{stream.twtRatePercentage}}</div>
 				</div>	
-			</accordion-group>
-			<accordion-group is-open="status5.open">
-				<accordion-heading>
+			</div>
+		</accordion-group>
+		<accordion-group is-open="status5.open">
+			<accordion-heading>
+				<div class='container'>
 					<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_COLUMNS</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 			
 				<div class="col-sm-12">
 					<table class="table">
@@ -204,12 +237,16 @@
 						</tbody>
 					</table>
 				</div>
-			</accordion-group>
-			<accordion-group is-open="status6.open"  ng-show="stream.smartOType == VIRTUALENTITY_TYPE_TWITTER_ID">
-				<accordion-heading>
+			</div>
+		</accordion-group>
+		<accordion-group is-open="status6.open"  ng-show="stream.smartOType == VIRTUALENTITY_TYPE_TWITTER_ID">
+			<accordion-heading>
+				<div class='container'>
 		 			<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status6.open, 'glyphicon-plus': !status6.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
 					<div class='col-sm-6'>{{stream.twtQuery}}</div>
@@ -231,12 +268,16 @@
 					</div>
 					
 				</div>	
-			</accordion-group>
-			<accordion-group is-open="status7.open">
-				<accordion-heading>
+			</div>
+		</accordion-group>
+		<accordion-group is-open="status7.open">
+			<accordion-heading>
+				<div class='container'>
 					<span translate-cloak translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status7.open, 'glyphicon-plus': !status7.open}"></i>
-				</accordion-heading>
+	 			</div>
+			</accordion-heading>
+			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-10"><strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_DATA_URLS</span></strong></div>
 				</div>
@@ -246,8 +287,10 @@
 						<div class='col-sm-10'><a href="https://{{apiMetdataSecureUrl}}{{topic}}/" target="_blank" class='management-dataset-download-link'>https://{{apiMetdataSecureUrl}}{{topic}}/</a></div>
 					</div>	
 				</div>	
-			</accordion-group>
-		</accordion>
+			</div>
+		</accordion-group>
+	</accordion>
+	<div class='container'>
 		<!--  <h4><span translate-cloak translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span></h4>
 		<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong>
 		<p><a href="{{apiMetdataUrl}}" target="_blank" class='management-dataset-download-link'>{{apiMetdataUrl}}</a></p>-->

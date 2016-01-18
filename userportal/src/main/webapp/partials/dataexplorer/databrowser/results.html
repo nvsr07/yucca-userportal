@@ -1,12 +1,14 @@
 <div class='table-header clearfix'>
 	<div class='browsedata-toolbar' ng-show="datasetList.length>9">
-		<a ng-click='goToChooseDomains()' class="btn btn-default " translate-cloak translate>DATABROWSER_RESULTS_BACK_BTN</a>
 	</div>
 	<div class="pull-left table-toolabr-actions">
 		<a href ng-click="resultViewType = 'box'" ng-class="{'table-toolabr-actions-active':resultViewType=='box'}"><i class="fa fa-th"  title="{{'DATABROWSER_SHOW_GRID'|translate}}"></i></a>
 		<a href ng-click="resultViewType = 'list'"  ng-class="{'table-toolabr-actions-active':resultViewType=='list'}"><i class="fa fa-table" title="{{'DATABROWSER_SHOW_LIST'|translate}}"></i></a>
+		<span ng-show='totalFound!=null'><strong><span translate-cloak translate>DATA_EXPLORER_TOTAL_FOUND</span>:</strong> {{totalFound}}</span>
 	</div>
-	<div class='pull-right table-toolbar-info'><span ng-show='totalFound!=null'><strong><span translate-cloak translate>DATA_EXPLORER_TOTAL_FOUND</span>:</strong> {{totalFound}}</span></div>
+	<div class='pull-right table-toolbar-info'>
+		<a ng-click='goToChooseDomains()' class="btn btn-default btn-sm " translate-cloak translate>DATABROWSER_RESULTS_BACK_BTN</a>
+	</div>
 	
 </div>
 
@@ -43,7 +45,11 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in datasetList" ng-click="openDetail(data)" class='browsedata-metadata-row'>
-					<td><div class='type-column'><i class="{{data['typeIcon']}} type-icon" title="{{data['type']|translate}}"></i></div></td>
+					<td>
+						<div class='type-column'>
+							<img ng-src="/userportal/img/icons/{{data['type']}}_icon.png" alt="{{data['type']|translate}}">
+						</div>
+					</td>
 					<td class=''>
 						<div class='dataexplorer-table-grid-first-column'>
 							<img ng-src="{{datasetList[$index].datasetIcon}}" alt="logo dataset" class="img-responsive dataset-icon" >
@@ -71,7 +77,7 @@
 			</tbody>
 		</table>
 		<div class='' ng-show="resultViewType == 'box'">
-			<div deckgrid source="datasetList" cardTemplate="partials/dataexplorer/databrowser/card-template.html" class="deckgrid"></div>
+			<div deckgrid source="datasetList" cardTemplate="partials/dataexplorer/databrowser/card-template.html?{{BuildInfo.timestamp}}" class="deckgrid"></div>
 			
    			<!-- <div id="browsedata-metadata-box-container">
 				<div class='col-sm-4' ng-repeat='data in datasetList' ng-click="openDetail(data)"> -->
