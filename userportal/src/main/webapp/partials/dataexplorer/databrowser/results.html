@@ -1,6 +1,4 @@
 <div class='table-header clearfix'>
-	<div class='browsedata-toolbar' ng-show="datasetList.length>9">
-	</div>
 	<div class="pull-left table-toolabr-actions">
 		<a href ng-click="resultViewType = 'box'" ng-class="{'table-toolabr-actions-active':resultViewType=='box'}"><i class="fa fa-th"  title="{{'DATABROWSER_SHOW_GRID'|translate}}"></i></a>
 		<a href ng-click="resultViewType = 'list'"  ng-class="{'table-toolabr-actions-active':resultViewType=='list'}"><i class="fa fa-table" title="{{'DATABROWSER_SHOW_LIST'|translate}}"></i></a>
@@ -76,7 +74,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<div class='' ng-show="resultViewType == 'box'">
+		<div class='dataexplorer-box-grid-container' ng-show="resultViewType == 'box'">
 			<div deckgrid source="datasetList" cardTemplate="partials/dataexplorer/databrowser/card-template.html?{{BuildInfo.timestamp}}" class="deckgrid"></div>
 			
    			<!-- <div id="browsedata-metadata-box-container">
@@ -156,7 +154,7 @@
 			</div>	 -->
 		</div> 
 	</div>
-	<div ng-show='isNavigation && !showNavigationLoading'>
+	<div ng-show='isNavigation && !showNavigationLoading' class='text-center'>
 		<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage(currentPage)" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
 					next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
 		</pagination>

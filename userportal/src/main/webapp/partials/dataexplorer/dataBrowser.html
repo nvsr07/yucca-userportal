@@ -9,7 +9,7 @@
 			<div class='clearfix databrowser-search-panel' > <!-- ng-show="currentStep == 'domains'" -->
 				<form role="form" class="form-horizontal" ng-cloak>
 					<div class="form-group">
-						<div class="col-sm-4 col-sm-offset-3">
+						<div class="col-sm-5 col-sm-offset-2">
 							<input type="search" class="form-control input-lg" ng-model="queryInput" id="simpleSearchInput" placeholder="{{'DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER'|translate}}"
 							ng-enter="goToResults('query')" >
 						</div>
@@ -19,9 +19,9 @@
 								<span translate-cloak translate>DISCOVERY_FILTER_SEARCH_BUTTON</span>
 							</button>
 							<span class="databrowser-search-separatore" ng-show="selectedDomain != null">in</span>&nbsp;
-							<button type="submit" ng-click="goToResults('query', true)" class="btn btn-default btn-lg" ng-show="selectedDomain!=null">
+							<button type="submit" ng-click="goToResults('query', true)" class="btn btn-default btn-domain-remove" ng-show="selectedDomain!=null">
 								<span class="glyphicon glyphicons-circle-remove"></span>&nbsp;
-								<span translate-cloak translate>{{selectedDomain|translate}}</span>&nbsp;&times;
+								<span translate-cloak translate>{{selectedDomain|translate}}</span>&nbsp;&nbsp;&times;
 							</button>
 						</div>
 					</div>
