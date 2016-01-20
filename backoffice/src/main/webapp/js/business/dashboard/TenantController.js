@@ -331,7 +331,8 @@ appControllers.controller('TenantCtrl', [ '$scope', "$route", 'fabricAPIservice'
 		var steps = startStep;
 		if(endStep && endStep!=null)
 			steps +=":"+endStep;
-		return operation + "|tenant|" + tenant.tenantCode + "|" + tenant.tenantCode + "|" + tenant.tenantPassword+ "|" + env + "-sdnet-esbin|" + steps; 
+		//return operation + "|tenant|" + tenant.tenantCode + "|" + tenant.tenantCode + "|" + tenant.tenantPassword+ "|" + env + "-sdnet-esbin|" + steps; 
+		return operation + "|tenant|" + tenant.tenantCode + "|" + tenant.tenantCode + "|" + tenant.tenantPassword+ "|" + steps; 
 	}
 
 	function createStepsLogUrl(operation, tenant){
