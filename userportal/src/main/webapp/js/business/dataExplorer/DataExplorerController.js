@@ -668,7 +668,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	$scope.columns = [];
 	var order = 'none';
 	
-	$scope.columns.push({"label":"DATASET", "order": order, "showOrderButton": true});
+	$scope.columns.push({"label":"DATABROWSER_ENTITY", "order": order, "showOrderButton": true});
 	$scope.columns.push({"label":"DATASET_FIELD_METADATA_DATADOMAIN", "order": order, "showOrderButton": true});
 	$scope.columns.push({"label":"DATASET_FIELD_METADATA_TAGS", "order": order, "showOrderButton": false});
 	$scope.columns.push({"label":"DATASET_FIELD_CONFIGDATA_TENANT", "order": order, "showOrderButton": true});

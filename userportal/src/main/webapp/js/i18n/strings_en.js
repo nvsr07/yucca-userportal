@@ -934,6 +934,8 @@ var translations_en = {
 	DATABROWSER_SHOW_GRID: 'Grid', 
 	DATABROWSER_SHOW_LIST: 'List', 
 	
+	DATABROWSER_ENTITY: 'Object name',
+
 	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filter by domain per dominio',
 	DATABROWSER_GO_TO_TAG_BTN: 'Filter by tag',
 	DATABROWSER_GO_TO_RESULTS_BTN: 'Show data',

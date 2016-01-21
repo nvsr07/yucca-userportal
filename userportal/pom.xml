@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.csi.yucca.userportal.userportal</groupId>
 	<artifactId>userportal</artifactId>
-	<version>1.4.3-001</version>
+	<version>1.4.3-002</version>
 	<packaging>war</packaging>
 	<name>userportal</name>
 
@@ -208,6 +208,10 @@
 					<resource>
 						<directory>src/main/resources/local</directory>
 					</resource>
+					<resource>
+						<directory>src/main/resources/images</directory>
+						<targetPath>.</targetPath>
+					</resource>
 				</resources>
 			</build>
 			<properties>
@@ -220,6 +224,10 @@
 				<resources>
 					<resource>
 						<directory>src/main/resources/dev</directory>
+					</resource>
+					<resource>
+						<directory>src/main/resources/images</directory>
+						<targetPath>.</targetPath>
 					</resource>
 				</resources>
 			</build>
@@ -234,6 +242,10 @@
 					<resource>
 						<directory>src/main/resources/tst</directory>
 					</resource>
+					<resource>
+						<directory>src/main/resources/images</directory>
+						<targetPath>.</targetPath>
+					</resource>
 				</resources>
 			</build>
 			<properties>
@@ -247,6 +259,10 @@
 					<resource>
 						<directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int</directory>
 					</resource>
+					<resource>
+						<directory>src/main/resources/images</directory>
+						<targetPath>.</targetPath>
+					</resource>
 				</resources>
 			</build>
 			<properties>
@@ -259,6 +275,10 @@
 				<resources>
 					<resource>
 						<directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod</directory>
+					</resource>
+					<resource>
+						<directory>src/main/resources/images</directory>
+						<targetPath>.</targetPath>
 					</resource>
 				</resources>
 			</build>
