@@ -249,7 +249,10 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 					var d = new Date(filter.value);
 					var dateToParam =  d.getFullYear() + "-"+ (d.getMonth()+1) + "-" + d.getDate() + 'T' + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() +"%2B00:00";
 					filterParam += filter.column + " " + filter.operator.value + " datetimeoffset'"+ dateToParam + "'";
-				}else if(filter.operator.isFunction){  // filter=substringof(Name, 'urn')
+				}else if(filter.operator.value == "substringof"){  // filter=substringof(Name, 'urn')
+					filterParam += "(" + filter.operator.value + "(" +filter.operator.valueDelimiter +  filter.value + filter.operator.valueDelimiter+ "," +filter.column  +") eq true)";
+				}
+				else if(filter.operator.isFunction){  
 					filterParam += filter.operator.value + "(" +filter.column + "," + filter.operator.valueDelimiter +  filter.value + filter.operator.valueDelimiter+")";
 				}
 				else if(filter.operator.value == "eq"){
@@ -355,7 +358,9 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			console.log("loadData Error: ", response);
 			$scope.showLoading = false;
 
-			var detail = ""+ response.error.code + " - " + response.error.message.value;
+			var detail = "";
+			if(response.error &&  response.error.message &&  response.error.message.value)
+				detail = ""+ response.error.code + " - " + response.error.message.value;
 			var error = {"message":"Cannot load data","detail":detail};
 			$scope.errors.push(error);
 
