@@ -43,7 +43,8 @@
 					<tr ng-repeat='filter in filters'>
 						<td class="text-nowrap text-left">{{filter.column}}</td>
 						<td class="text-nowrap text-left">{{filter.operator.label}}</td>
-						<td class="text-nowrap text-left">{{filter.value|date:"dd/MM/yyyy"}}</td>
+						<td class="text-nowrap text-left" ng-show='filter.operator.isDate'>{{filter.value|date:"dd/MM/yyyy"}}</td>
+						<td class="text-nowrap text-left" ng-show='!filter.operator.isDate'>{{filter.value}}</td>
 						<td class="remove-colunm"><a href ng-click='removeFilter($index); loadData();'><i class='glyphicon glyphicon-trash'></i></a></td>
 					</tr>
 				</tbody>
