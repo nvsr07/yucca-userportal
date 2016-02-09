@@ -25,9 +25,10 @@
 								</label>
 							</div>
 							<div class="form-group">
-								<div class="form-group">
-									<input type="text" class="form-control col-xs-2" ng-model="nameFilter" placeholder="{{'DATASET_LIST_NAME_FILTER'|translate}}" />
-								</div>
+								<input type="text" class="form-control col-xs-2" ng-model="domainFilter" placeholder="{{'DATASET_LIST_DOMAIN_FILTER'|translate}}" />
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="nameFilter" placeholder="{{'DATASET_LIST_NAME_FILTER'|translate}}" />
 							</div>
 						</form>
 					</div>
@@ -46,6 +47,11 @@
 									<a href="" ng-click="predicate  = 'info.datasetName'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span>
 									<span ng-show="predicate=='info.datasetName' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='info.datasetName' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'info.dataDomain'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> 
+									<span ng-show="predicate=='info.dataDomain' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='info.dataDomain' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
 									<a href="" ng-click="predicate = 'configData.subtype'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_TYPE</span> / <span translate-cloak translate>DATASET_FIELD_CONFIGDATA_SUBTYPE</span>
@@ -73,7 +79,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | filter: searchDomainFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
 								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
 								<td class='text-left'>
@@ -82,6 +88,7 @@
 										{{dataset.info.datasetName}}
 									</a>
 								</td>
+								<td><div class='domain-column'><i class="icon-{{dataset.info.dataDomain}} domain-icon" title="{{dataset.info.dataDomain|translate}}"></i></div></td>
 								<td>{{dataset.configData.type}} / {{dataset.configData.subtype}} 
 									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-show="dataset.info.attachment" title='Dataset with binary attachment'></i>
 								</td>

@@ -8,6 +8,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.filteredStreamsList = [];
 	$scope.codeFilter = null;
 	$scope.statusFilter = null;
+	$scope.domainFilter = null;
 	$scope.showLoading = true;
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
@@ -30,6 +31,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
 					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 				responseList[i].deploymentStatusCodeTranslated =  $translate.instant(responseList[i].deploymentStatusCode);
+				responseList[i].domainStreamTranslated =  $translate.instant(responseList[i].domainStream);
 				
 				responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
 				if(!responseList[i].streamIcon || responseList[i].streamIcon == null){
@@ -58,6 +60,11 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		var keyword = new RegExp($scope.statusFilter, 'i');
 		return !$scope.statusFilter || keyword.test(stream.deploymentStatusDesc) || keyword.test(stream.deploymentStatusCodeTranslated);
 	};
+	
+	$scope.searchDomainFilter = function(stream) {
+		var keyword = new RegExp($scope.domainFilter, 'i');
+		return !$scope.domainFilter || keyword.test(stream.domainStream) || keyword.test(stream.domainStreamTranslated);
+	};
 
 	$scope.viewUnistalledFilter = function(stream) {
 		if(!$scope.viewUnistalledCheck){
@@ -78,6 +85,11 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	});
 
 	$scope.$watch('statusFilter', function(newStatus) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredStreamsList.length;
+	});
+	
+	$scope.$watch('domainFilter', function(newDomain) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredStreamsList.length;
 	});

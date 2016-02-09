@@ -55,7 +55,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 		
 		console.log("stream", $scope.stream);
 		console.log("dataset", $scope.dataset);
-	}
+	};
 		
 	// http://localhost:8080/userportal/api/proxy/discovery/Datasets?$format=json&$filter=datasetCode%20eq%20%27ds_Provatime_14%27&$top=12
 	$scope.loadDataset = function(){
@@ -126,6 +126,17 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 
 	};
 
+	$scope.canEdit = function() {
+		var result = false;
+		for (var k = 0; k < $scope.user.tenants.length; k++) {
+			if( $scope.tenantCode == $scope.user.tenants[k]){
+				result = true;
+				break;
+			}
+		}
+		return result;
+	};
+	
 	$scope.openModalViewSubscribe = function(size) {
 		$scope.modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,

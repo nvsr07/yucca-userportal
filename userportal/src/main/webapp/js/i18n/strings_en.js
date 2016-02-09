@@ -155,6 +155,7 @@ var translations_en = {
 	STREAM_LIST_CODE_FILTER : 'Filter by code',
 	STREAM_LIST_STATUS_FILTER : 'Filter by status',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filter by lastupdate',
+	STREAM_LIST_DOMAIN_FILTER: 'Filter by domain',
 	
 	/* Creator of Stream */
 	USER_APPLICANT:'Applicant',
@@ -376,6 +377,7 @@ var translations_en = {
 
 	/* Dataset List */
 	DATASET_LIST_NAME_FILTER: 'Filter by name',
+	DATASET_LIST_DOMAIN_FILTER: 'Filter by domain',
 	DATASET_LIST_STATUS_FILTER: 'Filter by status',
 
 	/* header */
@@ -923,6 +925,8 @@ var translations_en = {
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Details',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Hide',
 	
+	DATA_EXPLORER_OPEN_IN_MANAGEMENT_BUTTON: 'Open in management',
+
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Subscribe API',
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Subscribe API',
 

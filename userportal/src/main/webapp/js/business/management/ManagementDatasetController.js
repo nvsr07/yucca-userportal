@@ -1,4 +1,5 @@
-appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', '$modal', function($scope, $route, $location, fabricAPImanagement, info, $modal, filterFilter) {
+appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', '$modal', '$translate',
+                                                         function($scope, $route, $location, fabricAPImanagement, info, $modal, $translate) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.showLoading = true;
 
@@ -6,6 +7,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	$scope.filteredDatasetsList = [];
 	$scope.nameFilter = null;
 	$scope.statusFilter = null;
+	$scope.domainFilter = null;
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
@@ -38,6 +40,10 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	
 						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
 							response[i].info.attachment  = true;
+						
+						
+						if(response[i].info.dataDomain &&  response[i].info.dataDomain != null)
+							response[i].info.dataDomainTranslated =  $translate.instant(response[i].info.dataDomain);
 
 						$scope.datasetList.push(response[i]);
 					}
@@ -46,7 +52,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	
 			$scope.totalItems = $scope.datasetList.length;
 		});
-	}
+	};
 	$scope.getDatasets();
 
 	$scope.selectPage = function() {
@@ -62,6 +68,18 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredDatasetsList.length;
 	});
+	
+	$scope.searchDomainFilter = function(dataset) {
+		var keyword = new RegExp($scope.domainFilter, 'i');
+		return !$scope.domainFilter || keyword.test(dataset.info.dataDomain) || keyword.test(dataset.info.dataDomainTranslated);
+	};
+	
+	$scope.$watch('domainFilter', function(newDomain) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+	});
+
+
 	
 	$scope.viewUnistalledFilter = function(dataset) {
 		if(!$scope.viewUnistalledCheck){

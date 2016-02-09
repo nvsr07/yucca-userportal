@@ -27,6 +27,9 @@
 								</label>
 							</div>
 							<div class="form-group">
+								<input type="text" class="form-control col-xs-2" ng-model="domainFilter" placeholder="{{'STREAM_LIST_DOMAIN_FILTER'|translate}}" />
+							</div>
+							<div class="form-group">
 								<input type="text" class="form-control col-xs-2" ng-model="statusFilter" placeholder="{{'STREAM_LIST_STATUS_FILTER'|translate}}" />
 							</div>
 							<div class="form-group">
@@ -52,6 +55,11 @@
 									<span ng-show="predicate=='codiceVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='codiceVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'domainStream'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_DOMAIN</span> 
+									<span ng-show="predicate=='domainStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='domainStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
 									<a href="" ng-click="predicate = 'lastupdate'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_LASTUPDATE</span> 
@@ -80,7 +88,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchStatusFilter| filter: viewUnistalledFilter| orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchStatusFilter| filter: viewUnistalledFilter| filter:searchDomainFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/>
 								<td class='text-left'>
 									<a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">
@@ -90,6 +98,7 @@
 								</td>
 								
 								<td>{{stream.codiceVirtualEntity}}</td>
+								<td><div class='domain-column'><i class="icon-{{stream.domainStream}} domain-icon" title="{{stream.domainStream|translate}}"></i></div></td>
 								<td>{{stream.lastUpdate|date}}</td>
 								<td class='text-left'><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
 								<td>{{stream.installed_version}}</td>

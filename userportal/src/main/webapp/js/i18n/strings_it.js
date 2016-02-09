@@ -155,6 +155,7 @@ var translations_it = {
 	STREAM_LIST_CODE_FILTER : 'Filtra per codice',
 	STREAM_LIST_STATUS_FILTER : 'Filtra per stato',
 	STREAM_LIST_LASTUPDATE_FILTER : 'Filtra per aggiornamento',
+	STREAM_LIST_DOMAIN_FILTER: 'Filtra per dominio',
 	
 	/* Creator of Stream */
 	USER_APPLICANT:'Richiedente',
@@ -376,6 +377,7 @@ var translations_it = {
 
 	/* Dataset List */
 	DATASET_LIST_NAME_FILTER: 'Filtra per nome',
+	DATASET_LIST_DOMAIN_FILTER: 'Filtra per dominio',
 	DATASET_LIST_STATUS_FILTER: 'Filtra per stato',
 
 	/* header */
@@ -922,6 +924,8 @@ var translations_it = {
 	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limitato alle prime 10.000 righe',
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Dettagli',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Nascondi',
+	
+	DATA_EXPLORER_OPEN_IN_MANAGEMENT_BUTTON: 'Apri in gestione',
 	
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Sottoscrivi API',
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Sottoscrivi API',

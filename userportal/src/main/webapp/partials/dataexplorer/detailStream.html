@@ -281,6 +281,9 @@
 	</accordion>
 	<div class='container'>	
 		<div class="row card-toolbar">
+			<a  href='#/management/viewStream/{{tenantCode}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn btn-edit"  ng-show="canEdit()" >
+				<span class="glyphicon glyphicon-pencil"></span> {{'DATA_EXPLORER_OPEN_IN_MANAGEMENT_BUTTON'|translate}}
+			</a>
 			<a href="#/dashboard/stream/{{stream.codiceTenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}" class="btn btn-edit" >
 				<span class="glyphicon glyphicon-th-large"></span> {{'MANAGEMENT_VIEW_STREAM_DASHBOARD_BUTTON'|translate}}
 			</a>
