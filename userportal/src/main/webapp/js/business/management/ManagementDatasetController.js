@@ -677,6 +677,7 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 		if($scope.selectedFile !=null && $scope.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
 			$scope.choosenFileSize = $scope.selectedFile.size; 
 			$scope.updateWarning = true;
+			$scope.updateWarningMessage = 'MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG';
 			$scope.selectedFile = null;
 			$scope.previewLines = null;
 		}
@@ -705,6 +706,13 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator));
 
 					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator);
+					if($scope.previewLines!=null && $scope.previewLines.length>0 && $scope.previewLines[0].length != $scope.dataset.info.fields.length){
+						$scope.updateWarning = true;
+						$scope.updateWarningMessage = 'MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN';
+						$showUploadButton = false;
+						$scope.selectedFile = null;
+
+					}
 				}, 
 				function(error){
 					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
@@ -752,6 +760,7 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 			}
 			else{
 				$scope.selectedFile = null;
+				$scope.previewLines = [];
 				$scope.updateInfo = {status: "Upload OK"};
 			}
 		});

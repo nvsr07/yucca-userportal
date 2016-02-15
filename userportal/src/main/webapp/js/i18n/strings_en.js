@@ -760,8 +760,10 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING: 'Encoding',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR: 'Separator',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE: 'Max file size supported: ',
+	MANAGEMENT_NEW_DATASET_FILE_ALREADY_UPLOADED: 'Previously uploaded files',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE: 'Warning',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG: 'The size of the selected file exceeds the quota limit',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN: 'The number of column in the file choosen is different from the number expected. Choose a different file',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_INFO: 'If you do not have the file to upload, you can directly define the columns',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_LINK: 'Define columns',
 	

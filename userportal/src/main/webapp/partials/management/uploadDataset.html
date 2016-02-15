@@ -48,8 +48,16 @@
 				<div class='row'>
 					<p>&nbsp;</p>
 				</div>
-				<div class='row'>
-					<p class=""><small><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE</span><strong>{{maxFileSize|format_filesize}}</strong></small></p>
+				<div class='row' >
+					<div class="col-sm-8">
+						<div ng-show='dataset.info.fileNames.length>0'>
+							<strong translate>MANAGEMENT_NEW_DATASET_FILE_ALREADY_UPLOADED</strong>
+							<div ng-repeat="fileName in dataset.info.fileNames track by $index">&nbsp;{{fileName}} </div>
+						</div>
+					</div>
+					<div class="col-sm-4 text-right">
+						<small><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE</span><strong>{{maxFileSize|format_filesize}}</strong></small>
+					</div>
 				</div>
 				<div class='row'>
 					<p>&nbsp;</p>
@@ -64,7 +72,7 @@
 					<strong translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO</strong> {{updateInfo.status}}
 				</div>
 				<div class="alert alert-warning" ng-show='updateWarning'>
-					<strong translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE</strong> <span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG</span> - {{choosenFileSize|format_filesize}}
+					<strong translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE</strong>  <span>{{updateWarningMessage|translate}}</span> - {{choosenFileSize|format_filesize}}
 				</div>
 				
 				<div class="alert alert-danger management-upload-column-error-panel " ng-show='updateError'>
