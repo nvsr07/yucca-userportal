@@ -560,6 +560,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 
 	$scope.updateChart = function() {		
 		$scope.chartData = [];
+		var colorCounter = 0;
 		for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
 			var component = $scope.chartComponentNames[componentIndex];
 			if(component.view){
@@ -574,10 +575,17 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 					
 					data.push([allData[int].datetime, singleData]);
 				}
-				$scope.chartData.push({"key" : component.name , "values": data});
+				$scope.chartData.push({"key" : component.name , "values": data, "color": Constants.LINE_CHART_COLORS[colorCounter]});
+			}
+			if(component.enabled){
+				colorCounter++;
+				if(colorCounter>= Constants.LINE_CHART_COLORS.length)
+					colorCounter = 0;
 			}
 		}
 	};
+	
+	
 	
 	$scope.tweetDetail = null;
 	$scope.updateTweet = function(lastTweet){
@@ -678,8 +686,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			for (var timeIndex = 0; timeIndex < allTime.length; timeIndex++) {
 				var time = allTime[timeIndex];
 				var elapsed = now-time;
-				if(-elapsed >(timeCounter-1)*sampling*1000
-					&& -elapsed <(timeCounter)*sampling*1000){
+				if(-elapsed >(timeCounter-1)*sampling*1000 && -elapsed <(timeCounter)*sampling*1000){
 					dataCounter++;
 				}
 			}

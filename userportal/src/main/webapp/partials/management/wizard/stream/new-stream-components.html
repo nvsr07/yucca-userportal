@@ -52,7 +52,7 @@
 			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
 				<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-8">
-					<select class="form-control col-sm-8" ng-model="streamSelectedItem" ng-options="streamItem.nomeStream for streamItem in streamsList"></select>
+					<select class="form-control col-sm-8" ng-model="streamSelectedItem" ng-options="(streamItem.nomeTenant + '&nbsp; - &nbsp;' + streamItem.virtualEntityName  + ' (' +streamItem.codiceVirtualEntity + ')' + '&nbsp; - &nbsp;' + streamItem.nomeStream)  for streamItem in streamsList"></select>
 				</div>
 				<div class="col-sm-2"><a ng-click='addStreamToArray(streamSelectedItem)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></div>	
 			</div>
