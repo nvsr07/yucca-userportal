@@ -110,6 +110,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				
 				console.log("$scope.columnsForFilter",$scope.columnsForFilter);
 				$scope.queryOdataLink = "/userportal/api/proxy/odata/ds_Contgreciaon_201/Measures?$format=json&$top=15&$orderby=time%20desc";
+				$scope.queryOdataCsvLink = "/userportal/api/proxy/odata/ds_Contgreciaon_201/Measures?$format=csv&$top=15&$orderby=time%20desc";
 		
 				$scope.loadData();
 			}).error(function(response) {
@@ -271,7 +272,8 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		}
 		
 		console.log("filterParam", filterParam);
-		$scope.queryOdataLink = createQueryOdata($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType);
+		$scope.queryOdataLink = createQueryOdata($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType, 'json');
+		$scope.queryOdataCsvLink = createQueryOdata($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType, 'csv');
 		
 		console.log("queryOdataLink", $scope.queryOdataLink);
 		odataAPIservice.getStreamDataMultiToken($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType, $scope.dataset.tenantCode, $scope.dataset.tenantsharing).success(function(response) {
@@ -367,7 +369,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		});
 	};
 	
-	var createQueryOdata = function(stream_code, filter, skip, top, orderby, collection){
+	var createQueryOdata = function(stream_code, filter, skip, top, orderby, collection, format){
 		
 		var host = $location.host();
 		var env = host.substring(0,host.indexOf("userportal.smartdatanet.it"));
@@ -375,7 +377,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			env = "int-";
 		}
 
-		var streamDataUrl = "http://"+env+"api.smartdatanet.it/api/"+stream_code+"/"+collection+"?$format=json";
+		var streamDataUrl = "http://"+env+"api.smartdatanet.it/api/"+stream_code+"/"+collection+"?$format="+format;
 		if(filter && filter!=null)
 			streamDataUrl += '&$filter='+filter;
 		if(skip && skip!=null)

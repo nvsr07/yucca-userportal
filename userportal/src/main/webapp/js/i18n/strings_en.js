@@ -646,6 +646,8 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_WS_LBL: 'Use the stream in real time with websocket',
 	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Use the stream in real time with MQTT',
     
+	MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING: 'The components  of the streams in draft may not match with the installed version',
+
 	/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
 
@@ -922,8 +924,10 @@ var translations_en = {
 	DATA_EXPLORER_QUERY_INPUT: 'Query',
 	DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL: 'Used Query OData', 
 	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Download Url for data in csv format',
+	DATA_EXPLORER_FILTER_QUERY_ODATA_DOWNLOAD: 'Download the result of this page',
+
 	//DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Any data loaded in the last 24 hours may not be present',
-	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limited to the first 10,000 lines',
+	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limited to data at the end of the previous day',
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Details',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Hide',
 	

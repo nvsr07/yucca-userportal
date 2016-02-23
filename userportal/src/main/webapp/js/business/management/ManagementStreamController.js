@@ -226,9 +226,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.streamSiddhiMirror="";
 	$scope.streamsList = [];
 
-	$scope.addStreamToArray = function(streamSelectedItem){
+	$scope.addStreamToArray = function(index){
 		$scope.validationRes=2;
 		
+		var streamSelectedItem = $scope.streamsList[index];
+
 		streamSelectedItem.componenti = new Object();
 		$scope.internalStreams.push(streamSelectedItem);
 		$scope.loadStreamComponents(streamSelectedItem);		
@@ -340,13 +342,22 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
+			responseList[i].label = responseList[i].nomeTenant + ' - ' + responseList[i].nomeStream + ' - ' + responseList[i].virtualEntityName 
+				+ ' (' +responseList[i].codiceVirtualEntity + ')';
 			if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST  && responseList[i].tipoVirtualEntity!='Internal'){
 				$scope.streamsList.push(responseList[i]);					
 			}
+			else if(responseList[i].deploymentStatusCode && responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_DRAFT && responseList[i].deploymentVersion>1 && responseList[i].tipoVirtualEntity!='Internal'){
+				responseList[i].cssClass= 'option-warning';
+				responseList[i].label += "(bozza)";
+				$scope.streamsList.push(responseList[i]);					
+			}
+
 		}
 		
 		$scope.streamsList.sort(function(a,b) { 
-				return a.nomeStream.toString().toLowerCase().localeCompare(b.nomeStream.toString().toLowerCase());
+				return a.label.toString().toLowerCase().localeCompare(b.label.toString().toLowerCase());
+				//return a.nomeStream.toString().toLowerCase().localeCompare(b.nomeStream.toString().toLowerCase());
 				//return (a.nomeStream.toString().toLowerCase() > b.nomeStream.toLowerCase()) - (a.nomeStream.toLowerCase() < b.nomeStream.toLowerCase());
 			} );
 	});

@@ -157,6 +157,11 @@
 						<strong translate-cloak translate>DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL</strong>&nbsp;&nbsp;
 						<a class='query-odata-link' target='blank' ng-href='{{queryOdataLink}}'>{{queryOdataLink}}</a>
 					</div>
+					<div>
+						<a href="{{queryOdataCsvLink}}" class="btn btn-download-dataset ng-binding" target='_blank'>
+							<span class="glyphicon glyphicon-cloud-download "></span> {{'DATA_EXPLORER_FILTER_QUERY_ODATA_DOWNLOAD'|translate}}
+						</a>
+					</div>
 					<div  class='text-center'>
 						<pagination boundary-links="false" total-items="totalFound" ng-model="currentPage" ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
 									next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
@@ -175,7 +180,7 @@
 				<strong translate-cloak translate>DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL</strong>&nbsp;&nbsp;
 				<!-- a class='dataexplorer-dowloadcsv-link' target='blank' ng-href='{{downloadCsvUrl}}'>{{downloadCsvUrl}}</a -->
 				
-				<a href="{{downloadCsvUrl}}" class="btn  btn-download-dataset ng-binding">
+				<a href="{{downloadCsvUrl}}" class="btn btn-download-dataset ng-binding">
 					<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 				</a>
 			</div>

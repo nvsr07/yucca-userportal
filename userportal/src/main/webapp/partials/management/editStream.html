@@ -187,10 +187,16 @@
 						<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
 							<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
 							<div class="col-sm-8">
-								<select class="form-control col-sm-8" ng-model="streamSelectedItem" ng-options="streamItem.nomeStream for streamItem in streamsList"></select>
+								<select class="form-control col-sm-8" ng-model="streamSelectedItem">
+									  <option ng-repeat="streamItem in streamsList" class="{{streamItem.cssClass}}" value="{{$index}}">{{streamItem.label}}</option>
+								</select>
 							</div>
 							<div class="col-sm-2"><a ng-click='addStreamToArray(streamSelectedItem)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></div>	
 						</div>
+						<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group option-warning">
+							<i class="fa fa-lightbulb-o"></i> <span translate>MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING</span>
+						</div>
+						
 					
 						<div ng-hide='stream.codiceVirtualEntity!="internal"'>
 							<div id="validateMsg" class="col-sm-10 col-sm-offset-2">

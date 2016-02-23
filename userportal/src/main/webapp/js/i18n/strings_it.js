@@ -645,6 +645,8 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_STREAM_WS_LBL: 'Fruizione dello stream in real time con web socket',
 	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Fruizione dello stream in real time con MQTT',
+	
+	MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING: 'I componenti degli stream  in bozza potrebbero non coincidere con la versione installata',
     
 	/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Object',
@@ -921,9 +923,10 @@ var translations_it = {
 	DATA_EXPLORER_FILTER_ADD_FILTER_ERROR_MISSING_FIELDS: 'Valorizzare tutti i campi',
 	DATA_EXPLORER_QUERY_INPUT: 'Query',
 	DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL: "Query OData utilizzata per l'anteprima", 
+	DATA_EXPLORER_FILTER_QUERY_ODATA_DOWNLOAD: 'Scarica i risultati di questa pagina',
 	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Clicca su "Scarica" per il download completo dei dati in formato csv',
 	//DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Eventuali dati caricati nelle ultime 24 ore potrebbero non essere presenti',
-	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limitato alle prime 10.000 righe',
+	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limitato ai dati presenti all fine del giorno precedente',
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Dettagli',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Nascondi',
 	

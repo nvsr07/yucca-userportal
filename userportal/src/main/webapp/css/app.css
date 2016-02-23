@@ -171,6 +171,8 @@ table>tbody>tr>td, .table>tbody>tr>td{border: 2px solid #d5d5d5; vertical-align:
 
 .top-toolbar{margin-bottom: 1em;}
 
+.option-warning{color: #ff9900; font-style: italic;};
+
 .input-range-panel label{margin-right: 1.5em; line-height: 2em}
 .input-range-panel input{width: auto; display: inline-block;height: 14px;font-size: 10px;}
 .input-range-panel .input-range-value{margin: 0 1em;}
