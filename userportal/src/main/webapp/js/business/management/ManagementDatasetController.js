@@ -500,7 +500,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			newDataset.info.tags = null;
 		}
 
-		if(newDataset.opendata.isOpendata !='true'){
+		if(typeof newDataset.opendata === 'undefined' || newDataset.opendata==null || newDataset.opendata.isOpendata !='true'){
 			newDataset.opendata = null;
 		}
 		else{
@@ -1268,6 +1268,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 	$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
 	$scope.goToColumns  = function(csvSeparator, fileEncoding){
+		$scope.warningMessages = [];
+		$scope.saveError = null;
+		$scope.saveErrors = null;
+
 		$scope.columnDefinitionType = "import";  
 		readPreview(csvSeparator); 
 		console.log("csvSeparator", $scope.csvSeparator, csvSeparator);
@@ -1371,7 +1375,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		console.log("dataset dopo binary ", newDataset);
 		$scope.openadataDataUpdateDateStyle = "";
 
-		if(typeof newDataset.opendata !== 'undefined' && newDataset.opendata.isOpendata !='true'){
+		if(typeof newDataset.opendata === 'undefined' || newDataset.opendata==null || newDataset.opendata.isOpendata !='true'){
 			newDataset.opendata = null;
 		}
 		else{
