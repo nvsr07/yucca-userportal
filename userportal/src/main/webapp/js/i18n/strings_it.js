@@ -88,6 +88,7 @@ var translations_it = {
 	STREAM_FIELD_COMPONENTS_DESCRIPTION: 'Descrizione',
 	STREAM_FIELD_COMPONENTS_SINCE_VERSION: 'Inserito in versione',
 	STREAM_FIELD_DOMAIN: 'Ambito tematico',
+	STREAM_FIELD_SLUG : 'Virtual Entity Slug',
 	STREAM_FIELD_LICENCE: 'Licenza',
 	STREAM_FIELD_DISCLAIMER : 'Restrizioni contenute in licenza',
 	STREAM_FIELD_COPYRIGHT : 'Copyright',
@@ -143,6 +144,7 @@ var translations_it = {
 	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'es. temperatura',
 	STREAM_FIELD_NAME_PLACEHOLDER : 'es. temperatura sala',
+	STREAM_FIELD_SLUG_PLACEHOLDER : 'come preferisci',
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'es. 1.4',
 	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'es. wind',
 	STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER: 'es. 12',
@@ -194,6 +196,7 @@ var translations_it = {
 	/* Virtual Entity */
 	VIRTUALENTITY_FIELD_ID: 'ID Smart Object',
 	VIRTUALENTITY_FIELD_CODE: 'Codice',
+	VIRTUALENTITY_SLUG: 'Slug',
 	VIRTUALENTITY_FIELD_ID_TENANT : 'Id organizzazione',
 	VIRTUALENTITY_FIELD_TENANT_CODE:"Codice organizzazione",
 	VIRTUALENTITY_FIELD_TYPE:'Tipo',

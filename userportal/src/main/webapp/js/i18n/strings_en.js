@@ -88,6 +88,7 @@ var translations_en = {
 	STREAM_FIELD_COMPONENTS_DESCRIPTION : 'Description',
 	STREAM_FIELD_COMPONENTS_SINCE_VERSION: 'Since version',	
 	STREAM_FIELD_DOMAIN : 'Domain',
+	STREAM_FIELD_SLUG : 'Virtual Entity Slug',
 	STREAM_FIELD_LICENCE : 'Licence',
 	STREAM_FIELD_DISCLAIMER : 'Disclaimer',
 	STREAM_FIELD_COPYRIGHT : 'Copyright',
@@ -143,6 +144,7 @@ var translations_en = {
 	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'e.g. temperature',
 	STREAM_FIELD_NAME_PLACEHOLDER : 'e.g. dinner room temperature',
+	STREAM_FIELD_SLUG_PLACEHOLDER : 'as you want',
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'e.g. 1.4',
 	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'e.g. wind',
 	STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER: 'e.g. 12',
@@ -194,6 +196,7 @@ var translations_en = {
 	/* Virtual Entity */
 	VIRTUALENTITY_FIELD_ID: 'ID Smart Object',
 	VIRTUALENTITY_FIELD_CODE: 'Code',
+	VIRTUALENTITY_SLUG: 'Slug',
 	VIRTUALENTITY_FIELD_ID_TENANT : 'Id tenant',
 	VIRTUALENTITY_FIELD_TENANT_CODE:"Tenant Code",
 	VIRTUALENTITY_FIELD_TYPE : 'Type',

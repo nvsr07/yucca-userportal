@@ -468,7 +468,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				if(!$scope.stream.streamTags)
 					$scope.stream.streamTags = new Object();
 				$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
-	
+
 				if($scope.stream.componenti == null)
 					$scope.stream.componenti = new Object();
 				$scope.stream.componenti.element = Helpers.util.initArrayZeroOneElements($scope.stream.componenti.element);
@@ -516,8 +516,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				}
 
 				sharedStream.setStream(null);
-			}
-			else{
+			} else {
 				$scope.stream  = {};
 				$scope.stream.visibility = 'public';
 				$scope.stream.streamIcon  = "img/stream-icon-default.png";
@@ -534,6 +533,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.opendata.dataUpdateDate = 0;
 				$scope.stream.opendata.language = null;
 				$scope.stream.externalReference = null;
+				$scope.stream.codeSlug = null;
 				//$scope.stream.tenantssharing = {};
 				//$scope.stream.tenantssharing.tenantsharing = [];
 	//			var ownerTenant = {"idTenant":newTenantSharing.idTenant, 
