@@ -50,43 +50,6 @@
 		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-panel" id='chart-container'>
 				<tabset>
-    				<tab heading="{{'DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE'|translate}}">
-						<div class='row'>
-							<div class="col-sm-6 input-range-panel">
-  								<label for="statisticTimeInterval" translate-cloak translate>DASHBOARD_STREAM_WS_STATISTICS_CHART_TIME_INTERVAL</label> 
-  								<input type="range" id="statisticTimeInterval" name="statisticTimeInterval" ng-model="statisticTimeInterval.interval" min="{{statisticTimeIntervalMin}}" max="{{statisticTimeIntervalMax}}">
-	  							<span class='input-range-value'>{{statisticTimeInterval.interval|format_time_from_seconds}}</span>
-							</div>
-							<div class="col-sm-6 input-range-panel">
-  								<label for="samplingFrequency" translate-cloak translate>DASHBOARD_STREAM_WS_STATISTICS_SAMPLING_FREQUENCY</label> 
-  								<input type="range" id="samplingFrequency" name="samplingFrequency" ng-model="samplingFrequency.value" min="{{samplingFrequencyMin}}" max="{{samplingFrequencyMax}}">
-	  							<span class='input-range-value'>{{samplingFrequency.value|format_time_from_seconds}}</span>
-							</div>
-							
-							
-							
-						</div>
-						<div class='row'>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-								<div class='graph-container' id='stream-statistic-chart'>
-			    					<nvd3-line-chart 
-										data="nvWsStatisticData" 
-										id="nvStatisticChart" 
-										width="{{chartWidth}}"
-										height="300" 
-										showXAxis="true" 
-										showYAxis="true" 
-										tooltips="true" 
-										interactive="true" 
-										interpolate="true"
-										objectEquality="true" 
-							           
-										> <svg></svg> 
-									</nvd3-line-chart>
-								</div>
-							</div>
-    					</div>
-    				</tab>
     				<tab heading="{{'DASHBOARD_STREAM_DATA_CHART_TITLE'|translate}}">
 						<div class='row' ng-show="isTwitter">
 							<div class="col-sm-6" >
@@ -145,7 +108,7 @@
 									<nvd3-line-chart 
 										data="chartData" 
 										id="nvDataChart" 
-										width="{{chartWidth}}"
+										width="{{chartWidth - 50}}"
 										height="300" 
 										showXAxis="true" 
 										showYAxis="true" 
@@ -160,6 +123,43 @@
 							</div>
 						</div>
 					</tab>
+    				<tab heading="{{'DASHBOARD_STREAM_WS_STATISTICS_CHART_TITLE'|translate}}">
+						<div class='row'>
+							<div class="col-sm-6 input-range-panel">
+  								<label for="statisticTimeInterval" translate-cloak translate>DASHBOARD_STREAM_WS_STATISTICS_CHART_TIME_INTERVAL</label> 
+  								<input type="range" id="statisticTimeInterval" name="statisticTimeInterval" ng-model="statisticTimeInterval.interval" min="{{statisticTimeIntervalMin}}" max="{{statisticTimeIntervalMax}}">
+	  							<span class='input-range-value'>{{statisticTimeInterval.interval|format_time_from_seconds}}</span>
+							</div>
+							<div class="col-sm-6 input-range-panel">
+  								<label for="samplingFrequency" translate-cloak translate>DASHBOARD_STREAM_WS_STATISTICS_SAMPLING_FREQUENCY</label> 
+  								<input type="range" id="samplingFrequency" name="samplingFrequency" ng-model="samplingFrequency.value" min="{{samplingFrequencyMin}}" max="{{samplingFrequencyMax}}">
+	  							<span class='input-range-value'>{{samplingFrequency.value|format_time_from_seconds}}</span>
+							</div>
+							
+							
+							
+						</div>
+						<div class='row'>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+								<div class='graph-container' id='stream-statistic-chart'>
+			    					<nvd3-line-chart 
+										data="nvWsStatisticData" 
+										id="nvStatisticChart" 
+										width="{{chartWidth}}"
+										height="300" 
+										showXAxis="true" 
+										showYAxis="true" 
+										tooltips="true" 
+										interactive="true" 
+										interpolate="true"
+										objectEquality="true" 
+							           
+										> <svg></svg> 
+									</nvd3-line-chart>
+								</div>
+							</div>
+    					</div>
+    				</tab>
   				</tabset>
 			</div>
 		</div>

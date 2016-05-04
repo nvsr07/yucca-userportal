@@ -296,6 +296,14 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 
+
+	fabricAPI.getVirtualentityByTenant = function(tenant_code) {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + '?callback=JSON_CALLBACK'
+		});
+	};
+
 	fabricAPI.createVirtualentity = function(tenant_code, virtualentity_code, virtualentity) {
 		var deferred = $q.defer();
 		var resultData = null;

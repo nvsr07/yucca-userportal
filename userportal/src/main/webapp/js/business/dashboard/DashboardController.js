@@ -477,7 +477,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
     $scope.xAxisTickFormatFunction = function(){
         return function(d) {
-            return  d3.time.format("%H:%M:%S")(new Date(d));
+        	return  d3.time.format("%d/%m/%Y-%H:%M")(new Date(d));
           };
     };
     

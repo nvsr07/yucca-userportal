@@ -88,6 +88,7 @@ var translations_it = {
 	STREAM_FIELD_COMPONENTS_DESCRIPTION: 'Descrizione',
 	STREAM_FIELD_COMPONENTS_SINCE_VERSION: 'Inserito in versione',
 	STREAM_FIELD_DOMAIN: 'Ambito tematico',
+	STREAM_FIELD_SLUG : 'Virtual Entity Slug',
 	STREAM_FIELD_LICENCE: 'Licenza',
 	STREAM_FIELD_DISCLAIMER : 'Restrizioni contenute in licenza',
 	STREAM_FIELD_COPYRIGHT : 'Copyright',
@@ -143,6 +144,7 @@ var translations_it = {
 	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'es. temperatura',
 	STREAM_FIELD_NAME_PLACEHOLDER : 'es. temperatura sala',
+	STREAM_FIELD_SLUG_PLACEHOLDER : 'inserisci il nome e dopo clicca qui, verrà creato un codice valido, modificabile.',
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'es. 1.4',
 	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'es. wind',
 	STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER: 'es. 12',
@@ -194,6 +196,7 @@ var translations_it = {
 	/* Virtual Entity */
 	VIRTUALENTITY_FIELD_ID: 'ID Smart Object',
 	VIRTUALENTITY_FIELD_CODE: 'Codice',
+	VIRTUALENTITY_SLUG: 'Slug',
 	VIRTUALENTITY_FIELD_ID_TENANT : 'Id organizzazione',
 	VIRTUALENTITY_FIELD_TENANT_CODE:"Codice organizzazione",
 	VIRTUALENTITY_FIELD_TYPE:'Tipo',
@@ -703,10 +706,10 @@ var translations_it = {
 	MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET: 'Cancella i dati',
 	MANAGEMENT_DATASET_LIST_SHOW_UNINSTALLED : 'Mostra Disinstallati',
 	MANAGEMENT_DATASET_CONFIRM_DELETE: 'Stai per disinstalare i/il Dataset selezionato! Sei sicuro?',
-	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Cancellazione del DATASET selezionato',
-	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'SEI SICURO DI VOLER CANCELLARE IL DATASET?',
-	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dataset cancellato correttamente',
-	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non � stato possibile cancellare il dataset! Riprovare in un secondo momento',
+	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Cancellazione dei dati del DATASET selezionato',
+	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'SEI SICURO DI VOLER CANCELLARE TUTTI I DATI DEL DATASET?',
+	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dati del Dataset cancellati correttamente',
+	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non è stato possibile cancellare i dati del dataset! Riprovare in un secondo momento',
 	
 	MANAGEMENT_VIEW_DATASET_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_DATASET_CLONE_BUTTON: 'Clona',

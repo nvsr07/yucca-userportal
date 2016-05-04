@@ -94,14 +94,16 @@
 			<div class="col-sm-10">
 				<textarea class="form-control" rows="2" id="inputVirtualentityDescription" placeholder="{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}" ng-model="virtualentity.virtualEntityDescription"></textarea>
 			</div>
-		</div>	
+		</div>		
+		<div class="form-group">
+			<label for="inputSlug" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_SLUG</span> <span class="required-asterisk">*</span></label>
+			<div class="col-sm-8">
+				<input  type="text" ng-focus="generateSLUG()" class="form-control" ng-disabled="slugDisabled()" ng-model="virtualentity.virtualEntitySlug" id="inputSlug" placeholder="{{'STREAM_FIELD_SLUG_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40" >
+			</div>
+		</div>
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar" ng-show="!isUpdating">
 				<a ng-click='cancel()' class="btn " translate-cloak translate>BACK</a>
-				<!--  <a href ng-click='createVirtualentityTwitter()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid "  ng-show="isTwitter()">
-					<i class="fa fa-twitter"></i>&nbsp;
-					<span translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER</span>
-				</a> -->
 				<a ng-click='goToPosition()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid "  ng-show="isDevice()" translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
 				<a ng-click='save()' class="btn btn-wizard-next" ng-disabled="!isOwner() || registerVirtualentityForm.$invalid" ng-show="!isDevice()" translate-cloak translate>SAVE</a>
 			</div>
