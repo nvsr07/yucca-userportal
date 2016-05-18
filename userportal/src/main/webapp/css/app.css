@@ -101,10 +101,10 @@ a{color: black; text-decoration: underline;}
 
 .menu-flag-icon{display: inline-block; height: 45px; width: 55px;}
 .menu-flag-icon img{}
-/*
+
 .menu-flag-icon-en{background: url("../img/flags/en.png") center center no-repeat; }
 .menu-flag-icon-it{background: url("../img/flags/it.png") center center no-repeat; }
-*/
+
 footer{text-align: center;   width: 100%; height: auto;  background-color:#fff; padding-top: 4em;}
 footer ul {list-style-type: none;}
 footer ul li { display:inline; text-align: center;}
