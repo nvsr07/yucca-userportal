@@ -100,8 +100,10 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 						operators = operators_number;
 						break;
 					}
-									
-					$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
+					
+					if (prop["_Name"] != "internalId"){
+						$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
+					}
 					if(prop["_Name"]=="time"){
 						defaultOrderByColumn = "time";
 					}
