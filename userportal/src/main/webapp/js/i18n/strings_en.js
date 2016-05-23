@@ -868,6 +868,7 @@ var translations_en = {
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> , <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> to use it <i>operator<strong>:</strong><i>value</i> ',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filter', 
 	DISCOVERY_FILTER_SEARCH_BUTTON: 'Search',
+	DISCOVERY_FILTER_SANDBOX_EXCLUDE: 'include the SANDBOX tenant from the search',
 	
 	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Choose one field',
 	

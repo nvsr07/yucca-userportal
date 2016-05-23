@@ -545,6 +545,11 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		$scope.stepTitle='DATABROWSER_CHOOSE_TAG_TITLE';
 	};
 	
+	$scope.excludesandboxcheck = true;
+	$scope.excludeSandboxTenant = function(){ 
+		$scope.excludesandboxcheck = !$scope.excludesandboxcheck;
+	}
+	
 	var searchType = "";
 	$scope.goToResults  = function(searchTypeParam, clearDomain){ 
 		if(clearDomain) 
@@ -855,12 +860,14 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	        return $.param(data);
 	    };
 	    
-	    var searchParams =  {"action":"searchAPIs","query":"(" + $scope.queryInput + ") && (tenantCode!=sandbox)","start":searchStart,"end": searchPage};
+	    var tenantExcludeParam = ($scope.excludesandboxcheck) ? " && (tenantCode!=sandbox)" : "";
+	    
+	    var searchParams =  {"action":"searchAPIs","query":"(" + $scope.queryInput + ")" + tenantExcludeParam,"start":searchStart,"end": searchPage};
 	    if(($scope.selectedDomain!=null) && ($scope.queryInput!=null)){
 	    	var newQueryInput = "(domainStream="+$scope.selectedDomain+" dataDomain="+$scope.selectedDomain+") && ("+$scope.queryInput+")";
-	    	searchParams =  {"action":"searchAPIs","query":newQueryInput + " && (tenantCode!=sandbox)","start":searchStart,"end": searchPage};
+	    	searchParams =  {"action":"searchAPIs","query":newQueryInput + tenantExcludeParam,"start":searchStart,"end": searchPage};
 	    } else if($scope.selectedDomain!=null){
-	    	searchParams =  {"action":"searchAPIs","query":"(domainStream="+$scope.selectedDomain+" dataDomain="+$scope.selectedDomain + ") && (tenantCode!=sandbox)","start":searchStart,"end": searchPage};
+	    	searchParams =  {"action":"searchAPIs","query":"(domainStream="+$scope.selectedDomain+" dataDomain="+$scope.selectedDomain + ")" + tenantExcludeParam,"start":searchStart,"end": searchPage};
 	    }
 	    
 		//var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":start,"end": datasetForPage};

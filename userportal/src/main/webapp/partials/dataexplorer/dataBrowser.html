@@ -23,6 +23,9 @@
 								<span class="glyphicon glyphicons-circle-remove"></span>&nbsp;
 								<span translate-cloak translate>{{selectedDomain|translate}}</span>&nbsp;&nbsp;&times;
 							</button>
+							<label>
+					  			<input type="checkbox" ng-model="component.view" ng-change="excludeSandboxTenant()" checked="checked">{{'DISCOVERY_FILTER_SANDBOX_EXCLUDE'|translate}}
+							</label>
 						</div>
 					</div>
 				</form>
