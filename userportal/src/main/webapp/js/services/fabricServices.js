@@ -267,6 +267,13 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 
+	fabricAPI.getStreamDomains = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_SERVICES_STREAM_SUB_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
+		});
+	};
+
 	fabricAPI.getStreamPhenomenom = function() {
 		return $http({
 			method : 'JSONP',
