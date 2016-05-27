@@ -393,9 +393,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	});
 
 	$scope.subdomainList = [];
-	fabricAPIservice.getStreamDomains().success(function(response) {
+	fabricAPIservice.getStreamSubDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
-			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+			$scope.subdomainList.push(response.streamDomains.element[int]);
 		}
 	});
 

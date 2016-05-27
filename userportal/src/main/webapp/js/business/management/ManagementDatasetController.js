@@ -41,9 +41,11 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
 							response[i].info.attachment  = true;
 						
-						
 						if(response[i].info.dataDomain &&  response[i].info.dataDomain != null)
 							response[i].info.dataDomainTranslated =  $translate.instant(response[i].info.dataDomain);
+						
+						if(response[i].info.codSubDomain &&  response[i].info.codSubDomain != null)
+							response[i].info.codSubDomainTranslated =  $translate.instant(response[i].info.codSubDomain);
 
 						$scope.datasetList.push(response[i]);
 					}
@@ -74,13 +76,21 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		return !$scope.domainFilter || keyword.test(dataset.info.dataDomain) || keyword.test(dataset.info.dataDomainTranslated);
 	};
 	
+	$scope.searchSubDomainFilter = function(dataset) {
+		var keyword = new RegExp($scope.subDomainFilter, 'i');
+		return !$scope.subDomainFilter || keyword.test(dataset.info.codSubDomain) || keyword.test(dataset.info.codSubDomainTranslated);
+	};
+	
 	$scope.$watch('domainFilter', function(newDomain) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredDatasetsList.length;
 	});
-
-
 	
+	$scope.$watch('subDomainFilter', function(newSubDomain) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+	});
+
 	$scope.viewUnistalledFilter = function(dataset) {
 		if(!$scope.viewUnistalledCheck){
 			return dataset.configData.deleted!=1;
@@ -320,7 +330,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	});
 
 	$scope.tagList = [];
-	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
@@ -331,6 +340,13 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.subDomainList = [];
+	fabricAPIservice.getStreamSubDomains().success(function(response) {
+		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
+			$scope.subDomainList.push(response.streamSubDomains.element[int]);
 		}
 	});
 
@@ -809,8 +825,14 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		}
 	});
 
+	$scope.subDomainList = [];
+	fabricAPIservice.getStreamSubDomains().success(function(response) {
+		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
+			$scope.subDomainList.push(response.streamSubDomains.element[int]);
+		}
+	});
+
 	$scope.tagList = [];
-	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
 			$scope.tagList.push(response.streamTags.element[int].tagCode);
@@ -819,7 +841,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	
 	$scope.tenantsList = [];
 	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);
 		try{
 			
 			for (var int = 0; int <  response.tenants.tenant.length; int++) {
@@ -1154,7 +1175,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.insertBinaryErrors = [];
 
 		if($scope.newBinaryDefinition.fieldName==null || $scope.newBinaryDefinition.fieldName=="")
-				$scope.insertBinaryErrors .push('MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME');
+				$scope.insertBinaryErrors.push('MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME');
 
 		var checkNameDuplicate = false;
 		//var checkSourceBinaryDuplicate = false;
@@ -1387,7 +1408,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 		}
 
-	
+		console.log("newDataset", newDataset);
 		if(!hasErrors){
 			var fileName = null;
 			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)

@@ -55,8 +55,16 @@
 						<div class="form-group">
 							<label for="inputDatasetDomain" class="col-sm-2 control-label"translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</label>
 							<div class="col-sm-10">
-								<select class="input-sm form-control" ng-model="dataset.info.dataDomain" ng-options="domain as (domain|translate) for domain in domainList">
+								<select class="input-sm form-control" ng-model="dataset.info.dataDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-disabled="true">
 			    					<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
+			    				</select>
+							</div>
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDomain" class="col-sm-2 control-label"translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</label>
+							<div class="col-sm-10">
+								<select class="input-sm form-control" ng-model="dataset.info.codSubDomain" ng-options="codSubDomain as (codSubDomain|translate) for codSubDomain in subDomainList|subDomainFilter:dataset.info.dataDomain" ng-disabled="true">
+			    					<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER</option>
 			    				</select>
 							</div>
 						</div>		
