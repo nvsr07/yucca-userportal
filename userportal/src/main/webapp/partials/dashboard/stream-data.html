@@ -201,7 +201,7 @@
 					</div>	
 					<div class="row card-row">
 						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_DOMAIN</span></strong></div>
-						<div class='col-sm-10'>{{stream.domain|translate}}</div>
+						<div class='col-sm-10'>{{stream.domainStream|translate}}<span ng-show='stream.codSubDomain != stream.domainStream'> - {{stream.codSubDomain|translate}}</span></div>
 					</div>	
 					<div class="row card-row">
 						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>TENANT</span></strong></div>
