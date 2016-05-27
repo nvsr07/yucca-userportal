@@ -191,6 +191,9 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	$scope.isHomepage = function() {
 		return true;
 	};
+	
+	console.debug(" $location",  $location);
+
 
 	var scrollTo  = $location.search().scrollTo;
 	console.debug(" scrollTo",  scrollTo);
