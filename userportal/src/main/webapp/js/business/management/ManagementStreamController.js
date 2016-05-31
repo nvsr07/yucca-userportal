@@ -147,8 +147,8 @@ appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($sc
 } ]);
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream',
-                                                    function($scope, $routeParams, fabricAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream', '$translate',
+                                                    function($scope, $routeParams, fabricAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
@@ -381,8 +381,33 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.tagList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
-			$scope.tagList.push(response.streamTags.element[int].tagCode);
+			//$scope.tagList.push(response.streamTags.element[int].tagCode);
+			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
 		}
+		
+		$scope.tagList.sort(function(a, b) { 
+		    return ((a.tagLabel < b.tagLabel) ? -1 : ((a.tagLabel > b.tagLabel) ? 1 : 0));
+		});
+		
+		var delta = Math.trunc($scope.tagList.length/3);
+		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
+		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
+
+		for (var i = 0; i < delta+1; i++) {
+			console.log("delta",i,i+delta+1,  i+delta*2+2);
+			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
+			if($scope.tagList.length>i+delta+1)
+				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
+			else
+				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+			if($scope.tagList.length>i+delta*2+2)
+				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
+			else
+				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+		}
+		$scope.tagTooltipHtml += "</div>";
+		$scope.tagTooltipHtml += "</div>";
+
 	});
 
 	$scope.domainList = [];
@@ -786,8 +811,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if(!found)
 				$scope.stream.streamTags.tag.push({"tagCode":newTag});
 		}
+		$scope.newTag = "";
 		return false;
 
+	};
+	
+	$scope.onTagSelect = function($item, $model, $label){
+		console.log("onTagSelect",$item, $model, $label);
+		if($item.tagCode!=null)
+			$scope.addTag($item.tagCode);
+		
 	};
 
 	$scope.removeTag = function(index){
