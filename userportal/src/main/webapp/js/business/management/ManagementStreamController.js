@@ -394,7 +394,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
 
 		for (var i = 0; i < delta+1; i++) {
-			console.log("delta",i,i+delta+1,  i+delta*2+2);
 			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
 			if($scope.tagList.length>i+delta+1)
 				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
@@ -795,6 +794,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.editingComponentIndex = index;
 		return false;
 	};
+	
+	$scope.newTag = {value:""};
 
 	$scope.addTag = function(newTag){
 		console.log("addTag ",newTag);
@@ -811,7 +812,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if(!found)
 				$scope.stream.streamTags.tag.push({"tagCode":newTag});
 		}
-		$scope.newTag = "";
+		$scope.newTag.value = "";
 		return false;
 
 	};

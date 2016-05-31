@@ -15,7 +15,7 @@
 					</span>
 				</p>						
 				<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
-					<input type="text" ng-model="newTag" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
+					<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
 						typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
 					<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span>
 				</div>								
