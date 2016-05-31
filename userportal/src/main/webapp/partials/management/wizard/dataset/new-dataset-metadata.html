@@ -22,7 +22,14 @@
 					<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
 					</span> &nbsp;
 				</span>
-			</p>						
+			</p>
+			<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
+				<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
+						typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
+				<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span>
+			</div>								
+			
+			<!-- 				
 			<p>
 				<div class="input-group">
 					<select class="input-sm form-control" ng-model="newTag" ng-options="tag as (tag|translate) for tag in tagList">
@@ -34,7 +41,7 @@
 				    	</a>
 				    </span>
   				</div>
-			</p>
+			</p> -->
 		</div>
 	</div>			
 	<div class="form-group">
