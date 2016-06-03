@@ -784,7 +784,11 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 
 /* management */
 .section-management{}
-.section-management .info-card h4{background-color: #efe4f3 } /* last Color Shades on http://9b59b6.hex-code.com/ 
+.section-management .info-card h4{background-color: #efe4f3 } /* last Color Shades on http://9b59b6.hex-code.com/ */
+.tag-html-tooltip-container .tooltip-inner{ margin-left: -385px; width: 400px; max-height: 350px; overflow-y: auto; overflow-x: hidden;}
+.tag-html-tooltip{text-align: left; overflow-y: auto; padding: 0 6px;} 
+.tag-html-tooltip h5{margin-top: 0;}
+.tag-html-tooltip-button:hover{cursor: pointer}
 
 
 

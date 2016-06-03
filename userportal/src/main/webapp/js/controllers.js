@@ -240,7 +240,6 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 		if (response.lifetime.stream_frequency){
 			for (var int = 0; int < response.lifetime.stream_frequency.domain.length; int++) {
 				var domain = response.lifetime.stream_frequency.domain[int];
-				console.log("domain:", domain);
 				domains.push({key: $translate(domain._id), y:domain.count});
 			}
 		}
