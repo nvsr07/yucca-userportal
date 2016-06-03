@@ -324,6 +324,21 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 		return deferred.promise;
 	};
+	
+	fabricAPI.createNewTestTenant = function(tenant_code, tenantObject) {
+		//int-sdnet-intapi.sdp.csi.it:90/wso001/services/tenants/<codiceNuovoTenant>
+		var deferred = $q.defer();
+		var resultData = null;
+
+		$http.post(Constants.API_SERVICES_NEW_TENANT_URL + tenant_code + '/', tenantObject).success(function(responseData) {
+			resultData = {status: "ok", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+			resultData = {status: "ko - "+responseStatus, data: responseData};
+			deferred.reject(resultData);
+		});
+		return deferred.promise;
+	};
 
 	fabricAPI.loadTwitterCredential = function() {
 		return $http({

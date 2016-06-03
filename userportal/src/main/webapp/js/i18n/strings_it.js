@@ -397,6 +397,7 @@ var translations_it = {
 	HOME_START_BUTTON_DESC: 'Login con la tua utenza',
 	HOME_START_BUTTON: 'Login',
 	HOME_FORCE_LOGOUT_BUTTON: 'Forza Logout',
+	HOME_TENANT_TEST_BUTTON: 'Richiedi Tenant di prova',
 	HOME_START_DEMO_BUTTON_DESC: 'Prova la piattaforma sul tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Accesso anonimo ai dati pubblici', 
 	HOME_LOGGED_IN_WELCOME: 'Benvenuto, ',
@@ -439,8 +440,29 @@ var translations_it = {
 	HOME_ACTION_NEW_DATASET: 'Crea Dataset',
 	HOME_ACTION_SEARCH: 'Cerca nello Store',
 	HOME_ACTION_STORE: 'Accedi allo store',
-
+	 
+	HOME_TTFORUM_USERNAME_PLACEHOLDER: 'Inserisci il tuo nome',
+	HOME_TTFORUM_USERLASTNAME_PLACEHOLDER: 'Inserisci il tuo cognome',
+	HOME_TTFORUM_USEREMAIL_PLACEHOLDER: 'Inserisci la tua mail',
+	HOME_TTFORUM_USERTYPEAUTH_PLACEHOLDER: 'Inserisci il tipo di autenticazione',
+	HOME_TTFORUM_TENANTNAME_PLACEHOLDER: 'Inserisci il nome del Tenant',
+	HOME_TTFORUM_TENANTDESC_PLACEHOLDER: 'Inserisci la descrizione del Tenant', 
+	HOME_TTFORUM_TENANTPWD_PLACEHOLDER: 'Inserisci la Password', 
+	HOME_TTFORUM_TENANTECOSYS_PLACEHOLDER: 'Scegli l\'eco sistema di appartenenza del tuo Tenant', 
+	HOME_TTFORUM_TENANTORG_PLACEHOLDER: 'Organizzazione di appartenenza',
 	
+	HOME_TTFORUM_USERNAME: 'Nome',
+	HOME_TTFORUM_USERLASTNAME: 'Cognome',
+	HOME_TTFORUM_USEREMAIL: 'E-Mail',
+	HOME_TTFORUM_USERTYPEAUTH: 'Tipo di Autenticazione',
+	HOME_TTFORUM_TENANTNAME: 'Nome del Tenant',
+	HOME_TTFORUM_TENANTDESC: 'Descrizione del Tenant', 
+	HOME_TTFORUM_TENANTPWD: 'Password', 
+	HOME_TTFORUM_TENANTNAME: 'Eco Sistema', 
+	HOME_TTFORUM_TENANTNAME: 'Organizzazione', 
+	
+	HOME_TTFORUM_SUBMIT: 'Invia richiesta',
+	HOME_TTFORUM_CANCEL: 'Annulla e chiudi',
 	
 	HOME_SEARCH_TITLE: 'Cerca un dataset',
 	HOME_STORE_TITLE: 'Accedi allo store',
