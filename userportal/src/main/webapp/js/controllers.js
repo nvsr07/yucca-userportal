@@ -123,61 +123,76 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	console.log('location', $location.$$url);
 	var url = $location.$$url;
 	
-	//if (typeof $route.current !== 'undefined'){
-	if (url.indexOf("?") > -1){
-		//if (!jQuery.isEmptyObject($route.current.params)){
-			//if ($route.current.params.strong === "false"){
-			if (url.indexOf("strong=false") > -1){
-				var modalInstance = $modal.open({
-					animation : $scope.animationsEnabled,
-					templateUrl : 'myModalContent.html',
-					controller : 'HomePageModalCtrl',
-					size : 0,
-				      resolve: {
-				    	  op: function () {
-				            return 'strong';
-				          }
-				        }
-				});
-
-				modalInstance.result.then(function(selectedItem) {
-						$scope.selected = selectedItem;
-					}, function() {
-						console.info('Modal dismissed at: ' + new Date());
-				});
-			}
-
-			//if ($route.current.params.tenant === "false"){
-			if (url.indexOf("tenant=false") > -1){
-				var modalInstance = $modal.open({
-					animation : $scope.animationsEnabled,
-					templateUrl : 'myModalContent.html',
-					controller : 'HomePageModalCtrl',
-					size : 0,
-				      resolve: {
-				    	  op: function () {
-					            return 'tenant';
-				          }
-				        }
-				});
-
-				modalInstance.result.then(function(selectedItem) {
-						$scope.selected = selectedItem;
-					}, function() {
-						console.info('Modal dismissed at: ' + new Date());
-				});
-			}
-			
-			//if ($route.current.params.login === "ok"){
-			if (url.indexOf("login=ok") > -1){
-				$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
-				$scope.linkLoginToStoreW = "1";
-				$scope.linkLoginToStoreH = "1";
-			}
-		//}
-	}
+	console.log('info', info);
 	
-} ]);
+	if (url.indexOf("?") > -1){
+		if (url.indexOf("strong=false") > -1){
+			var modalInstance = $modal.open({
+				animation : $scope.animationsEnabled,
+				templateUrl : 'myModalContent.html',
+				controller : 'HomePageModalCtrl',
+				size : 0,
+				resolve: {
+					op: function () {
+						return 'strong';
+					}
+				}
+			});
+
+			modalInstance.result.then(function(selectedItem) {
+				$scope.selected = selectedItem;
+			}, function() {
+				console.info('Modal dismissed at: ' + new Date());
+			});
+		}
+		
+		$scope.showTTForm = false;
+
+		if (url.indexOf("tenant=false") > -1){
+			if (url.indexOf("social=true") > -1){
+				var modalInstance = $modal.open({
+					animation : $scope.animationsEnabled,
+					templateUrl : 'myModalContent.html',
+					controller : 'HomePageModalCtrl',
+					size : 0,
+					backdrop  : 'static',
+					keyboard  : false,
+					resolve: {
+						op: function () {
+							return 'social';
+						}
+					}
+				});
+			} else {
+				var modalInstance = $modal.open({
+					animation : $scope.animationsEnabled,
+					templateUrl : 'myModalContent.html',
+					controller : 'HomePageModalCtrl',
+					size : 0,
+					backdrop  : 'static',
+					keyboard  : false,
+					resolve: {
+						op: function () {
+							return 'tenant';
+						}
+					}
+				});
+			}
+
+			modalInstance.result.then(function(selectedItem) {
+					$scope.selected = selectedItem;
+				}, function() {
+					console.info('Modal dismissed at: ' + new Date());
+			});
+		}
+			
+		if (url.indexOf("login=ok") > -1){
+			$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
+			$scope.linkLoginToStoreW = "1";
+			$scope.linkLoginToStoreH = "1";
+		}
+	}
+}]);
 
 
 appControllers.factory("initCtrl", function(fabricAPIservice, info, $q) {
@@ -297,13 +312,81 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 } ]);
 
-appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'readFilePreview', 'op',
-                                                     function($scope, $routeParams, $location, $modalInstance, info, readFilePreview, op) {
+appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op',
+                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, readFilePreview, op) {
 	
 	$scope.op = op;
+	$scope.tenantTest = {};
+	$scope.tenantTest.userName = null;
+	$scope.tenantTest.userLastName = null;
+	$scope.tenantTest.userEmail = null;
+	$scope.tenantTest.userTypeAuth = null;
+	$scope.tenantTest.tenantName = null;
+	$scope.tenantTest.tenantDescription = null;
+	$scope.tenantTest.tenantPassword = null;
+	$scope.tenantTest.idEcosystem = 1;
+	$scope.tenantTest.tenantType = "trial";
+	$scope.tenantTest.idOrganization = 38;  //CSI 
+	console.log("--->op = ", op);
+	console.log("--->$scope.tenantTest = ", $scope.tenantTest);
+	
+	fabricAPIservice.getInfo().success(function(result) {
+		info.setInfo(result);
+		$scope.activeTenantCode = info.getActiveTenantCode();
+		$scope.userTenants = info.getInfo().user.tenants;
+		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
+		$scope.user = result.user;
+		
+		$scope.tenantTest.userName = info.getInfo().user.firstname;
+		$scope.tenantTest.userLastName = info.getInfo().user.lastname;
+		$scope.tenantTest.userEmail = info.getInfo().user.email;
+		if (op == 'social')
+			$scope.tenantTest.userTypeAuth = op;
+		else 
+			$scope.tenantTest.userTypeAuth = 'classic';
+	});
+	
+	console.log("--->info = ", info);
 	$scope.cancel = function () {
 	    $modalInstance.dismiss('cancel');
 	};
+	
+	$scope.goToRequestor = function () {
+
+		console.log(" ---> $scope.tenantTest = ", $scope.tenantTest);
+		var tenantParam = {};
+		tenantParam.tenant = $scope.tenantTest;
+		console.log(" ---> tenantParam = ", tenantParam);
+		var promise = fabricAPIservice.createNewTestTenant($scope.tenantTest.tenantName, tenantParam);
+		promise.then(function(result) {
+			console.log("result OK => ", result);
+			$scope.isUpdating = true;
+		}, function(result) {
+			console.log("ERROR: ", result);
+		}, function(result) {
+			console.log('Got notification: ' + result);
+		});
+	};
+	
+	$scope.truthyTTForm = function(field){
+		var rtnResponse = true;
+		switch(field) {
+		    case 'name':
+		        if ($scope.tenantTest.userName == null)
+		        	rtnResponse = false;
+		        break;
+		    case 'lastname':
+		        if ($scope.tenantTest.userLastName == null)
+		        	rtnResponse = false;
+		        break;
+		    case 'email':
+		        if ($scope.tenantTest.userEmail == null)
+		        	rtnResponse = false;
+		        break;
+		}
+		return rtnResponse;
+	}
+	
 }]);
 
 

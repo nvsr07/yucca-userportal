@@ -145,7 +145,6 @@ var translations_en = {
 	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'e.g. temperature',
 	STREAM_FIELD_NAME_PLACEHOLDER : 'e.g. dinner room temperature',
-	STREAM_FIELD_SLUG_PLACEHOLDER : 'as you want',
 	STREAM_FIELD_SLUG_PLACEHOLDER : 'Enter the name and then click here, the sistem will create a valid code, editable.',
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'e.g. 1.4',
 	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'e.g. wind',
@@ -398,6 +397,7 @@ var translations_en = {
 	HOME_START_BUTTON_DESC: 'Sign in with your credential',
 	HOME_START_BUTTON: 'Sign in',
 	HOME_FORCE_LOGOUT_BUTTON: 'Force Logout',
+	HOME_TENANT_TEST_BUTTON: 'Request Tenant test',
 	HOME_START_DEMO_BUTTON_DESC: 'Try the platform using the tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Anonymous access to public data', 
 	HOME_LOGGED_IN_WELCOME: 'Welcome, ',
@@ -440,8 +440,29 @@ var translations_en = {
 	HOME_ACTION_NEW_DATASET: 'Create Dataset',
 	HOME_ACTION_SEARCH: 'Search in the Store',
 	HOME_ACTION_STORE: 'Go to the store',
-
+	 
+	HOME_TTFORUM_USERNAME_PLACEHOLDER: 'Insert your name',
+	HOME_TTFORUM_USERSURNAME_PLACEHOLDER: 'Insert your surnome',
+	HOME_TTFORUM_USEREMAIL_PLACEHOLDER: 'Insert yuor email',
+	HOME_TTFORUM_USERTYPEAUTH_PLACEHOLDER: 'Insert your authentication type',
+	HOME_TTFORUM_TENANTNAME_PLACEHOLDER: 'Insert your Tenant name',
+	HOME_TTFORUM_TENANTDESC_PLACEHOLDER: 'Insert the Description of your Tenant', 
+	HOME_TTFORUM_TENANTPWD_PLACEHOLDER: 'Insert the Password', 
+	HOME_TTFORUM_TENANTECOSYS_PLACEHOLDER: 'Choose the Eco System of your Tenant', 
+	HOME_TTFORUM_TENANTORG_PLACEHOLDER: 'Organization', 
 	
+	HOME_TTFORUM_USERNAME: 'Name',
+	HOME_TTFORUM_USERSURNAME: 'Surnome',
+	HOME_TTFORUM_USEREMAIL: 'E-Mail',
+	HOME_TTFORUM_USERTYPEAUTH: 'Authentication type',
+	HOME_TTFORUM_TENANTNAME: 'Tenant Name',
+	HOME_TTFORUM_TENANTDESC: 'Tenant Description', 
+	HOME_TTFORUM_TENANTPWD: 'Password', 
+	HOME_TTFORUM_TENANTECOSYS: 'Eco System', 
+	HOME_TTFORUM_TENANTORG: 'Organization', 
+	
+	HOME_TTFORUM_SUBMIT: 'Send',
+	HOME_TTFORUM_CANCEL: 'Cancel and close',
 	
 	HOME_SEARCH_TITLE: 'Discovery data',
 	HOME_STORE_TITLE: 'Go to the store',

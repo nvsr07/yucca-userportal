@@ -83,7 +83,7 @@
 				<configuration>
 					<packagingExcludes>lib/angular/,lib/angular-bootstrap/,lib/angular-route/,lib/angular-sanitize/,lib/angular-translate/,lib/angularjs-nvd3-directives/,lib/d3/,lib/freeboard/,lib/jquery/,lib/ng-prettyjson/,lib/nvd3/,lib/openlayers/,lib/reconnecting-websocket/,lib/stomp/,freeboard/</packagingExcludes>
 					<webXml>${webXmlPath}/web.xml</webXml>
-					<outputDirectory>C:\Program Files (x86)\jboss-eap-6.2\standalone\deployments</outputDirectory>
+					<outputDirectory>D:\Portable\jboss-eap-6.2\standalone\deployments</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

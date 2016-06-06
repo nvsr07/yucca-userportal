@@ -59,6 +59,17 @@ public enum ApiEntityEnum {
 			return false;
 		}
 	},
+	API_SERVICES_NEW_TENANT("API_SERVICES_NEW_TENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+
+			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
+				return true;
+			}
+			return false;
+		}
+	},
 	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

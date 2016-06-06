@@ -79,6 +79,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String responseMessage = request.getParameter("SAMLResponse");
 			log.debug("[SAML2ConsumerServlet::doPost] - responseMessage: " + responseMessage);
 			Info info = (Info) request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			String newUsername = null;
 			if (responseMessage != null) {
 
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
@@ -86,6 +87,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				User newUser = info.getUser();
 				Boolean strong = true;
 				Boolean tenant = true;
+				Boolean social = false;
 				
 				//HttpSession sessParam = request.getSession();
 				
@@ -119,7 +121,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser = new User();
 					
 					newUser.setLoggedIn(true);
-					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
+					newUsername = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME));
+					newUser.setUsername(newUsername);
 					//String organizations = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
 
 					List<String> tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
@@ -139,16 +142,59 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					//filtro sui tenant, data di disattivazione
 					List<Tenant> tenants = filterDisabledTenants(tenantsCode);
 					
-					if (tenants.isEmpty())
-						tenant = false;	
-					
+					if (tenants.isEmpty()){
+						tenant = false;
+					}
+
 					newUser.setTenants(tenants);
-					newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
-					newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
-					newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
+					String regexCFPattern = "^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$";
+					if (newUsername.contains("_AT_")){
+						social = true;
+						//Entro con credenziali social ovvero: Facebook, Google o Yahoo
+						String[] emailParts = newUsername.split("_AT_");
+						String firstEmailParts = emailParts[0];
+						String lastEmailParts = emailParts[1];
+						newUser.setEmail(firstEmailParts+"@"+lastEmailParts);
+						newUser.setUsername(firstEmailParts+"@"+lastEmailParts);
+						if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)).contains(" ")){
+							//sembrerebbe il caso di Google o Yahoo
+							String[] givenNameParts = AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
+							String firstName = givenNameParts[0];
+							String lastName = givenNameParts[1];
+							
+							newUser.setFirstname(firstName);
+							newUser.setLastname(lastName);
+						} else {
+							//sembrerebbe il caso di Facebook
+							newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
+							newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
+						}
+					} else if (newUsername.contains("tw:")){
+						//Entro con credenziali social ovvero: Twitter
+						if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)).contains(" ")){
+							String[] givenNameParts = AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
+							String firstName = givenNameParts[0];
+							String lastName = givenNameParts[1];
+							
+							newUser.setFirstname(firstName);
+							newUser.setLastname(lastName);
+						} else {
+							//Non dovrebbe mai capitare
+						}
+					} else if(newUsername.matches(regexCFPattern)) {
+						//Entro con il codice fiscale, quindi con credenziali non social
+						newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
+						newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
+						newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
+					} else {
+						//Non dovrebbe mai capitare
+					}
+					
+					
 					if (!tenants.isEmpty())
 						newUser.setActiveTenant(tenants.get(0).getTenantCode());
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
+
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
 					} catch (Exception e) {
@@ -187,12 +233,16 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					strong = false;			
 					tenant = false;			
 				}
+				
+				if (social){
+					newUser.setTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT));
+				}
+				
 				info.setUser(newUser);
 				//info.setTenantCode(newUser.getTenant());
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
-				String returnPath = request.getContextPath() + "/"
-						+ URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
+				String returnPath = request.getContextPath() + "/" + URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 
 				if (!strong){
@@ -211,7 +261,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					} else {
 						returnPath += "&tenant=false";
 					}
-					request.getSession().invalidate();
+					if (social){
+						returnPath += "&social=true";
+					} else {
+						request.getSession().invalidate();
+					}
 				}
 				
 				if (strong && tenant){
