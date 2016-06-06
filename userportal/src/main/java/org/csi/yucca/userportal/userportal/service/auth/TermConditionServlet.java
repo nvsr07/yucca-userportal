@@ -1,4 +1,4 @@
-package org.csi.yucca.userportal.userportal.service;
+package org.csi.yucca.userportal.userportal.service.auth;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,21 +13,20 @@ import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
-@WebServlet(description = "Configuration Parameter for clients", urlPatterns = { "/api/info" }, asyncSupported = true)
-public class InfoServlet extends HttpServlet {
+@WebServlet(description = "Configuration Parameter for clients", urlPatterns = { "/api/termcondition" }, asyncSupported = true)
+public class TermConditionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	static Logger log = Logger.getLogger(InfoServlet.class);
+	static Logger log = Logger.getLogger(TermConditionServlet.class);
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		log.debug("[InfoServlet::doGet] - START");
+		log.debug("[TermConditionServlet::doGet] - START");
 		try {
-			//String info =  "{\"info\":{\"tenant\": {\"tenantCode\":\"" + request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE) + "\"}}}";
+			String tenantCode = request.getParameter("tenantcode");
 			Info info  = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			if(info!=null && info.getUser()!=null && info.getUser().getTenants()!=null && info.getUser().hasTenant(request.getParameter("activeTenant"))){
-				info.getUser().setActiveTenant(request.getParameter("activeTenant"));
-				String token = SAML2ConsumerServlet.getTokenForTenant(info.getUser().getActiveTenant());
-				info.getUser().setToken(token);
-			}
+			info.getUser().addAcceptTermConditionTenants(tenantCode);
+
+			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
+			
 			String infoJson = info.toJson();
 			if (isJSONPRequest(request))
 				infoJson = getCallbackMethod(request) + "(" +infoJson + ")";
@@ -41,10 +40,10 @@ public class InfoServlet extends HttpServlet {
 			out.println(infoJson);
 			out.close();
 		} catch (IOException e) {
-			log.error("[InfoServlet::doGet] - ERROR " + e.getMessage());
+			log.error("[TermConditionServlet::doGet] - ERROR " + e.getMessage());
 			throw e;
 		} finally {
-			log.debug("[InfoServlet::doGet] - END");
+			log.debug("[TermConditionServlet::doGet] - END");
 		}
 	}
 

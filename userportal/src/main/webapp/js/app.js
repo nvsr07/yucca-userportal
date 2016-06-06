@@ -121,8 +121,22 @@ app.factory('info',  function() {
     	else if(this.info && this.info.user && this.info.user.activeTenant)
     		return this.info.user.activeTenant;
     	else if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0)
-    		return this.info.user.tenants[0];
+    		return this.info.user.tenants[0].tenantCode;
     	return null;
+    };
+    
+    infoService.getActiveTenantType = function(){
+    	var activeTenantType = "none";
+    	if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0){
+    		for (var i = 0; i < this.info.user.tenants.length; i++) {
+				if(this.info.user.tenants[i].tenantCode == this.getActiveTenantCode()){
+					activeTenantType = this.info.user.tenants[i].tenantType; 
+					break;
+				}
+			}
+    	}
+    		
+    	return activeTenantType;
     };
     
     infoService.isOwner = function(tenantCode){

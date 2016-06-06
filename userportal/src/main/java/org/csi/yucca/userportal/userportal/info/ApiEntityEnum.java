@@ -16,6 +16,12 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
+	API_AUTH_TERMCONDITION("API_AUTH_TERMCONDITION_URL", "/userportal/api/termcondition") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
 	// SERVICES
 	API_SERVICES_STREAM_COMPONENT("API_SERVICES_STREAM_COMPONENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/components/") {
 		@Override

@@ -93,6 +93,24 @@
             <a class="btn main-action-button" href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_FORCE_LOGOUT_BUTTON</span></a>
         </div>
     	</script>
+    	<script type="text/ng-template" id="termAndConditionModal.html">
+        	<div class="modal-header">
+       	    	<h3 class="modal-title">{{'TERM_CONDITION_TITLE'|translate}}</h3>
+        	</div>
+        	<div class="modal-body">
+				<div>activeTenantType {{activeTenantType}}</div>
+            	<div ng-show="activeTenantType=='trial'"><p ng-bind-html='{{TERM_CONDITION_TRIAL_CONTENT|translate}}></p>trial</div>
+            	<div ng-show="activeTenantType=='default'"><p ng-bind-html='{{TERM_CONDITION_DEFAULT_CONTENT|translate}}></p>default</div>
+				<div ng-show='showLoading'>Please wait...</div>
+        	</div>
+        	<div class="modal-footer" id="modal-footer">
+				<a class="btn main-action-button" href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>TERM_CONDITION_CANCEL_BUTTON</span></a>
+            	<a class="btn main-action-button" 
+					href ng-click='acceptTermAndCondition();'>
+					<span translate>TERM_CONDITION_ACCEPT_BUTTON</span>
+				</a>
+        	</div>
+    	</script>
 	</div>
 	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
 	

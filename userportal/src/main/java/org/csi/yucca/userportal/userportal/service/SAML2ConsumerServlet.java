@@ -11,17 +11,13 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -29,7 +25,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,21 +36,20 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.info.Tenant;
+import org.csi.yucca.userportal.userportal.info.Tenants;
+import org.csi.yucca.userportal.userportal.info.TenantsContainer;
 import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 import org.csi.yucca.userportal.userportal.utils.Util;
-import org.opensaml.saml2.core.RequestAbstractType;
 import org.opensaml.xml.ConfigurationException;
-import org.opensaml.xml.io.MarshallingException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -93,7 +87,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				Boolean strong = true;
 				Boolean tenant = true;
 				
-				HttpSession sessParam = request.getSession();
+				//HttpSession sessParam = request.getSession();
 				
 				if (result == null) {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
@@ -128,14 +122,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
 					//String organizations = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
 
-					List<String> tenants = AuthorizeUtils.DEFAULT_TENANT;
+					List<String> tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
 					//if (organizations != null) {
 					//	tenants = Arrays.asList(organizations.split(","));
 					//}
 
 					try {
 						// the user for each tenant has a role tenantName_subscriber
-						tenants = loadRoles(newUser, "*_subscriber");
+						tenantsCode = loadRoles(newUser, "*_subscriber");
 					} catch (Exception e) {
 						
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
@@ -143,7 +137,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					}
 					
 					//filtro sui tenant, data di disattivazione
-					tenants = filterDisabledTenants(tenants);
+					List<Tenant> tenants = filterDisabledTenants(tenantsCode);
 					
 					if (tenants.isEmpty())
 						tenant = false;	
@@ -153,7 +147,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 					newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 					if (!tenants.isEmpty())
-						newUser.setActiveTenant(tenants.get(0));
+						newUser.setActiveTenant(tenants.get(0).getTenantCode());
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
@@ -174,9 +168,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						tokens.put("sandbox", newUser.getToken());
 					}
 					
-					for (String tnt : newUser.getTenants()) {
+					for (Tenant tnt : newUser.getTenants()) {
 						if (!tnt.equals(newUser.getActiveTenant())){
-							tokens.put(tnt, getTokenForTenant(tnt));
+							tokens.put(tnt.getTenantCode(), getTokenForTenant(tnt.getTenantCode()));
 						}
 					}
 					newUser.setTenantsTokens(tokens);
@@ -269,20 +263,18 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return false;
 	}
 	
-	public static List<String> filterDisabledTenants(List<String> tenants){
+	private static List<Tenant> filterDisabledTenants(List<String> tenantsCode){
 		String apiBaseUrl = "";
 		Date actualDate = new Date();
-
+		List<Tenant> tenants = new LinkedList<Tenant>();
 		try {
 			Properties config = Config.loadServerConfiguration();
-			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
+			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY) + "/tenants";
 			HttpClient client = HttpClientBuilder.create().build();
-			apiBaseUrl += "/tenants";
 			HttpGet httpget = new HttpGet(apiBaseUrl);
 
 			HttpResponse r = client.execute(httpget);
-			String status = r.getStatusLine().toString();
-			System.out.println("status " + status);
+			log.debug("[SAML2ConsumerServlet::filterDisabledTenants] call to " +apiBaseUrl + " - status " + r.getStatusLine().toString());
 			
 			StringBuilder out = new StringBuilder();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
@@ -294,52 +286,115 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 			String inputJson = out.toString();
 
-			JsonParser parser = new JsonParser();
-			JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
-			
-			JsonObject tenatsObj = rootObj.get("tenants").getAsJsonObject();
-			
-			Set<Entry<String, JsonElement>> entrySet = tenatsObj.entrySet();
-			int iCounter = 0;
-			for(Map.Entry<String,JsonElement> entry : entrySet){
-			    //properties.put(entry.getKey(), tenatsObj.get(entry.getKey()).replace("\"",""));
-				JsonArray multiTenant = (JsonArray) tenatsObj.get(entry.getKey());
-				Iterator<JsonElement> iterator = multiTenant.iterator();
-				while (iterator.hasNext()) {
-					//System.out.println(iterator.next());
-					
-					JsonObject singleTenant = (JsonObject) iterator.next(); //(JsonObject) multiTenant.get(iCounter++);
-					if (!singleTenant.get("tenantName").isJsonNull()){
-						String singleTenantName = singleTenant.get("tenantName").getAsString();
-						
-						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
-						Date singleTenantDate = actualDate;
-						JsonElement dataDisattivazione = singleTenant.get("dataDisattivazione");
-						if (!dataDisattivazione.isJsonNull()){
-							try {
-								singleTenantDate = formatter.parse(dataDisattivazione.getAsString());
-							} catch (ParseException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-						
-						List<String> tenantsForIterator = new ArrayList<String>(tenants);
-						Iterator<String> myTntIterator = tenantsForIterator.iterator();
-						while (myTntIterator.hasNext()) {
-							
-							String mySingleTnt = myTntIterator.next();
-							
-							if (mySingleTnt.equals(singleTenantName)){
-								int rsltComp = singleTenantDate.compareTo(actualDate);
-								if (rsltComp < 0){
-									tenants.removeAll(Collections.singleton(singleTenantName));
-								}
-							}
-						}
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
+			TenantsContainer allTenantsContainer =  TenantsContainer.fromJson(inputJson);
+			Tenants allTenants = allTenantsContainer.getTenants();
+			for (Tenant singleTenant : allTenants.getTenant()) {
+				
+				Date singleTenantDate = actualDate;
+
+				if (singleTenant.getDataDisattivazione()!=null){
+					try {
+						singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
+					} catch (ParseException e) {
+						log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: " + singleTenant.getDataDisattivazione());
+						e.printStackTrace();
 					}
 				}
+				
+				
+				if(singleTenantDate.getTime()>=actualDate.getTime()){
+					for (String tenantCode : tenantsCode) {
+						if(singleTenant.getTenantCode().equals(tenantCode))
+							tenants.add(singleTenant);
+					}
+
+				}
 			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+//
+//			JsonParser parser = new JsonParser();
+//			JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
+//			
+//			JsonObject tenatsObj = rootObj.get("tenants").getAsJsonObject();
+//			
+//			Set<Entry<String, JsonElement>> entrySet = tenatsObj.entrySet();
+//			int iCounter = 0;
+//			for(Map.Entry<String,JsonElement> entry : entrySet){
+//			    //properties.put(entry.getKey(), tenatsObj.get(entry.getKey()).replace("\"",""));
+//				JsonArray multiTenant = (JsonArray) tenatsObj.get(entry.getKey());
+//				Iterator<JsonElement> iterator = multiTenant.iterator();
+//				while (iterator.hasNext()) {
+//					//System.out.println(iterator.next());
+//					
+//					JsonObject singleTenant1 = (JsonObject) iterator.next(); //(JsonObject) multiTenant.get(iCounter++);
+//					Tenant singleTenant = Tenant.fromJson(((JsonObject) iterator.next()).getAsString()); 
+//						
+//						Date singleTenantDate = actualDate;
+//						if (singleTenant.getDataDisattivazione()!=null){
+//							try {
+//								singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
+//							} catch (ParseException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//						}
+//						
+//						List<String> tenantsForIterator = new ArrayList<String>(tenantsCode);
+//						Iterator<String> myTntIterator = tenantsForIterator.iterator();
+//						while (myTntIterator.hasNext()) {
+//							
+//							String mySingleTnt = myTntIterator.next();
+//							
+//							if (mySingleTnt.equals(singleTenant.getNomeTenant())){
+//								int rsltComp = singleTenantDate.compareTo(actualDate);
+//								if (rsltComp < 0){
+//									tenants.removeAll(Collections.singleton(singleTenantName));
+//								}
+//							}
+//						}
+//					}
+//					if (!singleTenant.get("tenantName").isJsonNull()){
+//						String singleTenantName = singleTenant.get("tenantName").getAsString();
+//						
+//						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
+//						Date singleTenantDate = actualDate;
+//						JsonElement dataDisattivazione = singleTenant.get("dataDisattivazione");
+//						if (!dataDisattivazione.isJsonNull()){
+//							try {
+//								singleTenantDate = formatter.parse(dataDisattivazione.getAsString());
+//							} catch (ParseException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+//						}
+//						
+//						List<String> tenantsForIterator = new ArrayList<String>(tenantsCode);
+//						Iterator<String> myTntIterator = tenantsForIterator.iterator();
+//						while (myTntIterator.hasNext()) {
+//							
+//							String mySingleTnt = myTntIterator.next();
+//							
+//							if (mySingleTnt.equals(singleTenantName)){
+//								int rsltComp = singleTenantDate.compareTo(actualDate);
+//								if (rsltComp < 0){
+//									tenants.removeAll(Collections.singleton(singleTenantName));
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
 
 		} catch (IOException e) {
 			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());

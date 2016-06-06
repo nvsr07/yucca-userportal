@@ -457,6 +457,16 @@ var translations_it = {
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Crea stream</a> derivati da uno o pi&ugrave; stream aggiungendo <strong>logiche personalizzate in SiddhiQL</strong></li>' +
 							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea stream derivati in maniera semplice attraverso wizard guidati (coming soon...)</li>',
 							
+
+							
+	/* Term and conditions */						
+							
+	TERM_CONDITION_TITLE: 'Termini e condizioni di utilizzo',
+	TERM_CONDITION_TRIAL_CONTENT: 'Per poter proseguire nell\'utilizzo della piattaforma Yucca &egrave; necessario prendere visione e accettare i <a href=\'http://smartdatanet.it/termini_trial.html\' target=\'_blank\'>Termini e Condizioni</a> ',
+	TERM_CONDITION_DEFAULT_CONTENT: 'Per poter proseguire nell\'utilizzo della piattaforma Yucca &egrave; necessario prendere visione e accettare i <a href=\'http://smartdatanet.it/termini_default.html\' target=\'_blank\'>Termini e Condizioni</a> ',
+	TERM_CONDITION_ACCEPT_BUTTON: 'Ho preso visione e accetto i termini',						
+	TERM_CONDITION_CANCEL_BUTTON: 'Annulla',						
+							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Area monitoraggio stream',
 	

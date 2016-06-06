@@ -8,8 +8,8 @@
 		  </button>
 		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 		 	<li ng-repeat="tenant in userTenants">
-		 		<a ng-click="$parent.changeActiveTenant(tenant)" href="" ng-class="{'indent-dropdownitem-noicon':tenant != activeTenantCode}" >
-		 			<i class='glyphicon glyphicon-ok' ng-show="tenant == activeTenantCode"></i>&nbsp;{{tenant}}
+		 		<a ng-click="$parent.changeActiveTenant(tenant.tenantCode)" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" >
+		 			<i class='glyphicon glyphicon-ok' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
 		 		</a>
 		 	</li>
 		   	<li role="presentation" class="divider"></li>

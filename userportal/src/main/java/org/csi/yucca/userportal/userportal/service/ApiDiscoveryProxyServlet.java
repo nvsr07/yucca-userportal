@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.info.Tenant;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
@@ -43,7 +44,7 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 		
 		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 		String tenantCode = info.getUser().getActiveTenant();
-		List<String> tenants = info.getUser().getTenants();
+		List<Tenant> tenants = info.getUser().getTenants();
 		
 		Map<String, String[]> parameterMap =  new HashMap<String, String[]>(request.getParameterMap());
 		
@@ -52,14 +53,14 @@ public class ApiDiscoveryProxyServlet extends ApiProxyServlet {
 					if (parameterMap.get("$filter")!=null && parameterMap.get("$filter").length!=0) {
 						parametersOut =parameterMap.get("$filter")[0];
 						parametersOut +=  " and (";
-						for (String tenant : tenants) {
-							parametersOut +=  " (tenantsharing eq '"+tenant+"') or"; 
+						for (Tenant tenant : tenants) {
+							parametersOut +=  " (tenantsharing eq '"+tenant.getTenantCode()+"') or"; 
 						}
 						parametersOut += " ( visibility eq  'public'))";
 					}else{
 						parametersOut =  "&$filter=";
-						for (String tenant : tenants) {
-							parametersOut +=  " (tenantsharing eq '"+tenant+"') or"; 
+						for (Tenant tenant : tenants) {
+							parametersOut +=  " (tenantsharing eq '"+tenant.getTenantCode()+"') or"; 
 						}
 						parametersOut += " ( visibility eq  'public') ";
 						

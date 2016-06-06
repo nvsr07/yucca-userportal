@@ -13,7 +13,7 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 
 		var changeTenantUrl = Constants.API_INFO_URL + '?callback=JSON_CALLBACK';
 
-		if(activeTenant!=undefined)
+		if(typeof activeTenant!=undefined)
 			changeTenantUrl = changeTenantUrl+"&activeTenant="+activeTenant;
 
 		return $http({
@@ -21,6 +21,19 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			url : changeTenantUrl
 		});
 	};
+	
+	fabricAPI.acceptTermConditionForTenant = function(tenantCode) {
+
+		var acceptUrl = Constants.API_AUTH_TERMCONDITION_URL + '?tenantcode=' + tenantCode +'&callback=JSON_CALLBACK';
+		console.log("acceptTermConditionForTenant",acceptUrl);
+
+		return $http({
+			method : 'JSONP',
+			url : acceptUrl
+		});
+	};
+	
+	
 
 	fabricAPI.validateSiddhi = function(toValidate) {
 		return $http({

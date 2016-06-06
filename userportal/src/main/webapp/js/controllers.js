@@ -18,13 +18,17 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		var authorized = info.isAuthorized(operation);
 		return authorized;
 	};
+	
 	$scope.userTenants = null;
 	fabricAPIservice.getInfo().success(function(result) {
 		info.setInfo(result);
+		console.debug("info", info);
 		$scope.activeTenantCode = info.getActiveTenantCode();
 		$scope.userTenants = info.getInfo().user.tenants;
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
 		$scope.user = result.user;
+		
+		
 //		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
 //		$scope.storeUrl = '/store/site/pages/sso-filter.jag';
 //		}
@@ -32,8 +36,39 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			$scope.BuildInfo.timestamp = BuildInfo.timestamp;
 		}
 		catch (e) {
+			if(typeof $scope.BuildInfo == 'undefined')
+				$scope.BuildInfo = {};
 			$scope.BuildInfo.timestamp = new Date().getMilliseconds();
 		}
+		
+		$scope.activeTenantType = info.getActiveTenantType();
+		if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
+			$scope.user.acceptTermConditionTenants = [];
+		
+//		if($scope.user.acceptTermConditionTenants.indexOf($scope.activeTenantCode)<0){
+//			var modalAcceptTermConditionInstance = $modal.open({
+//				animation : $scope.animationsEnabled,
+//				templateUrl : 'termAndConditionModal.html',
+//				controller : 'TermAndConditionModalCtrl',
+//				keyboard : false,
+//				size : 0,
+//			      resolve: {
+//			    	  activeTenantType: function () {
+//			            return $scope.activeTenantType;
+//			          }
+//			        }
+//			});
+//
+//			modalAcceptTermConditionInstance.result.then(function() {
+//				console.log("modalAcceptTermConditionInstance ok");
+//			}, function() {
+//				console.debug("Not accepted term and conditions");
+//				$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
+//				console.log("path", $location.path());
+//			});
+//		}
+		
+		
 	});
 	
 	$scope.changeLanguage = function(langKey) {
@@ -79,6 +114,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			localStorageService.cookie.set("acceptedCookies", "yes");
 		}
 		$scope.showCookieMessage = false;
+	};
+	
+	$scope.acceptTermAndCondition = function(){
+		// TODO IMPLEMENY
 	};
 	
 	console.log('location', $location.$$url);
@@ -267,3 +306,29 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 	};
 }]);
 
+
+appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType',
+                                                 function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType) {
+
+	 $scope.activeTenantType = activeTenantType;
+	 $scope.showLoading = false;
+	 $scope.acceptTermAndCondition = function () {
+		$scope.showLoading = true;
+		fabricAPIservice.acceptTermConditionForTenant(info.getActiveTenantCode()).success(function(info){
+			console.log("acceptTermConditionForTenant a", info);
+			$scope.showLoading = false;
+			$modalInstance.close();
+		}).error(function(e){
+			console.log("error",e);
+			$scope.showLoading = false;
+			$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
+		});
+		
+	 };
+
+	
+	$scope.cancel = function () {
+		$modalInstance.dismiss('cancel');
+		$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
+	};
+}]);

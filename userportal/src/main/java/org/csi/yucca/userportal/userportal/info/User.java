@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 
 public class User {
 	private String username;
-	private List<String> tenants;
+	private List<Tenant> tenants;
 	private String activeTenant;
 	private String firstname;
 	private String lastname;
@@ -17,11 +17,12 @@ public class User {
 	private List<String> permissions;
 	private String token;
 	private Map<String, String> tenantsTokens;
+	private List<String> acceptTermConditionTenants;
 
 	public User() {
 	}
 
-	public User(String username, List<String> tenants, String firstname, String lastname, String email, List<String> permissions) {
+	public User(String username, List<Tenant> tenants, String firstname, String lastname, String email, List<String> permissions, List<String> acceptTermConditionTenants) {
 		super();
 		this.username = username;
 		this.tenants = tenants;
@@ -30,11 +31,13 @@ public class User {
 		this.email = email;
 		this.loggedIn = false;
 		this.permissions = permissions;
-		if(tenants.size()>0){
-			this.activeTenant=tenants.get(0);
-		}else{
-			this.activeTenant="sandbox";
+		if (tenants.size() > 0) {
+			this.activeTenant = tenants.get(0).getTenantCode();
+		} else {
+			this.activeTenant = "sandbox";
 		}
+		this.acceptTermConditionTenants  = acceptTermConditionTenants;
+		
 	}
 
 	public String getUsername() {
@@ -53,11 +56,11 @@ public class User {
 		this.email = email;
 	}
 
-	public List<String> getTenants() {
+	public List<Tenant> getTenants() {
 		return tenants;
 	}
 
-	public void setTenants(List<String> tenants) {
+	public void setTenants(List<Tenant> tenants) {
 		this.tenants = tenants;
 	}
 
@@ -134,5 +137,32 @@ public class User {
 
 	public void setTenantsTokens(Map<String, String> tenantsTokens) {
 		this.tenantsTokens = tenantsTokens;
+	}
+
+	public boolean hasTenant(String tenantCode) {
+		boolean found = false;
+		if (getTenants() != null && tenantCode!=null) {
+			for (Tenant tenant : getTenants()) {
+				if (tenant.getTenantCode().equals(tenantCode)) {
+					found = true;
+					break;
+				}
+			}
+		}
+		return found;
+	}
+
+	public List<String> getAcceptTermConditionTenants() {
+		return acceptTermConditionTenants;
+	}
+
+	public void setAcceptTermConditionTenants(List<String> acceptTermConditionTenants) {
+		this.acceptTermConditionTenants = acceptTermConditionTenants;
+	}
+	
+	public void addAcceptTermConditionTenants(String tenantCode){
+		if(this.acceptTermConditionTenants==null)
+			this.acceptTermConditionTenants = new LinkedList<String>();
+		this.acceptTermConditionTenants.add(tenantCode);
 	}
 }
