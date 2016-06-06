@@ -53,6 +53,7 @@ var translations_en = {
 	MENU_LANG_IT : 'Italian',
 	MENU_SING_IN: 'Sign in',
 	MENU_SING_OUT: 'Sign out',
+	MENU_MODAL_GET_TRAIL_TENANT: 'Richiedi Trial Tenant',
 	
 	/* Entity */
 	STREAM: 'Stream',
@@ -469,9 +470,7 @@ var translations_en = {
 	
 	
 	HOME_HOWTO_TITLE: 'What can I do with the platform',
-	HOME_HOWTO_TEXT_HTML: '<li>' + 
-							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configure</a> your smart object and sends data using your tenant or the demo tenant <strong>Sandbox</strong> ' +
-							'	</li>' +
+	HOME_HOWTO_TEXT_HTML:   '<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configure</a> your smart object and sends data using your tenant or the demo tenant <strong>Sandbox</strong></li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Consumes</a> all available streams via <strong>WebSocket</strong> or <strong>MQTT</strong></li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/example">Monitor</a> your streams in the dashboard </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Import</a> your <strong>bulk dataset </strong> via upload</li>' +

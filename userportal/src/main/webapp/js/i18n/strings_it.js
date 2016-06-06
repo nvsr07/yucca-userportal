@@ -53,6 +53,7 @@ var translations_it = {
 	MENU_LANG_IT : 'Italiano',
 	MENU_SING_IN: 'Login',
 	MENU_SING_OUT: 'Esci',
+	MENU_MODAL_GET_TRAIL_TENANT: 'Richiedi Trial Tenant',
 	
 	/* Entity */
 	STREAM: 'Stream',
@@ -469,9 +470,7 @@ var translations_it = {
 	
 	
 	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
-	HOME_HOWTO_TEXT_HTML: '<li>' + 
-							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tuo tenant o il tenant di prova <strong>Sandbox</strong> ' +
-							'	</li>' +
+	HOME_HOWTO_TEXT_HTML:   '<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tuo tenant o il tenant di prova <strong>Sandbox</strong></li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Fruisci</a> di tutti gli stream disponibili via <strong>Websocket</strong> o <strong>MQTT</strong></li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/overview">Monitora</a> i tuoi stream nella dashboard </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Importa</a> i tuoi <strong>dataset bulk</strong> tramite upload</li>' +
