@@ -96,6 +96,10 @@ public class AuthorizeUtils {
 			return "";
 	}
 
+	public static boolean isWriteMethod(HttpServletRequest request) {
+		return request.getMethod().equalsIgnoreCase("POST");
+	}
+
 	public static boolean isReadMethod(HttpServletRequest request) {
 		return request.getMethod().equalsIgnoreCase("GET");
 	}

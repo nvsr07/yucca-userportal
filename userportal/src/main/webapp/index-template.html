@@ -84,14 +84,15 @@
 	    <script type="text/ng-template" id="myModalContent.html">
 		<div class="modal-content-panel" modal-transclude>
 	        <div class="modal-header modal-top-panel">
-    	        <h1 class="modal-title-container">{{'WARNING'|translate}}</h3>
+    	        <h1 class="modal-title-container">{{'WARNING'|translate}}</h1>
         	</div>
 	        <div class="modal-body modal-middle-panel">
-    	        <div class="modal-title-container" ng-if="op=='strong'"><b>{{'HOME_LOGGED_NOT_STRONG_AUTHENTICATION'|translate}}</b></div>
-        	    <div class="modal-title-container" ng-if="op=='tenant'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
+    	        <div class="modal-title-container" ng-if="authParam == 'strong'"><b>{{'HOME_LOGGED_NOT_STRONG_AUTHENTICATION'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'tenant'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'social'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
 	        </div>
     	    <div class="modal-footer modal-footer-panel" id="modal-footer-force">
-        	    <a class="btn modal-action" ng-click="showTTForm = ! showTTForm"><span translate>HOME_TENANT_TEST_BUTTON</span></a>
+        	    <a class="btn modal-action" ng-click="showTTForm = !showTTForm"><span translate>HOME_TENANT_TEST_BUTTON</span></a>
             	<a class="btn modal-action" href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_FORCE_LOGOUT_BUTTON</span></a>
     	    </div>
     	</div>

@@ -89,6 +89,8 @@ app.config(['$translateProvider', function ($translateProvider) {
 	.translations('en', translations_en)
 	.translations('it', translations_it)
 	.preferredLanguage('it');
+	
+	$translateProvider.useSanitizeValueStrategy();
 }]);
 
 app.config(['$httpProvider', function($httpProvider) {

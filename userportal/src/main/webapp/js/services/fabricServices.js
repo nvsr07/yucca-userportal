@@ -343,7 +343,7 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		var deferred = $q.defer();
 		var resultData = null;
 
-		$http.post(Constants.API_SERVICES_NEW_TENANT_URL + tenant_code + '/', tenantObject).success(function(responseData) {
+		$http.post(Constants.API_SERVICES_TENANT_LIST_URL + tenant_code + '/', tenantObject).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
 			deferred.resolve(resultData);
 		}).error(function(responseData, responseStatus) {

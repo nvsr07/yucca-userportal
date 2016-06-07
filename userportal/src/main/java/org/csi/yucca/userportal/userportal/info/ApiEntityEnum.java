@@ -59,17 +59,6 @@ public enum ApiEntityEnum {
 			return false;
 		}
 	},
-	API_SERVICES_NEW_TENANT("API_SERVICES_NEW_TENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-
-			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
-				return true;
-			}
-			return false;
-		}
-	},
 	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -174,7 +163,12 @@ public enum ApiEntityEnum {
 	API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
+			if (AuthorizeUtils.isReadMethod(request))
+				return true;
+			else if (AuthorizeUtils.isWriteMethod(request))
+				return true;
+			else
+				return false;
 		}
 	},
 	API_SERVICES_LIFECYCLE_STREAM_REQ_INST("API_SERVICES_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {
