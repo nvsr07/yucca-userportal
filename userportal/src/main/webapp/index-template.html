@@ -154,9 +154,8 @@
        	    	<h3 class="modal-title">{{'TERM_CONDITION_TITLE'|translate}}</h3>
         	</div>
         	<div class="modal-body">
-				<div>activeTenantType {{activeTenantType}}</div>
-            	<div ng-show="activeTenantType=='trial'"><p ng-bind-html='{{TERM_CONDITION_TRIAL_CONTENT|translate}}></p>trial</div>
-            	<div ng-show="activeTenantType=='default'"><p ng-bind-html='{{TERM_CONDITION_DEFAULT_CONTENT|translate}}></p>default</div>
+            	<div ng-show="activeTenantType=='trial'"><p ng-bind-html="'TERM_CONDITION_TRIAL_CONTENT'|translate"></p></div>
+            	<div ng-show="activeTenantType=='default'"><p ng-bind-html="'TERM_CONDITION_DEFAULT_CONTENT'|translate"></p></div>
 				<div ng-show='showLoading'>Please wait...</div>
         	</div>
         	<div class="modal-footer" id="modal-footer">

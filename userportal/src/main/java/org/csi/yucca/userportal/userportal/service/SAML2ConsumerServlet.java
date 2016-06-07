@@ -190,6 +190,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						//Non dovrebbe mai capitare
 					}
 					
+					newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
+					
 					
 					if (!tenants.isEmpty())
 						newUser.setActiveTenant(tenants.get(0).getTenantCode());

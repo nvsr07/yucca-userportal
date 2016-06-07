@@ -22,7 +22,8 @@ public class User {
 	public User() {
 	}
 
-	public User(String username, List<Tenant> tenants, String firstname, String lastname, String email, List<String> permissions, List<String> acceptTermConditionTenants) {
+	public User(String username, List<Tenant> tenants, String firstname, String lastname, String email, List<String> permissions,
+			List<String> acceptTermConditionTenants) {
 		super();
 		this.username = username;
 		this.tenants = tenants;
@@ -36,8 +37,8 @@ public class User {
 		} else {
 			this.activeTenant = "sandbox";
 		}
-		this.acceptTermConditionTenants  = acceptTermConditionTenants;
-		
+		this.acceptTermConditionTenants = acceptTermConditionTenants;
+
 	}
 
 	public String getUsername() {
@@ -141,7 +142,7 @@ public class User {
 
 	public boolean hasTenant(String tenantCode) {
 		boolean found = false;
-		if (getTenants() != null && tenantCode!=null) {
+		if (getTenants() != null && tenantCode != null) {
 			for (Tenant tenant : getTenants()) {
 				if (tenant.getTenantCode().equals(tenantCode)) {
 					found = true;
@@ -159,10 +160,36 @@ public class User {
 	public void setAcceptTermConditionTenants(List<String> acceptTermConditionTenants) {
 		this.acceptTermConditionTenants = acceptTermConditionTenants;
 	}
-	
-	public void addAcceptTermConditionTenants(String tenantCode){
-		if(this.acceptTermConditionTenants==null)
+
+	public void addAcceptTermConditionTenants(String tenantCode) {
+		if (this.acceptTermConditionTenants == null)
 			this.acceptTermConditionTenants = new LinkedList<String>();
-		this.acceptTermConditionTenants.add(tenantCode);
+		if (!this.acceptTermConditionTenants.contains(tenantCode))
+			this.acceptTermConditionTenants.add(tenantCode);
 	}
+
+	public void setAcceptTermConditionTenantsFromString(String tenants) {
+		this.acceptTermConditionTenants = new LinkedList<String>();
+		if (tenants != null) {
+			for (String t : tenants.split("[|]")) {
+				this.addAcceptTermConditionTenants(t);
+			}
+
+		}
+	}
+
+	public String getAcceptTermConditionTenantsString() {
+		String result = "";
+		if (this.acceptTermConditionTenants != null) {
+			for (int i = 0; i < this.acceptTermConditionTenants.size(); i++) {
+				result += this.acceptTermConditionTenants.get(i);
+				if (i < this.acceptTermConditionTenants.size() - 1)
+					result += "|";
+
+			}
+
+		}
+		return result;
+	}
+
 }

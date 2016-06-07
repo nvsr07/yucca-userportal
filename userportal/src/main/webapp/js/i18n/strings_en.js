@@ -30,7 +30,7 @@ var translations_en = {
 	DATE_DAY_PLACEHOLDER: 'dd',
 	DATE_MONTH_PLACEHOLDER: 'mm',
 	DATE_YEAR_PLACEHOLDER: 'yyyy',
-
+	
 	/* languages */
 	el:"ελληνικά",
 	en:"English",
@@ -313,7 +313,7 @@ var translations_en = {
 	TRANSPORT: 'Transport',
 	SMART_COMMUNITY: 'Smart Community',
 	CULTURE: 'Culture',*/
-	
+
 	/* Stream tags */
 	/*AIR: 'Air',
 	CARBON: 'Carbon',
@@ -478,6 +478,16 @@ var translations_en = {
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Discover and  consume</a> all archived data and dataset via <strong>OData API</strong> </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Create derived streams</a> from one or more streams with <strong>custom logic using SiddhiQL</strong></li>' +
 							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Create derived streams simply with wizard (coming soon...)</li>',
+							
+
+							
+	/* Term and conditions */						
+							
+	TERM_CONDITION_TITLE: 'Terms and conditions',
+	TERM_CONDITION_TRIAL_CONTENT: 'In order to continue using the Yucca platform you must read and agree to the <a href="http://smartdatanet.it/termini_trial.html" target="_blank">Terms and conditions</a> ',
+	TERM_CONDITION_DEFAULT_CONTENT: 'In order to continue using the Yucca platform you must read and agree to the <a href="http://smartdatanet.it/termini_default.html" target="_blank">Terms and conditions</a> ',
+	TERM_CONDITION_ACCEPT_BUTTON: 'I have read and accept terms and conditions',						
+	TERM_CONDITION_CANCEL_BUTTON: 'Cancel',	
 							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Dashboard streams monitoring',

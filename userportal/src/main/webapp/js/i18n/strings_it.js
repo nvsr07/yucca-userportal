@@ -1,5 +1,5 @@
-/*                                                                                                                                        */
 /******************************************************************************************************************************************/
+/*                                                                                                                                        */
 /*    WARNING: this file is for local developing: don't use it. Use /main/java/it/csi/sdp/userportal/i18n/MessagesBundle_it.properties    */
 /*                                                                                                                                        */
 /******************************************************************************************************************************************/
@@ -484,8 +484,8 @@ var translations_it = {
 	/* Term and conditions */						
 							
 	TERM_CONDITION_TITLE: 'Termini e condizioni di utilizzo',
-	TERM_CONDITION_TRIAL_CONTENT: 'Per poter proseguire nell\'utilizzo della piattaforma Yucca &egrave; necessario prendere visione e accettare i <a href=\'http://smartdatanet.it/termini_trial.html\' target=\'_blank\'>Termini e Condizioni</a> ',
-	TERM_CONDITION_DEFAULT_CONTENT: 'Per poter proseguire nell\'utilizzo della piattaforma Yucca &egrave; necessario prendere visione e accettare i <a href=\'http://smartdatanet.it/termini_default.html\' target=\'_blank\'>Termini e Condizioni</a> ',
+	TERM_CONDITION_TRIAL_CONTENT: 'Per poter proseguire nell&apos;utilizzo della piattaforma Yucca &egrave; necessario prendere visione e accettare i <a href="http://smartdatanet.it/termini_trial.html" target="_blank">Termini e Condizioni</a> ',
+	TERM_CONDITION_DEFAULT_CONTENT: 'Per poter proseguire nell&apos;utilizzo della piattaforma Yucca &egrave; necessario prendere visione e accettare i <a href="http://smartdatanet.it/termini_default.html" target="_blank">Termini e Condizioni</a> ',
 	TERM_CONDITION_ACCEPT_BUTTON: 'Ho preso visione e accetto i termini',						
 	TERM_CONDITION_CANCEL_BUTTON: 'Annulla',						
 							
@@ -684,9 +684,9 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_STREAM_WS_LBL: 'Fruizione dello stream in real time con web socket',
 	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Fruizione dello stream in real time con MQTT',
-	
-	MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING: 'I componenti degli stream  in bozza potrebbero non coincidere con la versione installata',
     
+	MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING: 'I componenti degli stream  in bozza potrebbero non coincidere con la versione installata',
+
 	/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Object',
 
@@ -972,7 +972,7 @@ var translations_it = {
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Nascondi',
 	
 	DATA_EXPLORER_OPEN_IN_MANAGEMENT_BUTTON: 'Apri in gestione',
-	
+
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Sottoscrivi API',
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Sottoscrivi API',
 
@@ -985,7 +985,7 @@ var translations_it = {
 	DATABROWSER_SHOW_LIST: 'Lista', 
 	
 	DATABROWSER_ENTITY: 'Nome oggetto',
-	
+
 	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filtra per dominio',
 	DATABROWSER_GO_TO_TAG_BTN: 'Filtra per tag',
 	DATABROWSER_GO_TO_RESULTS_BTN: 'Visualizza i dati',
