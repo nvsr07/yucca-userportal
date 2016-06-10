@@ -424,9 +424,12 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType',
                                                  function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType) {
 
-	 $scope.activeTenantType = activeTenantType;
-	 $scope.showLoading = false;
-	 $scope.acceptTermAndCondition = function () {
+	if(typeof activeTenantType == 'undefined' || activeTenantType == null)
+		activeTenantType = 'default';
+	$scope.activeTenantType = activeTenantType;
+	$scope.showLoading = false;
+	$scope.termConditionContent = 'TERM_CONDITION_'+ activeTenantType.toUpperCase() + '_CONTENT';
+	$scope.acceptTermAndCondition = function () {
 		$scope.showLoading = true;
 		fabricAPIservice.acceptTermConditionForTenant(info.getActiveTenantCode()).success(function(info){
 			console.log("acceptTermConditionForTenant a", info);
@@ -438,7 +441,7 @@ appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams
 			$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
 		});
 		
-	 };
+	};
 
 	
 	$scope.cancel = function () {

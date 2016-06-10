@@ -1259,6 +1259,8 @@ height: 100%;
 	padding: 10px;
 }
 
+.termConditionContent{max-height: 300px; overflow-y: auto; border: solid 1px #ddd; padding: .5em; font-size: 8pt;}
+
 /* Modal Window Login-LogOut */
 #modal-footer .main-action-button {
     background-color: #222222;
