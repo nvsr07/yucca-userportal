@@ -23,30 +23,32 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	var checkTermCondition = function(){
 		$scope.activeTenantType = info.getActiveTenantType();
+		if($scope.activeTenantType != 'readonly'){
 		if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
 			$scope.user.acceptTermConditionTenants = [];
 		
-		if($scope.user.acceptTermConditionTenants.indexOf($scope.activeTenantCode)<0){
-			var modalAcceptTermConditionInstance = $modal.open({
-				animation : $scope.animationsEnabled,
-				templateUrl : 'termAndConditionModal.html',
-				controller : 'TermAndConditionModalCtrl',
-				keyboard : false,
-				size : 0,
-			      resolve: {
-			    	  activeTenantType: function () {
-			            return $scope.activeTenantType;
-			          }
-			        }
-			});
-
-			modalAcceptTermConditionInstance.result.then(function() {
-				console.log("modalAcceptTermConditionInstance ok");
-			}, function() {
-				console.debug("Not accepted term and conditions");
-				$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
-				console.log("path", $location.path());
-			});
+			if($scope.user.acceptTermConditionTenants.indexOf($scope.activeTenantCode)<0){
+				var modalAcceptTermConditionInstance = $modal.open({
+					animation : $scope.animationsEnabled,
+					templateUrl : 'termAndConditionModal.html',
+					controller : 'TermAndConditionModalCtrl',
+					keyboard : false,
+					size : 0,
+				      resolve: {
+				    	  activeTenantType: function () {
+				            return $scope.activeTenantType;
+				          }
+				        }
+				});
+	
+				modalAcceptTermConditionInstance.result.then(function() {
+					console.log("modalAcceptTermConditionInstance ok");
+				}, function() {
+					console.debug("Not accepted term and conditions");
+					$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
+					console.log("path", $location.path());
+				});
+			}
 		}
 	};
 	
