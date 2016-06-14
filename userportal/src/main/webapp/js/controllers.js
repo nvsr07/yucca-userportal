@@ -128,8 +128,12 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 //				console.log("path", $location.path());
 //			});
 //		}
-		
-		
+		console.log('info', info);
+		console.log('activeTenantCode', $scope.activeTenantCode);
+		console.log('userTenants', $scope.userTenants);
+		console.log('userTenantsToActivate', $scope.userTenantsToActivate);
+		console.log('managementUrl', $scope.managementUrl);
+		console.log('user', $scope.user);
 	});
 	
 	$scope.changeLanguage = function(langKey) {
@@ -236,6 +240,8 @@ appControllers.factory("initCtrl", function(fabricAPIservice, info, $q) {
     	    	var promise = fabricAPIservice.getInfo();
     	        promise.success(function(result) {
     	    		info.setInfo(result);
+    	    		console.log("result", result);
+    	    		console.log("info", info);
     	    		$scope.activeTenantCode = info.getActiveTenantCode();
     	    		$scope.userTenants = info.getInfo().user.tenants;
     	    		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();

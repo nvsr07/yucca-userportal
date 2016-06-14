@@ -19,6 +19,12 @@ public class Tenant {
 	private Integer numGiorniAttivo;
 	private Long idEcosystem;
 	private String organizationCode;
+	
+	private String userName;
+	private String userFirstName;
+	private String userLastName;
+	private String userEmail;
+	private String userTypeAuth;
 
 
 	public Tenant() {
@@ -138,18 +144,67 @@ public class Tenant {
 		this.organizationCode = organizationCode;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserFirstName() {
+		return userFirstName;
+	}
+
+	public void setUserFirstName(String userFirstName) {
+		this.userFirstName = userFirstName;
+	}
+
+	public String getUserLastName() {
+		return userLastName;
+	}
+
+	public void setUserLastName(String userLastName) {
+		this.userLastName = userLastName;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getUserTypeAuth() {
+		return userTypeAuth;
+	}
+
+	public void setUserTypeAuth(String userTypeAuth) {
+		this.userTypeAuth = userTypeAuth;
+	}
+
 	public static final Tenant SANDBOX() {
 		Tenant sandbox = new Tenant();
 		sandbox.setIdTenant(1L);
-		sandbox.setTenantName("sandbox");
+		
+		sandbox.setTenantName("sanbox");
+		sandbox.setTenantDescription("sanbox");
+		
 		sandbox.setTenantCode("sandbox");
 		sandbox.setMaxDatasetNum(-1);
 		sandbox.setMaxStreamsNum(-1);
 		sandbox.setTenantType("readonly");
 		sandbox.setCodDeploymentStatus("inst");
+		sandbox.setDataAttivazione(null);
+		sandbox.setDataDisattivazione(null);
 		sandbox.setNumGiorniAttivo(-1);
 		sandbox.setIdEcosystem(1L);
 		sandbox.setOrganizationCode("SANDBOX");
+		sandbox.setUserName("");
+		sandbox.setUserFirstName("");
+		sandbox.setUserLastName("");
+		sandbox.setUserTypeAuth("");
 		return sandbox;
 	}
 }
