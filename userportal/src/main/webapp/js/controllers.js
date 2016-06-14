@@ -181,11 +181,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}
 		$scope.showCookieMessage = false;
 	};
-	
-	$scope.acceptTermAndCondition = function(){
-		// TODO IMPLEMENY
-	};
-	
+		
 	console.log('location', $location.$$url);
 	var url = $location.$$url;
 	
@@ -212,7 +208,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}, function() {
 			console.info('Modal dismissed at: ' + new Date());
 		});
-	}
+	};
 	
 	if (url.indexOf("?") > -1){
 		if (url.indexOf("strong=false") > -1){
@@ -500,19 +496,19 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 		        break;
 		}
 		return rtnResponse;
-	}
+	};
 	
 }]);
 
 
-appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType',
-                                                 function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType) {
+appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType','$translate',
+                                                 function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType,$translate) {
 
 	if(typeof activeTenantType == 'undefined' || activeTenantType == null)
 		activeTenantType = 'default';
 	$scope.activeTenantType = activeTenantType;
 	$scope.showLoading = false;
-	$scope.termConditionContent = 'TERM_CONDITION_'+ activeTenantType.toUpperCase() + '_CONTENT';
+	$scope.termConditionContent = 'partials/common/termCondition/termCondition_'+activeTenantType+'_'+$translate.use() +".html";
 	$scope.acceptTermAndCondition = function () {
 		$scope.showLoading = true;
 		fabricAPIservice.acceptTermConditionForTenant(info.getActiveTenantCode()).success(function(info){
