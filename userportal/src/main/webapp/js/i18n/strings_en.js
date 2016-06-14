@@ -30,7 +30,7 @@ var translations_en = {
 	DATE_DAY_PLACEHOLDER: 'dd',
 	DATE_MONTH_PLACEHOLDER: 'mm',
 	DATE_YEAR_PLACEHOLDER: 'yyyy',
-
+	
 	/* languages */
 	el:"ελληνικά",
 	en:"English",
@@ -317,7 +317,7 @@ var translations_en = {
 	TRANSPORT: 'Transport',
 	SMART_COMMUNITY: 'Smart Community',
 	CULTURE: 'Culture',*/
-	
+
 	/* Stream tags */
 	/*AIR: 'Air',
 	CARBON: 'Carbon',
@@ -482,6 +482,24 @@ var translations_en = {
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Discover and  consume</a> all archived data and dataset via <strong>OData API</strong> </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Create derived streams</a> from one or more streams with <strong>custom logic using SiddhiQL</strong></li>' +
 							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Create derived streams simply with wizard (coming soon...)</li>',
+							
+
+							
+	/* Term and conditions */						
+							
+	TERM_CONDITION_TITLE: 'Terms and conditions',
+	TERM_CONDITION_INTRO: 'In order to continue using the Yucca platform you must read and agree to the <strong>Terms and conditions</strong> ',
+	TERM_CONDITION_TRIAL_CONTENT: '<strong>Trial tenant</strong><br><br>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tristique justo vel quam volutpat, efficitur mollis sem placerat. Donec luctus magna at hendrerit aliquet. Praesent convallis dui at lacinia tincidunt. Vivamus tristique nibh quis odio vehicula vehicula. Morbi dapibus magna eu est malesuada condimentum. Sed aliquet hendrerit enim laoreet porttitor. Morbi vulputate, justo bibendum maximus commodo, orci purus ultrices urna, id elementum lectus ex ac magna.<br><br>' +
+	'Nulla facilisi. Maecenas et risus sollicitudin felis dignissim blandit vel non enim. Cras sollicitudin nulla at sapien accumsan consectetur. Praesent aliquam erat velit, at aliquet elit cursus eget. Suspendisse potenti. Nunc ornare magna non venenatis congue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel quam tristique, pulvinar mauris et, suscipit purus. Curabitur in ex egestas, mattis ligula quis, rutrum nulla. Cras dictum, erat eget tristique lacinia, arcu ipsum facilisis nisi, in tempor nunc massa vel ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet facilisis nibh, sit amet mattis mi.<br><br>'+
+	'Phasellus non nisi nec odio euismod pretium. In congue feugiat lacus, eget consequat diam porttitor eu. Donec ornare purus non diam dapibus malesuada. Morbi laoreet sem eget sollicitudin placerat. Cras luctus massa at posuere dictum. Fusce mollis, diam suscipit efficitur pulvinar, felis augue convallis magna, suscipit vehicula justo metus sit amet nibh. Nullam quis elementum elit, eget condimentum leo. Mauris iaculis finibus dolor id ultricies. Morbi eget libero tellus. Mauris rutrum erat sit amet ligula dictum, eget molestie mi tincidunt. Sed rutrum, enim sit amet malesuada euismod, turpis risus faucibus tellus, tincidunt malesuada orci ipsum quis libero.  ',
+	TERM_CONDITION_DEFAULT_CONTENT: '<strong>Default tenant</strong><br><br>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tristique justo vel quam volutpat, efficitur mollis sem placerat. Donec luctus magna at hendrerit aliquet. Praesent convallis dui at lacinia tincidunt. Vivamus tristique nibh quis odio vehicula vehicula. Morbi dapibus magna eu est malesuada condimentum. Sed aliquet hendrerit enim laoreet porttitor. Morbi vulputate, justo bibendum maximus commodo, orci purus ultrices urna, id elementum lectus ex ac magna.<br><br>' +
+	'Nulla facilisi. Maecenas et risus sollicitudin felis dignissim blandit vel non enim. Cras sollicitudin nulla at sapien accumsan consectetur. Praesent aliquam erat velit, at aliquet elit cursus eget. Suspendisse potenti. Nunc ornare magna non venenatis congue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel quam tristique, pulvinar mauris et, suscipit purus. Curabitur in ex egestas, mattis ligula quis, rutrum nulla. Cras dictum, erat eget tristique lacinia, arcu ipsum facilisis nisi, in tempor nunc massa vel ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet facilisis nibh, sit amet mattis mi.<br><br>'+
+	'Phasellus non nisi nec odio euismod pretium. In congue feugiat lacus, eget consequat diam porttitor eu. Donec ornare purus non diam dapibus malesuada. Morbi laoreet sem eget sollicitudin placerat. Cras luctus massa at posuere dictum. Fusce mollis, diam suscipit efficitur pulvinar, felis augue convallis magna, suscipit vehicula justo metus sit amet nibh. Nullam quis elementum elit, eget condimentum leo. Mauris iaculis finibus dolor id ultricies. Morbi eget libero tellus. Mauris rutrum erat sit amet ligula dictum, eget molestie mi tincidunt. Sed rutrum, enim sit amet malesuada euismod, turpis risus faucibus tellus, tincidunt malesuada orci ipsum quis libero.  ',
+	TERM_CONDITION_PERSONAL_CONTENT: '<strong>Personal tenant</strong><br><br>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tristique justo vel quam volutpat, efficitur mollis sem placerat. Donec luctus magna at hendrerit aliquet. Praesent convallis dui at lacinia tincidunt. Vivamus tristique nibh quis odio vehicula vehicula. Morbi dapibus magna eu est malesuada condimentum. Sed aliquet hendrerit enim laoreet porttitor. Morbi vulputate, justo bibendum maximus commodo, orci purus ultrices urna, id elementum lectus ex ac magna.<br><br>' +
+	'Nulla facilisi. Maecenas et risus sollicitudin felis dignissim blandit vel non enim. Cras sollicitudin nulla at sapien accumsan consectetur. Praesent aliquam erat velit, at aliquet elit cursus eget. Suspendisse potenti. Nunc ornare magna non venenatis congue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel quam tristique, pulvinar mauris et, suscipit purus. Curabitur in ex egestas, mattis ligula quis, rutrum nulla. Cras dictum, erat eget tristique lacinia, arcu ipsum facilisis nisi, in tempor nunc massa vel ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet facilisis nibh, sit amet mattis mi.<br><br>'+
+	'Phasellus non nisi nec odio euismod pretium. In congue feugiat lacus, eget consequat diam porttitor eu. Donec ornare purus non diam dapibus malesuada. Morbi laoreet sem eget sollicitudin placerat. Cras luctus massa at posuere dictum. Fusce mollis, diam suscipit efficitur pulvinar, felis augue convallis magna, suscipit vehicula justo metus sit amet nibh. Nullam quis elementum elit, eget condimentum leo. Mauris iaculis finibus dolor id ultricies. Morbi eget libero tellus. Mauris rutrum erat sit amet ligula dictum, eget molestie mi tincidunt. Sed rutrum, enim sit amet malesuada euismod, turpis risus faucibus tellus, tincidunt malesuada orci ipsum quis libero.  ',
+	TERM_CONDITION_ACCEPT_BUTTON: 'I have read and accept terms and conditions',						
+	TERM_CONDITION_CANCEL_BUTTON: 'Cancel',	
 							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Dashboard streams monitoring',

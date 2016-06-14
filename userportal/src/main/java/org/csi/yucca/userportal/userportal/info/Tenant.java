@@ -187,8 +187,10 @@ public class Tenant {
 	public static final Tenant SANDBOX() {
 		Tenant sandbox = new Tenant();
 		sandbox.setIdTenant(1L);
+		
 		sandbox.setTenantName("sanbox");
 		sandbox.setTenantDescription("sanbox");
+		
 		sandbox.setTenantCode("sandbox");
 		sandbox.setMaxDatasetNum(-1);
 		sandbox.setMaxStreamsNum(-1);

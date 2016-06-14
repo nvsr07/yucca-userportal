@@ -65,6 +65,7 @@ public class AuthorizeUtils {
 	public static final String CLAIM_KEY_LASTNAME = "LASTNAME";
 	public static final String CLAIM_KEY_SHIB_LIVAUTH = "SHIB-LIVAUTH";
 	public static final String CLAIM_KEY_SHIB_RISCONTRO = "SHIB-RISCONTRO";
+	public static final String CLAIM_KEY_TERM_CODITION_TENANTS = "TERM_CODITION_TENANTS";
 
 	public static Map<String, String> claimsKeys;
 
@@ -142,6 +143,7 @@ public class AuthorizeUtils {
 				claimsKeys.put(CLAIM_KEY_LASTNAME, "http://wso2.org/claims/lastname");
 				claimsKeys.put(CLAIM_KEY_SHIB_LIVAUTH, "http://wso2.org/claims/shib-livauth");
 				claimsKeys.put(CLAIM_KEY_SHIB_RISCONTRO, "http://wso2.org/claims/shib-riscontro");
+				claimsKeys.put(CLAIM_KEY_TERM_CODITION_TENANTS, "http://wso2.org/claims/identity/termConditionTenants");
 			}
 		}
 		return claimsKeys;

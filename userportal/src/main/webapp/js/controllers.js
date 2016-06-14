@@ -20,6 +20,38 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	};
 	
 	$scope.userTenants = null;
+	
+	var checkTermCondition = function(){
+		$scope.activeTenantType = info.getActiveTenantType();
+		if($scope.activeTenantType != 'readonly'){
+		if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
+			$scope.user.acceptTermConditionTenants = [];
+		
+			if($scope.user.acceptTermConditionTenants.indexOf($scope.activeTenantCode)<0){
+				var modalAcceptTermConditionInstance = $modal.open({
+					animation : $scope.animationsEnabled,
+					templateUrl : 'termAndConditionModal.html',
+					controller : 'TermAndConditionModalCtrl',
+					keyboard : false,
+					size : 0,
+				      resolve: {
+				    	  activeTenantType: function () {
+				            return $scope.activeTenantType;
+				          }
+				        }
+				});
+	
+				modalAcceptTermConditionInstance.result.then(function() {
+					console.log("modalAcceptTermConditionInstance ok");
+				}, function() {
+					console.debug("Not accepted term and conditions");
+					$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
+					console.log("path", $location.path());
+				});
+			}
+		}
+	};
+	
 	fabricAPIservice.getInfo().success(function(result) {
 		info.setInfo(result);
 		$scope.activeTenantCode = info.getActiveTenantCode();
@@ -69,11 +101,11 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				$scope.BuildInfo = {};
 			$scope.BuildInfo.timestamp = new Date().getMilliseconds();
 		}
-		
-		$scope.activeTenantType = info.getActiveTenantType();
-		if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
-			$scope.user.acceptTermConditionTenants = [];
-		
+		checkTermCondition();
+//		$scope.activeTenantType = info.getActiveTenantType();
+//		if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
+//			$scope.user.acceptTermConditionTenants = [];
+//		
 //		if($scope.user.acceptTermConditionTenants.indexOf($scope.activeTenantCode)<0){
 //			var modalAcceptTermConditionInstance = $modal.open({
 //				animation : $scope.animationsEnabled,
@@ -116,6 +148,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 //			$scope.activeTenantCode = info.getActiveTenantCode();
 			$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
 			$location.path("#/");
+			checkTermCondition();
 		});
 	};
 
@@ -475,9 +508,12 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType',
                                                  function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType) {
 
-	 $scope.activeTenantType = activeTenantType;
-	 $scope.showLoading = false;
-	 $scope.acceptTermAndCondition = function () {
+	if(typeof activeTenantType == 'undefined' || activeTenantType == null)
+		activeTenantType = 'default';
+	$scope.activeTenantType = activeTenantType;
+	$scope.showLoading = false;
+	$scope.termConditionContent = 'TERM_CONDITION_'+ activeTenantType.toUpperCase() + '_CONTENT';
+	$scope.acceptTermAndCondition = function () {
 		$scope.showLoading = true;
 		fabricAPIservice.acceptTermConditionForTenant(info.getActiveTenantCode()).success(function(info){
 			console.log("acceptTermConditionForTenant a", info);
@@ -489,7 +525,7 @@ appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams
 			$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
 		});
 		
-	 };
+	};
 
 	
 	$scope.cancel = function () {
