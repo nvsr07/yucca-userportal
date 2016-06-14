@@ -22,20 +22,49 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	$scope.userTenants = null;
 	fabricAPIservice.getInfo().success(function(result) {
 		info.setInfo(result);
-		console.debug("info", info);
 		$scope.activeTenantCode = info.getActiveTenantCode();
 		$scope.userTenants = info.getInfo().user.tenants;
+		$scope.userTenantsToActivate = new Array();
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
-		$scope.user = result.user;
+		$scope.user = result.user; 
+		
+		$scope.user.haveTrialTenant = false;
+		$scope.user.haveTrialTenantToActivate = false;
+		angular.forEach($scope.userTenants, function(value, key) {
+		  if (value.tenantType == "trial")
+			  $scope.user.haveTrialTenant = true;
+		});
+		
+		if (!$scope.user.haveTrialTenant){
+			fabricAPIservice.getTenants().success(function(result) {
+				angular.forEach(result.tenants.tenant, function(value, key) {
+					var dataDisVal = null;
+					var dataDisDate = null;
+					if (typeof(value.dataDisattivazione) != 'undefined' && value.dataDisattivazione != null){
+						dataDisVal = value.dataDisattivazione.split('+');
+						dataDisDate = new Date(dataDisVal[0]);
+					} else {
+						dataDisDate = new Date();
+					}
+					var actualDate = new Date();
+					console.log("=====> TENANT = ", value);
+					console.log("=====> actualDate = ", actualDate);
+					console.log("=====> dataDisDate = ", dataDisDate);
+					if ((value.tenantType == "trial") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
+						$scope.user.haveTrialTenantToActivate = true; 
+						$scope.userTenantsToActivate.push(value);
+					}
+				});
+			});
+		}
 		
 		
 //		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
-//		$scope.storeUrl = '/store/site/pages/sso-filter.jag';
+//			$scope.storeUrl = '/store/site/pages/sso-filter.jag';
 //		}
 		try{
 			$scope.BuildInfo.timestamp = BuildInfo.timestamp;
-		}
-		catch (e) {
+		} catch (e) {
 			if(typeof $scope.BuildInfo == 'undefined')
 				$scope.BuildInfo = {};
 			$scope.BuildInfo.timestamp = new Date().getMilliseconds();
@@ -67,8 +96,12 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 //				console.log("path", $location.path());
 //			});
 //		}
-		
-		
+		console.log('info', info);
+		console.log('activeTenantCode', $scope.activeTenantCode);
+		console.log('userTenants', $scope.userTenants);
+		console.log('userTenantsToActivate', $scope.userTenantsToActivate);
+		console.log('managementUrl', $scope.managementUrl);
+		console.log('user', $scope.user);
 	});
 	
 	$scope.changeLanguage = function(langKey) {
@@ -123,67 +156,40 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	console.log('location', $location.$$url);
 	var url = $location.$$url;
 	
-	console.log('info', info);
+	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
+		var modalInstance = $modal.open({
+			animation : $scope.animationsEnabled,
+			templateUrl : templateUrlParam,
+			controller : controllerParam,
+			size : 0,
+			backdrop  : 'static',
+			keyboard  : false,
+			resolve: { 
+				op: function () {
+					return opParam;
+				},
+				tenantType: function () {
+					return tenantType;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(selectedItem) {
+			$scope.selected = selectedItem;
+		}, function() {
+			console.info('Modal dismissed at: ' + new Date());
+		});
+	}
 	
 	if (url.indexOf("?") > -1){
 		if (url.indexOf("strong=false") > -1){
-			var modalInstance = $modal.open({
-				animation : $scope.animationsEnabled,
-				templateUrl : 'myModalContent.html',
-				controller : 'HomePageModalCtrl',
-				size : 0,
-				resolve: {
-					op: function () {
-						return 'strong';
-					}
-				}
-			});
-
-			modalInstance.result.then(function(selectedItem) {
-				$scope.selected = selectedItem;
-			}, function() {
-				console.info('Modal dismissed at: ' + new Date());
-			});
-		}
-		
-		$scope.showTTForm = false;
-
-		if (url.indexOf("tenant=false") > -1){
+			$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'strong', 'social');
+		} else if (url.indexOf("tenant=false") > -1){
 			if (url.indexOf("social=true") > -1){
-				var modalInstance = $modal.open({
-					animation : $scope.animationsEnabled,
-					templateUrl : 'myModalContent.html',
-					controller : 'HomePageModalCtrl',
-					size : 0,
-					backdrop  : 'static',
-					keyboard  : false,
-					resolve: {
-						op: function () {
-							return 'social';
-						}
-					}
-				});
+				$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'social', 'social');
 			} else {
-				var modalInstance = $modal.open({
-					animation : $scope.animationsEnabled,
-					templateUrl : 'myModalContent.html',
-					controller : 'HomePageModalCtrl',
-					size : 0,
-					backdrop  : 'static',
-					keyboard  : false,
-					resolve: {
-						op: function () {
-							return 'tenant';
-						}
-					}
-				});
+				$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'tenant', 'social');
 			}
-
-			modalInstance.result.then(function(selectedItem) {
-					$scope.selected = selectedItem;
-				}, function() {
-					console.info('Modal dismissed at: ' + new Date());
-			});
 		}
 			
 		if (url.indexOf("login=ok") > -1){
@@ -201,17 +207,25 @@ appControllers.factory("initCtrl", function(fabricAPIservice, info, $q) {
     	    	var promise = fabricAPIservice.getInfo();
     	        promise.success(function(result) {
     	    		info.setInfo(result);
+    	    		console.log("result", result);
+    	    		console.log("info", info);
     	    		$scope.activeTenantCode = info.getActiveTenantCode();
     	    		$scope.userTenants = info.getInfo().user.tenants;
     	    		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
     	    		$scope.user = result.user;
+    	    		
+    	    		$scope.user.haveTrialTenant = false;
+    	    		angular.forEach($scope.userTenants, function(value, key) {
+    	    		  if (value.tenantType == "trial")
+    	    			  $scope.user.haveTrialTenant = true;
+    	    		});
     	    	});
     	        return promise;
     	      }
     	};
 });
 
-appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', 'info', '$location', function($scope, $route, $translate,webSocketService, fabricAPIservice, info, $location) {
+appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', '$modal', 'info', '$location', function($scope, $route, $translate, webSocketService, fabricAPIservice, $modal, info, $location) {
 	$scope.$route = $route;
 	//$scope.managementUrl = null;
 	$scope.currentUrl = function() {
@@ -233,7 +247,37 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	$scope.isUserLoggedIn = function() {
 		return $route.current.isHomepage;
 	};
-} ]);
+	
+	$scope.requestTT = function(tenantType){
+		$scope.showTTForm = true;
+		$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'newTT', tenantType);
+	};
+	
+	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
+		var modalInstance = $modal.open({
+			animation : $scope.animationsEnabled,
+			templateUrl : templateUrlParam,
+			controller : controllerParam,
+			size : 0,
+			backdrop  : 'static',
+			keyboard  : false,
+			resolve: {
+				op: function () {
+					return opParam;
+				},
+				tenantType: function () {
+					return tenantType;
+				}
+			}
+		});
+
+		modalInstance.result.then(function(selectedItem) {
+			$scope.selected = selectedItem;
+		}, function() {
+			console.info('Modal dismissed at: ' + new Date());
+		});
+	};
+}]);
 
 appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'fabricAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
                                         function($scope, $route, $http, $filter, fabricAPIservice, fabricAPImanagement, $modal, info, $location) {
@@ -247,8 +291,6 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	};
 	
 	console.debug(" $location",  $location);
-
-
 	var scrollTo  = $location.search().scrollTo;
 	console.debug(" scrollTo",  scrollTo);
 	if(scrollTo){
@@ -313,25 +355,54 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 } ]);
 
 appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op',
-                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, readFilePreview, op) {
+                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, readFilePreview, op, tenantType) {
+
+	console.log("--->info = ", info);
 	
-	$scope.op = op;
+	$scope.showTTForm = false;
+	$scope.resultTTFormKO = false;
+	$scope.resultTTFormOK = false;
+	$scope.authParam = op;
+	$scope.tenantType = tenantType;
 	$scope.tenantTest = {};
-	$scope.tenantTest.userName = null;
-	$scope.tenantTest.userLastName = null;
-	$scope.tenantTest.userEmail = null;
-	$scope.tenantTest.userTypeAuth = null;
+	if (typeof(info.getInfo()) != 'undefined' && info.getInfo() != null){
+		$scope.tenantTest.userName = info.getInfo().user.username;
+		$scope.tenantTest.userFirstName = info.getInfo().user.firstname;
+		$scope.tenantTest.userLastName = info.getInfo().user.lastname;
+		$scope.tenantTest.userEmail = info.getInfo().user.email;
+		$scope.userFirstNameTT = info.getInfo().user.firstname;
+		$scope.userLastNameTT = info.getInfo().user.lastname;
+		$scope.userEmailTT = info.getInfo().user.email;
+	} else {
+		$scope.tenantTest.userName = '';
+		$scope.tenantTest.userFirstName = '';
+		$scope.tenantTest.userLastName = '';
+		$scope.tenantTest.userEmail = '';
+		$scope.userFirstNameTT = '';
+		$scope.userLastNameTT = '';
+		$scope.userEmailTT = '';
+	}
+	if ($scope.authParam == 'social') {
+		$scope.tenantTest.userTypeAuth = $scope.authParam;
+	} else if ($scope.authParam == 'newTT') {
+		$scope.tenantTest.userTypeAuth = 'default';
+		$scope.showTTForm = true;
+	} else {
+		$scope.tenantTest.userTypeAuth = 'default';
+	}
 	$scope.tenantTest.tenantName = null;
 	$scope.tenantTest.tenantDescription = null;
 	$scope.tenantTest.tenantPassword = null;
 	$scope.tenantTest.idEcosystem = 1;
-	$scope.tenantTest.tenantType = "trial";
+	$scope.tenantTest.tenantType = "trial";  //Da modificare
 	$scope.tenantTest.idOrganization = 38;  //CSI 
 	console.log("--->op = ", op);
 	console.log("--->$scope.tenantTest = ", $scope.tenantTest);
 	
-	fabricAPIservice.getInfo().success(function(result) {
+	/*fabricAPIservice.getInfo().success(function(result) {
 		info.setInfo(result);
+		console.log("result", result);
+		console.log("info", info);
 		$scope.activeTenantCode = info.getActiveTenantCode();
 		$scope.userTenants = info.getInfo().user.tenants;
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
@@ -340,11 +411,13 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 		$scope.tenantTest.userName = info.getInfo().user.firstname;
 		$scope.tenantTest.userLastName = info.getInfo().user.lastname;
 		$scope.tenantTest.userEmail = info.getInfo().user.email;
-		if (op == 'social')
-			$scope.tenantTest.userTypeAuth = op;
+		if ($scope.authParam == 'social')
+			$scope.tenantTest.userTypeAuth = $scope.authParam;
 		else 
 			$scope.tenantTest.userTypeAuth = 'classic';
-	});
+
+		$scope.line = 356;
+	});*/
 	
 	console.log("--->info = ", info);
 	$scope.cancel = function () {
@@ -352,6 +425,10 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 	};
 	
 	$scope.goToRequestor = function () {
+		
+		$scope.tenantTest.userFirstName = $scope.userFirstNameTT;
+		$scope.tenantTest.userLastName = $scope.userLastNameTT;
+		$scope.tenantTest.userEmail = $scope.userEmailTT;
 
 		console.log(" ---> $scope.tenantTest = ", $scope.tenantTest);
 		var tenantParam = {};
@@ -360,19 +437,24 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 		var promise = fabricAPIservice.createNewTestTenant($scope.tenantTest.tenantName, tenantParam);
 		promise.then(function(result) {
 			console.log("result OK => ", result);
-			$scope.isUpdating = true;
+			$scope.resultTTFormOK = true;
+			$scope.showTTForm = false;
 		}, function(result) {
 			console.log("ERROR: ", result);
+			$scope.resultTTFormKO = true;
+			$scope.showTTForm = false;
 		}, function(result) {
 			console.log('Got notification: ' + result);
 		});
-	};
+	}; 
 	
 	$scope.truthyTTForm = function(field){
 		var rtnResponse = true;
 		switch(field) {
-		    case 'name':
-		        if ($scope.tenantTest.userName == null)
+		    case 'username':
+		        break;
+		    case 'firstname':
+		        if ($scope.tenantTest.userFirstName == null)
 		        	rtnResponse = false;
 		        break;
 		    case 'lastname':

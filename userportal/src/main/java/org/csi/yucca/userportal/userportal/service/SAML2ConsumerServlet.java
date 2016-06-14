@@ -143,7 +143,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					List<Tenant> tenants = filterDisabledTenants(tenantsCode);
 					
 					if (tenants.isEmpty()){
-						tenant = false;
+						tenant = false;  
 					}
 
 					newUser.setTenants(tenants);
@@ -187,7 +187,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 						newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 					} else {
-						//Non dovrebbe mai capitare
+						//Non dovrebbe mai capitare o cmq qui dentro entra l'utente tecnico!
 					}
 					
 					
@@ -264,7 +264,21 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					if (social){
 						returnPath += "&social=true";
 					} else {
-						request.getSession().invalidate();
+						//@TODO: bisogna diversificare? chiedere a Claudio
+						request.getSession().invalidate();  
+					}
+				} else {
+					int found = returnPath.indexOf("?");
+					if (social){
+						if (found == -1)
+							returnPath += "?social=true";
+						else
+							returnPath += "&social=true";
+					} else {
+						if (found == -1)
+							returnPath += "?social=false";
+						else
+							returnPath += "&social=false";
 					}
 				}
 				
@@ -337,7 +351,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			while ((line = rd.readLine()) != null) {
 				out.append(line);
 			}
-
+   
 			String inputJson = out.toString();
 
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
