@@ -54,6 +54,10 @@ var translations_it = {
 	MENU_SING_IN: 'Login',
 	MENU_SING_OUT: 'Esci',
 	MENU_MODAL_GET_TRAIL_TENANT: 'Richiedi Trial Tenant',
+	MENU_MODAL_GOT_TRAIL_TENANT: 'Trial Tenant da attivare',
+	MENU_MODAL_FULL_TEXT: 'Compila il modulo sottostante per richiedere la creazione di un tenant di prova per effettuare delle prove, una volta effettuate le normali verifiche, lo vedrai nell\'elenco a tendina in alto a destra.',
+	MENU_MODAL_RESPONSE_TEXT_OK: 'La richiesta è stata inviata, riceverai una risposta alla mail che ci hai comunicato: ',
+	MENU_MODAL_RESPONSE_TEXT_KO: 'We could not handle the request: ',
 	
 	/* Entity */
 	STREAM: 'Stream',
@@ -442,7 +446,7 @@ var translations_it = {
 	HOME_ACTION_SEARCH: 'Cerca nello Store',
 	HOME_ACTION_STORE: 'Accedi allo store',
 	 
-	HOME_TTFORUM_USERNAME_PLACEHOLDER: 'Inserisci il tuo nome',
+	HOME_TTFORUM_USERFIRSTNAME_PLACEHOLDER: 'Inserisci il tuo nome',
 	HOME_TTFORUM_USERLASTNAME_PLACEHOLDER: 'Inserisci il tuo cognome',
 	HOME_TTFORUM_USEREMAIL_PLACEHOLDER: 'Inserisci la tua mail',
 	HOME_TTFORUM_USERTYPEAUTH_PLACEHOLDER: 'Inserisci il tipo di autenticazione',
@@ -452,7 +456,8 @@ var translations_it = {
 	HOME_TTFORUM_TENANTECOSYS_PLACEHOLDER: 'Scegli l\'eco sistema di appartenenza del tuo Tenant', 
 	HOME_TTFORUM_TENANTORG_PLACEHOLDER: 'Organizzazione di appartenenza',
 	
-	HOME_TTFORUM_USERNAME: 'Nome',
+	HOME_TTFORUM_USERNAME: 'Nome Utente',
+	HOME_TTFORUM_USERFIRSTNAME: 'Nome',
 	HOME_TTFORUM_USERLASTNAME: 'Cognome',
 	HOME_TTFORUM_USEREMAIL: 'E-Mail',
 	HOME_TTFORUM_USERTYPEAUTH: 'Tipo di Autenticazione',
@@ -464,6 +469,7 @@ var translations_it = {
 	
 	HOME_TTFORUM_SUBMIT: 'Invia richiesta',
 	HOME_TTFORUM_CANCEL: 'Annulla e chiudi',
+	HOME_TTFORUM_CLOSE: 'Chiudi',
 	
 	HOME_SEARCH_TITLE: 'Cerca un dataset',
 	HOME_STORE_TITLE: 'Accedi allo store',

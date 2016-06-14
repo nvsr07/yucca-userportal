@@ -54,6 +54,9 @@ var translations_en = {
 	MENU_SING_IN: 'Sign in',
 	MENU_SING_OUT: 'Sign out',
 	MENU_MODAL_GET_TRAIL_TENANT: 'Richiedi Trial Tenant',
+	MENU_MODAL_GOT_TRAIL_TENANT: 'Trial Tenant to be activated',
+	MENU_MODAL_FULL_TEXT: 'Fill out the form below to request the creation of a trial tenant to perform some test, once made regular checks, you\'ll see it in drop-down list at the top right.',
+	MENU_MODAL_RESPONSE_TEXT: 'The request has been sent, you will receive an email to answer that you provided: ',
 	
 	/* Entity */
 	STREAM: 'Stream',
@@ -442,8 +445,8 @@ var translations_en = {
 	HOME_ACTION_SEARCH: 'Search in the Store',
 	HOME_ACTION_STORE: 'Go to the store',
 	 
-	HOME_TTFORUM_USERNAME_PLACEHOLDER: 'Insert your name',
-	HOME_TTFORUM_USERSURNAME_PLACEHOLDER: 'Insert your surnome',
+	HOME_TTFORUM_USERFIRSTNAME_PLACEHOLDER: 'Insert your Name',
+	HOME_TTFORUM_USERSURNAME_PLACEHOLDER: 'Insert your Surname',
 	HOME_TTFORUM_USEREMAIL_PLACEHOLDER: 'Insert yuor email',
 	HOME_TTFORUM_USERTYPEAUTH_PLACEHOLDER: 'Insert your authentication type',
 	HOME_TTFORUM_TENANTNAME_PLACEHOLDER: 'Insert your Tenant name',
@@ -452,8 +455,9 @@ var translations_en = {
 	HOME_TTFORUM_TENANTECOSYS_PLACEHOLDER: 'Choose the Eco System of your Tenant', 
 	HOME_TTFORUM_TENANTORG_PLACEHOLDER: 'Organization', 
 	
-	HOME_TTFORUM_USERNAME: 'Name',
-	HOME_TTFORUM_USERSURNAME: 'Surnome',
+	HOME_TTFORUM_USERNAME: 'UserName',
+	HOME_TTFORUM_USERFIRSTNAME: 'Name',
+	HOME_TTFORUM_USERSURNAME: 'Surname',
 	HOME_TTFORUM_USEREMAIL: 'E-Mail',
 	HOME_TTFORUM_USERTYPEAUTH: 'Authentication type',
 	HOME_TTFORUM_TENANTNAME: 'Tenant Name',
@@ -464,6 +468,7 @@ var translations_en = {
 	
 	HOME_TTFORUM_SUBMIT: 'Send',
 	HOME_TTFORUM_CANCEL: 'Cancel and close',
+	HOME_TTFORUM_CLOSE: 'Close',
 	
 	HOME_SEARCH_TITLE: 'Discovery data',
 	HOME_STORE_TITLE: 'Go to the store',
