@@ -506,7 +506,8 @@ appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams
 
 	if(typeof activeTenantType == 'undefined' || activeTenantType == null)
 		activeTenantType = 'default';
-	$scope.activeTenantType = activeTenantType;
+	if(activeTenantType!='trial')
+		activeTenantType = 'default';
 	$scope.showLoading = false;
 	$scope.termConditionContent = 'partials/common/termCondition/termCondition_'+activeTenantType+'_'+$translate.use() +".html";
 	$scope.acceptTermAndCondition = function () {
