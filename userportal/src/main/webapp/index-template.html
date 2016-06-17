@@ -170,7 +170,7 @@
         	</div>
         	<div class="modal-body">
             	<div><p ng-bind-html="'TERM_CONDITION_INTRO'|translate"></p></div>
-            	<div><p ng-bind-html="termConditionContent|translate" class='termConditionContent'></p></div>
+            	<div><p class='termConditionContent'><ng-include src="termConditionContent"></ng-include></p></div>
 				<div ng-show='showLoading'>Please wait...</div>
         	</div>
         	<div class="modal-footer" id="modal-footer">

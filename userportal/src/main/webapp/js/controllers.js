@@ -250,11 +250,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}
 		$scope.showCookieMessage = false;
 	};
-	
-	$scope.acceptTermAndCondition = function(){
-		// TODO IMPLEMENY
-	};
-	
+		
 	console.log('location', $location.$$url);
 	var url = $location.$$url;
 	
@@ -622,19 +618,20 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 		        break;
 		}
 		return rtnResponse;
-	}
+	};
 	
 }]);
 
 
-appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType',
-                                                 function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType) {
+appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType','$translate',
+                                                 function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType,$translate) {
 
 	if(typeof activeTenantType == 'undefined' || activeTenantType == null)
 		activeTenantType = 'default';
-	$scope.activeTenantType = activeTenantType;
+	if(activeTenantType!='trial')
+		activeTenantType = 'default';
 	$scope.showLoading = false;
-	$scope.termConditionContent = 'TERM_CONDITION_'+ activeTenantType.toUpperCase() + '_CONTENT';
+	$scope.termConditionContent = 'partials/common/termCondition/termCondition_'+activeTenantType+'_'+$translate.use() +".html";
 	$scope.acceptTermAndCondition = function () {
 		$scope.showLoading = true;
 		fabricAPIservice.acceptTermConditionForTenant(info.getActiveTenantCode()).success(function(info){

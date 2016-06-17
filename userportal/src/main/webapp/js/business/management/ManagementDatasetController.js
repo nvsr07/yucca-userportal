@@ -311,6 +311,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return info.isOwner( $scope.tenantCode);
 	};
 
+	$scope.canCreatePublicDataset = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
+
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
 	$scope.updateInfo = null;
 	$scope.updateError = null;
@@ -428,6 +432,11 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 						$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
 					}
 				}
+				
+				if($scope.canCreatePublicDataset())
+					$scope.dataset.info.visibility = 'public';
+				else
+					$scope.dataset.info.visibility = 'private';
 
 				//$scope.dataset.info.visibility = 'public';
 			} catch (e) {
@@ -854,6 +863,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
+	
+	$scope.canCreatePublicDataset = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
 
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {

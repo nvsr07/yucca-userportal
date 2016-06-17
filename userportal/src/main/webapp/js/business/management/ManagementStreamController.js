@@ -215,6 +215,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 
 	};
+	
+	$scope.canCreatePublicStream = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
 
 	$scope.defaultQuery = Constants.DEFAULT_SIDDHI;
 
@@ -462,7 +466,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				
 	
 				if($scope.stream.visibility==null){
-					$scope.stream.visibility = 'public';
+					if($scope.canCreatePublicStream())
+						$scope.stream.visibility = 'public';
+					else
+						$scope.stream.visibility = 'private';
 				}
 				console.debug("$scope.stream internal before clean",$scope.stream);
 				if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
@@ -549,7 +556,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				sharedStream.setStream(null);
 			} else {
 				$scope.stream  = {};
-				$scope.stream.visibility = 'public';
+				if($scope.canCreatePublicStream())
+					$scope.stream.visibility = 'public';
+				else
+					$scope.stream.visibility = 'private';
 				$scope.stream.streamIcon  = "img/stream-icon-default.png";
 				$scope.stream.streamTags = {};
 				$scope.stream.streamTags.tag = [];
