@@ -271,6 +271,9 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				},
 				globalUser: function(){
 					return $scope.user;
+				},
+				globalUserTenantsToActivate: function(){
+					return $scope.userTenantsToActivate;
 				}
 			}
 		});
@@ -359,6 +362,9 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 				},
 				globalUser: function(){
 					return $scope.user;
+				},
+				globalUserTenantsToActivate: function(){
+					return $scope.userTenantsToActivate;
 				}
 			}
 		});
@@ -446,8 +452,8 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 } ]);
 
-appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op', 'tenantType', 'globalUser', 
-                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, readFilePreview, op, tenantType, globalUser) {
+appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op', 'tenantType', 'globalUser', 'globalUserTenantsToActivate', 
+                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, readFilePreview, op, tenantType, globalUser, globalUserTenantsToActivate) {
 
 	console.log("--->info = ", info);
 
@@ -459,6 +465,7 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 	$scope.resultTTFormOK = false;
 	$scope.authParam = op;
 	$scope.user = globalUser;
+	$scope.userTenantsToActivate = globalUserTenantsToActivate;
 	$scope.tenantType = tenantType;
 	$scope.tenantNew = {};
 	if (typeof(info.getInfo()) != 'undefined' && info.getInfo() != null){
@@ -529,6 +536,10 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 		$scope.resultTTFormOK = false;
 		$scope.resultTPFormKO = false;
 		$scope.resultTTFormKO = false;
+		
+		$scope.codiceTenantData = {
+			tenantCode: "none"
+		};
 
 		console.log(" ---> $scope.tenantNew = ", $scope.tenantNew);
 		var tenantParam = {};
@@ -547,45 +558,15 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 				if ($scope.showTPForm){
 					$scope.resultTPFormOK = true;
 					$scope.user.havePersonalTenantToActivate = true; 
+					$scope.showTPForm = false;
 					$scope.userTenantsToActivate.push(result.data.tenants.tenant);
 				} else {
 					$scope.resultTTFormOK = true;
 					$scope.user.haveTrialTenantToActivate = true; 
+					$scope.showTTForm = false;
 					$scope.userTenantsToActivate.push(result.data.tenants.tenant);
 				}
-				$scope.codiceTenantData = {
-					tenantCode: result.data.tenants.tenant.codiceTenant
-				};
-				
-				
-				/*
-				fabricAPIservice.getTenants().success(function(result) {
-					$scope.userTenantsToActivate = new Array();
-					angular.forEach(result.tenants.tenant, function(value, key) {
-						var dataDisVal = null;
-						var dataDisDate = null;
-						if (typeof(value.dataDisattivazione) != 'undefined' && value.dataDisattivazione != null){
-							dataDisVal = value.dataDisattivazione.split('+');
-							dataDisDate = new Date(dataDisVal[0]);
-						} else {
-							dataDisDate = new Date();
-						}
-						var actualDate = new Date();
-						if ($scope.showTPForm){
-							if ((value.tenantType == "personal") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
-								$scope.user.haveTrialTenantToActivate = true; 
-								$scope.userTenantsToActivate.push(value);
-							}
-						} else {
-							if ((value.tenantType == "trial") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
-								$scope.user.haveTrialTenantToActivate = true; 
-								$scope.userTenantsToActivate.push(value);
-							}
-						}
-					});
-				});
-				*/
-				
+				$scope.codiceTenantData.tenantCode = result.data.tenants.tenant.codiceTenant;
 			}, function(result) {
 				console.log("ERROR: ", result);
 				if ($scope.showTPForm){

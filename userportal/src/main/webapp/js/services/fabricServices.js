@@ -14,7 +14,7 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		var changeTenantUrl = Constants.API_INFO_URL + '?callback=JSON_CALLBACK';
 
 		if(typeof activeTenant!=undefined)
-			changeTenantUrl = changeTenantUrl+"&activeTenant="+activeTenant;
+			changeTenantUrl = changeTenantUrl+"&activeTenant="+activeTenant.tenantCode;
 
 		return $http({
 			method : 'JSONP',
