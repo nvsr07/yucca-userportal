@@ -145,7 +145,7 @@ app.factory('info',  function() {
     	var result  = false;
     	if(tenantCode){
     		for (var int = 0; int < this.info.user.tenants.length; int++) {
-				if(this.info.user.tenants[int] == tenantCode){
+				if(this.info.user.tenants[int].tenantCode == tenantCode){
 					result = true;
 					break;
 				}

@@ -86,30 +86,44 @@
 	        <div class="modal-header modal-top-panel">
     	        <h1 class="modal-title-container">{{'WARNING'|translate}}</h1>
         	</div>
-	        <div class="modal-body modal-middle-panel" ng-show="resultTTFormOK == false && resultTTFormOK == false">
+	        <div class="modal-body modal-middle-panel" ng-show="!resultTTFormOK && !resultTTFormKO && !resultTPFormOK && !resultTPFormKO">
     	        <div class="modal-title-container" ng-if="authParam == 'strong'"><b>{{'HOME_LOGGED_NOT_STRONG_AUTHENTICATION'|translate}}</b></div>
-        	    <div class="modal-title-container" ng-if="authParam == 'tenant'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
-        	    <div class="modal-title-container" ng-if="authParam == 'social'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
-        	    <div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_FULL_TEXT'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'tecnical'"><b>{{'HOME_LOGGED_TECHNICAL_AUTHENTICATION'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'social' || authParam == 'tenant'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_TRAIL_FULL_TEXT'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'newTP'"><b>{{'MENU_MODAL_PERSONAL_FULL_TEXT'|translate}}</b></div>
 	        </div>
-    	    <div class="modal-footer modal-footer-panel" id="modal-footer-force" ng-show="authParam != 'newTT'">
-        	    <a class="btn modal-action" ng-click="showTTForm = !showTTForm" ng-show="authParam != 'tenant'"><span translate>HOME_TENANT_TEST_BUTTON</span></a>
+    	    <div class="modal-footer modal-footer-panel" id="modal-footer-force" ng-show="authParam != 'newTT' && authParam != 'newTP'">
+        	    <a class="btn modal-action" ng-click="showTTForm = !showTTForm" ng-show="authParam != 'tecnical' && authParam != 'strong'"><span translate>HOME_TENANT_TRIAL_BUTTON</span></a>
+        	    <a class="btn modal-action" ng-click="showTPForm = !showTPForm" ng-show="authParam != 'tecnical' && authParam != 'strong' && authParam != 'social'"><span translate>HOME_TENANT_PERSONAL_BUTTON</span></a>
             	<a class="btn modal-action" href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_FORCE_LOGOUT_BUTTON</span></a>
     	    </div>
 			<div class="showTTForm-details" ng-show="resultTTFormOK">
-				<div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate}}</b> <span>{{tenantTest.userEmail}}</span></div>
+				<div class="modal-title-container" ng-if="authParam == 'newTT' || authParam == 'newTP' || authParam == 'social' || authParam == 'tenant'"><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate:codiceTenantData}}</b> <span>{{tenantTest.userEmail}}</span></div>
 				<div class="modal-footer modal-footer-panel">
         	    	<a ng-click='cancel()' class="btn modal-action" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
 				</div>
     		</div>
 			<div class="showTTForm-details" ng-show="resultTTFormKO">
-				<div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b></div>
+				<div class="modal-title-container" ng-if="authParam == 'newTT' || authParam == 'newTP' || authParam == 'social' || authParam == 'tenant'"><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b></div>
+				<div class="modal-footer modal-footer-panel">
+        	    	<a ng-click='cancel()' class="btn modal-action" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
+				</div>
+    		</div>
+			<div class="showTTForm-details" ng-show="resultTPFormOK">
+				<div class="modal-title-container" ng-if="authParam == 'newTT' || authParam == 'newTP' || authParam == 'social' || authParam == 'tenant'"><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate:codiceTenantData}}</b> <span>{{tenantTest.userEmail}}</span></div>
+				<div class="modal-footer modal-footer-panel">
+        	    	<a ng-click='cancel()' class="btn modal-action" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
+				</div>
+    		</div>
+			<div class="showTTForm-details" ng-show="resultTPFormKO">
+				<div class="modal-title-container" ng-if="authParam == 'newTT' || authParam == 'newTP' || authParam == 'social' || authParam == 'tenant'"><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b></div>
 				<div class="modal-footer modal-footer-panel">
         	    	<a ng-click='cancel()' class="btn modal-action" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
 				</div>
     		</div>
     	</div>
-        <div class="showTTForm-details" ng-show="showTTForm">
+        <div class="showTTForm-details" ng-show="showTTForm || showTPForm">
 			<div class='container' ng-cloak>
 				<div class='row'>
 					<div class="col-sm-6" >
@@ -117,7 +131,7 @@
 							<div class="form-group">
 								<label for="inputTestUserName" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_USERNAME</span> <span class='required-asterisk'>*</span></label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" ng-readonly="truthyTTForm('username')" ng-model="tenantTest.userName" id="inputTestUserName" ng-required="true" maxlength="40">
+									<input type="text" class="form-control" ng-readonly="truthyTTForm('username')" ng-model="tenantNew.userName" id="inputTestUserName" ng-required="true" maxlength="40">
 								</div>
 							</div>
 							<div class="form-group">
@@ -136,25 +150,6 @@
 								<label for="inputTestUserEmail" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_USEREMAIL</span> <span class='required-asterisk'>*</span></label>
 								<div class="col-sm-8">
 									<input type="text" class="form-control" ng-readonly="truthyTTForm('email')" ng-model="userEmailTT" id="inputTestUserEmail" placeholder="{{'HOME_TTFORUM_USEREMAIL_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputTestTenantName" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_TENANTNAME</span> <span class='required-asterisk'>*</span></label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" ng-model="tenantTest.tenantName" id="inputTestTenantName" placeholder="{{'HOME_TTFORUM_TENANTNAME_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputTestTenantDesc" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_TENANTDESC</span> <span class='required-asterisk'>*</span></label>
-								<div class="col-sm-8">
-									<textarea class="form-control" rows="4" resize="none" ng-model="tenantTest.tenantDescription"  placeholder="{{'HOME_TTFORUM_TENANTDESC_PLACEHOLDER'|translate}}" id="inputTestTenantDesc" maxlength="3000">
-									</textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputTestTenantDesc" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_TENANTPWD</span> <span class='required-asterisk'>*</span></label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" ng-model="tenantTest.tenantPassword" id="inputTestTenantDesc" placeholder="{{'HOME_TTFORUM_TENANTPWD_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40">
 								</div>
 							</div>
 							<div class="form-group">

@@ -338,12 +338,33 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		return deferred.promise;
 	};
 	
-	fabricAPI.createNewTestTenant = function(tenant_code, tenantObject) {
-		//int-sdnet-intapi.sdp.csi.it:90/wso001/services/tenants/<codiceNuovoTenant>
+	fabricAPI.createNewTrialTenant = function(tenantObject) {
+		//int-sdnet-intapi.sdp.csi.it:90/wso001/services/tenants/newNotDefault
 		var deferred = $q.defer();
 		var resultData = null;
 
-		$http.post(Constants.API_SERVICES_TENANT_LIST_URL + tenant_code + '/', tenantObject).success(function(responseData) {
+		tenantObject.tenant.tenantType = "trial";
+		console.log("createNewTrialTenant", tenantObject);
+
+		$http.post(Constants.API_SERVICES_TENANT_LIST_URL + 'newNotDefault/', tenantObject).success(function(responseData) {
+			resultData = {status: "ok", data: responseData};
+			deferred.resolve(resultData);
+		}).error(function(responseData, responseStatus) {
+			resultData = {status: "ko - "+responseStatus, data: responseData};
+			deferred.reject(resultData);
+		});
+		return deferred.promise;
+	};
+	
+	fabricAPI.createNewPersonalTenant = function(tenantObject) {
+		//int-sdnet-intapi.sdp.csi.it:90/wso001/services/tenants/newNotDefault
+		var deferred = $q.defer();
+		var resultData = null;
+
+		tenantObject.tenant.tenantType = "personal";
+		console.log("createNewPersonalTenant", tenantObject);
+
+		$http.post(Constants.API_SERVICES_TENANT_LIST_URL + 'newNotDefault/', tenantObject).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
 			deferred.resolve(resultData);
 		}).error(function(responseData, responseStatus) {

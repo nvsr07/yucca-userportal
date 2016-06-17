@@ -53,7 +53,8 @@ import org.xml.sax.SAXException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-@WebServlet(name = "AuthorizeServlet", description = "Authorization Servlet", urlPatterns = { "/api/authorize" }, asyncSupported = false)
+@WebServlet(name = "AuthorizeServlet", description = "Authorization Servlet", urlPatterns = {
+		"/api/authorize" }, asyncSupported = false)
 public class SAML2ConsumerServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -69,11 +70,13 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		log.debug("[SAML2ConsumerServlet::doPost] - START");
 		try {
 			String responseMessage = request.getParameter("SAMLResponse");
@@ -85,208 +88,275 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
 
 				User newUser = info.getUser();
-				Boolean strong = true;
-				Boolean tenant = true;
-				Boolean social = false;
-				
-				//HttpSession sessParam = request.getSession();
-				
+				Boolean strongUser = true;
+				Boolean tenantUser = true;
+				Boolean socialUser = false;
+				Boolean tecnicalUser = false;
+
+				// HttpSession sessParam = request.getSession();
+
 				if (result == null) {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
 					log.debug("[SAML2ConsumerServlet::doPost] - result null");
-					
-// GIGACLOOD: commented: why only one result?					
-//				} else if (result.size() == 1) {
-//					log.debug("[SAML2ConsumerServlet::doPost] - result size 1");
-//
-//					newUser = new User();
-//					newUser.setLoggedIn(true);
-//					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
-//					newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
-//
-//					try {
-//						newUser.setPermissions(loadPermissions(newUser));
-//					} catch (Exception e) {
-//						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-//						e.printStackTrace();
-//					}
-//
-//					newUser.setActiveTenant(newUser.getTenants().get(0));
-//					newUser.setToken(getTokenForTenant(newUser));
-//
-//					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
+
+					// GIGACLOOD: commented: why only one result?
+					// } else if (result.size() == 1) {
+					// log.debug("[SAML2ConsumerServlet::doPost] - result size
+					// 1");
+					//
+					// newUser = new User();
+					// newUser.setLoggedIn(true);
+					// newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
+					// newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
+					//
+					// try {
+					// newUser.setPermissions(loadPermissions(newUser));
+					// } catch (Exception e) {
+					// log.error("[SAML2ConsumerServlet::doPost] - ERROR: " +
+					// e.getMessage());
+					// e.printStackTrace();
+					// }
+					//
+					// newUser.setActiveTenant(newUser.getTenants().get(0));
+					// newUser.setToken(getTokenForTenant(newUser));
+					//
+					// log.debug("[SAML2ConsumerServlet::doPost] - result size 1
+					// - username: " + newUser.getUsername() + " | tenant: " +
+					// newUser.getTenants());
 
 				} else if (result.size() > 0 && checkStrongAuthentication(result)) {
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1");
 					newUser = new User();
-					
+
 					newUser.setLoggedIn(true);
 					newUsername = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME));
 					newUser.setUsername(newUsername);
-					//String organizations = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
+					// String organizations =
+					// result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
 
 					List<String> tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
-					//if (organizations != null) {
-					//	tenants = Arrays.asList(organizations.split(","));
-					//}
+					// if (organizations != null) {
+					// tenants = Arrays.asList(organizations.split(","));
+					// }
 
 					try {
-						// the user for each tenant has a role tenantName_subscriber
+						// the user for each tenant has a role
+						// tenantName_subscriber
 						tenantsCode = loadRoles(newUser, "*_subscriber");
 					} catch (Exception e) {
-						
+
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
-					
-					//filtro sui tenant, data di disattivazione
+
+					// filtro sui tenant, data di disattivazione
 					List<Tenant> tenants = filterDisabledTenants(tenantsCode);
-					
-					if (tenants.isEmpty()){
-						tenant = false;  
+
+					if (tenants.isEmpty()) {
+						tenantUser = false;
+						List<String> tenantsCodeForTechincal = null;
+
+						try {
+							// the user for each tenant has a role
+							// tenantName_subscriber
+							tenantsCodeForTechincal = loadRoles(newUser, "mb-topic-*");
+						} catch (Exception e) {
+
+							log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
+							e.printStackTrace();
+						}
+
+						if (!tenantsCodeForTechincal.isEmpty()) {
+							tecnicalUser = true;
+						}
 					}
 
-					newUser.setTenants(tenants);
-					String regexCFPattern = "^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$";
-					if (newUsername.contains("_AT_")){
-						social = true;
-						//Entro con credenziali social ovvero: Facebook, Google o Yahoo
-						String[] emailParts = newUsername.split("_AT_");
-						String firstEmailParts = emailParts[0];
-						String lastEmailParts = emailParts[1];
-						newUser.setEmail(firstEmailParts+"@"+lastEmailParts);
-						newUser.setUsername(firstEmailParts+"@"+lastEmailParts);
-						if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)).contains(" ")){
-							//sembrerebbe il caso di Google o Yahoo
-							String[] givenNameParts = AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
-							String firstName = givenNameParts[0];
-							String lastName = givenNameParts[1];
-							
-							newUser.setFirstname(firstName);
-							newUser.setLastname(lastName);
+					if (!tecnicalUser) {
+						newUser.setTenants(tenants);
+						String regexCFPattern = "^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$";
+						if (newUsername.contains("_AT_")) {
+							socialUser = true;
+							// Entro con credenziali social ovvero: Facebook,
+							// Google o Yahoo
+							String[] emailParts = newUsername.split("_AT_");
+							String firstEmailParts = emailParts[0];
+							String lastEmailParts = emailParts[1];
+							newUser.setEmail(firstEmailParts + "@" + lastEmailParts);
+							newUser.setUsername(firstEmailParts + "@" + lastEmailParts);
+							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME))
+									.contains(" ")) {
+								// sembrerebbe il caso di Google o Yahoo
+								String[] givenNameParts = AuthorizeUtils.getClaimsMap()
+										.get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
+								String firstName = givenNameParts[0];
+								String lastName = givenNameParts[1];
+
+								newUser.setFirstname(firstName);
+								newUser.setLastname(lastName);
+							} else {
+								// sembrerebbe il caso di Facebook
+								newUser.setFirstname(result
+										.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
+								newUser.setLastname(result
+										.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
+							}
+						} else if (newUsername.contains("tw:")) {
+							// Entro con credenziali social ovvero: Twitter
+							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME))
+									.contains(" ")) {
+								String[] givenNameParts = AuthorizeUtils.getClaimsMap()
+										.get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
+								String firstName = givenNameParts[0];
+								String lastName = givenNameParts[1];
+
+								newUser.setFirstname(firstName);
+								newUser.setLastname(lastName);
+							} else {
+								newUser.setLastname(
+										AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME));
+							}
 						} else {
-							//sembrerebbe il caso di Facebook
-							newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
-							newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
+							// Entro con credenziali non social
+							newUser.setFirstname(
+									result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
+							newUser.setLastname(
+									result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
+							newUser.setEmail(result
+									.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 						}
-					} else if (newUsername.contains("tw:")){
-						//Entro con credenziali social ovvero: Twitter
-						if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)).contains(" ")){
-							String[] givenNameParts = AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
-							String firstName = givenNameParts[0];
-							String lastName = givenNameParts[1];
-							
-							newUser.setFirstname(firstName);
-							newUser.setLastname(lastName);
+
+						newUser.setAcceptTermConditionTenantsFromString(result.get(
+								AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
+
+						if (!tenants.isEmpty())
+							newUser.setActiveTenant(tenants.get(0).getTenantCode());
+						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: "
+								+ newUser.getUsername() + " | tenant: " + newUser.getTenants());
+
+						try {
+							newUser.setPermissions(loadPermissions(newUser));
+						} catch (Exception e) {
+							log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
+							e.printStackTrace();
+						}
+						// newUser.setActiveTenant(newUser.getTenants().get(0));
+						// newUser.setToken(getTokenForTenant(newUser));
+						Map<String, String> tokens = new HashMap<String, String>();
+
+						if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0) {
+							newUser.setToken(getTokenForTenant(newUser.getActiveTenant()));
+							tokens.put(newUser.getActiveTenant(), newUser.getToken());
 						} else {
-							//Non dovrebbe mai capitare
+							newUser.setToken(getTokenForTenant("sandbox"));
+							tokens.put("sandbox", newUser.getToken());
 						}
-					} else if(newUsername.matches(regexCFPattern)) {
-						//Entro con il codice fiscale, quindi con credenziali non social
-						newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
-						newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
-						newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
-					} else {
-						//Non dovrebbe mai capitare o cmq qui dentro entra l'utente tecnico!
-					}
-					
-					newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
-					
-					
-					if (!tenants.isEmpty())
-						newUser.setActiveTenant(tenants.get(0).getTenantCode());
-					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 
-					try {
-						newUser.setPermissions(loadPermissions(newUser));
-					} catch (Exception e) {
-						
-						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-						e.printStackTrace();
-					}
-					//newUser.setActiveTenant(newUser.getTenants().get(0));
-					//newUser.setToken(getTokenForTenant(newUser));
-					Map<String,String> tokens = new HashMap<String, String>();
-					
-					if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0){
-						newUser.setToken(getTokenForTenant(newUser.getActiveTenant()));
-						tokens.put(newUser.getActiveTenant(), newUser.getToken());
-					} else {
-						newUser.setToken(getTokenForTenant("sandbox"));
-						tokens.put("sandbox", newUser.getToken());
-					}
-					
-					for (Tenant tnt : newUser.getTenants()) {
-						if (!tnt.equals(newUser.getActiveTenant())){
-							tokens.put(tnt.getTenantCode(), getTokenForTenant(tnt.getTenantCode()));
+						for (Tenant tnt : newUser.getTenants()) {
+							if (!tnt.equals(newUser.getActiveTenant())) {
+								tokens.put(tnt.getTenantCode(), getTokenForTenant(tnt.getTenantCode()));
+							}
 						}
-					}
-					newUser.setTenantsTokens(tokens);
+						newUser.setTenantsTokens(tokens);
 
-					for (Object key : result.keySet().toArray()) {
-						String value = (String) result.get(key);
-						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - value: " + value);
+						for (Object key : result.keySet().toArray()) {
+							String value = (String) result.get(key);
+							log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - value: " + value);
+						}
 					}
 				} else {
 					// something wrong, re-login
 					// Add modalview
 					// Utente senza strong authentication
 
-					strong = false;			
-					tenant = false;			
+					strongUser = false;
+					tenantUser = false;
 				}
-				
-				if (social){
+
+				if ((socialUser) && (newUser.getTenants().isEmpty())) {
 					newUser.setTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT));
 				}
 				
+				if(newUser.getAcceptTermConditionTenants() == null){
+				    String termAndConditionClaim = null;
+					try {
+						termAndConditionClaim = loadTermConditionTenantClaim(newUser);
+					} catch (KeyManagementException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchAlgorithmException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParserConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SAXException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+
+					if (termAndConditionClaim != null)
+				       newUser.setAcceptTermConditionTenantsFromString(termAndConditionClaim);
+				}
+
 				info.setUser(newUser);
-				//info.setTenantCode(newUser.getTenant());
+				// info.setTenantCode(newUser.getTenant());
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
-				String returnPath = request.getContextPath() + "/" + URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
+				String returnPath = request.getContextPath() + "/"
+						+ URLDecoder.decode(
+								Util.nvlt(request.getSession()
+										.getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)),
+								"UTF-8");
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 
-				if (!strong){
+				if (!strongUser) { // Ovvero l'utente non ha credenziali forti
 					int found = returnPath.indexOf("?");
-					if (found == -1){
+					if (found == -1) {
 						returnPath += "?strong=false";
 					} else {
 						returnPath += "&strong=false";
 					}
 				}
-				
-				if (!tenant){
+
+				if (!tenantUser) { // Ovvero l'utente non ha tenant associati!
 					int found = returnPath.indexOf("?");
-					if (found == -1){
+					if (found == -1) {
 						returnPath += "?tenant=false";
 					} else {
 						returnPath += "&tenant=false";
 					}
-					if (social){
+				}
+
+				if (socialUser) { // Ovvero l'utente ha usato credenziali
+									// social, strong=false&social=true non può
+									// capitare
+					int found = returnPath.indexOf("?");
+					if (found == -1)
+						returnPath += "?social=true";
+					else
 						returnPath += "&social=true";
-					} else {
-						//@TODO: bisogna diversificare? chiedere a Claudio
-						request.getSession().invalidate();  
-					}
 				} else {
 					int found = returnPath.indexOf("?");
-					if (social){
-						if (found == -1)
-							returnPath += "?social=true";
-						else
-							returnPath += "&social=true";
-					} else {
-						if (found == -1)
-							returnPath += "?social=false";
-						else
-							returnPath += "&social=false";
-					}
+					if (found == -1)
+						returnPath += "?social=false";
+					else
+						returnPath += "&social=false";
 				}
-				
-				if (strong && tenant){
+
+				if (tecnicalUser) { // Accesso con credenziali tecniche,
+									// mb-topic-*
+					request.getSession().invalidate();
 					int found = returnPath.indexOf("?");
-					if (found == -1){
+					if (found != -1)
+						returnPath += "&tecnical=true";
+				}
+
+				if (strongUser && tenantUser) { // Se hai credenziali strong e
+												// hai tenant, non compare la
+												// modale!!
+					int found = returnPath.indexOf("?");
+					if (found == -1) {
 						returnPath += "?login=ok";
 					} else {
 						returnPath += "&login=ok";
@@ -297,15 +367,18 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			} else {
 				try {
 					String returnPath = request.getParameter("returnUrl");
-					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION, returnPath);
+					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION,
+							returnPath);
 					// info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
 					// User defaultUser = AuthorizeUtils.DEFAULT_USER;
 					// defaultUser.setPermissions(AuthorizeUtils.DEFAULT_PERMISSIONS);
 					// info.setUser(defaultUser);
-					// request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
+					// request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO,
+					// info);
 					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
-					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
+					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath="
+							+ URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -318,22 +391,22 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	private boolean checkStrongAuthentication(Map<String, String> result) {
 		String riscontro = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_RISCONTRO));
 		String livello = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_LIVAUTH));
-		
-		// Non utilizzo shibboleth, ma credenziali interne 
+
+		// Non utilizzo shibboleth, ma credenziali interne
 		if (livello == null)
 			return true;
 		try {
 			// user password e PIN
-			if (Integer.parseInt(livello)==4)
-				return (riscontro!= null && riscontro.equalsIgnoreCase("S"));
-			if (Integer.parseInt(livello)==8 || Integer.parseInt(livello)==16 )
+			if (Integer.parseInt(livello) == 4)
+				return (riscontro != null && riscontro.equalsIgnoreCase("S"));
+			if (Integer.parseInt(livello) == 8 || Integer.parseInt(livello) == 16)
 				return true;
 		} catch (NumberFormatException e) {
 		}
 		return false;
 	}
-	
-	private static List<Tenant> filterDisabledTenants(List<String> tenantsCode){
+
+	private static List<Tenant> filterDisabledTenants(List<String> tenantsCode) {
 		String apiBaseUrl = "";
 		Date actualDate = new Date();
 		List<Tenant> tenants = new LinkedList<Tenant>();
@@ -344,8 +417,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			HttpGet httpget = new HttpGet(apiBaseUrl);
 
 			HttpResponse r = client.execute(httpget);
-			log.debug("[SAML2ConsumerServlet::filterDisabledTenants] call to " +apiBaseUrl + " - status " + r.getStatusLine().toString());
-			
+			log.debug("[SAML2ConsumerServlet::filterDisabledTenants] call to " + apiBaseUrl + " - status "
+					+ r.getStatusLine().toString());
+
 			StringBuilder out = new StringBuilder();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
 			String line = "";
@@ -353,118 +427,119 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			while ((line = rd.readLine()) != null) {
 				out.append(line);
 			}
-   
+
 			String inputJson = out.toString();
 
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
-			TenantsContainer allTenantsContainer =  TenantsContainer.fromJson(inputJson);
+			TenantsContainer allTenantsContainer = TenantsContainer.fromJson(inputJson);
 			Tenants allTenants = allTenantsContainer.getTenants();
 			for (Tenant singleTenant : allTenants.getTenant()) {
-				
+
 				Date singleTenantDate = actualDate;
 
-				if (singleTenant.getDataDisattivazione()!=null){
+				if (singleTenant.getDataDisattivazione() != null) {
 					try {
 						singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
 					} catch (ParseException e) {
-						log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: " + singleTenant.getDataDisattivazione());
+						log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: "
+								+ singleTenant.getDataDisattivazione());
 						e.printStackTrace();
 					}
 				}
-				
-				
-				if(singleTenantDate.getTime()>=actualDate.getTime()){
+
+				if (singleTenantDate.getTime() >= actualDate.getTime()) {
 					for (String tenantCode : tenantsCode) {
-						if(singleTenant.getTenantCode().equals(tenantCode))
+						if (singleTenant.getTenantCode().equals(tenantCode))
 							tenants.add(singleTenant);
 					}
 
 				}
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-//
-//			JsonParser parser = new JsonParser();
-//			JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
-//			
-//			JsonObject tenatsObj = rootObj.get("tenants").getAsJsonObject();
-//			
-//			Set<Entry<String, JsonElement>> entrySet = tenatsObj.entrySet();
-//			int iCounter = 0;
-//			for(Map.Entry<String,JsonElement> entry : entrySet){
-//			    //properties.put(entry.getKey(), tenatsObj.get(entry.getKey()).replace("\"",""));
-//				JsonArray multiTenant = (JsonArray) tenatsObj.get(entry.getKey());
-//				Iterator<JsonElement> iterator = multiTenant.iterator();
-//				while (iterator.hasNext()) {
-//					//System.out.println(iterator.next());
-//					
-//					JsonObject singleTenant1 = (JsonObject) iterator.next(); //(JsonObject) multiTenant.get(iCounter++);
-//					Tenant singleTenant = Tenant.fromJson(((JsonObject) iterator.next()).getAsString()); 
-//						
-//						Date singleTenantDate = actualDate;
-//						if (singleTenant.getDataDisattivazione()!=null){
-//							try {
-//								singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
-//							} catch (ParseException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//						}
-//						
-//						List<String> tenantsForIterator = new ArrayList<String>(tenantsCode);
-//						Iterator<String> myTntIterator = tenantsForIterator.iterator();
-//						while (myTntIterator.hasNext()) {
-//							
-//							String mySingleTnt = myTntIterator.next();
-//							
-//							if (mySingleTnt.equals(singleTenant.getNomeTenant())){
-//								int rsltComp = singleTenantDate.compareTo(actualDate);
-//								if (rsltComp < 0){
-//									tenants.removeAll(Collections.singleton(singleTenantName));
-//								}
-//							}
-//						}
-//					}
-//					if (!singleTenant.get("tenantName").isJsonNull()){
-//						String singleTenantName = singleTenant.get("tenantName").getAsString();
-//						
-//						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
-//						Date singleTenantDate = actualDate;
-//						JsonElement dataDisattivazione = singleTenant.get("dataDisattivazione");
-//						if (!dataDisattivazione.isJsonNull()){
-//							try {
-//								singleTenantDate = formatter.parse(dataDisattivazione.getAsString());
-//							} catch (ParseException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//						}
-//						
-//						List<String> tenantsForIterator = new ArrayList<String>(tenantsCode);
-//						Iterator<String> myTntIterator = tenantsForIterator.iterator();
-//						while (myTntIterator.hasNext()) {
-//							
-//							String mySingleTnt = myTntIterator.next();
-//							
-//							if (mySingleTnt.equals(singleTenantName)){
-//								int rsltComp = singleTenantDate.compareTo(actualDate);
-//								if (rsltComp < 0){
-//									tenants.removeAll(Collections.singleton(singleTenantName));
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
+
+			//
+			// JsonParser parser = new JsonParser();
+			// JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
+			//
+			// JsonObject tenatsObj = rootObj.get("tenants").getAsJsonObject();
+			//
+			// Set<Entry<String, JsonElement>> entrySet = tenatsObj.entrySet();
+			// int iCounter = 0;
+			// for(Map.Entry<String,JsonElement> entry : entrySet){
+			// //properties.put(entry.getKey(),
+			// tenatsObj.get(entry.getKey()).replace("\"",""));
+			// JsonArray multiTenant = (JsonArray)
+			// tenatsObj.get(entry.getKey());
+			// Iterator<JsonElement> iterator = multiTenant.iterator();
+			// while (iterator.hasNext()) {
+			// //System.out.println(iterator.next());
+			//
+			// JsonObject singleTenant1 = (JsonObject) iterator.next();
+			// //(JsonObject) multiTenant.get(iCounter++);
+			// Tenant singleTenant = Tenant.fromJson(((JsonObject)
+			// iterator.next()).getAsString());
+			//
+			// Date singleTenantDate = actualDate;
+			// if (singleTenant.getDataDisattivazione()!=null){
+			// try {
+			// singleTenantDate =
+			// formatter.parse(singleTenant.getDataDisattivazione());
+			// } catch (ParseException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			//
+			// List<String> tenantsForIterator = new
+			// ArrayList<String>(tenantsCode);
+			// Iterator<String> myTntIterator = tenantsForIterator.iterator();
+			// while (myTntIterator.hasNext()) {
+			//
+			// String mySingleTnt = myTntIterator.next();
+			//
+			// if (mySingleTnt.equals(singleTenant.getNomeTenant())){
+			// int rsltComp = singleTenantDate.compareTo(actualDate);
+			// if (rsltComp < 0){
+			// tenants.removeAll(Collections.singleton(singleTenantName));
+			// }
+			// }
+			// }
+			// }
+			// if (!singleTenant.get("tenantName").isJsonNull()){
+			// String singleTenantName =
+			// singleTenant.get("tenantName").getAsString();
+			//
+			// SimpleDateFormat formatter = new
+			// SimpleDateFormat("yyyy-MM-dd+hh:mm");
+			// Date singleTenantDate = actualDate;
+			// JsonElement dataDisattivazione =
+			// singleTenant.get("dataDisattivazione");
+			// if (!dataDisattivazione.isJsonNull()){
+			// try {
+			// singleTenantDate =
+			// formatter.parse(dataDisattivazione.getAsString());
+			// } catch (ParseException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			//
+			// List<String> tenantsForIterator = new
+			// ArrayList<String>(tenantsCode);
+			// Iterator<String> myTntIterator = tenantsForIterator.iterator();
+			// while (myTntIterator.hasNext()) {
+			//
+			// String mySingleTnt = myTntIterator.next();
+			//
+			// if (mySingleTnt.equals(singleTenantName)){
+			// int rsltComp = singleTenantDate.compareTo(actualDate);
+			// if (rsltComp < 0){
+			// tenants.removeAll(Collections.singleton(singleTenantName));
+			// }
+			// }
+			// }
+			// }
+			// }
+			// }
 
 		} catch (IOException e) {
 			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
@@ -472,12 +547,12 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 		return tenants;
 	}
-	
+
 	public static String getCurrentTimeStamp() {
 		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd+HH:mm:ss");
-	    Date now = new Date();
-	    String strDate = sdfDate.format(now);
-	    return strDate;
+		Date now = new Date();
+		String strDate = sdfDate.format(now);
+		return strDate;
 	}
 
 	public static String getTokenForTenant(String tenant) {
@@ -488,10 +563,12 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			Properties config = Config.loadServerConfiguration();
 			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
 
-			/*if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0)
-				apiBaseUrl += Config.SECDATA_NEWTOKEN + newUser.getActiveTenant();
-			else
-				apiBaseUrl += Config.SECDATA_NEWTOKEN + "sandbox";*/
+			/*
+			 * if (newUser != null && newUser.getTenants() != null &&
+			 * newUser.getTenants().size() > 0) apiBaseUrl +=
+			 * Config.SECDATA_NEWTOKEN + newUser.getActiveTenant(); else
+			 * apiBaseUrl += Config.SECDATA_NEWTOKEN + "sandbox";
+			 */
 			apiBaseUrl += Config.SECDATA_NEWTOKEN + tenant;
 
 			HttpClient client = HttpClientBuilder.create().build();
@@ -527,8 +604,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return "";
 	}
 
-	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
-			SAXException {
+	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException,
+			IOException, ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadPermissions] - START");
 		List<String> permissions = new LinkedList<String>();
@@ -552,7 +629,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String webserviceUrl = config.getProperty(Config.RBAC_PERMISSIONS_WEBSERVICE_URL_KEY);
 			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput,
+					SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadPermissions] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -578,8 +656,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return permissions;
 	}
 
-	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException, IOException,
-			ParserConfigurationException, SAXException {
+	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException,
+			IOException, ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
 		List<String> roles = new LinkedList<String>();
@@ -605,7 +683,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String webserviceUrl = config.getProperty(Config.RBAC_ROLES_WEBSERVICE_URL_KEY);
 			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput,
+					SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -619,22 +698,21 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				for (int i = 0; i < rolessNodeList.getLength(); i++) {
 
 					Node roleNode = rolessNodeList.item(i);
-					
-					String selected  = "";
-					String role  = "";
+
+					String selected = "";
+					String role = "";
 					for (int j = 0; j < roleNode.getChildNodes().getLength(); j++) {
 						Node node = roleNode.getChildNodes().item(j);
-						if("ax2644:selected".equals(node.getNodeName())){
+						if ("ax2644:selected".equals(node.getNodeName())) {
 							selected = node.getTextContent();
-						}
-						else if("ax2644:itemName".equals(node.getNodeName())){
+						} else if ("ax2644:itemName".equals(node.getNodeName())) {
 							role = node.getTextContent();
 						}
 					}
 
-					if(selected.equals("true") && !role.equals(""))
+					if (selected.equals("true") && !role.equals(""))
 						roles.add(role.replace("_subscriber", ""));
-					
+
 				}
 			}
 
@@ -644,16 +722,71 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return roles;
 	}
 
+	private String loadTermConditionTenantClaim(User newUser) throws KeyManagementException, NoSuchAlgorithmException,
+			IOException, ParserConfigurationException, SAXException {
+		return loadUserClaimValue(newUser,
+				AuthorizeUtils.claimsKeys.get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
+	}
+
+	private String loadUserClaimValue(User newUser, String claimKey) throws KeyManagementException,
+			NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
+
+		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
+		String claimValue = null;
+		try {
+
+			String xmlInput = "";
+			xmlInput += "   ";
+			xmlInput += "   ";
+			xmlInput += "      ";
+			xmlInput += "         " + newUser.getUsername() + "";
+			xmlInput += "         " + claimKey + "";
+			xmlInput += "      ";
+			xmlInput += "   ";
+			xmlInput += "";
+
+			String SOAPAction = "urn:getUserClaimValue";
+
+			Properties config = Config.loadServerConfiguration();
+			Properties authConfig = Config.loadAuthorizationConfiguration();
+
+			String webserviceUrl = config.getProperty(Config.RBAC_USER_STORE_WEBSERVICE_URL_KEY);
+			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
+			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput,
+					SOAPAction, "text/xml");
+			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
+
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+
+			InputSource is = new InputSource(new StringReader(webServiceResponse));
+			Document doc = db.parse(is);
+
+			NodeList nodeList = doc.getFirstChild().getFirstChild().getChildNodes();
+			if (nodeList != null) {
+				for (int i = 0; i < nodeList.getLength(); i++) {
+					Node node = nodeList.item(i);
+					claimValue = node.getTextContent();
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			log.debug("[SAML2ConsumerServlet::loadRoles] - END");
+		}
+		return claimValue;
+	}
+
 	public static void main(String[] args) {
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><ns:getRolesOfUserResponse xmlns:ns=\"http://org.apache.axis2/xsd\" xmlns:ax2644=\"http://common.mgt.user.carbon.wso2.org/xsd\"><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>all4all_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>circe_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>csp_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>ondeuwc_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>sandbox_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>smartlab_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>tecnetdati_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>false</ax2644:editable><ax2644:itemDisplayName></ax2644:itemDisplayName><ax2644:itemName>false</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return></ns:getRolesOfUserResponse></soapenv:Body></soapenv:Envelope>";
 		List<String> roles = new LinkedList<String>();
 		try {
-			
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			dbf.setNamespaceAware(true);
-
-
 
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(new ByteArrayInputStream(xml.getBytes()));
@@ -663,28 +796,27 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				for (int i = 0; i < rolessNodeList.getLength(); i++) {
 
 					Node roleNode = rolessNodeList.item(i);
-					
-					String selected  = "";
-					String role  = "";
+
+					String selected = "";
+					String role = "";
 					for (int j = 0; j < roleNode.getChildNodes().getLength(); j++) {
 						Node node = roleNode.getChildNodes().item(j);
-						if("ax2644:selected".equals(node.getNodeName())){
+						if ("ax2644:selected".equals(node.getNodeName())) {
 							selected = node.getTextContent();
-						}
-						else if("ax2644:itemName".equals(node.getNodeName())){
+						} else if ("ax2644:itemName".equals(node.getNodeName())) {
 							role = node.getTextContent();
 						}
 					}
 
-					if(selected.equals("true") && !role.equals(""))
+					if (selected.equals("true") && !role.equals(""))
 						roles.add(role.replace("_subscriber", ""));
-					
+
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		for (String role : roles) {
 			System.out.println(role);
 		}

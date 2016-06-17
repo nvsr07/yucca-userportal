@@ -32,6 +32,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 					animation : $scope.animationsEnabled,
 					templateUrl : 'termAndConditionModal.html',
 					controller : 'TermAndConditionModalCtrl',
+					backdrop  : 'static',
 					keyboard : false,
 					size : 0,
 				      resolve: {
@@ -59,37 +60,21 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		$scope.userTenantsToActivate = new Array();
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
 		$scope.user = result.user; 
-		
+
 		$scope.user.haveTrialTenant = false;
 		$scope.user.haveTrialTenantToActivate = false;
+		$scope.user.havePersonalTenant = false;
+		$scope.user.havePersonalTenantToActivate = false;
 		angular.forEach($scope.userTenants, function(value, key) {
-		  if (value.tenantType == "trial")
-			  $scope.user.haveTrialTenant = true;
-		});
-		
-		if (!$scope.user.haveTrialTenant){
-			fabricAPIservice.getTenants().success(function(result) {
-				angular.forEach(result.tenants.tenant, function(value, key) {
-					var dataDisVal = null;
-					var dataDisDate = null;
-					if (typeof(value.dataDisattivazione) != 'undefined' && value.dataDisattivazione != null){
-						dataDisVal = value.dataDisattivazione.split('+');
-						dataDisDate = new Date(dataDisVal[0]);
-					} else {
-						dataDisDate = new Date();
-					}
-					var actualDate = new Date();
-					console.log("=====> TENANT = ", value);
-					console.log("=====> actualDate = ", actualDate);
-					console.log("=====> dataDisDate = ", dataDisDate);
-					if ((value.tenantType == "trial") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
-						$scope.user.haveTrialTenantToActivate = true; 
-						$scope.userTenantsToActivate.push(value);
-					}
-				});
+			  if (value.tenantType == "trial")
+				  $scope.user.haveTrialTenant = true;
 			});
-		}
-		
+		angular.forEach($scope.userTenants, function(value, key) {
+			  if (value.tenantType == "personal")
+				  $scope.user.havePersonalTenant = true;
+			});
+
+		userHavePersonalTenant();
 		
 //		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
 //			$scope.storeUrl = '/store/site/pages/sso-filter.jag';
@@ -135,6 +120,90 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		console.log('managementUrl', $scope.managementUrl);
 		console.log('user', $scope.user);
 	});
+	
+	var userHavePersonalTenant = function(){
+		fabricAPIservice.getTenants().success(function(result) {
+			var actualDate = new Date();	
+			if (!$scope.user.havePersonalTenant){
+				angular.forEach(result.tenants.tenant, function(value, key) {
+					var dataDisVal = null;
+					var dataDisDate = null;
+					if (typeof(value.dataDisattivazione) != 'undefined' && value.dataDisattivazione != null){
+						dataDisVal = value.dataDisattivazione.split('+');
+						dataDisDate = new Date(dataDisVal[0]);
+					} else {
+						dataDisDate = actualDate;
+					}
+					if ((value.tenantType == "personal") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
+						$scope.user.havePersonalTenantToActivate = true; 
+						$scope.userTenantsToActivate.push(value);
+					}
+				});
+			}
+			userHaveTrialTenant();
+		});
+	}
+	
+	var userHaveTrialTenant = function(){
+		fabricAPIservice.getTenants().success(function(result) {
+			var actualDate = new Date();	
+			if (!$scope.user.haveTrialTenant){
+				angular.forEach(result.tenants.tenant, function(value, key) {
+					var dataDisVal = null;
+					var dataDisDate = null;
+					if (typeof(value.dataDisattivazione) != 'undefined' && value.dataDisattivazione != null){
+						dataDisVal = value.dataDisattivazione.split('+');
+						dataDisDate = new Date(dataDisVal[0]);
+					} else {
+						dataDisDate = actualDate;
+					}
+					if ((value.tenantType == "trial") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
+						$scope.user.haveTrialTenantToActivate = true; 
+						$scope.userTenantsToActivate.push(value);
+					}
+				});
+			}
+			gestModalWindow();
+		});
+	}
+	
+	var gestModalWindow = function(){
+
+		if (url.indexOf("?") > -1){
+			$scope.user.authType = $scope.user.authType || "local";
+			if (url.indexOf("strong=false") > -1){  //Compare la modale perchè non hai credenziali strong!
+				$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
+				$scope.user.authType = "notStrong";
+			} else if (url.indexOf("tecnical=true") > -1){
+				$scope.user.authType = "tecnical";
+				$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
+			} else if (url.indexOf("tenant=false") > -1){
+				if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
+					if (url.indexOf("social=true") > -1){
+						$scope.user.authType = "social";
+						$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
+					} else {
+						$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
+					}
+				} else {
+					//Tutto ok! NO MODAL
+				}
+			} else {
+				//Tutto ok! NO MODAL
+			}
+			
+			if (url.indexOf("social=true") > -1)
+				$scope.user.authType = "social";
+			
+			console.log("user.authType", $scope.user.authType);
+				
+			if (url.indexOf("login=ok") > -1){
+				$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
+				$scope.linkLoginToStoreW = "1";
+				$scope.linkLoginToStoreH = "1";
+			}
+		}
+	}
 	
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
@@ -203,6 +272,9 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				},
 				tenantType: function () {
 					return tenantType;
+				},
+				globalUser: function(){
+					return $scope.user;
 				}
 			}
 		});
@@ -212,24 +284,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}, function() {
 			console.info('Modal dismissed at: ' + new Date());
 		});
-	}
-	
-	if (url.indexOf("?") > -1){
-		if (url.indexOf("strong=false") > -1){
-			$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'strong', 'social');
-		} else if (url.indexOf("tenant=false") > -1){
-			if (url.indexOf("social=true") > -1){
-				$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'social', 'social');
-			} else {
-				$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'tenant', 'social');
-			}
-		}
-			
-		if (url.indexOf("login=ok") > -1){
-			$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
-			$scope.linkLoginToStoreW = "1";
-			$scope.linkLoginToStoreH = "1";
-		}
 	}
 }]);
 
@@ -258,7 +312,8 @@ appControllers.factory("initCtrl", function(fabricAPIservice, info, $q) {
     	};
 });
 
-appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', '$modal', 'info', '$location', function($scope, $route, $translate, webSocketService, fabricAPIservice, $modal, info, $location) {
+appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', 'fabricAPIservice', '$modal', 'info', '$location', 
+                                              function($scope, $route, $translate, webSocketService, fabricAPIservice, $modal, info, $location) {
 	$scope.$route = $route;
 	//$scope.managementUrl = null;
 	$scope.currentUrl = function() {
@@ -286,6 +341,11 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 		$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'newTT', tenantType);
 	};
 	
+	$scope.requestTP = function(tenantType){
+		$scope.showTPForm = true;
+		$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'newTP', tenantType);
+	};
+	
 	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
@@ -300,6 +360,9 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 				},
 				tenantType: function () {
 					return tenantType;
+				},
+				globalUser: function(){
+					return $scope.user;
 				}
 			}
 		});
@@ -387,98 +450,157 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 } ]);
 
-appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op',
-                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, readFilePreview, op, tenantType) {
+appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op', 'tenantType', 'globalUser', 
+                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, readFilePreview, op, tenantType, globalUser) {
 
 	console.log("--->info = ", info);
-	
+
+	$scope.showTPForm = false;
+	$scope.resultTPFormKO = false;
+	$scope.resultTPFormOK = false;
 	$scope.showTTForm = false;
 	$scope.resultTTFormKO = false;
 	$scope.resultTTFormOK = false;
 	$scope.authParam = op;
+	$scope.user = globalUser;
 	$scope.tenantType = tenantType;
-	$scope.tenantTest = {};
+	$scope.tenantNew = {};
 	if (typeof(info.getInfo()) != 'undefined' && info.getInfo() != null){
-		$scope.tenantTest.userName = info.getInfo().user.username;
-		$scope.tenantTest.userFirstName = info.getInfo().user.firstname;
-		$scope.tenantTest.userLastName = info.getInfo().user.lastname;
-		$scope.tenantTest.userEmail = info.getInfo().user.email;
+		$scope.tenantNew.userName = info.getInfo().user.username;
+		$scope.tenantNew.userFirstName = info.getInfo().user.firstname;
+		$scope.tenantNew.userLastName = info.getInfo().user.lastname;
+		$scope.tenantNew.userEmail = info.getInfo().user.email;
 		$scope.userFirstNameTT = info.getInfo().user.firstname;
 		$scope.userLastNameTT = info.getInfo().user.lastname;
 		$scope.userEmailTT = info.getInfo().user.email;
 	} else {
-		$scope.tenantTest.userName = '';
-		$scope.tenantTest.userFirstName = '';
-		$scope.tenantTest.userLastName = '';
-		$scope.tenantTest.userEmail = '';
+		$scope.tenantNew.userName = '';
+		$scope.tenantNew.userFirstName = '';
+		$scope.tenantNew.userLastName = '';
+		$scope.tenantNew.userEmail = '';
 		$scope.userFirstNameTT = '';
 		$scope.userLastNameTT = '';
 		$scope.userEmailTT = '';
-	}
-	if ($scope.authParam == 'social') {
-		$scope.tenantTest.userTypeAuth = $scope.authParam;
-	} else if ($scope.authParam == 'newTT') {
-		$scope.tenantTest.userTypeAuth = 'default';
-		$scope.showTTForm = true;
-	} else {
-		$scope.tenantTest.userTypeAuth = 'default';
-	}
-	$scope.tenantTest.tenantName = null;
-	$scope.tenantTest.tenantDescription = null;
-	$scope.tenantTest.tenantPassword = null;
-	$scope.tenantTest.idEcosystem = 1;
-	$scope.tenantTest.tenantType = "trial";  //Da modificare
-	$scope.tenantTest.idOrganization = 38;  //CSI 
-	console.log("--->op = ", op);
-	console.log("--->$scope.tenantTest = ", $scope.tenantTest);
-	
-	/*fabricAPIservice.getInfo().success(function(result) {
-		info.setInfo(result);
-		console.log("result", result);
-		console.log("info", info);
-		$scope.activeTenantCode = info.getActiveTenantCode();
-		$scope.userTenants = info.getInfo().user.tenants;
-		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
-		$scope.user = result.user;
 		
-		$scope.tenantTest.userName = info.getInfo().user.firstname;
-		$scope.tenantTest.userLastName = info.getInfo().user.lastname;
-		$scope.tenantTest.userEmail = info.getInfo().user.email;
-		if ($scope.authParam == 'social')
-			$scope.tenantTest.userTypeAuth = $scope.authParam;
-		else 
-			$scope.tenantTest.userTypeAuth = 'classic';
-
-		$scope.line = 356;
-	});*/
+		fabricAPIservice.getInfo().success(function(result) {
+			info.setInfo(result);
+			console.log("result", result);
+			console.log("info", info);
+			$scope.activeTenantCode = info.getActiveTenantCode();
+			$scope.userTenants = info.getInfo().user.tenants;
+			$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
+			
+			$scope.tenantNew.userName = info.getInfo().user.username;
+			$scope.tenantNew.userFirstName = info.getInfo().user.firstname;
+			$scope.tenantNew.userLastName = info.getInfo().user.lastname;
+			$scope.tenantNew.userEmail = info.getInfo().user.email;
+			$scope.userFirstNameTT = info.getInfo().user.firstname;
+			$scope.userLastNameTT = info.getInfo().user.lastname;
+			$scope.userEmailTT = info.getInfo().user.email;
+			if ($scope.authParam == 'social')
+				$scope.tenantNew.userTypeAuth = $scope.authParam;
+			else 
+				$scope.tenantNew.userTypeAuth = 'default';
+		});
+	}
+	console.log("$scope.user", $scope.user);
+	if ($scope.authParam == 'social') {
+		$scope.tenantNew.userTypeAuth = $scope.authParam;
+	} else if ($scope.authParam == 'newTT') { //in questo caso solo utenti con credenziali non social possono richiedere tenant (trial) dal menù in alto a dx!
+		$scope.tenantNew.userTypeAuth = 'default';
+		$scope.showTTForm = true;
+	} else if ($scope.authParam == 'newTP') { //in questo caso solo utenti con credenziali non social possono richiedere tenant (personal) dal menù in alto a dx!
+		$scope.tenantNew.userTypeAuth = 'default';
+		$scope.showTPForm = true;
+	} else {
+		$scope.tenantNew.userTypeAuth = 'default';
+	}
+	console.log("--->op = ", op);
+	console.log("--->$scope.tenantTest = ", $scope.tenantNew);
 	
 	console.log("--->info = ", info);
 	$scope.cancel = function () {
 	    $modalInstance.dismiss('cancel');
 	};
-	
+	 
 	$scope.goToRequestor = function () {
 		
-		$scope.tenantTest.userFirstName = $scope.userFirstNameTT;
-		$scope.tenantTest.userLastName = $scope.userLastNameTT;
-		$scope.tenantTest.userEmail = $scope.userEmailTT;
+		$scope.tenantNew.userFirstName = $scope.userFirstNameTT;
+		$scope.tenantNew.userLastName = $scope.userLastNameTT;
+		$scope.tenantNew.userEmail = $scope.userEmailTT;
+		
+		$scope.resultTPFormOK = false;
+		$scope.resultTTFormOK = false;
+		$scope.resultTPFormKO = false;
+		$scope.resultTTFormKO = false;
 
-		console.log(" ---> $scope.tenantTest = ", $scope.tenantTest);
+		console.log(" ---> $scope.tenantNew = ", $scope.tenantNew);
 		var tenantParam = {};
-		tenantParam.tenant = $scope.tenantTest;
+		tenantParam.tenant = $scope.tenantNew;
 		console.log(" ---> tenantParam = ", tenantParam);
-		var promise = fabricAPIservice.createNewTestTenant($scope.tenantTest.tenantName, tenantParam);
-		promise.then(function(result) {
-			console.log("result OK => ", result);
-			$scope.resultTTFormOK = true;
-			$scope.showTTForm = false;
-		}, function(result) {
-			console.log("ERROR: ", result);
-			$scope.resultTTFormKO = true;
-			$scope.showTTForm = false;
-		}, function(result) {
-			console.log('Got notification: ' + result);
-		});
+		
+		var promise = null;
+		if ($scope.showTPForm)
+			promise = fabricAPIservice.createNewPersonalTenant(tenantParam);
+		else
+			promise = fabricAPIservice.createNewTrialTenant(tenantParam);
+		
+		if (promise != null){
+			promise.then(function(result) {
+				console.log("result OK => ", result);
+				if ($scope.showTPForm){
+					$scope.resultTPFormOK = true;
+					$scope.user.havePersonalTenantToActivate = true; 
+					$scope.userTenantsToActivate.push(result.data.tenants.tenant);
+				} else {
+					$scope.resultTTFormOK = true;
+					$scope.user.haveTrialTenantToActivate = true; 
+					$scope.userTenantsToActivate.push(result.data.tenants.tenant);
+				}
+				$scope.codiceTenantData = {
+					tenantCode: result.data.tenants.tenant.codiceTenant
+				};
+				
+				
+				/*
+				fabricAPIservice.getTenants().success(function(result) {
+					$scope.userTenantsToActivate = new Array();
+					angular.forEach(result.tenants.tenant, function(value, key) {
+						var dataDisVal = null;
+						var dataDisDate = null;
+						if (typeof(value.dataDisattivazione) != 'undefined' && value.dataDisattivazione != null){
+							dataDisVal = value.dataDisattivazione.split('+');
+							dataDisDate = new Date(dataDisVal[0]);
+						} else {
+							dataDisDate = new Date();
+						}
+						var actualDate = new Date();
+						if ($scope.showTPForm){
+							if ((value.tenantType == "personal") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
+								$scope.user.haveTrialTenantToActivate = true; 
+								$scope.userTenantsToActivate.push(value);
+							}
+						} else {
+							if ((value.tenantType == "trial") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
+								$scope.user.haveTrialTenantToActivate = true; 
+								$scope.userTenantsToActivate.push(value);
+							}
+						}
+					});
+				});
+				*/
+				
+			}, function(result) {
+				console.log("ERROR: ", result);
+				if ($scope.showTPForm){
+					$scope.resultTPFormKO = true;
+				} else {
+					$scope.resultTTFormKO = true;
+				}
+			}, function(result) {
+				console.log('Got notification: ' + result);
+			});
+		}
 	}; 
 	
 	$scope.truthyTTForm = function(field){
@@ -487,15 +609,15 @@ appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$loc
 		    case 'username':
 		        break;
 		    case 'firstname':
-		        if ($scope.tenantTest.userFirstName == null)
+		        if ($scope.tenantNew.userFirstName == null)
 		        	rtnResponse = false;
 		        break;
 		    case 'lastname':
-		        if ($scope.tenantTest.userLastName == null)
+		        if ($scope.tenantNew.userLastName == null)
 		        	rtnResponse = false;
 		        break;
 		    case 'email':
-		        if ($scope.tenantTest.userEmail == null)
+		        if ($scope.tenantNew.userEmail == null)
 		        	rtnResponse = false;
 		        break;
 		}

@@ -351,7 +351,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		console.log('tenantCode: ' + $scope.tenantCode);
 		var promise = fabricAPIservice.getVirtualentityByTenant($scope.tenantCode);
 		promise.then(function(result) {
-			var vEntities = result.data.virtualEntities.virtualEntity;
+			var vEntities = Helpers.util.initArrayZeroOneElements(result.data.virtualEntities.virtualEntity);
 			console.log(vEntities);
 			vEntities.forEach(function(item) {
 			    console.log(item.virtualEntitySlug);
