@@ -9,10 +9,10 @@
 			<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'STREAM_FIELD_VISIBILITY'|translate"></span></label>
 			<div class="col-sm-10  text-left">
 				<label class="radio-inline">
-             			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="stream.visibility"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_VISIBILITY_PUBLIC</span>
+             			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="stream.visibility" ng-disabled='!canCreatePublicStream()'><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_VISIBILITY_PUBLIC</span>
            		</label>
 				<label class="radio-inline">
-             			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="stream.visibility"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_VISIBILITY_PRIVATE</span>
+             			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="stream.visibility" ng-disabled='!canCreatePublicStream()'><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_VISIBILITY_PRIVATE</span>
            		</label>
 			</div>
 		</div>
