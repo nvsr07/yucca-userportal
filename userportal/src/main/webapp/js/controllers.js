@@ -23,10 +23,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	var checkTermCondition = function(){
 		$scope.activeTenantType = info.getActiveTenantType();
-		if($scope.activeTenantType != 'readonly'){
-		if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
-			$scope.user.acceptTermConditionTenants = [];
-		
+		if($scope.activeTenantCode != 'sandbox'){
+			if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
+				$scope.user.acceptTermConditionTenants = [];
+			
 			if($scope.user.acceptTermConditionTenants.indexOf($scope.activeTenantCode)<0){
 				var modalAcceptTermConditionInstance = $modal.open({
 					animation : $scope.animationsEnabled,

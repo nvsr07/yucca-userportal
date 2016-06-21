@@ -133,8 +133,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setUsername(newUsername);
 					// String organizations =
 					// result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
-
-					List<String> tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
+					List<String> tenantsCode = null;
 					// if (organizations != null) {
 					// tenants = Arrays.asList(organizations.split(","));
 					// }
@@ -143,6 +142,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						// the user for each tenant has a role
 						// tenantName_subscriber
 						tenantsCode = loadRoles(newUser, "*_subscriber");
+						if (tenantsCode.isEmpty()) {
+							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
+						}
 					} catch (Exception e) {
 
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
@@ -182,7 +184,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 							String firstEmailParts = emailParts[0];
 							String lastEmailParts = emailParts[1];
 							newUser.setEmail(firstEmailParts + "@" + lastEmailParts);
-							newUser.setUsername(firstEmailParts + "@" + lastEmailParts);
+							newUser.setUsername(newUsername);
+							//newUser.setUsername(firstEmailParts + "@" + lastEmailParts);
 							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME))
 									.contains(" ")) {
 								// sembrerebbe il caso di Google o Yahoo
@@ -221,8 +224,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 									result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
 							newUser.setLastname(
 									result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
-							newUser.setEmail(result
-									.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
+							newUser.setEmail(
+									result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 						}
 
 						newUser.setAcceptTermConditionTenantsFromString(result.get(
@@ -276,8 +279,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT));
 				}
 				
-				if(newUser.getAcceptTermConditionTenants() == null){
-				    String termAndConditionClaim = null;
+				if((newUser.getAcceptTermConditionTenants() == null) || (newUser.getAcceptTermConditionTenants().size() <= 0)){
+				    String termAndConditionClaim = null; 
 					try {
 						termAndConditionClaim = loadTermConditionTenantClaim(newUser);
 					} catch (KeyManagementException e) {
