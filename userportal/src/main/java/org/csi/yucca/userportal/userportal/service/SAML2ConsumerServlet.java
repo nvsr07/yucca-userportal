@@ -53,8 +53,7 @@ import org.xml.sax.SAXException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-@WebServlet(name = "AuthorizeServlet", description = "Authorization Servlet", urlPatterns = {
-		"/api/authorize" }, asyncSupported = false)
+@WebServlet(name = "AuthorizeServlet", description = "Authorization Servlet", urlPatterns = { "/api/authorize" }, asyncSupported = false)
 public class SAML2ConsumerServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -70,13 +69,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("[SAML2ConsumerServlet::doPost] - START");
 		try {
 			String responseMessage = request.getParameter("SAMLResponse");
@@ -142,9 +139,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						// the user for each tenant has a role
 						// tenantName_subscriber
 						tenantsCode = loadRoles(newUser, "*_subscriber");
-						if (tenantsCode.isEmpty()) {
-							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
-						}
+//						if (tenantsCode.isEmpty()) {
+//							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
+//						}
 					} catch (Exception e) {
 
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
@@ -185,12 +182,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 							String lastEmailParts = emailParts[1];
 							newUser.setEmail(firstEmailParts + "@" + lastEmailParts);
 							newUser.setUsername(newUsername);
-							//newUser.setUsername(firstEmailParts + "@" + lastEmailParts);
-							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME))
-									.contains(" ")) {
+							// newUser.setUsername(firstEmailParts + "@" +
+							// lastEmailParts);
+							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)).contains(" ")) {
 								// sembrerebbe il caso di Google o Yahoo
-								String[] givenNameParts = AuthorizeUtils.getClaimsMap()
-										.get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
+								String[] givenNameParts = AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
 								String firstName = givenNameParts[0];
 								String lastName = givenNameParts[1];
 
@@ -198,43 +194,35 @@ public class SAML2ConsumerServlet extends HttpServlet {
 								newUser.setLastname(lastName);
 							} else {
 								// sembrerebbe il caso di Facebook
-								newUser.setFirstname(result
-										.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
-								newUser.setLastname(result
-										.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
+								newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
+								newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 							}
 						} else if (newUsername.contains("tw:")) {
 							// Entro con credenziali social ovvero: Twitter
-							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME))
-									.contains(" ")) {
-								String[] givenNameParts = AuthorizeUtils.getClaimsMap()
-										.get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
+							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)).contains(" ")) {
+								String[] givenNameParts = AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
 								String firstName = givenNameParts[0];
 								String lastName = givenNameParts[1];
 
 								newUser.setFirstname(firstName);
 								newUser.setLastname(lastName);
 							} else {
-								newUser.setLastname(
-										AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME));
+								newUser.setLastname(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME));
 							}
 						} else {
 							// Entro con credenziali non social
-							newUser.setFirstname(
-									result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
-							newUser.setLastname(
-									result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
-							newUser.setEmail(
-									result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
+							newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
+							newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
+							newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 						}
 
-						newUser.setAcceptTermConditionTenantsFromString(result.get(
-								AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
+						newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(
+								AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
 
 						if (!tenants.isEmpty())
 							newUser.setActiveTenant(tenants.get(0).getTenantCode());
-						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: "
-								+ newUser.getUsername() + " | tenant: " + newUser.getTenants());
+						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: "
+								+ newUser.getTenants());
 
 						try {
 							newUser.setPermissions(loadPermissions(newUser));
@@ -278,9 +266,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				if ((socialUser) && (newUser.getTenants().isEmpty())) {
 					newUser.setTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT));
 				}
-				
-				if((newUser.getAcceptTermConditionTenants() == null) || (newUser.getAcceptTermConditionTenants().size() <= 0)){
-				    String termAndConditionClaim = null; 
+
+				if ((newUser.getAcceptTermConditionTenants() == null) || (newUser.getAcceptTermConditionTenants().size() <= 0)) {
+					String termAndConditionClaim = null;
 					try {
 						termAndConditionClaim = loadTermConditionTenantClaim(newUser);
 					} catch (KeyManagementException e) {
@@ -297,9 +285,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 
-
 					if (termAndConditionClaim != null)
-				       newUser.setAcceptTermConditionTenantsFromString(termAndConditionClaim);
+						newUser.setAcceptTermConditionTenantsFromString(termAndConditionClaim);
 				}
 
 				info.setUser(newUser);
@@ -307,10 +294,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"
-						+ URLDecoder.decode(
-								Util.nvlt(request.getSession()
-										.getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)),
-								"UTF-8");
+						+ URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 
 				if (!strongUser) { // Ovvero l'utente non ha credenziali forti
@@ -370,8 +354,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			} else {
 				try {
 					String returnPath = request.getParameter("returnUrl");
-					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION,
-							returnPath);
+					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION, returnPath);
 					// info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
 					// User defaultUser = AuthorizeUtils.DEFAULT_USER;
 					// defaultUser.setPermissions(AuthorizeUtils.DEFAULT_PERMISSIONS);
@@ -420,8 +403,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			HttpGet httpget = new HttpGet(apiBaseUrl);
 
 			HttpResponse r = client.execute(httpget);
-			log.debug("[SAML2ConsumerServlet::filterDisabledTenants] call to " + apiBaseUrl + " - status "
-					+ r.getStatusLine().toString());
+			log.debug("[SAML2ConsumerServlet::filterDisabledTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
 
 			StringBuilder out = new StringBuilder();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
@@ -444,8 +426,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					try {
 						singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
 					} catch (ParseException e) {
-						log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: "
-								+ singleTenant.getDataDisattivazione());
+						log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: " + singleTenant.getDataDisattivazione());
 						e.printStackTrace();
 					}
 				}
@@ -607,8 +588,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return "";
 	}
 
-	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException,
-			IOException, ParserConfigurationException, SAXException {
+	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
+			SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadPermissions] - START");
 		List<String> permissions = new LinkedList<String>();
@@ -632,8 +613,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String webserviceUrl = config.getProperty(Config.RBAC_PERMISSIONS_WEBSERVICE_URL_KEY);
 			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput,
-					SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadPermissions] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -659,8 +639,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return permissions;
 	}
 
-	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException,
-			IOException, ParserConfigurationException, SAXException {
+	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException, IOException,
+			ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
 		List<String> roles = new LinkedList<String>();
@@ -686,8 +666,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String webserviceUrl = config.getProperty(Config.RBAC_ROLES_WEBSERVICE_URL_KEY);
 			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput,
-					SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -725,28 +704,27 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return roles;
 	}
 
-	private String loadTermConditionTenantClaim(User newUser) throws KeyManagementException, NoSuchAlgorithmException,
-			IOException, ParserConfigurationException, SAXException {
-		return loadUserClaimValue(newUser,
-				AuthorizeUtils.claimsKeys.get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
+	private String loadTermConditionTenantClaim(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException,
+			ParserConfigurationException, SAXException {
+		return loadUserClaimValue(newUser, AuthorizeUtils.claimsKeys.get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
 	}
 
-	private String loadUserClaimValue(User newUser, String claimKey) throws KeyManagementException,
-			NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
+	private String loadUserClaimValue(User newUser, String claimKey) throws KeyManagementException, NoSuchAlgorithmException, IOException,
+			ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
 		String claimValue = null;
 		try {
 
-			String xmlInput = "";
-			xmlInput += "   ";
-			xmlInput += "   ";
-			xmlInput += "      ";
-			xmlInput += "         " + newUser.getUsername() + "";
-			xmlInput += "         " + claimKey + "";
-			xmlInput += "      ";
-			xmlInput += "   ";
-			xmlInput += "";
+			String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ser=\"http://service.ws.um.carbon.wso2.org\">";
+			xmlInput += "   <soapenv:Header/>";
+			xmlInput += "   <soapenv:Body>";
+			xmlInput += "      <ser:getUserClaimValue>";
+			xmlInput += "         <ser:userName>" + newUser.getUsername() + "</ser:userName>";
+			xmlInput += "         <ser:claim>" + claimKey + "</ser:claim>";
+			xmlInput += "      </ser:getUserClaimValue>";
+			xmlInput += "   </soapenv:Body>";
+			xmlInput += "</soapenv:Envelope>";
 
 			String SOAPAction = "urn:getUserClaimValue";
 
@@ -756,8 +734,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String webserviceUrl = config.getProperty(Config.RBAC_USER_STORE_WEBSERVICE_URL_KEY);
 			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput,
-					SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
