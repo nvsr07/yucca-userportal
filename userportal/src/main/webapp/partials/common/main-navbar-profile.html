@@ -8,14 +8,26 @@
 		  </button>
 		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 		 	<li ng-repeat="tenant in userTenants">
-		 		<a ng-click="$parent.changeActiveTenant(tenant.tenantCode)" ng-show="tenant.tenantType != trial" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" >
+		 		<a ng-click="$parent.changeActiveTenant(tenant)" ng-show="tenant.tenantType != 'trial' && tenant.tenantType != 'personal'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" >
 		 			<i class='glyphicon glyphicon-ok' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
 		 		</a>
 		 	</li>
+		   	<li role="presentation" class="divider" ng-show="user.authType != 'social'"></li>
+		   	<li role="presentation" ng-show="!user.havePersonalTenant && !user.havePersonalTenantToActivate && user.authType != 'social'"><a role="menuitem" tabindex="-1" href="" ng-click="requestTP('personal')"><span translate-cloak translate>MENU_MODAL_GET_PERSONAL_TENANT</span></a></li>
+		   	<li ng-repeat="tenant in userTenants" ng-show="user.havePersonalTenant">
+		 		<a ng-click="$parent.changeActiveTenant(tenant)"  ng-show="tenant.tenantType == 'personal'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" tooltip="{{'MENU_MODAL_YOUR_PERSONAL_TENANT'|translate}}">
+		 			<i class='glyphicon glyphicon-ok' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
+		 		</a>
+		 	</li>
+		   	<li ng-repeat="tenant in userTenantsToActivate" ng-show="user.havePersonalTenantToActivate">
+		 		<a ng-show="tenant.tenantType == 'personal'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" id='tenantToActivate' ng-show="tenant.tenantCode == activeTenantCode" tooltip="{{'MENU_MODAL_GOT_PERSONAL_TENANT'|translate}}">
+		 			<i class='glyphicon glyphicon-time'></i>&nbsp;{{tenant.tenantCode}}
+		 		</a>
+		 	</li>
 		   	<li role="presentation" class="divider"></li>
-		   	<li role="presentation" ng-show="!user.haveTrialTenant && !user.haveTrialTenantToActivate"><a role="menuitem" tabindex="-1" href="" ng-click="requestTT('social')"><span translate-cloak translate>MENU_MODAL_GET_TRAIL_TENANT</span></a></li>
+		   	<li role="presentation" ng-show="!user.haveTrialTenant && !user.haveTrialTenantToActivate"><a role="menuitem" tabindex="-1" href="" ng-click="requestTT('trial')"><span translate-cloak translate>MENU_MODAL_GET_TRAIL_TENANT</span></a></li>
 		   	<li ng-repeat="tenant in userTenants" ng-show="user.haveTrialTenant">
-		 		<a ng-click="$parent.changeActiveTenant(tenant.tenantCode)"  ng-show="tenant.tenantType == 'trial'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" >
+		 		<a ng-click="$parent.changeActiveTenant(tenant)"  ng-show="tenant.tenantType == 'trial'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" tooltip="{{'MENU_MODAL_YOUR_TRAIL_TENANT'|translate}}">
 		 			<i class='glyphicon glyphicon-ok' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
 		 		</a>
 		 	</li>

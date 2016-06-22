@@ -139,9 +139,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						// the user for each tenant has a role
 						// tenantName_subscriber
 						tenantsCode = loadRoles(newUser, "*_subscriber");
-//						if (tenantsCode.isEmpty()) {
-//							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
-//						}
+						//if (tenantsCode.isEmpty()) {
+						//	tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
+						//}
 					} catch (Exception e) {
 
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());

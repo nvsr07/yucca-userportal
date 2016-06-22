@@ -1271,7 +1271,7 @@ height: 100%;
     position: relative;
     border-radius: 0;
 }
-.showTTForm-details{background-color: #e3e4e6;}
+.showTTForm-details{background-color: #e3e4e6; padding: 15px;}
 .modal-content-panel{background-color: #e3e4e6;}
 .modal-top-panel{background-color: #e3e4e6;}
 .modal-middle-panel{background-color: #e3e4e6; padding-top: 10px;}
