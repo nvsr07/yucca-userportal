@@ -327,7 +327,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	protected String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 
 		//FIXME workaround to force security in the datadiscovery 
-		String tenantCode = AuthorizeUtils.getTenantsInSession(request).get(0).getTenantCode();
+		//String tenantCode = AuthorizeUtils.getTenantsInSession(request).get(0).getTenantCode();
 		
 		Map<String, String[]> parameterMap =  new HashMap<String, String[]>(request.getParameterMap());
 		

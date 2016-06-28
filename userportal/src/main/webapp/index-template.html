@@ -93,7 +93,7 @@
         	    <div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_TRAIL_FULL_TEXT'|translate}}</b></div>
         	    <div class="modal-title-container" ng-if="authParam == 'newTP'"><b>{{'MENU_MODAL_PERSONAL_FULL_TEXT'|translate}}</b></div>
 	        </div>
-    	    <div class="modal-footer modal-footer-panel" id="modal-footer-force" ng-show="authParam != 'newTT' && authParam != 'newTP'">
+    	    <div class="modal-footer modal-footer-panel" id="modal-footer-force" ng-show="authParam != 'newTT' && authParam != 'newTP' && !resultTTFormOK && !resultTTFormKO && !resultTPFormOK && !resultTPFormKO">
         	    <a class="btn modal-action" ng-click="showTTForm = !showTTForm" ng-show="authParam != 'tecnical' && authParam != 'strong'"><span translate>HOME_TENANT_TRIAL_BUTTON</span></a>
         	    <a class="btn modal-action" ng-click="showTPForm = !showTPForm" ng-show="authParam != 'tecnical' && authParam != 'strong' && authParam != 'social'"><span translate>HOME_TENANT_PERSONAL_BUTTON</span></a>
             	<a class="btn modal-action" href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_FORCE_LOGOUT_BUTTON</span></a>

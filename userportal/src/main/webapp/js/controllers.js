@@ -21,9 +21,9 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	$scope.userTenants = null;
 	
-	var checkTermCondition = function(){
+	var checkTermCondition = function(){ 
 		$scope.activeTenantType = info.getActiveTenantType();
-		if($scope.activeTenantCode != 'sandbox'){
+		if (($scope.activeTenantCode != 'sandbox') && ($scope.activeTenantCode != null)){
 			if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
 				$scope.user.acceptTermConditionTenants = [];
 			

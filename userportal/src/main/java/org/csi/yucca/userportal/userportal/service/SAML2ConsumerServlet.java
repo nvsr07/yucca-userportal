@@ -169,6 +169,10 @@ public class SAML2ConsumerServlet extends HttpServlet {
 							tecnicalUser = true;
 						}
 					}
+					
+					if (tenantsCode.isEmpty()) {
+						tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
+					}
 
 					if (!tecnicalUser) {
 						newUser.setTenants(tenants);
@@ -219,8 +223,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(
 								AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
 
-						if (!tenants.isEmpty())
-							newUser.setActiveTenant(tenants.get(0).getTenantCode());
+						if (tenants.isEmpty())
+							tenants = filterDisabledTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode()));
+						
+						newUser.setActiveTenant(tenants.get(0).getTenantCode());
+						
 						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: "
 								+ newUser.getTenants());
 
@@ -439,92 +446,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				}
 			}
-
-			//
-			// JsonParser parser = new JsonParser();
-			// JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
-			//
-			// JsonObject tenatsObj = rootObj.get("tenants").getAsJsonObject();
-			//
-			// Set<Entry<String, JsonElement>> entrySet = tenatsObj.entrySet();
-			// int iCounter = 0;
-			// for(Map.Entry<String,JsonElement> entry : entrySet){
-			// //properties.put(entry.getKey(),
-			// tenatsObj.get(entry.getKey()).replace("\"",""));
-			// JsonArray multiTenant = (JsonArray)
-			// tenatsObj.get(entry.getKey());
-			// Iterator<JsonElement> iterator = multiTenant.iterator();
-			// while (iterator.hasNext()) {
-			// //System.out.println(iterator.next());
-			//
-			// JsonObject singleTenant1 = (JsonObject) iterator.next();
-			// //(JsonObject) multiTenant.get(iCounter++);
-			// Tenant singleTenant = Tenant.fromJson(((JsonObject)
-			// iterator.next()).getAsString());
-			//
-			// Date singleTenantDate = actualDate;
-			// if (singleTenant.getDataDisattivazione()!=null){
-			// try {
-			// singleTenantDate =
-			// formatter.parse(singleTenant.getDataDisattivazione());
-			// } catch (ParseException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			//
-			// List<String> tenantsForIterator = new
-			// ArrayList<String>(tenantsCode);
-			// Iterator<String> myTntIterator = tenantsForIterator.iterator();
-			// while (myTntIterator.hasNext()) {
-			//
-			// String mySingleTnt = myTntIterator.next();
-			//
-			// if (mySingleTnt.equals(singleTenant.getNomeTenant())){
-			// int rsltComp = singleTenantDate.compareTo(actualDate);
-			// if (rsltComp < 0){
-			// tenants.removeAll(Collections.singleton(singleTenantName));
-			// }
-			// }
-			// }
-			// }
-			// if (!singleTenant.get("tenantName").isJsonNull()){
-			// String singleTenantName =
-			// singleTenant.get("tenantName").getAsString();
-			//
-			// SimpleDateFormat formatter = new
-			// SimpleDateFormat("yyyy-MM-dd+hh:mm");
-			// Date singleTenantDate = actualDate;
-			// JsonElement dataDisattivazione =
-			// singleTenant.get("dataDisattivazione");
-			// if (!dataDisattivazione.isJsonNull()){
-			// try {
-			// singleTenantDate =
-			// formatter.parse(dataDisattivazione.getAsString());
-			// } catch (ParseException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			//
-			// List<String> tenantsForIterator = new
-			// ArrayList<String>(tenantsCode);
-			// Iterator<String> myTntIterator = tenantsForIterator.iterator();
-			// while (myTntIterator.hasNext()) {
-			//
-			// String mySingleTnt = myTntIterator.next();
-			//
-			// if (mySingleTnt.equals(singleTenantName)){
-			// int rsltComp = singleTenantDate.compareTo(actualDate);
-			// if (rsltComp < 0){
-			// tenants.removeAll(Collections.singleton(singleTenantName));
-			// }
-			// }
-			// }
-			// }
-			// }
-			// }
-
 		} catch (IOException e) {
 			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
 			e.printStackTrace();
@@ -546,13 +467,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		try {
 			Properties config = Config.loadServerConfiguration();
 			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
-
-			/*
-			 * if (newUser != null && newUser.getTenants() != null &&
-			 * newUser.getTenants().size() > 0) apiBaseUrl +=
-			 * Config.SECDATA_NEWTOKEN + newUser.getActiveTenant(); else
-			 * apiBaseUrl += Config.SECDATA_NEWTOKEN + "sandbox";
-			 */
 			apiBaseUrl += Config.SECDATA_NEWTOKEN + tenant;
 
 			HttpClient client = HttpClientBuilder.create().build();

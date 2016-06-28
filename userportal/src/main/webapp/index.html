@@ -25,9 +25,9 @@
 
 <link href="../ris/userportal/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
-<script src="js-min/i18n/f7d8fdb5.strings_en.js"></script>
+<script src="js-min/i18n/90055737.strings_en.js"></script>
 
-<script src="js-min/i18n/6b3ab22e.strings_it.js"></script>
+<script src="js-min/i18n/0e082e6b.strings_it.js"></script>
 
 <link rel="shortcut icon" href="favicon.png">
 <!-- Optional theme -->
@@ -82,30 +82,44 @@
 	        <div class="modal-header modal-top-panel">
     	        <h1 class="modal-title-container">{{'WARNING'|translate}}</h1>
         	</div>
-	        <div class="modal-body modal-middle-panel" ng-show="resultTTFormOK == false && resultTTFormOK == false">
+	        <div class="modal-body modal-middle-panel" ng-show="!resultTTFormOK && !resultTTFormKO && !resultTPFormOK && !resultTPFormKO">
     	        <div class="modal-title-container" ng-if="authParam == 'strong'"><b>{{'HOME_LOGGED_NOT_STRONG_AUTHENTICATION'|translate}}</b></div>
-        	    <div class="modal-title-container" ng-if="authParam == 'tenant'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
-        	    <div class="modal-title-container" ng-if="authParam == 'social'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
-        	    <div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_FULL_TEXT'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'tecnical'"><b>{{'HOME_LOGGED_TECHNICAL_AUTHENTICATION'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'social' || authParam == 'tenant'"><b>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_TRAIL_FULL_TEXT'|translate}}</b></div>
+        	    <div class="modal-title-container" ng-if="authParam == 'newTP'"><b>{{'MENU_MODAL_PERSONAL_FULL_TEXT'|translate}}</b></div>
 	        </div>
-    	    <div class="modal-footer modal-footer-panel" id="modal-footer-force" ng-show="authParam != 'newTT'">
-        	    <a class="btn modal-action" ng-click="showTTForm = !showTTForm" ng-show="authParam != 'tenant'"><span translate>HOME_TENANT_TEST_BUTTON</span></a>
+    	    <div class="modal-footer modal-footer-panel" id="modal-footer-force" ng-show="authParam != 'newTT' && authParam != 'newTP' && !resultTTFormOK && !resultTTFormKO && !resultTPFormOK && !resultTPFormKO">
+        	    <a class="btn modal-action" ng-click="showTTForm = !showTTForm" ng-show="authParam != 'tecnical' && authParam != 'strong'"><span translate>HOME_TENANT_TRIAL_BUTTON</span></a>
+        	    <a class="btn modal-action" ng-click="showTPForm = !showTPForm" ng-show="authParam != 'tecnical' && authParam != 'strong' && authParam != 'social'"><span translate>HOME_TENANT_PERSONAL_BUTTON</span></a>
             	<a class="btn modal-action" href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor"><span translate>HOME_FORCE_LOGOUT_BUTTON</span></a>
     	    </div>
 			<div class="showTTForm-details" ng-show="resultTTFormOK">
-				<div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate}}</b> <span>{{tenantTest.userEmail}}</span></div>
+				<div class="modal-title-container" ng-if="authParam == 'newTT' || authParam == 'newTP' || authParam == 'social' || authParam == 'tenant'"><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate:codiceTenantData}}</b> <span>{{tenantTest.userEmail}}</span></div>
 				<div class="modal-footer modal-footer-panel">
         	    	<a ng-click='cancel()' class="btn modal-action" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
 				</div>
     		</div>
 			<div class="showTTForm-details" ng-show="resultTTFormKO">
-				<div class="modal-title-container" ng-if="authParam == 'newTT'"><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b></div>
+				<div class="modal-title-container" ng-if="authParam == 'newTT' || authParam == 'newTP' || authParam == 'social' || authParam == 'tenant'"><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b></div>
+				<div class="modal-footer modal-footer-panel">
+        	    	<a ng-click='cancel()' class="btn modal-action" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
+				</div>
+    		</div>
+			<div class="showTTForm-details" ng-show="resultTPFormOK">
+				<div class="modal-title-container" ng-if="authParam == 'newTT' || authParam == 'newTP' || authParam == 'social' || authParam == 'tenant'"><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate:codiceTenantData}}</b> <span>{{tenantTest.userEmail}}</span></div>
+				<div class="modal-footer modal-footer-panel">
+        	    	<a ng-click='cancel()' class="btn modal-action" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
+				</div>
+    		</div>
+			<div class="showTTForm-details" ng-show="resultTPFormKO">
+				<div class="modal-title-container" ng-if="authParam == 'newTT' || authParam == 'newTP' || authParam == 'social' || authParam == 'tenant'"><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b></div>
 				<div class="modal-footer modal-footer-panel">
         	    	<a ng-click='cancel()' class="btn modal-action" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
 				</div>
     		</div>
     	</div>
-        <div class="showTTForm-details" ng-show="showTTForm">
+        <div class="showTTForm-details" ng-show="showTTForm || showTPForm">
 			<div class='container' ng-cloak>
 				<div class='row'>
 					<div class="col-sm-6" >
@@ -113,7 +127,7 @@
 							<div class="form-group">
 								<label for="inputTestUserName" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_USERNAME</span> <span class='required-asterisk'>*</span></label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" ng-readonly="truthyTTForm('username')" ng-model="tenantTest.userName" id="inputTestUserName" ng-required="true" maxlength="40">
+									<input type="text" class="form-control" ng-readonly="truthyTTForm('username')" ng-model="tenantNew.userName" id="inputTestUserName" ng-required="true" maxlength="40">
 								</div>
 							</div>
 							<div class="form-group">
@@ -132,25 +146,6 @@
 								<label for="inputTestUserEmail" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_USEREMAIL</span> <span class='required-asterisk'>*</span></label>
 								<div class="col-sm-8">
 									<input type="text" class="form-control" ng-readonly="truthyTTForm('email')" ng-model="userEmailTT" id="inputTestUserEmail" placeholder="{{'HOME_TTFORUM_USEREMAIL_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputTestTenantName" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_TENANTNAME</span> <span class='required-asterisk'>*</span></label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" ng-model="tenantTest.tenantName" id="inputTestTenantName" placeholder="{{'HOME_TTFORUM_TENANTNAME_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputTestTenantDesc" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_TENANTDESC</span> <span class='required-asterisk'>*</span></label>
-								<div class="col-sm-8">
-									<textarea class="form-control" rows="4" resize="none" ng-model="tenantTest.tenantDescription"  placeholder="{{'HOME_TTFORUM_TENANTDESC_PLACEHOLDER'|translate}}" id="inputTestTenantDesc" maxlength="3000">
-									</textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputTestTenantDesc" class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_TENANTPWD</span> <span class='required-asterisk'>*</span></label>
-								<div class="col-sm-8">
-									<input type="text" class="form-control" ng-model="tenantTest.tenantPassword" id="inputTestTenantDesc" placeholder="{{'HOME_TTFORUM_TENANTPWD_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40">
 								</div>
 							</div>
 							<div class="form-group">
@@ -223,40 +218,40 @@
  	-->
 	<script type="text/javascript" src="api/config"></script>
 	<script type="text/javascript" src="js/build_info.js"></script>
-	<script src="js-min/244878e1.sensormap.js"></script>
+	<script src="js-min/37042125.sensormap.js"></script>
 
 	<script type="text/javascript" src="/userportal/api/tags?language=en"></script>
 	<script type="text/javascript" src="/userportal/api/tags?language=it"></script>
 	<script type="text/javascript" src="/userportal/api/domains?language=en"></script>
 	<script type="text/javascript" src="/userportal/api/domains?language=it"></script>
 	
-	<script src="js-min/1fbd6ad1.app.js"></script>
-	<script src="js-min/d0efb6db.helpers.js"></script>
-	<script src="js-min/2cf2ff8d.constants.js"></script>
-	<script src="js-min/services/a854c457.services.js"></script>
-	<script src="js-min/services/aaa88345.discoveryServices.js"></script>
-	<script src="js-min/services/806a9da1.fabricServices.js"></script>
-	<script src="js-min/services/f908bc49.managementServices.js"></script>
-	<script src="js-min/services/1471734f.websocketServices.js"></script>
-	<script src="js-min/services/038db5a1.odataServices.js"></script>
-	<script src="js-min/services/282d770f.storeServices.js"></script>
-	<script src="js-min/58cd2d6f.controllers.js"></script>
-	<script src="js-min/business/dashboard/f5eb79d4.DashboardController.js"></script>
-	<script src="js-min/business/management/6762b994.ManagementController.js"></script>
-	<script src="js-min/business/management/94019550.ManagementStreamController.js"></script>
-	<script src="js-min/business/management/852760c3.ManagementVirtualentityController.js"></script>
-	<script src="js-min/business/management/2530b134.ManagementDatasetController.js"></script>
-	<script src="js-min/business/dataExplorer/6955fc79.DataExplorerController.js"></script>
-	<script src="js-min/business/discovery/0ac1a278.DiscoveryController.js"></script>
-	<script src="js-min/business/dataExplorer/6250ee6f.DataExplorerSubscribeModalController.js"></script>
-	<script src="js-min/business/dataExplorer/5f58203a.DataExplorerDetailController.js"></script>
-	<script src="js-min/business/dataExplorer/3904accf.DataSubscriptionsController.js"></script>
-	<script src="js-min/8f6e9350.filters.js"></script>
-	<script src="js-min/6a63932e.directives.js"></script>
-	<script src="js-min/business/dashboard/05c0f219.DashboardDirectives.js"></script>
-	<script src="js-min/business/management/670c042a.ManagementDirectives.js"></script>
-	<script src="js-min/business/discovery/5fa89ba7.DiscoveryDirectives.js"></script>
-	<script src="js-min/business/dataExplorer/62659c60.DataExplorerDirectives.js"></script>
-	<script src="js-min/b92ca4b3.Lang_ISO_639-1.js"></script>
+	<script src="js-min/2f9dfb46.app.js"></script>
+	<script src="js-min/6084bcea.helpers.js"></script>
+	<script src="js-min/b24d61d6.constants.js"></script>
+	<script src="js-min/services/78798fa6.services.js"></script>
+	<script src="js-min/services/eebfa6de.discoveryServices.js"></script>
+	<script src="js-min/services/220b2f5a.fabricServices.js"></script>
+	<script src="js-min/services/3aef4735.managementServices.js"></script>
+	<script src="js-min/services/d47da32f.websocketServices.js"></script>
+	<script src="js-min/services/a8471d91.odataServices.js"></script>
+	<script src="js-min/services/a0bb21f4.storeServices.js"></script>
+	<script src="js-min/a2921568.controllers.js"></script>
+	<script src="js-min/business/dashboard/9f4b5726.DashboardController.js"></script>
+	<script src="js-min/business/management/f0a27c24.ManagementController.js"></script>
+	<script src="js-min/business/management/d9f49237.ManagementStreamController.js"></script>
+	<script src="js-min/business/management/245c142b.ManagementVirtualentityController.js"></script>
+	<script src="js-min/business/management/a0fb375d.ManagementDatasetController.js"></script>
+	<script src="js-min/business/dataExplorer/fa333f03.DataExplorerController.js"></script>
+	<script src="js-min/business/discovery/3bbee264.DiscoveryController.js"></script>
+	<script src="js-min/business/dataExplorer/54cb6f3c.DataExplorerSubscribeModalController.js"></script>
+	<script src="js-min/business/dataExplorer/88353843.DataExplorerDetailController.js"></script>
+	<script src="js-min/business/dataExplorer/430176af.DataSubscriptionsController.js"></script>
+	<script src="js-min/687fb12b.filters.js"></script>
+	<script src="js-min/c1b22198.directives.js"></script>
+	<script src="js-min/business/dashboard/2ea614de.DashboardDirectives.js"></script>
+	<script src="js-min/business/management/bf6cbd4b.ManagementDirectives.js"></script>
+	<script src="js-min/business/discovery/f0232160.DiscoveryDirectives.js"></script>
+	<script src="js-min/business/dataExplorer/d429853d.DataExplorerDirectives.js"></script>
+	<script src="js-min/e987f745.Lang_ISO_639-1.js"></script>
 </body>
 </html>
