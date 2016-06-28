@@ -165,6 +165,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.wsUrl ="";
 	$scope.virtualentity = null;
 	$scope.warningMessages = [];
+	
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
 	$scope.validationPatternStreamCode = Constants.VALIDATION_PATTERN_CODE_STREAM;
@@ -244,6 +245,15 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.cancelStreamToArray = function(index){
 		$scope.validationRes=2;
 		$scope.internalStreams.splice(index,1);
+	};
+	
+	$scope.checkTag = function(){
+		var rslt = true;
+		if ($scope.stream.streamTags.tag.length > 0){
+			rslt = false;
+		};
+		
+		return rslt;
 	};
 
 	// The ui-codemirror option
