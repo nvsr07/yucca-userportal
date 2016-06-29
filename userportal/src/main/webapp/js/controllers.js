@@ -172,18 +172,18 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		if (url.indexOf("?") > -1){
 			$scope.user.authType = $scope.user.authType || "local";
 			if (url.indexOf("strong=false") > -1){  //Compare la modale perchè non hai credenziali strong!
-				$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
+				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
 				$scope.user.authType = "notStrong";
 			} else if (url.indexOf("tecnical=true") > -1){
 				$scope.user.authType = "tecnical";
-				$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
+				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
 			} else if (url.indexOf("tenant=false") > -1){
 				if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
 					if (url.indexOf("social=true") > -1){
 						$scope.user.authType = "social";
-						$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
+						$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
 					} else {
-						$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
+						$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
 					}
 				} else {
 					//Tutto ok! NO MODAL
@@ -337,12 +337,12 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	
 	$scope.requestTT = function(tenantType){
 		$scope.showTTForm = true;
-		$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'newTT', tenantType);
+		$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'newTT', tenantType);
 	};
 	
 	$scope.requestTP = function(tenantType){
 		$scope.showTPForm = true;
-		$scope.openModalWindow('myModalContent.html', 'HomePageModalCtrl', 'newTP', tenantType);
+		$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'newTP', tenantType);
 	};
 	
 	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
