@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="inputDatasetAddTag" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_TAGS</label>
+		<label for="inputDatasetAddTag" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span><span class='required-asterisk'>*</span></label>
 		<div class="col-sm-10 text-left">
 			<p>
 				<span  ng-repeat="tag in metadata.info.tags">
@@ -149,20 +149,7 @@
 				
 			</div>		
 		</div>
-		
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-			
 	<div class="form-group">
 		<label for="v" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</label>
 		<div class="col-sm-10">
@@ -186,7 +173,7 @@
 	<div class="row">
 		<div class=" col-sm-12 form-toolbar">
 			<a ng-click='goToRequestor()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-			<a ng-click='goToChooseType()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+			<a ng-click='goToChooseType()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid || checkTag()" translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 		</div>
 	</div>
 </form>

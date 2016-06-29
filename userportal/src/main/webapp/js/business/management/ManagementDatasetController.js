@@ -853,7 +853,16 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		};
 	};
 	
-
+	$scope.checkTag = function(){ 
+		var rslt = true;
+		if(typeof $scope.metadata.info.tags != "undefined"){
+			if ($scope.metadata.info.tags.length > 0){ 
+				rslt = false;
+			}
+		}
+		
+		return rslt;
+	};
 
 	$scope.choosenDatasetType='bulk_upload';
 
