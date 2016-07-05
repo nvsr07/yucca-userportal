@@ -80,7 +80,31 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		
 		return deferred.promise;
 	};
-
+	
+	fabricAPI.getVisibleStreamsFromTenant = function(tenantCode) {
+		
+		var deferred = $q.defer();
+		fabricAPI.getInfo().success(function(infoData){
+			console.debug(infoData);
+		
+			var tenantUrl = 'sandbox/';
+			if(tenantCode != undefined)
+				tenantUrl = tenantCode + '/';			
+			
+			
+			$http({
+				method : 'JSONP',
+				url : Constants.API_SERVICES_STREAM_FROMTENANT_URL + tenantUrl  + '?callback=JSON_CALLBACK'
+			}).success(function(responseData) {
+				deferred.resolve(responseData);
+			}).error(function(responseData, responseStatus) {
+				resultData = {status: "ko - "+responseStatus, data: responseData};
+				deferred.reject(resultData);
+			});			
+		});
+		
+		return deferred.promise;
+	};
 	fabricAPI.getVisibleStreams = function() {
 		
 		var deferred = $q.defer();
@@ -91,10 +115,9 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			if(infoData.user.activeTenant!=undefined)
 				tenantUrl = '?visibleFrom='+infoData.user.activeTenant;			
 			
-			
 			$http({
 				method : 'JSONP',
-				url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
+				url : Constants.API_SERVICES_STREAM_FROMTENANT_URL + tenantUrl  + '&callback=JSON_CALLBACK'
 			}).success(function(responseData) {
 				deferred.resolve(responseData);
 			}).error(function(responseData, responseStatus) {
@@ -105,16 +128,13 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		
 		return deferred.promise;
 		
-		
-		
-		
-		var tenantUrl = '?visibleFrom=sandbox';
-		if(tenant_code!=null && tenant_code!=undefined)
-			tenantUrl = '?visibleFrom='+tenant_code;
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
-		});
+		//var tenantUrl = '?visibleFrom=sandbox';
+		//if(tenant_code!=null && tenant_code!=undefined)
+		//	tenantUrl = '?visibleFrom='+tenant_code;
+		//return $http({
+		//	method : 'JSONP',
+		//	url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
+		//});
 	};
 
 	fabricAPI.getStream = function(tenant_code, virtualentity_code, stream_code) {

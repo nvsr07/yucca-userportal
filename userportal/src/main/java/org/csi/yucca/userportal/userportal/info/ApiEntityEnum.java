@@ -29,6 +29,17 @@ public enum ApiEntityEnum {
 			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
 		}
 	},
+	API_SERVICES_STREAM_FROMTENANT("API_SERVICES_STREAM_FROMTENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+
+			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
+				return true;
+			}
+			return false;
+		}
+	},
 	API_SERVICES_STREAM("API_SERVICES_STREAM_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
