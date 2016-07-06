@@ -96,8 +96,8 @@ public class OldUserConfTenant {
 			Properties config = Config.loadServerConfiguration();
 			Properties authConfig = Config.loadAuthorizationConfiguration();
 
-			String webserviceUrl = "https://int-sso.smartdatanet.it/services/UserAdmin";
- 			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "admin", "***REMOVED***", xmlInput, SOAPAction, "text/xml");
+			String webserviceUrl = "";
+ 			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "", "", xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadPermissions] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -161,10 +161,10 @@ public class OldUserConfTenant {
 			Properties config = Config.loadServerConfiguration();
 			Properties authConfig = Config.loadAuthorizationConfiguration();
 		
-			String webserviceUrl = config.getProperty(Config.RBAC_USER_STORE_WEBSERVICE_URL_KEY);
+			String webserviceUrl = "";
 			//String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			//String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "admin", "***REMOVED***", xmlInput, SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "", "", xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadPermissions] - webServiceResponse: " + webServiceResponse);
 		} catch (Exception e) {
 			log.error("[InfoServlet::doGet] - ERROR " + e.getMessage());
@@ -197,7 +197,7 @@ public class OldUserConfTenant {
 			Properties config = Config.loadServerConfiguration();
 			Properties authConfig = Config.loadAuthorizationConfiguration();
 
-			String webserviceUrl = config.getProperty(Config.RBAC_ROLES_WEBSERVICE_URL_KEY);
+			String webserviceUrl = "";
 			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
 			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
