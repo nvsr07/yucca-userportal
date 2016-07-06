@@ -48,8 +48,9 @@ appFilters.filter('subDomainFilter', function () {
     return function (subDomainList, domain) {
     	var subDomainFilteredList = [];
     	angular.forEach(subDomainList, function(val, key) {
-    		if ((val.codDomain == domain) && (val.deprecated == 0))
+    		if ((val.codDomain == domain) && (val.deprecated == 0)){
     			this.push(val.codSubDomain);
+    		}
     	}, subDomainFilteredList);
     	return subDomainFilteredList;
     };
