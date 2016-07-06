@@ -1,6 +1,6 @@
 {
   "name": "userportal",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Userportal",
   "main": "app.js",
   "scripts": {
