@@ -1,5 +1,5 @@
-appControllers.controller('TenantCtrl', [ '$scope', "$route", 'fabricAPIservice', '$translate','$modal', '$location',
-                                          function($scope, $route, fabricAPIservice, $translate, $modal,$location) {
+appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice', 'fabricBuildService', '$translate','$modal', '$location', '$timeout',
+                                          function($scope, $route, fabricAPIservice, fabricBuildService, $translate, $modal, $location, $timeout) {
 	$scope.tenantsList = [];
 	$scope.filteredTenantsList = [];
 	$scope.ecosystemList = [];
@@ -225,17 +225,17 @@ appControllers.controller('TenantCtrl', [ '$scope', "$route", 'fabricAPIservice'
 		$scope.tenantsList[rowIndex].isUpdating = true;
 
 		var operation = $scope.tenantsList[rowIndex].action;
-		var stream = $scope.tenantsList[rowIndex].stream;
+		var tenant = $scope.tenantsList[rowIndex].tenant;
 		var startStep = $scope.tenantsList[rowIndex].startStep;
 		var endStep = $scope.tenantsList[rowIndex].endStep;
 			
-		var actionParams = createActionParams(operation, stream, startStep, endStep);
+		var actionParams = createActionParams(operation, tenant, startStep, endStep);
 		console.log("actionParams",actionParams);
 		fabricBuildService.execAction(actionParams).success(function(response) {
 			console.log("response",response);
 		});
 		
-		$scope.tenantsList[rowIndex].stepsLogUrl = createStepsLogUrl(operation, stream);
+		$scope.tenantsList[rowIndex].stepsLogUrl = createStepsLogUrl(operation, tenant);
 		chekStepsLog(rowIndex, $scope.tenantsList[rowIndex].stepsLogUrl);
 	};
 	
@@ -416,7 +416,7 @@ appControllers.controller('TenantInstallLogCtrl', [ '$scope', '$modalInstance', 
 	
 	$scope.showLog = function(action){
 		$scope.showLoading = true;
-		var urlParams = createActionLogUrl(row.stream, action);
+		var urlParams = createActionLogUrl(row.tenant, action);
 		$scope.extendedLogUrl = Constants.API_FABRIC_PROXY_URL + urlParams;
 			
 			

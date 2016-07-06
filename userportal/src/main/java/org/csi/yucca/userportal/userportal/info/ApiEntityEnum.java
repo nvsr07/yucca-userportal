@@ -16,11 +16,28 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
+	API_AUTH_TERMCONDITION("API_AUTH_TERMCONDITION_URL", "/userportal/api/termcondition") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
 	// SERVICES
 	API_SERVICES_STREAM_COMPONENT("API_SERVICES_STREAM_COMPONENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/components/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
+		}
+	},
+	API_SERVICES_STREAM_FROMTENANT("API_SERVICES_STREAM_FROMTENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+
+			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
+				return true;
+			}
+			return false;
 		}
 	},
 	API_SERVICES_STREAM("API_SERVICES_STREAM_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
@@ -130,35 +147,41 @@ public enum ApiEntityEnum {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-
+	API_SERVICES_STREAM_SUB_DOMAINS("API_SERVICES_STREAM_SUB_DOMAINS_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/streamsubdomains/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
+	},
 	API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL("API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/measureunits/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-
 	API_SERVICES_STREAM_PHENOMENOM_URL("API_SERVICES_STREAM_PHENOMENOM_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/phenomenon/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-
 	API_SERVICES_STREAM_DATATYPE_URL("API_SERVICES_STREAM_DATATYPE_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/datatype/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-
 	API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
+			if (AuthorizeUtils.isReadMethod(request))
+				return true;
+			else if (AuthorizeUtils.isWriteMethod(request))
+				return true;
+			else
+				return false;
 		}
 	},
-
 	API_SERVICES_LIFECYCLE_STREAM_REQ_INST("API_SERVICES_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -170,28 +193,24 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
-
 	API_SERVICES_LIFECYCLE_STREAM_NEW_VERSION("API_SERVICES_LIFECYCLE_STREAM_NEW_VERSION", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/newversion/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
-
 	API_SERVICES_LIFECYCLE_STREAM_REQ_UNINST("API_SERVICES_LIFECYCLE_STREAM_REQ_UNINST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/requninst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
-
 	API_SERVICES_VIRTUALENTITY_GEO("API_SERVICES_VIRTUALENTITY_GEO_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentitiesgeo") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
-
 	// MANAGEMENT
 	API_MANAGEMENT_DATASET_DOWNLOAD_URL("API_MANAGEMENT_DATASET_DOWNLOAD_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/download/") {
 		@Override
@@ -201,7 +220,6 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
-
 	// MANAGEMENT
 	API_MANAGEMENT_DATASET_OPENDATA_URL("API_MANAGEMENT_DATASET_OPENDATA_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/opendata/") {
 		@Override
@@ -211,7 +229,6 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
-
 	API_MANAGEMENT_DATASET_LIST("API_MANAGEMENT_DATASET_LIST_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -219,7 +236,6 @@ public enum ApiEntityEnum {
 
 		}
 	},
-
 	API_MANAGEMENT_DATA_STATISTICS("API_PROXY_DATA_STATISTICS_URL", Config.API_PROXY_DATA_STATISTICS_URL) {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

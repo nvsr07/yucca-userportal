@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
 import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.info.Tenant;
 import org.csi.yucca.userportal.userportal.info.User;
 
 public class AuthorizeUtils {
@@ -19,7 +20,7 @@ public class AuthorizeUtils {
 	// "SESSION_KEY_TENANT_CODE";
 	public static final String SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION = "SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION";
 
-	public static final List<String> DEFAULT_TENANT = Arrays.asList("sandbox");
+	public static final Tenant DEFAULT_TENANT = Tenant.SANDBOX();
 
 	public static final List<String> DEFAULT_PERMISSIONS = Arrays.asList(AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/development",
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/management/datasets/download",
@@ -30,7 +31,7 @@ public class AuthorizeUtils {
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/dataexplorer");
 
 	public static final User DEFAULT_USER() {
-		return new User("Guest", DEFAULT_TENANT, "Guest1", "Guest", null, DEFAULT_PERMISSIONS);
+		return new User("Guest", Arrays.asList(DEFAULT_TENANT), "Guest1", "Guest", null, DEFAULT_PERMISSIONS, Arrays.asList(DEFAULT_TENANT.getTenantCode()));
 	};
 
 	public static final String CLAIM_KEY_USERNAME = "USERNAME";
@@ -64,6 +65,7 @@ public class AuthorizeUtils {
 	public static final String CLAIM_KEY_LASTNAME = "LASTNAME";
 	public static final String CLAIM_KEY_SHIB_LIVAUTH = "SHIB-LIVAUTH";
 	public static final String CLAIM_KEY_SHIB_RISCONTRO = "SHIB-RISCONTRO";
+	public static final String CLAIM_KEY_TERM_CODITION_TENANTS = "TERM_CODITION_TENANTS";
 
 	public static Map<String, String> claimsKeys;
 
@@ -92,6 +94,10 @@ public class AuthorizeUtils {
 			return paths[position];
 		else
 			return "";
+	}
+
+	public static boolean isWriteMethod(HttpServletRequest request) {
+		return request.getMethod().equalsIgnoreCase("POST");
 	}
 
 	public static boolean isReadMethod(HttpServletRequest request) {
@@ -137,14 +143,15 @@ public class AuthorizeUtils {
 				claimsKeys.put(CLAIM_KEY_LASTNAME, "http://wso2.org/claims/lastname");
 				claimsKeys.put(CLAIM_KEY_SHIB_LIVAUTH, "http://wso2.org/claims/shib-livauth");
 				claimsKeys.put(CLAIM_KEY_SHIB_RISCONTRO, "http://wso2.org/claims/shib-riscontro");
+				claimsKeys.put(CLAIM_KEY_TERM_CODITION_TENANTS, "http://wso2.org/claims/identity/termConditionTenants");
 			}
 		}
 		return claimsKeys;
 
 	}
 
-	public static List<String> getTenantsInSession(HttpServletRequest request) {
-		List<String> tenant = DEFAULT_TENANT;
+	public static List<Tenant> getTenantsInSession(HttpServletRequest request) {
+		List<Tenant> tenant = Arrays.asList(DEFAULT_TENANT);
 		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 		// if (info != null && !Util.nvlt(info.getTenantCode()).equals("")) {
 		// tenant = info.getTenantCode();
@@ -159,8 +166,8 @@ public class AuthorizeUtils {
 	public static boolean checkTenantInSession(HttpServletRequest request, String tenant) {
 		boolean result = false;
 		if (tenant != null) {
-			for (String t : getTenantsInSession(request)) {
-				if (tenant.equals(t)) {
+			for (Tenant t : getTenantsInSession(request)) {
+				if (tenant.equals(t.getTenantCode())) {
 					result = true;
 					break;
 				}

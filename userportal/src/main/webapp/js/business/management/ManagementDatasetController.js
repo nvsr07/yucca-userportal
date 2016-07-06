@@ -41,9 +41,11 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
 							response[i].info.attachment  = true;
 						
-						
 						if(response[i].info.dataDomain &&  response[i].info.dataDomain != null)
 							response[i].info.dataDomainTranslated =  $translate.instant(response[i].info.dataDomain);
+						
+						if(response[i].info.codSubDomain &&  response[i].info.codSubDomain != null)
+							response[i].info.codSubDomainTranslated =  $translate.instant(response[i].info.codSubDomain);
 
 						$scope.datasetList.push(response[i]);
 					}
@@ -74,13 +76,21 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		return !$scope.domainFilter || keyword.test(dataset.info.dataDomain) || keyword.test(dataset.info.dataDomainTranslated);
 	};
 	
+	$scope.searchSubDomainFilter = function(dataset) {
+		var keyword = new RegExp($scope.subDomainFilter, 'i');
+		return !$scope.subDomainFilter || keyword.test(dataset.info.codSubDomain) || keyword.test(dataset.info.codSubDomainTranslated);
+	};
+	
 	$scope.$watch('domainFilter', function(newDomain) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredDatasetsList.length;
 	});
-
-
 	
+	$scope.$watch('subDomainFilter', function(newSubDomain) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+	});
+
 	$scope.viewUnistalledFilter = function(dataset) {
 		if(!$scope.viewUnistalledCheck){
 			return dataset.configData.deleted!=1;
@@ -291,8 +301,8 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 	};
 }]);
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset',
-                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -300,6 +310,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
+
+	$scope.canCreatePublicDataset = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
 
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
 	$scope.updateInfo = null;
@@ -319,18 +333,55 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		}
 	});
 
+//	$scope.tagList = [];
+//	fabricAPIservice.getStreamTags().success(function(response) {
+//		for (var int = 0; int < response.streamTags.element.length; int++) {
+//			$scope.tagList.push(response.streamTags.element[int].tagCode);
+//		}
+//	});
+
 	$scope.tagList = [];
-	$scope.domainList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
-			$scope.tagList.push(response.streamTags.element[int].tagCode);
+			//$scope.tagList.push(response.streamTags.element[int].tagCode);
+			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
 		}
-	});
+		
+		$scope.tagList.sort(function(a, b) { 
+		    return ((a.tagLabel < b.tagLabel) ? -1 : ((a.tagLabel > b.tagLabel) ? 1 : 0));
+		});
+		
+		var delta = Math.trunc($scope.tagList.length/3);
+		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
+		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
 
+		for (var i = 0; i < delta+1; i++) {
+			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
+			if($scope.tagList.length>i+delta+1)
+				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
+			else
+				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+			if($scope.tagList.length>i+delta*2+2)
+				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
+			else
+				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+		}
+		$scope.tagTooltipHtml += "</div>";
+		$scope.tagTooltipHtml += "</div>";
+
+	});
+	
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.subDomainList = [];
+	fabricAPIservice.getStreamSubDomains().success(function(response) {
+		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
+			$scope.subDomainList.push(response.streamSubDomains.element[int]);
 		}
 	});
 
@@ -381,6 +432,11 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 						$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
 					}
 				}
+				
+				if($scope.canCreatePublicDataset())
+					$scope.dataset.info.visibility = 'public';
+				else
+					$scope.dataset.info.visibility = 'private';
 
 				//$scope.dataset.info.visibility = 'public';
 			} catch (e) {
@@ -392,26 +448,32 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 	$scope.loadDataset();
 
-	$scope.newTag = null;
-	$scope.addTag = function(){
-		if($scope.newTag){
+	$scope.newTag = {value:""};
+	$scope.addTag = function(newTag){
+		if(newTag){
 			var found = false;	
 			for (var int = 0; int < $scope.dataset.info.tags.length; int++) {
 				var existingTag = $scope.dataset.info.tags[int];
-				if(existingTag.tagCode == $scope.newTag){
+				if(existingTag.tagCode == newTag){
 					found = true;
 					break;
 				}
 
 			}
 			if(!found)
-				$scope.dataset.info.tags.push({"tagCode":$scope.newTag});
+				$scope.dataset.info.tags.push({"tagCode":newTag});
 		}
-		$scope.newTag = null;
+		$scope.newTag.value = "";
 		return false;
 
 	};
 	
+	$scope.onTagSelect = function($item, $model, $label){
+		console.log("onTagSelect",$item, $model, $label);
+		if($item.tagCode!=null)
+			$scope.addTag($item.tagCode);
+		
+	};
 
 	$scope.removeTag = function(index){
 		$scope.dataset.info.tags.splice(index,1);
@@ -583,7 +645,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.openModalView = function(size) {
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
-			templateUrl : 'myModalContent.html',
+			templateUrl : 'datasetModalContent.html.html',
 			controller : 'ManagementDatasetModalCtrl',
 			size : size,
 			resolve : {
@@ -768,8 +830,8 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 }]);
 
 
-appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', 
-                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset) {
+appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate',
+                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -791,7 +853,16 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		};
 	};
 	
-
+	$scope.checkTag = function(){ 
+		var rslt = true;
+		if(typeof $scope.metadata.info.tags != "undefined"){
+			if ($scope.metadata.info.tags.length > 0){ 
+				rslt = false;
+			}
+		}
+		
+		return rslt;
+	};
 
 	$scope.choosenDatasetType='bulk_upload';
 
@@ -801,6 +872,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
+	
+	$scope.canCreatePublicDataset = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
 
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
@@ -809,17 +884,52 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		}
 	});
 
-	$scope.tagList = [];
-	$scope.domainList = [];
-	fabricAPIservice.getStreamTags().success(function(response) {
-		for (var int = 0; int < response.streamTags.element.length; int++) {
-			$scope.tagList.push(response.streamTags.element[int].tagCode);
+	$scope.subDomainList = [];
+	fabricAPIservice.getStreamSubDomains().success(function(response) {
+		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
+			$scope.subDomainList.push(response.streamSubDomains.element[int]);
 		}
 	});
+
+//	$scope.tagList = [];
+//	fabricAPIservice.getStreamTags().success(function(response) {
+//		for (var int = 0; int < response.streamTags.element.length; int++) {
+//			$scope.tagList.push(response.streamTags.element[int].tagCode);
+//		}
+//	});
+	$scope.tagList = [];
+	fabricAPIservice.getStreamTags().success(function(response) {
+		for (var int = 0; int < response.streamTags.element.length; int++) {
+			//$scope.tagList.push(response.streamTags.element[int].tagCode);
+			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
+		}
+		
+		$scope.tagList.sort(function(a, b) { 
+		    return ((a.tagLabel < b.tagLabel) ? -1 : ((a.tagLabel > b.tagLabel) ? 1 : 0));
+		});
+		
+		var delta = Math.trunc($scope.tagList.length/3);
+		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
+		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
+
+		for (var i = 0; i < delta+1; i++) {
+			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
+			if($scope.tagList.length>i+delta+1)
+				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
+			else
+				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+			if($scope.tagList.length>i+delta*2+2)
+				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
+			else
+				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+		}
+		$scope.tagTooltipHtml += "</div>";
+		$scope.tagTooltipHtml += "</div>";
+
+	});	
 	
 	$scope.tenantsList = [];
 	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);
 		try{
 			
 			for (var int = 0; int <  response.tenants.tenant.length; int++) {
@@ -897,7 +1007,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		}
 	});
 
-	$scope.newTag = null;
+	$scope.newTag = {value:""};
 	$scope.addTag = function(newTag){
 		console.log("addTag", newTag);
 		if(newTag){
@@ -916,9 +1026,18 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			if(!found)
 				$scope.metadata.info.tags.push({"tagCode":newTag});
 		}
+		$scope.newTag.value = "";
 		return false;
 
 	};
+
+	$scope.onTagSelect = function($item, $model, $label){
+		console.log("onTagSelect",$item, $model, $label);
+		if($item.tagCode!=null)
+			$scope.addTag($item.tagCode);
+		
+	};
+
 
 	$scope.removeTag = function(index){
 		$scope.metadata.info.tags.splice(index,1);
@@ -1154,7 +1273,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.insertBinaryErrors = [];
 
 		if($scope.newBinaryDefinition.fieldName==null || $scope.newBinaryDefinition.fieldName=="")
-				$scope.insertBinaryErrors .push('MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME');
+				$scope.insertBinaryErrors.push('MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME');
 
 		var checkNameDuplicate = false;
 		//var checkSourceBinaryDuplicate = false;
@@ -1387,7 +1506,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 		}
 
-	
+		console.log("newDataset", newDataset);
 		if(!hasErrors){
 			var fileName = null;
 			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)

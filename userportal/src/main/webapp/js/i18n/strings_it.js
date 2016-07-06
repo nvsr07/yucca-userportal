@@ -1,5 +1,5 @@
-/*                                                                                                                                        */
 /******************************************************************************************************************************************/
+/*                                                                                                                                        */
 /*    WARNING: this file is for local developing: don't use it. Use /main/java/it/csi/sdp/userportal/i18n/MessagesBundle_it.properties    */
 /*                                                                                                                                        */
 /******************************************************************************************************************************************/
@@ -53,6 +53,16 @@ var translations_it = {
 	MENU_LANG_IT : 'Italiano',
 	MENU_SING_IN: 'Login',
 	MENU_SING_OUT: 'Esci',
+	MENU_MODAL_GET_TRAIL_TENANT: 'Richiedi Trial Tenant',
+	MENU_MODAL_GOT_TRAIL_TENANT: 'Trial Tenant da attivare',
+	MENU_MODAL_YOUR_TRAIL_TENANT: 'Questo è il tuo Trial Tenant',
+	MENU_MODAL_GET_PERSONAL_TENANT: 'Richiedi un Tenant Personale',
+	MENU_MODAL_GOT_PERSONAL_TENANT: 'Tenant Personale da attivare',
+	MENU_MODAL_YOUR_PERSONAL_TENANT: 'Questo è il tuo Tenant Personale',
+	MENU_MODAL_TRAIL_FULL_TEXT: 'Compila il modulo sottostante per richiedere la creazione di un tenant di prova per effettuare delle prove, una volta effettuate le normali verifiche, lo vedrai nell\'elenco a tendina in alto a destra.',
+	MENU_MODAL_PERSONAL_FULL_TEXT: 'Compila il modulo sottostante per richiedere la creazione di un tenant personale, una volta effettuate le normali verifiche, lo vedrai nell\'elenco a tendina in alto a destra.',
+	MENU_MODAL_RESPONSE_TEXT_OK: 'La richiesta per la creazione del tenant con codice {{tenantCode}} è stata inviata, riceverai una risposta alla mail che ci hai comunicato: ',
+	MENU_MODAL_RESPONSE_TEXT_KO: 'Non è stato possibile prendere in considerazione la richiesta, ci scusiamo per il disagio.',
 	
 	/* Entity */
 	STREAM: 'Stream',
@@ -88,6 +98,7 @@ var translations_it = {
 	STREAM_FIELD_COMPONENTS_DESCRIPTION: 'Descrizione',
 	STREAM_FIELD_COMPONENTS_SINCE_VERSION: 'Inserito in versione',
 	STREAM_FIELD_DOMAIN: 'Ambito tematico',
+	STREAM_FIELD_SUBDOMAIN: 'Subdomain',
 	STREAM_FIELD_SLUG : 'Virtual Entity Slug',
 	STREAM_FIELD_LICENCE: 'Licenza',
 	STREAM_FIELD_DISCLAIMER : 'Restrizioni contenute in licenza',
@@ -172,21 +183,20 @@ var translations_it = {
 	
 	//USER_FIELD_ACCEPT_PRIVACY:'Dopo aver preso visione dell\'informativa sulla Privacy ai sensi dell\'art. 13 del D.Lgs 196/2013, autorizzo il CSI Piemonte al trattamento dei dati personali qui inseriti con le modalit&agrave; e per le finalit&agrave; in essa contenute',
 	USER_FIELD_ACCEPT_PRIVACY:'<p><strong>INFORMATIVA PRIVACY AI SENSI DELL\'ART. 13 DEL D.LGS. 196/2003</strong></p> '+
-		'<p>Il trattamento dei dati personali forniti dall\'Utente con la compilazione del form, &egrave; disciplinato dal D.Lgs. n. 196/2003 (Codice in materia di protezione dei dati personali) e s.m.i.</p> '+
-		'<p>Ai sensi dell\'art. 13 del D.Lgs. 196/2003, CSI-Piemonte informa pertanto, di quanto segue:</p> '+
+		'<p>Il trattamento dei dati personali forniti dall\'Utente con la compilazione del form e con l\'utilizzo della piattaforma Smart Data Platform e dei servizi dalla medesima ospitati (log di sistema)  &egrave; disciplinato dal D. Lgs. n. 196/2003 (Codice in materia di protezione dei dati personali) e s.m.i.</p> '+
+		'<p>Ai sensi dell\'art. 13 del D.Lgs. 196/2003, la Regione Piemonte informa pertanto, di quanto segue:</p> '+
 		'<ol type=\'a\'> '+
-		'<li> i dati saranno trattati, in base a principi di correttezza, liceit&agrave; e trasparenza, al solo fine di associare un referente ai dati forniti alla Piattaforma SDP;</li> '+
-		'<li> il conferimento dei dati ed il consenso al trattamento sono liberi e facoltativi. Tuttavia l\'eventuale rifiuto  comporter&agrave; l\'impossibilit&agrave; per CSI Piemonte di raggiungere la finalit&agrave; suindicata;</li> '+
-		'<li> i dati saranno trattati sia con sistemi automatizzati sia manualmente, e, in ogni caso, a tutela e garanzia della riservatezza dei dati forniti in modo da ridurre al minimo la soglia di rischio di accessi abusivi, furti o manomissioni dei dati stessi, in conformit&agrave; a quanto previsto dagli artt. 31 ss del D.Lgs. n. 196/2003 e s.m.i. e dall\'Allegato B allo stesso decreto;</li> '+
-		'<li> i dati saranno trattati da personale "Incaricato" ai sensi dell\'art. 4, comma 1, lett. h) del Codice Privacy previa adeguate istruzioni operative, per il tempo strettamente necessario al raggiungimento delle finalit&agrave; suindicate;</li> '+
-		'<li> i dati non saranno oggetto di comunicazione a terzi e diffusione, fatti salvi gli obblighi di legge nazionale e comunitaria;</li> '+
-		'<li> il Titolare del trattamento &egrave; CSI-Piemonte, con sede in corso Unione Sovietica 216, Torino;</li> '+
-		'<li> CSI-Piemonte ha nominato i Responsabili interni per il trattamento dei dati personali. L\'elenco completo e aggiornato di tali Responsabili e delle rispettive; funzioni pu&ograve; essere richiesto al Titolare scrivendo all\'indirizzo e-mail privacy@csi.it;</li> '+
-		'<li> in relazione al trattamento dei dati che lo riguardano l\'interessato ha diritto ad ottenere le informazioni previste dall\'articolo 7 del decreto in oggetto. Potr&agrave; avvalersi dei diritti di cui all\'art. 7 del D.Lgs. n. 196/2003 e s.m.i. (tra cui quelli di ottenere dal Titolare, anche per il tramite dei Responsabili o degli Incaricati, la conferma dell\'esistenza o meno dei suoi dati personali e la loro messa a disposizione in forma intelligibile; di avere conoscenza della logica e delle finalit&agrave; su cui si basa il trattamento; di ottenere la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, nonch&eacute; l\'aggiornamento, la rettificazione o, se vi &egrave; interesse, l\'integrazione dei dati; di opporsi per motivi legittimi al trattamento stesso) rivolgendosi al Titolare, CSI- Piemonte Corso Unione Sovietica 216 Torino; e-mail: privacy@csi.it, tel. 011-3168111.</li> '+
-		'</ol>',
-	
-	USER_FIELD_ACCEPT_STREAM_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle "Linee guida per l\'integrazione in Smart Data Net", dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione degli altri fruitori della piattaforma lo stream conferito- nonch&eacute; sue eventuali elaborazioni -  senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
-	USER_FIELD_ACCEPT_DATASET_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle "Linee guida per l\'integrazione in Smart Data Net", dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione degli altri fruitori della piattaforma il dataset conferito- nonch&eacute; sue eventuali elaborazioni -  senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
+		'<li>i dati saranno trattati, in base a principi di correttezza, liceit&agrave; e trasparenza, al solo fine di poter espletare tutte le attivit&agrave; amministrative e tecniche necessarie alla registrazione e conseguente suo accesso, come utente,  alla Piattaforma SDP e ai servizi ivi ospitati a cui la sua persona verr&agrave; abilitata (secondo quanto stabilito dalle Condizioni d\'uso);</li> '+
+		'<li>il conferimento dei dati ed il consenso al trattamento sono liberi e facoltativi. Tuttavia l\'eventuale rifiuto comporter&agrave; l\'impossibilit&agrave; per CSI Piemonte, ente strumentale per l\'informatica di Regione, nonch&eacute; Responsabile  del trattamento ai sensi dell\'art. 29 del D. Lgs. 196/03 e s.m.i su nomina di Regione stessa, di raggiungere la finalit&agrave; suindicata;</li> '+
+		'<li>i dati saranno trattati sia con sistemi automatizzati sia manualmente, e, in ogni caso, a tutela e garanzia della riservatezza dei dati forniti in modo da ridurre al minimo la soglia di rischio di accessi abusivi, furti o manomissioni dei dati stessi, in conformit&agrave; a quanto previsto dagli artt. 31 ss del D.Lgs. n. 196/2003 e s.m.i. e dall\'Allegato B allo stesso decreto;</li> '+
+		'<li>i dati saranno trattati da personale &quot; Incaricato&quot;  ai sensi dell\'art. 4, comma 1, lett. h) del Codice Privacy previa adeguate istruzioni operative, per il tempo strettamente necessario al raggiungimento delle finalit&agrave; suindicate;</li> '+
+		'<li>i dati non saranno oggetto di comunicazione a terzi e diffusione, fatti salvi gli obblighi di legge nazionale e comunitaria e/o richieste da parte dell\'autorit&agrave; giudiziaria;</li> '+
+		'<li>il Titolare del trattamento &egrave; Regione Piemonte, con sede in Torino, Piazza Castello n. 165 Torino;</li> '+
+		'<li>il Responsabile del trattamento dei dati personali &egrave; il CSI-Piemonte.</li> '+
+		'</ol>'+
+		'<p>In relazione al trattamento dei dati che lo riguardano l\'interessato ha diritto ad ottenere le informazioni previste dall\'articolo 7 del decreto in oggetto. Potr&agrave; avvalersi dei diritti di cui all\'art. 7 del D.Lgs. n. 196/2003 e s.m.i. (tra cui quelli di ottenere dal Titolare, anche per il tramite dei Responsabili o degli Incaricati, la conferma dell\'esistenza o meno dei suoi dati personali e la loro messa a disposizione in forma intelligibile; di avere conoscenza della logica e delle finalit&agrave; su cui si basa il trattamento; di ottenere la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, nonch&eacute; l\'aggiornamento, la rettificazione o, se vi &egrave; interesse, l\'integrazione dei dati; di opporsi per motivi legittimi al trattamento stesso) rivolgendosi al CSI- Piemonte Corso Unione Sovietica 216 Torino; e-mail: privacy@csi.it, tel. 011-3168111.</p> ',	
+	USER_FIELD_ACCEPT_STREAM_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera titolarit&agrave; e/o  disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle &quot;Linee guida per l\'integrazione in Smart Data Net&quot; , dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione, a titolo gratuito e senza nulla pretendere, degli altri fruitori della piattaforma e, nei termini stabiliti dall\'art. 12 delle Condizioni d\'uso,  di Regione Piemonte lo stream conferito- nonch&eacute; sue eventuali elaborazioni - senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
+	USER_FIELD_ACCEPT_DATASET_RESPONSABILITY:'Dichiaro, consapevole di essere l\'unico soggetto che risponder&agrave; di eventuali contestazioni o richieste di risarcimento danni da parte di terzi per violazione di un qualche diritto o autorizzazione, che i dati e le informazioni da me trattati e conferiti alla piattaforma sono tutti nella mia piena e libera titolarit&agrave; e/o  disponibilit&agrave;. Avvalendomi della facolt&agrave; sancita dalle &quot;Linee guida per l\'integrazione in Smart Data Net&quot; , dichiaro altres&igrave; la disponibilit&agrave; a mettere a disposizione, a titolo gratuito e senza nulla pretendere, degli altri fruitori della piattaforma e, nei termini stabiliti dall\'art. 12 delle Condizioni d\'uso,  di Regione Piemonte lo stream conferito- nonch&eacute; sue eventuali elaborazioni - senza che ci&ograve; violi diritti di terze parti e con licenze conformi a quanto consigliato dalle linee guida stesse.',
 
 	/* Creator of Stream PlaceHolder */
 	USER_FIELD_NAME_PLACEHOLDER:'Nome',
@@ -251,6 +261,7 @@ var translations_it = {
 	DATASET_FIELD_METADATA_VISIBILITY: 'Visibilit&agrave;',
 	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Registrazione',
 	DATASET_FIELD_METADATA_DATADOMAIN: 'Dominio',
+	DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN: 'Sotto Dominio',
 	DATASET_FIELD_METADATA_FPS: 'FPS',
 	DATASET_FIELD_TENANTSSHARING: 'Condividi con ',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
@@ -395,11 +406,14 @@ var translations_it = {
 	HOME_START_BUTTON_DESC: 'Login con la tua utenza',
 	HOME_START_BUTTON: 'Login',
 	HOME_FORCE_LOGOUT_BUTTON: 'Forza Logout',
+	HOME_TENANT_TRIAL_BUTTON: 'Richiedi un Tenant di prova',
+	HOME_TENANT_PERSONAL_BUTTON: 'Richiedi un Tenant personale',
 	HOME_START_DEMO_BUTTON_DESC: 'Prova la piattaforma sul tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Accesso anonimo ai dati pubblici', 
 	HOME_LOGGED_IN_WELCOME: 'Benvenuto, ',
 	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
-	HOME_LOGGED_NOT_TENANT_AUTHENTICATION: 'Le tue credenziali non sono associate a nessun tenant (oppure stai usando credenziali tecniche), rivolgersi alla casella smartdatanet@csi.it',
+	HOME_LOGGED_NOT_TENANT_AUTHENTICATION: 'Le tue credenziali non sono associate a nessun tenant',
+	HOME_LOGGED_TECHNICAL_AUTHENTICATION: 'Stai usando credenziali tecniche, rivolgersi alla casella smartdatanet@csi.it',
 	HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
 	HOME_MAP_INTRO: 'Sensori attualmente attivi sul territorio',
 	HOME_STATISTIC_PANEL_TITLE: 'Cosa c\'&egrave; nella piattaforma',
@@ -437,23 +451,53 @@ var translations_it = {
 	HOME_ACTION_NEW_DATASET: 'Crea Dataset',
 	HOME_ACTION_SEARCH: 'Cerca nello Store',
 	HOME_ACTION_STORE: 'Accedi allo store',
-
+	 
+	HOME_TTFORUM_USERFIRSTNAME_PLACEHOLDER: 'Inserisci il tuo nome',
+	HOME_TTFORUM_USERLASTNAME_PLACEHOLDER: 'Inserisci il tuo cognome',
+	HOME_TTFORUM_USEREMAIL_PLACEHOLDER: 'Inserisci la tua mail',
+	HOME_TTFORUM_USERTYPEAUTH_PLACEHOLDER: 'Inserisci il tipo di autenticazione',
+	HOME_TTFORUM_TENANTNAME_PLACEHOLDER: 'Inserisci il nome del Tenant',
+	HOME_TTFORUM_TENANTDESC_PLACEHOLDER: 'Inserisci la descrizione del Tenant', 
+	HOME_TTFORUM_TENANTPWD_PLACEHOLDER: 'Inserisci la Password', 
+	HOME_TTFORUM_TENANTECOSYS_PLACEHOLDER: 'Scegli l\'eco sistema di appartenenza del tuo Tenant', 
+	HOME_TTFORUM_TENANTORG_PLACEHOLDER: 'Organizzazione di appartenenza',
 	
+	HOME_TTFORUM_USERNAME: 'Nome Utente',
+	HOME_TTFORUM_USERFIRSTNAME: 'Nome',
+	HOME_TTFORUM_USERLASTNAME: 'Cognome',
+	HOME_TTFORUM_USEREMAIL: 'E-Mail',
+	HOME_TTFORUM_USERTYPEAUTH: 'Tipo di Autenticazione',
+	HOME_TTFORUM_TENANTNAME: 'Nome del Tenant',
+	HOME_TTFORUM_TENANTDESC: 'Descrizione del Tenant', 
+	HOME_TTFORUM_TENANTPWD: 'Password', 
+	HOME_TTFORUM_TENANTNAME: 'Eco Sistema', 
+	HOME_TTFORUM_TENANTNAME: 'Organizzazione', 
+	
+	HOME_TTFORUM_SUBMIT: 'Invia richiesta',
+	HOME_TTFORUM_CANCEL: 'Annulla e chiudi',
+	HOME_TTFORUM_CLOSE: 'Chiudi',
 	
 	HOME_SEARCH_TITLE: 'Cerca un dataset',
 	HOME_STORE_TITLE: 'Accedi allo store',
 	
 	
 	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
-	HOME_HOWTO_TEXT_HTML: '<li>' + 
-							'	<span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tuo tenant o il tenant di prova <strong>Sandbox</strong> ' +
-							'	</li>' +
+	HOME_HOWTO_TEXT_HTML:   '<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tuo tenant o il tenant di prova <strong>Sandbox</strong></li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Fruisci</a> di tutti gli stream disponibili via <strong>Websocket</strong> o <strong>MQTT</strong></li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/overview">Monitora</a> i tuoi stream nella dashboard </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Importa</a> i tuoi <strong>dataset bulk</strong> tramite upload</li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Cerca e fruisci</a> di tutti i dati storicizzati e dei dataset tramite <strong>API OData</strong> </li>' +
 							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Crea stream</a> derivati da uno o pi&ugrave; stream aggiungendo <strong>logiche personalizzate in SiddhiQL</strong></li>' +
 							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea stream derivati in maniera semplice attraverso wizard guidati (coming soon...)</li>',
+							
+
+							
+	/* Term and conditions */						
+							
+	TERM_CONDITION_TITLE: 'Termini e condizioni di utilizzo',
+	TERM_CONDITION_INTRO: 'Per poter proseguire nell&apos;utilizzo della piattaforma Yucca &egrave; necessario prendere visione e accettare i <strong>Termini e Condizioni</strong> ',
+	TERM_CONDITION_ACCEPT_BUTTON: 'Ho preso visione e accetto i termini',						
+	TERM_CONDITION_CANCEL_BUTTON: 'Annulla',						
 							
 	/* Dashboard */
 	DASHBOARD_TITLE : 'Area monitoraggio stream',
@@ -597,7 +641,9 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_STREAM_FROM_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ', 
 	MANAGEMENT_EDIT_STREAM_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
-	MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
+	MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE: 'Tag disponibili',
+	MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER: 'Scegli un ambito...',
+	MANAGEMENT_EDIT_STREAM_SUBDOMAIN_PLACEHOLDER: 'Scegli un sotto dominio...',
 	MANAGEMENT_EDIT_STREAM_COMPONENT_EXAMPLE_TITLE: 'Esempio',
 	MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER: 'Scegli...',
 	MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER: 'Scegli...',
@@ -648,9 +694,9 @@ var translations_it = {
 	
 	MANAGEMENT_EDIT_STREAM_WS_LBL: 'Fruizione dello stream in real time con web socket',
 	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Fruizione dello stream in real time con MQTT',
-	
-	MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING: 'I componenti degli stream  in bozza potrebbero non coincidere con la versione installata',
     
+	MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING: 'I componenti degli stream  in bozza potrebbero non coincidere con la versione installata',
+
 	/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Object',
 
@@ -808,6 +854,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_TAG_PLACEHOLDER: 'Scegli uno o pi&ugrave; tag...',
 	MANAGEMENT_EDIT_DATASET_UPLOAD_ICON_DROPAREA: 'Rilascia qui l\'icona',
 	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
+	MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER: 'Scegli un sotto dominio...',
 	MANAGEMENT_EDIT_STREAM_DATATYPE_PLACEHOLDER: 'Scegli...',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA_LABEL: 'Salva dati',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA: 'Salva',
@@ -935,7 +982,7 @@ var translations_it = {
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Nascondi',
 	
 	DATA_EXPLORER_OPEN_IN_MANAGEMENT_BUTTON: 'Apri in gestione',
-	
+
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Sottoscrivi API',
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Sottoscrivi API',
 
@@ -948,7 +995,7 @@ var translations_it = {
 	DATABROWSER_SHOW_LIST: 'Lista', 
 	
 	DATABROWSER_ENTITY: 'Nome oggetto',
-	
+
 	DATABROWSER_GO_TO_DOMAIN_BTN: 'Filtra per dominio',
 	DATABROWSER_GO_TO_TAG_BTN: 'Filtra per tag',
 	DATABROWSER_GO_TO_RESULTS_BTN: 'Visualizza i dati',

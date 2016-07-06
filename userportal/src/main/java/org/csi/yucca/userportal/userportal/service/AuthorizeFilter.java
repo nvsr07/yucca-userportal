@@ -36,7 +36,7 @@ public class AuthorizeFilter implements Filter {
 			Info info = new Info();
 			//info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
 			User defaultUser = AuthorizeUtils.DEFAULT_USER();
-
+			
 			defaultUser.setToken(SAML2ConsumerServlet.getTokenForTenant(defaultUser.getActiveTenant()));
 			
 			info.setUser(defaultUser);
