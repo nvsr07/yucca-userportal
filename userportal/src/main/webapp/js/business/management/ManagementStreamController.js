@@ -21,13 +21,13 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		return info.isOwner( $scope.tenantCode);
 	};
 
-	fabricAPIservice.getVisibleStreams().then(function(response) {
+	fabricAPIservice.getVisibleStreamsFromTenant($scope.tenantCode).then(function(response) {
 
 		$scope.showLoading = false;
 
 		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		for (var i = 0; i < responseList.length; i++) {
-			if(responseList[i].codiceTenant == $scope.tenantCode){
+			//if(responseList[i].codiceTenant == $scope.tenantCode){
 				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
 					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 				responseList[i].deploymentStatusCodeTranslated =  $translate.instant(responseList[i].deploymentStatusCode);
@@ -38,8 +38,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 					responseList[i].streamIcon  = "img/stream-icon-default.png";
 				}
 				$scope.streamsList.push(responseList[i]);
-			}
-
+			//}
 		}
 		
 		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
@@ -147,8 +146,8 @@ appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($sc
 } ]);
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream',
-                                                    function($scope, $routeParams, fabricAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream', '$translate',
+                                                    function($scope, $routeParams, fabricAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
@@ -165,6 +164,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.wsUrl ="";
 	$scope.virtualentity = null;
 	$scope.warningMessages = [];
+	
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternNoSpace = Constants.VALIDATION_PATTERN_NO_SPACE;
 	$scope.validationPatternStreamCode = Constants.VALIDATION_PATTERN_CODE_STREAM;
@@ -215,6 +215,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 
 	};
+	
+	$scope.canCreatePublicStream = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
 
 	$scope.defaultQuery = Constants.DEFAULT_SIDDHI;
 
@@ -240,6 +244,15 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.cancelStreamToArray = function(index){
 		$scope.validationRes=2;
 		$scope.internalStreams.splice(index,1);
+	};
+	
+	$scope.checkTag = function(){
+		var rslt = true;
+		if ($scope.stream.streamTags.tag.length > 0){
+			rslt = false;
+		};
+		
+		return rslt;
 	};
 
 	// The ui-codemirror option
@@ -381,14 +394,45 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.tagList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
-			$scope.tagList.push(response.streamTags.element[int].tagCode);
+			//$scope.tagList.push(response.streamTags.element[int].tagCode);
+			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
 		}
+		
+		$scope.tagList.sort(function(a, b) { 
+		    return ((a.tagLabel < b.tagLabel) ? -1 : ((a.tagLabel > b.tagLabel) ? 1 : 0));
+		});
+		
+		var delta = Math.trunc($scope.tagList.length/3);
+		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
+		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
+
+		for (var i = 0; i < delta+1; i++) {
+			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
+			if($scope.tagList.length>i+delta+1)
+				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
+			else
+				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+			if($scope.tagList.length>i+delta*2+2)
+				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
+			else
+				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+		}
+		$scope.tagTooltipHtml += "</div>";
+		$scope.tagTooltipHtml += "</div>";
+
 	});
 
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		}
+	});
+
+	$scope.subdomainList = [];
+	fabricAPIservice.getStreamSubDomains().success(function(response) {
+		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
+			$scope.subdomainList.push(response.streamSubDomains.element[int]);
 		}
 	});
 
@@ -431,7 +475,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				
 	
 				if($scope.stream.visibility==null){
-					$scope.stream.visibility = 'public';
+					if($scope.canCreatePublicStream())
+						$scope.stream.visibility = 'public';
+					else
+						$scope.stream.visibility = 'private';
 				}
 				console.debug("$scope.stream internal before clean",$scope.stream);
 				if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
@@ -518,7 +565,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				sharedStream.setStream(null);
 			} else {
 				$scope.stream  = {};
-				$scope.stream.visibility = 'public';
+				if($scope.canCreatePublicStream())
+					$scope.stream.visibility = 'public';
+				else
+					$scope.stream.visibility = 'private';
 				$scope.stream.streamIcon  = "img/stream-icon-default.png";
 				$scope.stream.streamTags = {};
 				$scope.stream.streamTags.tag = [];
@@ -763,6 +813,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.editingComponentIndex = index;
 		return false;
 	};
+	
+	$scope.newTag = {value:""};
 
 	$scope.addTag = function(newTag){
 		console.log("addTag ",newTag);
@@ -779,8 +831,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if(!found)
 				$scope.stream.streamTags.tag.push({"tagCode":newTag});
 		}
+		$scope.newTag.value = "";
 		return false;
 
+	};
+	
+	$scope.onTagSelect = function($item, $model, $label){
+		console.log("onTagSelect",$item, $model, $label);
+		if($item.tagCode!=null)
+			$scope.addTag($item.tagCode);
+		
 	};
 
 	$scope.removeTag = function(index){

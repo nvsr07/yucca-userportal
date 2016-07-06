@@ -55,8 +55,16 @@
 						<div class="form-group">
 							<label for="inputDatasetDomain" class="col-sm-2 control-label"translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</label>
 							<div class="col-sm-10">
-								<select class="input-sm form-control" ng-model="dataset.info.dataDomain" ng-options="domain as (domain|translate) for domain in domainList">
+								<select class="input-sm form-control" ng-model="dataset.info.dataDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-disabled="true">
 			    					<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
+			    				</select>
+							</div>
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDomain" class="col-sm-2 control-label"translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</label>
+							<div class="col-sm-10">
+								<select class="input-sm form-control" ng-model="dataset.info.codSubDomain" ng-options="codSubDomain as (codSubDomain|translate) for codSubDomain in subDomainList|subDomainFilter:dataset.info.dataDomain" ng-disabled="true">
+			    					<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER</option>
 			    				</select>
 							</div>
 						</div>		
@@ -70,6 +78,12 @@
 										</span> &nbsp;
 									</span>
 								</p>						
+								<div class="input-group input-group-sm popover-html tag-html-tooltip-container">
+    								<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
+    								typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
+    								<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span>
+		    					</div>								
+								<!-- 
 								<p>
 									<div class="input-group">
 			    						<select class="input-sm form-control" ng-model="newTag" ng-options="tag as (tag|translate) for tag in tagList">
@@ -81,7 +95,7 @@
 									    	</a>
 									    </span>
 			    					</div>
-								</p>
+								</p>-->
 							</div>
 						</div>			
 						<div class="form-group">
@@ -117,11 +131,11 @@
 							<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
 							<div class="col-sm-10">
 								<label class="radio-inline">
-			              			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="dataset.info.visibility">
+			              			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="dataset.info.visibility" ng-disabled='!canCreatePublicDataset()'>
 			              			<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC</span>
 			            		</label>
 								<label class="radio-inline">
-			              			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="dataset.info.visibility">
+			              			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="dataset.info.visibility" ng-disabled='!canCreatePublicDataset()'>
 			              			<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE</span>
 			            		</label>
 							</div>

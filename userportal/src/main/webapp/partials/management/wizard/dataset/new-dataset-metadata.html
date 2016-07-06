@@ -14,7 +14,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="inputDatasetAddTag" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_TAGS</label>
+		<label for="inputDatasetAddTag" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span><span class='required-asterisk'>*</span></label>
 		<div class="col-sm-10 text-left">
 			<p>
 				<span  ng-repeat="tag in metadata.info.tags">
@@ -22,7 +22,14 @@
 					<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
 					</span> &nbsp;
 				</span>
-			</p>						
+			</p>
+			<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
+				<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
+						typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
+				<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span>
+			</div>								
+			
+			<!-- 				
 			<p>
 				<div class="input-group">
 					<select class="input-sm form-control" ng-model="newTag" ng-options="tag as (tag|translate) for tag in tagList">
@@ -34,7 +41,7 @@
 				    	</a>
 				    </span>
   				</div>
-			</p>
+			</p> -->
 		</div>
 	</div>			
 	<div class="form-group">
@@ -68,11 +75,11 @@
 		<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
 		<div class="col-sm-10 text-left">
 			<label class="radio-inline">
-         		<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="metadata.info.visibility">
+         		<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="metadata.info.visibility" ng-disabled='!canCreatePublicDataset()'>
          		<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC</span>
        		</label>
 			<label class="radio-inline">
-         		<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="metadata.info.visibility">
+         		<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="metadata.info.visibility" ng-disabled='!canCreatePublicDataset()'>
          		<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE</span>
        		</label>
 		</div>
@@ -142,20 +149,7 @@
 				
 			</div>		
 		</div>
-		
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-			
 	<div class="form-group">
 		<label for="v" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</label>
 		<div class="col-sm-10">
@@ -179,7 +173,7 @@
 	<div class="row">
 		<div class=" col-sm-12 form-toolbar">
 			<a ng-click='goToRequestor()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-			<a ng-click='goToChooseType()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+			<a ng-click='goToChooseType()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid || checkTag()" translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 		</div>
 	</div>
 </form>

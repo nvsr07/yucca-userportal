@@ -89,6 +89,8 @@ app.config(['$translateProvider', function ($translateProvider) {
 	.translations('en', translations_en)
 	.translations('it', translations_it)
 	.preferredLanguage('it');
+	
+	$translateProvider.useSanitizeValueStrategy();
 }]);
 
 app.config(['$httpProvider', function($httpProvider) {
@@ -121,15 +123,29 @@ app.factory('info',  function() {
     	else if(this.info && this.info.user && this.info.user.activeTenant)
     		return this.info.user.activeTenant;
     	else if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0)
-    		return this.info.user.tenants[0];
+    		return this.info.user.tenants[0].tenantCode;
     	return null;
+    };
+    
+    infoService.getActiveTenantType = function(){
+    	var activeTenantType = "none";
+    	if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0){
+    		for (var i = 0; i < this.info.user.tenants.length; i++) {
+				if(this.info.user.tenants[i].tenantCode == this.getActiveTenantCode()){
+					activeTenantType = this.info.user.tenants[i].tenantType; 
+					break;
+				}
+			}
+    	}
+    		
+    	return activeTenantType;
     };
     
     infoService.isOwner = function(tenantCode){
     	var result  = false;
     	if(tenantCode){
     		for (var int = 0; int < this.info.user.tenants.length; int++) {
-				if(this.info.user.tenants[int] == tenantCode){
+				if(this.info.user.tenants[int].tenantCode == tenantCode){
 					result = true;
 					break;
 				}

@@ -86,7 +86,7 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 			if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
 				responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 			responseList[i].deploymentStatusCodeTranslated =  $translate.instant(responseList[i].deploymentStatusCode);
-			console.debug("responseList[i].visibility : ",responseList[i].visibility,responseList[i].codiceTenant);
+			//console.debug("responseList[i].visibility : ",responseList[i].visibility,responseList[i].codiceTenant);
 			$scope.streamsList.push(responseList[i]);					
 		}
 		
@@ -126,7 +126,7 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 	
 	$scope.searchStatusFilter = function(stream) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		console.log("searchStatusFilter",keyword,stream);
+		//console.log("searchStatusFilter",keyword,stream);
 		return !$scope.statusFilter || keyword.test(stream.deploymentStatusDesc) || keyword.test(stream.deploymentStatusCodeTranslated);
 	};
 
