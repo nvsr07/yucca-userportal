@@ -107,7 +107,7 @@ public class WebServiceDelegate {
 		int ENV = INT;
 		String user[] = { "admin", "admin" };
 		String password[] = { "******", "**********" };
-		String[] url = { "https://tst-sdnet-sec1.sdp.csi.it:9444/services/RemoteAuthorizationManagerService",
+		String[] url = { "https://*************services/RemoteAuthorizationManagerService",
 				"https://int-sso.smartdatanet.it/services/RemoteAuthorizationManagerService" };
 		
 		try {
