@@ -1,13 +1,19 @@
 package org.csi.yucca.userportal.userportal.service;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -31,6 +37,41 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+/***
+ * 
+ * @author Administrator
+ * 
+ * Add to pom.xml
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>3.14</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>3.9</version>
+		</dependency>
+				
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl -->
+		<dependency>
+		    <groupId>net.sourceforge.jexcelapi</groupId>
+		    <artifactId>jxl</artifactId>
+		    <version>2.6.12</version>
+		</dependency>
+ *
+ */
 
 public class OldUserConfTenant {
 	private static final long serialVersionUID = 1L;
@@ -39,12 +80,15 @@ public class OldUserConfTenant {
 	public static void main(String[] args) {
 
 		try {
-			List<String> listOfUsers = loadUsers();
-			for (int i=0; i < listOfUsers.size(); i++){
+			
+			Map<Integer, List<String>> excelUser = ReadExcel();
+			//List<String> listOfUsers = loadUsers();
+			int counter = 0;
+			for (int i=0; i < excelUser.size(); i++){
 				User newUser = new User();
 
 				newUser.setLoggedIn(true);
-				newUser.setUsername(listOfUsers.get(i));
+				newUser.setUsername(excelUser.get(i).get(0));
 				List<String> tenantsCode = null;
 
 				try {
@@ -65,7 +109,11 @@ public class OldUserConfTenant {
 					listTennant += "|old";
 					addClaim(newUser, listTennant);
 				}
+
+				System.out.println("---> LISTA PER UTENTE " + newUser.getUsername() + " NUMERO " + (counter++) + " = " + (listTennant));
 			}
+
+			System.out.println("---> UTENTE TOTALI " + excelUser.size());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,7 +134,7 @@ public class OldUserConfTenant {
 				  xmlInput += "				<!--Optional:-->";
 				  xmlInput += "				<xsd:filter></xsd:filter>"; 
 				  xmlInput += "				<!--Optional:-->";
-				  xmlInput += "				<xsd:limit>200</xsd:limit>";
+				  xmlInput += "				<xsd:limit>1000</xsd:limit>";
 				  xmlInput += "			</xsd:listAllUsers>";
 				  xmlInput += "		</soapenv:Body>";
 				  xmlInput += "</soapenv:Envelope>";
@@ -96,7 +144,7 @@ public class OldUserConfTenant {
 			Properties config = Config.loadServerConfiguration();
 			Properties authConfig = Config.loadAuthorizationConfiguration();
 
-			String webserviceUrl = "";
+			//String webserviceUrl = "https://int-sso.smartdatanet.it/services/UserAdmin";
  			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "", "", xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadPermissions] - webServiceResponse: " + webServiceResponse);
 
@@ -161,7 +209,7 @@ public class OldUserConfTenant {
 			Properties config = Config.loadServerConfiguration();
 			Properties authConfig = Config.loadAuthorizationConfiguration();
 		
-			String webserviceUrl = "";
+			//String webserviceUrl = "https://int-sso.smartdatanet.it/services/RemoteUserStoreManagerService";
 			//String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			//String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
 			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "", "", xmlInput, SOAPAction, "text/xml");
@@ -197,10 +245,10 @@ public class OldUserConfTenant {
 			Properties config = Config.loadServerConfiguration();
 			Properties authConfig = Config.loadAuthorizationConfiguration();
 
-			String webserviceUrl = "";
-			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
-			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
+			//String webserviceUrl = "https://int-sso.smartdatanet.it/services/UserAdmin";
+			//String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
+			//String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "", "", xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -246,5 +294,62 @@ public class OldUserConfTenant {
 		String callbackMethod = getCallbackMethod(httpRequest);
 		return (callbackMethod != null && callbackMethod.length() > 0);
 	}
+
+    public static Map<Integer, List<String>> ReadExcel() throws IOException {
+
+        FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\Administrator\\Downloads\\utenti.xls"));
+
+        Map<Integer, List<String>> data = new HashMap<Integer, List<String>>();
+
+        //Workbook workbook = new XSSFWorkbook(inputStream);
+        org.apache.poi.ss.usermodel.Workbook workbook = null;
+		try {
+			workbook = WorkbookFactory.create(inputStream);
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        //Sheet firstSheet = workbook.getSheetAt(0);
+        org.apache.poi.ss.usermodel.Sheet sheet = workbook.getSheetAt(0);
+
+        Iterator<Row> iterator = sheet.iterator();
+
+        // Test test=new Test();
+        int rowCnt = 0;
+        boolean flag = false;
+        while (iterator.hasNext()) {
+            Row nextRow = iterator.next();
+
+            Iterator<Cell> cellIterator = nextRow.cellIterator();
+            List<String> obj = new ArrayList<String>();
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+
+                Integer rowNum = (int) cell.getNumericCellValue();
+
+            	cell = cellIterator.next();
+                if (rowNum > 100){
+                	flag = true;
+                	String cellobj = cell.getStringCellValue();
+                
+	                //if ("".equals(cell.getStringCellValue())) {
+	                //    obj.add("Missing");
+	                //} else if (cellobj.equals(null)) {
+	                //    obj.add("");
+	                //} else {
+	                    obj.add(cell.getStringCellValue());
+	                //}
+                }
+
+            }
+
+            if (flag){
+            	data.put(rowCnt, obj);
+            	rowCnt++;
+            }
+        }
+        return data;
+    }
 
 }

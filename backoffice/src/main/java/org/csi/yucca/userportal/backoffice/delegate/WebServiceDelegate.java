@@ -101,24 +101,6 @@ public class WebServiceDelegate {
 		log.info("Result: " + outputString);
 		return outputString;
 	}
-
-	public static void main(String[] args) {
-		//int TEST = 0;
-		int INT = 1;
-		int ENV = INT;
-		String user[] = { "admin", "admin" };
-		String password[] = { "***REMOVED***", "***REMOVED***" };
-		String[] url = { "https://tst-sdnet-sec1.sdp.csi.it:9444/services/RemoteAuthorizationManagerService",
-				"https://int-sso.smartdatanet.it/services/RemoteAuthorizationManagerService" };
-		
-		try {
-			testRoles(url[ENV], user[ENV], password[ENV], "*_subscriber");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
 	@SuppressWarnings("unused")
 	private static void testPermission(String url, String user, String password){
@@ -135,7 +117,7 @@ public class WebServiceDelegate {
 
 		String SOAPAction = "getAllowedUIResourcesForUser";
 
-		// test "***REMOVED***"
+		// test "JabooCh0"
 		try {
 			String webServiceResponse = WebServiceDelegate.callWebService(url, user, password, xmlInput, SOAPAction, "text/xml");
 			System.out.println(webServiceResponse);
