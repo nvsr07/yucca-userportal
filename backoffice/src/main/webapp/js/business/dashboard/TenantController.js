@@ -333,7 +333,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	}
 
 	function createStepsLogUrl(operation, tenant){
-		return "installer_" + operation + "tenant" +  tenant.tenantCode + ".json"; 
+		return "installer_" + operation + "_tenant_" +  tenant.tenantCode + ".json"; 
 	}
 	
     
