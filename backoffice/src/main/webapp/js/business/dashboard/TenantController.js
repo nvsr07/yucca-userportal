@@ -72,10 +72,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 			row.tenant.codDeploymentStatus = "draft";
 		
 		if(row.tenant.codDeploymentStatus=='req_inst'){
-			if(row.tenant.deploymentVersion === 1)
-				row.action = 'install';
-			else
-				row.action = 'upgrade';
+			row.action = 'install';
 		}
 		else if(row.tenant.codDeploymentStatus=='inst'){
 			row.action = 'migrate';
@@ -400,14 +397,14 @@ appControllers.controller('TenantInstallLogCtrl', [ '$scope', '$modalInstance', 
 		            var date = "<span class='logDate'>"+lineSplit[0]+"</span>";
 		            var level = "<span class='logLevel logLevel"+lineSplit[1]+"'>"+lineSplit[1]+"</span>";
 		            var remainingLine = lineSplit.slice(2).join(" - ");
-		            var content  = Helpers.rendersafeTags(remainingLine);
+		            var content  = Helpers.render.safeTags(remainingLine);
 		            content =  Helpers.render.removeImage(content);
 		            content = Helpers.render.linkify(content);
 		            content = Helpers.render.colorize(content);
 		            formattedLog += "<p class='logLine'>"+date+level+content+"</p>"; 
 	            }
 	            else
-	            	formattedLog += safeTags(lines[k]);
+	            	formattedLog += Helpers.render.safeTags(lines[k]);
 	        }
 	    }
 	    return formattedLog
@@ -440,8 +437,8 @@ appControllers.controller('TenantInstallLogCtrl', [ '$scope', '$modalInstance', 
 		$scope.showLog(row.action);
 	}
 
-	function createActionLogUrl(stream, operation){
-		return operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".log"; 
+	function createActionLogUrl(tenant, operation){
+		return operation + "_tenant_" + tenant.tenantCode + ".log"; 
 	}
 
 	
