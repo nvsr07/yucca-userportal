@@ -433,12 +433,9 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 					}
 				}
 				
-				if($scope.canCreatePublicDataset())
-					$scope.dataset.info.visibility = 'public';
-				else
+				if(!$scope.canCreatePublicDataset())
 					$scope.dataset.info.visibility = 'private';
 
-				//$scope.dataset.info.visibility = 'public';
 			} catch (e) {
 				console.error("getDataset ERROR", e);
 			}

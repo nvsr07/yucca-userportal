@@ -174,10 +174,10 @@ public enum ApiEntityEnum {
 	API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			if (AuthorizeUtils.isReadMethod(request))
+			if("/tenants/".equals(request.getPathInfo()) && AuthorizeUtils.isReadMethod(request))
 				return true;
-			else if (AuthorizeUtils.isWriteMethod(request))
-				return true;
+			//else if (AuthorizeUtils.isWriteMethod(request))
+			//	return true;
 			else
 				return false;
 		}

@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'smartdatanet-domains';
-  src: url('../font/smartdatanet-domains.eot?98048984');
-  src: url('../font/smartdatanet-domains.eot?98048984#iefix') format('embedded-opentype'),
-       url('../font/smartdatanet-domains.woff2?98048984') format('woff2'),
-       url('../font/smartdatanet-domains.woff?98048984') format('woff'),
-       url('../font/smartdatanet-domains.ttf?98048984') format('truetype'),
-       url('../font/smartdatanet-domains.svg?98048984#smartdatanet-domains') format('svg');
+  src: url('../font/smartdatanet-domains.eot?43884283');
+  src: url('../font/smartdatanet-domains.eot?43884283#iefix') format('embedded-opentype'),
+       url('../font/smartdatanet-domains.woff2?43884283') format('woff2'),
+       url('../font/smartdatanet-domains.woff?43884283') format('woff'),
+       url('../font/smartdatanet-domains.ttf?43884283') format('truetype'),
+       url('../font/smartdatanet-domains.svg?43884283#smartdatanet-domains') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'smartdatanet-domains';
-    src: url('../font/smartdatanet-domains.svg?98048984#smartdatanet-domains') format('svg');
+    src: url('../font/smartdatanet-domains.svg?43884283#smartdatanet-domains') format('svg');
   }
 }
 */
@@ -58,14 +58,14 @@
 .icon-TRADE:before { content: '\e800'; } /* '' */
 .icon-TRANSPORT:before { content: '\e801'; } /* '' */
 .icon-CULTURE:before { content: '\e802'; } /* '' */
-.icon-ECONOMY:before { content: '\e803'; } /* '' */
+.icon-ECONOMY_FINANCES_TAXES:before { content: '\e803'; } /* '' */
 .icon-AGRICULTURE:before { content: '\e804'; } /* '' */
 .icon-EMPLOYMENT_TRAINING:before { content: '\e805'; } /* '' */
 .icon-ENERGY:before { content: '\e806'; } /* '' */
 .icon-ENVIRONMENT:before { content: '\e807'; } /* '' */
 .icon-GOVERNMENT:before { content: '\e808'; } /* '' */
 .icon-HEALTH:before { content: '\e809'; } /* '' */
-.icon-POPULATION:before { content: '\e80a'; } /* '' */
+.icon-POPULATION_SOCIAL_ISSUE:before { content: '\e80a'; } /* '' */
 .icon-PRODUCTION:before { content: '\e80b'; } /* '' */
 .icon-SCHOOL:before { content: '\e80c'; } /* '' */
 .icon-SCIENCE_TECHNOLOGY:before { content: '\e80d'; } /* '' */
