@@ -5,4 +5,4 @@ To create font from domain svg
 4. select all the icon
 5. go to "Customize Names" tab
 6. write all the domain in uppercase: eg icon-agriculture -> icon-AGRICULTURE
-7. download
+7. download webfont
