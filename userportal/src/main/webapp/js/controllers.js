@@ -140,13 +140,13 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 					}
 				});
 			}
-			userHaveTrialTenant();
-		});
-	}
+			//userHaveTrialTenant();
+		//});
+	//}
 	
-	var userHaveTrialTenant = function(){
-		fabricAPIservice.getTenants().success(function(result) {
-			var actualDate = new Date();	
+	//var userHaveTrialTenant = function(){
+		//fabricAPIservice.getTenants().success(function(result) {
+			//var actualDate = new Date();	
 			if (!$scope.user.haveTrialTenant){
 				angular.forEach(result.tenants.tenant, function(value, key) {
 					var dataDisVal = null;
