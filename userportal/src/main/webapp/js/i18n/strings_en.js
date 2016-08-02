@@ -990,6 +990,7 @@ var translations_en = {
 	DATABROWSER_TITLE: 'Browse data and stream',
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Choose one domain',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Choose one or more tags',
+	DATABROWSER_RESULTS_DETAIL_HINT: 'Show details',
 	DATABROWSER_RESULTS_TITLE: 'Stream and Dataset found',
 	DATABROWSER_RESULTS_BACK_BTN: 'New search',
 	DATABROWSER_SHOW_GRID: 'Grid', 

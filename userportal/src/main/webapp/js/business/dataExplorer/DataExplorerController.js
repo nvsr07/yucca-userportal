@@ -812,6 +812,12 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 
 	};
 	
+	$scope.openStreamDashboard = function(data){
+		console.log("openStreamDashboard", data);
+		$location.path('dashboard/stream/'+data.tenantCode+'/'+data.virtualentityCode+'/'+data.streamCode);
+
+	};
+	
 	var getDetailPath = function(data){
 		console.log("exploreData", data);
 		var path = 'dataexplorer/' +  data.type+ '/' + data.tenantCode+'/';

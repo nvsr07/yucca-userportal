@@ -990,6 +990,7 @@ var translations_it = {
 	DATABROWSER_CHOOSE_DOMAIN_TITLE: 'Oppure scegli un dominio',
 	DATABROWSER_CHOOSE_TAG_TITLE: 'Scegli uno o pi&ugrave; tag',
 	DATABROWSER_RESULTS_TITLE: 'Stream e Dataset trovati',
+	DATABROWSER_RESULTS_DETAIL_HINT: 'Visualizza dettagli',
 	DATABROWSER_RESULTS_BACK_BTN: 'Nuova ricerca',
 	DATABROWSER_SHOW_GRID: 'Griglia', 
 	DATABROWSER_SHOW_LIST: 'Lista', 

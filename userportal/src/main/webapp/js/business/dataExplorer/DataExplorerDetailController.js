@@ -129,7 +129,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	$scope.canEdit = function() {
 		var result = false;
 		for (var k = 0; k < $scope.user.tenants.length; k++) {
-			if( $scope.tenantCode == $scope.user.tenants[k]){
+			if( $scope.tenantCode == $scope.user.tenants[k].tenantCode){
 				result = true;
 				break;
 			}
