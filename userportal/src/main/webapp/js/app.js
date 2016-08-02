@@ -22,6 +22,7 @@ var app = angular.module('userportal', [
   //'ngDragDrop'
 ]);
 
+
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {templateUrl: 'partials/common/home.html?'+BuildInfo.timestamp, isHomepage: true});
 	$routeProvider.when('/home-family-identity', {templateUrl: 'partials/common/home-family-identity.html?'+BuildInfo.timestamp, isHomepage: true});
