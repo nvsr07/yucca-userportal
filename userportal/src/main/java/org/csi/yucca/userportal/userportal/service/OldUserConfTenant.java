@@ -145,7 +145,7 @@ public class OldUserConfTenant {
 			Properties authConfig = Config.loadAuthorizationConfiguration();
 
 			//String webserviceUrl = "https://int-sso.smartdatanet.it/services/UserAdmin";
- 			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "", "", xmlInput, SOAPAction, "text/xml");
+ 			String webServiceResponse = WebServiceDelegate.callWebService("webserviceUrl", "", "", xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadPermissions] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -212,7 +212,7 @@ public class OldUserConfTenant {
 			//String webserviceUrl = "https://int-sso.smartdatanet.it/services/RemoteUserStoreManagerService";
 			//String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			//String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "", "", xmlInput, SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService("webserviceUrl", "", "", xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadPermissions] - webServiceResponse: " + webServiceResponse);
 		} catch (Exception e) {
 			log.error("[InfoServlet::doGet] - ERROR " + e.getMessage());
@@ -248,7 +248,7 @@ public class OldUserConfTenant {
 			//String webserviceUrl = "https://int-sso.smartdatanet.it/services/UserAdmin";
 			//String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			//String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, "", "", xmlInput, SOAPAction, "text/xml");
+			String webServiceResponse = WebServiceDelegate.callWebService("webserviceUrl", "", "", xmlInput, SOAPAction, "text/xml");
 			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
