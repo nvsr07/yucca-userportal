@@ -13,6 +13,7 @@ var translations_it = {
 	SAVE: 'Salva',
 	UNDO: 'Annulla',
 	DELETE: 'Elimina',
+	EDIT: 'Modifica',
 	SAVE_DRAFT: 'Salva bozza',
 	COMING_SOON: 'Coming soon...', 
 	WARNING: 'Attenzione', 
