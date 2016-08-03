@@ -55,6 +55,9 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	fabricAPIservice.getInfo().success(function(result) {
 		info.setInfo(result);
+		
+		console.log("info", info);
+		
 		$scope.activeTenantCode = info.getActiveTenantCode();
 		$scope.userTenants = info.getInfo().user.tenants;
 		$scope.userTenantsToActivate = new Array();
@@ -74,7 +77,14 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				  $scope.user.havePersonalTenant = true;
 			});
 
-		userHavePersonalTenant();
+		//userHavePersonalTenant();
+		if (typeof info.personalTenant != 'undefined'){
+			$scope.user.havePersonalTenantToActivate = true;
+		}
+
+		if (typeof info.trialTenant != 'undefined'){
+			$scope.user.haveTrialTenantToActivate = true;
+		}
 		
 //		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
 //			$scope.storeUrl = '/store/site/pages/sso-filter.jag';
@@ -122,9 +132,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	});
 	
 	var userHavePersonalTenant = function(){
-		fabricAPIservice.getTenants().success(function(result) {
+		//fabricAPIservice.getTenants().success(function(result) {
 			var actualDate = new Date();	
 			if (!$scope.user.havePersonalTenant){
+				/*
 				angular.forEach(result.tenants.tenant, function(value, key) {
 					var dataDisVal = null;
 					var dataDisDate = null;
@@ -139,6 +150,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 						$scope.userTenantsToActivate.push(value);
 					}
 				});
+				*/
 			}
 			//userHaveTrialTenant();
 		//});
@@ -148,6 +160,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		//fabricAPIservice.getTenants().success(function(result) {
 			//var actualDate = new Date();	
 			if (!$scope.user.haveTrialTenant){
+				/*
 				angular.forEach(result.tenants.tenant, function(value, key) {
 					var dataDisVal = null;
 					var dataDisDate = null;
@@ -162,9 +175,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 						$scope.userTenantsToActivate.push(value);
 					}
 				});
+				*/
 			}
 			gestModalWindow();
-		});
+		//});
 	}
 	
 	var gestModalWindow = function(){
