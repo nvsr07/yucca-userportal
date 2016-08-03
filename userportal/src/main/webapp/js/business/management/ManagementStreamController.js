@@ -712,14 +712,17 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		
 		if(component!=null){
 			component.idComponente = $scope.stream.componenti.element[index].idComponente;
-
-			if ($scope.stream.componenti.element.length>0)	{
-				component.order = $scope.stream.componenti.element[$scope.stream.componenti.element.length-1].order+1;
-			}
-			else { 
-				component.order = 0;
-			}
 			
+			if(typeof $scope.stream.componenti.element[index].order != 'undefuned' && $scope.stream.componenti.element[index].order!=null){
+				component.order = $scope.stream.componenti.element[index].order;
+			}else{
+				if ($scope.stream.componenti.element.length>0)	{
+					component.order = $scope.stream.componenti.element[$scope.stream.componenti.element.length-1].order+1;
+				}
+				else { 
+					component.order = 0;
+				}
+			}
 			$scope.stream.componenti.element[index] = component;
 			$scope.editingComponentIndex = -1;
 		}

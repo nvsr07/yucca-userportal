@@ -14,6 +14,14 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	$scope.storeUrl = '/store/';	
 	console.log("storeUrl",$scope.storeUrl);
 
+	var supportedLanguages = ['it', 'en'];
+
+	var langParam = $location.search().lang;
+	if(typeof langParam != 'undefined' && supportedLanguages.indexOf(langParam)>=0){
+		$translate.use(langParam);
+	}
+
+	
 	$scope.isAuthorized = function(operation){
 		var authorized = info.isAuthorized(operation);
 		return authorized;
@@ -179,7 +187,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			}
 			gestModalWindow();
 		//});
-	}
+	};
 	
 	var gestModalWindow = function(){
 
@@ -217,7 +225,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				$scope.linkLoginToStoreH = "1";
 			}
 		}
-	}
+	};
 	
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
@@ -297,7 +305,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}, function() {
 			console.info('Modal dismissed at: ' + new Date());
 		});
-	}
+	};
 }]);
 
 
