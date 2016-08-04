@@ -9,8 +9,8 @@ public class Info {
 	//private String tenantCode;
 	private User user;
 	private String version;
-	private Tenant personalTenant;
-	private Tenant trialTenant;
+	private Tenant personalTenantToActivated;
+	private Tenant trialTenantToActivated;
 
 	public String toJson() {
 		Gson gson = new Gson();
@@ -37,20 +37,20 @@ public class Info {
 		this.version = version;
 	}
 
-	public Tenant getPersonalTenant() {
-		return personalTenant;
+	public Tenant getPersonalTenantToActivated() {
+		return personalTenantToActivated;
 	}
 
-	public void setPersonalTenant(Tenant personalTenant) {
-		this.personalTenant = personalTenant;
+	public void setPersonalTenantToActivated(Tenant personalTenantToActivated) {
+		this.personalTenantToActivated = personalTenantToActivated;
 	}
 
-	public Tenant getTrialTenant() {
-		return trialTenant;
+	public Tenant getTrialTenantToActivated() {
+		return trialTenantToActivated;
 	}
 
-	public void setTrialTenant(Tenant trialTenant) {
-		this.trialTenant = trialTenant;
+	public void setTrialTenantToActivated(Tenant trialTenantToActivated) {
+		this.trialTenantToActivated = trialTenantToActivated;
 	}
 
 //	public String getTenantCode() {

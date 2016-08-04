@@ -77,21 +77,29 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		$scope.user.havePersonalTenant = false;
 		$scope.user.havePersonalTenantToActivate = false;
 		angular.forEach($scope.userTenants, function(value, key) {
-			  if (value.tenantType == "trial")
-				  $scope.user.haveTrialTenant = true;
+			if (value.tenantType == "trial")
+				$scope.user.haveTrialTenant = true;
 			});
 		angular.forEach($scope.userTenants, function(value, key) {
-			  if (value.tenantType == "personal")
-				  $scope.user.havePersonalTenant = true;
+			if (value.tenantType == "personal")
+				$scope.user.havePersonalTenant = true;
 			});
 
 		//userHavePersonalTenant();
-		if (typeof info.personalTenant != 'undefined'){
+		console.log((typeof info.getInfo().personalTenantToActivated != 'undefined'));
+		console.log(typeof info.getInfo().personalTenantToActivated);
+		console.log(info.getInfo().personalTenantToActivated);
+		if (typeof info.getInfo().personalTenantToActivated != 'undefined'){
 			$scope.user.havePersonalTenantToActivate = true;
+			$scope.userTenantsToActivate.push(info.getInfo().havePersonalTenantToActivate);
 		}
 
-		if (typeof info.trialTenant != 'undefined'){
+		console.log((typeof info.getInfo().trialTenantToActivated != 'undefined'));
+		console.log(typeof info.getInfo().trialTenantToActivated);
+		console.log(info.getInfo().trialTenantToActivated);
+		if (typeof info.getInfo().trialTenantToActivated != 'undefined'){
 			$scope.user.haveTrialTenantToActivate = true;
+			$scope.userTenantsToActivate.push(info.getInfo().trialTenantToActivated);
 		}
 		
 //		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
