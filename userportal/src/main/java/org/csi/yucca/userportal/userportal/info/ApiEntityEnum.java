@@ -177,7 +177,7 @@ public enum ApiEntityEnum {
 			if("/tenants/".equals(request.getPathInfo()) && AuthorizeUtils.isReadMethod(request))
 				return true;
 			else
-				if ("/tenants/newNotDefault/".equals(request.getPathInfo()) && AuthorizeUtils.isReadMethod(request))
+				if ("/tenants/newNotDefault/".equals(request.getPathInfo()) && AuthorizeUtils.isWriteMethod(request))
 					return true;
 				else
 					return false;
