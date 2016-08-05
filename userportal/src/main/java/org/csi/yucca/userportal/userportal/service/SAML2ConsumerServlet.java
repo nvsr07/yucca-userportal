@@ -80,6 +80,10 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			log.debug("[SAML2ConsumerServlet::doPost] - responseMessage: " + responseMessage);
 			Info info = (Info) request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 			String newUsername = null;
+			
+			List<Tenant> allTenants = null;
+			List<Tenant> tenants = null;
+			
 			if (responseMessage != null) {
 
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
@@ -149,7 +153,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					}
 
 					// filtro sui tenant, data di disattivazione
-					List<Tenant> tenants = filterDisabledTenants(tenantsCode);
+					allTenants = getAllTenants();
+					tenants = filterDisabledTenants(tenantsCode, allTenants);
 
 					if (tenants.isEmpty()) {
 						tenantUser = false;
@@ -224,7 +229,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 								AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
 
 						if (tenants.isEmpty())
-							tenants = filterDisabledTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode()));
+							tenants = filterDisabledTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode()), allTenants);
 						
 						newUser.setActiveTenant(tenants.get(0).getTenantCode());
 						
@@ -298,6 +303,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
+				info.setPersonalTenantToActivated(filterPersonalTenant(allTenants, newUser.getUsername()));
+				info.setTrialTenantToActivated(filterTrialTenant(allTenants, newUser.getUsername()));
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"
@@ -398,10 +405,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 		return false;
 	}
-
-	private static List<Tenant> filterDisabledTenants(List<String> tenantsCode) {
+	
+	private static List<Tenant> getAllTenants(){
 		String apiBaseUrl = "";
-		Date actualDate = new Date();
 		List<Tenant> tenants = new LinkedList<Tenant>();
 		try {
 			Properties config = Config.loadServerConfiguration();
@@ -410,7 +416,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			HttpGet httpget = new HttpGet(apiBaseUrl);
 
 			HttpResponse r = client.execute(httpget);
-			log.debug("[SAML2ConsumerServlet::filterDisabledTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
+			log.debug("[SAML2ConsumerServlet::getAllTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
 
 			StringBuilder out = new StringBuilder();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
@@ -422,33 +428,75 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 			String inputJson = out.toString();
 
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
 			TenantsContainer allTenantsContainer = TenantsContainer.fromJson(inputJson);
 			Tenants allTenants = allTenantsContainer.getTenants();
-			for (Tenant singleTenant : allTenants.getTenant()) {
-
-				Date singleTenantDate = actualDate;
-
-				if (singleTenant.getDataDisattivazione() != null) {
-					try {
-						singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
-					} catch (ParseException e) {
-						log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: " + singleTenant.getDataDisattivazione());
-						e.printStackTrace();
-					}
-				}
-
-				if (singleTenantDate.getTime() >= actualDate.getTime()) {
-					for (String tenantCode : tenantsCode) {
-						if (singleTenant.getTenantCode().equals(tenantCode))
-							tenants.add(singleTenant);
-					}
-
+			tenants = allTenants.getTenant();
+		} catch (IOException e) {
+			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage());
+			e.printStackTrace();
+		}
+		return tenants;
+	}
+	
+	private static Tenant filterPersonalTenant(List<Tenant> allTenants, String username){
+		return filterTenant(allTenants, username, "personal");
+	}
+	
+	private static Tenant filterTrialTenant(List<Tenant> allTenants, String username){
+		return filterTenant(allTenants, username, "trial");
+	}
+	
+	private static Tenant filterTenant(List<Tenant> allTenants, String username, String label){
+		Tenant foundTenant = null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
+		Date actualDate = new Date();
+		Date singleTenantDate = new Date();
+		for (Tenant singleTenant : allTenants) {
+			singleTenantDate = actualDate;
+			if (singleTenant.getDataDisattivazione() != null){
+				try {
+					singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
+				} catch (ParseException e) {
+					log.warn("[SAML2ConsumerServlet::filterTenant] invalid tenant disable date: " + singleTenant.getDataDisattivazione());
+					e.printStackTrace();
 				}
 			}
-		} catch (IOException e) {
-			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
-			e.printStackTrace();
+			if ((singleTenant.getTenantType().equals(label)) && 
+				(singleTenant.getUserName().equals(username)) && 
+				(actualDate.before(singleTenantDate) || actualDate.equals(singleTenantDate)) && 
+				(singleTenant.getCodDeploymentStatus().equals("req_inst"))){
+				
+				foundTenant = singleTenant;
+			}
+		}
+		return foundTenant;
+	}
+
+	private static List<Tenant> filterDisabledTenants(List<String> tenantsCode, List<Tenant> allTenants) {
+		Date actualDate = new Date();
+		List<Tenant> tenants = new LinkedList<Tenant>();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
+		
+		for (Tenant singleTenant : allTenants) {
+
+			Date singleTenantDate = actualDate;
+
+			if (singleTenant.getDataDisattivazione() != null) {
+				try {
+					singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
+				} catch (ParseException e) {
+					log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: " + singleTenant.getDataDisattivazione());
+					e.printStackTrace();
+				}
+			}
+
+			if (singleTenantDate.getTime() >= actualDate.getTime()) {
+				for (String tenantCode : tenantsCode) {
+					if (singleTenant.getTenantCode().equals(tenantCode))
+						tenants.add(singleTenant);
+				}
+
+			}
 		}
 		return tenants;
 	}

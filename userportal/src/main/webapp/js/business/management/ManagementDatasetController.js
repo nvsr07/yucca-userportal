@@ -642,7 +642,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.openModalView = function(size) {
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
-			templateUrl : 'datasetModalContent.html.html',
+			templateUrl : 'datasetModalContent.html',
 			controller : 'ManagementDatasetModalCtrl',
 			size : size,
 			resolve : {

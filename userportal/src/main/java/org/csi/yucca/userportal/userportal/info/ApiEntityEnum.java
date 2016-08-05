@@ -176,10 +176,11 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			if("/tenants/".equals(request.getPathInfo()) && AuthorizeUtils.isReadMethod(request))
 				return true;
-			//else if (AuthorizeUtils.isWriteMethod(request))
-			//	return true;
 			else
-				return false;
+				if ("/tenants/newNotDefault/".equals(request.getPathInfo()) && AuthorizeUtils.isWriteMethod(request))
+					return true;
+				else
+					return false;
 		}
 	},
 	API_SERVICES_LIFECYCLE_STREAM_REQ_INST("API_SERVICES_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {

@@ -63,6 +63,9 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	fabricAPIservice.getInfo().success(function(result) {
 		info.setInfo(result);
+		
+		console.log("info", info);
+		
 		$scope.activeTenantCode = info.getActiveTenantCode();
 		$scope.userTenants = info.getInfo().user.tenants;
 		$scope.userTenantsToActivate = new Array();
@@ -74,15 +77,30 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		$scope.user.havePersonalTenant = false;
 		$scope.user.havePersonalTenantToActivate = false;
 		angular.forEach($scope.userTenants, function(value, key) {
-			  if (value.tenantType == "trial")
-				  $scope.user.haveTrialTenant = true;
+			if (value.tenantType == "trial")
+				$scope.user.haveTrialTenant = true;
 			});
 		angular.forEach($scope.userTenants, function(value, key) {
-			  if (value.tenantType == "personal")
-				  $scope.user.havePersonalTenant = true;
+			if (value.tenantType == "personal")
+				$scope.user.havePersonalTenant = true;
 			});
 
-		userHavePersonalTenant();
+		//userHavePersonalTenant();
+		console.log((typeof info.getInfo().personalTenantToActivated != 'undefined'));
+		console.log(typeof info.getInfo().personalTenantToActivated);
+		console.log(info.getInfo().personalTenantToActivated);
+		if (typeof info.getInfo().personalTenantToActivated != 'undefined'){
+			$scope.user.havePersonalTenantToActivate = true;
+			$scope.userTenantsToActivate.push(info.getInfo().havePersonalTenantToActivate);
+		}
+
+		console.log((typeof info.getInfo().trialTenantToActivated != 'undefined'));
+		console.log(typeof info.getInfo().trialTenantToActivated);
+		console.log(info.getInfo().trialTenantToActivated);
+		if (typeof info.getInfo().trialTenantToActivated != 'undefined'){
+			$scope.user.haveTrialTenantToActivate = true;
+			$scope.userTenantsToActivate.push(info.getInfo().trialTenantToActivated);
+		}
 		
 //		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
 //			$scope.storeUrl = '/store/site/pages/sso-filter.jag';
@@ -130,9 +148,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	});
 	
 	var userHavePersonalTenant = function(){
-		fabricAPIservice.getTenants().success(function(result) {
+		//fabricAPIservice.getTenants().success(function(result) {
 			var actualDate = new Date();	
 			if (!$scope.user.havePersonalTenant){
+				/*
 				angular.forEach(result.tenants.tenant, function(value, key) {
 					var dataDisVal = null;
 					var dataDisDate = null;
@@ -147,6 +166,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 						$scope.userTenantsToActivate.push(value);
 					}
 				});
+				*/
 			}
 			//userHaveTrialTenant();
 		//});
@@ -156,6 +176,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		//fabricAPIservice.getTenants().success(function(result) {
 			//var actualDate = new Date();	
 			if (!$scope.user.haveTrialTenant){
+				/*
 				angular.forEach(result.tenants.tenant, function(value, key) {
 					var dataDisVal = null;
 					var dataDisDate = null;
@@ -170,9 +191,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 						$scope.userTenantsToActivate.push(value);
 					}
 				});
+				*/
 			}
 			gestModalWindow();
-		});
+		//});
 	};
 	
 	var gestModalWindow = function(){
