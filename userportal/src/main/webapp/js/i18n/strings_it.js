@@ -400,11 +400,11 @@ var translations_it = {
 	HEADER_MARKET_PLACE_LINK: 'market place',
 
 	/* Home page */
-	HOME_TOP_HEADER_INTRO: 'Una piattaforma cloud self service per realizzare soluzioni applicative basate su Internet of Things e Big Data. Interconnette applicazioni, social network, sistemi e oggetti distribuiti sul territorio Raccoglie dati e informazioni e ne consente l\'elaborazione e l\'analisi avanzata per abilitare la realizzazione di soluzioni end-to-end',
+	/*HOME_TOP_HEADER_INTRO: 'Una piattaforma cloud self service per realizzare soluzioni applicative basate su Internet of Things e Big Data. Interconnette applicazioni, social network, sistemi e oggetti distribuiti sul territorio Raccoglie dati e informazioni e ne consente l\'elaborazione e l\'analisi avanzata per abilitare la realizzazione di soluzioni end-to-end',
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Registra smart object e definisci gli stream trasmessi',
 	HOME_INTRO_HTML: 'Informazioni dal mondo che ci circonda e soluzioni open: sono questi i punti distintivi della Piattaforma messa a disposizione da Regione Piemonte per l\'Ecosistema Smart Data Net',
-	HOME_START_BUTTON_DESC: 'Login con la tua utenza',
+	HOME_START_BUTTON_DESC: 'Login con la tua utenza',*/
 	HOME_START_BUTTON: 'Login',
 	HOME_FORCE_LOGOUT_BUTTON: 'Forza Logout',
 	HOME_TENANT_TRIAL_BUTTON: 'Richiedi un Tenant di prova',
@@ -415,7 +415,32 @@ var translations_it = {
 	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
 	HOME_LOGGED_NOT_TENANT_AUTHENTICATION: 'Le tue credenziali non sono associate a nessun tenant',
 	HOME_LOGGED_TECHNICAL_AUTHENTICATION: 'Stai usando credenziali tecniche, rivolgersi alla casella smartdatanet@csi.it',
-	HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
+	
+	HOME_LOGIN_ENTER_TITLE : 'Vuoi <strong>accedere</strong> alla tua area di lavoro o di prova?',
+	HOME_LOGIN_ENTER_TEXT : 'Usa credenziali riconosciute da SistemaPiemonte oppure '+
+							'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
+							', se hai gi&agrave; richiesto un\'area personale',
+	HOME_LOGIN_ENTER_BUTTON : 'Login',
+	HOME_LOGIN_REQUEST_WORKAREA_TITLE : 'Vuoi un\'area di lavoro?',
+	HOME_LOGIN_REQUEST_WORKAREA_TEXT : 'Puoi attivare un\'area di <strong>lavoro</strong> personale usando credenziali <i>riconosciute</i> da SistemaPiemonte',
+	HOME_LOGIN_REQUEST_WORKAREA_BUTTON : 'Login',
+	HOME_LOGIN_REQUEST_TESTAREA_TITLE : 'Vuoi un\'area di prova?',
+	HOME_LOGIN_REQUEST_TESTAREA_TEXT : 'Puoi attivare un periodo di <strong>prova</strong> di 30 giorni usando un tuo account ' +
+		'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
+		' o  le credenziali riconosciute da Sistema Piemonte',
+	HOME_LOGIN_REQUEST_TESTAREA_BUTTON : 'Login',
+	HOME_LOGIN_REGISTER_TITLE : 'Vuoi richiedere le credenziali SistemaPiemonte?',
+	HOME_LOGIN_REGISTER_TEXT : 'Registrati gratuitamente',
+	HOME_LOGIN_REGISTER_BUTTON : 'Registrati',
+
+	HOME_SANDBOX_WARNING: 'La modalit&agrave; di utilizzo dalla sandbox rimarr&agrave; attiva sino al 30 Settembre 2016.<br>'+
+						'Dal primo Ottobre 2016 tutti i dati saranno cancellati e la piattaforma potr&agrave; essere utilizzata in prova.',
+						
+	HOME_SEARCH_TITLE: 'Cerca nei dati presenti in Yucca',
+	HOME_SEARCH_TEXT: 'Puoi cercare nello <store>store</store> i dataset e gli stream pubblici, i tuoi e quelli condivisi con te',
+	HOME_SEARCH_BUTTON: 'Accedi ai dati',
+	
+	/*HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
 	HOME_MAP_INTRO: 'Sensori attualmente attivi sul territorio',
 	HOME_STATISTIC_PANEL_TITLE: 'Cosa c\'&egrave; nella piattaforma',
 	HOME_STATISTIC_TOTAL_DATA: 'Misure totali',
@@ -428,7 +453,7 @@ var translations_it = {
 	HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP: 'Totale dei dati ricevuti dagli Smart Object: ',
 	HOME_STATISTIC_TENANT: 'Organizations',	
 	HOME_STATISTIC_VIRTUALENTITY: 'Active Smart Objects',	
-	HOME_STATISTIC_STREAM: 'Online streams',	
+	HOME_STATISTIC_STREAM: 'Online streams',	 */
 	HOME_OPERATION_PANEL_TITLE:'Cosa puoi fare con la piattaforma',
 	HOME_STATISTIC_LASTUPDATE_INFO: 'Statistiche aggiornate il ',
 	HOME_ROLE_DEVELOPER: 'developer',
@@ -439,9 +464,9 @@ var translations_it = {
 	HOME_ROLE_SUBSCRIBER_INTRO: 'Puoi usare i dati disponibili nella piattaforma',
 	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
 
-	HOME_ACTION_DEVELOPER_SEP_1: 'oppure elabora un nuovo stream',
+	//HOME_ACTION_DEVELOPER_SEP_1: 'oppure elabora un nuovo stream',
 	HOME_ACTION_PUBLISHER_SEP_1: 'oppure aggiungi direttamente gli oggetti',
-	HOME_ACTION_SUBSCRIBER_SEP_1: 'oppure cerca gli stream e i dati nello store',
+	//HOME_ACTION_SUBSCRIBER_SEP_1: 'oppure cerca gli stream e i dati nello store',
 	
 	HOME_ACTION_DASHBOARD: 'Monitoraggio Stream',
 	HOME_ACTION_MANAGEMENT: 'Gestione',

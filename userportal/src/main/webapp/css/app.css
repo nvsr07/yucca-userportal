@@ -88,7 +88,6 @@ a{color: black; text-decoration: underline;}
 
 #homepage-family-identity .translate-cloak{color: transparent;} 
 
-.main-body{/*background-color: #efefef; */border-bottom: solid 1px #bbb;}
 .content-gray{background-color: #efefef; }
 
 /* logo */
@@ -437,44 +436,6 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 /* home page */
 #homepage{ background-color: #fff; }
 
-#home-landing-section{clear: both; overflow: hidden;padding-top: 36px; }
-#home-landing-section .home-lang-panel{height: 136px; margin-left: 400px;}
-#home-landing-section .intro-desc{text-align: right; max-width: 800px; font-size: 24px; padding-left: 35px; line-height: 40px; margin-top: 18px;padding-right: 1em}
-#home-landing-section .main-title-container{background: url(../img/home/home-logo-panel-bg.png) no-repeat left center #fff;height: 306px; overflow:hidden; }
-#home-landing-section .main-title{background-color: transparent; color: white; font-size: 128px; margin-bottom: 0px; margin-top: 0; margin-left: 110px;}
-#home-landing-section .main-action-panel{margin-bottom:10px;color: white; }
-#home-landing-section .main-action-panel .actions{background-color: #00BBF0; color: white; padding: 12px; height: 80px; }
-#home-landing-section .main-action-panel .first-block{background: url(../img/home/home-start-panel-bg.png) no-repeat left center #00BBF0; color: white; padding: 24px; height: 80px; }
-#home-landing-section .main-action-panel .main-action-panel-demo-link{margin-top: 6px;}
-#home-landing-section .main-action-button-desc{padding-top: 15px;}
-#home-landing-section .main-action-button{background-color: #222222; font-size: 24px; padding: 6px 18px; font-weight: bold;  color: white; position: relative; border-radius: 0; position: relative;}
-#home-landing-section .main-action-button::after {  content: '';  position: absolute;  top: 0;  width: 0;  height: 0; border-style: solid; right: -46px;  border-width: 23px;  border-color: transparent transparent transparent #222222;}
-#home-landing-section .main-action-username{display: block;text-align: right; font-size: 18px;}
-#home-landing-section .main-action-tenant{display: block;text-align: right; font-size: 12px;}
-#home-landing-section .home-logo{background: url(../img/logosdp_home.png) no-repeat left center transparent;height: 69px; width:336px;overflow: hidden;margin-top: 19px;display: block;}
-#home-landing-section .main-action-panel-demo-link a{color: #fff;}
-
-#home-map-section{margin-top: 64px;}
-#home-map-section .map {height: 300px; background-color: #ccc; position: relative;}
-#home-map-section .left-overlay-map, #home-map-section .right-overlay-map{width: 222px; height: 300px; background-color: white; opacity: 0.5;filter: alpha(opacity=50);z-index:1; position: absolute;}
-#home-map-section .left-overlay-map{top:0; left: 40px;}
-#home-map-section .right-overlay-map{top:0; right: 40px;}
-
-#home-statistic-section{background-color: #E3E4E6;padding: 40px 0 0 0; }
-#home-statistic-section h3{margin-bottom: 2em; text-align: center; font-size: 40px; font-family: 'Roboto', sans-serif;}
-#home-statistic-section .data-number{font-size: 3.5em;letter-spacing: -4px;font-weight: 700; color: #00bbf0; }
-#home-statistic-section .statistic-data-panel{text-align: right; font-size: 10pt; padding: 0;}
-#home-statistic-section .statistic-data-panel p{padding:.5em;}
-#home-statistic-section .statistic-data-panel .data-number{padding-left: .2em;}
-#home-statistic-section .data-number-label{font-size: 20px; font-family: 'Roboto', sans-serif;}
-#home-statistic-section .statistic-data-panel .counter-group{color: #000;font-weight: normal;font-size: .5em;letter-spacing: 1.2px;}
-#home-statistic-section .statistic-chart-panel{border-color: #b2b4b3; border-width: 0 1px; border-style: solid; margin-top: -40px;}
-#domain-chart{margin-top: -50px;margin-bottom: -40px;}
-#home-statistic-section .statistic-entity-panel{text-align: left; font-size: 10pt;}
-#home-statistic-section .statistic-entity-panel p{padding:.5em;}
-#home-statistic-section .statistic-entity-panel .data-number{padding-right: .2em;}
-#home-statistic-section .lastupdate-info{line-height: 40px; font-size: .9em; color: #999;}
-
 #home-operation-section{padding: 40px 0; }
 #home-operation-section h2{margin-bottom: 2em; text-align: center;}
 #home-operation-section .operation-panel{text-align: center;}
@@ -534,15 +495,10 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 
 #homepage-family-identity #home-operation-section-anchor{background-color: #dbd91b;}
 
-#homepage-family-identity #home-top-header{background: url(../img/familyidentity/home-topheader.jpg) no-repeat;z-index: 10; color: white; height: 450px;}
-#homepage-family-identity #home-top-header .yucca{background: url(../img/familyidentity/home-logotree.png) no-repeat;background-size: auto 300px; height: 300px; padding-top: 75px;}
-#homepage-family-identity #home-top-header .yucca h2 {padding-left: 320px;  font-size: 60px; font-family: 'Aldrich', sans-serif;}
-#homepage-family-identity #home-top-header .yucca  p {padding-left: 320px; font-size: 20px; font-family: 'Roboto', sans-serif;} /* Condensed */
-
 #homepage-family-identity #home-operation-section h2{ font-size: 40px; padding-top: 10px; margin-bottom: 50px;text-transform: uppercase; font-weight: 700; font-family: 'Roboto', sans-serif;}
-#homepage-family-identity #home-operation-section .operation-panel{padding:0; min-height: 750px;}
+#homepage-family-identity #home-operation-section .operation-panel{padding:0; min-height: 580px;}
 #homepage-family-identity #home-operation-section .operation-panel-content{padding:0;}
-#homepage-family-identity #home-operation-section .operation-panel-content p{padding:0 12px;}
+#homepage-family-identity #home-operation-section .operation-panel-content p{padding:30px 12px; margin-bottom:0; font-weight: bold;}
 #homepage-family-identity #home-operation-section{background-color: #dbd91b; color: #000; text-align: center; font-family: 'Roboto', sans-serif; }
 #homepage-family-identity #home-operation-section .home-action{display: inline-block; padding: 6px 12px; font-weight: 400; line-height: 1.42857143; text-align: center; white-space: nowrap; vertical-align: middle; cursor: pointer;
     -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; border: 1px solid transparent; width: 88%; margin: 10px; background-color: #000;
@@ -555,62 +511,71 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #homepage-family-identity #home-operation-section .role-panel{font-weight: 400; padding-top: 0; font-size: 50px; padding-bottom: 30px; border-bottom: 1px solid #a2a21e; color: #000;  text-transform: capitalize;}
 #homepage-family-identity #home-operation-section .operation-developer{border-right: 1px solid #a2a21e;}
 #homepage-family-identity #home-operation-section .operation-manager {border-right: 1px solid #a2a21e;}
-#homepage-family-identity #home-operation-section .main-icon{font-size: 84pt; color: #000;}
 
-#homepage-family-identity #home-map-section { margin-top:0px;background-color: #dbd91b; padding-top: 30px;}
-#homepage-family-identity #home-map-section h3{text-align: center;font-size: 25px; line-height: 30px; font-family: 'Roboto', sans-serif; font-weight: 700;}
+.vcenter {/*display: inline-block; vertical-align: middle; float: none;*/}
 
+#home-landing-section{clear: both; overflow: hidden;padding-top: 36px; }
+#home-landing-section .home-lang-panel{height: 136px; margin-left: 400px;}
+#home-landing-section .intro-desc{text-align: right; max-width: 800px; font-size: 24px; padding-left: 35px; line-height: 40px;padding-right: 1em}
+#home-landing-section .main-title-container{background: url(../img/home/home-logo-panel-bg.png) no-repeat left center #fff;height: 306px; overflow:hidden; }
+#home-landing-section .main-title{background-color: transparent; color: white; font-size: 128px; margin-bottom: 0px; margin-top: 0; margin-left: 110px;}
+#home-landing-section .main-action-panel{margin-bottom:10px;color: white; }
+#home-landing-section .main-action-panel .actions{background-color: #00BBF0; color: white; padding: 12px; height: 80px; }
+#home-landing-section .main-action-panel .first-block{background: url(../img/home/home-start-panel-bg.png) no-repeat left center #00BBF0; color: white; padding: 24px; height: 80px; }
+#home-landing-section .main-action-panel .main-action-panel-demo-link{margin-top: 6px;}
+#home-landing-section .main-action-button-desc{padding-top: 15px;}
+#home-landing-section .main-action-button{background-color: #222222; font-size: 24px; padding: 6px 18px; font-weight: bold;  color: white; position: relative; border-radius: 0; position: relative;}
+#home-landing-section .main-action-button::after {  content: '';  position: absolute;  top: 0;  width: 0;  height: 0; border-style: solid; right: -46px;  border-width: 23px;  border-color: transparent transparent transparent #222222;}
+#home-landing-section .main-action-username{display: block;text-align: right; font-size: 18px;}
+#home-landing-section .main-action-tenant{display: block;text-align: right; font-size: 12px;}
+#home-landing-section .home-logo{background: url(../img/logosdp_home.png) no-repeat left center transparent;height: 69px; width:336px;overflow: hidden;margin-top: 19px;display: block;}
+#home-landing-section .main-action-panel-demo-link a{color: #fff;}
 
-#homepage-family-identity #home-landing-section{background-color:#707b7b; color: #fff;padding-top: 50px;padding-bottom: 50px; background: url(../img/familyidentity/bottom-navbar-bg.png) repeat-x top center #707b7b;}
-#homepage-family-identity #home-landing-section .intro-desc{font-size: 26px; font-family: 'Roboto', sans-serif; line-height: 35px; font-weight: 200;  margin-left: -15px; text-align: left;}
+#homepage-family-identity #home-landing-section{background-color:#e3e4e6; padding-top: 50px;padding-bottom: 50px; background: url(../img/familyidentity/bottom-navbar-bg.png) repeat-x top center #e3e4e6;}
+#homepage-family-identity #home-landing-section .intro-desc{font-size: 16px; font-family: 'Roboto', sans-serif; line-height: 22px;text-align: left;}
 #homepage-family-identity #home-landing-section .action-start-panel{text-align: right;padding-right: 20px; font-family: 'Roboto', sans-serif;}
 #homepage-family-identity #home-landing-section .btn{font-family: 'Roboto', sans-serif; font-size: 23px;color: #000;text-align: center;padding: 6px 12px}
 #homepage-family-identity #home-landing-section .home-start-intro{padding-right: 25px;}
-#homepage-family-identity #home-landing-section .btn-home-start{ background-color: #dbd91b; border-color: #dbd91b; width: 200px; text-transform: uppercase; text-align: right; padding-right: 25px;}
+#homepage-family-identity #home-landing-section .btn-home-start{ background-color: #dbd91b; border-color: #dbd91b; width: 200px; text-transform: uppercase; text-align: right; padding-right: 25px;margin-top: 20px;}
 #homepage-family-identity #home-landing-section .home-demo-intro{margin-top: 80px; padding-right: 25px;}
-#homepage-family-identity .btn-home-demo{ background-color: #fff; border-color: #fff; width: 460px; text-transform: uppercase}
+#homepage-family-identity #home-landing-section .login-row{ border-bottom: solid 1px #000; padding: 10px;}
+#homepage-family-identity #home-landing-section .fa{font-weight: bold;}
 
-
-#homepage-family-identity #home-landing-section .btn-arrow-right{position: relative; padding-left: 18px}
-#homepage-family-identity #home-landing-section .btn-arrow-right:before,
-#homepage-family-identity #home-landing-section .btn-arrow-right:after,
-#homepage-family-identity #home-landing-section .btn-arrow-left:before,
-#homepage-family-identity #home-landing-section .btn-arrow-left:after {content: "";position: absolute;top: 6px;width: 32px;height: 32px;background: inherit;border: inherit;border-left-color: transparent;
+#homepage-family-identity .btn-arrow-right{position: relative; padding-left: 18px}
+#homepage-family-identity .btn-arrow-right:before,
+#homepage-family-identity .btn-arrow-right:after,
+#homepage-family-identity .btn-arrow-left:before,
+#homepage-family-identity .btn-arrow-left:after {content: "";position: absolute;top: 6px;width: 32px;height: 32px;background: inherit;border: inherit;border-left-color: transparent;
 border-bottom-color: transparent;border-radius: 0px 4px 0px 0px;-webkit-border-radius: 0px 4px 0px 0px;-moz-border-radius: 0px 4px 0px 0px;}
-#homepage-family-identity #home-landing-section .btn-arrow-right:before,
-#homepage-family-identity #home-landing-section .btn-arrow-right:after {transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);-o-transform: rotate(45deg);-ms-transform: rotate(45deg);}
-#homepage-family-identity #home-landing-section .btn-arrow-left:before,
-#homepage-family-identity #home-landing-section .btn-arrow-left:after {transform: rotate(225deg);-webkit-transform: rotate(225deg);-moz-transform: rotate(225deg);  -o-transform: rotate(225deg);-ms-transform: rotate(225deg);}
-#homepage-family-identity #home-landing-section .btn-arrow-right:before,
-#homepage-family-identity #home-landing-section .btn-arrow-left:before {left: -15px;}
-#homepage-family-identity #home-landing-section .btn-arrow-right:after,
-#homepage-family-identity #home-landing-section .btn-arrow-left:after {right: -15px;}
-#homepage-family-identity #home-landing-section .btn-arrow-right:after,
-#homepage-family-identity #home-landing-section .btn-arrow-left:before {z-index: 1;}
-#homepage-family-identity #home-landing-section .btn-arrow-right:before,
-#homepage-family-identity #home-landing-section .btn-arrow-left:after {background-color: #707b7b;}
+#homepage-family-identity .btn-arrow-right:before,
+#homepage-family-identity .btn-arrow-right:after {transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);-o-transform: rotate(45deg);-ms-transform: rotate(45deg);}
+#homepage-family-identity .btn-arrow-left:before,
+#homepage-family-identity .btn-arrow-left:after {transform: rotate(225deg);-webkit-transform: rotate(225deg);-moz-transform: rotate(225deg);  -o-transform: rotate(225deg);-ms-transform: rotate(225deg);}
+#homepage-family-identity .btn-arrow-right:before,
+#homepage-family-identity .btn-arrow-left:before {left: -15px;}
+#homepage-family-identity .btn-arrow-right:after,
+#homepage-family-identity .btn-arrow-left:after {right: -15px;}
+#homepage-family-identity .btn-arrow-right:after,
+#homepage-family-identity .btn-arrow-left:before {z-index: 1;}
+#homepage-family-identity .btn-arrow-right:before,
+#homepage-family-identity .btn-arrow-left:after {background-color: #e3e4e6;}
+
+
+#homepage-family-identity #home-search-section{background-color: #1dbbee; color: white; text-align: center; padding: 60px 0;}
+#homepage-family-identity #home-search-section h3{font-size: 50px; line-height: 50px;}
+#homepage-family-identity #home-search-section p{padding-top: 20px; font-weight: 300; font-size: 23px;line-height: 1.1em;}
+
+#homepage-family-identity #home-search-section .btn-home-demo{ background-color: #fff; border-color: #fff; width: 360px; text-transform: uppercase; font-size: 23px;font-weight: bold;}
+
+#homepage-family-identity #home-search-section .btn-arrow-right:before,
+#homepage-family-identity #home-search-section .btn-arrow-left:after {background-color: #1dbbee;}
     
+    
+#homepage-family-identity #home-sandbox-expiring-warning{background-color: #e3e4e6; text-align: center; padding: 20px 0 60px;font-weight: 300; font-size: 23px;line-height: 1.1em;}
+
 /* top toolbar */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .top-header{background: url(../img/familyidentity/top-navbar-bg.jpg) no-repeat center center black;  }
-.top-header-logo-bg{background: url(../img/familyidentity/top-navbar-logotree-rotated.png) no-repeat 85px; }
+.top-header-logo-bg{background: url(../img/familyidentity/top-navbar-logotree-rotated.png) no-repeat 85px bottom; min-height: 198px}
 .top-header .yucca .first-bar {padding-left: 530px;}
 .top-header .yucca .first-bar a{color: white;}
 .top-header .yucca .first-bar-menu{}
@@ -618,11 +583,7 @@ border-bottom-color: transparent;border-radius: 0px 4px 0px 0px;-webkit-border-r
 .top-header .yucca .first-bar .nav>li>a:hover, .nav>li>a:focus{background-color: transparent; color: white;}
 .top-header  .dropdown-menu{background-color:#687676;}
 .top-header .dropdown-menu>li>a:hover, .top-header  a.dropdown-menu>li>a:focus{background-color: #384D4D;}
-/*
-.top-header-logo{margin-top: 34px;}
-.top-header-right h1{font-size: 72px; color: white;margin-top: 14px; margin-left: 84px;}
-.top-toolbar{height: 50px; margin-bottom:0;}
-*/
+
 .bottom-header{background: url(../img/familyidentity/bottom-navbar-bg.png) repeat-x top center #687676; }
 .bottom-header .main-menu{ height: auto;text-align: center; font-size: 0px; letter-spacing: 0px; word-spacing: 0px;}
 .bottom-header .border-left{border-left: solid 1px white;}

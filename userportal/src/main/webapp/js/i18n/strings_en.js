@@ -400,11 +400,11 @@ var translations_en = {
 	HEADER_MARKET_PLACE_LINK: 'market place',
 
 	/* Home page */
-	HOME_TOP_HEADER_INTRO: 'A cloud platform to achieve self service application solutions based on Internet of Things and Big Data. Interconnects applications, social networks, systems and objects located throughout. Collects data and information and allows processing and advanced analysis to enable the creation of end-to-end',
+	/*HOME_TOP_HEADER_INTRO: 'A cloud platform to achieve self service application solutions based on Internet of Things and Big Data. Interconnects applications, social networks, systems and objects located throughout. Collects data and information and allows processing and advanced analysis to enable the creation of end-to-end',
 	HOME_TITLE: 'Yucca Platform',
 	HOME_SUBTITLE: 'Record smart objects and define transmitted streams',
 	HOME_INTRO_HTML: 'Information from the world around us and open solutions: these are the distinctive points of the platform made available by Regione Piemonte for Ecosystem Smart Data Net',
-	HOME_START_BUTTON_DESC: 'Sign in with your credential',
+	HOME_START_BUTTON_DESC: 'Sign in with your credential', */
 	HOME_START_BUTTON: 'Sign in',
 	HOME_FORCE_LOGOUT_BUTTON: 'Force Logout',
 	HOME_TENANT_TRIAL_BUTTON: 'Request Trial Tenant',
@@ -415,7 +415,33 @@ var translations_en = {
 	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Your credentials are not a level SUFFICIENT to access , contact Alla Casella smartdatanet@csi.it',
 	HOME_LOGGED_NOT_TENANT_AUTHENTICATION: 'Your credentials are not a level SUFFICIENT to access, contact Alla Casella smartdatanet@csi.it',
 	HOME_LOGGED_TECHNICAL_AUTHENTICATION: 'Are you using technical credentials, contact the box smartdatanet@csi.it',
-	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
+	
+	HOME_LOGIN_ENTER_TITLE : 'Do you want to <strong>access</strong> to your workspace or test area?',
+	HOME_LOGIN_ENTER_TEXT : 'Use credentials recognized by SistemaPiemonte or ' +
+	'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
+	', if you have already requested  personal area',
+	HOME_LOGIN_ENTER_BUTTON : 'Login',
+	HOME_LOGIN_REQUEST_WORKAREA_TITLE : 'Do you want a workspace?',
+	HOME_LOGIN_REQUEST_WORKAREA_TEXT : 'You can activate a personal <strong>workspace</strong> using credentials recognized by SistemaPiemonte',
+	HOME_LOGIN_REQUEST_WORKAREA_BUTTON : 'Login',
+	HOME_LOGIN_REQUEST_TESTAREA_TITLE : 'Do you want a test area?',
+	HOME_LOGIN_REQUEST_TESTAREA_TEXT : 'You can activate a <strong>trial period</strong> of 30 days using an account ' +
+	'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
+	' or credentials <i>recognized</i> by SistemaPiemonte',
+	HOME_LOGIN_REQUEST_TESTAREA_BUTTON : 'Login',
+	HOME_LOGIN_REGISTER_TITLE : 'Do you want to request the SistemaPiemonte credentials??',
+	HOME_LOGIN_REGISTER_TEXT : 'Register for free',
+	HOME_LOGIN_REGISTER_BUTTON : 'Register',
+
+	HOME_SANDBOX_WARNING: 'The sandbox will remain active until September 30, 2016.<br>'+
+						'From 1 October 2016 all data will be erased and the platform can be used in trial mode',
+						
+	HOME_SEARCH_TITLE: 'Cerca nei dati presenti in Yucca',
+	HOME_SEARCH_TEXT: 'You can search in the <store>store</store> datasets and public stream, yours, and shared with you',
+	HOME_SEARCH_BUTTON: 'Access to public data',
+
+						
+	/*HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
 	HOME_MAP_INTRO: 'Smart object currently active on the territory',
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
 	HOME_STATISTIC_TOTAL_DATA: 'Available measures',
@@ -428,7 +454,7 @@ var translations_en = {
 	HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP: 'Total data from Smart Object: ',
 	HOME_STATISTIC_TENANT: 'Organizations',	
 	HOME_STATISTIC_VIRTUALENTITY: 'Active Smart Objects',	
-	HOME_STATISTIC_STREAM: 'Online stream',	
+	HOME_STATISTIC_STREAM: 'Online stream',	*/
 	HOME_OPERATION_PANEL_TITLE:'What can you do with the platform',
 	HOME_STATISTIC_LASTUPDATE_INFO: 'Statistics updated on ',
 	HOME_ROLE_DEVELOPER: 'developer',

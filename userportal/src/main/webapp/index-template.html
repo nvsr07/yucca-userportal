@@ -12,16 +12,16 @@
 <link rel="stylesheet" href="css/freeboard-adapted.css" />
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.css">
 <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"> -->
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/nvd3/nv.d3.min.css">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="../ris/userportal/lib/codemirror/addon/hint/show-hint.css" />
 
 <link rel="stylesheet" type="text/css" href="css/app.css">
+<!--  <link rel="stylesheet" type="text/css" href="http://localhost:8000/css/app.css"> -->
 <link rel="stylesheet" type="text/css" href="css/responsive.css">
 <link rel="stylesheet" type="text/css" href="css/smartdatanet-domains.css">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
-<link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
 
 <link href="../ris/userportal/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
@@ -60,22 +60,7 @@
 			<a href='http://smartdatanet.it/yucca-cookies-policy.html' target='_blank'>Cookie Policy</a>&nbsp;
 			<a class='btn' ng-click='acceptCookie()' translate-cloak translate>OK</a>
 		</div>
-		<!--<div id='topbar-family-identity'  ng-cloak>
-			<div class="container">
-    			<div class="row">
- 		  			<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">  
-             			<h1><a href="http://www.smartdatanet.it/">smartdatanet</a></h1>
-    				</div>
-			        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
-	            		<ul>
-	            			<li><a class="developer" href="#" translate>HEADER_DEVELOPER_CENTER_LINK</a></li>
-	            			<li><a  class="market" href="#" translate>HEADER_MARKET_PLACE_LINK</a></li>
-	            		</ul>
-					</div>
-				</div>
-			</div>
-		</div>-->
-		<main-navbar ng-show="!isHomepage()"></main-navbar>
+		<main-navbar></main-navbar>
 		<div ng-view class='main-body'></div>
 		<main-footer></main-footer>
 		<iframe ng-src="{{linkLoginToStore}}" width="{{linkLoginToStoreW}}" height="{{linkLoginToStoreH}}"></iframe>
@@ -222,9 +207,7 @@
  	-->
 	<script type="text/javascript" src="api/config"></script>
 	<script type="text/javascript" src="js/build_info.js"></script>
-	<!-- build:js js-min/sensormap.js -->
-	<script type="text/javascript" src="js/sensormap.js"></script>
-	<!-- endbuild -->
+
 
 	<script type="text/javascript" src="/userportal/api/tags?language=en"></script>
 	<script type="text/javascript" src="/userportal/api/tags?language=it"></script>

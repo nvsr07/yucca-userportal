@@ -411,21 +411,22 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
                                         function($scope, $route, $http, $filter, fabricAPIservice, fabricAPImanagement, $modal, info, $location) {
 	$scope.$route = $route;
 	$scope.tenant = "";
-	var $translate = $filter('translate');
-	showMap();
+	//var $translate = $filter('translate');
+	//showMap();
 
 	$scope.isHomepage = function() {
 		return true;
 	};
 	
-	console.debug(" $location",  $location);
-	var scrollTo  = $location.search().scrollTo;
-	console.debug(" scrollTo",  scrollTo);
-	if(scrollTo){
-		Helpers.util.scrollTo(scrollTo);
-	}
-	$scope.statistics = {};
+	//console.debug(" $location",  $location);
+	//var scrollTo  = $location.search().scrollTo;
+	//console.debug(" scrollTo",  scrollTo);
+	//if(scrollTo){
+	//	Helpers.util.scrollTo(scrollTo);
+	//}
+	//$scope.statistics = {};
 
+	/*
 	fabricAPImanagement.loadDataStatistics().success(function(response) {
 		console.debug("statistics", response);	
 		$scope.statistics.total_tenants = response.lifetime.total_tenants;
@@ -455,6 +456,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 		$scope.domainChartData = domains;
 	});
+	
 
 
 
@@ -470,16 +472,10 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	};
 
 	$scope.domainChartColors = ["#00521F","#006627","#007A2F","#008F37","#00973A","#00B846","#00CC4E","#00E056", "#00F55E"];
-//	$scope.domainChartData =  [{ key: "Agricoltura", y : 29
-//	} , { key: "Energia", y : 13
-//	} , { key: "Ambiente", y : 32
-//	} , { key: "Salute", y : 19
-//	} , { key: "Scuola", y : 5
-//	} , { key: "Sicurezza", y : 9
-//	} , { key: "Trasporti", y : 25 }];
+
 	
 	$scope.animationsEnabled = true;
-
+	 */
 } ]);
 
 appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op', 'tenantType', 'globalUser', 'globalUserTenantsToActivate', 
