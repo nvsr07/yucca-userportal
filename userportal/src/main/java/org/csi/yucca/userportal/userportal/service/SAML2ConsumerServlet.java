@@ -37,7 +37,6 @@ import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.info.Tenant;
-import org.csi.yucca.userportal.userportal.info.Tenants;
 import org.csi.yucca.userportal.userportal.info.TenantsContainer;
 import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
@@ -61,6 +60,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 	static Logger log = Logger.getLogger(SAML2ConsumerServlet.class);
 
+	static List<Tenant> allTenants = null;
+
 	public void init(ServletConfig config) throws ServletException {
 		try {
 			consumer = new SamlConsumerManager(config);
@@ -80,10 +81,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			log.debug("[SAML2ConsumerServlet::doPost] - responseMessage: " + responseMessage);
 			Info info = (Info) request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 			String newUsername = null;
-			
-			List<Tenant> allTenants = null;
+
 			List<Tenant> tenants = null;
-			
+
 			if (responseMessage != null) {
 
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
@@ -143,9 +143,10 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						// the user for each tenant has a role
 						// tenantName_subscriber
 						tenantsCode = loadRoles(newUser, "*_subscriber");
-						//if (tenantsCode.isEmpty()) {
-						//	tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
-						//}
+						// if (tenantsCode.isEmpty()) {
+						// tenantsCode =
+						// Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
+						// }
 					} catch (Exception e) {
 
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
@@ -153,8 +154,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					}
 
 					// filtro sui tenant, data di disattivazione
-					allTenants = getAllTenants();
-					tenants = filterDisabledTenants(tenantsCode, allTenants);
+					// allTenants = getAllTenants();
+					tenants = filterDisabledTenants(tenantsCode, getAllTenants());
 
 					if (tenants.isEmpty()) {
 						tenantUser = false;
@@ -174,7 +175,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 							tecnicalUser = true;
 						}
 					}
-					
+
 					if (tenantsCode.isEmpty()) {
 						tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
 					}
@@ -225,16 +226,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 							newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 						}
 
-						newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(
-								AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
+						newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
 
 						if (tenants.isEmpty())
-							tenants = filterDisabledTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode()), allTenants);
-						
+							tenants = filterDisabledTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode()), getAllTenants());
+
 						newUser.setActiveTenant(tenants.get(0).getTenantCode());
-						
-						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: "
-								+ newUser.getTenants());
+
+						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 
 						try {
 							newUser.setPermissions(loadPermissions(newUser));
@@ -303,8 +302,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
-				info.setPersonalTenantToActivated(filterPersonalTenant(allTenants, newUser.getUsername()));
-				info.setTrialTenantToActivated(filterTrialTenant(allTenants, newUser.getUsername()));
+				info.setPersonalTenantToActivated(filterPersonalTenant(getAllTenants(), newUser.getUsername()));
+				info.setTrialTenantToActivated(filterTrialTenant(getAllTenants(), newUser.getUsername()));
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"
@@ -377,8 +376,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// info);
 					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
-					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath="
-							+ URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
+					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -405,55 +403,55 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 		return false;
 	}
-	
-	private static List<Tenant> getAllTenants(){
-		String apiBaseUrl = "";
-		List<Tenant> tenants = new LinkedList<Tenant>();
-		try {
-			Properties config = Config.loadServerConfiguration();
-			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY) + "/tenants";
-			HttpClient client = HttpClientBuilder.create().build();
-			HttpGet httpget = new HttpGet(apiBaseUrl);
 
-			HttpResponse r = client.execute(httpget);
-			log.debug("[SAML2ConsumerServlet::getAllTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
+	private static List<Tenant> getAllTenants() {
+		if (allTenants == null) {
+			String apiBaseUrl = "";
+			try {
+				Properties config = Config.loadServerConfiguration();
+				apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY) + "/tenants";
+				HttpClient client = HttpClientBuilder.create().build();
+				HttpGet httpget = new HttpGet(apiBaseUrl);
 
-			StringBuilder out = new StringBuilder();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
-			String line = "";
+				HttpResponse r = client.execute(httpget);
+				log.debug("[SAML2ConsumerServlet::getAllTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
 
-			while ((line = rd.readLine()) != null) {
-				out.append(line);
+				StringBuilder out = new StringBuilder();
+				BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+				String line = "";
+
+				while ((line = rd.readLine()) != null) {
+					out.append(line);
+				}
+
+				String inputJson = out.toString();
+
+				TenantsContainer allTenantsContainer = TenantsContainer.fromJson(inputJson);
+				allTenants = allTenantsContainer.getTenants().getTenant();
+			} catch (IOException e) {
+				log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage());
+				e.printStackTrace();
 			}
-
-			String inputJson = out.toString();
-
-			TenantsContainer allTenantsContainer = TenantsContainer.fromJson(inputJson);
-			Tenants allTenants = allTenantsContainer.getTenants();
-			tenants = allTenants.getTenant();
-		} catch (IOException e) {
-			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage());
-			e.printStackTrace();
 		}
-		return tenants;
+		return allTenants;
 	}
-	
-	private static Tenant filterPersonalTenant(List<Tenant> allTenants, String username){
+
+	private static Tenant filterPersonalTenant(List<Tenant> allTenants, String username) {
 		return filterTenant(allTenants, username, "personal");
 	}
-	
-	private static Tenant filterTrialTenant(List<Tenant> allTenants, String username){
+
+	private static Tenant filterTrialTenant(List<Tenant> allTenants, String username) {
 		return filterTenant(allTenants, username, "trial");
 	}
-	
-	private static Tenant filterTenant(List<Tenant> allTenants, String username, String label){
+
+	private static Tenant filterTenant(List<Tenant> allTenants, String username, String label) {
 		Tenant foundTenant = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
 		Date actualDate = new Date();
 		Date singleTenantDate = new Date();
 		for (Tenant singleTenant : allTenants) {
 			singleTenantDate = actualDate;
-			if (singleTenant.getDataDisattivazione() != null){
+			if (singleTenant.getDataDisattivazione() != null) {
 				try {
 					singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
 				} catch (ParseException e) {
@@ -461,11 +459,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			if ((singleTenant.getTenantType().equals(label)) && 
-				(singleTenant.getUserName().equals(username)) && 
-				(actualDate.before(singleTenantDate) || actualDate.equals(singleTenantDate)) && 
-				(singleTenant.getCodDeploymentStatus().equals("req_inst"))){
-				
+			if ((singleTenant.getTenantType().equals(label)) && (singleTenant.getUserName().equals(username))
+					&& (actualDate.before(singleTenantDate) || actualDate.equals(singleTenantDate)) && (singleTenant.getCodDeploymentStatus().equals("req_inst"))) {
+
 				foundTenant = singleTenant;
 			}
 		}
@@ -476,7 +472,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		Date actualDate = new Date();
 		List<Tenant> tenants = new LinkedList<Tenant>();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
-		
+
 		for (Tenant singleTenant : allTenants) {
 
 			Date singleTenantDate = actualDate;
@@ -550,8 +546,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return "";
 	}
 
-	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
-			SAXException {
+	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadPermissions] - START");
 		List<String> permissions = new LinkedList<String>();
@@ -601,8 +596,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return permissions;
 	}
 
-	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException, IOException,
-			ParserConfigurationException, SAXException {
+	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
 		List<String> roles = new LinkedList<String>();
@@ -666,13 +660,12 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return roles;
 	}
 
-	private String loadTermConditionTenantClaim(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException,
-			ParserConfigurationException, SAXException {
+	private String loadTermConditionTenantClaim(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
 		return loadUserClaimValue(newUser, AuthorizeUtils.claimsKeys.get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
 	}
 
-	private String loadUserClaimValue(User newUser, String claimKey) throws KeyManagementException, NoSuchAlgorithmException, IOException,
-			ParserConfigurationException, SAXException {
+	private String loadUserClaimValue(User newUser, String claimKey) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
+			SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
 		String claimValue = null;

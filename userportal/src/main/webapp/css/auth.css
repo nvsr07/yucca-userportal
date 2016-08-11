@@ -2,40 +2,51 @@ body{font-family: Helvetica, Arial, Sans-Serif;font-size: 14px;line-height: 20px
 
 body{background:#fff;}
 
-.header-strip{ background:#fff; height:1em;}
-.header-back{background:none;height:85px;}
+.header-strip{background-color: #162c2d; height: 20px;}
+.header-back{background:none;height:76px; border-bottom: 0px solid #00bff0; background-color: #162c2d}
 .header-text{background:#000; color: #f00;font-size:13px;text-align:center;}
 .header-text strong{color:#333;font-size:14px;}
 
-.logo{background:transparent url(../img/auth/logo.png) no-repeat left top;display:block;cursor:pointer;}
+.logo{background:transparent url(../img/auth/logo.png) no-repeat left top;display:block;cursor:pointer; width: 226px; height: 56px;}
 
 .btn{border-radius: 0px; font-size: 17px; border: 0px solid #ccc; padding: 6px 12px;} 
-.btn-primary { background: #009640; }
+.btn-primary { background: #162c2d;    padding: 10px 16px; font-size: 18px; }
 
 
 .login-header{  background: #007a35;}
 
 h1{ margin-top:20px;color:#333;font-weight:normal;font-size:36px;}
+h2{color: #333; border-bottom: solid 3px #162c2d; margin: 20px auto 10px auto;}
 
-.main-login-container{background:none;-webkit-box-shadow: none;-moz-box-shadow:none;box-shadow: none; border-top: solid 3px #009640; }
+.main-login-container{background:none;-webkit-box-shadow: none;-moz-box-shadow:none;box-shadow: none; }
 
+.flex{display: flex; flex-direction: column;}
+#customAuthAutenticazioneSistemaPiemonte{order:1}
+#customAuthAutenticazioneSocial{order:2}
+#local_auth_title{order:3}
+#local_auth_div{order:4}
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary.active,
 .btn-primary.disabled,
-.btn-primary[disabled] { color: #ffffff;background: #007135; /* Old browsers */}
+.btn-primary[disabled] { color: #ffffff;background: #4d5656; /* Old browsers */}
 
 .btn-primary:active,
 .btn-primary.active {  background-color: #007135 \9;}
 input, textarea, .uneditable-input{font-size: 14px; line-height: 20px; padding: 8px;}
 label, .control-label{font-size: 14px;line-height: 20px; padding: 8px;}
 
-.different-login-container {background:none;-webkit-box-shadow: none;-moz-box-shadow:none;box-shadow: none; border-top: solid 3px #009640;border-bottom: solid 1px lightgray;}
-a.main-link[title~="SistemaPiemonte"] {background: url(../img/auth/logo-csi.png) no-repeat left top; }
-/* a.main-link[title~="CSI_indentity"]:after{content: ' - CSI Piemonte';} */
+.different-login-container {background:none;-webkit-box-shadow: none;-moz-box-shadow:none;box-shadow: none; border-bottom: solid 1px lightgray; width: inherit;}
+div.different-login-container a.truncate{width: inherit!important;}
+a.main-link[title~="SistemaPiemonte"] {background: url(../img/auth/logo-sistemapiemonte.jpg) no-repeat left top;  width: 665px; height: 107px;}
+a.main-link[title~="Social"] {background: url(../img/auth/logo-authsocial.png) no-repeat left top;  width: 665px; height: 82px;}
+
+/* a.main-link[title~="CSI_indentity"]:after{content: ' - CSI Piemonte';} 
 .different-login-container a.main-link{font-size: 22px; line-height: 28px; padding-left: 86px; padding-top: 6px;}
 div.different-login-container a.truncate{white-space: normal!important;text-overflow: clip!important; overflow: visible!important;}		
+*/
+
 		
 		
