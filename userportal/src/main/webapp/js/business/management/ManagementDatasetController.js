@@ -305,7 +305,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
                                                      function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
-	$scope.downloadCsvUrl = Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
+	$scope.downloadCsvUrl = null;//Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
@@ -432,6 +432,9 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 						$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
 					}
 				}
+				
+				if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
+					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				
 				if(!$scope.canCreatePublicDataset())
 					$scope.dataset.info.visibility = 'private';
