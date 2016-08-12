@@ -83,6 +83,8 @@
 				<configuration>
 					<packagingExcludes>lib/angular/,lib/angular-bootstrap/,lib/angular-route/,lib/angular-sanitize/,lib/angular-translate/,lib/angularjs-nvd3-directives/,lib/d3/,lib/freeboard/,lib/jquery/,lib/ng-prettyjson/,lib/nvd3/,lib/openlayers/,lib/reconnecting-websocket/,lib/stomp/,freeboard/</packagingExcludes>
 					<webXml>${webXmlPath}/web.xml</webXml>
+					<!-- outputDirectory>C:\Program Files (x86)\jboss-eap-6.2\standalone\deployments</outputDirectory -->
+					<!-- outputDirectory>D:\Portable\jboss-eap-6.2\standalone\deployments</outputDirectory -->
 					<outputDirectory>/Library/JBoss/jboss-eap-6.2/standalone/deployments</outputDirectory>
 				</configuration>
 			</plugin>
@@ -277,7 +279,8 @@
 			<build>
 				<resources>
 					<resource>
-						<directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int</directory>
+						<!-- directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int</directory -->
+						<directory>/Volumes/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int</directory>
 					</resource>
 					<resource>
 						<directory>src/main/resources/images</directory>
@@ -286,7 +289,8 @@
 				</resources>
 			</build>
 			<properties>
-				<webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int/</webXmlPath>
+				<!-- webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int/</webXmlPath -->
+				<webXmlPath>/Volumes/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int/</webXmlPath>
 			</properties>
 		</profile>
 		<profile>
@@ -294,7 +298,8 @@
 			<build>
 				<resources>
 					<resource>
-						<directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod</directory>
+						<!-- directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod</directory-->
+						<directory>/Volumes/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod</directory>
 					</resource>
 					<resource>
 						<directory>src/main/resources/images</directory>
@@ -303,7 +308,8 @@
 				</resources>
 			</build>
 			<properties>
-				<webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod/</webXmlPath>
+				<!-- webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod/</webXmlPath -->
+				<webXmlPath>/Volumes/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod/</webXmlPath>
 			</properties>
 		</profile>
 	</profiles>
