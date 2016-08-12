@@ -85,26 +85,16 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				$scope.user.havePersonalTenant = true;
 			});
 
-		//userHavePersonalTenant();
-		console.log((typeof info.getInfo().personalTenantToActivated != 'undefined'));
-		console.log(typeof info.getInfo().personalTenantToActivated);
-		console.log(info.getInfo().personalTenantToActivated);
 		if (typeof info.getInfo().personalTenantToActivated != 'undefined'){
 			$scope.user.havePersonalTenantToActivate = true;
 			$scope.userTenantsToActivate.push(info.getInfo().havePersonalTenantToActivate);
 		}
 
-		console.log((typeof info.getInfo().trialTenantToActivated != 'undefined'));
-		console.log(typeof info.getInfo().trialTenantToActivated);
-		console.log(info.getInfo().trialTenantToActivated);
 		if (typeof info.getInfo().trialTenantToActivated != 'undefined'){
 			$scope.user.haveTrialTenantToActivate = true;
 			$scope.userTenantsToActivate.push(info.getInfo().trialTenantToActivated);
 		}
 		
-//		if($scope.user && $scope.user!=null && $scope.user.loggedIn){
-//			$scope.storeUrl = '/store/site/pages/sso-filter.jag';
-//		}
 		try{
 			$scope.BuildInfo.timestamp = BuildInfo.timestamp;
 		} catch (e) {
@@ -112,33 +102,16 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				$scope.BuildInfo = {};
 			$scope.BuildInfo.timestamp = new Date().getMilliseconds();
 		}
+		
+		//do authentication to the store
+		if (url.indexOf("login=ok") > -1){
+			$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
+			$scope.linkLoginToStoreW = "1";
+			$scope.linkLoginToStoreH = "1";
+		}
+		
 		checkTermCondition();
-//		$scope.activeTenantType = info.getActiveTenantType();
-//		if(typeof $scope.user.acceptTermConditionTenants == 'undefined')
-//			$scope.user.acceptTermConditionTenants = [];
-//		
-//		if($scope.user.acceptTermConditionTenants.indexOf($scope.activeTenantCode)<0){
-//			var modalAcceptTermConditionInstance = $modal.open({
-//				animation : $scope.animationsEnabled,
-//				templateUrl : 'termAndConditionModal.html',
-//				controller : 'TermAndConditionModalCtrl',
-//				keyboard : false,
-//				size : 0,
-//			      resolve: {
-//			    	  activeTenantType: function () {
-//			            return $scope.activeTenantType;
-//			          }
-//			        }
-//			});
-//
-//			modalAcceptTermConditionInstance.result.then(function() {
-//				console.log("modalAcceptTermConditionInstance ok");
-//			}, function() {
-//				console.debug("Not accepted term and conditions");
-//				$location.path("/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3F");
-//				console.log("path", $location.path());
-//			});
-//		}
+
 		console.log('info', info);
 		console.log('activeTenantCode', $scope.activeTenantCode);
 		console.log('userTenants', $scope.userTenants);
@@ -146,56 +119,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		console.log('managementUrl', $scope.managementUrl);
 		console.log('user', $scope.user);
 	});
-	
-	var userHavePersonalTenant = function(){
-		//fabricAPIservice.getTenants().success(function(result) {
-			var actualDate = new Date();	
-			if (!$scope.user.havePersonalTenant){
-				/*
-				angular.forEach(result.tenants.tenant, function(value, key) {
-					var dataDisVal = null;
-					var dataDisDate = null;
-					if (typeof(value.dataDisattivazione) != 'undefined' && value.dataDisattivazione != null){
-						dataDisVal = value.dataDisattivazione.split('+');
-						dataDisDate = new Date(dataDisVal[0]);
-					} else {
-						dataDisDate = actualDate;
-					}
-					if ((value.tenantType == "personal") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
-						$scope.user.havePersonalTenantToActivate = true; 
-						$scope.userTenantsToActivate.push(value);
-					}
-				});
-				*/
-			}
-			//userHaveTrialTenant();
-		//});
-	//}
-	
-	//var userHaveTrialTenant = function(){
-		//fabricAPIservice.getTenants().success(function(result) {
-			//var actualDate = new Date();	
-			if (!$scope.user.haveTrialTenant){
-				/*
-				angular.forEach(result.tenants.tenant, function(value, key) {
-					var dataDisVal = null;
-					var dataDisDate = null;
-					if (typeof(value.dataDisattivazione) != 'undefined' && value.dataDisattivazione != null){
-						dataDisVal = value.dataDisattivazione.split('+');
-						dataDisDate = new Date(dataDisVal[0]);
-					} else {
-						dataDisDate = actualDate;
-					}
-					if ((value.tenantType == "trial") && (value.userName == info.getInfo().user.username) && (actualDate <= dataDisDate) && (value.codDeploymentStatus == "req_inst")){
-						$scope.user.haveTrialTenantToActivate = true; 
-						$scope.userTenantsToActivate.push(value);
-					}
-				});
-				*/
-			}
-			gestModalWindow();
-		//});
-	};
 	
 	var gestModalWindow = function(){
 
@@ -226,12 +149,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				$scope.user.authType = "social";
 			
 			console.log("user.authType", $scope.user.authType);
-				
-			if (url.indexOf("login=ok") > -1){
-				$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
-				$scope.linkLoginToStoreW = "1";
-				$scope.linkLoginToStoreH = "1";
-			}
 		}
 	};
 	
