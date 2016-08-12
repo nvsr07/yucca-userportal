@@ -22,3 +22,5 @@ userportal/src/main/resources/int/web.xml
 userportal/src/main/resources/prod/server.properties
 userportal/src/main/resources/prod/server.properties
 userportal/src/main/resources/prod/server.properties
+backoffice/.settings/
+userportal/.settings/
