@@ -3,6 +3,7 @@ package org.csi.yucca.userportal.userportal.info;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -44,6 +45,7 @@ public enum ApiEntityEnum {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 
+			//TODO: change when 
 			String activeTenant = request.getParameter("visibleFrom");
 			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 			if ((activeTenant != null && !"".equals(activeTenant))) {
@@ -216,8 +218,7 @@ public enum ApiEntityEnum {
 	API_MANAGEMENT_DATASET_DOWNLOAD_URL("API_MANAGEMENT_DATASET_DOWNLOAD_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/download/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			// return AuthorizeUtils.getElementInPositionByRequest(request,
-			// 3).equals(AuthorizeUtils.getTenantInSession(request));
+			// return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
 			return true;
 		}
 	},
@@ -225,15 +226,39 @@ public enum ApiEntityEnum {
 	API_MANAGEMENT_DATASET_OPENDATA_URL("API_MANAGEMENT_DATASET_OPENDATA_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/opendata/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			// return AuthorizeUtils.getElementInPositionByRequest(request,
-			// 3).equals(AuthorizeUtils.getTenantInSession(request));
+			// return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
 			return true;
 		}
 	},
 	API_MANAGEMENT_DATASET_LIST("API_MANAGEMENT_DATASET_LIST_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2));
+            if (!AuthorizeUtils.isReadMethod(request)){
+				return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2));
+            } else {
+    			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+            	String activeTenant = info.getUser().getActiveTenant();
+    			if ((activeTenant != null && !"".equals(activeTenant))) {
+    				String resultKey = "";
+    				if (activeTenant.contains("|")){
+    					for (Entry<String, String> entry : info.getUser().getTenantsTokens().entrySet()) {
+    						resultKey += entry.getKey() + "|";
+    					}
+    					resultKey = resultKey.substring(0, resultKey.length()-1);
+    				}
+    				if (activeTenant.equals(resultKey) && AuthorizeUtils.isReadMethod(request)) {
+    					return true;
+    				} else {
+    					if (activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)) {
+    						return true;
+    					} else {
+    						return false;
+    					}
+    				}
+    			} else {
+					return false;
+				}
+			}
 
 		}
 	},
@@ -257,12 +282,12 @@ public enum ApiEntityEnum {
 			return auth;
 		}
 	},
-	API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
+	/*API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2));
 		}
-	},
+	},*/
 	API_MANAGEMENT_DATASET_ADD_DATA_URL("API_MANAGEMENT_DATASET_ADD_DATA_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/add/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

@@ -10,11 +10,11 @@
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span></small></div>
-				<div class='main-info'><strong>{{dataset.datasetName}}</strong></div>
+				<div class='main-info'><strong>{{dataset.info.datasetName}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>STREAM_FIELD_CREATION_DATE</span></small></div>
-				<div><strong>{{dataset.registrationDate|date}}</strong></div>
+				<div><strong>{{dataset.info.registrationDate|date}}</strong></div>
 			
 			</div>
 		</div>
@@ -42,32 +42,32 @@
 					<div class="col-sm-10">
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DESCRIPTION</span></strong></div>
-							<div class='col-sm-6'><span >{{dataset.description}}</span></div>
+							<div class='col-sm-6'><span >{{dataset.info.description}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span>/<span translate-cloak translate>STREAM_FIELD_DOMAIN</span></strong></div>
-							<div class='col-sm-6'><span >{{dataset.dataDomain|translate}}</span></div>
+							<div class='col-sm-6'><span >{{dataset.info.dataDomain|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span></strong></div>
-							<div class='col-sm-6'><span >{{dataset.codSubDomain|translate}}</span></div>
+							<div class='col-sm-6'><span >{{dataset.info.codSubDomain|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
 							<div class='col-sm-6'>
 								<ul class="list-inline">
-									<li ng-repeat="tag in dataset.tagsArray"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
+									<li ng-repeat="tag in dataset.info.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
 								</ul>
 							</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
-							<div class='col-sm-2'>{{dataset.visibility}}</div>
+							<div class='col-sm-2'>{{dataset.info.visibility}}</div>
 							
 						</div>
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong></div>
-							<div class='col-sm-2'>{{dataset.externalReference}}</div>
+							<div class='col-sm-2'>{{dataset.info.externalReference}}</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate><!-- MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL --></span></strong></div>
@@ -90,15 +90,15 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA_AUTHOR'|translate"></span></strong></div>
-					<div class='col-sm-10'>{{dataset.author}}</div>
+					<div class='col-sm-10'>{{dataset.opendata.author}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_LANG</span></strong></div>
-					<div class='col-sm-10'>{{dataset.language}} - {{dataset.opendata.language|translate}}</div>
+					<div class='col-sm-10'>{{dataset.opendata.language}} - {{dataset.opendata.language|translate}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dataUpdateDate|date}}</div>
+					<div class='col-sm-10'>{{dataset.opendata.dataUpdateDate|date}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -112,15 +112,15 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.license|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{dataset.info.license|nvl:' -'}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong></div>
-					<div class='col-sm-10'>{{dataset.disclaimer|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{dataset.info.disclaimer|nvl:' -'}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong></div>
-					<div class='col-sm-10'>{{dataset.copyright|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{dataset.info.copyright|nvl:' -'}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -134,29 +134,29 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
-					<div class='col-sm-10'>{{stream.smartOName|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityName|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CODE</span></strong></div>
-					<div class='col-sm-10'>{{stream.smartOCode|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityCode|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
-					<div class='col-sm-10'>{{stream.smartODescription|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityDescription|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_TYPE</span></strong></div>
-					<div class='col-sm-10'>{{stream.smartOType|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityType|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
-					<div class='col-sm-10'>{{stream.smartOCategory|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.streams.stream.virtualEntityCategory|nvl:''}}</div>
 				</div>	
-				<div class="row card-row"  ng-show="stream.smartOPositions.position!=null">
+				<div class="row card-row"  ng-show="stream.streams.stream.virtualEntityPositions.position!=null">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
-					<div class='col-sm-4'>[{{stream.smartOPPositions.position[0].lat}};{{stream.smartOPPositions.position[0].lon}}]</div>
+					<div class='col-sm-4'>[{{stream.streams.stream.virtualEntityPositions.position[0].lat}};{{stream.streams.stream.virtualEntityPositions.position[0].lon}}]</div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
-					<div class='col-sm-4'>{{stream.smartOPPositions.position.elevation[0]|nvl:' -'}}</div>
+					<div class='col-sm-4'>{{stream.streams.stream.virtualEntityPositions.position.elevation[0]|nvl:' -'}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -192,19 +192,19 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
-					<div class='col-sm-6'>{{stream.twtQuery}}</div>
+					<div class='col-sm-6'>{{stream.streams.stream.twtQuery}}</div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_LANG</span></strong></div>
-					<div class='col-sm-2'>{{stream..twtLang}}</div>
+					<div class='col-sm-2'>{{stream.streams.stream.twtLang}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong></div>
-					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.twtGeolocLat}},{{stream.twtGeolocLon}}</span></div>
+					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.streams.stream.twtGeolocLat}},{{stream.streams.stream.twtGeolocLon}}</span></div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
-					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{stream.twtGeolocRadius}} {{stream.twtUnit}}</span></div>
+					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{stream.streams.stream.twtGeolocRadius}} {{stream.streams.stream.twtUnit}}</span></div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_RATE</span></strong></div>
-					<div class='col-sm-10'>{{stream.twtRatePercentage}}</div>
+					<div class='col-sm-10'>{{stream.streams.stream.twtRatePercentage}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -230,7 +230,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="field in dataset.Fields.results">
+							<tr ng-repeat="field in dataset.info.fields">
 								<td>{{field.fieldName}}</td>
 								<td>{{field.measureUnitCategory|nvl:' - '}}:{{field.measureUnit|nvl:' - '}}</td>
 								<td>{{field.fieldAlias}}</td>

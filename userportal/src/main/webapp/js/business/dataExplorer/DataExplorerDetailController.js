@@ -1,5 +1,5 @@
-appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', 'fabricAPIservice', '$filter', 'info', '$location', '$modal', 
-                                                      function($scope, $route, $routeParams, odataAPIservice, dataDiscoveryService, fabricAPIservice, $filter, info, $location, $modal) {
+appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', 'fabricAPIservice', 'fabricAPImanagement', '$filter', 'info', '$location', '$modal', 
+                                                      function($scope, $route, $routeParams, odataAPIservice, dataDiscoveryService, fabricAPIservice, fabricAPImanagement, $filter, info, $location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = ($routeParams.entity_code) ? $routeParams.entity_code : '';
 	$scope.streamCode = ($routeParams.stream_code) ? $routeParams.stream_code : '';
@@ -23,18 +23,36 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	$scope.processData = function(){
 		
 		if ($scope.dataset){
+			
 			$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/" + $scope.dataset.tenantCode + "/" + $scope.dataset.datasetCode;
-			$scope.apiMetdataUrl = $scope.dataset.API;
 			$scope.VIRTUALENTITY_TYPE_TWITTER_ID = "Feed Tweet";
-			if($scope.dataset.tags!=null )
+			/*if($scope.dataset.info.tags != null )
 				$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
 			if ((typeof($scope.dataset.tagsArray) == 'undefined') && ($scope.dataset.tags != "")){
 				$scope.dataset.tagsArray = new Array();
 				$scope.dataset.tagsArray[0] = $scope.dataset.tags;
-			}
+			}*/
 			$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
 			$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
 			$scope.topic = $scope.datasetCode;
+			
+			if(!$scope.dataset.opendata){
+				$scope.dataset.opendata = {};
+				$scope.dataset.opendata.isOpendata = 'false';
+				$scope.dataset.opendata.language = 'it';
+			} else if($scope.dataset.opendata.isOpendata){
+				$scope.dataset.opendata.isOpendata = 'true';
+				if($scope.dataset.opendata.dataUpdateDate && $scope.dataset.opendata.dataUpdateDate!=null){
+					var dataUpdateDate = new Date($scope.dataset.opendata.dataUpdateDate);
+					$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
+				}
+			}
+			
+			if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+			
+			if(info.getActiveTenantType() == 'trial')   
+				$scope.dataset.info.visibility = 'private';
 			
 			// api/proxy/odata/ds_Tweet6_357/donwload/357/all 
 			if ($scope.dataset.Stream == null) {
@@ -60,7 +78,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	// http://localhost:8080/userportal/api/proxy/discovery/Datasets?$format=json&$filter=datasetCode%20eq%20%27ds_Provatime_14%27&$top=12
 	$scope.loadDataset = function(){
 
-		dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
+		/*dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
 			$scope.errors = [];
 			try{
 				console.debug("loadDataset- response",response);
@@ -76,31 +94,48 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			console.log("loadData Error: ", response);
 			$scope.showLoading = false;
 
+		});*/
+		
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+			console.log("===========> RESPONSE in fabricAPImanagement.getDataset", response);
+			try{
+				$scope.dataset = response.metadata;
+				$scope.stream = response.stream;
+				
+				$scope.processData();
+			} catch (e) {
+				var error = {"message" : "Cannot load dataset", "detail" : "Error while loading dataset " + $scope.datasetCode};
+				console.error("getDataset ERROR", error, e);
+			}
+		}).error(function(response) {
+			console.log("loadData Error: ", response);
+			$scope.showLoading = false;
+
 		});
 	};
 	
 	//http://localhost:8080/userportal/api/proxy/discovery/Streams?$expand=Dataset&$format=json&$filter=(tenantCode eq "sandbox"  and  smartOCode eq "9c25107f-fdd7-4010-83bb-9c0213153602"  and  streamCode eq "deviceStream")
 	$scope.loadStream = function(){
 		fabricAPIservice.getStream($scope.tenantCode, $scope.virtualentityCode, $scope.streamCode).then(
-				function(response) {
-					$scope.errors = [];
-					try{
-						console.debug("loadStream- response",response);
-						$scope.stream = response.streams.stream;
-						if($scope.stream.opendata.isOpendata == 1){
-							var d = new Date($scope.stream.opendata.dataUpdateDate);
-							var mm = d.getMonth()+1;
-							var day = (d.getDate() < 10) ? "0" + d.getDate() : d.getDate();
-							$scope.stream.opendata.dataUpdateDate = day + "/" + mm + "/" + d.getFullYear();
-						}
-						$scope.dataset = null;
-						
-						$scope.processData();
-					} catch (e) {
-						var error = {"message" : "Cannot load stream" , "detail" : "Error while loading stream " + $scope.tenantCode + " - " + $scope.virtualentityCode + " - " + $scope.streamCode};
-						console.error("getDataset ERROR", error, e);
-					};
-				});
+			function(response) {
+				$scope.errors = [];
+				try{
+					console.debug("loadStream- response",response);
+					$scope.stream = response.streams.stream;
+					if($scope.stream.opendata.isOpendata == 1){
+						var d = new Date($scope.stream.opendata.dataUpdateDate);
+						var mm = d.getMonth()+1;
+						var day = (d.getDate() < 10) ? "0" + d.getDate() : d.getDate();
+						$scope.stream.opendata.dataUpdateDate = day + "/" + mm + "/" + d.getFullYear();
+					}
+					$scope.dataset = null;
+					
+					$scope.processData();
+				} catch (e) {
+					var error = {"message" : "Cannot load stream" , "detail" : "Error while loading stream " + $scope.tenantCode + " - " + $scope.virtualentityCode + " - " + $scope.streamCode};
+					console.error("getDataset ERROR", error, e);
+				};
+			});
 	};
 	
 	if ($scope.datasetType == "stream")
