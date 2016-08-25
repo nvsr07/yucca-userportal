@@ -51,6 +51,7 @@ public enum ApiEntityEnum {
 			if ((activeTenant != null && !"".equals(activeTenant))) {
 				String resultKey = "";
 				if (activeTenant.contains("|")){
+					//TODO: NullPointer nel caso non ho token
 					for (Entry<String, String> entry : info.getUser().getTenantsTokens().entrySet()) {
 						resultKey += entry.getKey() + "|";
 					}
@@ -237,10 +238,11 @@ public enum ApiEntityEnum {
 				return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2));
             } else {
     			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-            	String activeTenant = info.getUser().getActiveTenant();
+            	String activeTenant = request.getParameter("visibleFrom");
     			if ((activeTenant != null && !"".equals(activeTenant))) {
     				String resultKey = "";
     				if (activeTenant.contains("|")){
+    					//TODO: NullPointer nel caso non ho token
     					for (Entry<String, String> entry : info.getUser().getTenantsTokens().entrySet()) {
     						resultKey += entry.getKey() + "|";
     					}
@@ -255,9 +257,11 @@ public enum ApiEntityEnum {
     						return false;
     					}
     				}
-    			} else {
-					return false;
+    			}
+				if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
+					return true;
 				}
+				return false;
 			}
 
 		}

@@ -1,5 +1,5 @@
-appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location', '$modal', 
-                                                     function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info, $location, $modal) {
+appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', 'fabricAPImanagement', '$filter', 'info', '$location', '$modal', 
+                                                     function($scope, $routeParams, odataAPIservice, dataDiscoveryService, fabricAPImanagement, $filter, info, $location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 
@@ -46,32 +46,31 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 	
 	$scope.loadMetadata = function(){
 		if ($scope.dataset){
-			console.log("datasetCode", $scope.datasetCode);
-			console.log("dataset.tenantCode", $scope.dataset.tenantCode);
-			console.log("dataset.tenantsharing", $scope.dataset.tenantsharing);
-			odataAPIservice.getMetadataMultiToken($scope.datasetCode, $scope.dataset.tenantCode, $scope.dataset.tenantsharing).success(function(response) {
-				console.log("odataAPIservice.getMetadata - xml",response);
+			
+			console.log("datasetCode", $scope.dataset.datasetCode);
+			console.log("tenantCode", $scope.tenantCode);
+			console.log("dataset.tenantsharing", $scope.dataset.info.tenantssharing.tenantsharing);
+			
+			odataAPIservice.getMetadataMultiToken($scope.dataset.datasetCode, $scope.tenantCode, $scope.dataset.info.tenantssharing.tenantsharing).success(function(response) {
+				console.log("odataAPIservice.getMetadata - xml", response);
 				var x2js = new X2JS();
 				var metadataJson =  x2js.xml_str2json(response);
-				console.log("odataAPIservice.getMetadata - json",metadataJson);
+				console.log("odataAPIservice.getMetadata - json", metadataJson);
 		
-				if ($scope.dataset.Stream == null)
-				{
-					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
-				}
-				else 
-				{
-					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+				if ($scope.dataset.Stream == null){
+					$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.dataset.datasetCode + "/download/" + $scope.dataset.idDataset + "/all";  
+				} else {
+					$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.dataset.datasetCode + "/download/" + $scope.dataset.idDataset + "/current";  
 				}
 
-				var measuresMetadata ="";
+				var measuresMetadata = "";
 				var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;
 				if(entityType!=null && entityType.constructor === Array)
 					measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];		
 				else
 					measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType;		
 				
-				console.log("odataAPIservice.getMetadata - metadata",metadataJson);
+				console.log("odataAPIservice.getMetadata - metadata", metadataJson);
 				var entitySet = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet;
 				
 				
@@ -104,15 +103,18 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 					if (prop["_Name"] != "internalId"){
 						$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
 					}
-					if(prop["_Name"]=="time"){
+					if(prop["_Name"] == "time"){
 						defaultOrderByColumn = "time";
 					}
 					$scope.orderBy.column = defaultOrderByColumn;
 				}
 				
-				console.log("$scope.columnsForFilter",$scope.columnsForFilter);
-				$scope.queryOdataLink = "/userportal/api/proxy/odata/ds_Contgreciaon_201/Measures?$format=json&$top=15&$orderby=time%20desc";
-				$scope.queryOdataCsvLink = "/userportal/api/proxy/odata/ds_Contgreciaon_201/Measures?$format=csv&$top=15&$orderby=time%20desc";
+				console.log("$scope.columnsForFilter", $scope.columnsForFilter);
+				$scope.queryOdataLink = "/userportal/api/proxy/odata/" + $scope.dataset.datasetCode + "/Measures?$format=json&$top=15&$orderby=time%20desc";
+				$scope.queryOdataCsvLink = "/userportal/api/proxy/odata/" + $scope.dataset.datasetCode + "/Measures?$format=csv&$top=15&$orderby=time%20desc";
+
+				console.log("$scope.queryOdataLink", $scope.queryOdataLink);
+				console.log("$scope.queryOdataCsvLink", $scope.queryOdataCsvLink);
 		
 				$scope.loadData();
 			}).error(function(response) {
@@ -132,32 +134,33 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		}
 	};
 	
-	// http://localhost:8080/userportal/api/proxy/discovery/Datasets?$format=json&$filter=datasetCode%20eq%20%27ds_Provatime_14%27&$top=12
 	$scope.loadDataset = function(){
-
-		dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
+		//dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+			
 			$scope.errors = [];
 			try{
 				console.debug("loadDataset- response",response);
-				$scope.dataset = response.d.results[0];
+				//$scope.dataset = response.d.results[0];
+				$scope.dataset = response.metadata;
 
 				if ($scope.dataset){
 					$scope.loadMetadata();
-					$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+$scope.dataset.tenantCode+"/"+$scope.dataset.datasetCode;
-					if($scope.dataset.tags!=null ){
-						$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
-					}
+					$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/" + $scope.tenantCode + "/" + $scope.dataset.datasetCode;
+					//if($scope.dataset.tags!=null ){
+					//	$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
+					//}
 				} else {
 					var detail = "NOT FOUND";
 					console.log("loadData Error: ", detail);
 					$scope.showLoading = false;
-					var error = {"message":"Cannot load metadatadata","detail":detail};
+					var error = {"message":"Cannot load metadatadata", "detail" : detail};
 					$scope.errors.push(error);
 				}
 			} catch (e) {
-				var error = {"message":"Cannot load dataset","detail":"Error while loading dataset "+ $scope.datasetCode};
+				var error = {"message": "Cannot load dataset", "detail": "Error while loading dataset " + $scope.dataset.datasetCode};
 				//$scope.errors.push(error);
-				console.error("getDataset ERROR",error, e);
+				console.error("getDataset ERROR", error, e);
 			};
 		}).error(function(response) {
 			console.log("loadData Error: ", response);
@@ -226,7 +229,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		// call oData service to retrieve  the last 30 data
 		$scope.errors = [];
 
-		var start = ($scope.currentPage -1)*dataForPage;
+		var start = ($scope.currentPage - 1) * dataForPage;
 		$scope.dataList = [];
 		$scope.columns = [];
 		
@@ -278,7 +281,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 		$scope.queryOdataCsvLink = createQueryOdata($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType, 'csv');
 		
 		console.log("queryOdataLink", $scope.queryOdataLink);
-		odataAPIservice.getStreamDataMultiToken($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType, $scope.dataset.tenantCode, $scope.dataset.tenantsharing).success(function(response) {
+		odataAPIservice.getStreamDataMultiToken($scope.datasetCode, filterParam, start, dataForPage, sort, datasetType, $scope.tenantCode, $scope.dataset.info.tenantssharing).success(function(response) {
 			console.log("odataAPIservice.getStreamData",response, datasetType);
 			$scope.totalFound = response.d.__count;
 			var oDataResultList = response.d.results;
@@ -318,7 +321,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 						    	
 						    	if($scope.orderBy.column == property)
 						    		order = $scope.orderBy.order;
-						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton, "showBinaryIcon":isBinary};//, "operators": field.operators, "dataType":field.dataType};
+						    	var column = {"label":property, "order": order, "showOrderButton": showOrderButton, "showBinaryIcon": isBinary};//, "operators": field.operators, "dataType":field.dataType};
 						    	$scope.columns.push(column);
 						    }
 						}

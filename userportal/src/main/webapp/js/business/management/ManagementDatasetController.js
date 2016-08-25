@@ -1513,7 +1513,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				fileName = $scope.selectedFile.name;
 			$scope.isUploading = true;
 			$scope.upload = $upload.upload({
-				url: Constants.API_MANAGEMENT_DATASET_URL + $scope.tenantCode + '/', 
+				url: Constants.API_MANAGEMENT_DATASET_LIST_URL + $scope.tenantCode + '/', 
 				//headers: { 'Content-Transfer-Encoding': '8bit' },
 				method: 'POST',
 				data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },

@@ -64,7 +64,6 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 				streamsUrl = tenant_code + '/';
 			streamsUrl += virtualentity_code + '/';
 	
-			streamsUrl += '?visibleFrom=sandbox';
 			if(infoData.user.activeTenant!=undefined)
 				streamsUrl += '?visibleFrom='+infoData.user.activeTenant;			
 			else
@@ -152,9 +151,9 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 				});
 				
 				console.log('tokenForRequest in getStreamDataMultiToken', tenantForRequest);
-				visible= "?visibleFrom=" + tenantForRequest.substr(0, tenantForRequest.length - 1);	
+				visible = "?visibleFrom=" + tenantForRequest.substr(0, tenantForRequest.length - 1);	
 			} else if(infoData.user.activeTenant != undefined)
-				visible= "?visibleFrom=" + infoData.user.activeTenant;		
+				visible = "?visibleFrom=" + infoData.user.activeTenant;		
 			
 			console.debug("===================> visible - ", visible);		
 			console.debug("url getStream", Constants.API_SERVICES_STREAM_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + '/'+visible+'&callback=JSON_CALLBACK');

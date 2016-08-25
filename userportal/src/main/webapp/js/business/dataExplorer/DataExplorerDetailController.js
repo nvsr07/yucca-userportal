@@ -49,16 +49,16 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			}
 			
 			if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
-				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.datasetCode + "/download/" + $scope.dataset.idDataset + "/current";  
 			
 			if(info.getActiveTenantType() == 'trial')   
 				$scope.dataset.info.visibility = 'private';
 			
 			// api/proxy/odata/ds_Tweet6_357/donwload/357/all 
 			if ($scope.dataset.Stream == null) {
-				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.datasetCode + "/download/" + $scope.dataset.idDataset + "/all";  
 			} else {
-				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.datasetCode + "/download/" + $scope.dataset.idDataset + "/current";  
 			}
 		} else {
 			$scope.wsUrl = "ws://stream.smartdatanet.it/ws";
@@ -96,7 +96,9 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 
 		});*/
 		
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+		var promise = fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode);
+		console.log("promise", promise);
+		promise.then(function(response) {
 			console.log("===========> RESPONSE in fabricAPImanagement.getDataset", response);
 			try{
 				$scope.dataset = response.metadata;

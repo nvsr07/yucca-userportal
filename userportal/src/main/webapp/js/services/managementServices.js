@@ -1,6 +1,14 @@
 appServices.factory('fabricAPImanagement', function($http, $q) {
 
 	var fabricAPI = {};
+	var infoData = {};
+
+	fabricAPI.getInfo = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_INFO_URL + '?callback=JSON_CALLBACK'
+		});
+	};
 
 	fabricAPI.getDatasets = function(tenant_code) {
 		return $http({
@@ -8,12 +16,32 @@ appServices.factory('fabricAPImanagement', function($http, $q) {
 			url : Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '?callback=JSON_CALLBACK'
 		});
 	};
+	
+	fabricAPI.getInfo().success(function(info){
+		console.debug(infoData);
+		infoData = info;
+	});
 
 	fabricAPI.getDataset = function(tenant_code, dataset_id) {
-		console.log("getDataset", Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '/' + dataset_id + '/?callback=JSON_CALLBACK');
+			
+		var visible= "?visibleFrom=sandbox";
+		var streamsUrl = Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '/' + dataset_id + '/';
+		
+		if(infoData.user.tenantsTokens != undefined){
+			angular.forEach(info.info.user.tenantsTokens, function(value, key) {
+				tenantForRequest += key + "|";
+				console.log("tenantForRequest", tenantForRequest);
+			});
+			
+			console.log('tokenForRequest in getStreamDataMultiToken', tenantForRequest);
+			visible = "?visibleFrom=" + tenantForRequest.substr(0, tenantForRequest.length - 1);	
+		} else if(infoData.user.activeTenant != undefined)
+			visible = "?visibleFrom=" + infoData.user.activeTenant;		
+		
+		console.log("getDataset", streamsUrl + visible + '&callback=JSON_CALLBACK');
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '/' + dataset_id + '/?callback=JSON_CALLBACK'
+			url : streamsUrl + visible + '&callback=JSON_CALLBACK'
 		});
 	};
 	
@@ -77,7 +105,7 @@ appServices.factory('fabricAPImanagement', function($http, $q) {
 		var deferred = $q.defer();
 		var resultData = null;
 
-		$http.put(Constants.API_MANAGEMENT_DATASET_URL+ tenant_code + '/' + dataset_id, dataset).success(function(responseData) {
+		$http.put(Constants.API_MANAGEMENT_DATASET_LIST_URL+ tenant_code + '/' + dataset_id, dataset).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
 			deferred.resolve(resultData);
 		}).error(function(responseData, responseStatus) {
