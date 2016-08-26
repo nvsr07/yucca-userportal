@@ -26,12 +26,6 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			
 			$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/" + $scope.dataset.tenantCode + "/" + $scope.dataset.datasetCode;
 			$scope.VIRTUALENTITY_TYPE_TWITTER_ID = "Feed Tweet";
-			/*if($scope.dataset.info.tags != null )
-				$scope.dataset.tagsArray = $scope.dataset.tags.split(",");
-			if ((typeof($scope.dataset.tagsArray) == 'undefined') && ($scope.dataset.tags != "")){
-				$scope.dataset.tagsArray = new Array();
-				$scope.dataset.tagsArray[0] = $scope.dataset.tags;
-			}*/
 			$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
 			$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
 			$scope.topic = $scope.datasetCode;
@@ -75,45 +69,22 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 		console.log("dataset", $scope.dataset);
 	};
 		
-	// http://localhost:8080/userportal/api/proxy/discovery/Datasets?$format=json&$filter=datasetCode%20eq%20%27ds_Provatime_14%27&$top=12
 	$scope.loadDataset = function(){
-
-		/*dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
-			$scope.errors = [];
-			try{
-				console.debug("loadDataset- response",response);
-				$scope.dataset = response.d.results[0];
-				$scope.stream = ($scope.dataset.Stream) ? $scope.dataset.Stream : null;
-				
-				$scope.processData();
-			} catch (e) {
-				var error = {"message" : "Cannot load dataset", "detail" : "Error while loading dataset " + $scope.datasetCode};
-				console.error("getDataset ERROR", error, e);
-			};
-		}).error(function(response) {
-			console.log("loadData Error: ", response);
-			$scope.showLoading = false;
-
-		});*/
 		
-		var promise = fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode);
-		console.log("promise", promise);
-		promise.then(function(response) {
-			console.log("===========> RESPONSE in fabricAPImanagement.getDataset", response);
-			try{
-				$scope.dataset = response.metadata;
-				$scope.stream = response.stream;
-				
-				$scope.processData();
-			} catch (e) {
-				var error = {"message" : "Cannot load dataset", "detail" : "Error while loading dataset " + $scope.datasetCode};
-				console.error("getDataset ERROR", error, e);
-			}
-		}).error(function(response) {
-			console.log("loadData Error: ", response);
-			$scope.showLoading = false;
-
-		});
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).then(
+			function(response) {
+					
+				console.log("===========> RESPONSE in fabricAPImanagement.getDataset", response);
+				try{
+					$scope.dataset = response.metadata;
+					$scope.stream = response.stream;
+					
+					$scope.processData();
+				} catch (e) {
+					var error = {"message" : "Cannot load dataset", "detail" : "Error while loading dataset " + $scope.datasetCode};
+					console.error("getDataset ERROR", error, e);
+				}
+			});
 	};
 	
 	//http://localhost:8080/userportal/api/proxy/discovery/Streams?$expand=Dataset&$format=json&$filter=(tenantCode eq "sandbox"  and  smartOCode eq "9c25107f-fdd7-4010-83bb-9c0213153602"  and  streamCode eq "deviceStream")
@@ -182,9 +153,6 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			size : size,
 			scope: $scope,
 			resolve : {
-//				items : function() {
-//					return $scope.items;
-//				},
 				dataset: function() {
 					return $scope.dataset;
 				}, 
@@ -193,12 +161,6 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 				}
 			}
 		});
-//		$scope.modalInstance.result.then(function(selectedItem) {
-////			$scope.selected = selectedItem;
-//			console.log("selected in modalInstance.result.then", selectedItem);
-//		}, function() {
-//			console.info('Modal dismissed at: ' + new Date());
-//		});
 	};
 	
 } ]);

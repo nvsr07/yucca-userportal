@@ -581,39 +581,6 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		
 		$scope.domainList.sort();
 	});
-	
-	
-	//TODO manage sort in table results
-	//	var sortColumn = null;
-	//	var sortOrder = "desc";
-	//	$scope.orderResult = function(column, order) {
-	//		console.log("orderResult",column, order);
-	//		if(order && order!='none'){
-	//			//$scope.orderBy = {"column":column, "order": order};
-	//			sortColumn = column;
-	//			sortOrder = order;
-	//		}
-	//		else{
-	//			//$scope.orderBy = {"column":defaultOrderByColumn, "order": "desc"};
-	//			sortColumn = null;
-	//			sortOrder = "desc";
-	//		}
-	//		$scope.datasetList.sort(compare);
-	//		if(sortOrder == "desc"){
-	//			$scope.datasetList.reverse();
-	//		}
-	//		//$scope.loadData();
-	//	};	
-	//	
-	//	
-	//	function compare(a,b) {
-	//		if(typeof a !=  'undefined' && a!=null  && typeof b !=  'undefined' && b!=null && sortColumn!=null)
-	//		  if (a[sortColumn] < b[sortColumn])
-	//		    return -1;
-	//		  if (a[sortColumn] > b[sortColumn])
-	//		    return 1;
-	//		  return 0;
-	//	}
 
 	$scope.selectDomain = function(domain){
 		$scope.selectedDomain = domain;
@@ -837,16 +804,6 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	
 	$scope.openDetail = function(data){
 		console.log("exploreData", data);
-//		var path = 'dataexplorer/' +  data.type+ '/' + data.tenantCode+'/';
-//		switch (data.type) {
-//		case "stream":
-//			path += data.virtualentityCode + '/' + data.streamCode;
-//			break;
-//		default:
-//			path += data.datasetCode;
-//			break;
-//		}
-//		$location.path(path);
 		$location.path(data.detailPath);
 	};
 	
@@ -878,15 +835,6 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	    } else if($scope.selectedDomain!=null){
 	    	searchParams =  {"action":"searchAPIs","query":"(domainStream="+$scope.selectedDomain+" dataDomain="+$scope.selectedDomain + ")" + tenantExcludeParam,"start":searchStart,"end": searchPage};
 	    }
-	    
-		//var searchParams = {"action":"searchAPIs","query":$scope.queryInput,"start":start,"end": datasetForPage};
-//		$http({
-//			method : 'POST',
-//	        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-//	        transformRequest: transform
-//			data:{"action":"searchAPIs","query":queryInput,"start":"0","end": "10"},
-//			url : Constants.API_STORE_URL+'site/blocks/search/api-search/ajax/search.jag'
-//		})
 	    
 	    var storeUrl = '/store/site/blocks/search/api-search/ajax/search.jag';
 		if($location.host()=='localhost')
