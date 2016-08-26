@@ -1,5 +1,8 @@
 package org.csi.yucca.userportal.userportal.info;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.service.ClientConfigServlet;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
@@ -30,48 +33,26 @@ public enum ApiEntityEnum {
 			return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
 		}
 	},
-	API_SERVICES_STREAM_FROMTENANT("API_SERVICES_STREAM_FROMTENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-
-			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
-				return true;
-			}
-			return false;
-		}
-	},
 	API_SERVICES_STREAM("API_SERVICES_STREAM_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 
-			//TODO: change when 
-			String activeTenant = request.getParameter("visibleFrom");
+			
 			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			if ((activeTenant != null && !"".equals(activeTenant))) {
-				String resultKey = "";
-				if (activeTenant.contains("|")){
-					//TODO: NullPointer nel caso non ho token
-					for (Entry<String, String> entry : info.getUser().getTenantsTokens().entrySet()) {
-						resultKey += entry.getKey() + "|";
-					}
-					resultKey = resultKey.substring(0, resultKey.length()-1);
-				}
-				if (activeTenant.equals(resultKey) && AuthorizeUtils.isReadMethod(request)) {
-					return true;
-				} else {
-					if (activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)) {
-						return true;
-					} else {
-						return false;
-					}
-				}
-			}
+			String visibleFromParm = request.getParameter("visibleFrom");
+
 			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
 				return true;
 			}
+
+			if (AuthorizeUtils.isReadMethod(request)){
+				return visibleFromIsSimilarToInfo(visibleFromParm, info);
+			} 
+
 			return false;
 		}
+
+	
 	},
 	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
@@ -234,35 +215,20 @@ public enum ApiEntityEnum {
 	API_MANAGEMENT_DATASET_LIST("API_MANAGEMENT_DATASET_LIST_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-            if (!AuthorizeUtils.isReadMethod(request)){
-				return AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 2));
-            } else {
-    			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-            	String activeTenant = request.getParameter("visibleFrom");
-    			if ((activeTenant != null && !"".equals(activeTenant))) {
-    				String resultKey = "";
-    				if (activeTenant.contains("|")){
-    					//TODO: NullPointer nel caso non ho token
-    					for (Entry<String, String> entry : info.getUser().getTenantsTokens().entrySet()) {
-    						resultKey += entry.getKey() + "|";
-    					}
-    					resultKey = resultKey.substring(0, resultKey.length()-1);
-    				}
-    				if (activeTenant.equals(resultKey) && AuthorizeUtils.isReadMethod(request)) {
-    					return true;
-    				} else {
-    					if (activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)) {
-    						return true;
-    					} else {
-    						return false;
-    					}
-    				}
-    			}
-				if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
-					return true;
-				}
-				return false;
+			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+			String visibleFromParm = request.getParameter("visibleFrom");
+
+			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
+				return true;
 			}
+
+			if (AuthorizeUtils.isReadMethod(request)){
+				return visibleFromIsSimilarToInfo(visibleFromParm, info);
+			} 
+
+			return false;			
+			
+			
 
 		}
 	},
@@ -331,6 +297,8 @@ public enum ApiEntityEnum {
 	
 	private String nameEntity;
 	private String baseUrl;
+	
+	static Logger log = Logger.getLogger(ApiEntityEnum.class); 
 
 	private ApiEntityEnum(String nameEntity, String baseUrl) {
 		this.nameEntity = nameEntity;
@@ -343,6 +311,36 @@ public enum ApiEntityEnum {
 		prop.put(nameEntity, baseUrl);
 	}
 
+	
+	public boolean visibleFromIsSimilarToInfo(String visibleFromParm,	Info info) {
+
+		String[] visibles = StringUtils.split(visibleFromParm, "|");
+		
+		if (visibles!= null)
+		{
+			for (int i = 0; i < visibles.length; i++) {
+				boolean found = false;
+				String visibleTenant = visibles[i];
+				
+				for (Tenant tenant : info.getUser().getTenants()) {
+					if (visibleTenant.equals(tenant.getTenantCode()))
+					{
+						found = true;
+						break;
+					}
+				} 
+				if (!found)
+					return false;
+				
+			}
+			return true;
+		}
+		
+		return false;
+
+
+	}
+	
 	public boolean isApiCalled(HttpServletRequest request) {
 		String requestURI = request.getRequestURI();
 		return (requestURI).startsWith(baseUrl);

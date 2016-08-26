@@ -12,22 +12,22 @@
 <link rel="stylesheet" href="css/freeboard-adapted.css" />
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/ng-prettyjson/dist/ng-prettyjson.min.css">
 <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"> -->
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/nvd3/nv.d3.min.css">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/codemirror/lib/codemirror.css">
 <link rel="stylesheet" href="../ris/userportal/lib/codemirror/addon/hint/show-hint.css" />
 
 <link rel="stylesheet" type="text/css" href="css/app.css">
+<!--  <link rel="stylesheet" type="text/css" href="http://localhost:8000/css/app.css"> -->
 <link rel="stylesheet" type="text/css" href="css/responsive.css">
 <link rel="stylesheet" type="text/css" href="css/smartdatanet-domains.css">
 <link rel="stylesheet" type="text/css" href="../ris/userportal/lib/openlayers/ol.css">
-<link rel="stylesheet" type="text/css" href="css/sensormap.css" type="text/css">
 
 <link href="../ris/userportal/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
-<script src="js-min/i18n/2c3c9a8a.strings_en.js"></script>
+<script src="js-min/i18n/512683fd.strings_en.js"></script>
 
-<script src="js-min/i18n/ee578841.strings_it.js"></script>
+<script src="js-min/i18n/d62e644f.strings_it.js"></script>
 
 <link rel="shortcut icon" href="favicon.png">
 <!-- Optional theme -->
@@ -56,22 +56,7 @@
 			<a href='http://smartdatanet.it/yucca-cookies-policy.html' target='_blank'>Cookie Policy</a>&nbsp;
 			<a class='btn' ng-click='acceptCookie()' translate-cloak translate>OK</a>
 		</div>
-		<!--<div id='topbar-family-identity'  ng-cloak>
-			<div class="container">
-    			<div class="row">
- 		  			<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">  
-             			<h1><a href="http://www.smartdatanet.it/">smartdatanet</a></h1>
-    				</div>
-			        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
-	            		<ul>
-	            			<li><a class="developer" href="#" translate>HEADER_DEVELOPER_CENTER_LINK</a></li>
-	            			<li><a  class="market" href="#" translate>HEADER_MARKET_PLACE_LINK</a></li>
-	            		</ul>
-					</div>
-				</div>
-			</div>
-		</div>-->
-		<main-navbar ng-show="!isHomepage()"></main-navbar>
+		<main-navbar></main-navbar>
 		<div ng-view class='main-body'></div>
 		<main-footer></main-footer>
 		<iframe ng-src="{{linkLoginToStore}}" width="{{linkLoginToStoreW}}" height="{{linkLoginToStoreH}}"></iframe>
@@ -218,7 +203,7 @@
  	-->
 	<script type="text/javascript" src="api/config"></script>
 	<script type="text/javascript" src="js/build_info.js"></script>
-	<script src="js-min/ce762463.sensormap.js"></script>
+
 
 	<script type="text/javascript" src="/userportal/api/tags?language=en"></script>
 	<script type="text/javascript" src="/userportal/api/tags?language=it"></script>
@@ -227,33 +212,33 @@
 	<script type="text/javascript" src="/userportal/api/subdomains?language=en"></script>
 	<script type="text/javascript" src="/userportal/api/subdomains?language=it"></script>
 	
-	<script src="js-min/1bff4372.app.js"></script>
-	<script src="js-min/d6edc1fd.helpers.js"></script>
-	<script src="js-min/865445ca.constants.js"></script>
-	<script src="js-min/services/d2e4c6d0.services.js"></script>
-	<script src="js-min/services/9a15c222.discoveryServices.js"></script>
-	<script src="js-min/services/65d340fa.fabricServices.js"></script>
-	<script src="js-min/services/00e00c41.managementServices.js"></script>
-	<script src="js-min/services/9554e567.websocketServices.js"></script>
-	<script src="js-min/services/2290bdf4.odataServices.js"></script>
-	<script src="js-min/services/2e5635ec.storeServices.js"></script>
-	<script src="js-min/4987e577.controllers.js"></script>
-	<script src="js-min/business/dashboard/374619a3.DashboardController.js"></script>
-	<script src="js-min/business/management/6363f260.ManagementController.js"></script>
-	<script src="js-min/business/management/24c22fbc.ManagementStreamController.js"></script>
-	<script src="js-min/business/management/5eab0a2d.ManagementVirtualentityController.js"></script>
-	<script src="js-min/business/management/57bca818.ManagementDatasetController.js"></script>
-	<script src="js-min/business/dataExplorer/163a8cfe.DataExplorerController.js"></script>
-	<script src="js-min/business/discovery/e71d1fe2.DiscoveryController.js"></script>
-	<script src="js-min/business/dataExplorer/d758634d.DataExplorerSubscribeModalController.js"></script>
-	<script src="js-min/business/dataExplorer/5df3bbd9.DataExplorerDetailController.js"></script>
-	<script src="js-min/business/dataExplorer/e23c5e5c.DataSubscriptionsController.js"></script>
-	<script src="js-min/9ac904d6.filters.js"></script>
-	<script src="js-min/a4b7fce0.directives.js"></script>
-	<script src="js-min/business/dashboard/80bd2ded.DashboardDirectives.js"></script>
-	<script src="js-min/business/management/8ddb565a.ManagementDirectives.js"></script>
-	<script src="js-min/business/discovery/649c1342.DiscoveryDirectives.js"></script>
-	<script src="js-min/business/dataExplorer/a7bc52fb.DataExplorerDirectives.js"></script>
-	<script src="js-min/4a436065.Lang_ISO_639-1.js"></script>
+	<script src="js-min/880bf4a2.app.js"></script>
+	<script src="js-min/4f15026c.helpers.js"></script>
+	<script src="js-min/6cdebe34.constants.js"></script>
+	<script src="js-min/services/3e444651.services.js"></script>
+	<script src="js-min/services/c0ac399d.discoveryServices.js"></script>
+	<script src="js-min/services/db463625.fabricServices.js"></script>
+	<script src="js-min/services/2da47ab1.managementServices.js"></script>
+	<script src="js-min/services/f622adde.websocketServices.js"></script>
+	<script src="js-min/services/054074ae.odataServices.js"></script>
+	<script src="js-min/services/46e13da4.storeServices.js"></script>
+	<script src="js-min/a763c5fd.controllers.js"></script>
+	<script src="js-min/business/dashboard/536c1693.DashboardController.js"></script>
+	<script src="js-min/business/management/275fe378.ManagementController.js"></script>
+	<script src="js-min/business/management/f003a5e2.ManagementStreamController.js"></script>
+	<script src="js-min/business/management/8a0e1a02.ManagementVirtualentityController.js"></script>
+	<script src="js-min/business/management/27a6e9bb.ManagementDatasetController.js"></script>
+	<script src="js-min/business/dataExplorer/96ba82b7.DataExplorerController.js"></script>
+	<script src="js-min/business/discovery/b119aa30.DiscoveryController.js"></script>
+	<script src="js-min/business/dataExplorer/3a80efbd.DataExplorerSubscribeModalController.js"></script>
+	<script src="js-min/business/dataExplorer/9eea926d.DataExplorerDetailController.js"></script>
+	<script src="js-min/business/dataExplorer/48753864.DataSubscriptionsController.js"></script>
+	<script src="js-min/ab8f19ab.filters.js"></script>
+	<script src="js-min/cf6d140d.directives.js"></script>
+	<script src="js-min/business/dashboard/9e46d3c7.DashboardDirectives.js"></script>
+	<script src="js-min/business/management/d543437f.ManagementDirectives.js"></script>
+	<script src="js-min/business/discovery/4fd78221.DiscoveryDirectives.js"></script>
+	<script src="js-min/business/dataExplorer/74ae4453.DataExplorerDirectives.js"></script>
+	<script src="js-min/995cdc6b.Lang_ISO_639-1.js"></script>
 </body>
 </html>
