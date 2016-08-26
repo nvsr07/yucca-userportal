@@ -52,11 +52,13 @@ public class DettaglioDatasetIT extends SeleniumBase {
 			driver.findElement(By.name("username")).sendKeys(dato.getString("up.username"));
 			driver.findElement(By.name("password")).sendKeys(dato.getString("up.password"));
 			driver.findElement(By.id("loginForm")).submit();
+			driver.navigate().to(dato.getString("up.url"));
+			Assert.assertEquals(driver.getTitle(), "Smart Data Platform");
+
 		}
 		
 		WebDriverWait wait = new WebDriverWait(driver, 1);
 		driver.navigate().to(dato.getString("up.url")+"/userportal/#/dataexplorer/dataset/"+tenant+"/"+dataset);
-
 		if (dato.getBoolean("up.toBeFound"))
 		{
 			Assert.assertEquals(wait.until(ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -")).booleanValue(),true);

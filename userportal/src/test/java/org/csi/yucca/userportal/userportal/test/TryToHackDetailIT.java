@@ -43,19 +43,20 @@ public class TryToHackDetailIT extends SeleniumBase {
 		
 		driver.navigate().to(dato.getString("up.url"));
 		Assert.assertEquals(driver.getTitle(), "Smart Data Platform");
-		
+		String visibleFrom = dato.optString("up.visibleFrom");
 		
 		if (dato.getBoolean("up.logged"))
 		{
-			
 			driver.navigate().to(dato.getString("up.url")+"/userportal/api/authorize?returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor");
 			driver.findElement(By.name("username")).sendKeys(dato.getString("up.username"));
 			driver.findElement(By.name("password")).sendKeys(dato.getString("up.password"));
 			driver.findElement(By.id("loginForm")).submit();
+			driver.navigate().to(dato.getString("up.url"));
+			Assert.assertEquals(driver.getTitle(), "Smart Data Platform");
 		}
 		
 		WebDriverWait wait = new WebDriverWait(driver, 1);
-		driver.navigate().to(dato.getString("up.url")+"/userportal/api/proxy/services/"+detailUrl+(dato.optString("up.visibleFrom")==null?"":"?visibleFrom="+dato.optString("up.visibleFrom")));
+		driver.navigate().to(dato.getString("up.url")+"/userportal/api/proxy/"+detailUrl+visibleFrom);
 
 		if (!dato.getBoolean("up.authorized"))
 		{

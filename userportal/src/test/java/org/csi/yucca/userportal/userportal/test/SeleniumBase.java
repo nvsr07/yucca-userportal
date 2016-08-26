@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -19,12 +20,17 @@ import org.testng.annotations.BeforeTest;
 public class SeleniumBase {
 	protected WebDriver driver;
 	protected static JSONObject secretObject = new JSONObject();
-	
-	
+		
 	protected void recreateDriver() {
-		if (driver!=null)
+		if (driver!=null) {
 			driver.quit();
-		driver = new FirefoxDriver();
+		}
+		FirefoxProfile profile = new FirefoxProfile();
+		profile.setPreference("browser.cache.disk.enable", false);
+		profile.setPreference("browser.cache.memory.enable", false);
+		profile.setPreference("browser.cache.offline.enable", false);
+		profile.setPreference("network.http.use-cache", false);
+		driver = new FirefoxDriver(profile);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 	

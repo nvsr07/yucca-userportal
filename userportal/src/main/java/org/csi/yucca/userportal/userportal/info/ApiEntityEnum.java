@@ -316,7 +316,7 @@ public enum ApiEntityEnum {
 
 		String[] visibles = StringUtils.split(visibleFromParm, "|");
 		
-		if (visibles!= null)
+		if (visibles!= null && visibles.length>0)
 		{
 			for (int i = 0; i < visibles.length; i++) {
 				boolean found = false;
