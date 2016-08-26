@@ -21,6 +21,7 @@ public class SeleniumBase {
 	protected WebDriver driver;
 	protected static JSONObject secretObject = new JSONObject();
 		
+	
 	protected void recreateDriver() {
 		if (driver!=null) {
 			driver.quit();
