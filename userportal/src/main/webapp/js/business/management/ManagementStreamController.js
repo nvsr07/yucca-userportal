@@ -21,13 +21,13 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		return info.isOwner( $scope.tenantCode);
 	};
 
-	fabricAPIservice.getVisibleStreamsFromTenant($scope.tenantCode).then(function(response) {
+	fabricAPIservice.getVisibleStreamsFromTenant($scope.tenantCode).then(
+		function(response) {
 
-		$scope.showLoading = false;
-
-		var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
-		for (var i = 0; i < responseList.length; i++) {
-			//if(responseList[i].codiceTenant == $scope.tenantCode){
+			$scope.showLoading = false;
+	
+			var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+			for (var i = 0; i < responseList.length; i++) {
 				if(!responseList[i].deploymentStatusCode || responseList[i].deploymentStatusCode == null)
 					responseList[i].deploymentStatusCode = Constants.STREAM_STATUS_DRAFT;
 				responseList[i].deploymentStatusCodeTranslated =  $translate.instant(responseList[i].deploymentStatusCode);
@@ -38,12 +38,9 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 					responseList[i].streamIcon  = "img/stream-icon-default.png";
 				}
 				$scope.streamsList.push(responseList[i]);
-			//}
-		}
+			}
 		
-		//$scope.streamsList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
 		$scope.totalItems = $scope.streamsList.length;
-		//	$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	});
 
 	$scope.selectPage = function() {

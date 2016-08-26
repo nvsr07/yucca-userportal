@@ -51,7 +51,11 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			console.log("tenantCode", $scope.tenantCode);
 			console.log("dataset.tenantsharing", $scope.dataset.info.tenantssharing.tenantsharing);
 			
-			odataAPIservice.getMetadataMultiToken($scope.dataset.datasetCode, $scope.tenantCode, $scope.dataset.info.tenantssharing.tenantsharing).success(function(response) {
+			var tenantsSharingList = $scope.dataset.info.tenantssharing.tenantsharing.map(function(elem){
+			    return elem.tenantCode;
+			}).join(",");
+			
+			odataAPIservice.getMetadataMultiToken($scope.dataset.datasetCode, $scope.tenantCode, tenantsSharingList).success(function(response) {
 				console.log("odataAPIservice.getMetadata - xml", response);
 				var x2js = new X2JS();
 				var metadataJson =  x2js.xml_str2json(response);
@@ -136,7 +140,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 	
 	$scope.loadDataset = function(){
 		//dataDiscoveryService.loadDatasetDetailFromDatasetCode($scope.datasetCode).success(function(response) {
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).then(function(response) {
 			
 			$scope.errors = [];
 			try{
@@ -162,13 +166,6 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				//$scope.errors.push(error);
 				console.error("getDataset ERROR", error, e);
 			};
-		}).error(function(response) {
-			console.log("loadData Error: ", response);
-			$scope.showLoading = false;
-//			var detail = "";
-//			var error = {"message":"Cannot load dataset","detail":detail};
-			//$scope.errors.push(error);
-
 		});
 	};
 	

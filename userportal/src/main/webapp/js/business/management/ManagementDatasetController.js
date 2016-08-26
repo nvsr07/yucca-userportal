@@ -403,7 +403,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.loadDataset = function(){
 		console.debug("$scope.datasetCode", $scope.datasetCode);
 		
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).then(function(response) {
 			try{
 				console.debug("loadDataset- response",response);
 				$scope.apiMetdataUrl = response.apiMetadataUrl;

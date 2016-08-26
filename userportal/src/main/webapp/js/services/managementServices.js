@@ -22,6 +22,7 @@ appServices.factory('fabricAPImanagement', function($http, $q, info) {
 		
 		fabricAPI.getInfo().success(function(infoData){
 			var visible= "?visibleFrom=sandbox";
+			var tenantForRequest = "";
 			var streamsUrl = Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '/' + dataset_id + '/';
 			
 			if(infoData.user.tenantsTokens != undefined){
