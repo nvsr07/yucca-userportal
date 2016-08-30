@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.testng.annotations.AfterTest;
@@ -27,18 +26,18 @@ public class SeleniumBase {
 		if (driver!=null) {
 			driver.quit();
 		}
-		
 		String xvfbPropsFile = System.getProperty("display.props");
 
-		FirefoxBinary ffox = new FirefoxBinary();
-		ffox.setEnvironmentProperty("DISPLAY", ":99");
+//		FirefoxBinary ffox = new FirefoxBinary();
+//		ffox.setEnvironmentProperty("DISPLAY", /*read value from xvfbPropsFile*/);
+		
 		
 		FirefoxProfile profile = new FirefoxProfile();
 		profile.setPreference("browser.cache.disk.enable", false);
 		profile.setPreference("browser.cache.memory.enable", false);
 		profile.setPreference("browser.cache.offline.enable", false);
 		profile.setPreference("network.http.use-cache", false);
-		driver = new FirefoxDriver(ffox,profile);
+		driver = new FirefoxDriver(profile);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 	
