@@ -10,9 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -26,18 +30,27 @@ public class SeleniumBase {
 		if (driver!=null) {
 			driver.quit();
 		}
-		String xvfbPropsFile = System.getProperty("display.props");
+		String http_proxy = System.getProperty("http_proxy");
+		String https_proxy = System.getProperty("https_proxy");
+		String no_proxy = System.getProperty("no_proxy");
 
 //		FirefoxBinary ffox = new FirefoxBinary();
 //		ffox.setEnvironmentProperty("DISPLAY", /*read value from xvfbPropsFile*/);
 		
+		DesiredCapabilities cap = new DesiredCapabilities();
+		org.openqa.selenium.Proxy proxy = new Proxy();
+		proxy.setHttpProxy(http_proxy);
+		proxy.setSslProxy(https_proxy);
+		proxy.setNoProxy(no_proxy);
+		cap.setCapability(CapabilityType.PROXY, proxy);
 		
 		FirefoxProfile profile = new FirefoxProfile();
 		profile.setPreference("browser.cache.disk.enable", false);
 		profile.setPreference("browser.cache.memory.enable", false);
 		profile.setPreference("browser.cache.offline.enable", false);
 		profile.setPreference("network.http.use-cache", false);
-		driver = new FirefoxDriver();
+		
+		driver = new FirefoxDriver(new FirefoxBinary(),profile,cap);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 	
