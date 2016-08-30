@@ -37,7 +37,7 @@ public class SeleniumBase {
 		profile.setPreference("browser.cache.memory.enable", false);
 		profile.setPreference("browser.cache.offline.enable", false);
 		profile.setPreference("network.http.use-cache", false);
-		driver = new FirefoxDriver(profile);
+		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 	
