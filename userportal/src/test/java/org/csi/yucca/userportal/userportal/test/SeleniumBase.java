@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.RootLogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.Proxy;
@@ -24,7 +26,7 @@ import org.testng.annotations.BeforeTest;
 public class SeleniumBase {
 	protected WebDriver driver;
 	protected static JSONObject secretObject = new JSONObject();
-		
+	Logger logger = RootLogger.getLogger("SeleniumBase");
 	
 	protected void recreateDriver() {
 		if (driver!=null) {
@@ -34,6 +36,10 @@ public class SeleniumBase {
 		String https_proxy = System.getProperty("https_proxy");
 		String no_proxy = System.getProperty("no_proxy");
 
+		logger.info("Proxy:"+ http_proxy);
+		logger.info("SProxy:"+ https_proxy);
+		logger.info("NoProxy:"+ no_proxy);
+		
 //		FirefoxBinary ffox = new FirefoxBinary();
 //		ffox.setEnvironmentProperty("DISPLAY", /*read value from xvfbPropsFile*/);
 		
