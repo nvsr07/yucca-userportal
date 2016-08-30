@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.RootLogger;
 import org.json.JSONArray;
@@ -27,6 +28,10 @@ public class SeleniumBase {
 	protected WebDriver driver;
 	protected static JSONObject secretObject = new JSONObject();
 	Logger logger = RootLogger.getLogger("SeleniumBase");
+
+	static {
+		BasicConfigurator.configure();
+	}
 	
 	protected void recreateDriver() {
 		if (driver!=null) {
@@ -121,6 +126,7 @@ public class SeleniumBase {
 		return jsonData;
 	}
 	
+		
 	@BeforeMethod
 	public void setupSelenium() {
 		// Start the browser (firefox for now)
