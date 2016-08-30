@@ -11,6 +11,11 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<scm>
+    	<connection>scm:svn:svn://sdnet-build.sdp.csi.it/SdpPropFiles/trunk</connection>
+  	</scm>
+
 	<build>
 		<plugins>
 
@@ -31,16 +36,6 @@
                     <testTarget>1.7</testTarget>  
                 </configuration>
             </plugin>
-			 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-report-plugin</artifactId>
-                    <version>2.19.1</version>
-                    <configuration>
-                      <suiteXmlFiles>
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
-                      </suiteXmlFiles>
-                    </configuration>
-                  </plugin> 
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
@@ -77,7 +72,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<version>2.4</version>
@@ -107,6 +101,38 @@
 					<!-- outputDirectory>/Library/JBoss/jboss-eap-6.2/standalone/deployments</outputDirectory -->
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+			 <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-scm-plugin</artifactId>
+		        <version>1.9.5</version>
+		        <configuration>
+		          <connectionType>connection</connectionType>
+		        </configuration>
+		        <executions>
+		        	<execution>
+		        		<id>1</id>
+		        		<phase>validate</phase>
+			            <goals>
+			              <goal>checkout</goal>
+			            </goals>
+			          </execution>
+			    </executions>
+		      </plugin>
+		      <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-failsafe-plugin</artifactId>
+		        <version>2.19.1</version>
+		      </plugin>			
 		</plugins>
 	</build>
 	<dependencies>
@@ -326,14 +352,13 @@
             			<directory>${project.basedir}/src/test/resources</directory>
         			</testResource>			
 					<testResource>
-						<directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/test/int</directory>
+						<directory>${project.build.directory}/checkout/userportal/test/int</directory>
 					</testResource>
 				</testResources>
 
 				<resources>
 					<resource>
-						<!-- directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int</directory -->
-						<directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int</directory>
+						<directory>${project.build.directory}/checkout/userportal/resources/int</directory>
 					</resource>
 					<resource>
 						<directory>src/main/resources/images</directory>
@@ -342,8 +367,7 @@
 				</resources>
 			</build>
 			<properties>
-				<!-- webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int/</webXmlPath -->
-				<webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/int/</webXmlPath>
+				<webXmlPath>${project.build.directory}/checkout/userportal/resources/int/</webXmlPath>
 			</properties>
 		</profile>
 		<profile>
@@ -351,8 +375,7 @@
 			<build>
 				<resources>
 					<resource>
-						<!-- directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod</directory-->
-						<directory>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod</directory>
+						<directory>${project.build.directory}/checkout/userportal/resources/prod</directory>
 					</resource>
 					<resource>
 						<directory>src/main/resources/images</directory>
@@ -361,8 +384,7 @@
 				</resources>
 			</build>
 			<properties>
-				<!-- webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod/</webXmlPath -->
-				<webXmlPath>//csint1/dirtec/2014/Tecnologie e attività/SmartDataPlatform/PropFiles/userportal/resources/prod/</webXmlPath>
+				<webXmlPath>${project.build.directory}/checkout/userportal/resources/prod/</webXmlPath>
 			</properties>
 		</profile>
 	</profiles>
