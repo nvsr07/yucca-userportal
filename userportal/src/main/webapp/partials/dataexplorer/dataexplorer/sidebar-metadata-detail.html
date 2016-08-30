@@ -16,21 +16,21 @@
 				<div class='panel-content'>
 					<p>					
 						<strong><span translate-cloak translate>DATASET_FIELD_METADATA_DESCRIPTION</span></strong>
-						<span>{{dataset.description}}</span>
+						<span>{{dataset.info.description}}</span>
 					</p>
 					<p>
 						<strong><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong>
-						<span >{{dataset.dataDomain|translate}}</span>
+						<span >{{dataset.info.dataDomain|translate}}</span>
 					</p>	
 					<p>
 						<strong><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span></strong>
 						<ul class="list-inline">
-							<li ng-repeat="tag in dataset.tagsArray"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
+							<li ng-repeat="tag in dataset.info.tagsArray"><span class="label label-tag label-custom"><span ng-bind-html="tag|translate"></span></span></li>
 						</ul>
 					</p>
 					<p>
 						<strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong>
-						{{dataset.visibility}}
+						{{dataset.info.visibility}}
 					</p>
 				</div>	
 			</accordion-group>
@@ -59,15 +59,15 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</span></strong>
-					{{dataset.license|nvl:' -'}}
+					{{dataset.info.license|nvl:' -'}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong>
-					{{dataset.disclaimer|nvl:' -'}}
+					{{dataset.info.disclaimer|nvl:' -'}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong>
-					{{dataset.copyright|nvl:' -'}}
+					{{dataset.info.copyright|nvl:' -'}}
 				</p>	
 			</accordion-group>
 			<accordion-group is-open="status2.open" ng-show="dataset.Stream!=null">
@@ -77,19 +77,19 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_NAME</span></strong>
-					{{dataset.Stream.smartOName|nvl:''}}
+					{{dataset.info.Stream.smartOName|nvl:''}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CODE</span></strong>
-					{{dataset.Stream.smartOCode|nvl:''}}
+					{{dataset.info.Stream.smartOCode|nvl:''}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong>
-					{{dataset.Stream.smartODescription|nvl:''}}
+					{{dataset.info.Stream.smartODescription|nvl:''}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_TYPE</span></strong>
-					{{dataset.Stream.smartOType|nvl:''}}
+					{{dataset.info.Stream.smartOType|nvl:''}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong>
@@ -97,9 +97,9 @@
 				</p>	
 				<p ng-show="dataset.Stream.latitude!=null && dataset.Stream.longitude!=null">
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_POSITION</span></strong>
-					[{{dataset.Stream.latitude}};{{dataset.Stream.longitude}}]
+					[{{dataset.info.Stream.latitude}};{{dataset.info.Stream.longitude}}]
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong>
-					{{dataset.Stream.elevation|nvl:' -'}}
+					{{dataset.info.Stream.elevation|nvl:' -'}}
 				</p>	
 			</accordion-group>
 			<accordion-group is-open="status3.open" ng-show="stream!=null">
@@ -109,15 +109,15 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate-cloak translate>STREAM_FIELD_NAME</span></strong>
-					{{dataset.Stream..streamName|nvl:' -'}}
+					{{dataset.info.Stream.streamName|nvl:' -'}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>STREAM_FIELD_CODE</span></strong>
-					{{dataset.Stream..streamCode|nvl:' -'}}
+					{{dataset.info.Stream.streamCode|nvl:' -'}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>STREAM_FIELD_FPS</span></strong>
-					{{dataset.fps|nvl:' -'}}
+					{{dataset.info.fps|nvl:' -'}}
 				</p>	
 			</accordion-group>
 			<accordion-group is-open="status4.open" ng-show="dataset.Stream.twtQuery!=null">
@@ -127,23 +127,23 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span></strong>
-					{{dataset.Stream.twtQuery}}
+					{{dataset.info.Stream.twtQuery}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>STREAM_FIELD_TWT_LANG</span></strong>
-					{{dataset.Stream.twtLang}}
+					{{dataset.info.Stream.twtLang}}
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong>
-					<span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">[{{dataset.Stream.twtGeolocLat}},{{dataset.Stream.twtGeolocLon}}]</span>
+					<span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">[{{dataset.info.Stream.twtGeolocLat}},{{dataset.info.Stream.twtGeolocLon}}]</span>
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong>
-					<span ng-show="stream.twtGeolocRadius!=0">{{dataset.Stream.twtGeolocRadius}} {{dataset.Stream.twtUnit}}</span>
+					<span ng-show="stream.twtGeolocRadius!=0">{{dataset.info.Stream.twtGeolocRadius}} {{dataset.info.Stream.twtUnit}}</span>
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>STREAM_FIELD_TWT_RATE</span></strong>
-					{{dataset.Stream.twtRatePercentage}}
+					{{dataset.info.Stream.twtRatePercentage}}
 				</p>	
 			</accordion-group>
 			<accordion-group is-open="status5.open">
@@ -166,7 +166,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="field in dataset.Fields.results">
+								<tr ng-repeat="field in dataset.info.fields">
 									<td>{{field.fieldName}}</td>
 									<td>{{field.fieldAlias}}</td>
 									<td>{{field.dataType|nvl:' - '}}</td>
@@ -186,7 +186,7 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong><br/><br/>
-					<a ng-href="#/dataexplorer/dataset/{{dataset.tenantCode}}/{{dataset.datasetCode}}" ><span translate-cloak translate>DATA_EXPLORER_DETAIL_BACK_TO_DATASET_CARD</span></a>
+					<a ng-href="#/dataexplorer/dataset/{{dataset.configData.tenantCode}}/{{dataset.datasetCode}}" ><span translate-cloak translate>DATA_EXPLORER_DETAIL_BACK_TO_DATASET_CARD</span></a>
 				</p>	
 			</accordion-group>
 		</accordion>
