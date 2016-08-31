@@ -96,9 +96,6 @@
 				<configuration>
 					<packagingExcludes>lib/angular/,lib/angular-bootstrap/,lib/angular-route/,lib/angular-sanitize/,lib/angular-translate/,lib/angularjs-nvd3-directives/,lib/d3/,lib/freeboard/,lib/jquery/,lib/ng-prettyjson/,lib/nvd3/,lib/openlayers/,lib/reconnecting-websocket/,lib/stomp/,freeboard/</packagingExcludes>
 					<webXml>${webXmlPath}/web.xml</webXml>
-					<!-- outputDirectory>C:\Program Files (x86)\jboss-eap-6.2\standalone\deployments</outputDirectory -->
-					<outputDirectory>D:\Portable\jboss-eap-6.2\standalone\deployments</outputDirectory>
-					<!-- outputDirectory>/Library/JBoss/jboss-eap-6.2/standalone/deployments</outputDirectory -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -111,23 +108,6 @@
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
-			 <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-scm-plugin</artifactId>
-		        <version>1.9.5</version>
-		        <configuration>
-		          <connectionType>connection</connectionType>
-		        </configuration>
-		        <executions>
-		        	<execution>
-		        		<id>1</id>
-		        		<phase>validate</phase>
-			            <goals>
-			              <goal>checkout</goal>
-			            </goals>
-			          </execution>
-			    </executions>
-		      </plugin>
 		      <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-failsafe-plugin</artifactId>
@@ -352,6 +332,25 @@
 		<profile>
 			<id>int</id>
 			<build>
+			<plugins>
+			 <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-scm-plugin</artifactId>
+		        <version>1.9.5</version>
+		        <configuration>
+		          <connectionType>connection</connectionType>
+		        </configuration>
+		        <executions>
+		        	<execution>
+		        		<id>1</id>
+		        		<phase>validate</phase>
+			            <goals>
+			              <goal>checkout</goal>
+			            </goals>
+			          </execution>
+			    </executions>
+		      </plugin>
+			</plugins>
 				<testResources>
 	 				<testResource>
             			<directory>${project.basedir}/src/test/resources</directory>
@@ -378,6 +377,25 @@
 		<profile>
 			<id>prod</id>
 			<build>
+			<plugins>
+			 <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-scm-plugin</artifactId>
+		        <version>1.9.5</version>
+		        <configuration>
+		          <connectionType>connection</connectionType>
+		        </configuration>
+		        <executions>
+		        	<execution>
+		        		<id>1</id>
+		        		<phase>validate</phase>
+			            <goals>
+			              <goal>checkout</goal>
+			            </goals>
+			          </execution>
+			    </executions>
+		      </plugin>
+			</plugins>
 				<resources>
 					<resource>
 						<directory>${project.build.directory}/checkout/userportal/resources/prod</directory>
