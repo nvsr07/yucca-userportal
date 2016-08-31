@@ -41,12 +41,8 @@ public class SeleniumBase {
 		String https_proxy = System.getProperty("https_proxy");
 		String no_proxy = System.getProperty("no_proxy");
 
-		logger.info("Proxy:"+ http_proxy);
-		logger.info("SProxy:"+ https_proxy);
-		logger.info("NoProxy:"+ no_proxy);
+		logger.info("http_proxy:["+ http_proxy+ "] https_proxy:["+ https_proxy+"] no_proxy:["+ no_proxy+"]");
 		
-//		FirefoxBinary ffox = new FirefoxBinary();
-//		ffox.setEnvironmentProperty("DISPLAY", /*read value from xvfbPropsFile*/);
 		
 		DesiredCapabilities cap = new DesiredCapabilities();
 		org.openqa.selenium.Proxy proxy = new Proxy();

@@ -58,7 +58,7 @@ public class DettaglioDatasetIT extends SeleniumBase {
 
 		}
 		
-		WebDriverWait wait = new WebDriverWait(driver, 1);
+		WebDriverWait wait = new WebDriverWait(driver, 2);
 		driver.navigate().to(dato.getString("up.url")+"/userportal/#/dataexplorer/dataset/"+tenant+"/"+dataset);
 		if (dato.getBoolean("up.toBeFound"))
 		{
