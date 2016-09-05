@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 			 install: {	}
 		},
 
-		replace : {
+		/*replace : {
 			build_info : {
 				src : [ 'src/main/webapp/js/build_info.js' ],
 				overwrite : true,
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 					to : "<%= new Date().getTime() %>"
 				} ]
 			}
-		},
+		},*/
 
 		copy : {
 			main : {
@@ -59,6 +59,12 @@ module.exports = function(grunt) {
 		},
 	});
 
+	
+	grunt.registerTask('build_info', 'Create a build_info.js', function() {
+		var text = 'var BuildInfo = BuildInfo || {};\nBuildInfo.timestamp = '+new Date().getTime()+';';
+		grunt.file.write('src/main/webapp/js/build_info.js', text);
+	});
+	
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-text-replace');
@@ -69,7 +75,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-bower-installer');
 	
 	// Default task(s).
-	grunt.registerTask('default', [ 'clean', /*'bower',*/ 'replace', 'copy', 'useminPrepare', 'uglify', 'rev', 'usemin' ]);
+	grunt.registerTask('default', [ 'clean', /*'bower',*/ 'build_info', 'copy', 'useminPrepare', 'uglify', 'rev', 'usemin' ]);
 
 };
 

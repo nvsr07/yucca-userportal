@@ -234,7 +234,7 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 	$scope.loadDataset = function(){
 		$scope.selectedDataset = selectedDataset;
 		
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.selectedDataset.datasetCode).success(function(response) {
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.selectedDataset.datasetCode).then(function(response) {
 			try{
 				$scope.datasetModalView = {};
 				$scope.datasetModalView.apiMetadataUrl = response.apiMetadataUrl;
@@ -258,6 +258,9 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 			} catch (e) {
 				console.error(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> getDataset ERROR", e);
 			}
+		}, function(response){
+			console.error(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> server side getDataset ERROR", response);
+
 		});
 	};
 	
@@ -717,7 +720,7 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 	$scope.dataset = null;
 
 	$scope.loadDataset = function(){
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).success(function(response) {
+		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).then(function(response) {
 			console.debug("loadDataset- response",response);
 			$scope.dataset = response.metadata;
 			if(!$scope.dataset)
