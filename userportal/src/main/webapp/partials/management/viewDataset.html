@@ -261,7 +261,7 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="row card-toolbar">
 					<a  href='#/dataexplorer/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" >
-						<span class="glyphicon glyphicon-th-large"></span> {{'MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON'|translate}}
+						<i class="fa fa-table" aria-hidden="true"></i> {{'MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON'|translate}}
 					</a>
 					<a  href ng-click='cloneDataset()' class="btn btn-edit">
 						<i class="fa fa-files-o" ></i> <span translate-cloak translate>MANAGEMENT_VIEW_DATASET_CLONE_BUTTON</span>
@@ -285,37 +285,39 @@
 </div>
 <div> <!-- ng-show="ModalDemoCtrl" -->
     <script type="text/ng-template" id="datasetModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">{{'MANAGEMENT_DATASET_MODAL_DELETE_TITLE'|translate}}</h3>
-            <h4 class="modal-title" ng-show="datasetModalView.dataset.todo==true">{{'MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE'|translate}}</h4>
-        </div>
-        <div class="modal-body" ng-show="datasetModalView.dataset.todo==true">
-            <div>
-                <b>{{'DATASET_FIELD_CONFIGDATA_CODE'|translate}}</b>: {{datasetModalView.dataset.datasetCode}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_TENANT'|translate}}</b>: {{datasetModalView.dataset.configData.tenantCode}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_TYPE'|translate}}</b>: {{datasetModalView.dataset.configData.type}} <br />
-				<b>{{'DATASET_FIELD_CONFIGDATA_SUBTYPE'|translate}}</b>: {{datasetModalView.dataset.configData.subtype}} <br />
-				<b>{{'DATASET_FIELD_METADATA_NAME'|translate}}</b>: {{datasetModalView.dataset.info.datasetName}}
-				<b>{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}</b>: {{datasetModalView.dataset.info.description}}
-            </div>
-        </div>
-        <div class="modal-body" ng-show="datasetModalView.dataset.okdo==true">
-            <div>{{'MANAGEMENT_DATASET_MODAL_DELETE_OKMSG'|translate}}</div>
-        </div>
-        <div class="modal-body" ng-show="datasetModalView.dataset.kodo==true">
-            <div>{{'MANAGEMENT_DATASET_MODAL_DELETE_KOMSG'|translate}}</div>
-        </div>
-        <div class="modal-footer" ng-show="datasetModalView.dataset.todo==true">
-            <button class="btn btn-primary" type="button" ng-click="deleteDataset()">SI</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">NO</button>
-        </div>
-        <div class="modal-footer" ng-show="datasetModalView.dataset.okdo==true">
-			<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
-            <button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
-        </div>
-        <div class="modal-footer" ng-show="datasetModalView.dataset.kodo==true">
-			<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
-            <button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
-        </div>
+		<div id="datasetModalContent">
+        	<div class="modal-header">
+            	<h3 class="modal-title">{{'MANAGEMENT_DATASET_MODAL_DELETE_TITLE'|translate}}</h3>
+           	 	<h4 class="modal-title" ng-show="datasetModalView.dataset.todo==true">{{'MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE'|translate}}</h4>
+        	</div>
+        	<div class="modal-body" ng-show="datasetModalView.dataset.todo==true">
+            	<div>
+                	<b>{{'DATASET_FIELD_CONFIGDATA_CODE'|translate}}</b>: {{datasetModalView.dataset.datasetCode}} <br />
+					<b>{{'DATASET_FIELD_CONFIGDATA_TENANT'|translate}}</b>: {{datasetModalView.dataset.configData.tenantCode}} <br />
+					<b>{{'DATASET_FIELD_CONFIGDATA_TYPE'|translate}}</b>: {{datasetModalView.dataset.configData.type}} <br />
+					<b>{{'DATASET_FIELD_CONFIGDATA_SUBTYPE'|translate}}</b>: {{datasetModalView.dataset.configData.subtype}} <br />
+					<b>{{'DATASET_FIELD_METADATA_NAME'|translate}}</b>: {{datasetModalView.dataset.info.datasetName}}
+					<b>{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}</b>: {{datasetModalView.dataset.info.description}}
+            	</div>
+  	    	</div>
+        	<div class="modal-body" ng-show="datasetModalView.dataset.okdo==true">
+           	 	<div>{{'MANAGEMENT_DATASET_MODAL_DELETE_OKMSG'|translate}}</div>
+        	</div>
+        	<div class="modal-body" ng-show="datasetModalView.dataset.kodo==true">
+            	<div>{{'MANAGEMENT_DATASET_MODAL_DELETE_KOMSG'|translate}}</div>
+        	</div>
+        	<div class="modal-footer" ng-show="datasetModalView.dataset.todo==true">
+            	<button class="btn btn-primary" type="button" ng-click="deleteDataset()">SI</button>
+            	<button class="btn btn-warning" type="button" ng-click="cancel()">NO</button>
+        	</div>
+        	<div class="modal-footer" ng-show="datasetModalView.dataset.okdo==true">
+				<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
+            	<button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
+        	</div>
+        	<div class="modal-footer" ng-show="datasetModalView.dataset.kodo==true">
+				<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
+            	<button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
+        	</div>
+		</div>
     	</script>
 </div>
