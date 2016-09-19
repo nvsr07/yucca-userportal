@@ -53,7 +53,7 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 			var dstenantsharingArr = dstenantsharing.tenantsharing;
 			angular.forEach(info.info.user.tenantsTokens, function(value, key) {
 				angular.forEach(dstenantsharingArr, function(dstsValue, dstsKey) {
-					if (dstsValue == key)
+					if (dstsValue.tenantCode == key)
 						tokenForRequest = value;
 				});
 			});
