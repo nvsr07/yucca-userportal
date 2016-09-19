@@ -1,3 +1,7 @@
 var BuildInfo = BuildInfo || {};
 
-BuildInfo.timestamp = 1472219417766;
+<<<<<<< Updated upstream
+BuildInfo.timestamp = 1473070841591;
+=======
+BuildInfo.timestamp = 1473070841591;
+>>>>>>> Stashed changes

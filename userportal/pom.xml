@@ -89,7 +89,7 @@
 				<configuration>
 					<packagingExcludes>lib/angular/,lib/angular-bootstrap/,lib/angular-route/,lib/angular-sanitize/,lib/angular-translate/,lib/angularjs-nvd3-directives/,lib/d3/,lib/freeboard/,lib/jquery/,lib/ng-prettyjson/,lib/nvd3/,lib/openlayers/,lib/reconnecting-websocket/,lib/stomp/,freeboard/</packagingExcludes>
 					<webXml>${webXmlPath}/web.xml</webXml>
-				</configuration>
+                </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -350,7 +350,7 @@
         			</testResource>			
 					<testResource>
 						<directory>${project.build.directory}/checkout/userportal/test/int</directory>
-					</testResource>
+                    </testResource>
 				</testResources>
 
 				<resources>

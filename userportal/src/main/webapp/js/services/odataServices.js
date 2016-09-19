@@ -41,7 +41,7 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 		if(orderby && orderby!=null)
 			streamDataUrl += '&$orderby='+orderby;
 		
-		var tokenForRequest = "";
+		var tokenForRequest = null;
 		
 		angular.forEach(info.info.user.tenantsTokens, function(value, key) {
 			if (dstenantactive == key)
