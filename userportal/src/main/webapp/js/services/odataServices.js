@@ -49,7 +49,8 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 		});
 		
 		if (tokenForRequest == null){
-			var dstenantsharingArr = dstenantsharing.split(',');
+			//var dstenantsharingArr = dstenantsharing.split(',');
+			var dstenantsharingArr = dstenantsharing;
 			angular.forEach(info.info.user.tenantsTokens, function(value, key) {
 				angular.forEach(dstenantsharingArr, function(dstsValue, dstsKey) {
 					if (dstsValue == key)
