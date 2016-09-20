@@ -59,26 +59,31 @@ public class DettaglioDatasetIT extends SeleniumBase {
 
 		}
 		
-		WebDriverWait wait = new WebDriverWait(driver, 2);
+		WebDriverWait wait = new WebDriverWait(driver,2);
 		driver.navigate().to(dato.getString("up.url")+"/userportal/#/dataexplorer/dataset/"+tenant+"/"+dataset);
 		if (dato.getBoolean("up.toBeFound"))
 		{
-			wait.until(ExpectedConditions.and(					
-					ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -"),
-					ExpectedConditions.visibilityOfElementLocated(By.cssSelector("dataexplorer-table-grid-container"))));
-					
-		}
-		else {
-			try {
-				wait.until(ExpectedConditions.and(					
-						ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -"),
-						ExpectedConditions.visibilityOfElementLocated(By.cssSelector("dataexplorer-table-grid-container"))));
+			wait.until(ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -"));
 
-			}catch(TimeoutException e ) {
+			driver.navigate().to(dato.getString("up.url")+"/userportal/#/dataexplorer/"+tenant+"/"+dataset);
+			try {
+			wait.until(
+					ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert-danger")));
+			}catch(TimeoutException e1 ) {
 				Assert.assertTrue(true);
 				return;
 			}
-			
+		}
+		else {
+			try {
+				wait.until(ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -"));
+			}catch(TimeoutException e ) {
+					driver.navigate().to(dato.getString("up.url")+"/userportal/#/dataexplorer/"+tenant+"/"+dataset);
+					wait.until(
+							ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert-danger")));
+					Assert.assertTrue(true);
+					return;
+			}
 			Assert.assertTrue(false);
 		}
 		

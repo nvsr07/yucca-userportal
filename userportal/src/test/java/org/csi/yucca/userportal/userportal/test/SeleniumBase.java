@@ -14,6 +14,7 @@ import org.apache.log4j.spi.RootLogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.Proxy;
+import org.openqa.selenium.Proxy.ProxyType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -42,14 +43,21 @@ public class SeleniumBase {
 		String no_proxy = System.getProperty("no_proxy");
 
 		logger.info("http_proxy:["+ http_proxy+ "] https_proxy:["+ https_proxy+"] no_proxy:["+ no_proxy+"]");
-		
-		
+
 		DesiredCapabilities cap = new DesiredCapabilities();
 		org.openqa.selenium.Proxy proxy = new Proxy();
-		proxy.setHttpProxy(http_proxy);
-		proxy.setSslProxy(https_proxy);
-		proxy.setNoProxy(no_proxy);
+		
+		if (http_proxy == null && https_proxy == null)
+		{
+			proxy.setProxyType(ProxyType.DIRECT);
+		} else {
+			proxy.setHttpProxy(http_proxy);
+			proxy.setSslProxy(https_proxy);
+			proxy.setNoProxy(no_proxy);			
+		}
+		
 		cap.setCapability(CapabilityType.PROXY, proxy);
+		
 		
 		FirefoxProfile profile = new FirefoxProfile();
 		profile.setPreference("browser.cache.disk.enable", false);
