@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -62,11 +63,16 @@ public class DettaglioDatasetIT extends SeleniumBase {
 		driver.navigate().to(dato.getString("up.url")+"/userportal/#/dataexplorer/dataset/"+tenant+"/"+dataset);
 		if (dato.getBoolean("up.toBeFound"))
 		{
-			Assert.assertEquals(wait.until(ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -")).booleanValue(),true);
+			wait.until(ExpectedConditions.and(					
+					ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -"),
+					ExpectedConditions.visibilityOfElementLocated(By.cssSelector("dataexplorer-table-grid-container"))));
+					
 		}
 		else {
 			try {
-				wait.until(ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -")).booleanValue();
+				wait.until(ExpectedConditions.and(					
+						ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset +" -"),
+						ExpectedConditions.visibilityOfElementLocated(By.cssSelector("dataexplorer-table-grid-container"))));
 
 			}catch(TimeoutException e ) {
 				Assert.assertTrue(true);
