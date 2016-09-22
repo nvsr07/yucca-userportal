@@ -73,8 +73,8 @@
 							<div class="col-sm-10">
 								<p>
 									<span  ng-repeat="tag in dataset.info.tags">
-										<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
-										<a href="javascript:void(0)" ng-click='removeTag($index)' class='close-button'>&times;</a>
+										<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate" title="{{tag.tagCode}}"></span> &nbsp;
+										<a href="javascript:void(0)" ng-click='removeTag($index)' class='close-button' id='removeTag_{{tag.tagCode}}'>&times;</a>
 										</span> &nbsp;
 									</span>
 								</p>						
@@ -145,8 +145,8 @@
 							<div class="col-sm-10">
 								<p>
 									<span  ng-repeat="tenantSharing in dataset.info.tenantssharing.tenantsharing">
-										<span class="label label-custom label-tenant-sharing"><span title="{tenantSharing.tenantCode}">{{tenantSharing.tenantName}}</span> &nbsp;
-										<a href ng-click='removeTenantSharing($index)' ng-show="tenantSharing.isOwner==0"  class='close-button'>&times;</a>
+										<span class="label label-custom label-tenant-sharing"><span title="{{tenantSharing.tenantCode}}">{{tenantSharing.tenantName}}</span> &nbsp;
+										<a href ng-click='removeTenantSharing($index)' ng-show="tenantSharing.isOwner==0"  class='close-button' id='removeTenant_{{tenantSharing.tenantCode}}_x'>&times;</a>
 										</span> &nbsp;
 									</span>
 								</p>						
@@ -155,7 +155,7 @@
 										<option value="" ng-bind-html="'MANAGEMENT_EDIT_DATASET_TENANT_SHARING_PLACEHOLDER'|translate" ></option>
 									</select>
 								    <span class="input-group-btn">
-								    	<a class="btn  btn-sm"  href ng-click='addTenantSharing(newTenantSharing)' title="{{'MANAGEMENT_EDIT_DATASET_ADD_TENANT_SHARING'|translate}}" >
+								    	<a class="btn  btn-sm"  href ng-click='addTenantSharing(newTenantSharing)' title="{{'MANAGEMENT_EDIT_DATASET_ADD_TENANT_SHARING'|translate}}" id="addTenantShareButton">
 								    		<i class='glyphicon glyphicon-plus'></i>
 								    	</a>
 								    </span>
