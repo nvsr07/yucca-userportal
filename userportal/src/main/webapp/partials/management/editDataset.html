@@ -74,7 +74,7 @@
 								<p>
 									<span  ng-repeat="tag in dataset.info.tags">
 										<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate" title="{{tag.tagCode}}"></span> &nbsp;
-										<a href="javascript:void(0)" ng-click='removeTag($index)' class='close-button' id='removeTag_{{tag.tagCode}}'>&times;</a>
+										<a href="javascript:void(0)" ng-click='removeTag($index)' class='close-button remove-tag' id='removeTag_{{tag.tagCode}}'>&times;</a>
 										</span> &nbsp;
 									</span>
 								</p>						
@@ -146,7 +146,7 @@
 								<p>
 									<span  ng-repeat="tenantSharing in dataset.info.tenantssharing.tenantsharing">
 										<span class="label label-custom label-tenant-sharing"><span title="{{tenantSharing.tenantCode}}">{{tenantSharing.tenantName}}</span> &nbsp;
-										<a href ng-click='removeTenantSharing($index)' ng-show="tenantSharing.isOwner==0"  class='close-button' id='removeTenant_{{tenantSharing.tenantCode}}_x'>&times;</a>
+										<a href ng-click='removeTenantSharing($index)' ng-show="tenantSharing.isOwner==0"  class='close-button remove-tenant' id='removeTenant_{{tenantSharing.tenantCode}}_x'>&times;</a>
 										</span> &nbsp;
 									</span>
 								</p>						
