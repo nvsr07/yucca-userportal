@@ -33,7 +33,7 @@ public class SottoscrizioniDatasetIT extends SeleniumBase {
 	public Iterator<Object[]> getFromJson() {
 
 		return super.getFromJson("/UserportalDatasetDettaglioSubscription.json");
-	}
+	}    
 
 	@Test(dataProvider = "UserportalDatasetDettaglioSubscription", singleThreaded = true)
 	public void viewDataset(JSONObject dato) {
@@ -51,7 +51,7 @@ public class SottoscrizioniDatasetIT extends SeleniumBase {
 			driver.findElement(By.id("loginForm")).submit();
 			driver.navigate().to(dato.getString("up.url"));
 			Assert.assertEquals(driver.getTitle(), "Smart Data Platform");
-		}
+		}   
 
 		WebDriverWait wait = new WebDriverWait(driver, 2);
 		driver.navigate().to(dato.getString("up.url") + "/userportal/#/management/viewDataset/" + tenant + "/" + dataset);
@@ -59,7 +59,7 @@ public class SottoscrizioniDatasetIT extends SeleniumBase {
 			wait.until(ExpectedConditions.textToBe(By.cssSelector(".url > strong:nth-child(1)"), dataset));
 
 			driver.navigate().to(dato.getString("up.url") + "/userportal/#/management/editDataset/" + tenant + "/" + dataset);
-			try {
+			try { 
 				if (dato.getBoolean("up.isPublic"))
 					driver.findElement(By.id("RadioGroupVisibility_0")).click(); // public
 				else {
@@ -74,6 +74,11 @@ public class SottoscrizioniDatasetIT extends SeleniumBase {
 						select.selectByVisibleText(isShare.get(i).toString());
 						driver.findElement(By.cssSelector("span.input-group-btn > a.btn.btn-sm")).click(); 
 					}
+					
+					if (isShare.length() == 0){
+						if (driver.findElement(By.className("remove-tenant")).isDisplayed())
+							driver.findElement(By.className("remove-tenant")).click(); 
+					}
 				}
 				driver.findElement(By.cssSelector("a.btn.btn-default.ng-scope")).click();
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert-danger")));
@@ -81,18 +86,6 @@ public class SottoscrizioniDatasetIT extends SeleniumBase {
 				Assert.assertTrue(true);
 				return;
 			}
-		} else {
-			/*
-			try {
-				wait.until(ExpectedConditions.textToBe(By.cssSelector("small.ng-binding"), dataset + " -"));
-			} catch (TimeoutException e) {
-				driver.navigate().to(dato.getString("up.url") + "/userportal/#/dataexplorer/" + tenant + "/" + dataset);
-				wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert-danger")));
-				Assert.assertTrue(true);
-				return;
-			}
-			Assert.assertTrue(false);
-			*/
 		}
 
 		if (dato.getBoolean("up.logged")) {
