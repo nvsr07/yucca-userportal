@@ -82,20 +82,7 @@
     								<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
     								typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
     								<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span>
-		    					</div>								
-								<!-- 
-								<p>
-									<div class="input-group">
-			    						<select class="input-sm form-control" ng-model="newTag" ng-options="tag as (tag|translate) for tag in tagList">
-			    							<option value="" ng-bind-html="'MANAGEMENT_EDIT_DATASET_TAG_PLACEHOLDER'|translate" ></option>
-			    						</select>
-									    <span class="input-group-btn">
-									    	<a class="btn  btn-sm btn-add"  href="javascript:void(0)" ng-click='addTag()' title="{{'MANAGEMENT_EDIT_DATASET_ADD_TAG'|translate}}" >
-									    		<i class='glyphicon glyphicon-plus'></i>
-									    	</a>
-									    </span>
-			    					</div>
-								</p>-->
+		    					</div>	
 							</div>
 						</div>			
 						<div class="form-group">
@@ -123,9 +110,7 @@
 							<div class="col-sm-3 col-sm-offset-1 text-right">
 								<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
 							</div>
-							
 						</div>			
-						
 						<div class='form-label-separator'> <span ng-bind-html="'MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING'|translate"></span></div>
 						<div class="form-group">
 							<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
@@ -176,7 +161,6 @@
 				            		</label>
 								</div>
 							</div>
-							
 							<div ng-show="dataset.opendata.isOpendata=='true'">
 								<div class="form-group">
 									<label for="inputDatasetOpendataAuthor" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_AUTHOR</label>
@@ -184,15 +168,11 @@
 										<input type="text" class="form-control" id="inputDatasetOpendataAuthor" placeholder="{{'DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER'|translate}}" 
 										ng-model="dataset.opendata.author" >
 									</div>
-									<!-- 	<div class="col-sm-6 form-hint">
-										<span class='hint-message' ng-bind-html="'MANAGEMENT_METADATA_OPENDATA_AUTHOR_HINT'|translate"></span>
-									</div> -->
-									
 								</div>		
 								<div class="form-group">
 									<label for="inputDatasetDomain" class="col-sm-2 control-label"translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_LANG</label>
 									<div class="col-sm-10">
-										<select class="input-sm form-control" ng-model="dataset.opendata.language" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
+										<select id="inputDatasetDomain" class="input-sm form-control" ng-model="dataset.opendata.language" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
 					    					<option value="" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER</option>
 					    				</select>
 									</div>
@@ -200,11 +180,10 @@
 								<div class="form-group">
 									<label for="inputDatasetOpendataDataUpdateDate" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</label>
 									<div class="col-sm-2">
-										<input type="date" class="form-control"  ng-model="dataset.opendata.dataUpdateDate"  close-text="Close" />
+										<input type="date" class="form-control" id="inputDatasetOpendataDataUpdateDate" ng-model="dataset.opendata.dataUpdateDate"  close-text="Close" />
 									</div>
-								</div>		
+								</div>				
 							</div>
-							
 						</div>
 						<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div>
 						<div class="form-group">
@@ -226,6 +205,45 @@
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_METADATA_COPYRIGHT'|translate}}" ng-model="dataset.info.copyright" >
 							</div>
+						</div>	
+						<div class='form-label-separator' translate-cloak translate>DCAT</div>	
+							<div class="form-group">
+								<label for="inputDatasetOpendataVcard" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CONTACT</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="inputDatasetOpendataVcard" ng-model="dataset.dcat.puntoContatto" ng-blur="checkVCard()">
+								</div>	
+							</div>	
+							<div class="form-group">
+								<label for="inputDatasetOpendataNomeOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="inputDatasetOpendataNomeOrg" ng-model="dataset.dcat.nomeOrg" ng-blur="checkVCard()">
+								</div>	
+							</div>		
+							<div class="form-group">
+								<label for="inputDatasetOpendataEmailOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_EMAILORG</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="inputDatasetOpendataEmailOrg" ng-model="dataset.dcat.emailOrg" ng-blur="checkVCard()">
+								</div>	
+							</div>		
+							<div class="form-group">
+								<label for="inputDatasetOpendataTelOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_TELORG</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="inputDatasetOpendataTelOrg" ng-model="dataset.dcat.telOrg" ng-blur="checkVCard()">
+								</div>	
+							</div>		
+							<div class="form-group">
+								<label for="inputDatasetOpendataUrlOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_URLORG</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="inputDatasetOpendataUrlOrg" ng-model="dataset.dcat.urlOrg" ng-blur="checkVCard()">
+								</div>	
+							</div>				
+							<div class="form-group">
+								<label for="inputDatasetOpendataVcard" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_VCARD</label>
+								<div class="col-sm-4">
+									<textarea id="inputDatasetOpendataVcard" class="form-control" rows="4" resize="none" ng-model="metadata.dcat.vcard" placeholder="{{'DATASET_FIELD_METADATA_DCAT_VCARD_PLACEHOLDER'|translate}}"  >
+									</textarea>
+								</div>	
+							</div>		
 						</div>		
 						<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_COLUMNS</div>
 						<div class="col-sm-12"><span ng-bind-html="MANAGEMENT_EDIT_DATASET_COLUMNS_HELP|translate"></span></div>
@@ -249,7 +267,6 @@
 										<td>{{field.sourceColumn}}</td>
 										<td>{{field.measureUnit|nvl:' - '}}</td>
 										<td>{{field.isKey|booleanToString|translate}}</td>
-										
 								</tbody>
 							</table>
 						</div>
