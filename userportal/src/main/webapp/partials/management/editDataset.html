@@ -207,44 +207,30 @@
 							</div>
 						</div>	
 						<div class='form-label-separator' translate-cloak translate>DCAT</div>	
-							<div class="form-group">
-								<label for="inputDatasetOpendataVcard" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CONTACT</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="inputDatasetOpendataVcard" ng-model="dataset.dcat.puntoContatto" ng-blur="checkVCard()">
-								</div>	
+						<div class="form-group">
+							<label for="inputDatasetOpendataNomeOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetOpendataNomeOrg" ng-model="dataset.dcat.nomeOrg" ng-required="true">
 							</div>	
-							<div class="form-group">
-								<label for="inputDatasetOpendataNomeOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="inputDatasetOpendataNomeOrg" ng-model="dataset.dcat.nomeOrg" ng-blur="checkVCard()">
-								</div>	
-							</div>		
-							<div class="form-group">
-								<label for="inputDatasetOpendataEmailOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_EMAILORG</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="inputDatasetOpendataEmailOrg" ng-model="dataset.dcat.emailOrg" ng-blur="checkVCard()">
-								</div>	
-							</div>		
-							<div class="form-group">
-								<label for="inputDatasetOpendataTelOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_TELORG</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="inputDatasetOpendataTelOrg" ng-model="dataset.dcat.telOrg" ng-blur="checkVCard()">
-								</div>	
-							</div>		
-							<div class="form-group">
-								<label for="inputDatasetOpendataUrlOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_URLORG</label>
-								<div class="col-sm-4">
-									<input type="text" class="form-control" id="inputDatasetOpendataUrlOrg" ng-model="dataset.dcat.urlOrg" ng-blur="checkVCard()">
-								</div>	
-							</div>				
-							<div class="form-group">
-								<label for="inputDatasetOpendataVcard" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_VCARD</label>
-								<div class="col-sm-4">
-									<textarea id="inputDatasetOpendataVcard" class="form-control" rows="4" resize="none" ng-model="metadata.dcat.vcard" placeholder="{{'DATASET_FIELD_METADATA_DCAT_VCARD_PLACEHOLDER'|translate}}"  >
-									</textarea>
-								</div>	
-							</div>		
 						</div>		
+						<div class="form-group">
+							<label for="inputDatasetOpendataEmailOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_EMAILORG</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetOpendataEmailOrg" ng-model="dataset.dcat.emailOrg" ng-required="true">
+							</div>	
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetOpendataTelOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_TELORG</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetOpendataTelOrg" ng-model="dataset.dcat.telOrg" ng-required="true">
+							</div>	
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetOpendataUrlOrg" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DCAT_URLORG</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetOpendataUrlOrg" ng-model="dataset.dcat.urlOrg" ng-required="true">
+							</div>	
+						</div>	
 						<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_COLUMNS</div>
 						<div class="col-sm-12"><span ng-bind-html="MANAGEMENT_EDIT_DATASET_COLUMNS_HELP|translate"></span></div>
 						<div class="col-sm-10 col-sm-offset-1">

@@ -387,25 +387,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			$scope.subDomainList.push(response.streamSubDomains.element[int]);
 		}
 	});
-	
-	$scope.checkVCard = function(){
-		var VCARD_PREFIX = 'BEGIN:VCARD \n VERSION:2.1';
-		var VCARD_SUFFIX = 'END:VCARD';
-		var VCARD_N = 'N:';
-		var VCARD_FN = 'FN:';
-		var VCARD_TEL = 'TEL;WORK:';
-		var VCARD_EMAIL = 'EMAIL:';
-		var VCARD_URL = 'URL:';
-		//if (($scope.metadata.dcat.vcard == null) || ($scope.metadata.dcat.vcard == '')){
-			$scope.metadata.dcat.vcard = VCARD_PREFIX + 
-										 VCARD_N + ((($scope.metadata.dcat.nomeOrg != '') && ($scope.metadata.dcat.nomeOrg != null)) ? $scope.metadata.dcat.nomeOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_FN + ((($scope.metadata.dcat.nomeOrg != '') && ($scope.metadata.dcat.nomeOrg != null)) ? $scope.metadata.dcat.nomeOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_TEL + ((($scope.metadata.dcat.telOrg != '') && ($scope.metadata.dcat.telOrg != null)) ? $scope.metadata.dcat.telOrg.replace(" ",";") : '+39.011.3168111') + 
-										 VCARD_EMAIL + ((($scope.metadata.dcat.emailOrg != '') && ($scope.metadata.dcat.emailOrg != null)) ? $scope.metadata.dcat.emailOrg.replace(" ",";") : 'info@csi.it') + 
-										 VCARD_URL + ((($scope.metadata.dcat.urlOrg != '') && ($scope.metadata.dcat.urlOrg != null)) ? $scope.metadata.dcat.urlOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_SUFFIX;
-		//}
-	}
 
 	$scope.dataTypeList = [];
 	fabricAPIservice.getStreamDataType().success(function(response) {
