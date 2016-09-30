@@ -128,6 +128,73 @@ appServices.factory('fabricAPImanagement', function($http, $q, info) {
 		});
 	};
 	
+	fabricAPI.getDataset = function(tenant_code, dataset_id) {
+		
+		var deferred = $q.defer();
+		
+		fabricAPI.getInfo().success(function(infoData){
+			var visible= "?visibleFrom=sandbox";
+			var tenantForRequest = "";
+			var streamsUrl = Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '/' + dataset_id + '/';
+			
+			if(infoData.user.tenantsTokens != undefined){
+				angular.forEach(info.info.user.tenantsTokens, function(value, key) {
+					tenantForRequest += key + "|";
+					console.log("tenantForRequest", tenantForRequest);
+				});
+				
+				console.log('tokenForRequest in getStreamDataMultiToken', tenantForRequest);
+				visible = "?visibleFrom=" + tenantForRequest.substr(0, tenantForRequest.length - 1);	
+			} else if(infoData.user.activeTenant != undefined)
+				visible = "?visibleFrom=" + infoData.user.activeTenant;		
+			
+			console.log("getDataset", streamsUrl + visible + '&callback=JSON_CALLBACK');
+			return $http({
+				method : 'JSONP',
+				url : streamsUrl + visible + '&callback=JSON_CALLBACK'
+			}).success(function(responseData) {
+				deferred.resolve(responseData);
+			}).error(function(responseData, responseStatus) {
+				resultData = {status: "ko - "+responseStatus, data: responseData};
+				deferred.reject(resultData);
+			});			
+		});
+		
+		return deferred.promise;
+	};
+	
+	fabricAPI.loadStreamDetail = function(tenant_code, virtualentity_code, stream_code){
+		
+		var deferred = $q.defer();
+		
+		fabricAPI.getInfo().success(function(infoData){
+			if(infoData.user.tenantsTokens != undefined){
+				angular.forEach(info.info.user.tenantsTokens, function(value, key) {
+					tenantForRequest += key + "|";
+					console.log("tenantForRequest", tenantForRequest);
+				});
+				
+				console.log('tokenForRequest in getStreamDataMultiToken', tenantForRequest);
+				visible = "?visibleFrom=" + tenantForRequest.substr(0, tenantForRequest.length - 1);	
+			} else if(infoData.user.activeTenant != undefined)
+				visible = "?visibleFrom=" + infoData.user.activeTenant;		
+			
+			var URLBaseQuery = Constants.API_MANAGEMENT_DATASET_LIST_URL + tenant_code + '/' + virtualentity_code + '/' + stream_code + visible;
+			console.debug("dataDiscovery.loadStreamDetail URL : ",URLBaseQuery);
+			return $http({
+				method : 'GET',
+				url:URLBaseQuery
+			}).success(function(responseData) {
+				deferred.resolve(responseData);
+			}).error(function(responseData, responseStatus) {
+				resultData = {status: "ko - "+responseStatus, data: responseData};
+				deferred.reject(resultData);
+			});			
+		});
+		
+		return deferred.promise;
+	};
+	
 	
 	return fabricAPI;
 });

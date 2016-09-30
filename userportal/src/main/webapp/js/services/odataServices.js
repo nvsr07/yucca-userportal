@@ -58,6 +58,10 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 				});
 			});
 		}
+		
+		if (tokenForRequest == null){
+			tokenForRequest = info.info.user.token;
+		}
 		console.log('tokenForRequest in getStreamDataMultiToken', tokenForRequest);
 
 		var user = "Bearer " + tokenForRequest;

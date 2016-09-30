@@ -363,8 +363,8 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 } 
 ]);
 
-appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', 'odataAPIservice', 'dataDiscoveryService',  "$filter", '$interval',
-                                                   function($scope, $routeParams, fabricAPIservice, webSocketService, odataAPIservice, dataDiscoveryService, $filter,$interval) {
+appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'webSocketService', 'odataAPIservice', 'dataDiscoveryService',  "$filter", '$interval',
+                                                   function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, webSocketService, odataAPIservice, dataDiscoveryService, $filter,$interval) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
 	$scope.chartComponentNames = [];
@@ -507,25 +507,24 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	var allData = [];
 	$scope.lastMessageNotReceivedHint = 'DASHBOARD_STREAM_WS_LASTMESSAGE_NOT_RECEIVED';
 	var loadPastData = function(){
-
+		
 		// call discovery service to retrieve  the apiCode
-		dataDiscoveryService.loadStreamDetail($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
-			var discoveryResultList = response.d.results;
-			if(discoveryResultList.length >0){
-				var apiCode  = discoveryResultList[0].Dataset.datasetCode;
+		fabricAPImanagement.loadStreamDetail($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).then(function(response) {
+			console.log("response", response);
+			if(response != null){
+				var apiCode  = response.metadata.datasetCode;
 				// call oData service to retrieve  the last 30 data
 				var collection = 'Measures';
 				if($scope.isTwitter){
 					collection = 'SocialFeeds';
 				}
-				odataAPIservice.getStreamDataMultiToken(apiCode, null, 0, $scope.maxDataResult.value, 'time%20desc',collection, discoveryResultList[0].Dataset.tenantCode, discoveryResultList[0].Dataset.tenantsharing).success(function(response) {
+				odataAPIservice.getStreamDataMultiToken(apiCode, null, 0, $scope.maxDataResult.value, 'time%20desc',collection, response.metadata.configData.tenantCode, response.metadata.info.tenantssharing).success(function(response) {
 					console.log("odataAPIservice.getStreamData",response, collection);
 					var oDataResultList = response.d.results;
 					if(oDataResultList.length >0){
 						for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
 							var oDataResult = oDataResultList[oDataIndex];
-							//var time = new Date(parseInt(oDataResult.time.replace("/Date(", "").replace(")/",""), 10));
-							//time.setHours(time.getHours() + time.getTimezoneOffset() / 60);
+
 							var time = Helpers.mongo.date2millis(oDataResult.time);
 							var values = {};
 							for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
