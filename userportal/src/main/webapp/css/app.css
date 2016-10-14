@@ -436,6 +436,21 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 /* home page */
 #homepage{ background-color: #fff; }
 
+#home-statistic-section{background-color: #E3E4E6;padding: 40px 0 0 0; }
+#home-statistic-section h3{margin-bottom: 2em; text-align: center; font-size: 40px; font-family: 'Roboto', sans-serif;}
+#home-statistic-section .data-number{font-size: 3.5em;letter-spacing: -4px;font-weight: 700; color: #00bbf0; }
+#home-statistic-section .statistic-data-panel{text-align: right; font-size: 10pt; padding: 0;}
+#home-statistic-section .statistic-data-panel p{padding:.5em;}
+#home-statistic-section .statistic-data-panel .data-number{padding-left: .2em;}
+#home-statistic-section .data-number-label{font-size: 20px; font-family: 'Roboto', sans-serif;}
+#home-statistic-section .statistic-data-panel .counter-group{color: #000;font-weight: normal;font-size: .5em;letter-spacing: 1.2px;}
+#home-statistic-section .statistic-chart-panel{border-color: #b2b4b3; border-width: 0 1px; border-style: solid; margin-top: -40px;}
+#domain-chart{margin-top: -50px;margin-bottom: -40px;}
+#home-statistic-section .statistic-entity-panel{text-align: left; font-size: 10pt;}
+#home-statistic-section .statistic-entity-panel p{padding:.5em;}
+#home-statistic-section .statistic-entity-panel .data-number{padding-right: .2em;}
+#home-statistic-section .lastupdate-info{line-height: 40px; font-size: .9em; color: #999;}
+
 #home-operation-section{padding: 40px 0; }
 #home-operation-section h2{margin-bottom: 2em; text-align: center;}
 #home-operation-section .operation-panel{text-align: center;}
@@ -448,23 +463,23 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #home-operation-section .main-action a:hover{background-color: #005d23; text-decoration: none;}
 #home-operation-section .action a{background-color: #005d23; text-decoration: none;}
 
-#home-operation-section .operation-developer .main-icon{color: #00bbf0;}
-#home-operation-section .operation-developer .main-action a{background-color: #00bbf0; color: white;}
-#home-operation-section .operation-developer .action a{background-color: #00bbf0; color: white;}
+#home-operation-section .operation-developer .main-icon{color: #000;}
+#home-operation-section .operation-developer .main-action a{background-color: #000; color: white;}
+#home-operation-section .operation-developer .action a{background-color: #000; color: white;}
 #home-operation-section .operation-developer .main-action a:hover{background-color: #006480;}
 #home-operation-section .operation-developer .action a:hover{background-color: #006480;}
 
-#home-operation-section .operation-manager .main-icon{color: #00973a;}
-#home-operation-section .operation-manager .main-action a{background-color: #00973a; color: white;}
-#home-operation-section .operation-manager .action a{background-color: #00973a; color: white;}
+#home-operation-section .operation-manager .main-icon{color: #000;}
+#home-operation-section .operation-manager .main-action a{background-color: #000; color: white;}
+#home-operation-section .operation-manager .action a{background-color: #000; color: white;}
 #home-operation-section .operation-manager .main-action a:hover{background-color: #005d23;}
 #home-operation-section .operation-manager .action a:hover{background-color: #005d23;}
 
-#home-operation-section .operation-customer .main-icon{color: #dbdb00;}
-#home-operation-section .operation-customer .main-action a{background-color: #dbdb00; color: black;}
-#home-operation-section .operation-customer .action a{background-color: #dbdb00; color: black;}
-#home-operation-section .operation-customer .main-action a:hover{background-color: #888800;color: white;}
-#home-operation-section .operation-customer .action a:hover{background-color: #888800color: white;;}
+#home-operation-section .operation-customer .main-icon{color: #000;}
+#home-operation-section .operation-customer .main-action a{background-color: #000; color: black;}
+#home-operation-section .operation-customer .action a{background-color: #000; color: black;}
+#home-operation-section .operation-customer .main-action a:hover{background-color: #888800; color: white;}
+#home-operation-section .operation-customer .action a:hover{background-color: #888800; color: white;;}
 
 
 /* family-identity */
@@ -537,8 +552,10 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #homepage-family-identity #home-landing-section .btn{font-family: 'Roboto', sans-serif; font-size: 23px;color: #000;text-align: center;padding: 6px 12px}
 #homepage-family-identity #home-landing-section .home-start-intro{padding-right: 25px;}
 #homepage-family-identity #home-landing-section .btn-home-start{ background-color: #dbd91b; border-color: #dbd91b; width: 200px; text-transform: uppercase; text-align: right; padding-right: 25px;margin-top: 20px;}
+#homepage-family-identity #home-landing-section .btn-home-start-blue{ background-color: #1dbbee; border-color: #1dbbee; width: 200px; text-transform: uppercase; text-align: right; padding-right: 25px;margin-top: 20px;}
 #homepage-family-identity #home-landing-section .home-demo-intro{margin-top: 80px; padding-right: 25px;}
 #homepage-family-identity #home-landing-section .login-row{ border-bottom: solid 1px #000; padding: 10px;}
+#homepage-family-identity #home-landing-section .login-row-blue{ border-bottom: solid 1px #000; padding: 10px;}
 #homepage-family-identity #home-landing-section .fa{font-weight: bold;}
 
 #homepage-family-identity .btn-arrow-right{position: relative; padding-left: 18px}
@@ -560,6 +577,24 @@ border-bottom-color: transparent;border-radius: 0px 4px 0px 0px;-webkit-border-r
 #homepage-family-identity .btn-arrow-right:before,
 #homepage-family-identity .btn-arrow-left:after {background-color: #e3e4e6;}
 
+#homepage-family-identity .btn-arrow-right-blue{position: relative; padding-left: 18px}
+#homepage-family-identity .btn-arrow-right-blue:before,
+#homepage-family-identity .btn-arrow-right-blue:after,
+#homepage-family-identity .btn-arrow-left-blue:before,
+#homepage-family-identity .btn-arrow-left-blue:after {content: "";position: absolute;top: 6px;width: 32px;height: 32px;background: inherit;border: inherit;border-left-color: transparent;
+border-bottom-color: transparent;border-radius: 0px 4px 0px 0px;-webkit-border-radius: 0px 4px 0px 0px;-moz-border-radius: 0px 4px 0px 0px;}
+#homepage-family-identity .btn-arrow-right-blue:before,
+#homepage-family-identity .btn-arrow-right-blue:after {transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);-o-transform: rotate(45deg);-ms-transform: rotate(45deg);}
+#homepage-family-identity .btn-arrow-left-blue:before,
+#homepage-family-identity .btn-arrow-left-blue:after {transform: rotate(225deg);-webkit-transform: rotate(225deg);-moz-transform: rotate(225deg);  -o-transform: rotate(225deg);-ms-transform: rotate(225deg);}
+#homepage-family-identity .btn-arrow-right-blue:before,
+#homepage-family-identity .btn-arrow-left-blue:before {left: -15px;}
+#homepage-family-identity .btn-arrow-right-blue:after,
+#homepage-family-identity .btn-arrow-left-blue:after {right: -15px;}
+#homepage-family-identity .btn-arrow-right-blue:after,
+#homepage-family-identity .btn-arrow-left-blue:before {z-index: 1;}
+#homepage-family-identity .btn-arrow-right-blue:before,
+#homepage-family-identity .btn-arrow-left-blue:after {background-color: #e3e4e6;}
 
 #homepage-family-identity #home-search-section{background-color: #1dbbee; color: white; text-align: center; padding: 60px 0;}
 #homepage-family-identity #home-search-section h3{font-size: 50px; line-height: 50px;}
