@@ -328,7 +328,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
                                         function($scope, $route, $http, $filter, fabricAPIservice, fabricAPImanagement, $modal, info, $location) {
 	$scope.$route = $route;
 	$scope.tenant = "";
-	//var $translate = $filter('translate');
+	var $translate = $filter('translate');
 	//showMap();
 
 	$scope.isHomepage = function() {
@@ -341,9 +341,9 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	//if(scrollTo){
 	//	Helpers.util.scrollTo(scrollTo);
 	//}
-	//$scope.statistics = {};
+	$scope.statistics = {};
 
-	/*
+	
 	fabricAPImanagement.loadDataStatistics().success(function(response) {
 		console.debug("statistics", response);	
 		$scope.statistics.total_tenants = response.lifetime.total_tenants;
@@ -392,7 +392,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 	
 	$scope.animationsEnabled = true;
-	 */
+	 
 } ]);
 
 appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op', 'tenantType', 'globalUser', 'globalUserTenantsToActivate', 

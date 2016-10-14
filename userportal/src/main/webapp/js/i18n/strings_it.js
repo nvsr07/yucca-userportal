@@ -437,27 +437,26 @@ var translations_it = {
 	HOME_LOGIN_ENTER_TEXT : 'Usa credenziali riconosciute da SistemaPiemonte oppure '+
 							'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
 							', se hai gi&agrave; richiesto un\'area personale',
-	HOME_LOGIN_ENTER_BUTTON : 'Login',
+	HOME_LOGIN_ENTER_BUTTON : 'Accedi',
 	HOME_LOGIN_REQUEST_WORKAREA_TITLE : 'Vuoi un\'area di lavoro?',
 	HOME_LOGIN_REQUEST_WORKAREA_TEXT : 'Puoi attivare un\'area di <strong>lavoro</strong> personale usando credenziali <i>riconosciute</i> da SistemaPiemonte',
-	HOME_LOGIN_REQUEST_WORKAREA_BUTTON : 'Login',
+	HOME_LOGIN_REQUEST_WORKAREA_BUTTON : 'Attiva',
 	HOME_LOGIN_REQUEST_TESTAREA_TITLE : 'Vuoi un\'area di prova?',
 	HOME_LOGIN_REQUEST_TESTAREA_TEXT : 'Puoi attivare un periodo di <strong>prova</strong> di 30 giorni usando un tuo account ' +
 		'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
 		' o  le credenziali riconosciute da Sistema Piemonte',
-	HOME_LOGIN_REQUEST_TESTAREA_BUTTON : 'Login',
+	HOME_LOGIN_REQUEST_TESTAREA_BUTTON : 'Attiva',
 	HOME_LOGIN_REGISTER_TITLE : 'Vuoi richiedere le credenziali SistemaPiemonte?',
 	HOME_LOGIN_REGISTER_TEXT : 'Registrati gratuitamente',
 	HOME_LOGIN_REGISTER_BUTTON : 'Registrati',
 
-	HOME_SANDBOX_WARNING: 'La modalit&agrave; di utilizzo dalla sandbox rimarr&agrave; attiva sino al 30 Settembre 2016.<br>'+
-						'Dal primo Ottobre 2016 tutti i dati saranno cancellati e la piattaforma potr&agrave; essere utilizzata in prova.',
+	HOME_REGISTRATION_TEXT: 'Se desideri richiedere le credenziali SistemaPiemonte<br> non devi far altro che seguire il link alla pagina di registrazione <a class=\'\' href="http://www.sistemapiemonte.it/registrazione/index.shtml">cliccando qui.</a>',
 						
 	HOME_SEARCH_TITLE: 'Cerca nei dati presenti in Yucca',
 	HOME_SEARCH_TEXT: 'Puoi cercare nello <store>store</store> i dataset e gli stream pubblici, i tuoi e quelli condivisi con te',
-	HOME_SEARCH_BUTTON: 'Accedi ai dati',
+	HOME_SEARCH_BUTTON: 'Accedi',
 	
-	/*HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
+	HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
 	HOME_MAP_INTRO: 'Sensori attualmente attivi sul territorio',
 	HOME_STATISTIC_PANEL_TITLE: 'Cosa c\'&egrave; nella piattaforma',
 	HOME_STATISTIC_TOTAL_DATA: 'Misure totali',
@@ -470,7 +469,7 @@ var translations_it = {
 	HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP: 'Totale dei dati ricevuti dagli Smart Object: ',
 	HOME_STATISTIC_TENANT: 'Organizations',	
 	HOME_STATISTIC_VIRTUALENTITY: 'Active Smart Objects',	
-	HOME_STATISTIC_STREAM: 'Online streams',	 */
+	HOME_STATISTIC_STREAM: 'Online streams',	 
 	HOME_OPERATION_PANEL_TITLE:'Cosa puoi fare con la piattaforma',
 	HOME_STATISTIC_LASTUPDATE_INFO: 'Statistiche aggiornate il ',
 	HOME_ROLE_DEVELOPER: 'developer',
