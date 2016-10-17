@@ -453,7 +453,7 @@ var translations_en = {
 	HOME_REGISTRATION_TEXT: 'If you wish to request the SistemaPiemonte <br> credentials you have to do is follow the link to the registration page <a class=\'\' href="http://www.sistemapiemonte.it/registrazione/index.shtml"> clicking here. </a>',
 						
 	HOME_SEARCH_TITLE: 'Cerca nei dati presenti in Yucca',
-	HOME_SEARCH_TEXT: 'You can search in the <store>store</store> datasets and public stream, yours, and shared with you',
+	HOME_SEARCH_TEXT: 'You can search in the <store>store</store> datasets and public stream and try the platform using the sandbox area.',
 	HOME_SEARCH_BUTTON: 'Access to public data',
 
 						

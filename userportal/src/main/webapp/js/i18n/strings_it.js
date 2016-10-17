@@ -453,7 +453,7 @@ var translations_it = {
 	HOME_REGISTRATION_TEXT: 'Se desideri richiedere le credenziali SistemaPiemonte<br> non devi far altro che seguire il link alla pagina di registrazione <a class=\'\' href="http://www.sistemapiemonte.it/registrazione/index.shtml">cliccando qui.</a>',
 						
 	HOME_SEARCH_TITLE: 'Cerca nei dati presenti in Yucca',
-	HOME_SEARCH_TEXT: 'Puoi cercare nello <store>store</store> i dataset e gli stream pubblici, i tuoi e quelli condivisi con te',
+	HOME_SEARCH_TEXT: 'Puoi cercare nello <store>store</store> i dataset e gli stream pubblicie provare la piattaforma usando l\'area sandbox.',
 	HOME_SEARCH_BUTTON: 'Accedi',
 	
 	HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',
@@ -519,8 +519,8 @@ var translations_it = {
 	HOME_TTFORUM_CANCEL: 'Annulla e chiudi',
 	HOME_TTFORUM_CLOSE: 'Chiudi',
 	
-	HOME_SEARCH_TITLE: 'Cerca un dataset',
-	HOME_STORE_TITLE: 'Accedi allo store',
+	HOME_SEARCH_TITLE: 'Cerca nello store',
+	HOME_STORE_TITLE: 'Accedi',
 	
 	
 	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
