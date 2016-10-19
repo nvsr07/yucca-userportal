@@ -501,10 +501,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 				$scope.streamSiddhiMirror= $scope.stream.internalQuery;	
 				setTimeout(function(){
-							  $scope.$apply(function(){
-								  $scope.streamSiddhiQuery=$scope.streamSiddhiMirror;
-							  });
-						  }, 100);
+					$scope.$apply(function(){
+					  $scope.streamSiddhiQuery=$scope.streamSiddhiMirror;
+					});
+				}, 100);
 	
 				$scope.internalStreams=$scope.stream.streamInternalChildren.streamChildren;
 	

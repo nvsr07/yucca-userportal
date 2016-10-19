@@ -558,6 +558,12 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #homepage-family-identity #home-landing-section .login-row-blue{ border-bottom: solid 1px #000; padding: 10px;}
 #homepage-family-identity #home-landing-section .fa{font-weight: bold;}
 
+#homepage-family-identity #home-landing-section .home_box_text{ text-align: center; font-size: 16px; line-height: 1.0em;}
+#homepage-family-identity #home-landing-section .home_title_text{ text-align: center; padding: 20px 0 60px; font-weight: 300; font-size: 23px; line-height: 1.1em;}
+
+#homepage-family-identity #home-landing-section .login-col{ border-right: solid 1px #000; padding: 10px; float: left; width: 250px;}
+#homepage-family-identity #home-landing-section .login-col-last{ border-right: solid 0px #000; padding: 10px; float: left; width: 250px;}
+
 #homepage-family-identity .btn-arrow-right{position: relative; padding-left: 18px}
 #homepage-family-identity .btn-arrow-right:before,
 #homepage-family-identity .btn-arrow-right:after,

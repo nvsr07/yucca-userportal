@@ -436,29 +436,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 					}
 				}
 				
-
-				if(!$scope.dataset.dcat){
-					$scope.dataset.dcat = {};
-					/*
-					$scope.dataset.dcat.dcatReady = '';
-					$scope.dataset.dcat.agentName = 'CSI PIEMONTE';
-					$scope.dataset.dcat.agentType = 'PA';
-					$scope.dataset.dcat.identificativo = '1995120019';
-					$scope.dataset.dcat.descrCat = 'Catalogo Start Data Piemonte';
-					$scope.dataset.dcat.editore = ($scope.dataset.opendata.author != null) ? $scope.dataset.opendata.author : 'CSI PIEMONTE';
-					$scope.dataset.dcat.titoloCat = 'CATALOGO SMART DATA';
-					$scope.dataset.dcat.homepage = 'http://userportal.smartdatanet.it';
-					$scope.dataset.dcat.spatial = 'WGS84/UTM 32N';
-					$scope.dataset.dcat.puntoContatto = '';
-					$scope.dataset.dcat.vcard = '';
-					$scope.dataset.dcat.nomeOrg = '';
-					$scope.dataset.dcat.emailOrg = '';
-					$scope.dataset.dcat.telOrg = '';
-					$scope.dataset.dcat.urlOrg = '';
-					*/
-					$scope.dataset.dcat.vcard = 'BEGIN:VCARD \n VERSION:2.1 \n N:PIEMONTE;CSI \n FN:CSI PIEMONTE \n TEL;WORK:011 1234567 \n EMAIL:info@csi.it \n URL:www.csi.it \n END:VCARD';
-				}
-				
 				if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				

@@ -144,6 +144,18 @@ var translations_en = {
 	STREAM_FIELD_METADATA_DCAT_TELORG_PLACEHOLDER: 'e.g. 011.1234567',
 	STREAM_FIELD_METADATA_DCAT_URLORG: 'Organizzation url',
 	STREAM_FIELD_METADATA_DCAT_URLORG_PLACEHOLDER: 'e.g. www.csi.it',
+	STREAM_FIELD_METADATA_DCAT_CREATORNAME: 'Creator Name',
+	STREAM_FIELD_METADATA_DCAT_CREATORNAME_PLACEHOLDER: 'es. Tizio Sempronio',
+	STREAM_FIELD_METADATA_DCAT_CREATORTYPE: 'Creator Type',
+	STREAM_FIELD_METADATA_DCAT_CREATORTYPE_PLACEHOLDER: 'es. http://purl.org/adms/publishertype/Company',
+	STREAM_FIELD_METADATA_DCAT_CREATORID: 'Creator Identifier',
+	STREAM_FIELD_METADATA_DCAT_CREATORID_PLACEHOLDER: 'es. 011.1234567',
+	STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERNAME: 'RightHolder Name',
+	STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERNAME_PLACEHOLDER: 'es. Tizio Sempronio',
+	STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE: 'RightHolder Type',
+	STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_PLACEHOLDER: 'es. http://purl.org/adms/publishertype/Company',
+	STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERID: 'RightHolder Identifier',
+	STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERID_PLACEHOLDER: 'es. 011.1234567',
 
 	STREAM_INPUT_FIELDS: 'Stream in Input Definition',
 	STREAM_NEW_DEFINITION: 'Smart Object ',
@@ -308,6 +320,18 @@ var translations_en = {
 	DATASET_FIELD_METADATA_DCAT_TELORG_PLACEHOLDER: 'e.g. 011.1234567',
 	DATASET_FIELD_METADATA_DCAT_URLORG: 'Organizzation url',
 	DATASET_FIELD_METADATA_DCAT_URLORG_PLACEHOLDER: 'e.g. www.csi.it',
+	DATASET_FIELD_METADATA_DCAT_CREATORNAME: 'Dataset Creator',
+	DATASET_FIELD_METADATA_DCAT_CREATORNAME_PLACEHOLDER: 'es. Tizio Sempronio',
+	DATASET_FIELD_METADATA_DCAT_CREATORTYPE: 'Creator Type',
+	DATASET_FIELD_METADATA_DCAT_CREATORTYPE_PLACEHOLDER: 'es. http://purl.org/adms/publishertype/Company',
+	DATASET_FIELD_METADATA_DCAT_CREATORID: 'Creator Identifier',
+	DATASET_FIELD_METADATA_DCAT_CREATORID_PLACEHOLDER: 'es. 011.1234567',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME: 'Dataset RightHolder',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME_PLACEHOLDER: 'es. Tizio Sempronio',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE: 'RightHolder Type',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_PLACEHOLDER: 'es. http://purl.org/adms/publishertype/Company',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID: 'RightHolder Identifier',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID_PLACEHOLDER: 'es. 011.1234567',
 	
 	DATASET_BINARY_DETAIL_ID: 'Id',
 	DATASET_BINARY_DETAIL_FILENAME: 'File',
@@ -450,13 +474,18 @@ var translations_en = {
 	HOME_LOGIN_REGISTER_TEXT : 'Register for free',
 	HOME_LOGIN_REGISTER_BUTTON : 'Register',
 
+	HOME_TITLE_TEXT: 'THE SMART DATA PLATFORM THAT ALLOWS YOU TO:',
 	HOME_REGISTRATION_TEXT: 'If you wish to request the SistemaPiemonte <br> credentials you have to do is follow the link to the registration page <a class=\'\' href="http://www.sistemapiemonte.it/registrazione/index.shtml"> clicking here. </a>',
 						
 	HOME_SEARCH_TITLE: 'Cerca nei dati presenti in Yucca',
 	HOME_SEARCH_TEXT: 'You can search in the <store>store</store> datasets and public stream and try the platform using the sandbox area.',
 	HOME_SEARCH_BUTTON: 'Access to public data',
-
-						
+	
+	HOME_BOX1_TEXT: 'interconnect applications, social networks, distributed systems, and objects on the territory',
+	HOME_BOX2_TEXT: 'collect data and information and allow processing and advanced analysis',
+	HOME_BOX3_TEXT: 'provide an integrated ecosystem of digital map',
+	HOME_BOX4_TEXT: 'enable the creation of end-to-end final solutions',
+	
 	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
 	HOME_MAP_INTRO: 'Smart object currently active on the territory',
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
