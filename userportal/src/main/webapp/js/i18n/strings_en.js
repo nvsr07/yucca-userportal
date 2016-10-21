@@ -522,7 +522,7 @@ var translations_en = {
 	HOME_ACTION_NEW_STREAM: 'Create Stream',
 	HOME_ACTION_NEW_DATASET: 'Create Dataset',
 	HOME_ACTION_SEARCH: 'Search in the Store',
-	HOME_ACTION_STORE: 'Go to store',
+	HOME_ACTION_STORE: 'Go to the store',
 	 
 	HOME_TTFORUM_USERFIRSTNAME_PLACEHOLDER: 'Insert your Name',
 	HOME_TTFORUM_USERSURNAME_PLACEHOLDER: 'Insert your Surname',
@@ -550,7 +550,7 @@ var translations_en = {
 	HOME_TTFORUM_CLOSE: 'Close',
 	
 	HOME_SEARCH_TITLE: 'Discovery data',
-	HOME_STORE_TITLE: 'Go to the store',
+	HOME_STORE_TITLE: 'Go to store',
 	
 	
 	HOME_HOWTO_TITLE: 'What can I do with the platform',
