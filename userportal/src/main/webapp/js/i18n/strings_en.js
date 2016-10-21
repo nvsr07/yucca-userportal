@@ -474,7 +474,7 @@ var translations_en = {
 	HOME_LOGIN_REGISTER_TEXT : 'Register for free',
 	HOME_LOGIN_REGISTER_BUTTON : 'Register',
 
-	HOME_TITLE_TEXT: 'THE SMART DATA PLATFORM THAT ALLOWS YOU TO:',
+	HOME_TITLE_TEXT: '<a href="http://www.smartdatanet.it/yucca.html">YUCCA</a> WITH YOU:',
 	HOME_REGISTRATION_TEXT: 'If you wish to request the SistemaPiemonte <br> credentials you have to do is follow the link to the registration page <a class=\'\' href="http://www.sistemapiemonte.it/registrazione/index.shtml"> clicking here. </a>',
 						
 	HOME_SEARCH_TITLE: 'Cerca nei dati presenti in Yucca',
