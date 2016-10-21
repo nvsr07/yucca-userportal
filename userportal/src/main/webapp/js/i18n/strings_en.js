@@ -522,7 +522,7 @@ var translations_en = {
 	HOME_ACTION_NEW_STREAM: 'Create Stream',
 	HOME_ACTION_NEW_DATASET: 'Create Dataset',
 	HOME_ACTION_SEARCH: 'Search in the Store',
-	HOME_ACTION_STORE: 'Go to the store',
+	HOME_ACTION_STORE: 'Go to store',
 	 
 	HOME_TTFORUM_USERFIRSTNAME_PLACEHOLDER: 'Insert your Name',
 	HOME_TTFORUM_USERSURNAME_PLACEHOLDER: 'Insert your Surname',
