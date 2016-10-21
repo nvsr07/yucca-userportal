@@ -483,7 +483,7 @@ var translations_it = {
 	
 	HOME_BOX1_TEXT: 'interconnettere applicazioni, social network, sistemi e oggetti distribuiti sul territorio',
 	HOME_BOX2_TEXT: 'raccogliere dati e informazioni e consentirne l\'elaborazione e l\'analisi avanzata',
-	HOME_BOX3_TEXT: 'fornire una mappa integrata dell\'ecosistema digitale',
+	HOME_BOX3_TEXT: 'fornire una mappa integrata della Smart Community',
 	HOME_BOX4_TEXT: 'abilitare la realizzazione di soluzioni end-to-end finali',
 	
 	HOME_START_LOGGED_IN_BUTTON: 'Vai ai tuoi stream',

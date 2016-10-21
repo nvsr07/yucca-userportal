@@ -483,7 +483,7 @@ var translations_en = {
 	
 	HOME_BOX1_TEXT: 'interconnect applications, social networks, distributed systems, and objects on the territory',
 	HOME_BOX2_TEXT: 'collect data and information and allow processing and advanced analysis',
-	HOME_BOX3_TEXT: 'provide an integrated ecosystem of digital map',
+	HOME_BOX3_TEXT: 'provide an integrated map of the Smart Community',
 	HOME_BOX4_TEXT: 'enable the creation of end-to-end final solutions',
 	
 	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
