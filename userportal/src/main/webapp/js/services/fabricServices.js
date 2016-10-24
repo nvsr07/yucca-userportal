@@ -116,7 +116,7 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			
 			$http({
 				method : 'JSONP',
-				url : Constants.API_SERVICES_STREAM_FROMTENANT_URL + tenantUrl  + '&callback=JSON_CALLBACK'
+				url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
 			}).success(function(responseData) {
 				deferred.resolve(responseData);
 			}).error(function(responseData, responseStatus) {
