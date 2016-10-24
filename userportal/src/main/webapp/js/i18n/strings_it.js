@@ -458,17 +458,19 @@ var translations_it = {
 	HOME_LOGGED_TECHNICAL_AUTHENTICATION: 'Stai usando credenziali tecniche, rivolgersi alla casella smartdatanet@csi.it',
 	
 	HOME_LOGIN_ENTER_TITLE : 'Vuoi <strong>accedere</strong> alla tua area di lavoro o di prova?',
-	HOME_LOGIN_ENTER_TEXT : 'Usa credenziali riconosciute da SistemaPiemonte oppure '+
-							'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
+	HOME_LOGIN_ENTER_TEXT : 'Usa credenziali riconosciute da SistemaPiemonte oppure '+ 
+							/*'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +*/
+							'<img src="https://facebookbrand.com/wp-content/themes/fb-branding/prj-fb-branding/assets/images/fb-art.png" width="15px">  <img src="https://avatars2.githubusercontent.com/u/1342004?v=3&s=400" width="15px">   <img src="https://s.yimg.com/dh/ap/default/130909/y_200_a.png" width="15px"> ' +
 							', se hai gi&agrave; richiesto un\'area personale',
 	HOME_LOGIN_ENTER_BUTTON : 'Accedi',
 	HOME_LOGIN_REQUEST_WORKAREA_TITLE : 'Vuoi un\'area di lavoro?',
-	HOME_LOGIN_REQUEST_WORKAREA_TEXT : 'Puoi attivare un\'area di <strong>lavoro</strong> personale usando credenziali <i>riconosciute</i> da SistemaPiemonte',
+	HOME_LOGIN_REQUEST_WORKAREA_TEXT : 'Puoi attivare un\'area di <strong>lavoro</strong> personale usando credenziali riconosciute da SistemaPiemonte',
 	HOME_LOGIN_REQUEST_WORKAREA_BUTTON : 'Attiva',
 	HOME_LOGIN_REQUEST_TESTAREA_TITLE : 'Vuoi un\'area di prova?',
 	HOME_LOGIN_REQUEST_TESTAREA_TEXT : 'Puoi attivare un periodo di <strong>prova</strong> di 30 giorni usando un tuo account ' +
-		'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
-		' o  le credenziali riconosciute da Sistema Piemonte',
+										/*'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +*/
+										'<img src="https://facebookbrand.com/wp-content/themes/fb-branding/prj-fb-branding/assets/images/fb-art.png" width="15px">  <img src="https://avatars2.githubusercontent.com/u/1342004?v=3&s=400" width="15px">   <img src="https://s.yimg.com/dh/ap/default/130909/y_200_a.png" width="15px"> ' +
+										' o  le credenziali riconosciute da Sistema Piemonte',
 	HOME_LOGIN_REQUEST_TESTAREA_BUTTON : 'Attiva',
 	HOME_LOGIN_REGISTER_TITLE : 'Vuoi richiedere le credenziali SistemaPiemonte?',
 	HOME_LOGIN_REGISTER_TEXT : 'Registrati gratuitamente',

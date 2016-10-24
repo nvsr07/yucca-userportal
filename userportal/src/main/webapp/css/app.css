@@ -559,10 +559,11 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #homepage-family-identity #home-landing-section .fa{font-weight: bold;}
 
 #homepage-family-identity #home-landing-section .home_box_text{ text-align: center; font-size: 16px; line-height: 1.0em;}
-#homepage-family-identity #home-landing-section .home_title_text{ text-align: center; padding: 20px 0 60px; font-weight: 300; font-size: 23px; line-height: 1.1em;}
+#homepage-family-identity #home-landing-section .home_title_text{ text-align: center; padding: 20px 0 60px; font-weight: 300; font-size: 23px; line-height: 1.1em; color: #0077bb; text-decoration: none; outline: none; -webkit-transition: all 0.2s; -o-transition: all 0.2s; transition: all 0.2s;}
+#homepage-family-identity #home-landing-section #home_title_text p:hover { font-weight: bold; color: #00963F;}
 
-#homepage-family-identity #home-landing-section .login-col{ border-right: solid 1px #000; padding: 10px; float: left; width: 250px;}
-#homepage-family-identity #home-landing-section .login-col-last{ border-right: solid 0px #000; padding: 10px; float: left; width: 250px;}
+#homepage-family-identity #home-landing-section .login-col{ border-right: solid 1px #000; padding: 5px; height: 150px; font-size: 12px !important; }
+#homepage-family-identity #home-landing-section .login-col-last{ border-right: solid 0px #000; padding: 5px; height: 150px; font-size: 12px !important; }
 
 #homepage-family-identity .btn-arrow-right{position: relative; padding-left: 18px}
 #homepage-family-identity .btn-arrow-right:before,
@@ -612,7 +613,7 @@ border-bottom-color: transparent;border-radius: 0px 4px 0px 0px;-webkit-border-r
 #homepage-family-identity #home-search-section .btn-arrow-left:after {background-color: #1dbbee;}
     
     
-#homepage-family-identity #home-sandbox-expiring-warning{background-color: #e3e4e6; text-align: center; padding: 20px 0 60px;font-weight: 300; font-size: 23px;line-height: 1.1em;}
+#homepage-family-identity #home-sandbox-expiring-warning{background-color: #e3e4e6; text-align: center; padding: 20px 0 60px;font-weight: 300; font-size: 18px;line-height: 1.1em;}
 
 /* top toolbar */
 .top-header{background: url(../img/familyidentity/top-navbar-bg.jpg) no-repeat center center black;  }

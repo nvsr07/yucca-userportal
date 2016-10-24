@@ -459,7 +459,8 @@ var translations_en = {
 	
 	HOME_LOGIN_ENTER_TITLE : 'Do you want to <strong>access</strong> to your workspace or test area?',
 	HOME_LOGIN_ENTER_TEXT : 'Use credentials recognized by SistemaPiemonte or ' +
-	'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
+	/*'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +*/
+	'<img src="https://facebookbrand.com/wp-content/themes/fb-branding/prj-fb-branding/assets/images/fb-art.png" width="15px">  <img src="https://avatars2.githubusercontent.com/u/1342004?v=3&s=400" width="15px">   <img src="https://s.yimg.com/dh/ap/default/130909/y_200_a.png" width="15px"> ' +
 	', if you have already requested  personal area',
 	HOME_LOGIN_ENTER_BUTTON : 'Sign In',
 	HOME_LOGIN_REQUEST_WORKAREA_TITLE : 'Do you want a workspace?',
@@ -467,7 +468,8 @@ var translations_en = {
 	HOME_LOGIN_REQUEST_WORKAREA_BUTTON : 'Active',
 	HOME_LOGIN_REQUEST_TESTAREA_TITLE : 'Do you want a test area?',
 	HOME_LOGIN_REQUEST_TESTAREA_TEXT : 'You can activate a <strong>trial period</strong> of 30 days using an account ' +
-	'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +
+	/*'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +*/
+	'<img src="https://facebookbrand.com/wp-content/themes/fb-branding/prj-fb-branding/assets/images/fb-art.png" width="15px">  <img src="https://avatars2.githubusercontent.com/u/1342004?v=3&s=400" width="15px">   <img src="https://s.yimg.com/dh/ap/default/130909/y_200_a.png" width="15px"> ' +
 	' or credentials <i>recognized</i> by SistemaPiemonte',
 	HOME_LOGIN_REQUEST_TESTAREA_BUTTON : 'Active',
 	HOME_LOGIN_REGISTER_TITLE : 'Do you want to request the SistemaPiemonte credentials??',

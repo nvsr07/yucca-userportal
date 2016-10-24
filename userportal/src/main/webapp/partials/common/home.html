@@ -2,30 +2,29 @@
 	
 	<div id='home-landing-section' ng-cloak ng-show="!user.loggedIn">
 		<div class="container">
-			<div class='row home_title_text'>
+			<div class='row home_title_text' id="home_title_text">
 				<p ng-bind-html="'HOME_TITLE_TEXT'|translate"></p>
 			</div>
 			<div class='row'>
 				<div class="col-xs-10 col-xs-offset-1">
-					<div class="row login-col">
-						<div class="col-m-6 intro-desc  vcenter">
+					<div class="login-col col-xs-3">
+						<div class="intro-desc  vcenter">
 							<p class="home_box_text"><span ng-bind-html="'HOME_BOX1_TEXT'|translate"></span></p>
 						</div>
 					</div>
-					<div class="row login-col">
-						<div class="col-m-6 intro-desc  vcenter">
+					<div class="login-col col-xs-3">
+						<div class="intro-desc  vcenter">
 							<p class="home_box_text"><span ng-bind-html="'HOME_BOX2_TEXT'|translate"></span></p>
 						</div>
 					</div>
-					<div class="row login-col">
-						<div class="col-m-6 intro-desc  vcenter">
-							<p><span>&nbsp;</span></p>
+					<div class="login-col col-xs-3">
+						<div class="intro-desc  vcenter">
 							<p class="home_box_text"><span ng-bind-html="'HOME_BOX3_TEXT'|translate"></span></p>
+							<p><span>&nbsp;</span></p>
 						</div>
 					</div>
-					<div class="row login-col-last">
-						<div class="col-m-6 intro-desc  vcenter">
-							<p><span>&nbsp;</span></p>
+					<div class="login-col col-xs-3">
+						<div class="intro-desc  vcenter">
 							<p class="home_box_text"><span ng-bind-html="'HOME_BOX4_TEXT'|translate"></span></p>
 						</div>
 					</div>
@@ -74,7 +73,7 @@
 							<p ng-bind-html="'HOME_SEARCH_TEXT'|translate"></p>
 						</div>
 						<div class="col-xs-4 vcenter text-right">
-							<a class='btn btn-home-start-blue btn-arrow-right-blue'  href="#/dataexplorer/browsedata">
+							<a class='btn btn-home-start btn-arrow-right'  href="#/dataexplorer/browsedata">
 								<span translate-cloak translate>HOME_STORE_TITLE</span>
 							</a>
 						</div>
