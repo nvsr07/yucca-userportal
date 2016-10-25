@@ -87,28 +87,7 @@
            		</label>
 			</div>
 		</div>	
-	<div class='form-label-separator'><span translate-cloak translate>MANAGEMENT_NEW_DATASET_DCAT</span></div>	
-	<div class="form-group">
-		<label for="inputStreamDCATCreatorName" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORNAME</span></label>
-		<div class="col-sm-4">
-			<input type="text" class="form-control" id="inputStreamDCATCreatorName" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORNAME_PLACEHOLDER'|translate}}" 
-			ng-model="stream.dcatCreatorName">
-		</div>	
-	</div>		
-	<div class="form-group">
-		<label for="inputStreamDCATCreatorType" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
-		<div class="col-sm-4">
-			<input type="text" class="form-control" id="inputStreamDCATCreatorType" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORTYPE_PLACEHOLDER'|translate}}" 
-			ng-model="stream.dcatCreatorType">
-		</div>	
-	</div>		
-	<div class="form-group">
-		<label for="inputStreamDCATCreatorId" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORID</span></label>
-		<div class="col-sm-4">
-			<input type="text" class="form-control" id="inputStreamDCATCreatorId" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORID_PLACEHOLDER'|translate}}" 
-			ng-model="stream.dcatCreatorId">
-		</div>	
-	</div>		
+	<div class='form-label-separator'><span translate-cloak translate>MANAGEMENT_NEW_DATASET_DCAT</span></div>		
 	<div class="form-group">
 		<label for="inputStreamDCATRightHolderName" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span><span class='required-asterisk'>*</span></label>
 		<div class="col-sm-4">
@@ -131,6 +110,27 @@
 		</div>	
 	</div>	
 	<div class="form-group">
+		<label for="inputStreamDCATCreatorName" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORNAME</span></label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" id="inputStreamDCATCreatorName" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORNAME_PLACEHOLDER'|translate}}" 
+			ng-model="stream.dcatCreatorName">
+		</div>	
+	</div>		
+	<div class="form-group">
+		<label for="inputStreamDCATCreatorType" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" id="inputStreamDCATCreatorType" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORTYPE_PLACEHOLDER'|translate}}" 
+			ng-model="stream.dcatCreatorType">
+		</div>	
+	</div>		
+	<div class="form-group">
+		<label for="inputStreamDCATCreatorId" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORID</span></label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" id="inputStreamDCATCreatorId" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORID_PLACEHOLDER'|translate}}" 
+			ng-model="stream.dcatCreatorId">
+		</div>	
+	</div>	
+	<div class="form-group">
 		<label for="inputStreamOpendataNomeOrg" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_NOMEORG</span><span class='required-asterisk'>*</span></label>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" id="inputStreamOpendataNomeOrg" placeholder="{{'STREAM_FIELD_METADATA_DCAT_NOMEORG_PLACEHOLDER'|translate}}" 
@@ -146,10 +146,21 @@
 	</div>	
 		<div class="form-group">
 			<label for="inputStreamLicense" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_LICENCE</span></label>
-			<div class="col-sm-10">
-				<textarea id="inputStreamLicense" class="form-control" rows="4" resize="none" ng-model="stream.licence" placeholder="{{'STREAM_FIELD_LICENCE'|translate}}"  >
+			<div class="col-sm-10 text-left">
+				<label class="radio-inline">
+	         		<input type="radio" name="RadioGroupLicence" value="CC BY" id="RadioGroupLicence_0" ng-model="stream.licence">
+	         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENCE_CCBY</span>
+	       		</label>
+				<label class="radio-inline">
+	         		<input type="radio" name="RadioGroupLicence" value="CC 0" id="RadioGroupLicence_0" ng-model="stream.licence">
+	         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENCE_CC0</span>
+	       		</label>
+				<label class="radio-inline">
+	         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="stream.licence">
+	         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENCE_OTHER</span>
+	       		</label>
+				<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="stream.licence" placeholder="{{'STREAM_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenceVisible()' >
 				</textarea>
-				
 			</div>
 		</div>			
 		<div class="form-group">

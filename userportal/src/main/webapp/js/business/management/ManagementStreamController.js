@@ -188,6 +188,17 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				style = '';
 		};
 	};
+	
+	$scope.isLicenceVisible = function(){
+		var returnValue = true;
+		if ($scope.stream){
+			if (($scope.stream.licence == "CC 0") || ($scope.stream.licence == "CC BY"))
+				returnValue = false;
+			
+		}
+		
+		return returnValue;
+	}
 
 	refreshWizardToolbar();
 	$scope.goToRegister  = function(){ $scope.currentStep = 'register'; refreshWizardToolbar();};
@@ -242,6 +253,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.validationRes=2;
 		$scope.internalStreams.splice(index,1);
 	};
+	
+	$scope.isLicenceVisible = function(){
+		var returnValue = true;
+		if ($scope.stream){
+			if (($scope.stream.licence == "CC 0") || ($scope.stream.licence == "CC BY"))
+				returnValue = false;
+		}
+		
+		return returnValue;
+	}
 	
 	$scope.checkTag = function(){
 		var rslt = true;

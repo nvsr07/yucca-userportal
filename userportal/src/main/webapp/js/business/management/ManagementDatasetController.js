@@ -335,6 +335,16 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			console.error("getTenants ERROR",e);
 		}
 	});
+	
+	$scope.isLicenceVisible = function(){
+		var returnValue = true;
+		if ($scope.dataset){
+			if (($scope.dataset.info.license == "CC 0") || ($scope.dataset.info.license == "CC BY"))
+				returnValue = false;
+		}
+		
+		return returnValue;
+	}
 
 //	$scope.tagList = [];
 //	fabricAPIservice.getStreamTags().success(function(response) {
@@ -855,6 +865,16 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				style = '';
 		};
 	};
+
+	$scope.isLicenceVisible = function(){
+		var returnValue = true;
+		if ($scope.dataset){
+			if (($scope.dataset.info.license == "CC 0") || ($scope.dataset.info.license == "CC BY"))
+				returnValue = false;
+		}
+		
+		return returnValue;
+	}
 	
 	$scope.checkTag = function(){ 
 		var rslt = true;

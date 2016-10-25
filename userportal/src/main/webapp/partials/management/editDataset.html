@@ -188,9 +188,21 @@
 						<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div>
 						<div class="form-group">
 							<label for="inputDatasetLicense" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</label>
-							<div class="col-sm-10">
-								<textarea id="inputDatasetLicense" class="form-control" rows="4" resize="none" ng-model="dataset.info.license" placeholder="{{'DATASET_FIELD_METADATA_LICENSE'|translate}}"  >
-								</textarea>
+							<div class="col-sm-10 text-left">
+								<label class="radio-inline">
+				         		<input type="radio" name="RadioGroupLicence" value="CC BY" id="RadioGroupLicence_0" ng-model="dataset.info.license">
+				         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_CCBY</span>
+				       		</label>
+							<label class="radio-inline">
+				         		<input type="radio" name="RadioGroupLicence" value="CC 0" id="RadioGroupLicence_0" ng-model="dataset.info.license">
+				         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_CC0</span>
+				       		</label>
+							<label class="radio-inline">
+				         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="dataset.info.license">
+				         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_OTHER</span>
+				       		</label>
+							<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="dataset.info.license" placeholder="{{'DATASET_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenceVisible()' >
+							</textarea>
 							</div>
 						</div>			
 						<div class="form-group">
@@ -199,32 +211,14 @@
 								<textarea class="form-control" rows="4" resize="none" ng-model="dataset.info.disclaimer"  placeholder="{{'DATASET_FIELD_METADATA_DISCLAIMER'|translate}}" id="inputDatasetDisclaimer" >
 								</textarea>					
 							</div>
-						</div>			
+						</div>	
 						<div class="form-group">
 							<label for="inputDatasetCopyright" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_COPYRIGHT</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_METADATA_COPYRIGHT'|translate}}" ng-model="dataset.info.copyright" >
 							</div>
 						</div>	
-						<div class='form-label-separator' translate-cloak translate>METADATA_DCAT_TITLE</div>		
-						<div class="form-group">
-							<label for="inputDatasetDcatCreatorName" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORNAME</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputDatasetDcatCreatorName" ng-model="dataset.dcatCreatorName">
-							</div>	
-						</div>		
-						<div class="form-group">
-							<label for="inputDatasetDcatCreatorType" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputDatasetDcatCreatorType" ng-model="dataset.dcatCreatorType">
-							</div>	
-						</div>		
-						<div class="form-group">
-							<label for="inputDatasetDcatCreatorId" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORID</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputDatasetDcatCreatorId" ng-model="dataset.dcatCreatorId">
-							</div>	
-						</div>		
+						<div class='form-label-separator' translate-cloak translate>METADATA_DCAT_TITLE</div>				
 						<div class="form-group">
 							<label for="inputDatasetDcatRightHolderName" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span><span class='required-asterisk'>*</span></label>
 							<div class="col-sm-4">
@@ -241,6 +235,24 @@
 							<label for="inputDatasetDcatRightHolderId" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID</span></label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" id="inputDatasetDcatRightHolderId" ng-model="dataset.dcatRightsHolderId">
+							</div>	
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDcatCreatorName" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORNAME</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetDcatCreatorName" ng-model="dataset.dcatCreatorName">
+							</div>	
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDcatCreatorType" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetDcatCreatorType" ng-model="dataset.dcatCreatorType">
+							</div>	
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDcatCreatorId" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORID</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetDcatCreatorId" ng-model="dataset.dcatCreatorId">
 							</div>	
 						</div>	
 						<div class="form-group">
