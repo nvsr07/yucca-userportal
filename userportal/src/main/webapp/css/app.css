@@ -558,9 +558,10 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 #homepage-family-identity #home-landing-section .login-row-blue{ border-bottom: solid 1px #000; padding: 10px;}
 #homepage-family-identity #home-landing-section .fa{font-weight: bold;}
 
-#homepage-family-identity #home-landing-section .home_box_text{ text-align: center; font-size: 16px; line-height: 1.0em;}
-#homepage-family-identity #home-landing-section .home_title_text{ text-align: center; padding: 20px 0 60px; font-weight: 300; font-size: 23px; line-height: 1.1em; color: #0077bb; text-decoration: none; outline: none; -webkit-transition: all 0.2s; -o-transition: all 0.2s; transition: all 0.2s;}
-#homepage-family-identity #home-landing-section #home_title_text p:hover { font-weight: bold; color: #00963F;}
+#homepage-family-identity #home-landing-section .home_box_text { text-align: center; font-size: 16px; line-height: 1.0em;}
+#homepage-family-identity #home-landing-section .home_title_text { text-align: center; padding: 20px 0 60px; font-family: "Roboto"; line-height: 1.1em; color: #0077bb; outline: none; -webkit-transition: all 0.2s; -o-transition: all 0.2s; transition: all 0.2s;}
+#homepage-family-identity #home-landing-section #home_title_text a { font-weight: 800; font-size: 36px; text-decoration: none;}
+#homepage-family-identity #home-landing-section #home_title_text a:hover { font-weight: bold; color: #00963F; background-color: #dbd91b; text-decoration: none;}
 
 #homepage-family-identity #home-landing-section .login-col{ border-right: solid 1px #000; padding: 5px; height: 150px; font-size: 12px !important; }
 #homepage-family-identity #home-landing-section .login-col-last{ border-right: solid 0px #000; padding: 5px; height: 150px; font-size: 12px !important; }
