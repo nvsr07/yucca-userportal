@@ -339,7 +339,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.isLicenceVisible = function(){
 		var returnValue = true;
 		if ($scope.dataset){
-			if (($scope.dataset.info.license == "CC 0") || ($scope.dataset.info.license == "CC BY"))
+			if (($scope.dataset.info.license == translations_it.DATASET_FIELD_METADATA_LICENCE_CCBY) || ($scope.dataset.info.license == translations_it.DATASET_FIELD_METADATA_LICENCE_CC0))
 				returnValue = false;
 		}
 		
@@ -868,8 +868,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 	$scope.isLicenceVisible = function(){
 		var returnValue = true;
-		if ($scope.dataset){
-			if (($scope.dataset.info.license == "CC 0") || ($scope.dataset.info.license == "CC BY"))
+		if ($scope.metadata){
+			if (($scope.metadata.info.license == translations_it.DATASET_FIELD_METADATA_LICENCE_CCBY) || ($scope.metadata.info.license == translations_it.DATASET_FIELD_METADATA_LICENCE_CC0))
 				returnValue = false;
 		}
 		

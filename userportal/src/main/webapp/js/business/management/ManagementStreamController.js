@@ -192,7 +192,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.isLicenceVisible = function(){
 		var returnValue = true;
 		if ($scope.stream){
-			if (($scope.stream.licence == "CC 0") || ($scope.stream.licence == "CC BY"))
+			if (($scope.stream.licence == STREAM_FIELD_METADATA_LICENCE_CCBY) || ($scope.stream.licence == STREAM_FIELD_METADATA_LICENCE_CC0))
 				returnValue = false;
 			
 		}
@@ -257,7 +257,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.isLicenceVisible = function(){
 		var returnValue = true;
 		if ($scope.stream){
-			if (($scope.stream.licence == "CC 0") || ($scope.stream.licence == "CC BY"))
+			if (($scope.stream.licence == STREAM_FIELD_METADATA_LICENCE_CCBY) || ($scope.stream.licence == STREAM_FIELD_METADATA_LICENCE_CC0))
 				returnValue = false;
 		}
 		
