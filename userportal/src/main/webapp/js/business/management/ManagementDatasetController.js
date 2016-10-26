@@ -1501,6 +1501,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		newDataset.configData.tenantCode=$scope.tenantCode;
 		newDataset.configData.type = "dataset";
 		newDataset.configData.subtype = "bulkDataset";
+		newDataset.idDataset = $scope.metadata.idDataset;
+		newDataset.datasetCode = $scope.metadata.datasetCode;
+		newDataset.datasetVersion = $scope.metadata.datasetVersion;
 		console.log("dataset qui ", newDataset);
 		
 		var hasErrors = false;
