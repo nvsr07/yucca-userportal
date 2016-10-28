@@ -321,6 +321,18 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
 	$scope.updateInfo = null;
 	$scope.updateError = null;
+	
+	$scope.saveError = false;
+	$scope.saveErrors = [];
+	
+	if ($routeParams){
+		var errorStr = $routeParams.entity_code.split("?")[1];
+		var error = errorStr.split("=");
+		if ((error[0] == 'errorParams') && (error[1] == 2)){
+			$scope.saveError = true; 
+			$scope.saveErrors.push({'message': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE'), 'detail': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ERROR_FROM_SERVER')});
+		}
+	}
 
 	fabricAPIservice.getTenants().success(function(response) {
 		console.debug("response", response.tenants);
@@ -339,7 +351,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.isLicenceVisible = function(){
 		var returnValue = true;
 		if ($scope.dataset){
-			if (($scope.dataset.info.license == translations_it.DATASET_FIELD_METADATA_LICENCE_CCBY) || ($scope.dataset.info.license == translations_it.DATASET_FIELD_METADATA_LICENCE_CC0))
+			if (($scope.dataset.info.license == $translate.instant('DATASET_FIELD_METADATA_LICENCE_CCBY')) || ($scope.dataset.info.license == $translate.instant('DATASET_FIELD_METADATA_LICENCE_CC0')))
 				returnValue = false;
 		}
 		
@@ -1567,6 +1579,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	
 			}).progress(function(evt) {
 				$scope.isUploading = true;
+				console.log('evt');
+				console.log(evt);
 				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 			}).success(function(data, status, headers, config) {
 				$scope.isUploading = false;
@@ -1574,9 +1588,11 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				if(data.errors && data.errors.length>0){
 					$scope.saveError = true;
 					$scope.saveErrors = data.errors;
-					Helpers.util.scrollTo();
-				}
-				else{
+					if (data.datasetStatus == 0)
+						Helpers.util.scrollTo();
+					else if ((data.datasetStatus == 1) || (data.datasetStatus == 2))
+						$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode+"?errorParams="+data.datasetStatus)
+				} else {
 					$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
 				}
 	

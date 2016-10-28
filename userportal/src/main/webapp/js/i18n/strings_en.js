@@ -898,6 +898,7 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN: 'The number of column in the file choosen is different from the number expected. Choose a different file',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_INFO: 'If you do not have the file to upload, you can directly define the columns',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_LINK: 'Define columns',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ERROR_FROM_SERVER: 'Could not load data, unexpected error on a server, try clicking on the Add Data',
 	
 	MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT: 'Skip column', 
 	MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT: 'Change column order',

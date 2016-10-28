@@ -1,5 +1,21 @@
 <div ng-controller="ManagementDatasetCtrl as datasetCtrl" ng-cloak>
 	<div class='container'>
+		<div class="alert alert-danger management-upload-column-error-panel " ng-show='saveError'>
+			<div>
+				<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
+				<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
+			</div>
+			<div class='row  text-left' >
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><strong><small>Error</small></strong></div>
+				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"><strong><small>Detail</small></strong></div>
+			</div>
+			<div class='new-dataset-wizard-error-list'>
+				<div class='row  text-left' ng-repeat="error in saveErrors">
+					<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
+					<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
+				</div>		
+			</div>
+		</div>
 		<!-- <h3 class='entity-title'><span translate-cloak translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.info.datasetName}}</small></h3> -->
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
