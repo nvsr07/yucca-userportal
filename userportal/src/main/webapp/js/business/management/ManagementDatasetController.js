@@ -326,11 +326,15 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.saveErrors = [];
 	
 	if ($routeParams){
+		if ($routeParams.entity_code){
 		var errorStr = $routeParams.entity_code.split("?")[1];
-		var error = errorStr.split("=");
-		if ((error[0] == 'errorParams') && (error[1] == 2)){
-			$scope.saveError = true; 
-			$scope.saveErrors.push({'message': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE'), 'detail': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ERROR_FROM_SERVER')});
+			if (errorStr){
+				var error = errorStr.split("=");
+				if ((error[0] == 'errorParams') && (error[1] == 2)){
+					$scope.saveError = true; 
+					$scope.saveErrors.push({'message': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE'), 'detail': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ERROR_FROM_SERVER')});
+				}
+			}
 		}
 	}
 
