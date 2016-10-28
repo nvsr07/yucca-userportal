@@ -367,6 +367,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			} else {
 				try {
 					String returnPath = request.getParameter("returnUrl");
+					String typeAuth = request.getParameter("typeAuth");
 					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION, returnPath);
 					// info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
 					// User defaultUser = AuthorizeUtils.DEFAULT_USER;
@@ -376,8 +377,19 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// info);
 					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
-					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
+					//response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
+					String cssPath = consumer.getIdpLoginPageStylePath();
+					cssPath = cssPath.substring(0, cssPath.length() - 4); 
+					if (typeAuth.equals("personal"))
+						cssPath = cssPath + "Personal.css";
+					if (typeAuth.equals("trial"))
+						cssPath = cssPath + "Trial.css";
+					if (typeAuth.equals("work"))
+						cssPath = cssPath + "Work.css";
+					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(cssPath, "UTF-8"));
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
