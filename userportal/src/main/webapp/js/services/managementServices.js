@@ -168,6 +168,7 @@ appServices.factory('fabricAPImanagement', function($http, $q, info) {
 		var deferred = $q.defer();
 		
 		fabricAPI.getInfo().success(function(infoData){
+			tenantForRequest = "";
 			if(infoData.user.tenantsTokens != undefined){
 				angular.forEach(info.info.user.tenantsTokens, function(value, key) {
 					tenantForRequest += key + "|";
