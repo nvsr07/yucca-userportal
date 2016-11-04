@@ -118,6 +118,8 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		console.log('userTenantsToActivate', $scope.userTenantsToActivate);
 		console.log('managementUrl', $scope.managementUrl);
 		console.log('user', $scope.user);
+		
+		gestModalWindow();
 	});
 	
 	var gestModalWindow = function(){
