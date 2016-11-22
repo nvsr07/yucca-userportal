@@ -10,7 +10,7 @@
 	<div class="row" ng-show="!isUploading && isAuthorized('management/datasets/update')" ng-cloak>
 		<div class=" col-sm-12 form-toolbar">
 			<a ng-click='backFromColumns()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-			<a ng-click='createDataset()' class="btn btn-default" ng-disabled="!isOwner() || columnsDatasetForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_END</a>
+			<a ng-click='createDataset()' class="btn btn-default" ng-disabled="!isOwner() || columnsDatasetForm.$invalid || columnsDatasetHasError()" translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_END</a>
 		</div>
 	</div>
 	<div class="row"  ng-show="isUploading" ng-cloak>

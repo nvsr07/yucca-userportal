@@ -28,8 +28,8 @@
 		</div>
 		<div class='new-dataset-wizard-error-list'>
 			<div class='row  text-left' ng-repeat="error in saveErrors">
-				<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
-				<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
+				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
+				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
 			</div>		
 		</div>
 	</div>
@@ -50,6 +50,11 @@
 			<p translate-cloak translate>MANAGEMENT_NEW_DATASET_COLUMNS_INTRO</p>
 		</div>
 	</div>
+	<div class="alert alert-warning text-left" ng-show='insertColumnErrors.length>0'>
+		<strong>{{updateError.error_message}}</strong>
+		<ul><li ng-repeat="insertColumnError in insertColumnErrors "><span translate-cloak translate>{{insertColumnError}}</span></li></ul>
+	</div>
+	
 	<div class='row management-table-upload-column-header'>
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span>&num;</span></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
@@ -63,7 +68,7 @@
 	<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewColumns" ng-drop="true" ng-drop-success="onDropCsvFieldComplete($data,$index,$event)" 
 		 ng-class="{'management-table-upload-column-skiprow': column.skipColumn}">
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span>{{column.sourceColumn}}</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ng-disabled="column.skipColumn" ></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ng-disabled="column.skipColumn"  ng-blur="checkColumnName(column.fieldName, $index)"></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias" ng-disabled="column.skipColumn"  ></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
 			<select class="input-sm form-control" ng-model="column.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType" ng-disabled="column.skipColumn"  

@@ -1253,7 +1253,36 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				}
 
 			}
+			$scope.checkColumnName();
+			
+			
 		}
+	};
+	$scope.columnsDatasetError = {"hasError": false};
+	
+	$scope.checkColumnName = function(fieldName, columnIndex){
+		$scope.insertColumnErrors = [];
+		$scope.columnsDatasetError.hasError = false;
+		var checkNameDuplicate = false;
+		if($scope.previewColumns!=null){
+			for (var int = 0; int < $scope.previewColumns.length; int++) {
+				if(int != columnIndex && !$scope.previewColumns[int].skipColumn &&  $scope.previewColumns[int].fieldName == fieldName){
+					checkNameDuplicate = true;
+				}
+			}
+		}
+		if(checkNameDuplicate){
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME_UNIQUE');
+			$scope.columnsDatasetError.hasError = true;
+		}
+		if(fieldName == ""){
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME');
+		$scope.columnsDatasetError.hasError = true;
+		}
+	};
+	
+	$scope.columnsDatasetHasError = function(){
+		return $scope.columnsDatasetError.hasError; 
 	};
 	
 	$scope.newColumnDefinition = {sourceColumn: $scope.previewColumns.length+1};
@@ -1500,7 +1529,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 										 VCARD_URL + ((($scope.metadata.dcat.urlOrg != '') && ($scope.metadata.dcat.urlOrg != null)) ? $scope.metadata.dcat.urlOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
 										 VCARD_SUFFIX;
 		//}
-	}
+	};
 	
 	$scope.isUploading = false;
 

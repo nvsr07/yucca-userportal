@@ -918,7 +918,8 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE: 'Il numero di colonna del file sorgente deve essere univoco',	
 	MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN: 'Definire almeno una colonna',
 	MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT: 'Il nome viene ripulito da spazi e caratteri speciali automaticamente  in fase di salvataggio',
-	
+	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME_UNIQUE: 'I nomi colonna devono essere univoci, sono presenti alcuni duplicati',
+	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME: 'I nomi colonna sono obbligatori, sono presenti alcune colonne senza nome',
 	
 	
 	MANAGEMENT_NEW_DATASET_BINARY_TITLE :'File binari da definire',

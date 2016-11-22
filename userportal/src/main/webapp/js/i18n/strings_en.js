@@ -918,6 +918,8 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE: 'The column index of the source file  must be unique',	
 	MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN: 'Define at least one column',
 	MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT: 'The name will be cleaned up by spaces and special characters automatically when saving',
+	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME_UNIQUE: 'The columns name must be unique',
+	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME: 'The columns name are required, there is some column without name',
 	
 	
 	
