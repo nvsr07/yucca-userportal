@@ -18,7 +18,7 @@ public class Info {
 	}
 
 	public Info() {
-		version = "1.5.0";
+		version = "1.5.1";
 	}
 
 	public User getUser() {
