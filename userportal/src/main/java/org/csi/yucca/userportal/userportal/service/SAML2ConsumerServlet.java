@@ -11,6 +11,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 	static Logger log = Logger.getLogger(SAML2ConsumerServlet.class);
 
-	static List<Tenant> allTenants = null;
+//	static List<Tenant> allTenants = null;
 
 	public void init(ServletConfig config) throws ServletException {
 		try {
@@ -84,6 +85,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 			List<Tenant> tenants = null;
 
+			List<Tenant> allTenant = getAllTenants();
+			
 			if (responseMessage != null) {
 
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
@@ -155,7 +158,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 					// filtro sui tenant, data di disattivazione
 					// allTenants = getAllTenants();
-					tenants = filterDisabledTenants(tenantsCode, getAllTenants());
+					tenants = filterDisabledTenants(tenantsCode, allTenant);
 
 					if (tenants.isEmpty()) {
 						tenantUser = false;
@@ -229,7 +232,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
 
 						if (tenants.isEmpty())
-							tenants = filterDisabledTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode()), getAllTenants());
+							tenants = filterDisabledTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode()), allTenant);
 
 						newUser.setActiveTenant(tenants.get(0).getTenantCode());
 
@@ -302,8 +305,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
-				info.setPersonalTenantToActivated(filterPersonalTenant(getAllTenants(), newUser.getUsername()));
-				info.setTrialTenantToActivated(filterTrialTenant(getAllTenants(), newUser.getUsername()));
+				info.setPersonalTenantToActivated(filterPersonalTenant(allTenant, newUser.getUsername()));
+				info.setTrialTenantToActivated(filterTrialTenant(allTenant, newUser.getUsername()));
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"
@@ -420,8 +423,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	}
 
 	private static List<Tenant> getAllTenants() {
-		if (allTenants == null) {
-			String apiBaseUrl = "";
+		List<Tenant> allTenants = new ArrayList<Tenant>();
+		String apiBaseUrl = "";
 			try {
 				Properties config = Config.loadServerConfiguration();
 				apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY) + "/tenants";
@@ -447,7 +450,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage());
 				e.printStackTrace();
 			}
-		}
 		return allTenants;
 	}
 
