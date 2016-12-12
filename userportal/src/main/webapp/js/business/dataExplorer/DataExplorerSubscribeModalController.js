@@ -18,7 +18,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
 		if($scope.dataset!=null && $scope.dataset.datasetCode!=null){
 			//var apiUrl = $scope.dataset.datasetCode;  //
 			//var params = Helpers.util.getQueryParams(apiUrl.substring(apiUrl.lastIndexOf("?")));
-			$scope.apiName = $scope.dataset.datasetCode;
+			$scope.apiName = $scope.dataset.datasetCode+"_odata";
 			$scope.apiVersion = "1.0";
 			$scope.apiProvider = "admin";
 			$scope.metadata.name = $scope.dataset.datasetName;
@@ -195,7 +195,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
 
     		$scope.updating = true;
     		$scope.applicationList[index].isBusy = true;
-    		storeAPIservice.addSubscription($scope.apiName + "_odata", $scope.apiVersion, $scope.apiProvider, app.id).success(function(response) {
+    		storeAPIservice.addSubscription($scope.apiName, $scope.apiVersion, $scope.apiProvider, app.id).success(function(response) {
     			$scope.applicationList[index].isBusy = false;
     	     	$scope.updateMessage = "DATA_EXPLORER_SUBSCRIBE_OK_SUBSCRIBE";
     			loadApplications();
