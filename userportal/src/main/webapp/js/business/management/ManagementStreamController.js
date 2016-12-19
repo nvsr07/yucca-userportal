@@ -227,6 +227,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.canCreatePublicStream = function(){
 		return info.getActiveTenantType() != 'trial';
 	}; 
+	
+	
+	$scope.canShareStream = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
+
 
 	$scope.defaultQuery = Constants.DEFAULT_SIDDHI;
 

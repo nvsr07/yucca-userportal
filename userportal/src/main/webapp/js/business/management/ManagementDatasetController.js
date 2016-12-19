@@ -317,6 +317,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.canCreatePublicDataset = function(){
 		return info.getActiveTenantType() != 'trial';
 	}; 
+	
+	$scope.canShareDataset = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
 
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
 	$scope.updateInfo = null;
@@ -915,6 +919,11 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.canCreatePublicDataset = function(){
 		return info.getActiveTenantType() != 'trial';
 	}; 
+
+	$scope.canShareDataset = function(){
+		return info.getActiveTenantType() != 'trial';
+	}; 
+
 
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {

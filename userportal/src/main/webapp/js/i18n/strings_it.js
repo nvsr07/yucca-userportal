@@ -866,7 +866,7 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_METADATA_SUBTITLE: 'Metadati',
 	MANAGEMENT_NEW_DATASET_UPLOAD_SUBTITLE: 'Upload del File',
 	MANAGEMENT_NEW_DATASET_COLUMNS_SUBTITLE: 'Campi',
-	MANAGEMENT_NEW_DATASET_DCAT : 'DCAT (<a href="http://www.dati.gov.it">http://www.dati.gov.it</a>)',
+	MANAGEMENT_NEW_DATASET_DCAT : 'DCAT - Data Catalog Vocabulary - <a href="http://www.dati.gov.it">www.dati.gov.it</a>',
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_WIZARD_PREV: 'Back', 

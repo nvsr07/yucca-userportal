@@ -125,7 +125,7 @@
 			            		</label>
 							</div>
 						</div>
-						<div class="form-group" ng-show="dataset.info.visibility=='private'">
+						<div class="form-group" ng-show="dataset.info.visibility=='private' && canShareDataset()">
 							<label for="inputStreamAddTenantSharing" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_TENANTSSHARING</span></label>
 							<div class="col-sm-10">
 								<p>
@@ -186,7 +186,7 @@
 							</div>
 						</div>
 						<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div>
-						<div class="form-group">
+						<div class="form-group" ng-show="dataset.info.visibility!='private'">
 							<label for="inputDatasetLicense" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</label>
 							<div class="col-sm-10 text-left">
 								<label class="radio-inline">
@@ -205,14 +205,14 @@
 							</textarea>
 							</div>
 						</div>			
-						<div class="form-group">
+						<div class="form-group" ng-show="dataset.info.visibility!='private'">
 							<label for="inputDatasetDisclaimer" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DISCLAIMER</label>
 							<div class="col-sm-10">
 								<textarea class="form-control" rows="4" resize="none" ng-model="dataset.info.disclaimer"  placeholder="{{'DATASET_FIELD_METADATA_DISCLAIMER'|translate}}" id="inputDatasetDisclaimer" >
 								</textarea>					
 							</div>
 						</div>	
-						<div class="form-group">
+						<div class="form-group" ng-show="dataset.info.visibility=='private'">
 							<label for="inputDatasetCopyright" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_COPYRIGHT</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_METADATA_COPYRIGHT'|translate}}" ng-model="dataset.info.copyright" >
