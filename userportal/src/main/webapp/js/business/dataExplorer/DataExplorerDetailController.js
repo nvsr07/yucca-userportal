@@ -57,14 +57,13 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 		} else {
 			$scope.wsUrl = "ws://stream.smartdatanet.it/ws";
 			$scope.wsUrlSecured = "wss://stream.smartdatanet.it/wss";
-			$scope.wsUrlTopic = "/topic/output/" + $scope.tenantCode + "/" + $scope.virtualentityCode + "_" + $scope.streamCode;
+			$scope.wsUrlTopic = "/topic/output." + $scope.tenantCode + "." + $scope.virtualentityCode + "_" + $scope.streamCode;
 			
 			$scope.mqttUrl = "tcp://stream.smartdatanet.it:1883 ";
 			$scope.mqttUrlSecured = " tcp://stream.smartdatanet.it:8883";
 			$scope.mqttUrlTopic = "output/" + $scope.tenantCode + "/" + $scope.virtualentityCode + "_" + $scope.streamCode;
 		}
 			
-		
 		console.log("stream", $scope.stream);
 		console.log("dataset", $scope.dataset);
 	};

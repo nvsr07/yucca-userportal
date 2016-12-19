@@ -1114,7 +1114,7 @@ var translations_it = {
 	/* Subscriptions */
 	SUBSCRIPTIONS_TITLE: 'Sottoscrizioni',
 	SUBSCRIPTIONS_ACCESS_TOKEN: 'Token di accesso',
-	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validit� del token',
+	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validità del token',
 	SUBSCRIPTIONS_CONSUMER_KEY: 'Consumer Key',
 	SUBSCRIPTIONS_CONSUMER_SECRET: 'Consumer Secret',
 	SUBSCRIPTIONS_TOKEN_OPERATION: 'Operazione',

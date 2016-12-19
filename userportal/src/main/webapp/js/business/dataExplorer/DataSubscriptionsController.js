@@ -88,7 +88,7 @@ appControllers.controller('DataSubscriptionsCtrl', [ '$scope', '$routeParams', '
 						//stream
 						var tmp = value.subscriptions[kSubs].name.split(".");
 						var tmpCode = tmp[1].split("_");
-						value.subscriptions[kSubs].newIcon += "/stream/icon/" + tmp[0] + "/" + tmp[1].substr(0, tmp[1].length-7);
+						value.subscriptions[kSubs].newIcon += "/stream/icon/" + tmp[0] + "/" + tmpCode[0] + "/" + tmpCode[1];
 					}
 				});
 				console.log("value", value);
