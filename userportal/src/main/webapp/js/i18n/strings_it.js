@@ -71,6 +71,9 @@ var translations_it = {
 	VIRTUALENTITY: 'Smart Object', 
 	DATASET: 'Dataset',
 	
+	DCAT : 'DCAT-AP_IT - Data Catalog Vocabulary - <a href="http://www.dati.gov.it">www.dati.gov.it</a>',
+
+	
 	/* STREAM */
 	STREAM_FIELD_ID_STREAM: 'ID Stream',
 	STREAM_FIELD_ID_VIRTUAL_ENTITY: 'ID Smart Object',
@@ -866,7 +869,7 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_METADATA_SUBTITLE: 'Metadati',
 	MANAGEMENT_NEW_DATASET_UPLOAD_SUBTITLE: 'Upload del File',
 	MANAGEMENT_NEW_DATASET_COLUMNS_SUBTITLE: 'Campi',
-	MANAGEMENT_NEW_DATASET_DCAT : 'DCAT - Data Catalog Vocabulary - <a href="http://www.dati.gov.it">www.dati.gov.it</a>',
+	MANAGEMENT_NEW_DATASET_DCAT : 'DCAT-AP_IT - Data Catalog Vocabulary - <a href="http://www.dati.gov.it">www.dati.gov.it</a>',
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_WIZARD_PREV: 'Back', 
