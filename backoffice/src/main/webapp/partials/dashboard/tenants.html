@@ -100,6 +100,14 @@
 						<td><small>{{row.tenant.maxStreamsNum}}</small></td>
 						<td class='text-left'><span ng-bind-html="row.statusIcon"></span> <small>{{row.codDeploymentStatusTranslated}}</small></td>
 						<td class='text-right'> 
+							<a class='btn btn-default btn-sm' href ng-click='prepareMail(row)' title="{{'DASHBOARD_TENANT_PREPARE_MAIL_BUTTON_HINT'|translate}}">
+								<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>	<span translate>DASHBOARD_TENANT_PREPARE_MAIL_BUTTON</span>
+							</a>
+							<a class='btn btn-default btn-sm' ng-if="mailLinks[row.tenant.tenantCode]" href="{{mailLinks[row.tenant.tenantCode]}}">
+								<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <span translate>DASHBOARD_TENANT_SEND_MAIL_BUTTON</span>
+							</a>
+						</td>
+						<td class='text-right'> 
 							<a class='btn btn-default btn-sm' href ng-click='openLog(row)' title="{{'DASHBOARD_STREAM_LOG_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_LOG_BUTTON</span></a>
 						</td>
 					</tr>
@@ -262,4 +270,6 @@
 			</form>	
         </div>
     </script>
+    
+   
 </div>

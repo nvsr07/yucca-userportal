@@ -296,6 +296,10 @@ var translations_it = {
 	DASHBOARD_STREAM_STEP_VALIDATION_ERROR: 'Gli step devono essere maggiori di zero, e lo step iniziale deve essere maggiore del finale',
 	
 	DASHBOARD_TENANT_NEW_BUTTON: 'Nuovo Tenant',
+	DASHBOARD_TENANT_PREPARE_MAIL_BUTTON_HINT: 'Prepara la mail',
+	DASHBOARD_TENANT_PREPARE_MAIL_BUTTON: 'Prepara Mail',
+	DASHBOARD_TENANT_SEND_MAIL_BUTTON: 'Invia',
+	
 
 
 };
