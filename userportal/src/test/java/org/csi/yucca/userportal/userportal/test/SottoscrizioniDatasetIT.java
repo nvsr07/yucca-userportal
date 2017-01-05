@@ -53,7 +53,7 @@ public class SottoscrizioniDatasetIT extends SeleniumBase {
 			Assert.assertEquals(driver.getTitle(), "Smart Data Platform");
 		}   
 
-		WebDriverWait wait = new WebDriverWait(driver, 2);
+		WebDriverWait wait = new WebDriverWait(driver, 10,100);
 		driver.navigate().to(dato.getString("up.url") + "/userportal/#/management/viewDataset/" + tenant + "/" + dataset);
 		if (dato.getBoolean("up.toBeFound")) {
 			wait.until(ExpectedConditions.textToBe(By.cssSelector(".url > strong:nth-child(1)"), dataset));
