@@ -47,7 +47,7 @@ public class DeleteDatasetIT extends SeleniumBase {
 
 		}
 
-		WebDriverWait wait = new WebDriverWait(driver, 4);
+		WebDriverWait wait = new WebDriverWait(driver, 10,100);
 		driver.navigate().to(dato.getString("up.url") + "/userportal/#/management/viewDataset/" + tenant + "/" + dataset);
 
 		try {
