@@ -819,9 +819,17 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		
 		//var start = ($scope.currentPage -1)*datasetForPage;
 		
-		var transform = function(data){
+		var transformReq = function(data){
 	        return $.param(data);
 	    };
+	    
+	    var transformRes = function(data){
+	    	if(data!=null)
+	    		return JSON.parse(data.replace(/\n/g, " ").replace(/\r/g, " ").replace(/\t/g, " "));
+	    	else
+	    		return null;
+	    };
+	    
 	    
 	    var tenantExcludeParam = ($scope.excludesandboxcheck) ? " && (tenantCode!=sandbox)" : "";
 	    
@@ -843,7 +851,9 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 				storeUrl,
 				searchParams, {
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
-					transformRequest: transform}
+					transformRequest: transformReq,
+					transformResponse: transformRes
+				}
 	    ).success(function(response) {
 			console.log("search response", response);
 			$scope.showSearchLoading = false;
