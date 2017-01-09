@@ -456,8 +456,9 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		if($scope.stream.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.stream.twtMaxStreamsOfVE){
 			$scope.twitterPollingInterval  = $scope.stream.twtMaxStreamsOfVE*5+1;
 		}
-
-		loadPastData();
+		
+		if($scope.stream.saveData!=0)
+			loadPastData();
 		var codiceTenant = "";
 		var keepGoing = true;
 		angular.forEach($scope.stream.tenantssharing.tenantsharing, function(value) {
@@ -554,7 +555,8 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
 	$scope.reloadData = function(){
 		allData = [];
-		loadPastData();
+		if($scope.stream.saveData!=0)
+			loadPastData();
 	};
 
 	$scope.updateChart = function() {		
