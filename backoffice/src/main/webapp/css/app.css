@@ -81,7 +81,7 @@ td .table-action-row{  border-top: dashed #ddd 1px!important;}
 .table-action-row-first{border-top: none!important;}
 
 .table-action-row .input-step{width: 5em;}
-.table-action-row .form-control{margin-right: 4em;}
+.table-action-row .form-control{margin-right: 1em;}
 
 .table-action-selected-row{background-color: #eeeeec;}
 

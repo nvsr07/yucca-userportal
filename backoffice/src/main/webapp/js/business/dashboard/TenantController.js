@@ -356,8 +356,16 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	$scope.mailLinks = {}
 	
 	$scope.prepareMail = function(selectedRow){
-		var mail = {"to":"aleee.it@gmai.com", "subject": "ciao" + selectedRow.tenant.tenantCode, "body":"testo della mail"};
-		$scope.mailLinks[selectedRow.tenant.tenantCode] = "mailto:"+mail.to+"?&subject= "+mail.subject+"&body="+mail.body;
+		selectedRow.mailError = null;
+		fabricAPIservice.loadTenantInstallationMail(selectedRow.tenant.tenantCode).success(function(response) {
+			console.log("response",response);
+			//var mail = {"to":"aleee.it@gmai.com", "subject": "ciao" + selectedRow.tenant.tenantCode, "body":"testo della mail"};
+			var mail = response.tenantMail.tenantMail;
+			$scope.mailLinks[selectedRow.tenant.tenantCode] = "mailto:"+mail.userEmail+"?&subject= "+mail.mailObject+"&body="+mail.mailBody;
+		}).error(function(response){
+			console.error("Mail error", response);
+			selectedRow.mailError = "Error, look at js the console for detail";
+		});
 	};
 	
 	$scope.openNewTenant = function () {

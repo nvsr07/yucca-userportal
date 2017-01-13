@@ -87,6 +87,16 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 
+	
+
+	fabricAPI.loadTenantInstallationMail = function(tenant_code) {
+		var urlCreatiomail = Constants.API_SERVICES_TENANT_URL +"creationmail/" + tenant_code + '?callback=JSON_CALLBACK';
+ 		return $http({
+			method : 'JSONP',
+			url : urlCreatiomail
+		});
+	};
+
 	fabricAPI.createStream = function(tenant_code, virtualentity_code, stream) {
 		// return $http({
 		// method: "POST",
