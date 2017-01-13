@@ -42,7 +42,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 				}
 			}
 			
-			if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
+			if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
 				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.datasetCode + "/download/" + $scope.dataset.idDataset + "/current";  
 			
 			if(info.getActiveTenantType() == 'trial')   

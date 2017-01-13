@@ -61,7 +61,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				var metadataJson =  x2js.xml_str2json(response);
 				console.log("odataAPIservice.getMetadata - json", metadataJson);
 		
-				if ($scope.dataset.Stream == null){
+				if ($scope.dataset.configData.subtype != 'streamDataset') {
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.dataset.datasetCode + "/download/" + $scope.dataset.idDataset + "/all";  
 				} else {
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.dataset.datasetCode + "/download/" + $scope.dataset.idDataset + "/current";  
