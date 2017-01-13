@@ -1275,7 +1275,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		var checkNameDuplicate = false;
 		if($scope.previewColumns!=null){
 			for (var int = 0; int < $scope.previewColumns.length; int++) {
-				if(int != columnIndex && !$scope.previewColumns[int].skipColumn &&  $scope.previewColumns[int].fieldName == fieldName){
+				if(int != columnIndex && !$scope.previewColumns[int].skipColumn &&  typeof $scope.previewColumns[int].fieldName!='undefined' && 
+						 typeof fieldName!='undefined' && $scope.previewColumns[int].fieldName.toUpperCase() == fieldName.toUpperCase()){
 					checkNameDuplicate = true;
 				}
 			}
@@ -1312,7 +1313,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		var checkNameDuplicate = false;
 		var checkSourceColumnDuplicate = false;
 		for (var int = 0; int < $scope.previewColumns.length; int++) {
-			if($scope.previewColumns[int].fieldName == $scope.newColumnDefinition.fieldName){
+			if($scope.previewColumns[int].fieldName.toUpperCase() == $scope.newColumnDefinition.fieldName.toUpperCase()){
 				checkNameDuplicate = true;
 			}
 			if($scope.previewColumns[int].sourceColumn == $scope.newColumnDefinition.sourceColumn){
