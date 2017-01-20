@@ -297,8 +297,9 @@ var translations_it = {
 	
 	DASHBOARD_TENANT_NEW_BUTTON: 'Nuovo Tenant',
 	DASHBOARD_TENANT_PREPARE_MAIL_BUTTON_HINT: 'Prepara la mail',
-	DASHBOARD_TENANT_PREPARE_MAIL_BUTTON: 'Prepara Mail',
+	DASHBOARD_TENANT_PREPARE_MAIL_BUTTON: 'Mail',
 	DASHBOARD_TENANT_SEND_MAIL_BUTTON: 'Invia',
+	DASHBOARD_TENANT_PREPARE_MAIL_POPUP_BUTTON_HINT: 'La mail si apre in un popup, verifica che non venga bloccato',
 	
 
 

@@ -1,5 +1,5 @@
-appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice', 'fabricBuildService', '$translate','$modal', '$location', '$timeout',
-                                          function($scope, $route, fabricAPIservice, fabricBuildService, $translate, $modal, $location, $timeout) {
+appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice', 'fabricBuildService', '$translate','$modal', '$location', '$timeout','$window',
+                                          function($scope, $route, fabricAPIservice, fabricBuildService, $translate, $modal, $location, $timeout,$window) {
 	$scope.tenantsList = [];
 	$scope.filteredTenantsList = [];
 	$scope.ecosystemList = [];
@@ -353,20 +353,26 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 
 	};
 	
-	$scope.mailLinks = {}
+	//$scope.mailLinks = {};
+	//$scope.mailLoading = {};
+	$scope.tenantMail = {}
+
 	
 	$scope.prepareMail = function(selectedRow){
-		selectedRow.mailError = null;
-		fabricAPIservice.loadTenantInstallationMail(selectedRow.tenant.tenantCode).success(function(response) {
-			console.log("response",response);
-			//var mail = {"to":"aleee.it@gmai.com", "subject": "ciao" + selectedRow.tenant.tenantCode, "body":"testo della mail"};
-			var mail = response.tenantMail.tenantMail;
-			$scope.mailLinks[selectedRow.tenant.tenantCode] = "mailto:"+mail.userEmail+"?&subject= "+mail.mailObject+"&body="+mail.mailBody;
-		}).error(function(response){
-			console.error("Mail error", response);
-			selectedRow.mailError = "Error, look at js the console for detail";
-		});
+		var modalInstance = $modal.open({
+		      animation: true,
+		      templateUrl: 'tenantMailPreview.html',
+		      controller: 'TenantMailCtrl',
+		      size: 'lg',
+		      resolve: {
+		    	  row: function () {
+		          return selectedRow;
+		        }
+		      }
+	    });
 	};
+
+
 	
 	$scope.openNewTenant = function () {
 
@@ -462,6 +468,42 @@ appControllers.controller('TenantInstallLogCtrl', [ '$scope', '$modalInstance', 
 		};
 	}
 ]);
+
+
+
+appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' , 'fabricAPIservice', '$window', function ($scope, $modalInstance, row, fabricAPIservice, $window) {
+	console.log("TenantMailCtrl - row", row)
+	
+	$scope.tenantMail = {};
+	$scope.tenantMail.loading = true;
+	fabricAPIservice.loadTenantInstallationMail(row.tenant.tenantCode).success(function(response) {
+		console.log("response",response);
+		$scope.tenantMail.loading = false;
+		$scope.tenantMail = response.tenantMail.tenantMail;
+
+	
+	
+	}).error(function(response){
+		$scope.tenantMail.loading = false;
+		console.error("Mail error", response);
+		$scope.tenantMail.error;
+	});	
+	
+	$scope.sendMail = function(){
+		var mailBody = $scope.tenantMail.mailBody.replace(/\n\r?/g, '%0D%0A');
+		var mailtoLink  = "mailto:"+$scope.tenantMail.userEmail+"?&subject= "+$scope.tenantMail.mailObject+"&body="+mailBody;
+		console.log("mailtoLink",mailtoLink);
+		var mailer = $window.open(mailtoLink,'Mailer');
+		$scope.close();
+	}
+	
+	$scope.close = function () {
+	    $modalInstance.dismiss('cancel');
+	};
+}]);
+
+
+
 
 appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabricAPIservice', 'TENANT_CREATE_URL', '$filter',"$http", 'ecosystemList',
                                            function ($scope, $modalInstance, fabricAPIservice, TENANT_CREATE_URL, $filter, $http, ecosystemList) {

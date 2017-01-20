@@ -29,6 +29,9 @@ a{color: black; text-decoration: underline;}
 #backoffice-dashboard .carousel-indicators{display: none;}
 #backoffice-dashboard .carousel-control{display: none;}
 
+.hint-icon{color: #00bbf0;}
+
+
 /* logo */
 
 .navbar-brand{padding: 0px;}

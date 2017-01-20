@@ -224,6 +224,10 @@
 					<resource>
 						<directory>src/main/resources/local</directory>
 					</resource>
+					<resource>
+						<directory>${project.build.directory}/checkout/backoffice/resources/local</directory>
+					</resource>
+					
 				</resources>
 			</build>
 			<properties>

@@ -103,10 +103,6 @@
 							<a class='btn btn-default btn-sm' href ng-click='prepareMail(row)' title="{{'DASHBOARD_TENANT_PREPARE_MAIL_BUTTON_HINT'|translate}}">
 								<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>	<span translate>DASHBOARD_TENANT_PREPARE_MAIL_BUTTON</span>
 							</a>
-							<a class='btn btn-default btn-sm' ng-if="mailLinks[row.tenant.tenantCode]" href="{{mailLinks[row.tenant.tenantCode]}}" target="_blank">
-								<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <span translate>DASHBOARD_TENANT_SEND_MAIL_BUTTON</span>
-							</a>
-							<div class='class="alert alert-danger text-left' ng-if="row.tenant.mailError!=null">{{row.mailError}}</div>
 						</td>
 						<td class='text-right'> 
 							<a class='btn btn-default btn-sm' href ng-click='openLog(row)' title="{{'DASHBOARD_STREAM_LOG_BUTTON_HINT'|translate}}"><span translate>DASHBOARD_STREAM_LOG_BUTTON</span></a>
@@ -271,6 +267,49 @@
 			</form>	
         </div>
     </script>
-    
+        
+    <script type="text/ng-template" id="tenantMailPreview.html">
+        <div class="modal-header">
+			<button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title">Mail for <small>{{streamName}}</small> </h3>
+        </div>
+        <div class="modal-body">
+			<div class='clearfix' ng-show="!tenantMail.loading">
+				<div>
+					<form role="form" class="form-horizontal">
+                		<div class="form-group">
+                  			<label class="col-sm-2" for="mailTenantTo">To</label>
+                 			<div class="col-sm-10"><input class="form-control" id="mailTenantTo" placeholder="comma separated list of recipients" type="email" ng-model="tenantMail.userEmail"></div>
+                		</div>
+                		<div class="form-group">
+                 			<label class="col-sm-2" for="mailTenantSubject">Subject</label>
+                  			<div class="col-sm-10"><input class="form-control" id="mailTenantSubject" placeholder="subject" type="text" ng-model="tenantMail.mailObject"></div>
+                		</div>
+                		<div class="form-group">
+                  			<label class="col-sm-12" for="mailTenantBody">Message</label>
+                  			<div class="col-sm-12"><textarea class="form-control" id="mailTenantBody" rows="18" ng-model="tenantMail.mailBody"></textarea></div>
+                		</div>
+					</form>
+				</div>	
+			</div>
+			<div class="alert alert-danger text-left" ng-show='tenantMail.error!=null'>
+				<strong translate>ERROR</strong> 
+				<p><span ng-bind-html="tenantMail.error"></span></p>
+			</div>
+			<div class='ajax-loading-container' ng-show="tenantMail.loading">
+				<span class='ajax-loading-big'></span>
+				<h4>Loading&hellip;</h4>
+			</div>
+        </div>
+        <div class="modal-footer">
+			<div class='clearfix'>
+				<div class='pull-left'><a href ng-click="close()" translate>CANCEL</a></div>
+				<div class='pull-right'>
+					<span class="hint-icon fa fa-lightbulb-o"></span> <span translate>DASHBOARD_TENANT_PREPARE_MAIL_POPUP_BUTTON_HINT</span>
+            		<button class="btn btn-primary" ng-click="sendMail()"><span translate>DASHBOARD_TENANT_SEND_MAIL_BUTTON</span></button>
+				</div>	
+			</div>
+        </div>
+    </script>
    
 </div>
