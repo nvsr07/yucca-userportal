@@ -4,7 +4,7 @@
 
 var appServices = angular.module('backoffice.services', [ 'backoffice.config' ]);
 
-appServices.value('version', '1.1.0');
+appServices.value('version', '1.5.3');
 
 appServices.factory('readFilePreview', function($q) {
 	return {
