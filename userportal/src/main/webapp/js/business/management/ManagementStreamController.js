@@ -777,7 +777,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			} else {
 
 				for (var int = 0; int < $scope.stream.componenti.element.length; int++) {
-					if($scope.stream.componenti.element[int].nome == componentName && int!=index){
+					if($scope.stream.componenti.element[int].nome.toUpperCase() == componentName.toUpperCase() && int!=index){
 						found = true;
 						break;
 					}
