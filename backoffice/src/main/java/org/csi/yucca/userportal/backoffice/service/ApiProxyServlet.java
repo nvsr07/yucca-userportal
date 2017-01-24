@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +58,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 	protected abstract void setApiBaseUrl();
 
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -73,10 +76,11 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			response.setContentType(getMethod.getResponseHeader("Content-Type").getValue());
 		log.info("[ApiProxyServlet::doGet] getResponseCharSet: " + getMethod.getResponseCharSet() );
 		response.setCharacterEncoding("UTF-8");
-		//if(getMethod.getResponseCharSet()==null)
-		//	response.setCharacterEncoding("UTF-8");
-		//else
-		//	response.setCharacterEncoding(getMethod.getResponseCharSet());
+		
+//		if(getMethod.getResponseCharSet()==null)
+//			response.setCharacterEncoding("UTF-8");
+//		else
+//			response.setCharacterEncoding(getMethod.getResponseCharSet());
 		
 		log.info("[ApiProxyServlet::doGet] response.getCharacterEncoding: " + response.getCharacterEncoding());
 		log.info("[ApiProxyServlet::doGet] response.getContentType: " + response.getContentType());
@@ -88,8 +92,14 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
 		
-
 		String jsonOut = getMethod.getResponseBodyAsString();
+		if(getMethod.getResponseCharSet()!=null && !getMethod.getResponseCharSet().equals("UTF-8")){
+			byte[] bytes = jsonOut.getBytes(Charset.forName(getMethod.getResponseCharSet()));
+			jsonOut = new String( bytes, Charset.forName("UTF-8") );
+		}
+
+		//ByteBuffer encode = UTF8_CHARSET.encode(jsonOut);
+		
 		if (isJSONPRequest(request))
 			jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
 		PrintWriter out = response.getWriter();
