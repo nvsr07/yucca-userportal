@@ -48,14 +48,18 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 				tokenForRequest = value;
 		});
 		
-		if (tokenForRequest == null){
+		if (tokenForRequest == null && typeof dstenantsharing != 'undefined' && dstenantsharing!=null){
 			//var dstenantsharingArr = dstenantsharing.split(',');
-			var dstenantsharingArr = dstenantsharing.tenantsharing;
+			//var dstenantsharingArr = dstenantsharing.tenantsharing;
 			angular.forEach(info.info.user.tenantsTokens, function(value, key) {
-				angular.forEach(dstenantsharingArr, function(dstsValue, dstsKey) {
-					if (dstsValue.tenantCode == key)
+//				angular.forEach(dstenantsharingArr, function(dstsValue, dstsKey) {
+//					if (dstsValue.tenantCode == key)
+//						tokenForRequest = value;
+//				});
+				for (var i = 0; i < dstenantsharing.length; i++) {
+					if (dstenantsharingArr[i] == key)
 						tokenForRequest = value;
-				});
+				}
 			});
 		}
 		

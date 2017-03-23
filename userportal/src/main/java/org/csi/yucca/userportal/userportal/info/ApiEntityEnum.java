@@ -293,8 +293,15 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
+	},
+
+	API_METADATA_URL("API_METADATA_URL", Config.API_PROXY_METADATA_BASE_URL) {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
 	};
-	
+
 	private String nameEntity;
 	private String baseUrl;
 	

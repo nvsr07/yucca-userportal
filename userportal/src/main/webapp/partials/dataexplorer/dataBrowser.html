@@ -9,23 +9,37 @@
 			<div class='clearfix databrowser-search-panel' > <!-- ng-show="currentStep == 'domains'" -->
 				<form role="form" class="form-horizontal" ng-cloak>
 					<div class="form-group">
-						<div class="col-sm-5 col-sm-offset-2">
-							<input type="search" class="form-control input-lg" ng-model="queryInput" id="simpleSearchInput" placeholder="{{'DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER'|translate}}"
+						<div class="col-sm-5 col-sm-offset-1">
+							<input type="search" class="form-control input-lg" ng-model="metadataSearchInput.query" id="simpleSearchInput" placeholder="{{'DISCOVERY_FILTER_SIMPLESEARCH_PLACEHOLDER'|translate}}"
 							ng-enter="goToResults('query')" >
 						</div>
-						<div class="col-sm-5">
+						<div class="col-sm-2">
 							<button type="submit" ng-click="goToResults('query')" class="btn btn-default btn-lg">
 								<span class="glyphicon glyphicon-search"></span>&nbsp;
-								<span translate-cloak translate>DISCOVERY_FILTER_SEARCH_BUTTON</span>
+								<span translate-cloak translate>DATA_BROWSER_SEARCH_BUTTON</span>
 							</button>
-							<span class="databrowser-search-separatore" ng-show="selectedDomain != null">in</span>&nbsp;
+						</div>
+						<div class="col-sm-4">
+						
+						<!-- 	<span class="databrowser-search-separatore" ng-show="selectedDomain != null">in</span>&nbsp;
 							<button type="submit" ng-click="goToResults('query', true)" class="btn btn-default btn-domain-remove" ng-show="selectedDomain!=null">
 								<span class="glyphicon glyphicons-circle-remove"></span>&nbsp;
 								<span translate-cloak translate>{{selectedDomain|translate}}</span>&nbsp;&nbsp;&times;
-							</button>
-							<label>
-					  			<input type="checkbox" ng-model="component.view" ng-change="excludeSandboxTenant()" checked="checked">{{'DISCOVERY_FILTER_SANDBOX_EXCLUDE'|translate}}
-							</label>
+							</button>-->
+							<div class="checkbox">
+								<label>
+						            <input type="checkbox" ng-model="metadataSearchInput.filter.isSearchExact">
+						            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						            {{'DATA_BROWSER_SEARCH_EXACT'|translate}}
+					         	</label>
+					        </div>							
+							<div class="checkbox">
+								<label>
+						  			<input type="checkbox" ng-model="metadataSearchInput.filter.includeSandbox" >
+						            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						            {{'DATA_BROWSER_SANDBOX_EXCLUDE'|translate}}
+					         	</label>
+					        </div>							
 						</div>
 					</div>
 				</form>
@@ -33,7 +47,7 @@
 		</div>
 	</div>
 	<div class='content-gray'>
-		<div class='container'>
+		<div class='container-fluid'>
 			<div class='clearfix'>
 				<div class='text-center section-title'><h3><span ng-bind-html="stepTitle|translate"></span></h3></div>
 			</div>

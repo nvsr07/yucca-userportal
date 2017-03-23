@@ -3,7 +3,7 @@
 		<header class='clearfix'>
 			<div class='browsedata-metadata-box-title-panel'>
 				<div><small translate-cloak translate>{{card['type']}}</small></div>
-				<div><strong>{{card.objectName}}</strong></div>
+				<div><strong>{{card.name}}</strong></div>
 			</div>
 			<div class='browsedata-metadata-box-type-panel'>
 				<img ng-src="/userportal/img/icons/{{card['type']}}_icon_white.png" alt="{{card['type']|translate}}">
@@ -11,15 +11,15 @@
 		</header>
 		<div class='box-content'>
 			<section>
-				<strong>{{card['datasetName']}}</strong>
-				<p>{{card['customDescription']}}</p>
+				<strong>{{card['name']}}</strong>
+				<p>{{card['description']}}</p>
 			</section>
-			<section ng-show="card['virtualentityCode']!=null">
+			<section ng-show="card.stream.smartobject">
 				<div><strong translate>VIRTUALENTITY</strong></div>
-				<p>{{card['virtualentityCode']}}<br>{{card['virtualentityDescription']}}</p>
+				<p>{{card.stream.smartobject.code}}<br>{{card.stream.smartobject.name}}<br>{{card.stream.smartobject.description}}</p>
 			</section>
 			<section>
-				<i class="icon-{{card['dataDomain']}} domain-icon" title="{{card['dataDomain']|translate}}"></i> <span translate-cloak translate>{{card['dataDomain']}}</span>
+				<i class="icon-{{card['domainCode']}} domain-icon" title="{{card['domainCode']|translate}}"></i> <span translate-cloak translate>{{card['domainCode']}}</span>
 			</section>
 			<section>
 				<div><strong translate>TENANT</strong></div>
@@ -40,7 +40,9 @@
 			</section>
 		</div>
 		<footer>
-			<img ng-src="{{card.datasetIcon}}" alt="logo dataset"class="" >
+			<img ng-src="{{card.icon}}" alt="logo dataset"class="" >
 		</footer>
 	</div>
 </a>
+
+

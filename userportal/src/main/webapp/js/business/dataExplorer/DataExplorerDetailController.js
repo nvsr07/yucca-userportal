@@ -1,10 +1,15 @@
-appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', 'fabricAPIservice', 'fabricAPImanagement', '$filter', 'info', '$location', '$modal', 
-                                                      function($scope, $route, $routeParams, odataAPIservice, dataDiscoveryService, fabricAPIservice, fabricAPImanagement, $filter, info, $location, $modal) {
+appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', 'metadataapiAPIservice', 'fabricAPImanagement', '$filter', 'info', '$location', '$modal', 
+                                                      function($scope, $route, $routeParams, odataAPIservice, dataDiscoveryService, metadataapiAPIservice, fabricAPImanagement, $filter, info, $location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = ($routeParams.entity_code) ? $routeParams.entity_code : '';
 	$scope.streamCode = ($routeParams.stream_code) ? $routeParams.stream_code : '';
 	$scope.virtualentityCode = ($routeParams.virtualentity_code) ? $routeParams.virtualentity_code : '';
 	$scope.datasetType = $route.current.dataset_type;
+	console.log("DataExplorerDetailCtrl::tenantCode", $scope.tenantCode);
+	console.log("DataExplorerDetailCtrl::datasetCode", $scope.datasetCode);
+	console.log("DataExplorerDetailCtrl::streamCode", $scope.streamCode);
+	console.log("DataExplorerDetailCtrl::virtualentityCode", $scope.virtualentityCode);
+	console.log("DataExplorerDetailCtrl::datasetType", $scope.datasetType);
 
 	var getEnvirorment  = function(){
 		var host = $location.host();
@@ -14,100 +19,100 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	
 	$scope.currentSidebar = 'none';
 	
-	$scope.dataset = null;
-	$scope.stream = null;
 	$scope.errors = [];
 	
-	$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
 	
-	$scope.processData = function(){
+	var processData = function(){
 		
-		if ($scope.dataset){
+		if (typeof $scope.metadata.dataset != 'undefined' && $scope.metadata.dataset !=null ){
 			
-			$scope.dataset.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/" + $scope.dataset.tenantCode + "/" + $scope.dataset.datasetCode;
-			$scope.VIRTUALENTITY_TYPE_TWITTER_ID = "Feed Tweet";
+			//$scope.metadata.icon = Constants.API_RESOURCES_URL + "dataset/icon/" + $scope.metadata.tenantCode + "/" + $scope.metadata.code;
 			$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
 			$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
-			$scope.topic = $scope.datasetCode;
+			$scope.topic = $scope.metadata.dataset.code;
 			
-			if(!$scope.dataset.opendata){
-				$scope.dataset.opendata = {};
-				$scope.dataset.opendata.isOpendata = 'false';
-				$scope.dataset.opendata.language = 'it';
-			} else if($scope.dataset.opendata.isOpendata){
-				$scope.dataset.opendata.isOpendata = 'true';
-				if($scope.dataset.opendata.dataUpdateDate && $scope.dataset.opendata.dataUpdateDate!=null){
-					var dataUpdateDate = new Date($scope.dataset.opendata.dataUpdateDate);
-					$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
+			if(!$scope.metadata.opendata){
+				$scope.metadata.opendata = {};
+				$scope.metadata.opendata.isOpendata = 'false';
+				$scope.metadata.opendata.language = 'it';
+			} else if($scope.metadata.opendata.isOpendata){
+				$scope.metadata.opendata.isOpendata = 'true';
+				if($scope.metadata.opendata.dataUpdateDate && $scope.metadata.opendata.dataUpdateDate!=null){
+					var dataUpdateDate = new Date($scope.metadata.opendata.dataUpdateDate);
+					$scope.metadata.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
 				}
 			}
 			
-			if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
-				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.datasetCode + "/download/" + $scope.dataset.idDataset + "/current";  
+			if(typeof $scope.metadata.dataset.datasetId != 'undefined' && $scope.metadata.dataset.datasetId !=null)
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/current";  
 			
 			if(info.getActiveTenantType() == 'trial')   
-				$scope.dataset.info.visibility = 'private';
+				$scope.metadata.visibility = 'private';
 			
 			// api/proxy/odata/ds_Tweet6_357/donwload/357/all 
-			if ($scope.dataset.Stream == null) {
-				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.datasetCode + "/download/" + $scope.dataset.idDataset + "/all";  
+			if ($scope.metadata.stream == null) {
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/all";  
 			} else {
-				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.datasetCode + "/download/" + $scope.dataset.idDataset + "/current";  
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/current";  
 			}
-		} else {
+			
+		} 
+		if (typeof $scope.metadata.stream != 'undefined' && $scope.metadata.stream !=null ){
+
 			$scope.wsUrl = "ws://stream.smartdatanet.it/ws";
 			$scope.wsUrlSecured = "wss://stream.smartdatanet.it/wss";
-			$scope.wsUrlTopic = "/topic/output." + $scope.tenantCode + "." + $scope.virtualentityCode + "_" + $scope.streamCode;
+			$scope.wsUrlTopic = "/topic/output." + $scope.metadata.tenantCode + "." + $scope.metadata.stream.smartobject.code + "_" + $scope.metadata.stream.code;
 			
 			$scope.mqttUrl = "tcp://stream.smartdatanet.it:1883 ";
 			$scope.mqttUrlSecured = " tcp://stream.smartdatanet.it:8883";
-			$scope.mqttUrlTopic = "output/" + $scope.tenantCode + "/" + $scope.virtualentityCode + "_" + $scope.streamCode;
+			$scope.mqttUrlTopic = "output/" + $scope.metadata.tenantCode + "/"+ $scope.metadata.stream.smartobject.code + "_" + $scope.metadata.stream.code;
 		}
 			
-		console.log("stream", $scope.stream);
-		console.log("dataset", $scope.dataset);
 	};
+	
+
+	
 		
 	$scope.loadDataset = function(){
-		
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).then(
-			function(response) {
-					
-				console.log("===========> RESPONSE in fabricAPImanagement.getDataset", response);
-				try{
-					$scope.dataset = response.metadata;
-					$scope.stream = response.stream;
-					
-					$scope.processData();
-				} catch (e) {
-					var error = {"message" : "Cannot load dataset", "detail" : "Error while loading dataset " + $scope.datasetCode};
-					console.error("getDataset ERROR", error, e);
-				}
-			});
+		metadataapiAPIservice.detailDataset(null, $scope.datasetCode).success(function(response) {
+			console.log("loadDataset", response);
+			$scope.metadata = response;
+			processData();
+			
+		}).error(function(response) {
+			console.error("loadDataset", response);
+		});
 	};
 	
 	//http://localhost:8080/userportal/api/proxy/discovery/Streams?$expand=Dataset&$format=json&$filter=(tenantCode eq "sandbox"  and  smartOCode eq "9c25107f-fdd7-4010-83bb-9c0213153602"  and  streamCode eq "deviceStream")
 	$scope.loadStream = function(){
-		fabricAPIservice.getStream($scope.tenantCode, $scope.virtualentityCode, $scope.streamCode).then(
-			function(response) {
-				$scope.errors = [];
-				try{
-					console.debug("loadStream- response",response);
-					$scope.stream = response.streams.stream;
-					if($scope.stream.opendata.isOpendata == 1){
-						var d = new Date($scope.stream.opendata.dataUpdateDate);
-						var mm = d.getMonth()+1;
-						var day = (d.getDate() < 10) ? "0" + d.getDate() : d.getDate();
-						$scope.stream.opendata.dataUpdateDate = day + "/" + mm + "/" + d.getFullYear();
-					}
-					$scope.dataset = null;
-					
-					$scope.processData();
-				} catch (e) {
-					var error = {"message" : "Cannot load stream" , "detail" : "Error while loading stream " + $scope.tenantCode + " - " + $scope.virtualentityCode + " - " + $scope.streamCode};
-					console.error("getDataset ERROR", error, e);
-				};
-			});
+		metadataapiAPIservice.detailStream(null, $scope.tenantCode, $scope.virtualentityCode, $scope.streamCode).success(function(response) {
+			console.log("loadStream", response);
+			$scope.metadata = response;
+			processData();
+		}).error(function(response) {
+			console.error("loadDataset", response);
+		});
+//		fabricAPIservice.getStream($scope.tenantCode, $scope.virtualentityCode, $scope.streamCode).then(
+//			function(response) {
+//				$scope.errors = [];
+//				try{
+//					console.debug("loadStream- response",response);
+//					$scope.stream = response.streams.stream;
+//					if($scope.stream.opendata.isOpendata == 1){
+//						var d = new Date($scope.stream.opendata.dataUpdateDate);
+//						var mm = d.getMonth()+1;
+//						var day = (d.getDate() < 10) ? "0" + d.getDate() : d.getDate();
+//						$scope.stream.opendata.dataUpdateDate = day + "/" + mm + "/" + d.getFullYear();
+//					}
+//					$scope.dataset = null;
+//					
+//					$scope.processData();
+//				} catch (e) {
+//					var error = {"message" : "Cannot load stream" , "detail" : "Error while loading stream " + $scope.tenantCode + " - " + $scope.virtualentityCode + " - " + $scope.streamCode};
+//					console.error("getDataset ERROR", error, e);
+//				};
+//			});
 	};
 	
 	if ($scope.datasetType == "stream")

@@ -997,8 +997,6 @@ var translations_it = {
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Sono attivi gli operatori di ricerca  <strong>tags (keywords in lingua inglese)</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong>, <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> per utilizzarli <i>operatore<strong>:</strong><i>valore</i>',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filtro', 
-	DISCOVERY_FILTER_SEARCH_BUTTON: 'Cerca',
-	DISCOVERY_FILTER_SANDBOX_EXCLUDE: 'includi alla ricerca il tenant SANDBOX',
 	
 	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Scegli un campo',
 	
@@ -1078,6 +1076,45 @@ var translations_it = {
 	DATABROWSER_RESULTS_BACK_BTN: 'Nuova ricerca',
 	DATABROWSER_SHOW_GRID: 'Griglia', 
 	DATABROWSER_SHOW_LIST: 'Lista', 
+	
+	DATA_BROWSER_TOTAL_FOUND: 'Totale',
+	DATA_BROWSER_USED_FILTER: 'Filtri attivi:',
+	DATA_BROWSER_FACET_PANEL_TITLE: 'Filtra i risultati',
+	DATA_BROWSER_SEARCH_BUTTON: 'Cerca',
+	DATA_BROWSER_SANDBOX_EXCLUDE: 'includi alla ricerca il tenant SANDBOX',
+	DATA_BROWSER_SEARCH_EXACT: 'Ricerca esatta',
+	DATABROWSER_EXPAND_FACET_MENU: 'Altro&hellip;',
+	DATABROWSER_COMPACT_FACET_MENU: 'Compatta',
+	stream: 'Stream',
+	dataset: 'Dataset',
+	stream_dataset: 'Stream/Dataset',
+	
+	DATA_EXPLORER_DETAIL_STREAM_CODE: 'Codice Stream',
+	DATA_EXPLORER_DETAIL_DATASET_CODE: 'Codice Dataset',
+	DATA_EXPLORER_DETAIL_GENERAL_INFO: 'Informazioni Principali',
+	DATA_EXPLORER_DETAIL_COMPONENTS: 'Definizione Struttura Dato',
+	
+	
+	FACET_tenantCode: 'Tenant',
+	FACET_domainCode: 'Ambito',
+	FACET_subdomainCode: 'Sotto ambito',
+	FACET_tagCode: 'Tag',
+	FACET_visibility: 'Visibilit&agrave;',
+	FACET_entityType: 'Tipo',
+	FACET_organizationCode: 'Organizzazione',
+	'public': 'Pubblico',
+	'private': 'Privato',
+	
+	FILTER_tenantCode: 'Tenant',
+	FILTER_domainCode: "Ambito",
+	FILTER_subdomainCode: 'Sotto ambito',
+	FILTER_tagCode: 'Tag',
+	FILTER_visibility: 'Visibilit&agrave;',
+	FILTER_entityType: 'Tipo',
+	FILTER_organizationCode: 'Organizzazione',	
+
+	FILTER_isSearchExact: 'Ricerca Esatta',
+	FILTER_includeSandbox: 'Incluso Sandbox',
 	
 	DATABROWSER_ENTITY: 'Nome oggetto',
 

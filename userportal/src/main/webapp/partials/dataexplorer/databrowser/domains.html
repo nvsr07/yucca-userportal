@@ -11,11 +11,11 @@
 	<table class='table domains-table'>
 		<tbody>
 			<tr ng-repeat='domain in domainList'  ng-if="$index % 2 == 0" >
-				<td class='browsedata-choosing-domain-box text-left domains-table-left-column' ng-click='selectDomain(domainList[$index])'> 
-					<i class="icon-{{domainList[$index]}} domain-icon" title="{{domainList[$index]|translate}}"></i> <span translate-cloak translate>{{domainList[$index]}}</span>
+				<td class='browsedata-choosing-domain-box text-left domains-table-left-column' ng-click='selectDomain(domainList[$index].domain)'> 
+					<i class="icon-{{domain.domain}} domain-icon" title="{{domain.domain|translate}}"></i> <span translate-cloak translate>{{domain.domain}}</span> <small>{{domain.count}}</small>
 				</td>
-				<td class='browsedata-choosing-domain-box text-right domains-table-right-column' ng-click='selectDomain(domainList[$index+1])'> 
-					<span translate-cloak translate>{{domainList[$index+1]}}</span> <i class="icon-{{domainList[$index+1]}} domain-icon" title="{{domainList[$index+1]|translate}}"></i>
+				<td class='browsedata-choosing-domain-box text-right domains-table-right-column' ng-click='selectDomain(domainList[$index+1].domain)'> 
+					<small>{{domainList[$index+1].count}}</small>	<span translate-cloak translate>{{domainList[$index+1].domain}}</span>  <i class="icon-{{domainList[$index+1].domain}} domain-icon" title="domainList[$index+1]"></i> 
 				</td>
 			</tr>	
 		</tbody>

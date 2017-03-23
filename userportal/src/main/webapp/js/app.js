@@ -46,7 +46,7 @@ app.config(['$routeProvider', function($routeProvider) {
 	
 	});
 	
-	$routeProvider.when('/dataexplorer/stream/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/dataexplorer/detailStream.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer', dataset_type: 'stream',
+	$routeProvider.when('/dataexplorer/detail/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/dataexplorer/detail.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer', dataset_type: 'stream',
 		 resolve: {
 			 info: function(initCtrl) {
 			      return initCtrl.getInfo();
@@ -55,7 +55,7 @@ app.config(['$routeProvider', function($routeProvider) {
 	
 	});
 	
-	$routeProvider.when('/dataexplorer/dataset/:tenant_code/:entity_code', {templateUrl: 'partials/dataexplorer/detailDataset.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer', dataset_type: 'dataset',
+	$routeProvider.when('/dataexplorer/detail/:tenant_code/:entity_code', {templateUrl: 'partials/dataexplorer/detail.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer', dataset_type: 'dataset',
 		 resolve: {
 			 info: function(initCtrl) {
 			      return initCtrl.getInfo();
