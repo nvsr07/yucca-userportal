@@ -2,7 +2,7 @@
 
 /* Directives */
 var appDirectives = appDirectives || angular.module('userportal.directives', []);
-
+/*
 appDirectives.directive('streamCard', function() {
 	return {
 		restrict : 'E',
@@ -16,7 +16,7 @@ appDirectives.directive('streamRealtime', function() {
 		templateUrl : 'partials/dashboard/stream-realtime.html?'+BuildInfo.timestamp,
 	};
 });
-
+*/
 appDirectives.directive('dashboardMenu', function() {
 	return {
 		restrict : 'E',

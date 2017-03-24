@@ -24,10 +24,11 @@
 				</span> -->
 				<span  class='table-toolbar-filter-element table-toolbar-filter-element-query' ng-show="metadataSearchInput.query.length>0"> 
 					<span><strong>Query</strong> {{metadataSearchInput.query}}</span>
-					<span ng-show="metadataSearchInput.filter.isSearchExact" class='table-toolbar-filter-isSearchExact' translate>FILTER_isSearchExact</span>
+					<span ng-if="metadataSearchInput.filter.isSearchExact" class='table-toolbar-filter-isSearchExact' translate>FILTER_isSearchExact</span>
 				</span>
+				<span class='table-toolbar-filter-includeSandbox' ng-if='metadataSearchInput.filter.includeSandbox'><strong translate="FILTER_includeSandbox"></strong></span>
 				<span  class='table-toolbar-filter-element  table-toolbar-filter-element-{{filterKey}}'>
-					<span ng-repeat="(filterKey, filterValues) in metadataSearchInput.filter track by $index" class='table-toolbar-filter-{{filterKey}}' ng-show="filterKey!='isSearchExact'">
+					<span ng-repeat="(filterKey, filterValues) in metadataSearchInput.filter track by $index" class='table-toolbar-filter-{{filterKey}}' ng-show="filterKey!='isSearchExact' && filterKey!='includeSandbox' ">
 						<strong translate="FILTER_{{filterKey}}"></strong>
 						<span ng-repeat='filterValue in filterValues track by $index' class='table-toolbar-filter-item' ng-class="{'table-toolbar-filter-item-remove':removeItem}">
 							<span>{{filterValue|translate}}</span> <a href ng-click="removeFilter(filterKey, filterValue)" ng-mouseenter="removeItem=true" ng-mouseleave="removeItem=false">&times;</a>

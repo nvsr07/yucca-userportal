@@ -138,10 +138,46 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 
 } ]);
 
-appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
-                                                   function($scope, $routeParams, fabricAPIservice, webSocketService, $filter) {
+/*appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'metadataapiAPIservice', 'webSocketService', "$filter",
+                                                   function($scope, $routeParams, metadataapiAPIservice, webSocketService, $filter) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
+	console.log("DashboardStreamCtrl");
+	
+	$scope.errors = [];
+	$scope.loadStream = function(){
+		metadataapiAPIservice.detailStream(null, $routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+			console.log("loadStream", response);
+			$scope.stream = response;
+			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+			
+			if(!isNaN($scope.stream.fps)){
+				var fpsNumber = parseFloat($scope.stream.fps);
+				$scope.stream.fpm = 60*fpsNumber;
+				if(fpsNumber!=0){
+					$scope.stream.secondsBtwEvents = 1/fpsNumber;
+					$scope.stream.minutesBtwEvents = 1/(fpsNumber*60);
+				} else {
+					$scope.stream.secondsBtwEvents = "-";
+					$scope.stream.minutesBtwEvents = "-";
+				}
+			} else {
+				$scope.stream.fpm = "-";
+				$scope.stream.secondsBtwEvents = "-";
+				$scope.stream.minutesBtwEvents = "-";
+			}
+			if(!$scope.stream.icon || $scope.stream.icon == null)
+				$scope.stream.icon  = "img/stream-icon-default.png";
+
+			connectWS();
+		}).error(function(response) {
+			console.error("loadDataset", response);
+		});
+
+	};
+	
+	$scope.loadStream();
+	
 	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).then(function(response) {
 		console.debug("getStream response",response);
 		$scope.stream = response.streams.stream;
@@ -170,10 +206,8 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 			$scope.stream.streamIcon  = "img/stream-icon-default.png";
 
 		connectWS();
-//		connectWSStatistic();
-//		connectWSClientData();
-//		connectWSClientError();
-	});
+
+	}); 
 
 	var totalError = 0;
 
@@ -265,106 +299,17 @@ appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'fa
 		totalError++;
 	};
 	
-	/*
-	
-	$scope.wsClientStatistics = webSocketService();
 
-	var timeCounter = 0;
-	var connectWSStatistic = function(){
-		$scope.wsClientStatistics.connect(function(message) {
-			console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
-			var wsStatUrl = Helpers.stream.wsStatUrl($scope.stream);
-			console.debug("subscribe wsStatUrl ", wsStatUrl);
-			$scope.wsClientStatistics.subscribe(wsStatUrl, function(message) {
-				console.debug("message", message);
-				counter++;
-				console.debug("wsStatisticMessages", $scope.wsStatisticMessages);
-
-				if ($scope.wsStatisticMessages.length >= maxNumWsStatisticMessages) 
-					$scope.wsStatisticMessages.shift();
-				if ($scope.wsErrorMessages.length >= maxNumWsErrorMessages) 
-					$scope.wsErrorMessages.shift();
-				//if ($scope.wsStatisticData.length > maxNumStatisticData) $scope.wsStatisticData.shift();
-
-				if ($scope.nvWsStatisticData[0]["values"].length > maxNumStatisticData){
-					$scope.nvWsStatisticData[0]["values"].shift();
-					$scope.nvWsStatisticData[1]["values"].shift();
-				}
-
-
-				var numOfEvents = angular.fromJson(message.body).event.payloadData.numEventsLast30Sec;
-
-				$scope.wsStatisticMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), numOfEvents ]);
-				$scope.wsErrorMessages.push([ $filter('date')(new Date(), "HH:mm:ss"), totalError]);
-				//$scope.wsStatisticData.push({ x : counter*2, y : numOfEvents });
-
-				$scope.nvWsStatisticData[0]["values"].push([timeCounter,numOfEvents]);
-				//$scope.nvWsStatisticData[0]["values"].push([timeCounter,Math.floor(Math.random() * 9) + 1]);
-				$scope.nvWsStatisticData[1]["values"].push([timeCounter,totalError]);
-				//$scope.nvWsStatisticData[1]["values"].push([timeCounter,Math.floor(Math.random() * 6) + 1]);
-				timeCounter +=2;
-
-			});
-		}, function() {
-		}, '/');
-	};
-
-
-	// last message
-	$scope.wsLastMessage = "";
-	$scope.wsLastMessageToShow = "";
-
-
-	$scope.wsClientData = webSocketService();
-	var connectWSClientData = function(){
-		$scope.wsClientData.connect(function(message) {
-			//console.debug("message", message); //"/topic/ten1.flussoProva.raw"
-			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
-			console.debug("subscribe wsUrl ", $scope.wsUrl);
-
-			$scope.wsClientData.subscribe($scope.wsUrl, function(message) {
-				console.debug("data message", message);
-				$scope.wsLastMessage = JSON.stringify(JSON.parse(message.body), null, "\t");
-				console.debug("___________$scope.wsLastMessage", $scope.wsLastMessage);
-
-				if ($scope.wsLastMessageToShow == "")
-					$scope.wsLastMessageToShow = $scope.wsLastMessage;
-			});
-
-		}, function() {
-		}, '/');
-	};
-
-	$scope.wsClientError = webSocketService();
-	var connectWSClientError = function(){
-		$scope.wsClientError.connect(function(message) {
-			console.debug("message", message); //"/topic/ten1.flussoProva.raw"
-			console.debug("$scope.stream", $scope.stream); //"/topic/ten1.flussoProva.raw"
-			console.debug("Helpers", Helpers); //"/topic/ten1.flussoProva.raw"
-
-			var wsErrorUrl = Helpers.stream.wsErrorUrl($scope.stream);
-			console.debug("subscribe wsErrorUrl ", wsErrorUrl);
-
-			 $scope.wsClientError.subscribe(wsErrorUrl, function(message) {
-				console.debug("Error message", message);
-				totalError++;
-			});
-
-		}, function() {
-		}, '/');
-	};
-	
-	*/
 
 	$scope.refreshLastMessage = function() {
 		$scope.wsLastMessageToShow = $scope.wsLastMessage;
 	};
 	//$scope.lineData = [ { x : 1, y : 5 }, { x : 20, y : 20 }, { x : 40, y : 10 }, { x : 60, y : 40 }, { x : 80, y : 5 }, { x : 100, y : 60 } ];
 } 
-]);
+]);*/
 
-appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'webSocketService', 'odataAPIservice', 'dataDiscoveryService',  "$filter", '$interval',
-                                                   function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, webSocketService, odataAPIservice, dataDiscoveryService, $filter,$interval) {
+appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'webSocketService', 'odataAPIservice', 'dataDiscoveryService',  'metadataapiAPIservice', '$filter', '$interval',
+                                                   function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, webSocketService, odataAPIservice, dataDiscoveryService, metadataapiAPIservice,  $filter,$interval) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
 	$scope.chartComponentNames = [];
@@ -396,6 +341,87 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		}
 	});
 
+	$scope.loadStream = function(){
+		metadataapiAPIservice.detailStream(null, $routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).success(function(response) {
+			console.log("loadStream", response);
+			$scope.metadata = response;
+			if(typeof $scope.metadata.stream.twitter!= 'undefined')
+				$scope.isTwitter = true;
+			
+			$scope.wsUrl = Helpers.stream.wsOutputUrlFromMetadata($scope.metadata);
+
+			if(!isNaN($scope.metadata.stream.fps)){
+				var fpsNumber = parseFloat($scope.metadata.stream.fps);
+				$scope.metadata.stream.fpm = 60*fpsNumber;
+				if(fpsNumber!=0){
+					$scope.metadata.stream.secondsBtwEvents = 1/fpsNumber;
+					$scope.metadata.stream.minutesBtwEvents = 1/(fpsNumber*60);
+				} else {
+					$scope.metadata.stream.secondsBtwEvents = "-";
+					$scope.metadata.stream.minutesBtwEvents = "-";
+				}
+			} else {
+				$scope.metadata.stream.fpm = "-";
+				$scope.metadata.stream.secondsBtwEvents = "-";
+				$scope.metadata.stream.minutesBtwEvents = "-";
+			}
+			
+			var colorCounter = 0;
+			var view = false;
+			var foundFirstToDisplay = false;
+			for (var int = 0; int < $scope.metadata.components.length; int++) {
+				var component = $scope.metadata.components[int];
+				var dataType = component.datatype;
+				var isEnabled = false;
+				var color = "#ccc";
+				var display = "none";
+				if( "int" == dataType || "long" == dataType || "double" == dataType || "float" == dataType || "longitude" == dataType || "latitude" == dataType){
+					isEnabled = true;
+					display = "normal";
+					if(!foundFirstToDisplay){
+						view = true;
+						foundFirstToDisplay = true;
+					} else
+						view = false;
+					color = Constants.LINE_CHART_COLORS[colorCounter];
+					colorCounter++;
+					if(colorCounter>= Constants.LINE_CHART_COLORS.length)
+						colorCounter = 0;
+				}
+				$scope.chartComponentNames.push({name:component.name, view: view, enabled: isEnabled, display: display, color: color, dataType: component.datatype });
+			}
+			if(!$scope.metadata.icon || $scope.metadata.icon == null)
+				$scope.metadata.icon  = "img/stream-icon-default.png";
+
+			if(typeof $scope.metadata.stream.twitter != "undefined" && typeof $scope.metadata.stream.twitter.twtMaxStreamsOfVE!= 'undefined'){ // FIXME verificare
+				$scope.twitterPollingInterval  = $scope.metadata.stream.twitter.twtMaxStreamsOfVE*5+1;
+			}
+			
+			if(typeof $scope.dataset!= 'undefined')
+				loadPastData();  
+			var keepGoing = true;
+			if(typeof tenantDelegateCodes != 'undefined'){
+				angular.forEach($scope.metadata.tenantDelegateCodes, function(value) {
+					if (keepGoing){
+						angular.forEach(tenantsTokens, function(ttValue, ttKey) {
+							if ((ttKey == value) && (keepGoing)){
+								codiceTenant = ttKey;
+								keepGoing = false;
+							}
+						});
+					}
+				});
+			}
+			wsClient.updateStreamTenant($scope.metadata.tenantCode);
+			connectWS(); 
+		}).error(function(response) {
+			console.error("loadDataset", response);
+		});
+
+	};
+	
+	$scope.loadStream();
+	/*
 	fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).then(function(response) {
 		console.debug("getStream response",response);
 		$scope.stream = response.streams.stream;
@@ -473,7 +499,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		});
 		wsClient.updateStreamTenant(codiceTenant);
 		connectWS();
-	});
+	});*/
 
 	
     $scope.xAxisTickFormatFunction = function(){
@@ -508,54 +534,48 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	var allData = [];
 	$scope.lastMessageNotReceivedHint = 'DASHBOARD_STREAM_WS_LASTMESSAGE_NOT_RECEIVED';
 	var loadPastData = function(){
-		
-		// call discovery service to retrieve  the apiCode
-		fabricAPImanagement.loadStreamDetail($routeParams.tenant_code, $routeParams.virtualentity_code, $routeParams.stream_code).then(function(response) {
-			console.log("response", response);
-			if(response != null){
-				var apiCode  = response.metadata.datasetCode;
-				// call oData service to retrieve  the last 30 data
-				var collection = 'Measures';
-				if($scope.isTwitter){
-					collection = 'SocialFeeds';
-				}
-				odataAPIservice.getStreamDataMultiToken(apiCode, null, 0, $scope.maxDataResult.value, 'time%20desc',collection, response.metadata.configData.tenantCode, response.metadata.info.tenantssharing).success(function(response) {
-					console.log("odataAPIservice.getStreamData",response, collection);
-					var oDataResultList = response.d.results;
-					if(oDataResultList.length >0){
-						for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
-							var oDataResult = oDataResultList[oDataIndex];
+		var apiCode  = $scope.metadata.dataset.code;
 
-							var time = Helpers.mongo.date2millis(oDataResult.time);
-							var values = {};
-							for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
-								values[$scope.chartComponentNames[componentIndex].name] = oDataResult[$scope.chartComponentNames[componentIndex].name];
-							}
-							allData.push({datetime: time, data: values});
-						}
-						$scope.wsLastMessageToShow = allData[0];
-						allData.reverse();
-						$scope.updateChart();
-						if($scope.isTwitter){
-							for (var tweetIndex = 0; tweetIndex  < maxNumTweet; tweetIndex++) {
-								if(tweetIndex < allData.length){
-									var tweet  = {};
-									tweet.components = allData[allData.length-tweetIndex-1].data;
-									tweet.components.createdAt = Helpers.mongo.date2string(tweet.components.createdAt);
-									$scope.tweetData.push(tweet);
-								}
-							}
-							console.log("$scope.tweetData", $scope.tweetData);
-						}		
+		// call oData service to retrieve  the last 30 data
+		var collection = 'Measures';
+		if($scope.isTwitter){
+			collection = 'SocialFeeds';
+		}
+		odataAPIservice.getStreamDataMultiToken(apiCode, null, 0, $scope.maxDataResult.value, 'time%20desc',collection, $scope.metadata.tenantCode, $scope.metadata.tenantDelegateCodes).success(function(response) {
+			console.log("odataAPIservice.getStreamData",response, collection);
+			var oDataResultList = response.d.results;
+			if(oDataResultList.length >0){
+				for (var oDataIndex = 0; oDataIndex < oDataResultList.length; oDataIndex++) {
+					var oDataResult = oDataResultList[oDataIndex];
+
+					var time = Helpers.mongo.date2millis(oDataResult.time);
+					var values = {};
+					for (var componentIndex = 0; componentIndex < $scope.chartComponentNames.length; componentIndex++) {
+						values[$scope.chartComponentNames[componentIndex].name] = oDataResult[$scope.chartComponentNames[componentIndex].name];
 					}
-				});
+					allData.push({datetime: time, data: values});
+				}
+				$scope.wsLastMessageToShow = allData[0];
+				allData.reverse();
+				$scope.updateChart();
+				if($scope.isTwitter){
+					for (var tweetIndex = 0; tweetIndex  < maxNumTweet; tweetIndex++) {
+						if(tweetIndex < allData.length){
+							var tweet  = {};
+							tweet.components = allData[allData.length-tweetIndex-1].data;
+							tweet.components.createdAt = Helpers.mongo.date2string(tweet.components.createdAt);
+							$scope.tweetData.push(tweet);
+						}
+					}
+					console.log("$scope.tweetData", $scope.tweetData);
+				}		
 			}
 		});
 	};
 	
 	$scope.reloadData = function(){
 		allData = [];
-		if($scope.stream.saveData!=0)
+		if(typeof $scope.dataset!= 'undefined')
 			loadPastData();
 	};
 
@@ -630,11 +650,11 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		wsClient.connect(function(message) {
 			console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
 			
-			$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
+			$scope.wsUrl = Helpers.stream.wsOutputUrlFromMetadata($scope.metadata.stream);
 			console.debug("subscribe wsUrl ", $scope.wsUrl);
-			console.debug("subscribe stream ", $scope.stream);
-			console.log("======> tenantStream", $scope.stream.nomeTenant);
-			wsClient.subscribe($scope.wsUrl, dataCallback, $scope.stream.nomeTenant);
+			console.debug("subscribe stream ", $scope.metadata.stream);
+			console.log("======> tenantStream", $scope.metadata.stream.name);
+			wsClient.subscribe($scope.wsUrl, dataCallback, $scope.metadata.stream.name);
 		
 
 			$interval(function(){updateStatistics(); }, 2000);

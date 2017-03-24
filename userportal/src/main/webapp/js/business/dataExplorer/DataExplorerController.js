@@ -151,7 +151,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			
 		}).error(function(response) {
 			console.error("loadDataset", response);
-			$scope.errors.push({"message": "Cannot load dataset", "detail": "Error while loading dataset " + $scope.dataset.code});
+			$scope.errors.push({"message": "Cannot load dataset", "detail": "Error while loading dataset " + $scope.datasetCode});
 		});
 //		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).then(function(response) {
 //			

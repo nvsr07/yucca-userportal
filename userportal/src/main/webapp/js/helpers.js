@@ -1,6 +1,23 @@
 var Helpers = Helpers || {};
 
 Helpers.stream = {
+	wsOutputUrlFromMetadata : function(metadata) {
+		// output/csi/550e8400-e29b-41d4-a716-446655440000_thermo_a
+		// <tipologia>/<tenant>/<sensore>_<flusso>[/<aux>]
+		// "/topic/output.ten1.flussoProva.stat"
+		var virtualentity_stream = "";
+
+		if (!Helpers.util.isStringEmpty(metadata.stream.smartobject.code) && !Helpers.util.isStringEmpty(metadata.stream.code))
+			virtualentity_stream = metadata.stream.smartobject.code + "_" + metadata.stream.code;
+		else if (!Helpers.util.isStringEmpty(metadata.stream.smartobject.code))
+			virtualentity_stream = metadata.stream.smartobject.code;
+		else if (!Helpers.util.isStringEmpty(metadata.stream.code))
+			virtualentity_stream += metadata.stream.code;
+
+		var result = "/topic/output." + metadata.tenantCode + "." + virtualentity_stream;
+		return result;
+	},		
+		
 	wsOutputUrl : function(stream) {
 		// output/csi/550e8400-e29b-41d4-a716-446655440000_thermo_a
 		// <tipologia>/<tenant>/<sensore>_<flusso>[/<aux>]

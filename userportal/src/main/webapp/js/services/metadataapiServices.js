@@ -55,6 +55,16 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 			if(typeof filter.hasDataset != 'undefined' && filter.hasDataset!=null) 
 				metadataapiUrl += '&hasDataset='+hasDataset;
 
+			if(typeof filter.entityType != 'undefined' && filter.entityType!=null){
+				for (var entityTypeIndex = 0; entityTypeIndex < filter.entityType.length; entityTypeIndex++) {
+					if(filter.entityType[entityTypeIndex] == 'stream')
+						metadataapiUrl += '&hasStream=true';
+					if(filter.entityType[entityTypeIndex] == 'dataset')
+						metadataapiUrl += '&hasDataset=true';
+						
+				}
+			}
+				
 		}
 		
 		console.log("filter", filter);

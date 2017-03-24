@@ -173,7 +173,7 @@
 									<td>{{component.measureUnitCategory|nvl:' - '}}:{{component.measureUnit|nvl:' - '}}</td>
 									<td>{{component.datatype|nvl:' - '}}</td>
 									<td ng-if='metadata.stream'>{{component.tolerance|nvl:' - '}}</td>
-									<td ng-if='metadata.stream'>{{component.phenomenon|nvl:' - '}}</td>
+									<td ng-if='metadata.stream'>{{component.phenomenonCategory|nvl:' - '}}: {{component.phenomenon|nvl:' - '}}</td>
 									<td ng-if='metadata.stream'>{{component.sinceVersion|nvl:' - '}}</td>
 									
 							</tbody>
