@@ -57,7 +57,7 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 //						tokenForRequest = value;
 //				});
 				for (var i = 0; i < dstenantsharing.length; i++) {
-					if (dstenantsharingArr[i] == key)
+					if (dstenantsharing[i] == key)
 						tokenForRequest = value;
 				}
 			});

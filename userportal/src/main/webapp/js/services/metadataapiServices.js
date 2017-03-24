@@ -10,7 +10,6 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/search?callback=JSON_CALLBACK';
 		
 		
- 
 		
 		
 		if(q!=null) 

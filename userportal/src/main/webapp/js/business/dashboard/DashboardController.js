@@ -397,7 +397,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				$scope.twitterPollingInterval  = $scope.metadata.stream.twitter.twtMaxStreamsOfVE*5+1;
 			}
 			
-			if(typeof $scope.dataset!= 'undefined')
+			if(typeof $scope.dataset!= 'undefined') //FIXME
 				loadPastData();  
 			var keepGoing = true;
 			if(typeof tenantDelegateCodes != 'undefined'){

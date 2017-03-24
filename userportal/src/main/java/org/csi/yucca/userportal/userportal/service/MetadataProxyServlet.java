@@ -7,6 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
 @WebServlet(description = "Api proxy Servlet  for service", urlPatterns = { "/api/proxy/metadata/*" }, asyncSupported = false)
@@ -26,7 +28,10 @@ public class MetadataProxyServlet extends ApiProxyServlet {
 
 	@Override
 	protected void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod) {
-		// TODO Auto-generated method stub
+		Info info  = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+		if(info!=null && info.getUser()!=null && info.getUser().getToken()!=null){
+			getMethod.setRequestHeader("Authorization", "Bearer "+info.getUser().getToken());
+		}
 		
 	}
 	

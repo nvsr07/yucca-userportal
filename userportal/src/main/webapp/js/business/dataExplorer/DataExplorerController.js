@@ -847,7 +847,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	$scope.metadataSearchInput = {query:'',filter:{}, start:0, rows: 10};
 	
 	var metadataSearchFacet = {"field": "entityType,visibility,domainCode,subdomainCode,organizationCode,tenantCode,tagCode"};
-
+	var metadataSearchFacetOrder = {"entityType": 0,"domainCode": 1,"subdomainCode": 2,"tagCode": 3,"organizationCode": 4,"tenantCode": 5,"visibility": 6};
+	
 	
 //	if(typeof filter.tenant != 'undefined' && filter.tenant!=null) 
 //		metadataapiUrl += '&tenant='+filter.tenant;
@@ -992,12 +993,20 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 								break;
 							facetFirstItems.push(facetItems[facetIndex]);
 						}
-						
 
-						$scope.metadataSearchOutput.facetList.push({"facet":facetKey, "label":  $translate.instant("FACET_"+facetKey), "items": facetItems, "firstItems": facetFirstItems, "compact" : true});
+						$scope.metadataSearchOutput.facetList.push({"facet":facetKey, "label":  $translate.instant("FACET_"+facetKey), "items": facetItems, "firstItems": facetFirstItems, "compact" : true, "order": metadataSearchFacetOrder[facetKey]});
 					}
 			    }
 			}
+			
+			$scope.metadataSearchOutput.facetList.sort(
+					function(a,b) {
+						if (a.order < b.order)
+							return -1;
+						if (a.order > b.order)
+							return 1;
+						return 0;
+					});
 			
 			if(response.count>0){
 				for (var datasetIndex = 0; datasetIndex < response.metadata.length; datasetIndex++) {
