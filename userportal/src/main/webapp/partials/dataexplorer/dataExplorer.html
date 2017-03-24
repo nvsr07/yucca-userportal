@@ -9,26 +9,26 @@
 	<div class='container'>
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left dataExplorer-icon-preview'>
-				<img ng-src="{{dataset.datasetIcon}}" alt="logo dataset" class='dataExplorer-icon-preview-img' >
+				<img ng-src="{{metadata.icon}}" alt="logo dataset" class='dataExplorer-icon-preview-img' >
 			</div>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span></small></div>
-				<div class='main-info'><strong>{{dataset.info.datasetName}}</strong></div>
+				<div class='main-info'><strong>{{metadata.name}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
-				<div><strong>{{dataset.info.registrationDate|date}}</strong></div>
+				<div><strong>{{metadata.registrationDate|date}}</strong></div>
 				
 			</div>
 		</div>
 		<div class='clearfix entity-info entity-info-bottom'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_CODE</span></small></div>
-				<div class='url'><strong>{{dataset.datasetCode}}</strong></div>
+				<div class='url'><strong>{{metadata.dataset.code}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_VERSION</span></small></div>
-				<div><strong>{{dataset.datasetVersion}}</strong></div>
+				<div><strong>{{metadata.version}}</strong></div>
 			</div>
 		</div>
 	</div>

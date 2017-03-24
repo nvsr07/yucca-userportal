@@ -237,8 +237,8 @@
 						<tbody>
 							<tr ng-repeat="component in metadata.components">
 								<td>{{component.name}}</td>
-								<td ng-show='metadata.dataset'>{{component.fieldAlias}}</td>
-								<td>{{component.measureunit|nvl:' - '}}:{{field.measureUnit|nvl:' - '}}</td>
+								<td ng-show='metadata.dataset'>{{component.alias}}</td>
+								<td>{{component.measureUnitCategory|nvl:' - '}}:{{component.measureUnit|nvl:' - '}}</td>
 								<td>{{component.datatype|nvl:' - '}}</td>
 								<td ng-show='metadata.stream'>{{component.tolerance|nvl:' - '}}</td>
 								<td ng-show='metadata.stream'>{{component.phenomenon|nvl:' - '}}</td>

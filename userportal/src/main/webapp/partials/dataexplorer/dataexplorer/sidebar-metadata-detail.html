@@ -93,7 +93,7 @@
 				</p>	
 				<p>
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong>
-					{{dataset.Stream.smartOCategory|nvl:''}}
+					{{metadata.stream.smartobject.category|nvl:''}}
 				</p>	
 				<p ng-show="dataset.Stream.latitude!=null && dataset.Stream.longitude!=null">
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_POSITION</span></strong>
@@ -169,8 +169,8 @@
 							<tbody>
 								<tr ng-repeat="component in metadata.components">
 									<td>{{component.name}}</td>
-									<td ng-if='metadata.dataset'>{{component.fieldAlias}}</td>
-									<td>{{component.measureunit|nvl:' - '}}:{{field.measureUnit|nvl:' - '}}</td>
+									<td ng-if='metadata.dataset'>{{component.alias}}</td>
+									<td>{{component.measureUnitCategory|nvl:' - '}}:{{component.measureUnit|nvl:' - '}}</td>
 									<td>{{component.datatype|nvl:' - '}}</td>
 									<td ng-if='metadata.stream'>{{component.tolerance|nvl:' - '}}</td>
 									<td ng-if='metadata.stream'>{{component.phenomenon|nvl:' - '}}</td>
@@ -188,10 +188,10 @@
 				</accordion-heading>
 				<p>
 					<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_API_URL</span></strong><br/><br/>
-					<a ng-href="#/dataexplorer/dataset/{{metadata.tenantCode}}/{{metadata.dataset.code}}" ><span translate-cloak translate>DATA_EXPLORER_DETAIL_BACK_TO_DATASET_CARD</span></a>
+					<a ng-href="#/dataexplorer/detail/{{metadata.tenantCode}}/{{metadata.dataset.code}}" ><span translate-cloak translate>DATA_EXPLORER_DETAIL_BACK_TO_DATASET_CARD</span></a>
 				</p>	
 			</accordion-group>
-			<accordion-group is-open="status7.open">
+			<accordion-group is-open="status7.open" ng-if="metadata.dcat">
 				<accordion-heading>
 					<span translate-cloak translate>MANAGEMENT_NEW_DATASET_DCAT</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status7.open, 'glyphicon-plus': !status7.open}"></i>
