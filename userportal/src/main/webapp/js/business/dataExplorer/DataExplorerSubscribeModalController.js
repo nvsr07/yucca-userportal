@@ -1,4 +1,4 @@
-appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeParams','storeAPIservice', '$location', '$modalInstance', 'info', 'dataset', 'stream',
+appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeParams','storeAPIservice', '$location', '$modalInstance', 'info', 'metadata',
                                                           function($scope, $routeParams, storeAPIservice, $location, $modalInstance, info, metadata) {
  	console.log('DataExplorerSubscribeModalCtrl  dataset', dataset);
  	console.log('DataExplorerSubscribeModalCtrl  stream', stream);
