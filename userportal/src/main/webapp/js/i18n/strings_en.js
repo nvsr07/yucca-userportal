@@ -70,8 +70,9 @@ var translations_en = {
 	TENANT: 'Tenant',
 	VIRTUALENTITY: 'Smart Object', 
 	DATASET: 'Dataset',
-
+	
 	DCAT : 'Metadata from standard DCAT-AP_IT - <a href="http://www.dati.gov.it">www.dati.gov.it</a>',
+
 	
 	/* STREAM */
 	STREAM_FIELD_ID_STREAM: 'ID Stream',
@@ -129,7 +130,10 @@ var translations_en = {
 	STREAM_FIELD_ISOPENDATA_TRUE: 'Yes',
 	STREAM_FIELD_ISOPENDATA_FALSE: 'No',
 	STREAM_FIELD_METADATA_LICENCE_OTHER: 'Other',
-	
+	STREAM_FIELD_METADATA_LICENSE: 'License',
+	STREAM_FIELD_METADATA_LICENCE_CCBY: 'CC BY 4.0',
+	STREAM_FIELD_METADATA_LICENCE_CC0: 'CC 0 1.0',
+		
 	STREAM_FIELD_TWT_QUERY: 'Search Query',
 	STREAM_FIELD_TWT_GEO: 'Geographic search',
 	STREAM_FIELD_TWT_GEO_LON: 'Longitude',
@@ -138,7 +142,7 @@ var translations_en = {
 	STREAM_FIELD_TWT_GEO_UNIT: 'Unit of measure',
 	STREAM_FIELD_TWT_LANG: 'Language',
 	STREAM_FIELD_TWT_RATE: 'Percentage Search',
-	
+
 	STREAM_FIELD_METADATA_DCAT_NOMEORG: 'Organizzation Name',
 	STREAM_FIELD_METADATA_DCAT_NOMEORG_PLACEHOLDER: 'e.g. CSI PIEMONTE',
 	STREAM_FIELD_METADATA_DCAT_EMAILORG: 'Organizzation email',
@@ -313,11 +317,10 @@ var translations_en = {
 	DATASET_FIELD_METADATA_OPENDATA: 'Opendata',
 	DATASET_FIELD_METADATA_OPENDATA_AUTHOR: 'Author',
 	DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER: 'e.g. Regione Piemonte',
-	DATASET_FIELD_METADATA_OPENDATA_LANG: 'Language of metadata card',
 	DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER: 'Language of metadata...',
 	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE: 'Last update of data',
 	DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE_PLACEHOLDER: '12/09/2015',
-	
+
 	DATASET_FIELD_METADATA_DCAT_NOMEORG: 'Organizzation Name',
 	DATASET_FIELD_METADATA_DCAT_NOMEORG_PLACEHOLDER: 'e.g. Regione Piemonte',
 	DATASET_FIELD_METADATA_DCAT_EMAILORG: 'Organizzation email',
@@ -326,6 +329,7 @@ var translations_en = {
 	DATASET_FIELD_METADATA_DCAT_TELORG_PLACEHOLDER: 'e.g. 011.1234567',
 	DATASET_FIELD_METADATA_DCAT_URLORG: 'Organizzation url',
 	DATASET_FIELD_METADATA_DCAT_URLORG_PLACEHOLDER: 'e.g. www.regione.piemonte.it',
+	DATASET_FIELD_METADATA_OPENDATA_LANG: 'Language of metadata card',
 	DATASET_FIELD_METADATA_DCAT_CREATORNAME: 'Dataset Creator',
 	DATASET_FIELD_METADATA_DCAT_CREATORNAME_PLACEHOLDER: 'es. Tizio Sempronio',
 	DATASET_FIELD_METADATA_DCAT_CREATORTYPE: 'Creator Type',
@@ -922,7 +926,6 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME: 'The columns name are required, there is some column without name',
 	
 	
-	
 	MANAGEMENT_NEW_DATASET_BINARY_TITLE :'Binary file',
 	MANAGEMENT_NEW_DATASET_BINARY_INTRO: 'Define at least one binary file',
 	MANAGEMENT_NEW_DATASET_ADD_BINARY_DEFINITION: 'Add file definition',
@@ -997,8 +1000,6 @@ var translations_en = {
 	DISCOVERY_FILTER_SIMPLESEARCH_HELP: 'Search operator enabled <strong>tags</strong>, <strong>licence</strong>, <strong>idDataset</strong>, <strong>tenantCode</strong>, <strong>dataDomain</strong>, <strong>fps</strong> ,<br>'+
 	' <strong>datasetName</strong>, <strong>visibility</strong>, <strong>measureUnit</strong> , <strong>smartOCode</strong>, <strong>streamCode</strong>, <strong>streamName</strong>, <strong>streamDescription</strong> to use it <i>operator<strong>:</strong><i>value</i> ',
 	DISCOVERY_FILTER_ADVANCED_FILTER_LABEL: 'Filter', 
-	DISCOVERY_FILTER_SEARCH_BUTTON: 'Search',
-	DISCOVERY_FILTER_SANDBOX_EXCLUDE: 'include the SANDBOX tenant from the search',
 	
 	DISCOVERY_FILTER_ADVANCED_FIELD_PLACEHOLDER: 'Choose one field',
 	
@@ -1058,9 +1059,8 @@ var translations_en = {
 	DATA_EXPLORER_FILTER_ADD_FILTER_ERROR_MISSING_FIELDS: 'Fill all fields',
 	DATA_EXPLORER_QUERY_INPUT: 'Query',
 	DATA_EXPLORER_FILTER_QUERY_ODATA_LABEL: 'Used Query OData', 
-	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Download Url for data in csv format',
 	DATA_EXPLORER_FILTER_QUERY_ODATA_DOWNLOAD: 'Download the result of this page',
-
+	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Download Url for data in csv format',
 	//DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Any data loaded in the last 24 hours may not be present',
 	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limited to data at the end of the previous day',
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Details',
@@ -1069,6 +1069,8 @@ var translations_en = {
 	DATA_EXPLORER_OPEN_IN_MANAGEMENT_BUTTON: 'Open in management',
 
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT: 'Subscribe API',
+	DATA_EXPLORER_SUBSCRIBE_API_ODATA_BUTTON: 'Subscribe OData API',
+	DATA_EXPLORER_SUBSCRIBE_API_STREAM_BUTTON: 'Subscribe Stream API',
 	DATA_EXPLORER_SUBSCRIBE_API_BUTTON: 'Subscribe API',
 
 	DATABROWSER_TITLE: 'Browse data and stream',
@@ -1079,6 +1081,45 @@ var translations_en = {
 	DATABROWSER_RESULTS_BACK_BTN: 'New search',
 	DATABROWSER_SHOW_GRID: 'Grid', 
 	DATABROWSER_SHOW_LIST: 'List', 
+	
+	DATA_BROWSER_TOTAL_FOUND: 'Total',
+	DATA_BROWSER_USED_FILTER: 'Active filter:',
+	DATA_BROWSER_FACET_PANEL_TITLE: 'Filter the results',
+	DATA_BROWSER_SEARCH_BUTTON: 'Search',
+	DATA_BROWSER_SANDBOX_EXCLUDE: 'include the SANDBOX tenant',
+	DATA_BROWSER_SEARCH_EXACT: 'Exact search',
+	DATABROWSER_EXPAND_FACET_MENU: 'Morehellip;',
+	DATABROWSER_COMPACT_FACET_MENU: 'Compact',
+	stream: 'Stream',
+	dataset: 'Dataset',
+	stream_dataset: 'Stream/Dataset',
+	
+	DATA_EXPLORER_DETAIL_STREAM_CODE: 'Stream Code',
+	DATA_EXPLORER_DETAIL_DATASET_CODE: 'Dataset Code',
+	DATA_EXPLORER_DETAIL_GENERAL_INFO: 'Main Info',
+	DATA_EXPLORER_DETAIL_COMPONENTS: 'Data Structure Definition',
+	
+	
+	FACET_tenantCode: 'Tenant',
+	FACET_domainCode: 'Domain',
+	FACET_subdomainCode: 'Subdomain',
+	FACET_tagCode: 'Tag',
+	FACET_visibility: 'Visibility',
+	FACET_entityType: 'Type',
+	FACET_organizationCode: 'Organizzation',
+	'public': 'Pubblic',
+	'private': 'Private',
+	
+	FILTER_tenantCode: 'Tenant',
+	FILTER_domainCode: "Domain",
+	FILTER_subdomainCode: 'Subdomain',
+	FILTER_tagCode: 'Tag',
+	FILTER_visibility: 'Visibility;',
+	FILTER_entityType: 'Type',
+	FILTER_organizationCode: 'Organizzation',	
+
+	FILTER_isSearchExact: 'Exact search',
+	FILTER_includeSandbox: 'Include Sandbox',
 	
 	DATABROWSER_ENTITY: 'Object name',
 

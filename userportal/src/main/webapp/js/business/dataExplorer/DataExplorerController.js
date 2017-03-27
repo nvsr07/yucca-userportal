@@ -651,6 +651,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		});
 		
 		$scope.domainList.sort();
+	}).error(function(response) {
+		Console.error("fabricAPIservice.getStreamDomains() ",response );
 	});
 	
 
@@ -1032,6 +1034,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 
 		}).error(function(response) {
 			console.log("search response error", response);
+			errors.push({"messagge":"Search error", "detail":response});
 			$scope.showSearchLoading = false;
 
 		});

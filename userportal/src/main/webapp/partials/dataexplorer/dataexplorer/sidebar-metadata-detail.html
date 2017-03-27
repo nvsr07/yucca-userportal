@@ -32,6 +32,10 @@
 						<strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong>
 						{{metadata.visibility}}
 					</p>
+					<p>
+						<strong><span translate-cloak translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong>
+						{{metadata.externalreference}}
+					</p>
 				</div>	
 			</accordion-group>
 			<accordion-group is-open="statusOpendata.open" ng-if="metadata.opendata.isOpendata==true">
