@@ -1078,6 +1078,7 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 #subscribeApiDialog .form-inline label{margin-right: 1em;}
 #subscribeApiDialog .form-inline input{margin-right: 2em;}
 #subscribeApiDialog .modal-footer a{margin-right: 2em;}
+#subscribeApiDialog .subscribeapi-apiname{font-size: .7em;}
 .subscribeApi-icon-preview-img {width: 72px;height: 72px;}
 .table-application-api>tbody>tr>td {border-width: 1px 0;line-height: 2em; text-align: left;}
 .table-application-api i{font-size: 1.5em;}

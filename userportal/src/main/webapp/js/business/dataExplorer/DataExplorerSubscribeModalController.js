@@ -1,7 +1,7 @@
-appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeParams','storeAPIservice', '$location', '$modalInstance', 'info', 'metadata',
-                                                          function($scope, $routeParams, storeAPIservice, $location, $modalInstance, info, metadata) {
+appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeParams','storeAPIservice', '$location', '$modalInstance', 'info', 'metadata','apiType',
+                                                          function($scope, $routeParams, storeAPIservice, $location, $modalInstance, info, metadata, apiType) {
  	console.log('DataExplorerSubscribeModalCtrl  metadata', metadata);
-     	$scope.metadata = {};
+     	//$scope.metadata = {};
      	
      	$scope.updateMessage = null;
      	$scope.errorMessage = null;
@@ -12,7 +12,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
      	
      	$scope.updating = false;
      	
-		if($scope.metadata.dataset!=null && $scope.metadata.dataset.code!=null){
+		if($scope.metadata.dataset!=null && $scope.metadata.dataset.code!=null && apiType=='odata'){
 			$scope.apiName = $scope.metadata.dataset.code+"_odata";
 			$scope.apiVersion = "1.0";
 			$scope.apiProvider = "admin";
@@ -20,7 +20,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
 			$scope.metadata.code = $scope.metadata.dataset.code;
 			//$scope.metadata.icon = $scope.dataset.datasetIcon;
 		}
-		else if($scope.metadata.stream!=null) {
+		else if($scope.metadata.stream!=null && apiType=='stream') {
 			//sandbox.4e2615eb-65f7-4a62-c6b3-fd44f2c8ac36_meteo_stream
 			$scope.apiName = $scope.metadata.codiceTenant + "." + $scope.metadata.stream.smartobject.code+ "_" + $scope.metadata.stream.code +"_stream";
 			$scope.apiVersion = "1.0";

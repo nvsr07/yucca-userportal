@@ -151,7 +151,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 		return result;
 	};
 	
-	$scope.openModalViewSubscribe = function(size) {
+	$scope.openModalViewSubscribe = function(size, apiType) {
 		$scope.modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
 			templateUrl : 'partials/dataexplorer/subscribeModalContent.html',
@@ -161,6 +161,9 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			resolve : {
 				metadata: function() {
 					return $scope.metadata;
+				}, 
+				apiType: function(){
+					return apiType;
 				}
 			}
 		});

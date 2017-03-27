@@ -67,7 +67,7 @@
 						</div>
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong></div>
-							<div class='col-sm-2'>{{metadata.externalReference}}</div>
+							<div class='col-sm-2'>{{metadata.externalreference}}</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate><!-- MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL --></span></strong></div>
@@ -386,8 +386,11 @@
 					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset"  >
 						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 					</a>
- 					<a href="javascript:void(0)" ng-click='openModalViewSubscribe("lg")' class="btn btn-subscribe"  ng-show="user.loggedIn" title="{{'DATA_EXPLORER_SUBSCRIBE_API_BUTTON_HINT'|translate}}">
-						<span class="glyphicon glyphicon-list-alt  "></span> {{'DATA_EXPLORER_SUBSCRIBE_API_BUTTON'|translate}}
+ 					<a href="javascript:void(0)" ng-click='openModalViewSubscribe("lg","odata")' class="btn btn-subscribe"  ng-show="user.loggedIn" ng-if='metadata.dataset'>
+						<span class="glyphicon glyphicon-list-alt  "></span> {{'DATA_EXPLORER_SUBSCRIBE_API_ODATA_BUTTON'|translate}}
+					</a>
+ 					<a href="javascript:void(0)" ng-click='openModalViewSubscribe("lg","stream")' class="btn btn-subscribe"  ng-show="user.loggedIn" ng-if='metadata.stream'>
+						<span class="glyphicon glyphicon-list-alt  "></span> {{'DATA_EXPLORER_SUBSCRIBE_API__STREAM_BUTTON'|translate}}
 					</a>
 				</div>
 			</div>
