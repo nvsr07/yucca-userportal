@@ -1081,7 +1081,7 @@ var translations_it = {
 	DATA_BROWSER_USED_FILTER: 'Filtri attivi:',
 	DATA_BROWSER_FACET_PANEL_TITLE: 'Filtra i risultati',
 	DATA_BROWSER_SEARCH_BUTTON: 'Cerca',
-	DATA_BROWSER_SANDBOX_EXCLUDE: 'includi alla ricerca il tenant SANDBOX',
+	DATA_BROWSER_SANDBOX_EXCLUDE: 'includi nella ricerca l\'area SANDBOX',
 	DATA_BROWSER_SEARCH_EXACT: 'Ricerca esatta',
 	DATABROWSER_EXPAND_FACET_MENU: 'Altro&hellip;',
 	DATABROWSER_COMPACT_FACET_MENU: 'Compatta',

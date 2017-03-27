@@ -1,9 +1,7 @@
 appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeParams','storeAPIservice', '$location', '$modalInstance', 'info', 'dataset', 'stream',
-                                                          function($scope, $routeParams, storeAPIservice, $location, $modalInstance, info, dataset, stream ) {
+                                                          function($scope, $routeParams, storeAPIservice, $location, $modalInstance, info, metadata) {
  	console.log('DataExplorerSubscribeModalCtrl  dataset', dataset);
  	console.log('DataExplorerSubscribeModalCtrl  stream', stream);
-     	$scope.dataset = dataset;
-     	$scope.stream = stream;
      	$scope.metadata = {};
      	
      	$scope.updateMessage = null;
@@ -15,24 +13,22 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
      	
      	$scope.updating = false;
      	
-		if($scope.dataset!=null && $scope.dataset.datasetCode!=null){
-			//var apiUrl = $scope.dataset.datasetCode;  //
-			//var params = Helpers.util.getQueryParams(apiUrl.substring(apiUrl.lastIndexOf("?")));
-			$scope.apiName = $scope.dataset.datasetCode+"_odata";
+		if($scope.metadata.dataset!=null && $scope.metadata.dataset.code!=null){
+			$scope.apiName = $scope.metadata.dataset.code+"_odata";
 			$scope.apiVersion = "1.0";
 			$scope.apiProvider = "admin";
-			$scope.metadata.name = $scope.dataset.datasetName;
-			$scope.metadata.code = $scope.dataset.datasetCode;
-			$scope.metadata.icon = $scope.dataset.datasetIcon;
+			$scope.metadata.name = $scope.metadata.dataset.name;
+			$scope.metadata.code = $scope.metadata.dataset.code;
+			//$scope.metadata.icon = $scope.dataset.datasetIcon;
 		}
-		else if($scope.stream!=null) {
+		else if($scope.metadata.stream!=null) {
 			//sandbox.4e2615eb-65f7-4a62-c6b3-fd44f2c8ac36_meteo_stream
-			$scope.apiName = $scope.stream.codiceTenant + "." + $scope.stream.codiceVirtualEntity + "_" + $scope.stream.codiceStream +"_stream";
+			$scope.apiName = $scope.metadata.codiceTenant + "." + $scope.metadata.stream.smartobject.code+ "_" + $scope.metadata.stream.code +"_stream";
 			$scope.apiVersion = "1.0";
 			$scope.apiProvider = "admin";
-			$scope.metadata.name = $scope.stream.nomeStream;
-			$scope.metadata.code = $scope.stream.codiceVirtualEntity;
-			$scope.metadata.icon = $scope.stream.streamIcon;
+			$scope.metadata.name =$scope.metadata.stream.name;
+			$scope.metadata.code = $scope.metadata.stream.smartobject.code;
+			//$scope.metadata.icon = $scope.stream.streamIcon;
 		}
 
      	

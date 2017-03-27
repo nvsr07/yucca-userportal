@@ -78,6 +78,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			console.log("loadDataset", response);
 			$scope.metadata = response;
 			processData();
+			$scope.openInManagementUrl = '#/management/viewDataset/'+$scope.metadata.tenantCode+'/'+$scope.metadata.dataset.code;
 			
 		}).error(function(response) {
 			console.error("loadDataset", response);
@@ -90,8 +91,9 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			console.log("loadStream", response);
 			$scope.metadata = response;
 			processData();
+			$scope.openInManagementUrl = '#/management/viewStream/'+$scope.metadata.tenantCode+'/'+$scope.metadata.stream.smartobject.code+'/'+$scope.metadata.stream.code;
 		}).error(function(response) {
-			console.error("loadDataset", response);
+			console.error("loadStream", response);
 		});
 //		fabricAPIservice.getStream($scope.tenantCode, $scope.virtualentityCode, $scope.streamCode).then(
 //			function(response) {
@@ -157,11 +159,8 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			size : size,
 			scope: $scope,
 			resolve : {
-				dataset: function() {
-					return $scope.dataset;
-				}, 
-				stream: function() {
-					return $scope.stream;
+				metadata: function() {
+					return $scope.metadata;
 				}
 			}
 		});

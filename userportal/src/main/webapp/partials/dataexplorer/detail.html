@@ -50,13 +50,13 @@
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span></strong></div>
-							<div class='col-sm-6'><span >metadata.subdomain</span></div>
+							<div class='col-sm-6'><span >{{metadata.subdomainCode|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
 							<div class='col-sm-6'>
 								<ul class="list-inline">
-									<li ng-repeat="tagCode in metadata.tagCodes"><span class="label label-tag label-custom"><span ng-bind-html="tagCode|translate"></span></span></li>
+									<li ng-repeat="tagCode in metadata.tagCodes track by $index"><span class="label label-tag label-custom"><span ng-bind-html="tagCode|translate"></span></span></li>
 								</ul>
 							</div>
 						</div>	
@@ -80,7 +80,7 @@
 				</div>	
 			</div>
 		</accordion-group>
-		<accordion-group is-open="statusOpendata.open" ng-show="metadata.opendata.isOpendata==true">
+		<accordion-group is-open="statusOpendata.open" ng-show="metadata.opendata.isOpendata=='true'">
 			<accordion-heading>
 				<div class='container'>
 		 			<span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span>
@@ -373,11 +373,15 @@
 		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="row card-toolbar">
-					<a  href='#/management/viewDataset/{{tenantCode}}/{{metadata.datasetCode}}' class="btn btn-edit" ng-show="canEdit()" >
+				
+					<a href="{{openInManagementUrl}}" class="btn btn-edit" ng-show="canEdit()" >
 						<span class="glyphicon glyphicon-pencil"></span> {{'DATA_EXPLORER_OPEN_IN_MANAGEMENT_BUTTON'|translate}}
 					</a>
-					<a  href='#/dataexplorer/{{tenantCode}}/{{metadata.datasetCode}}' class="btn btn-edit" >
+					<a  href='#/dataexplorer/{{tenantCode}}/{{metadata.dataset.code}}' class="btn btn-edit" ng-if="metadata.dataset">
 						<i class="fa fa-table" aria-hidden="true"></i> {{'MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON'|translate}}
+					</a>
+					<a  href='#/dashboard/stream/{{tenantCode}}/{{metadata.stream.smartobject.code}}/{{metadata.stream.code}}' class="btn btn-edit" ng-if="metadata.stream">
+						<i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;{{'MANAGEMENT_VIEW_STREAM_DASHBOARD_BUTTON'|translate}}
 					</a>
 					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset"  >
 						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}

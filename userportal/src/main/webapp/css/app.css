@@ -189,7 +189,7 @@ table>tbody>tr>td, .table>tbody>tr>td{border: 2px solid #d5d5d5; vertical-align:
 ul .list-spaced li{line-height: 1.2em;}
 
 .label a{color: white;}
-.label-custom{font-size:.9em; padding:0.5em 0.8em;margin: .1em; font-weight: normal; line-height: 1.5em;}
+.label-custom{font-size:.9em; padding:0.5em 0.8em;margin: .1em; font-weight: normal; line-height: 1.1em; display: inline-block; margin: .3em 0;}
 .label-custom .close-button{font-size:1.5em; }
 .required-asterisk {color: #009640;}
 
