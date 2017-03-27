@@ -893,12 +893,12 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		var baseDetailPath = 'dataexplorer/detail/' + data.tenantCode+'/';
 		
 		data.type=dataFromSearch.type.join("_"); 
-		
+		data.icon = dataFromSearch.icon;
 		
 		if(dataFromSearch.dataset!=null){
 			data.dataset = {};
 			data.dataset.code = dataFromSearch.dataset.code;
-			data.icon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.dataset.code;
+			//data.icon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.dataset.code;
 			//data.objectName = data.datasetCode;
 			//data.typeIcon ='glyphicon glyphicon-align-justify';
 			data.showDataexplorerButton = true;
@@ -914,7 +914,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 				data.stream.smartobject.code = dataFromSearch.stream.smartobject.code;
 				data.stream.smartobject.description = dataFromSearch.stream.smartobject.description;
 			}
-			data.icon = Constants.API_RESOURCES_URL + "stream/icon/"+data.tenantCode+"/"+data.virtualentityCode+"/"+data.streamCode;
+			//data.icon = Constants.API_RESOURCES_URL + "stream/icon/"+data.tenantCode+"/"+data.virtualentityCode+"/"+data.streamCode;
 			//data.objectName = data.streamCode + " " + data.virtualentityCode;							
 			data.showDashboardButton = true;
 			data.detailPath  = baseDetailPath + data.stream.smartobject.code + '/' + data.stream.code;
