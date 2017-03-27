@@ -22,7 +22,7 @@ appControllers.controller('DataExplorerSubscribeModalCtrl', [ '$scope', '$routeP
 		}
 		else if($scope.metadata.stream!=null && apiType=='stream') {
 			//sandbox.4e2615eb-65f7-4a62-c6b3-fd44f2c8ac36_meteo_stream
-			$scope.apiName = $scope.metadata.codiceTenant + "." + $scope.metadata.stream.smartobject.code+ "_" + $scope.metadata.stream.code +"_stream";
+			$scope.apiName = $scope.metadata.tenantCode + "." + $scope.metadata.stream.smartobject.code+ "_" + $scope.metadata.stream.code +"_stream";
 			$scope.apiVersion = "1.0";
 			$scope.apiProvider = "admin";
 			$scope.metadata.name =$scope.metadata.stream.name;

@@ -188,6 +188,7 @@ table>tbody>tr>td, .table>tbody>tr>td{border: 2px solid #d5d5d5; vertical-align:
 
 ul .list-spaced li{line-height: 1.2em;}
 
+.error-panel-alone{padding: 64px;}
 .label a{color: white;}
 .label-custom{font-size:.9em; padding:0.5em 0.8em;margin: .1em; font-weight: normal; line-height: 1.1em; display: inline-block; margin: .3em 0;}
 .label-custom .close-button{font-size:1.5em; }
@@ -1000,8 +1001,8 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 #databrowser .license-column{position: relative; padding-right:3em; min-height: 24pt;}
 #databrowser .license-column-icons{color: #00bbf0; font-size: 1.2em;position: absolute; right:10px;}
 
-#databrowser .browsedata-toolbar{padding: 1em 0; text-align: right;font-size: 18pt; }
-#databrowser .browsedata-toolbar a{font-size: 18pt; margin-left: 2em; }
+#databrowser .browsedata-toolbar{padding: 1em 0; text-align: center;font-size: 18pt; }
+#databrowser .browsedata-toolbar a{font-size: 18pt; margin-left: 1em; }
 
 #databrowser .domains-panel{margin-bottom: 60px;text-align: left;}
 

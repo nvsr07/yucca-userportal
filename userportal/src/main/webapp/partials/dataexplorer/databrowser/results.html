@@ -37,6 +37,7 @@
 				</span>
 			</div>
 			<div class="table-toolbar-actions pull-right">
+				<!-- <small><a ng-click='goToChooseDomains(true)' class="btn" translate-cloak translate>DATABROWSER_RESULTS_BACK_BTN</a></small>-->
 				<a href ng-click="resultViewType = 'box'" ng-class="{'table-toolbar-actions-active':resultViewType=='box'}"><i class="fa fa-th"  title="{{'DATABROWSER_SHOW_GRID'|translate}}"></i></a>
 				<a href ng-click="resultViewType = 'list'"  ng-class="{'table-toolbar-actions-active':resultViewType=='list'}"><i class="fa fa-table" title="{{'DATABROWSER_SHOW_LIST'|translate}}"></i></a>
 			</div>
@@ -153,35 +154,16 @@
 					<div deckgrid source="metadataSearchOutput.datasetList" cardTemplate="partials/dataexplorer/databrowser/card-template.html?{{BuildInfo.timestamp}}" class="deckgrid"></div>
 				</div> 
 			</div>
-			<div  class='text-center' ng-show="!showSearchLoading">
-				<pagination boundary-links="false" total-items="metadataSearchOutput.totalFound" ng-model="metadataSearchInput.currentPage" items-per-page="metadataSearchInput.rows"
-						ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5' next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
-				</pagination>
-			</div>
-			<!-- <div ng-show='isNavigation && !showSearchLoading' class='text-center'>
-				<pagination boundary-links="true" total-items="totalFound" ng-model="currentPage" ng-change="selectPage(currentPage)" class="pagination-sm" previous-text="&lsaquo;" max-size='5'
-							next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
-				</pagination>
-			</div>
-			<div ng-show='!isNavigation'>
-				<div class='ajax-loading-container ajax-loading-container-lightgray' ng-show="showSearchLoading">
-					<span class='ajax-loading-big ajax-loading-big-lightgray'></span>
-					<h4>Loading...</h4>
+			<div class='row'>
+				<div class='col-sm-8 col-sm-offset-2' ng-show="metadataSearchOutput.datasetList.length>0 && !showSearchLoading && errors.length==0 ">
+					<pagination boundary-links="false" total-items="metadataSearchOutput.totalFound" ng-model="metadataSearchInput.currentPage" items-per-page="metadataSearchInput.rows"
+							ng-change="selectPage()" class="pagination-sm" previous-text="&lsaquo;" max-size='5' next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+					</pagination>
 				</div>
-				<div class='alert alert-info' ng-show="noMoreSearchData && !showSearchLoading && errors.length==0">
-					<span translate ng-show="metadataSearchOutput.datasetList.length==0">DATA_EXPLORER_DATA_RESULT_EMPTY</span>
-					<span translate ng-show="metadataSearchOutput.datasetList.length>0">DATA_EXPLORER_DATA_RESULT_NO_MORE_DATA</span>
+	
+				<div class='col-sm-2 text-right browsedata-toolbar' ng-show="!showSearchLoading">
+					<a ng-click='goToChooseDomains(true)' class="btn btn-default " translate-cloak translate>DATABROWSER_RESULTS_BACK_BTN</a>
 				</div>
-				
-				<div class='browsedata-load-more-toolbar' ng-show="!showSearchLoading && !noMoreSearchData">
-					<a href ng-click='search()' class='btn btn-default' translate-cloak translate>DATA_EXPLORER_MORE_DATA_BUTTON</a>
-				</div>
-			</div> -->
-			
-			
-			
-			<div class='browsedata-toolbar' ng-show="showSearchLoading">
-				<a ng-click='goToChooseDomains(true)' class="btn btn-default " translate-cloak translate>DATABROWSER_RESULTS_BACK_BTN</a>
 			</div>
 		</div>
 	</div>

@@ -548,7 +548,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		//internalNavigation.isInternal = true;
 		//$scope.selectedDomain = null;
 		//$scope.selectedTags = [];  
-		$scope.metadataSearchInput.query = null;
+		$scope.metadataSearchInput = {query:'',filter:{}, start:0, rows: 10};
 		dataexplorerBrowseData.setSearchResult(null);
 		$scope.metadataSearchOutput.datasetList = [];
 		fromBackButton = false;

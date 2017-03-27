@@ -19,7 +19,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	
 	$scope.currentSidebar = 'none';
 	
-	$scope.errors = [];
+	$scope.error = null;
 	
 	
 	var processData = function(){
@@ -74,47 +74,51 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	
 		
 	$scope.loadDataset = function(){
+		$scope.error = null;
 		metadataapiAPIservice.detailDataset(null, $scope.datasetCode).success(function(response) {
 			console.log("loadDataset", response);
-			$scope.metadata = response;
-			processData();
-			$scope.openInManagementUrl = '#/management/viewDataset/'+$scope.metadata.tenantCode+'/'+$scope.metadata.dataset.code;
-			
+			if(typeof response.errorCode == 'undefined'){
+				$scope.metadata = response;
+				processData();
+				$scope.openInManagementUrl = '#/management/viewDataset/'+$scope.metadata.tenantCode+'/'+$scope.metadata.dataset.code;
+			}
+			else{
+				if(response.errorCode == "NOT FOUND"){
+					$scope.error = {"message":"Cannot load stream", "detail" : response.message};
+				}
+				else{
+					$scope.error = {"message":response.errorCode, "detail" : response.message};
+				}
+			}
+
 		}).error(function(response) {
+			$scope.error = {"message":"Cannot load dataset", "detail" : response};
 			console.error("loadDataset", response);
 		});
 	};
 	
 	//http://localhost:8080/userportal/api/proxy/discovery/Streams?$expand=Dataset&$format=json&$filter=(tenantCode eq "sandbox"  and  smartOCode eq "9c25107f-fdd7-4010-83bb-9c0213153602"  and  streamCode eq "deviceStream")
 	$scope.loadStream = function(){
+		$scope.error = null;
 		metadataapiAPIservice.detailStream(null, $scope.tenantCode, $scope.virtualentityCode, $scope.streamCode).success(function(response) {
 			console.log("loadStream", response);
-			$scope.metadata = response;
-			processData();
-			$scope.openInManagementUrl = '#/management/viewStream/'+$scope.metadata.tenantCode+'/'+$scope.metadata.stream.smartobject.code+'/'+$scope.metadata.stream.code;
+			if(typeof response.errorCode == 'undefined'){
+				$scope.metadata = response;
+				processData();
+				$scope.openInManagementUrl = '#/management/viewStream/'+$scope.metadata.tenantCode+'/'+$scope.metadata.stream.smartobject.code+'/'+$scope.metadata.stream.code;
+			}
+			else{
+				if(response.errorCode == "NOT FOUND"){
+					$scope.error = {"message":"Cannot load stream", "detail" : response.message};
+				}
+				else{
+					$scope.error = {"message":response.errorCode, "detail" : response.message};
+				}
+			}
 		}).error(function(response) {
+			$scope.error = {"message":"Cannot load stream", "detail" : response};
 			console.error("loadStream", response);
 		});
-//		fabricAPIservice.getStream($scope.tenantCode, $scope.virtualentityCode, $scope.streamCode).then(
-//			function(response) {
-//				$scope.errors = [];
-//				try{
-//					console.debug("loadStream- response",response);
-//					$scope.stream = response.streams.stream;
-//					if($scope.stream.opendata.isOpendata == 1){
-//						var d = new Date($scope.stream.opendata.dataUpdateDate);
-//						var mm = d.getMonth()+1;
-//						var day = (d.getDate() < 10) ? "0" + d.getDate() : d.getDate();
-//						$scope.stream.opendata.dataUpdateDate = day + "/" + mm + "/" + d.getFullYear();
-//					}
-//					$scope.dataset = null;
-//					
-//					$scope.processData();
-//				} catch (e) {
-//					var error = {"message" : "Cannot load stream" , "detail" : "Error while loading stream " + $scope.tenantCode + " - " + $scope.virtualentityCode + " - " + $scope.streamCode};
-//					console.error("getDataset ERROR", error, e);
-//				};
-//			});
 	};
 	
 	if ($scope.datasetType == "stream")
@@ -122,6 +126,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 	else 
 		$scope.loadDataset();
 	
+	/*
 	var createQueryOdata = function(stream_code, filter, skip, top, orderby, collection){
 		
 		var host = $location.host();
@@ -138,7 +143,7 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 			streamDataUrl += '&$orderby='+orderby;
 		return streamDataUrl;
 
-	};
+	};*/
 
 	$scope.canEdit = function() {
 		var result = false;
