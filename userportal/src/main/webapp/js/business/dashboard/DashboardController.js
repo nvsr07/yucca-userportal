@@ -397,7 +397,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				$scope.twitterPollingInterval  = $scope.metadata.stream.twitter.twtMaxStreamsOfVE*5+1;
 			}
 			
-			if(typeof $scope.dataset!= 'undefined') //FIXME
+			if(typeof $scope.metadata.dataset!= 'undefined') 
 				loadPastData();  
 			var keepGoing = true;
 			if(typeof tenantDelegateCodes != 'undefined'){
@@ -575,7 +575,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
 	$scope.reloadData = function(){
 		allData = [];
-		if(typeof $scope.dataset!= 'undefined')
+		if(typeof $scope.metadata.dataset!= 'undefined')
 			loadPastData();
 	};
 
@@ -650,7 +650,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 		wsClient.connect(function(message) {
 			console.debug("message", message);  // "/topic/ten1.flussoProva.stat"
 			
-			$scope.wsUrl = Helpers.stream.wsOutputUrlFromMetadata($scope.metadata.stream);
+			$scope.wsUrl = Helpers.stream.wsOutputUrlFromMetadata($scope.metadata);
 			console.debug("subscribe wsUrl ", $scope.wsUrl);
 			console.debug("subscribe stream ", $scope.metadata.stream);
 			console.log("======> tenantStream", $scope.metadata.stream.name);
