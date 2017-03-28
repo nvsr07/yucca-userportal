@@ -1100,7 +1100,7 @@ var translations_it = {
 	DATA_EXPLORER_DETAIL_COMPONENTS: 'Definizione Struttura Dato',
 	
 	
-	FACET_tenantCode: 'Tenant',
+	FACET_tenantCode: ' Area di lavoro',
 	FACET_domainCode: 'Ambito',
 	FACET_subdomainCode: 'Sotto ambito',
 	FACET_tagCode: 'Tag',
@@ -1110,7 +1110,7 @@ var translations_it = {
 	'public': 'Pubblico',
 	'private': 'Privato',
 	
-	FILTER_tenantCode: 'Tenant',
+	FILTER_tenantCode: 'Area di lavoro',
 	FILTER_domainCode: "Ambito",
 	FILTER_subdomainCode: 'Sotto ambito',
 	FILTER_tagCode: 'Tag',
