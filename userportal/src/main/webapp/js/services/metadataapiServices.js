@@ -28,16 +28,17 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		}
 		
 		if(filter!=null){
+			
 			if(typeof filter.tenantCode != 'undefined' && filter.tenantCode!=null && filter.tenantCode.length>0) 
-				metadataapiUrl += '&tenant='+filter.tenantCode.join(",");
+				metadataapiUrl += '&tenant='+encodeURIComponent(filter.tenantCode.join(","));
 			if(typeof filter.organizationCode != 'undefined' && filter.organizationCode!=null && filter.organizationCode.length>0) 
-				metadataapiUrl += '&organization='+filter.organizationCode.join(",");
+				metadataapiUrl += '&organization='+encodeURIComponent(filter.organizationCode.join(","));
 			if(typeof filter.domainCode != 'undefined' && filter.domainCode!=null && filter.domainCode.length>0) 
-				metadataapiUrl += '&domain='+filter.domainCode.join(",");
-			if(typeof filter.subdomain != 'undefined' && filter.subdomain !=null && filter.subdomain.length>0) 
-				metadataapiUrl += '&subdomain='+filter.subdomain.join(",");
+				metadataapiUrl += '&domain='+encodeURIComponent(filter.domainCode.join(","));
+			if(typeof filter.subdomainCode != 'undefined' && filter.subdomainCode !=null && filter.subdomainCode.length>0) 
+				metadataapiUrl += '&subdomain='+encodeURIComponent(filter.subdomainCode.join(","));
 			if(typeof filter.tagCode != 'undefined' && filter.tagCode!=null && filter.tagCode.length>0) 
-				metadataapiUrl += '&tags='+filter.tagCode.join(",");
+				metadataapiUrl += '&tags='+encodeURIComponent(filter.tagCode.join(","));
 			if(typeof filter.opendata != 'undefined' && filter.opendata!=null) 
 				metadataapiUrl += '&opendata='+opendata;
 			
