@@ -884,6 +884,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		data.domainCode = dataFromSearch.domainCode;
 		
 		data.tags = dataFromSearch.tags;
+		data.tagCodes = dataFromSearch.tagCodes;
 		data.tenantCode = dataFromSearch.tenantCode;
 		
 		data.license = dataFromSearch.license;

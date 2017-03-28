@@ -88,7 +88,7 @@
 				</div>
 			</div>
 			<div class="alert alert-danger" ng-show='errors.length!=0'>
-				<div class='row  text-left' ng-repeat="error in errors">
+				<div class='row  text-left' ng-repeat="error in errors track by $index">
 					<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
 					<div class="col-lg-8 col-md-1 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
 				</div>		
@@ -110,7 +110,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="data in metadataSearchOutput.datasetList" class='browsedata-metadata-row'>
+						<tr ng-repeat="data in metadataSearchOutput.datasetList  track by $index" class='browsedata-metadata-row'>
 							<td ng-click="openDetail(data)" title="{{'DATABROWSER_RESULTS_DETAIL_HINT'|translate}}" >
 								<div class='type-column'>
 									<img ng-src="/userportal/img/icons/{{data['type']}}_icon.png" alt="{{data['type']|translate}}">
@@ -127,7 +127,7 @@
 							</td>
 							<td ng-click="openDetail(data)" title="{{'DATABROWSER_RESULTS_DETAIL_HINT'|translate}}" >
 								<ul class="list-inline">
-									<li ng-repeat="tag in data['tags']"><span class=""><span ng-bind-html="tag|translate"></span></span></li>
+									<li ng-repeat="tag in data['tagCodes'] track by $index"><span translate>{{tag}}</span></span></li>
 								</ul>
 							</td>
 							<td ng-click="openDetail(data)" title="{{'DATABROWSER_RESULTS_DETAIL_HINT'|translate}}" >{{data["tenantCode"]}}</td>
