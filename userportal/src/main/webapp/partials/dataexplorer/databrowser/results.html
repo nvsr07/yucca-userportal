@@ -119,7 +119,7 @@
 							<td ng-click="openDetail(data)" title="{{'DATABROWSER_RESULTS_DETAIL_HINT'|translate}}" >
 								<div class='dataexplorer-table-grid-first-column'>
 									<img ng-src="{{metadataSearchOutput.datasetList[$index].icon}}" alt="logo dataset" class="img-responsive dataset-icon" >
-									<strong>{{data["description"]}}</strong><br><small><span class='muted' title="{{data['name']}}">{{data["name"]|string_ellipse:50}}</span></small>
+									<strong>{{data["name"]}}</strong><br><small><span class='muted' title="{{data['name']}}">{{data["description"]|string_ellipse:300}}</span></small>
 								</div>
 							</td>
 							<td ng-click="openDetail(data)" title="{{'DATABROWSER_RESULTS_DETAIL_HINT'|translate}}" >

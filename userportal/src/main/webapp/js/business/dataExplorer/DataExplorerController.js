@@ -50,6 +50,13 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			console.log("dataset.code", $scope.metadata.dataset.code);
 			console.log("tenantCode", $scope.metadata.tenantCode);
 			console.log("dataset.tenantsharing", $scope.metadata.tenantDelegateCodes);
+
+			if ($scope.metadata.stream == null) {
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/all";  
+			} else {
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/current";  
+			}
+
 			
 			var tenantsSharingList = "";
 			if(typeof $scope.metadata.tenantDelegateCodes!= 'undefined')
@@ -65,11 +72,12 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				var metadataJson =  x2js.xml_str2json(response);
 				console.log("odataAPIservice.getMetadata - json", metadataJson);
 		
-				if (typeof $scope.metadata.stream != 'undefined') {
-					$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/all";  
-				} else {
-					$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/current";  
-				}
+				
+				//if (typeof $scope.metadata.stream != 'undefined') {
+				//	$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/all";  
+				//} else {
+				//	$scope.downloadCsvUrl = Constants.API_ODATA_URL + $scope.metadata.dataset.code + "/download/" + $scope.metadata.dataset.datasetId + "/current";  
+				//}
 
 				var measuresMetadata = "";
 				var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;
