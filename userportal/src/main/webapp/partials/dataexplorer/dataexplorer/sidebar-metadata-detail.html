@@ -99,11 +99,13 @@
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong>
 					{{metadata.stream.smartobject.category|nvl:''}}
 				</p>	
-				<p ng-show="dataset.Stream.latitude!=null && dataset.Stream.longitude!=null">
+				<p ng-show="metadata.stream.smartobject.latitude && metadata.stream.smartobject.longitude">
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_POSITION</span></strong>
-					[{{dataset.info.Stream.latitude}};{{dataset.info.Stream.longitude}}]
+					[{{metadata.stream.smartobject.latitude}};{{metadata.stream.smartobject.longitude}}]
+				</p>	
+				<p ng-show="metadata.stream.smartobject.latitude && metadata.stream.smartobject.altitude">
 					<strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong>
-					{{dataset.info.Stream.elevation|nvl:' -'}}
+					{{metadata.stream.smartobject.altitude|nvl:' -'}}
 				</p>	
 			</accordion-group>
 			<accordion-group is-open="status3.open" ng-show="metadata.stream">
