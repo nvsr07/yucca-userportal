@@ -1116,8 +1116,9 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 #datasearchresult .result-title-query{color: #009738;}
 
 #datasearchresult .result-item{margin-top: 28px; padding-top: 24px; border-top: solid 3px #edefee;}
-#datasearchresult .result-item-header{position: relative; height: 32px; margin-bottom: 30px;}
+#datasearchresult .result-item-header{position: relative; height: 32px; margin-bottom: 30px; cursor: pointer;}
 #datasearchresult .result-item-header h3{font-size: 24px; margin: 0;position: absolute; left: 0; top:0; }
+#datasearchresult .result-item-body{cursor: pointer;}
 #datasearchresult .result-item-domain{position: absolute; right: 0; top:0; font-size: 32px;}
 #datasearchresult .result-item-type{font-size: 18px; text-transform: uppercase;}
 #datasearchresult .result-item-icon{float: right; width: 100px; height: 100px;margin-left: 30px;}

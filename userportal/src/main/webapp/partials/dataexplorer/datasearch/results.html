@@ -76,11 +76,11 @@
 				</div>
 				<div ng-show="metadataSearchOutput.datasetList.length>0" class='result-panel'>
 					<div ng-repeat="data in metadataSearchOutput.datasetList  track by $index" class='result-item'>
-						<div class='result-item-header'>
+						<div class='result-item-header' ng-click="openDetail(data)">
 							<h3>{{data["name"]}}</h3>
 							<div class='result-item-domain'><i class="icon-{{data['domainCode']}} domain-icon" title="{{data['domainCode']|translate}}"></i></div>
 						</div>
-						<div class='result-item-body clearfix'>
+						<div class='result-item-body clearfix' ng-click="openDetail(data)">
 							<div class='result-item-icon'><img ng-src="{{metadataSearchOutput.datasetList[$index].icon}}" alt="logo dataset" class="img-responsive" ></div>
 							<div class='result-item-type'>{{data['type']}}</div>
 							<div class='result-item-description'>{{data["description"]|string_ellipse:300}}</div>
