@@ -37,6 +37,10 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/management/:managementTab/:tenant_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code/:stream_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management'});
+	
+	$routeProvider.when('/dataexplorer/search', {templateUrl: 'partials/dataexplorer/datasearch/search.html?'+BuildInfo.timestamp});
+	$routeProvider.when('/dataexplorer/searchresults', {templateUrl: 'partials/dataexplorer/datasearch/results.html?'+BuildInfo.timestamp});
+
 	$routeProvider.when('/dataexplorer/:tenant_code/:entity_code', {templateUrl: 'partials/dataexplorer/dataExplorer.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer',
 		 resolve: {
 			 info: function(initCtrl) {
@@ -140,6 +144,22 @@ app.factory('info',  function() {
     	}
     		
     	return activeTenantType;
+    };
+    
+    infoService.getActiveTenant = function() {
+    	if(this.info && this.info.activeTenant)
+    		return this.info.activeTenant;
+    	else if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0 && this.getActiveTenantCode()!=null){
+    		for (var i = 0; i < this.info.user.tenants.length; i++) {
+				if(this.info.user.tenants[i].tenantCode == this.getActiveTenantCode()){
+					this.info.activeTenant = this.info.user.tenants[i]; 
+					return this.info.activeTenant;
+					break;
+				}
+			}
+    	}
+    	else
+    		return null;
     };
     
     infoService.isOwner = function(tenantCode){

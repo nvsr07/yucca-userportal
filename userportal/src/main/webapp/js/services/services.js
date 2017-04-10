@@ -80,6 +80,8 @@ appServices.factory('sharedDataset',  function () {
 	};
 });
 
+
+
 appServices.factory('dataexplorerBrowseData',  function () {
 	var searchResult = null;
 	
@@ -92,3 +94,33 @@ appServices.factory('dataexplorerBrowseData',  function () {
 		}
 	};
 });
+
+
+appServices.factory('dataexplorerService',  function () {
+	var searchInput = null;
+	
+	return {
+		getSearchInput: function () {
+			return searchInput;
+		},
+		setSearchInput: function(value) {
+			searchInput = value;
+		}
+	};
+});
+
+
+
+appServices.factory('sharedUploadBulkErrors',  function () {
+	var errors = null;
+	
+	return {
+		getErrors: function () {
+			return errors;
+		},
+		setErrors: function(value) {
+			errors = value;
+		}
+	};
+});
+

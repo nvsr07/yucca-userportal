@@ -304,8 +304,8 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 	};
 }]);
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate',
-                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate','sharedUploadBulkErrors',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate,sharedUploadBulkErrors) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = null;//Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -326,21 +326,22 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 	
-	$scope.saveError = false;
-	$scope.saveErrors = [];
+	$scope.saveErrors = sharedUploadBulkErrors.getErrors();
+	$scope.saveError = ($scope.saveErrors!=null);
 	
-	if ($routeParams){
-		if ($routeParams.entity_code){
-		var errorStr = $routeParams.entity_code.split("?")[1];
-			if (errorStr){
-				var error = errorStr.split("=");
-				if ((error[0] == 'errorParams') && (error[1] == 2)){
-					$scope.saveError = true; 
-					$scope.saveErrors.push({'message': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE'), 'detail': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ERROR_FROM_SERVER')});
-				}
-			}
-		}
-	}
+//	
+//	if ($routeParams){
+//		if ($routeParams.entity_code){
+//		var errorStr = $routeParams.entity_code.split("?")[1];
+//			if (errorStr){
+//				var error = errorStr.split("=");
+//				if ((error[0] == 'errorParams') && (error[1] == 2)){
+//					$scope.saveError = true; 
+//					$scope.saveErrors.push({'message': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE'), 'detail': $translate.instant('MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ERROR_FROM_SERVER')});
+//				}
+//			}
+//		}
+//	}
 
 	fabricAPIservice.getTenants().success(function(response) {
 		console.debug("response", response.tenants);
@@ -1633,8 +1634,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 					$scope.saveErrors = data.errors;
 					if (data.datasetStatus == 0)
 						Helpers.util.scrollTo();
-					else if ((data.datasetStatus == 1) || (data.datasetStatus == 2))
-						$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode+"?errorParams="+data.datasetStatus)
+					else if ((data.datasetStatus == 1) || (data.datasetStatus == 2)){
+						sharedUploadBulkErrors.setErrors(data.errors);
+						$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);//+"?errorParams="+data.datasetStatus)
+					}
 				} else {
 					$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
 				}

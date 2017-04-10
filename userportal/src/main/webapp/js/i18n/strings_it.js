@@ -1094,6 +1094,17 @@ var translations_it = {
 	dataset: 'Dataset',
 	stream_dataset: 'Stream/Dataset',
 	
+	DATASEARCH_TITLE: 'Cerca i dati che ti servono',
+	DATASEARCH_DOMAINS_TITLE: 'Famiglie di dati',
+	DATASEARCH_DOMAINS_SUBTITLE: '&egrave; possibile cercare dati partendo dalle categorie in cui sono organizzati',
+	
+	DATASEARCHRESULT_NEW_SEARCH: 'Nuova Ricerca',
+	DATASEARCHRESULT_TOTAL: 'Risultati',
+	DATASEARCHRESULT_QUERY: 'per',
+	DATASEARCHRESULT_DASHBOARD_BUTTON: 'Monitoraggio',
+	DATASEARCHRESULT_DATA_EXPLORER_BUTTON: 'Dati',
+	
+	
 	DATA_EXPLORER_DETAIL_STREAM_CODE: 'Codice Stream',
 	DATA_EXPLORER_DETAIL_DATASET_CODE: 'Codice Dataset',
 	DATA_EXPLORER_DETAIL_GENERAL_INFO: 'Informazioni Principali',

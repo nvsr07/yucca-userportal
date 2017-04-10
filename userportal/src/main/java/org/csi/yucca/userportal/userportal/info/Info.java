@@ -1,7 +1,5 @@
 package org.csi.yucca.userportal.userportal.info;
 
-import java.util.List;
-
 import com.google.gson.Gson;
 
 public class Info {

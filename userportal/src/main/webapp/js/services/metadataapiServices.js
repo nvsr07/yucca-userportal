@@ -28,7 +28,7 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		}
 		
 		if(filter!=null){
-			
+			console.log("filter", filter);
 			if(typeof filter.tenantCode != 'undefined' && filter.tenantCode!=null && filter.tenantCode.length>0) 
 				metadataapiUrl += '&tenant='+encodeURIComponent(filter.tenantCode.join(","));
 			if(typeof filter.organizationCode != 'undefined' && filter.organizationCode!=null && filter.organizationCode.length>0) 
