@@ -80,10 +80,17 @@
 							<h3>{{data["name"]}}</h3>
 							<div class='result-item-domain'><i class="icon-{{data['domainCode']}} domain-icon" title="{{data['domainCode']|translate}}"></i></div>
 						</div>
-						<div class='result-item-body clearfix' ng-click="openDetail(data)">
+						<div class='result-item-body clearfix'>
 							<div class='result-item-icon'><img ng-src="{{metadataSearchOutput.datasetList[$index].icon}}" alt="logo dataset" class="img-responsive" ></div>
-							<div class='result-item-type'>{{data['type']}}</div>
-							<div class='result-item-description'>{{data["description"]|string_ellipse:300}}</div>
+							<div class='result-item-type'>{{data['type']}} </div>
+							<div class='result-item-description' ng-if='!data["description_show_all"]'>
+								{{data["description"]|string_ellipse:300}} 
+								<a href ng-click='data["description_show_all"]=true' ng-if='data["description"].length>300' translate class='read_all_link'>DATASEARCHRESULT_SHOWALL_DESCRIPTION</a>
+							</div>
+							<div class='result-item-description' ng-if='data["description"].length>300 && data["description_show_all"]'>
+								{{data["description"]}}
+								<a href ng-click='data["description_show_all"]=false' translate class='read_all_link'>DATASEARCHRESULT_COMPACT_DESCRIPTION</a>
+							</div>
 							<div class='result-item-organization'>{{data["tenantCode"]}}</div>
 						</div>
 						<div class='result-item-footer clearfix'>

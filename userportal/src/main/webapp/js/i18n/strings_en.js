@@ -1093,6 +1093,25 @@ var translations_en = {
 	stream: 'Stream',
 	dataset: 'Dataset',
 	stream_dataset: 'Stream/Dataset',
+
+	
+	DATASEARCH_TITLE: 'Find data you need',
+	DATASEARCH_DOMAINS_TITLE: 'Data categories',
+	DATASEARCH_DOMAINS_SUBTITLE: 'You can search  data starting from the categories in which they are organized',
+	
+	DATASEARCHRESULT_NEW_SEARCH: 'New research',
+	DATASEARCHRESULT_TOTAL: 'Results',
+	DATASEARCHRESULT_QUERY: 'for',
+	DATASEARCHRESULT_DASHBOARD_BUTTON: 'Dashboard',
+	DATASEARCHRESULT_DATA_EXPLORER_BUTTON: 'Data explorer',
+	DATASEARCHRESULT_COMPACT_DESCRIPTION: 'Hide',
+	DATASEARCHRESULT_SHOWALL_DESCRIPTION: 'Read all',
+	
+	DATA_EXPLORER_DETAIL_STREAM_CODE: 'Codice Stream',
+	DATA_EXPLORER_DETAIL_DATASET_CODE: 'Codice Dataset',
+	DATA_EXPLORER_DETAIL_GENERAL_INFO: 'Informazioni Principali',
+	DATA_EXPLORER_DETAIL_COMPONENTS: 'Definizione Struttura Dato',
+	
 	
 	DATA_EXPLORER_DETAIL_STREAM_CODE: 'Stream Code',
 	DATA_EXPLORER_DETAIL_DATASET_CODE: 'Dataset Code',

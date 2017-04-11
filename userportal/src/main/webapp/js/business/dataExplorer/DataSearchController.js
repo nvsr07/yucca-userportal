@@ -190,9 +190,8 @@ appControllers.controller('DataSearchCtrl', [ '$scope', '$routeParams', 'fabricA
 		var data = {};
 		
 		data.name = dataFromSearch.name;
-		
-		
 		data.description = dataFromSearch.description;
+		data.description_show_all=false;
 		data.domainCode = dataFromSearch.domainCode;
 		
 		data.tags = dataFromSearch.tags;
