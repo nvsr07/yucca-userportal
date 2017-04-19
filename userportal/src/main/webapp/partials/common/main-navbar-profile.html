@@ -39,8 +39,8 @@
 		 		</a>
 		 	</li>
 		 	<li role="presentation" class="divider" ng-if='user.canChangePassword'></li>
-		 	<li>
-		 		<a href='https://sso.smartdatanet.it/UserRecovery/infoRecover/userInfoView?username={{user.canChangePassword}}' ng-if='	'>
+		 	<li ng-if='user.canChangePassword'>
+		 		<a href='https://sso.smartdatanet.it/UserRecovery/infoRecover/userInfoView?username={{user.username}}' >
 		 			{{MENU_RESET_PASSWORD}}
 		 		</a>
 		 	</li>
