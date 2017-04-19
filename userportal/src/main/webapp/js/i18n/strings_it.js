@@ -54,6 +54,7 @@ var translations_it = {
 	MENU_LANG_IT : 'Italiano',
 	MENU_SING_IN: 'Login',
 	MENU_SING_OUT: 'Esci',
+	MENU_RESET_PASSWORD: 'Reset password',
 	MENU_MODAL_GET_TRAIL_TENANT: 'Richiedi Trial Tenant',
 	MENU_MODAL_GOT_TRAIL_TENANT: 'Trial Tenant da attivare',
 	MENU_MODAL_YOUR_TRAIL_TENANT: 'Questo è il tuo Trial Tenant',

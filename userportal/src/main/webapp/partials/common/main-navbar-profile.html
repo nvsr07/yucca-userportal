@@ -12,6 +12,8 @@
 		 			<i class='glyphicon glyphicon-ok' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
 		 		</a>
 		 	</li>
+
+		 	
 		   	<li role="presentation" class="divider" ng-show="user.authType != 'social'"></li>
 		   	<li role="presentation" ng-show="!user.havePersonalTenant && !user.havePersonalTenantToActivate && user.authType != 'social'"><a role="menuitem" tabindex="-1" href="" ng-click="requestTP('personal')"><span translate-cloak translate>MENU_MODAL_GET_PERSONAL_TENANT</span></a></li>
 		   	<li ng-repeat="tenant in userTenants" ng-show="user.havePersonalTenant">
@@ -34,6 +36,12 @@
 		   	<li ng-repeat="tenant in userTenantsToActivate" ng-show="user.haveTrialTenantToActivate">
 		 		<a ng-show="tenant.tenantType == 'trial'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" id='tenantToActivate' ng-show="tenant.tenantCode == activeTenantCode" tooltip="{{'MENU_MODAL_GOT_TRAIL_TENANT'|translate}}">
 		 			<i class='glyphicon glyphicon-time'></i>&nbsp;{{tenant.tenantCode}}
+		 		</a>
+		 	</li>
+		 	<li role="presentation" class="divider" ng-if='user.canChangePassword'></li>
+		 	<li>
+		 		<a href='https://sso.smartdatanet.it/UserRecovery/infoRecover/userInfoView?username={{user.canChangePassword}}' ng-if='	'>
+		 			{{MENU_RESET_PASSWORD}}
 		 		</a>
 		 	</li>
 		   	<li role="presentation" class="divider"></li>

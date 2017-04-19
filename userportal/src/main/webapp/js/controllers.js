@@ -95,6 +95,18 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			$scope.userTenantsToActivate.push(info.getInfo().trialTenantToActivated);
 		}
 		
+		$scope.user.canChangePassword = false;
+		try {
+			if($scope.user.username.indexOf("_AT_") !== -1 && !Helpers.util.isItalianCF($scope.user.username)){
+				$scope.user.canChangePassword = true;
+			}
+		} catch (e) {
+			log.error("Error while check if user can change password", user,  e);
+			$scope.user.canChangePassword = false;
+		}
+		
+		
+		
 		try{
 			$scope.BuildInfo.timestamp = BuildInfo.timestamp;
 		} catch (e) {
