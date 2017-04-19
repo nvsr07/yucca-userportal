@@ -97,7 +97,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		
 		$scope.user.canChangePassword = false;
 		try {
-			if($scope.user.username.indexOf("_AT_") !== -1 && !Helpers.util.isItalianCF($scope.user.username)){
+			if($scope.user.username.indexOf("_AT_") === -1 && !Helpers.util.isItalianCF($scope.user.username)){
 				$scope.user.canChangePassword = true;
 			}
 		} catch (e) {
