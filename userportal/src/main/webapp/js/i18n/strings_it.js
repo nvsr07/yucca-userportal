@@ -536,6 +536,8 @@ var translations_it = {
 	HOME_ACTION_NEW_DATASET: 'Crea Dataset',
 	HOME_ACTION_SEARCH: 'Cerca nello Store',
 	HOME_ACTION_STORE: 'Accedi allo store',
+	HOME_ACTION_NO_STREAM_UPGRADE: 'Per gestire <strong>stream</strong> e <strong>smart object</strong> richiedi un upgrade del tuo tenant',
+
 	 
 	HOME_TTFORUM_USERFIRSTNAME_PLACEHOLDER: 'Inserisci il tuo nome',
 	HOME_TTFORUM_USERLASTNAME_PLACEHOLDER: 'Inserisci il tuo cognome',

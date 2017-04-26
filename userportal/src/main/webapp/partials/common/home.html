@@ -163,7 +163,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="home-operation-section" ng-cloak ng-show="!user.loggedIn">
+	<div id="home-operation-section" ng-cloak ng-shows="!user.loggedIn">
   		<h2><span translate-cloak translate>HOME_OPERATION_PANEL_TITLE</span></h2>
   		<div class='container'>
   			<div class="row ">
@@ -177,17 +177,18 @@
   						<a class='home-action' ng-href="#/management/newStream/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_NEW_STREAM_INTERNAL</span></a>
   					</div>
   				</div>
-  				<div class='col-sm-4 operation-manager operation-panel' ng-show="isAuthorized('management/*')" >
+  				<div class='col-sm-4 operation-manager operation-panel' ng-shows="isAuthorized('management/*')" >
   					<div class='operation-panel-content'>
  						<div class="main-icon"><i class="fa fa-key role-icon"></i></div>
  						<div class='role-panel'><span translate-cloak translate>HOME_ROLE_PUBLISHER</span></div>
   						<p class='intro'><span ng-bind-html="'HOME_ROLE_PUBLISHER_INTRO'|translate"></span></p>
- 						<a class='home-action'href="#/dashboard/streams"><span translate-cloak translate>HOME_ACTION_DASHBOARD</span></a>
+ 						<a class='home-action'href="#/dashboard/streams" ng-if="canManageStream()"><span translate-cloak translate>HOME_ACTION_DASHBOARD</span></a>
   						<a class='home-action'ng-href="#/management/virtualentities/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_MANAGEMENT</span></a>
   						<p><span translate-cloak translate>HOME_ACTION_PUBLISHER_SEP_1</span></a></p>
-  						<a class='home-action' ng-href="#/management/newVirtualentity/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_NEW_VIRTUAL_ENTITY</span></a>
-						<a class='home-action' ng-href="#/management/newStream/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_NEW_STREAM</span></a>
+  						<a class='home-action' ng-if="canManageStream()" ng-href="#/management/newVirtualentity/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_NEW_VIRTUAL_ENTITY</span></a>
+						<a class='home-action' ng-if="canManageStream()" ng-href="#/management/newStream/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_NEW_STREAM</span></a>
 						<a class='home-action' ng-href="#/management/newDataset/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_NEW_DATASET</span></a>
+						<a class='home-action-promo' href ng-if="!canManageStream()"><span ng-bind-html="'HOME_ACTION_NO_STREAM_UPGRADE'|translate"></span></a>
 					</div>
   				</div>
   				<div class='col-sm-4 operation-customer operation-panel' ng-show="isAuthorized('store/*')">

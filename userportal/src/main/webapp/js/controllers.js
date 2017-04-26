@@ -27,6 +27,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		return authorized;
 	};
 	
+	$scope.canManageStream= function(){
+		return info.canManageStream();
+	};
+	
 	$scope.userTenants = null;
 	
 	var checkTermCondition = function(){ 
