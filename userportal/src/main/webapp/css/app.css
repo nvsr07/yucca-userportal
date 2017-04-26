@@ -138,6 +138,11 @@ footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 }
 
 
+.title-container .btn-top-promo{background-color: #efefef; margin-top:2px; border: solid 1px #8c8e8d; color: black; position: relative; font-size: 18px;  padding: 10px 12px;
+	text-transform: uppercase;box-shadow: none; margin-left: 20px; font-weight: bold; }
+.title-container .btn-top-promo:hover{background-color: #00bbf0; color: #fff; border-color: #00bbf0;}
+
+
 .title-container .btn-top-toolbar.active, .title-container .btn-top-toolbar:hover{background-color: #00bbf0; color: #fff; border-color: #00bbf0;}
 .title-container .btn-top-toolbar:after{border: none;}
 .title-container .btn-top-toolbar a, .title-container a.btn-top-toolbar{text-decoration: none;}

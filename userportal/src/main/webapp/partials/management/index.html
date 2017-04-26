@@ -4,11 +4,14 @@
 			<div class='container clearfix'>
 				<h1  class='pull-left'><span translate-cloak translate>MANAGEMENT_TITLE</span><small> {{tenant}}</small></h1>
 				<div class="pull-right title-menu">
-					<a ng-disable="!isAuthorized('management/smartobjects/*')" href="#/management/virtualentities/{{activeTenantCode}}" ng-class="{active: isMenuActive('virtualentities')}"  class='btn  btn-top-toolbar btn-virtualentity'>
+					<a ng-disable="!isAuthorized('management/smartobjects/*')" href="#/management/virtualentities/{{activeTenantCode}}" ng-class="{active: isMenuActive('virtualentities')}"  class='btn  btn-top-toolbar btn-virtualentity' ng-if='canManageStream()'>
 						<span translate-cloak translate>MANAGEMENT_MENU_VIRTUAL_ENTITIES</span>
 					</a>
-					<a ng-disable="!isAuthorized('management/streams/*')" href="#/management/streams/{{activeTenantCode}}" ng-class="{active: isMenuActive('streams')}" class='btn btn-top-toolbar btn-stream'>
+					<a ng-disable="!isAuthorized('management/streams/*')" href="#/management/streams/{{activeTenantCode}}" ng-class="{active: isMenuActive('streams')}" class='btn btn-top-toolbar btn-stream' ng-if='canManageStream()'>
 						<span translate-cloak translate>MANAGEMENT_MENU_STREAMS</span>
+					</a>
+					<a class='btn btn-top-promo ' ng-if='!canManageStream()'>
+						<span ng-bind-html="'MANAGEMENT_MENU_STREAM_UPGRADE'|translate"></span>
 					</a>
 					<a ng-disable="!isAuthorized('management/datasets/*')" href="#/management/datasets/{{activeTenantCode}}" ng-class="{active: isMenuActive('datasets')}" class='btn btn-top-toolbar btn-dataset'>
 						<span translate-cloak translate>MANAGEMENT_MENU_DATASET</span>

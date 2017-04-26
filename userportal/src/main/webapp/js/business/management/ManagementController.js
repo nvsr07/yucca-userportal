@@ -2,7 +2,11 @@
 
 appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info',  function($scope, $route, info) {
 	$scope.$route = $route;
-	$scope.managementTab = $route.current.params.managementTab;
+	if(info.canManageStream())
+		$scope.managementTab = $route.current.params.managementTab;
+	else
+		$scope.managementTab = 'datasets';
+	
 	$scope.tenant = $route.current.params.tenant_code;
 
 	$scope.buildTimestamp = BuildInfo.timestamp;
@@ -10,6 +14,7 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info
 	$scope.changeLanguage = function(langKey) {
 		$translate.use(langKey);
 	};
+	
 	$scope.isMenuActive= function(menuItem){
 
 		var result = false;

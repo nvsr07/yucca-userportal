@@ -537,7 +537,6 @@ var translations_it = {
 	HOME_ACTION_SEARCH: 'Cerca nello Store',
 	HOME_ACTION_STORE: 'Accedi allo store',
 	HOME_ACTION_NO_STREAM_UPGRADE: 'Per gestire <strong>stream</strong> e <strong>smart object</strong> richiedi un upgrade del tuo tenant',
-
 	 
 	HOME_TTFORUM_USERFIRSTNAME_PLACEHOLDER: 'Inserisci il tuo nome',
 	HOME_TTFORUM_USERLASTNAME_PLACEHOLDER: 'Inserisci il tuo cognome',
@@ -671,6 +670,8 @@ var translations_it = {
     MANAGEMENT_MENU_STREAMS: 'Stream',
     MANAGEMENT_MENU_VIRTUAL_ENTITIES: 'Smart Object',
     MANAGEMENT_MENU_DATASET: 'Dataset',
+	MANAGEMENT_MENU_STREAM_UPGRADE: 'Per <strong>stream</strong> e <strong>smart object</strong> richiedi un upgrade del tuo tenant',
+
     
     MANAGEMENT_SANDBOX_WARNING: 'Stai utilizzando il tenant demo Sandbox. I dati caricati per questo tenant vengono periodicamente eliminati', 
     
