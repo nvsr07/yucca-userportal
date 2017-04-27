@@ -124,7 +124,7 @@ app.factory('info',  function() {
     
     infoService.canManageStream= function() {
     	var activeTenant = this.getActiveTenant();
-    	return activeTenant!=null && activeTenant.maxStreamsNum==0;
+    	return activeTenant!=null && activeTenant.maxStreamsNum!=0;
     };    
     infoService.getActiveTenantCode = function(){
     	if(this.info && this.info.activeTenantCode)
