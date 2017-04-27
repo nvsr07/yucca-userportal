@@ -10,7 +10,7 @@
 					<a ng-disable="!isAuthorized('management/streams/*')" href="#/management/streams/{{activeTenantCode}}" ng-class="{active: isMenuActive('streams')}" class='btn btn-top-toolbar btn-stream' ng-if='canManageStream()'>
 						<span translate-cloak translate>MANAGEMENT_MENU_STREAMS</span>
 					</a>
-					<a class='btn btn-top-promo ' ng-if='!canManageStream()'>
+					<a class='btn btn-top-promo ' ng-if='!canManageStream()' href='mailto:smartdatanet@csi.it' target='_blank' >
 						<span ng-bind-html="'MANAGEMENT_MENU_STREAM_UPGRADE'|translate"></span>
 					</a>
 					<a ng-disable="!isAuthorized('management/datasets/*')" href="#/management/datasets/{{activeTenantCode}}" ng-class="{active: isMenuActive('datasets')}" class='btn btn-top-toolbar btn-dataset'>
