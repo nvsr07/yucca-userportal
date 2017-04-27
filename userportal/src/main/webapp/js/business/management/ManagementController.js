@@ -2,10 +2,11 @@
 
 appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info',  function($scope, $route, info) {
 	$scope.$route = $route;
-	if(info.canManageStream())
-		$scope.managementTab = $route.current.params.managementTab;
-	else
+	if(!info.canManageStream() && (scope.managementTab == 'streams' || $scope.managementTab == 'editStream' || $scope.managementTab == 'viewStream' || $scope.managementTab == 'newStream'|| $scope.managementTab == 'newStreamInternal' ||
+			$scope.managementTab == 'virtualentities' || $scope.managementTab == 'editVirtualentity' || $scope.managementTab == 'viewVirtualentity' || $scope.managementTab == 'newVirtualentity'))
 		$scope.managementTab = 'datasets';
+	else
+		$scope.managementTab = $route.current.params.managementTab;
 	
 	$scope.tenant = $route.current.params.tenant_code;
 
