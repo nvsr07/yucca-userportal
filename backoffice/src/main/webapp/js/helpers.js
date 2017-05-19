@@ -231,7 +231,7 @@ Helpers.util = {
 	},
 	
 	getEnvirorment: function(host){
-		var env = host.substring(0,host.indexOf("userportal.smartdatanet.it"));
+		var env = host.substring(0,host.indexOf("sdnet-intapi.sdp.csi.it"));
 		return env;
 	}
 
