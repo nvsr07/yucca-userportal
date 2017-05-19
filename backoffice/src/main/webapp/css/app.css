@@ -177,7 +177,7 @@ ul .list-spaced li{line-height: 1.2em;}
 .dashboard-stream-test-dialog .test-result-ok{color: #60a917;}
 .dashboard-stream-test-dialog .test-result-ko{color: #e51400;}
 
-.dashboard-tenant-new-tenant-dialog{padding: 1em;}
+.dashboard-tenant-new-tenant-dialog{}
 
 
 small pre{font-size: 11px;padding: 4px;}
@@ -495,4 +495,13 @@ div.spinner {
 	color: #00FF00;
 }
 
+select option:disabled {color: #999999;font-style: italic;}
+form.submitted .ng-invalid{border: solid 1px red;}
 
+.small-label{ font-size: 12px; margin-bottom: 1px; color: #999; font-weight: normal;}
+
+/* form
+.form-section-1{background-color: #808e9c;}
+.form-section-2{background-color: #9ca7b2;}
+.form-section-3{background-color: #b8c0c8;}
+.form-section-4{background-color: #d4d9de;} */ 

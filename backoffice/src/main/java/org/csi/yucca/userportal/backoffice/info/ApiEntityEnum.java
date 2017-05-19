@@ -131,6 +131,12 @@ public enum ApiEntityEnum {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
+	API_SERVICES_ORGANIZATION_LIST("API_SERVICES_ORGANIZATION_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/organizationlist/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
+	},
 	API_SERVICES_LIFECYCLE_STREAM_REQ_INST("API_SERVICES_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

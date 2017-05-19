@@ -28,7 +28,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		$scope.tenantsList = [];
 		fabricAPIservice.getTenants().success(function(response) {
 			$scope.showLoading = false;
-			console.log("response",response);
+			console.debug("loadTenants - response",response);
 	
 			var responseList = Helpers.util.initArrayZeroOneElements(response.tenants.tenant);
 			for (var i = 0; i < responseList.length; i++) {
@@ -48,7 +48,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		$scope.ecosystemList = [];
 		fabricAPIservice.getEcosystems().success(function(response) {
 			$scope.showLoading = false;
-			console.log("response",response);
+			console.debug("loadEcosistems - response",response);
 	
 			var responseList = Helpers.util.initArrayZeroOneElements(response.ecosystems.ecosystem);
 			for (var i = 0; i < responseList.length; i++) {
@@ -59,6 +59,28 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	}
 	
 	loadEcosistems();
+	
+	var organizationMap =  {};
+	var loadOrganizations = function(){
+		$scope.organizationList = [];
+		fabricAPIservice.getOrganizations().success(function(response) {
+			$scope.showLoading = false;
+			console.debug("loadOrganizations - response",response);
+	
+			var responseList = Helpers.util.initArrayZeroOneElements(response.oranizations.oranization);
+			for (var i = 0; i < responseList.length; i++) {
+				$scope.organizationList.push(responseList[i]);					
+				organizationMap[responseList[i].idOrganization]= responseList[i];					
+			}
+			
+			$scope.organizationList.sort(function(a, b) {
+			    return a.organizationCode.localeCompare(b.organizationCode);
+			});
+			
+		});
+	}
+	
+	loadOrganizations();	
 	
 	var initRow = function(tenantIn){
 		var row = {};
@@ -380,8 +402,10 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	      animation: true,
 	      templateUrl: 'newTenant.html',
 	      controller: 'NewTenantCtrl',
+	      size: 'lg',
 	      resolve: {
-	    	  ecosystemList: function(){return $scope.ecosystemList;}
+	    	  organizationList: function(){return $scope.organizationList;},
+	    	  organizationMap: function(){return organizationMap}
 	        
 	      }
 	    });
@@ -505,38 +529,92 @@ appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' 
 
 
 
-appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabricAPIservice', 'TENANT_CREATE_URL', '$filter',"$http", 'ecosystemList',
-                                           function ($scope, $modalInstance, fabricAPIservice, TENANT_CREATE_URL, $filter, $http, ecosystemList) {
+appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabricAPIservice', '$filter',"$http", '$location', 'organizationList', 'organizationMap',
+                                           function ($scope, $modalInstance, fabricAPIservice,  $filter, $http, $location,  organizationList,organizationMap) {
 		
 	$scope.warning = null;
-	$scope.newTenant = {};
-	$scope.ecosystemList = ecosystemList;
+	$scope.newTenant = {"tenantType":"default", 
+						"maxOdataResultPerPage":1000,
+						"maxDatasetNum":-1,
+			   			"maxStreamsNum":-1,
+			   			"tenantPassword": "XXXX",
+			   			"userTypeAuth":"admin",
+			   			"idEcosystem": 1,};
+
+	//$scope.forms.submitted = false;
+
+
+	$scope.newTenant.dataPhoenixTableName = "DATA";
+	$scope.newTenant.measuresPhoenixTableName = "MEASURES";
+	$scope.newTenant.socialPhoenixTableName = "SOCIAL";
+	$scope.newTenant.mediaPhoenixTableName = "MEDIA";
+	
+	$scope.organizationList = organizationList;
+	
+	$scope.tenantTypeChange = function(){
+		console.log("tenantTypeChange", $scope.newTenant.tenantType);
+		if($scope.newTenant.tenantType == "plus")
+			$scope.newTenant.maxOdataResultPerPage = 10000;
+		else 
+			$scope.newTenant.maxOdataResultPerPage = 1000;
+	};
+	var env = Helpers.util.getEnvirorment($location.host());
+	//var env = Helpers.util.getEnvirorment('int-userportal.smartdatanet.it');
+	if(env!=null && env.length>0)
+		env = env.replace("-", "_"); 
+	else
+		env = "";
+	
+	$scope.organizationCodeChange = function(){
+		
+		var organization_code = organizationMap[$scope.newTenant.idOrganization].organizationCode;
+		
+		$scope.newTenant.dataSolrCollectionName = "sdp_" + (env + organization_code).toLowerCase() + "_data";
+		$scope.newTenant.measuresSolrCollectionName = "sdp_" + (env + organization_code).toLowerCase() + "_measures";
+		$scope.newTenant.socialSolrCollectionName = "sdp_" + (env + organization_code).toLowerCase() + "_social";
+		$scope.newTenant.mediaSolrCollectionName = "sdp_" + (env + organization_code).toLowerCase() + "_media";
+
+		$scope.newTenant.dataPhoenixSchemaName = "SDP_" + (env + organization_code).toUpperCase();
+		$scope.newTenant.measuresPhoenixSchemaName = "SDP_" + (env + organization_code).toUpperCase();
+		$scope.newTenant.socialPhoenixSchemaName = "SDP_" + (env + organization_code).toUpperCase();
+		$scope.newTenant.mediaPhoenixSchemaName = "SDP_" + (env + organization_code).toUpperCase();
+
+
+	};
 	
 	$scope.createNewTenant = function(){
 		console.log("new tenant", $scope.newTenant);
+		$scope.forms.newTenantForm.submitted = true;
+		$scope.warning  = null;
+		if(!$scope.forms.newTenantForm.$valid) {
+			$scope.warning = "Missing required fields or invalid values";
+			return;
+		}
+		else{
 			
-		$scope.newTenant.status = "draft";
-		if(typeof $scope.newTenant.maxDatasetNum == 'undefined' || $scope.newTenant.maxDatasetNum == null || $scope.newTenant.maxDatasetNum == 0)
-			$scope.newTenant.maxDatasetNum = -1;
-		if(typeof $scope.newTenant.maxStreamsNum == 'undefined' || $scope.newTenant.maxStreamsNum == null || $scope.newTenant.maxStreamsNum == 0)
-			$scope.newTenant.maxStreamsNum = -1;
-		
-		var tenant = {"tenant": $scope.newTenant};
-		
-		
-		var promise   = fabricAPIservice.createTenant(tenant);
-		promise.then(function(result) {
-			console.log("result qui ", result);
-			$scope.info = "Tenant created";
-			$scope.newTenant = {};
-			$modalInstance.close("ok");
-		}, function(result) {
-			console.error("createNewTenant - error", result);
-	    	$scope.error = "Error: "+ angular.fromJson(result.data);; 
-		}, function(result) {
-			console.log('Got notification: ' + result);
-		});
-		
+			$scope.newTenant.status = "draft";
+			if(typeof $scope.newTenant.maxDatasetNum == 'undefined' || $scope.newTenant.maxDatasetNum == null || $scope.newTenant.maxDatasetNum == 0)
+				$scope.newTenant.maxDatasetNum = -1;
+			if(typeof $scope.newTenant.maxStreamsNum == 'undefined' || $scope.newTenant.maxStreamsNum == null || $scope.newTenant.maxStreamsNum == 0)
+				$scope.newTenant.maxStreamsNum = -1;
+			
+			var tenant = {"tenant": $scope.newTenant};
+			
+			var promise   = fabricAPIservice.createTenant(tenant);
+			promise.then(function(result) {
+				console.log("result qui ", result);
+				$scope.info = "Tenant created";
+				$scope.newTenant = {};
+				$modalInstance.close("ok");
+			}, function(result) {
+				console.error("createNewTenant - error", result);
+				var error  = angular.fromJson(result.data);
+		    	$scope.error = error.error_code + "<br><small>" + error.error_detail + "<br>" + error.error_message + "</small>";
+		    	
+			}, function(result) {
+				console.log('Got notification: ' + result);
+			});
+		}
 	}
 	$scope.close = function () {
 	    $modalInstance.dismiss('cancel');

@@ -194,6 +194,19 @@ var translations_it = {
 	TENANT_FIELD_DESCRIPTION: 'Descrizione',
 	TENANT_FIELD_MAX_DATASET_NUM: 'Max Dataset',
 	TENANT_FIELD_MAX_STREAM_NUM: 'Max Stream',
+	TENANT_FIELD_ORGANIZATION: 'Organizzazione', 
+	TENANT_FIELD_USERNAME: 'Username',
+	TENANT_FIELD_USER_FIRSTNAME: 'Nome',
+	TENANT_FIELD_USER_LASTTNAME: 'Cognome',
+	TENANT_FIELD_USER_EMAIL: 'Email',
+	TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE: ' Max ODAta result per pagina',
+	
+	TENANT_FORM_INFO: 'Info',
+	TENANT_FORM_USER: 'Utente',
+	TENANT_FORM_CONFIG: 'Configurazione',
+	TENANT_FORM_SOLR_COLLECTION: 'Collection Solr',
+	TENANT_FORM_PHOENIX_SCHEMA: 'Schema Name Phoenix',
+	TENANT_FORM_PHOENIX_TABLE: 'Table Name Phoenix',
 	
 	/* Stream domains */
 	AGRICULTURE: 'Agricoltura',

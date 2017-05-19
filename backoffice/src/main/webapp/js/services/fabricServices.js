@@ -76,7 +76,12 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 	
-	
+	fabricAPI.getOrganizations = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_SERVICES_ORGANIZATION_LIST_URL+ '?callback=JSON_CALLBACK'
+		});
+	};
 
 	fabricAPI.getVirtualentities = function(tenant_code) {
 		if(tenant_code && tenant_code!=null && tenant_code!="")
@@ -305,7 +310,7 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		var deferred = $q.defer();
 		var resultData = null;
 		console.debug("Tenant", tenant);
-		$http.post(Constants.API_SERVICES_TENANT_URL + tenant.tenant.tenantCode, tenant, {
+		$http.post(Constants.API_SERVICES_TENANT_URL + tenant.tenant.tenantName, tenant, {
 			crossDomain : true,
 		}).success(function(responseData) {
 			resultData = {status: "ok", data: responseData};
