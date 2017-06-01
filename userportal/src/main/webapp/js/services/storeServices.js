@@ -48,6 +48,17 @@ appServices.factory('storeAPIservice',["$http","$q","info", "$location", functio
 		);
 	};
 	
+	storeAPI.addAPISubscription = function(name, version, provider, applicationName) {
+	    var params =  {"action":"addAPISubscription","name":name,"version":version,"provider": provider, "tier":"Unlimited", "applicationName":applicationName};
+		return $http.post(getStoreBaseUrl()+'/store/site/blocks/subscription/subscription-add/ajax/subscription-add.jag?',
+				params, 
+				{headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+				transformRequest: transform}
+		);
+	};
+
+	
+	
 	storeAPI.removeSubscription = function(name, version, provider, applicationId) {
 	    var params =  {"action":"removeSubscription","name":name,"version":version,"provider": provider, "tier":"Unlimited", "applicationId":applicationId};
 		return $http.post(getStoreBaseUrl()+'/store/site/blocks/subscription/subscription-remove/ajax/subscription-remove.jag?',

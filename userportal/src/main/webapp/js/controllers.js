@@ -131,18 +131,39 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			console.log("iframeStoreLoaded - START");
         	storeAPIservice.getSubscriptions().success(function(response) {
         		console.log("getSubscriptions response",response);
-//        		subscriptionList = response.subscriptions;
-//        		if($scope.applicationList!=null){
-//        			for (var appIndex = 0; appIndex < $scope.applicationList.length; appIndex++) {
-//						$scope.applicationList[appIndex].isBusy = false;
-//						$scope.applicationList[appIndex].isEditing = false;
-//						$scope.applicationList[appIndex].isSubscribed = isApplicationSubscribed($scope.applicationList[appIndex].name, $scope.apiName, $scope.apiVersion, $scope.apiProvider);
-//						$scope.editedDescriptions[appIndex] = $scope.applicationList[appIndex].description;
-//						
-//        			}
-//        		}
+        		subscriptionList = response.subscriptions;
+        		$scope.storeToken=null;
+        		if(subscriptionList!=null){
+        			for (var appIndex = 0; appIndex < subscriptionList.length; appIndex++) {
+        				if (subscriptionList[appIndex].name == 'DefaultApplication')
+        				{
+        					console.log("Application DefaultApplication FOUND!");
+        					if (subscriptionList[appIndex].prodKey != null)
+        					{
+            					console.log("Token for DefaultApplication FOUND");
+            					$scope.storeToken=subscriptionList[appIndex].prodKey;
+        					}
+        				}
+        			}
+        		}
+        		if ($scope.storeToken == null)
+        		{
+        			console.log("Token for DefaultApplication NOT FOUND!");
+        			storeAPIservice.addAPISubscription('metadata_api', 1.0, 'admin', 'DefaultApplication')
+        				.success(function(response) {
+                			storeAPIservice.generateToken('DefaultApplication',30758400)
+                				.success(function(response) {
+                					console.log("generateToken response",response);
+                					$scope.storeToken=response.data.key.accessToken;
+                					console.log("Token for DefaultApplication GENERATED");
+                				}).error(function(response){
+                					console.error("generateToken: error", response)
+                				});	
+        				}).error(function(response){
+            	    	});	
+        		}
         	}).error(function(response){
-	    		console.error("getSubscriptions: error", response);
+	    		console.error("getSubscriptions: error", response)
 	    	});	   
         };
 		
