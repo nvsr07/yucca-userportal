@@ -131,7 +131,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			console.log("iframeStoreLoaded - START");
         	storeAPIservice.getSubscriptions().success(function(response) {
         		console.log("getSubscriptions response",response);
-        		subscriptionList = response.subscriptions;
+        		var subscriptionList = response.subscriptions;
         		$scope.storeToken=null;
         		if(subscriptionList!=null){
         			for (var appIndex = 0; appIndex < subscriptionList.length; appIndex++) {
