@@ -81,5 +81,19 @@ appDirectives.directive('ngConfirmClick', function(){
 				}
 			});
 		}
-	}
+	};
  });
+
+appDirectives.directive('iframeOnload', [function(){
+	return {
+	    scope: {
+	        callBack: '&iframeOnload'
+	    },
+	    link: function(scope, element, attrs){
+	        element.on('load', function(){
+	        	console.log("iframeOnload");
+	            return scope.callBack();
+	        });
+	    }
+	};
+}]);

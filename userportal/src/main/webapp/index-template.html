@@ -62,7 +62,7 @@
 		<main-navbar></main-navbar>
 		<div ng-view class='main-body'></div>
 		<main-footer></main-footer>
-		<iframe ng-src="{{linkLoginToStore}}" width="{{linkLoginToStoreW}}" height="{{linkLoginToStoreH}}"></iframe>
+		<iframe ng-src="{{linkLoginToStore}}" width="{{linkLoginToStoreW}}" height="{{linkLoginToStoreH}}"  iframe-onload="iframeStoreLoaded()"></iframe>
 	</div>
 	<div> <!-- ng-show="ModalDemoCtrl" -->
 	    <script type="text/ng-template" id="HPModalContent.html">

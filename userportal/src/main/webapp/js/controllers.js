@@ -4,7 +4,8 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', function($scope, $route, $modal, info, $location, $translate, fabricAPIservice, localStorageService) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', 'storeAPIservice',
+                                          function($scope, $route, $modal, info, $location, $translate, fabricAPIservice, localStorageService,storeAPIservice) {
 	$scope.$route = $route;
 	
 	$scope.linkLoginToStore = "";
@@ -125,6 +126,25 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			$scope.linkLoginToStoreW = "1";
 			$scope.linkLoginToStoreH = "1";
 		}
+		
+		$scope.iframeStoreLoaded = function(){
+			console.log("iframeStoreLoaded - START");
+        	storeAPIservice.getSubscriptions().success(function(response) {
+        		console.log("getSubscriptions response",response);
+//        		subscriptionList = response.subscriptions;
+//        		if($scope.applicationList!=null){
+//        			for (var appIndex = 0; appIndex < $scope.applicationList.length; appIndex++) {
+//						$scope.applicationList[appIndex].isBusy = false;
+//						$scope.applicationList[appIndex].isEditing = false;
+//						$scope.applicationList[appIndex].isSubscribed = isApplicationSubscribed($scope.applicationList[appIndex].name, $scope.apiName, $scope.apiVersion, $scope.apiProvider);
+//						$scope.editedDescriptions[appIndex] = $scope.applicationList[appIndex].description;
+//						
+//        			}
+//        		}
+        	}).error(function(response){
+	    		console.error("getSubscriptions: error", response);
+	    	});	   
+        };
 		
 		checkTermCondition();
 
