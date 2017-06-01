@@ -152,7 +152,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
         		if (foundDefaultApplication == false)
         		{
         			console.log("Token for DefaultApplication NOT FOUND!");
-        			storeAPIservice.addAPISubscription('metadata_api', 1.0, 'admin', 'DefaultApplication')
+        			storeAPIservice.addAPISubscription('metadata_api', "1.0", 'admin', 'DefaultApplication')
         				.success(function(response) {
         					console.log("addAPISubscription response",response);
                 			storeAPIservice.generateToken('DefaultApplication',30758400)
