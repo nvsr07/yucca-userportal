@@ -18,7 +18,7 @@ public class UpdateUserInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static Logger log = Logger.getLogger(UpdateUserInfoServlet.class);
 
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		log.debug("[UpdateUserInfoServlet::doGet] - START");
 		try {
 			String storeToken = request.getParameter("storeToken");
