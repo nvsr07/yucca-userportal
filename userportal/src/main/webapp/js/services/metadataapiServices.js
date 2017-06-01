@@ -117,7 +117,7 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		if(token!=null)
 			headers_with_token = {'Authorization': token};
 		return $http({
-			method : 'JSONP',
+			method : 'GET',
 			url : metadataapiUrl,
 			headers: headers_with_token
 		});
