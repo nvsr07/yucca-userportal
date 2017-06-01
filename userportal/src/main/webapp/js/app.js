@@ -106,7 +106,7 @@ app.config(['$httpProvider', function($httpProvider) {
 
 var infoUser = {};
 app.factory('info',  function() {
-    var info = {"storeToken":null};
+    var info = {};
     var infoService = {};
     
     infoService.getInfo = function() {
@@ -216,11 +216,11 @@ app.factory('info',  function() {
     };
     
     infoService.setStoreToken = function(storeToken){
-    	this.info.storeToken = storeToken;
+    	this.storeToken = storeToken;
     };
     
     infoService.getStoreToken = function(){
-    	return this.info.storeToken;
+    	return this.storeToken;
     };
     
     infoUser=infoService;
