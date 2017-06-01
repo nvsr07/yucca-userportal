@@ -110,9 +110,16 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		
 
 		console.log("metadataapiAPI.search - metadataapiUrl", metadataapiUrl);
+		var token = "Bearer "+info.getStoreToken();
+		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
+
+		var headers = {};
+		if(token!=null)
+			headers = {'Authorization': token};
 		return $http({
 			method : 'JSONP',
-			url : metadataapiUrl
+			url : metadataapiUrl,
+			headers: headers
 		});
 	};
 	
