@@ -18,6 +18,7 @@ public class User {
 	private String token;
 	private Map<String, String> tenantsTokens;
 	private List<String> acceptTermConditionTenants;
+	private String storeToken;
 
 	public User() {
 	}
@@ -190,6 +191,14 @@ public class User {
 
 		}
 		return result;
+	}
+
+	public String getStoreToken() {
+		return storeToken;
+	}
+
+	public void setStoreToken(String storeToken) {
+		this.storeToken = storeToken;
 	}
 
 }

@@ -28,11 +28,10 @@ public class MetadataProxyServlet extends ApiProxyServlet {
 
 	@Override
 	protected void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod) {
-		// disalbed 01/06/2017 token added client side
-//		Info info  = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-//		if(info!=null && info.getUser()!=null && info.getUser().getToken()!=null){
-//			getMethod.setRequestHeader("Authorization", "Bearer "+info.getUser().getToken());
-//		}
+		Info info  = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+		if(info!=null && info.getUser()!=null && info.getUser().getStoreToken()!=null){
+			getMethod.setRequestHeader("Authorization", "Bearer "+info.getUser().getStoreToken());
+		}
 		
 	}
 	

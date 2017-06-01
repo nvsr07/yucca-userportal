@@ -33,6 +33,17 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 	
+	fabricAPI.saveStoreTokenInSession = function(storeToken) {
+
+		var updateUserInfoUrl = Constants.API_AUTH_UPDATE_USER_INFO_URL + '?storeToken=' + storeToken;
+		console.log("updateUserInfoUrl",updateUserInfoUrl);
+
+		return $http({
+			method : 'GET',
+			url : updateUserInfoUrl
+		});
+	};
+	
 	
 
 	fabricAPI.validateSiddhi = function(toValidate) {

@@ -1,16 +1,13 @@
 package org.csi.yucca.userportal.userportal.info;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.csi.yucca.userportal.userportal.service.ClientConfigServlet;
-import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
-import org.csi.yucca.userportal.userportal.utils.Config;
-
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
+import org.csi.yucca.userportal.userportal.utils.Config;
 
 public enum ApiEntityEnum {
 
@@ -26,6 +23,13 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
+	API_AUTH_UPDATE_USER_INFO("API_AUTH_UPDATE_USER_INFO_URL", "/userportal/api/updateUserInfo") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+
 	// SERVICES
 	API_SERVICES_STREAM_COMPONENT("API_SERVICES_STREAM_COMPONENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "streams/components/") {
 		@Override
@@ -250,6 +254,13 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			boolean auth = AuthorizeUtils.checkTenantInSession(request, AuthorizeUtils.getElementInPositionByRequest(request, 3));
 			return auth;
+		}
+	},
+	API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL("API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/importDatabase/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			// return AuthorizeUtils.getElementInPositionByRequest(request, 3).equals(AuthorizeUtils.getTenantInSession(request));
+			return true;
 		}
 	},
 	/*API_MANAGEMENT_DATASET("API_MANAGEMENT_DATASET_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {

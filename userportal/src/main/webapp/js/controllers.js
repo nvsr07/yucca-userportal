@@ -132,7 +132,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
         	storeAPIservice.getSubscriptions().success(function(response) {
         		console.log("getSubscriptions response",response);
         		var subscriptionList = response.subscriptions;
-        		//$scope.storeToken=null;
+        		var storeToken=null;
         		var foundDefaultApplication = false;
         		if(subscriptionList!=null){
         			for (var appIndex = 0; appIndex < subscriptionList.length; appIndex++) {
@@ -143,15 +143,14 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
         					if (subscriptionList[appIndex].prodKey != null)
         					{
             					console.log("Token for DefaultApplication FOUND");
-            					//$scope.storeToken=subscriptionList[appIndex].prodKey;
-            					info.setStoreToken(subscriptionList[appIndex].prodKey);
+            					storeToken=subscriptionList[appIndex].prodKey;
+            					//info.setStoreToken(subscriptionList[appIndex].prodKey);
         					}
         					break;
         				}
         			}
         		}
-        		if (foundDefaultApplication == false)
-        		{
+        		if (foundDefaultApplication == false){
         			console.log("Token for DefaultApplication NOT FOUND!");
         			storeAPIservice.addAPISubscription('metadata_api', "1.0", 'admin', 'DefaultApplication')
         				.success(function(response) {
@@ -159,31 +158,38 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
                 			storeAPIservice.generateToken('DefaultApplication',30758400)
                 				.success(function(response) {
                 					console.log("generateToken response",response);
-                					//$scope.storeToken=response.data.key.accessToken;
-                					info.setStoreToken(response.data.key.accessToken);
+                					storeToken=response.data.key.accessToken;
+                					//info.setStoreToken(response.data.key.accessToken);
                 					console.log("Token for DefaultApplication GENERATED");
                 				}).error(function(response){
-                					console.error("generateToken: error", response)
+                					console.error("generateToken: error", response);
                 				});	
         				}).error(function(response){
-        					console.error("addAPISubscription: error", response)
+        					console.error("addAPISubscription: error", response);
             	    	});	
         		}
-        		else if (info.getStoreToken()==null)//$scope.storeToken == null)
-        		{
+        		else if (storeToken == null){
         			storeAPIservice.generateToken('DefaultApplication',30758400)
     				.success(function(response) {
     					console.log("generateToken response",response);
-    					//$scope.storeToken=response.data.key.accessToken;
-    					info.setStoreToken(response.data.key.accessToken);
+    					storeToken=response.data.key.accessToken;
+    					//info.setStoreToken(response.data.key.accessToken);
 
     					console.log("Token for DefaultApplication GENERATED");
     				}).error(function(response){
-    					console.error("generateToken: error", response)
+    					console.error("generateToken: error", response);
     				});	
         		}
+        		
+        		if(storeToken!=null){
+        			fabricAPIservice.saveStoreTokenInSession(storeToken).success(function(info){
+        				console.log("saveStoreTokenInSession a", info);
+        			}).error(function(e){
+        				console.log("error",e);
+        			});
+        		}
         	}).error(function(response){
-	    		console.error("getSubscriptions: error", response)
+	    		console.error("getSubscriptions: error", response);
 	    	});	   
         };
 		
