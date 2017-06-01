@@ -113,13 +113,13 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		var token = "Bearer "+info.getStoreToken();
 		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
 
-		var headers = {};
+		var headers_with_token = {};
 		if(token!=null)
-			headers = {'Authorization': token};
+			headers_with_token = {'Authorization': token};
 		return $http({
 			method : 'JSONP',
 			url : metadataapiUrl,
-			headers: headers
+			headers: headers_with_token
 		});
 	};
 	

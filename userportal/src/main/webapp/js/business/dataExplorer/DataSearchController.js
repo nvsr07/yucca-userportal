@@ -349,7 +349,7 @@ appControllers.controller('DataSearchCtrl', [ '$scope', '$routeParams', 'fabricA
 
 		}).error(function(response) {
 			console.log("search response error", response);
-			errors.push({"messagge":"Search error", "detail":response});
+			$scope.errors.push({"messagge":"Search error", "detail":response});
 			$scope.showSearchLoading = false;
 
 		});
