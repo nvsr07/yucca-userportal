@@ -110,12 +110,12 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		
 
 		console.log("metadataapiAPI.search - metadataapiUrl", metadataapiUrl);
-		var token = "Bearer "+info.getStoreToken();
+		var token = info.getStoreToken();
 		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
 
 		var headers_with_token = {};
 		if(typeof token != 'undefined' && token!=null && token!='undefined')
-			headers_with_token = {'Authorization': token};
+			headers_with_token = {'Authorization': "Bearer "+token};
 		return $http({
 			method : 'GET',
 			url : metadataapiUrl,
@@ -130,12 +130,12 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/detail/' + tenantCode + '/' + soCode + '/' + streamCode + '?';
 
 		console.log("metadataapiAPI.detailStream - metadataapiUrl", metadataapiUrl);
-		var token = "Bearer "+info.getStoreToken();
+		var token = info.getStoreToken();
 		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
 
 		var headers_with_token = {};
 		if(typeof token != 'undefined' && token!=null && token!='undefined')
-			headers_with_token = {'Authorization': token};
+			headers_with_token = {'Authorization': "Bearer "+token};
 		return $http({
 			method : 'GET',
 			url : metadataapiUrl,
@@ -150,12 +150,12 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/detail/' + datasetCode + '?';
 
 		console.log("metadataapiAPI.detailDataset - metadataapiUrl", metadataapiUrl);
-		var token = "Bearer "+info.getStoreToken();
+		var token = info.getStoreToken();
 		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
 
 		var headers_with_token = {};
 		if(typeof token != 'undefined' && token!=null && token!='undefined')
-			headers_with_token = {'Authorization': token};
+			headers_with_token = {'Authorization': "Bearer "+token};
 		return $http({
 			method : 'GET',
 			url : metadataapiUrl,
