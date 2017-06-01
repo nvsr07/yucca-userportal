@@ -114,7 +114,7 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
 
 		var headers_with_token = {};
-		if(typeof token != 'undefined' && token!=null)
+		if(typeof token != 'undefined' && token!=null && token!='undefined')
 			headers_with_token = {'Authorization': token};
 		return $http({
 			method : 'GET',
@@ -134,7 +134,7 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
 
 		var headers_with_token = {};
-		if(typeof token != 'undefined' && token!=null)
+		if(typeof token != 'undefined' && token!=null && token!='undefined')
 			headers_with_token = {'Authorization': token};
 		return $http({
 			method : 'GET',
@@ -154,7 +154,7 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
 
 		var headers_with_token = {};
-		if(typeof token != 'undefined' && token!=null)
+		if(typeof token != 'undefined' && token!=null && token!='undefined')
 			headers_with_token = {'Authorization': token};
 		return $http({
 			method : 'GET',
