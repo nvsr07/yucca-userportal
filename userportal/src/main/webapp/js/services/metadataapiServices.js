@@ -7,7 +7,7 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		if(apiVersion==null)
 			apiVersion= 'v02';
 		
-		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/search?callback=JSON_CALLBACK';
+		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/search?';
 		
 		
 		
@@ -114,7 +114,7 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
 
 		var headers_with_token = {};
-		if(token!=null)
+		if(typeof token != 'undefined' && token!=null)
 			headers_with_token = {'Authorization': token};
 		return $http({
 			method : 'GET',
@@ -127,12 +127,19 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		if(apiVersion==null)
 			apiVersion= 'v02';
 		//http://localhost:8080/metadataapi/api/v02/detail/smartlab/SmartdatanetEventi/artissimaTorino
-		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/detail/' + tenantCode + '/' + soCode + '/' + streamCode + '?callback=JSON_CALLBACK';
+		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/detail/' + tenantCode + '/' + soCode + '/' + streamCode + '?';
 
 		console.log("metadataapiAPI.detailStream - metadataapiUrl", metadataapiUrl);
+		var token = "Bearer "+info.getStoreToken();
+		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
+
+		var headers_with_token = {};
+		if(typeof token != 'undefined' && token!=null)
+			headers_with_token = {'Authorization': token};
 		return $http({
-			method : 'JSONP',
-			url : metadataapiUrl
+			method : 'GET',
+			url : metadataapiUrl,
+			headers: headers_with_token
 		});
 	};
 	
@@ -140,12 +147,19 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 		if(apiVersion==null)
 			apiVersion= 'v02';
 		//http://localhost:8080/metadataapi/api/v02/detail/smartlab/SmartdatanetEventi/artissimaTorino
-		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/detail/' + datasetCode + '?callback=JSON_CALLBACK';
+		var metadataapiUrl = Constants.API_METADATA_URL + apiVersion + '/detail/' + datasetCode + '?';
 
 		console.log("metadataapiAPI.detailDataset - metadataapiUrl", metadataapiUrl);
+		var token = "Bearer "+info.getStoreToken();
+		console.log("metadataapiAPI.search - storeToken", info.getStoreToken());
+
+		var headers_with_token = {};
+		if(typeof token != 'undefined' && token!=null)
+			headers_with_token = {'Authorization': token};
 		return $http({
-			method : 'JSONP',
-			url : metadataapiUrl
+			method : 'GET',
+			url : metadataapiUrl,
+			headers: headers_with_token
 		});
 	};
 
