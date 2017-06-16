@@ -5,12 +5,16 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
 				<div class='clearfix content-toolbar'>
 					<div class="pull-left">
-			        	<a  href="#/management/newDataset/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/datasets/update') ||!isOwner() ">
-							<span class="glyphicon glyphicon-plus "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_NEW_DATASET</span>
+			        	<a href="#/management/newDataset/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/datasets/update') ||!isOwner() ">
+							<span class="glyphicon glyphicon-plus "></span>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_NEW_DATASET</span>
 						</a>
 						<button  href="javascript:void(0)" ng-click='editDataset()' class="btn  btn-edit" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canEdit()" title="{{'MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT'|translate}}">
-							<span class="glyphicon glyphicon-pencil "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_EDIT_DATASET</span>
+							<span class="glyphicon glyphicon-pencil "></span>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_EDIT_DATASET</span>
 						</button>
+						<!--  <a href="#/management/importDatabase/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/datasets/update') ||!isOwner() " title="{{'MANAGEMENT_DATASET_LIST_IMPORT_DB_BUTTON_HINT'|translate}}"> -->
+						<a href="#/management/importDatabase/{{tenantCode}}" class="btn  btn-new" title="{{'MANAGEMENT_DATASET_LIST_IMPORT_DB_BUTTON_HINT'|translate}}">
+							<span class="fa fa-database"></span>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_IMPORT_DB</span>
+						</a>
 						<!-- 
 						<button href="javascript:void(0)" ng-click='open()'class="btn  btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" title="{{'MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT'|translate}}">
 							<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_DELETE_DATASET</span>

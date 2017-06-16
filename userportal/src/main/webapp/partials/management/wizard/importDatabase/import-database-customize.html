@@ -1,0 +1,419 @@
+<div class='clearfix wizard-title' ng-cloak>
+	<div class='pull-left'><h3><span translate-cloak translate>MANAGEMENT_NEW_DATASET_TITLE</span> - <strong><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_SUBTITLE</span></strong></h3></div>
+	<div class='pull-right'><h3><small>Step 6/7</small></h3></div>
+</div>
+<p><span translate>MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_INTRO</span></p>
+<div>
+	<table class='table text-left import-database-customize-table table-condensed'>
+		<thead>
+			<tr>	
+				<th>&nbsp;</th>
+				<th translate>MANAGEMENT_IMPORT_DATABASE_TABLE_NAME</th>
+				<th translate>MANAGEMENT_IMPORT_DATABASE_DATASET_INFO</th>
+				<th translate>MANAGEMENT_IMPORT_DATABASE_DATASET_DOMAIN</th>
+				<th translate>MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_VISIBILITY</th>
+				<th translate>MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DCAT</th>
+				<th translate>DATASET_FIELD_METADATA_FIELDS</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat='table in tables  track by $index' ng-if="table.importTable" ng-class="{'dataset-customized': isTableCustomized(table.index)}">
+				<td>
+					<i class='fa fa-table import-database-choose-table-type-icon' title='Table' ng-if='table.tableType == "TABLE"'></i>
+					<i class='fa fa-eye import-database-choose-table-type-icon' title='View'  ng-if='table.tableType == "VIEW"'></i>
+					<span  class='import-database-table-{{table.status}}'>{{'MANAGEMENT_IMPORT_DATABASE_TABLE_STATUS_'+table.status| translate}}</span>
+					&nbsp;&nbsp;
+					<span ng-if='isTableCustomized(table.index)'   class='import-database-table-customized' translate>MANAGEMENT_IMPORT_DATABASE_TABLE_CUSTOMIZED</span>
+				</td>
+				<td>
+					{{table.tableName}}
+				</td>
+				<td class='editable-table-cell' ng-click="editDatasetName(table.index)" ng-class="{'dataset-element-customized': table.customized.name}">
+					 <i class='fa fa-pencil edit-icon'  title='{{"EDIT"|translate}}'></i>
+					 <strong>{{table.dataset.info.datasetName}}</strong>
+					 <small ng-if='table.dataset.info.description!=null'><br>{{table.dataset.info.description|string_ellipse:120}}</small>
+					 <small ng-if='table.dataset.info.externalReference!=null'><br><i>{{table.dataset.info.externalReference}}</i></small>
+				</td>
+				<td class='editable-table-cell' ng-click="editDatasetDomain(table.index)" ng-class="{'dataset-element-customized': table.customized.domain}">
+					 <i class='fa fa-pencil edit-icon'  title='{{"EDIT"|translate}}'></i>
+					<span>{{table.dataset.info.dataDomain|translate}}/{{table.dataset.info.codSubDomain|translate}}</span>
+					
+					<span ng-repeat="tag in table.dataset.info.tags track by $index"><span class='label-custom-small label-tag' ng-bind-html="tag.tagCode|translate"></span> </span>
+				</td>
+				<td class='editable-table-cell' ng-click="editDatasetVisibility(table.index)" ng-class="{'dataset-element-customized': table.customized.visibility}">
+					 <i class='fa fa-pencil edit-icon'  title='{{"EDIT"|translate}}'></i>
+					<span ng-if="table.dataset.info.visibility=='public'" class='nowrap'><i class='fa fa-unlock'></i> Public</span>
+					<span ng-if="table.dataset.info.visibility!='public'" class='nowrap'><i class='fa fa-lock'></i> Private</span><br>
+					<small ng-if="table.dataset.opendata.isOpendata=='true'">OPENDATA<br></small>
+					<small ng-if="table.dataset.info.tenantssharing.tenantssharing.length>0">
+						<span translate>MANAGEMENT_IMPORT_DATABASE_TENANT_SHARED</span>{{table.dataset.info.tenantssharing.tenantssharing.length}}<br>
+					</small>
+					<small translate>{{table.dataset.info.license}}</small>
+				</td>
+				<td class='editable-table-cell' ng-click="editDatasetDCat(table.index)" ng-class="{'dataset-element-customized': table.customized.dcat}">
+					 <i class='fa fa-pencil edit-icon'  title='{{"EDIT"|translate}}'></i>
+					{{table.dataset.dcatRightsHolderName}}
+				</td>
+				<td class='editable-table-cell' ng-click="editDatasetColumns(table.index)" ng-class="{'dataset-element-customized': table.customized.columns}">
+					 <i class='fa fa-pencil edit-icon'  title='{{"EDIT"|translate}}'></i>
+					{{table.dataset.info.fields.length}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="row">
+	<div class=" col-sm-12 form-toolbar">
+		<a ng-click='goToMetadata()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
+		<a ng-click='goToFinish()' class="btn btn-wizard-next" ng-disabled="!isOwner() " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+	</div>
+</div>
+
+
+<script type="text/ng-template" id="importDatabaseEditDatasetName.html">
+	<div class="modal-body modal-compact">
+		<div class="modal-header">
+            <h3 class="modal-title" ><span translate >MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_NAME_DESCRIPTION</span> <small>{{table.tablename}}</small></h3>
+        </div>
+		<div class="modal-body">
+			<form class="form-horizontal" name='importDatasaetNameForm'>
+  				<div class="form-group">
+    				<label for="customizeDatasetName" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_NAME</label>
+    				<div class="col-sm-10"><input type='text' placeholder='{{"MANAGEMENT_IMPORT_DATABASE_DATASET_NAME"|translate}}' id='customizeDatasetName' class="form-control" ng-model='datasetName'  ng-required="true"></div>
+  				</div>
+  				<div class="form-group">
+    				<label for="customizeDatasetDescription" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
+    				<div class="col-sm-10"><textarea class="form-control" rows="4"  ng-model='description' id='customizeDatasetDescription' ></textarea></div>
+  				</div>
+  				<div class="form-group">
+    				<label for="customizeDatasetExternalReference" class="col-sm-2 control-label" translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</label>
+    				<div class="col-sm-10"><input type='text' placeholder='{{"DATASET_FIELD_METADATA_EXTERNAL_REFERENCE"|translate}}' id='customizeDatasetExternalReference' class="form-control" ng-model='externalReference' /></div>
+  				</div>
+			</form>
+		</div>
+ 		<div class="modal-footer">
+ 			<button class="btn " ng-click="cancel()" translate>CANCEL</button>
+			<button type="submit" class="btn btn-default" ng-click="ok()" ng-disabled="importDatasaetNameForm.$invalid"  translate>OK</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="importDatabaseEditDatasetDomain.html">
+	<div class="modal-body modal-compact">
+		<div class="modal-header">
+            <h3 class="modal-title"><span translate >MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DOMAIN_DESCRIPTION</span> <small>{{table.tablename}}</small></h3>
+        </div>
+		<div class="modal-body">
+			<form class="form-horizontal" name='importDatasaetDomainTagForm'>
+				<div class="form-group">
+					<label for="inputDatasetDomain" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> </label>
+					<div class="col-sm-9">
+						<select class="input-sm form-control" ng-model="dataDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+							<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDatasetCodSubDomain" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span> </label>
+					<div class="col-sm-9">
+						<select class="input-sm form-control" ng-model="codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subDomainList|subDomainFilter:dataDomain" ng-required="true">
+							<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputDatasetAddTag" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span></label>
+					<div class="col-sm-9 text-left">
+						<p>
+							<span  ng-repeat="tag in tags">
+								<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
+								<a href="javascript:void(0)" ng-click='removeTag($index, tags)'  class='close-button'>&times;</a>
+								</span> &nbsp;
+							</span>
+						</p>
+						<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
+							<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
+									typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
+							<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span>
+						</div>
+					</div>
+				</div>			
+			</form>
+		</div>
+ 		<div class="modal-footer">
+ 			<button class="btn " ng-click="cancel()" translate>CANCEL</button>
+			<button type="submit" class="btn btn-default" ng-click="ok()" ng-disabled="importDatasaetDomainTagForm.$invalid || tags.length==0" translate>OK</button>
+		</div>
+	</div>
+</script>
+
+
+<script type="text/ng-template" id="importDatabaseEditDatasetVisibility.html">
+	<div class="modal-body modal-compact">
+		<div class="modal-header">
+            <h3 class="modal-title"><span translate>MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_VISIBILITY_DESCRIPTION</span> <small>{{table.tablename}}</small></h3>
+        </div>
+		<div class="modal-body">
+			<form class="form-horizontal" name="importDatasaetVisibilityForm">
+				<div class='form-label-separator'> <span ng-bind-html="'MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING'|translate"></span></div>
+				<div class="form-group">
+					<label for="RadioGroupVisibility" class="col-sm-4 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span>{{visibility}}</label>
+					<div class="col-sm-6 text-left">
+						<label class="radio-inline">
+			         		<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="visibility" ng-disabled='!canCreatePublicDataset()'>
+			         		<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC</span>
+			       		</label>
+						<label class="radio-inline">
+			         		<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="visibility" ng-disabled='!canCreatePublicDataset()'>
+			         		<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE</span>
+			       		</label>
+					</div>
+				</div>
+				<div class="form-group" ng-show="visibility=='private' && canShareDataset()">
+					<label for="inputStreamAddTenantSharing" class="col-sm-4 control-label"><span translate-cloak translate>DATASET_FIELD_TENANTSSHARING</span></label>
+					<div class="col-sm-6 text-left">
+						<p>
+							<span  ng-repeat="tenantSharing in tenantsharing">
+								<span class="label label-custom label-tenant-sharing"><span title="{tenantSharing.tenantCode}">{{tenantSharing.tenantName}}</span> &nbsp;
+								<a href ng-click='removeTenantSharing($index, tenantsharing)' ng-show="tenantSharing.isOwner==0"  class='close-button'>&times;</a>
+								</span> &nbsp;
+							</span>
+						</p>						
+						<div class="input-group">															
+							<select class="input-sm form-control" ng-model="newTenantSharing" ng-options="tenant as tenant.tenantName for tenant in tenantsList">
+								<option value="" ng-bind-html="'MANAGEMENT_EDIT_DATASET_TENANT_SHARING_PLACEHOLDER'|translate" ></option>
+							</select>
+						    <span class="input-group-btn">
+						    	<a class="btn  btn-sm"  href ng-click='addTenantSharing(newTenantSharing, tenantsharing)' title="{{'MANAGEMENT_EDIT_DATASET_ADD_TENANT_SHARING'|translate}}" >
+						    		<i class='glyphicon glyphicon-plus'></i>
+						    	</a>
+						    </span>
+			 			</div>								
+					</div>
+				</div>	
+				<div ng-show="visibility=='public'">
+					<div class="form-group">
+						<label for="RadioGroupOpendata" class="col-sm-4 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span></label>
+						<div class="col-sm-6  text-left">
+							<label class="radio-inline">
+			             			<input type="radio" name="RadioGroupOpendata" value="true" id="RadioGroupOpenadata_0" ng-model="opendata.isOpendata" ng-disabled="visibility!='public'">
+			             			<span translate-cloak translate>YES</span>
+			           		</label>
+							<label class="radio-inline">
+			             			<input type="radio" name="RadioGroupOpendata" value="false" id="RadioGroupOpenadata_1" ng-model="opendata.isOpendata" ng-disabled="visibility!='public'">
+			             			<span translate-cloak translate>NO</span>
+			           		</label>
+						</div>
+					</div>
+					<div ng-show="opendata.isOpendata=='true'">
+						<div class="form-group">
+							<label for="inputDatasetOpendataAuthor" class="col-sm-4 control-label" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_AUTHOR</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="inputDatasetOpendataAuthor" placeholder="{{'DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER'|translate}}" 
+								ng-model="opendata.author" >
+							</div>	
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDomain" class="col-sm-4 control-label"translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_LANG</label>
+							<div class="col-sm-6">
+								<select class="input-sm form-control" ng-model="opendata.language" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
+			    					<option value="" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER</option>
+			    				</select>
+							</div>
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetOpendataDataUpdateDate" class="col-sm-4 control-label" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</label>
+							<div class="col-sm-6">
+								<input type="date" class="form-control"  ng-model="opendata.dataUpdateDate"  close-text="Close" />
+							</div>
+						</div>			
+					</div>
+				</div>	
+
+
+				<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div>
+				<div class="form-group" ng-show="visibility!='private'">
+					<label for="RadioGroupLicence_0" class="col-sm-4 control-label" translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</label>
+						<div class="col-sm-8">
+							<label class="radio-inline">
+         						<input type="radio" name="RadioGroupLicence" value="{{'DATASET_FIELD_METADATA_LICENCE_CCBY'|translate}}" id="RadioGroupLicence_0" ng-model="license">
+         							<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_CCBY</span>
+       							</label>
+								<label class="radio-inline">
+         							<input type="radio" name="RadioGroupLicence" value="{{'DATASET_FIELD_METADATA_LICENCE_CC0'|translate}}" id="RadioGroupLicence_0" ng-model="license">
+         							<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_CC0</span>
+       							</label>
+								<label class="radio-inline">
+         							<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="license">
+         						<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_OTHER</span>
+       						</label>
+							<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="license" placeholder="{{'DATASET_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenceVisible()' >
+							</textarea>
+						</div>
+					</div>			
+					<div class="form-group" ng-show="visibility!='private'">
+						<label for="inputDatasetDisclaimer" class="col-sm-4 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DISCLAIMER</label>
+						<div class="col-sm-8">
+							<textarea class="form-control" rows="4" resize="none" ng-model="disclaimer"  placeholder="{{'DATASET_FIELD_METADATA_DISCLAIMER'|translate}}" id="inputDatasetDisclaimer" >
+							</textarea>
+						</div>
+					</div>			
+					<div class="form-group" ng-show="visibility=='private'">
+						<label for="inputDatasetCopyright" class="col-sm-4 control-label" translate-cloak translate>DATASET_FIELD_METADATA_COPYRIGHT</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_METADATA_COPYRIGHT'|translate}}" ng-model="copyright" >
+						</div>
+					</div>			
+			</form>
+		</div>
+ 		<div class="modal-footer">
+ 			<button class="btn " ng-click="cancel()" translate>CANCEL</button>
+			<button type="submit" class="btn btn-default" ng-click="ok()" ng-disabled="importDatasaetVisibilityForm.$invalid"  translate>OK</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="importDatabaseEditDCat.html">
+	<div class="modal-body modal-compact">
+		<div class="modal-header">
+            <h3 class="modal-title" ><span translate >MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DCAT</span> <small>{{table.tablename}}</small></h3>
+        </div>
+		<div class="modal-body">
+			<form class="form-horizontal" name="importDatasaetDcatForm">
+				<div class="form-group">			
+					<label for="inputDatasetDCATRightHolderName" class="col-sm-4 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span><span class='required-asterisk'>*</span></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputDatasetDCATRightHolderName" placeholder="{{'DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME_PLACEHOLDER'|translate}}" 
+						ng-required="true" ng-model="dcatRightsHolderName">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputDatasetDCATRightHolderType" class="col-sm-4 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE</span></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputDatasetDCATRightHolderType" placeholder="{{'DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_PLACEHOLDER'|translate}}" 
+						ng-model="dcatRightsHolderType">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputDatasetDCATRightHolderId" class="col-sm-4 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID</span></label>
+					<div class="col-sm-8"">
+						<input type="text" class="form-control" id="inputDatasetDCATRightHolderId" placeholder="{{'DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID_PLACEHOLDER'|translate}}" 
+						ng-model="dcatRightsHolderId">
+					</div>	
+				</div>	
+				<div class="form-group">
+					<label for="inputDatasetDCATCreatorName" class="col-sm-4 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORNAME</span></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputDatasetDCATCreatorName" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORNAME_PLACEHOLDER'|translate}}" 
+						ng-model="dcatCreatorName">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputDatasetDCATCreatorType" class="col-sm-4 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputDatasetDCATCreatorType" placeholder="{{'DATASET_FIELD_METADATA_DCAT_CREATORTYPE_PLACEHOLDER'|translate}}" 
+						ng-model="dcatCreatorType">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputDatasetDCATCreatorId" class="col-sm-4 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORID</span></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputDatasetDCATCreatorId" placeholder="{{'DATASET_FIELD_METADATA_DCAT_CREATORID_PLACEHOLDER'|translate}}" 
+						ng-model="dcatCreatorId">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputDatasetOpendataNomeOrg" class="col-sm-4 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</span><span class='required-asterisk'>*</span></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputDatasetOpendataNomeOrg" placeholder="{{'DATASET_FIELD_METADATA_DCAT_NOMEORG_PLACEHOLDER'|translate}}" 
+						ng-required="true" ng-model="dcatNomeOrg">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputDatasetOpendataEmailOrg" class="col-sm-4 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_EMAILORG</span><span class='required-asterisk'>*</span></label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputDatasetOpendataEmailOrg" placeholder="{{'DATASET_FIELD_METADATA_DCAT_EMAILORG_PLACEHOLDER'|translate}}" 
+						ng-required="true" ng-model="dcatEmailOrg">
+					</div>	
+				</div>	
+			</form>
+		</div>
+ 		<div class="modal-footer">
+ 			<button class="btn " ng-click="cancel()" translate>CANCEL</button>
+			<button type="submit" class="btn btn-default" ng-click="ok()" ng-disabled="importDatasaetDcatForm.$invalid"  translate>OK</button>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="importDatabaseEditColumns.html">
+	<div class="modal-body modal-compact modal-with-dragdrop">
+		<div class="modal-header">
+            <h3 class="modal-title" ><span translate >MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_COLUMNS</span> <small>{{table.tablename}}</small></h3>
+        </div>
+		<div class="modal-body">
+			<form class="form-horizontal" name="importDatasaetColumnsForm">
+				<div class='row import-database-customize-table-column-header'>
+					<div class="col-sm-1"><span>&num;</span></div>
+					<div class="col-sm-2"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
+					<div class="col-sm-2"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
+					<div class="col-sm-2"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</span></div>
+					<div class="col-sm-2"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT</span> | <span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></div>
+					<div class="col-sm-1"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</span></div>
+					<div class="col-sm-1">&nbsp;</div>
+					<div class="col-sm-1">&nbsp;</div>
+				</div>
+				<div  class='row import-database-customize-table-column-droprow' ng-repeat="column in previewColumns" ng-drop="true" ng-drop-success="onDropColumnComplete($data,$index,$event)" 
+					 ng-class="{'import-database-customize-table-column-skiprow': column.skipColumn}">
+					<div class="col-sm-1"><span>{{column.sourceColumn}}</span></div>
+					<div class="col-sm-2" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ng-disabled="column.skipColumn"  ng-blur="checkColumnName(column.fieldName, $index)"></div>
+					<div class="col-sm-2"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias" ng-disabled="column.skipColumn"  ></div>
+					<div class="col-sm-2">
+						<select class="input-sm form-control" ng-model="column.dataType" ng-disabled="column.skipColumn" ng-change="refreshColumnOrder(column)">
+							<option ng-repeat="dataType in dataTypeList track by $index">{{dataType.dataType}}</option>
+			          	</select>
+					</div>
+					<div class="col-sm-2 animate-show" ng-show="isDateTimeField(column)">
+						<div class="input-group input-group-sm popover-html">
+							<input class="form-control" type="text" ng-model="column.dateTimeFormat" ng-disabled="column.skipColumn" >
+						  	<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
+						</div>
+					</div>
+					<div class="col-sm-2 animate-show" ng-show="isCommonField(column)">
+					 	<select class="input-sm form-control" ng-model="column.measureUnit" ng-change="refreshColumnOrder()"
+					 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit" 
+      							ng-disabled="column.skipColumn">
+					 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
+					 	</select>
+			        </div>
+					<div class="col-sm-2 animate-show" ng-show="isCoordinatesField(column)">
+					 	<i><small>Format: <code><strong>[lat,lon]</strong></code></small></i>
+			        </div>
+					<div class="col-sm-1"><label>
+						<input type="checkbox" ng-model="column.isKey" ng-disabled="column.skipColumn">
+						<span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label>
+					</div>
+					<div class="col-sm-1">
+						<label title='{{"MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT"|translate}}'><input type="checkbox" ng-model="column.skipColumn" ng-change="refreshColumnOrder()" >&nbsp;<i class='glyphicon glyphicon-ban-circle skip-row'></i></label>
+					</div>
+					<div class="col-sm-1">
+						<label class="import-database-customize-table-column-drag-panel"  ng-drag="true" ng-drag-data="column.index" ng-drag-success="onDragColumnComplete($data,$event)"  
+							 title='{{"MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT"|translate}}' ><i class='glyphicon glyphicon-resize-vertical'></i>
+						</label>
+					</div>
+				</div>				
+			</form>
+		</div>
+ 		<div class="modal-footer">
+ 			<button class="btn " ng-click="cancel()" translate>CANCEL</button>
+			<button type="submit" class="btn btn-default" ng-click="ok()" ng-disabled="importDatasaetColumnsForm.$invalid"  translate>OK</button>
+		</div>
+	</div>
+</script>
+
+
+
+
+
+			  
+

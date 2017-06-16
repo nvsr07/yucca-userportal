@@ -104,3 +104,54 @@ appDirectives.directive('newVirtualentityWizardDetail', function() {
 	};
 });
 
+/* import database */
+
+appDirectives.directive('importDatabaseWizardStart', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/importDatabase/import-database-start.html?'+BuildInfo.timestamp,
+	};
+});
+
+appDirectives.directive('importDatabaseWizardDatabase', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/importDatabase/import-database-database.html?'+BuildInfo.timestamp,
+	};
+});
+
+appDirectives.directive('importDatabaseWizardTables', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/importDatabase/import-database-tables.html?'+BuildInfo.timestamp,
+	};
+});
+
+appDirectives.directive('importDatabaseWizardRequestor', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/importDatabase/import-database-requestor.html?'+BuildInfo.timestamp,
+	};
+});
+
+appDirectives.directive('importDatabaseWizardMetadata', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/importDatabase/import-database-metadata.html?'+BuildInfo.timestamp,
+	};
+});
+
+
+appDirectives.directive('importDatabaseWizardCustomize', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/importDatabase/import-database-customize.html?'+BuildInfo.timestamp,
+	};
+});
+
+appDirectives.directive('importDatabaseWizardFinish', function() {
+	return {
+		restrict : 'E',
+		templateUrl : 'partials/management/wizard/importDatabase/import-database-finish.html?'+BuildInfo.timestamp,
+	};
+});

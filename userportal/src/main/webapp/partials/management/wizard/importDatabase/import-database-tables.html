@@ -1,0 +1,101 @@
+<div class='clearfix wizard-title' ng-cloak>
+	<div class='pull-left'><h3><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_TITLE</span> - <strong><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SUBTITLE</span></strong></h3></div>
+	<div class='pull-right'><h3><small>Step 3/7</small></h3></div>
+</div>
+<div class='row'>
+	<div class='col-sm-10 col-sm-offset-1'>
+		<p><span translate>MANAGEMENT_IMPORT_DATABASE_TABLES_INTRO</span></p>
+		<table class='table text-left import-database-choose-table table-condensed'>
+			<thead>
+				<tr>
+					<th class='slim-td nowrap'>
+						<div class="dropdown checkbox-dropdown" dropdown>
+							<div class="checkbox dropdown-toggle" id="dropdownMenuSelectTables" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								<label title='Select All'>
+									<input type="checkbox" ng-model='selectTablesFlag' ng-click='toggleSelectTables(selectTablesFlag)' checked="checked">
+									<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+								</label>
+						    <a href dropdown-toggle><span class="caret"></span></a>
+							</div>
+						  	<ul class="dropdown-menu" aria-labelledby="dropdownMenuSelectTables">
+							    <li><a href ng-click="selectTables('all')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_ALL</a></li>
+							    <li><a href ng-click="selectTables('none')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_NONE</a></li>
+							    <li><a href ng-click="selectTables('invert')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_INVERT</a></li>
+							    <li role="separator" class="divider"></li>
+							    <li><a href ng-click="selectTables('new')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_NEW</a></li>
+							    <li><a href ng-click="selectTables('existing')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_EXISTING</a></li>
+							    <li role="separator" class="divider"></li>
+							    <li><a href ng-click="selectTables('tableType_table')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_TABLE</a></li>
+							    <li><a href ng-click="selectTables('tableType_view')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_VIEW</a></li>
+							  </ul>
+						</div>
+					
+					
+					</th>
+					<th translate class='slim-td' title="{{'MANAGEMENT_IMPORT_DATABASE_TABLE_PROPERTIES_HINT'|translate}}">MANAGEMENT_IMPORT_DATABASE_TABLE_PROPERTIES</th>
+					<th translate  class='slim-td'>MANAGEMENT_IMPORT_DATABASE_TABLE_NAME</th>
+					<th translate>MANAGEMENT_IMPORT_DATABASE_DATASET_NAME</th>
+					<th translate  class='slim-td'>MANAGEMENT_IMPORT_DATABASE_TABLE_COLUMNS</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat='table in tables  track by $index'>
+					<td>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" ng-model="table.importTable" >
+								<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+							</label>
+						</div>
+					</td>
+					<td class='nowrap'>
+						<i class='fa fa-table import-database-choose-table-type-icon' title='Table' ng-if='table.tableType == "TABLE"'></i>
+						<i class='fa fa-eye import-database-choose-table-type-icon' title='View'  ng-if='table.tableType == "VIEW"'></i>
+						&nbsp;&nbsp;
+						<span  class='import-database-table-{{table.status}}'>{{'MANAGEMENT_IMPORT_DATABASE_TABLE_STATUS_'+table.status| translate}}</span>
+					</td>
+					<td>
+						{{table.tableName}}
+						<small ng-if='table.dataset.info.description !=null'><br>{{table.dataset.info.description}}</small>
+					</td>
+					<td>
+						<div class="form-horizontal">
+							<div class="form-group col-sm-12">  
+								<input type='text' placeholder='Dataset Name' ng-model='table.dataset.info.datasetName' class="form-control"/>
+							</div>
+						</div>
+					</td>
+					<td class='slim-td info-table-cell'>
+						{{table.dataset.info.fields.length}} 
+					<i class="fa fa-info-circle column-info-icon tag-html-tooltip-button info-icon" aria-hidden="true" ng-click="showTablesColumns(table.index)"></i>
+						<!-- <i class="fa fa-info-circle column-info-icon tag-html-tooltip-button info-icon" aria-hidden="true" tooltip-html-unsafe="{{table.columnsTooltip}}"  tooltip-trigger="click" tooltip-placement="left"></i>-->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="row">
+		<div class=" col-sm-12 form-toolbar">
+			<a ng-click='goToDatabase()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
+			<a ng-click='goToRequestor()' class="btn btn-wizard-next" ng-disabled="!isOwner() " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="importDatabaseTablesColumns.html">
+	<div class="modal-body modal-compact">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title"><span translate >MANAGEMENT_IMPORT_DATABASE_TABLES_COLUMS</span> <small>{{table.tableName}}</small></h3>
+        </div>
+		<div class="modal-body">
+			<!--<div class='text-right'>
+				<table class='import-database-columns-table-legend text-left'>
+					<tr><td><strong>Primary key&nbsp;&nbsp;&nbsp;&nbsp;</strong></td><td><i class='primary-key fa fa-key'></i> <i>Table Name (optional) </i></td></tr>
+					<tr><td><strong>Foreign key&nbsp;&nbsp;&nbsp;&nbsp;</strong></td><td><i class='foreign-key fa fa-key'></i> <i>Table Name</i></td></tr>
+				</table>
+			</div>-->
+			<div ng-bind-html="columnsTable"></div>		
+		</div>
+	</div>
+</script>

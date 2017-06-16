@@ -106,6 +106,23 @@ appServices.factory('fabricAPImanagement', function($http, $q, info) {
 		});
 		return deferred.promise;
 	};
+	
+	fabricAPI.importDatabase = function(importConfig) {
+		var url = Constants.API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL + '?callback=JSON_CALLBACK';
+		url += "&dbType="+ importConfig.dbType;
+		url += "&jdbc_dbname="+ importConfig.jdbc_dbname;
+		url += "&jdbc_hostname="+ importConfig.jdbc_hostname;
+		url += "&jdbc_username="+ importConfig.jdbc_username;
+		url += "&jdbc_password="+ importConfig.jdbc_password;
+		url += "&sourceType="+ importConfig.sourceType;
+			
+		return $http({
+			method : 'JSONP',
+			url : url
+		});
+	};
+	
+	
 
 	fabricAPI.updateDataset = function(tenant_code, dataset_id, dataset) {
 		var deferred = $q.defer();

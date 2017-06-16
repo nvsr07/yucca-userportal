@@ -1,0 +1,72 @@
+<div class='clearfix wizard-title' ng-cloak>
+	<div class='pull-left'><h3><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_TITLE</span> -
+	 	<strong><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_SUBTITLE</span> 
+			<!-- <a href ng-click='createFakeDataset()'>via {{creationDatasetProgress}}</a> -->
+		</strong></h3>
+	</div>
+	<div class='pull-right'><h3><small>Step 7/7</small></h3></div>
+</div>
+<div class='import-database-finish'>
+	<div class='row import-database-create-metatada-top'>
+		<div ng-if="dbImport.status=='ready'">
+			<div class='title col-sm-12 text-center'>
+				<span translate translate-values="{ totalMetadata: dbImport.total}">MANAGEMENT_IMPORT_DATABASE_FINISH_START_QUESTION</span>
+			</div>
+			<div class='col-sm-3 col-sm-offset-3 import-database-create-metatada-toolbar'>
+				<a ng-click='goToCustomize()' href class="btn btn-default" translate translate-cloak>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
+			</div>
+			<div class='col-sm-3 import-database-create-metatada-toolbar'>
+				<a ng-click='continueCreateDataset()' href class="btn btn-default" translate translate-cloak>MANAGEMENT_IMPORT_DATABASE_FINISH_START_BTN</a>
+			</div>
+		</div>
+		<div ng-if="dbImport.status=='running'">
+			<div class='title'>
+				<span translate class=''>MANAGEMENT_IMPORT_DATABASE_FINISH_CREATE_METADATA</span> 
+				<span>{{dbImport.currentIndex()}}/{{dbImport.total}}</span>
+				<strong>{{dbImport.currentDatasetName}}</strong>
+			</div>
+		</div>
+		<div  ng-if="dbImport.status=='pause'">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div class='alert alert-danger '>
+					<div class='subtitle'><span translate>MANAGEMENT_IMPORT_DATABASE_FINISH_ERROR_SINGLE_TITLE</span> <strong> {{dbImport.currentDatasetName}}</strong></div>
+					<p class=''>{{dbImport.currentError}}</p>
+				</div>
+			</div>
+			<div class='col-sm-4 col-sm-offset-2 import-database-create-metatada-toolbar'>	
+				<a ng-click='breakCreateDataset()' class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_ERROR_SINGLE_BREAK</a>
+			</div>
+			<div class='col-sm-4 import-database-create-metatada-toolbar'>
+				<a ng-click='continueCreateDataset()' class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_ERROR_SINGLE_CONTINUE</a>
+			</div>
+		</div>
+		<div ng-if="dbImport.status =='finish'" class='text-left'>
+			<div class='title col-sm-4'><span translate>MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_TITLE</span></div>
+			<div class='col-sm-4 title text-success'>
+				<span translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_OK' translate-values="{ datasetCreated: dbImport.totalOk}"></span>
+			</div>
+			<div class='col-sm-4  text-danger' ng-if="dbImport.totalKo>0">
+				<div class='title' translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_KO' translate-values="{ datasetNotCreated: dbImport.totalKo}"></div>
+				<div translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_KO_LIST' translate-values="{ datasetNotCreated: dbImport.totalKo}"></div>
+				<div ng-repeat='name in dbImport.datasetWithError track by $index'>&minus; {{name}}</div>
+			</div>
+			<div class='col-sm-3 col-sm-offset-3 import-database-create-metatada-toolbar'>	
+				<a ng-click='goToStart()' class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_BACK_TO_START</a>
+			</div>
+			<div class='col-sm-3 import-database-create-metatada-toolbar'>
+				<a href="#/management/streams/{{tenantCode}}" class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_GO_TO_MANAGEMENT</a>
+			</div>
+		</div>
+	</div>
+	<div class='row import-database-create-metatada-bottom'>
+		<div class='col-sm-8 col-sm-offset-2' ng-if="dbImport.status !='finish'">
+			<div class='progress-bar-container'>
+				<div class='progress-bar-done' style='width: {{dbImport.progressBar()}}%'></div>
+			</div>
+		</div>
+		<div class='col-sm-2 progress-bar-percent text-center' ng-if="dbImport.status !='finish'">
+				{{dbImport.percent()}} &percnt;
+		</div>
+	</div>
+
+</div>
