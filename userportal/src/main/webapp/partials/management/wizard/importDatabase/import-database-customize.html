@@ -2,7 +2,10 @@
 	<div class='pull-left'><h3><span translate-cloak translate>MANAGEMENT_NEW_DATASET_TITLE</span> - <strong><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_SUBTITLE</span></strong></h3></div>
 	<div class='pull-right'><h3><small>Step 6/7</small></h3></div>
 </div>
-<p><span translate>MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_INTRO</span></p>
+	<div class='wizard-step-intro'>
+		<div class='icon-hint '><i class='fa fa-lightbulb-o'></i></div>
+		<div class='wizard-step-intro-text' ng-bind-html="'MANAGEMENT_IMPORT_DATABASE_STEP_CUSTOMIZE_INTRO'|translate"></div>
+	</div>
 <div>
 	<table class='table text-left import-database-customize-table table-condensed'>
 		<thead>
@@ -352,9 +355,9 @@
             <h3 class="modal-title" ><span translate >MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_COLUMNS</span> <small>{{table.tablename}}</small></h3>
         </div>
 		<div class="modal-body">
-			<form class="form-horizontal" name="importDatasaetColumnsForm">
+			<form class="form-horizontal form-horizontal-compact" name="importDatasaetColumnsForm">
 				<div class='row import-database-customize-table-column-header'>
-					<div class="col-sm-1"><span>&num;</span></div>
+					<div class="col-sm-1"><span  title="{{'MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_COLUMNS_COLUMN_HINT'|translate}}">Info</span></div>
 					<div class="col-sm-2"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
 					<div class="col-sm-2"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
 					<div class="col-sm-2"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</span></div>
@@ -365,24 +368,29 @@
 				</div>
 				<div  class='row import-database-customize-table-column-droprow' ng-repeat="column in previewColumns" ng-drop="true" ng-drop-success="onDropColumnComplete($data,$index,$event)" 
 					 ng-class="{'import-database-customize-table-column-skiprow': column.skipColumn}">
-					<div class="col-sm-1"><span>{{column.sourceColumn}}</span></div>
-					<div class="col-sm-2" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ng-disabled="column.skipColumn"  ng-blur="checkColumnName(column.fieldName, $index)"></div>
+					<div class="col-sm-1 nowrap">
+						<i class='fa fa-info-circle column-info-icon' title='{{"MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_COLUMNS_COLUMN_HINT"|translate}}: {{column.sourceColumnName}}'></i>&nbsp;
+						<span class='import-database-column-new' title='{{"MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS_HINT"|translate}}' ng-if="column.isNewField">N</span>
+						<i class='fa fa-key primary-key'  title='Primary key' ng-if='column.isKey'></i> 
+						<i class='fa fa-key foreign-key'  title='Foreign key: {{column.foreignKey}}' ng-if='column.foreignKey!=null'></i> &nbsp;
+					</div>
+					<div class="col-sm-2" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ng-disabled="!column.isNewField || column.skipColumn"  ng-blur="checkColumnName(column.fieldName, $index)"></div>
 					<div class="col-sm-2"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias" ng-disabled="column.skipColumn"  ></div>
 					<div class="col-sm-2">
-						<select class="input-sm form-control" ng-model="column.dataType" ng-disabled="column.skipColumn" ng-change="refreshColumnOrder(column)">
+						<select class="input-sm form-control" ng-model="column.dataType" ng-disabled="!column.isNewField || column.skipColumn" ng-change="refreshColumnOrder(column)">
 							<option ng-repeat="dataType in dataTypeList track by $index">{{dataType.dataType}}</option>
 			          	</select>
 					</div>
 					<div class="col-sm-2 animate-show" ng-show="isDateTimeField(column)">
 						<div class="input-group input-group-sm popover-html">
-							<input class="form-control" type="text" ng-model="column.dateTimeFormat" ng-disabled="column.skipColumn" >
+							<input class="form-control" type="text" ng-model="column.dateTimeFormat" ng-disabled="!column.isNewField || column.skipColumn" >
 						  	<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
 						</div>
 					</div>
 					<div class="col-sm-2 animate-show" ng-show="isCommonField(column)">
 					 	<select class="input-sm form-control" ng-model="column.measureUnit" ng-change="refreshColumnOrder()"
 					 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit" 
-      							ng-disabled="column.skipColumn">
+      							ng-disabled="!column.isNewField || column.skipColumn">
 					 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 					 	</select>
 			        </div>
@@ -394,7 +402,10 @@
 						<span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span></label>
 					</div>
 					<div class="col-sm-1">
-						<label title='{{"MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT"|translate}}'><input type="checkbox" ng-model="column.skipColumn" ng-change="refreshColumnOrder()" >&nbsp;<i class='glyphicon glyphicon-ban-circle skip-row'></i></label>
+						<label title='{{"MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT"|translate}}' ng-class="{'skiprow-disabled': !column.isNewField}">
+							<input type="checkbox" ng-model="column.skipColumn" ng-change="refreshColumnOrder()" ng-disabled="!column.isNewField">&nbsp;
+							<i class='glyphicon glyphicon-ban-circle skip-row'></i>
+						</label>
 					</div>
 					<div class="col-sm-1">
 						<label class="import-database-customize-table-column-drag-panel"  ng-drag="true" ng-drag-data="column.index" ng-drag-success="onDragColumnComplete($data,$event)"  

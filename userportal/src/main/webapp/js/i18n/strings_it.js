@@ -17,6 +17,7 @@ var translations_it = {
 	SAVE_DRAFT: 'Salva bozza',
 	COMING_SOON: 'Coming soon...', 
 	WARNING: 'Attenzione', 
+	WARNING_TITLE: 'Attenzione', 
 	WARNING_SUBTITLE: 'Per proseguire &egrave; necessario correggere le seguenti segnalazioni',
 	LOADING: 'Attendere prego...',
 	YES: 'Si',
@@ -950,6 +951,23 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_STEP_CUSTOMIZE: 'Personalizza',
 	MANAGEMENT_IMPORT_DATABASE_STEP_FINISH: 'Fine',
 
+	MANAGEMENT_IMPORT_DATABASE_STEP_START_INTRO: 'Questa sezione consente la definizione automatica dei dataset a partire da una connessione jdbc o tramite lo script di creazione di un database',
+
+	MANAGEMENT_IMPORT_DATABASE_STEP_DB_JDBC_INTRO: '&Egrave; necessario che la piattaforma raggiunga il server su cui &egrave; attestato il database. <br>Contattare <a href="mailto:smartdatanet@csi.it" target="_blank">smartdatanet@csi.it</a> '+
+		'per ulteriori informazioni. <strong>Nessuna password verrà salvata sul sistema.</strong>',
+
+	MANAGEMENT_IMPORT_DATABASE_STEP_DB_SCRIPT_INTRO: 'Assicurati che lo script sia generato tramite export dal database stesso e che sia codificato in UTF-8',
+	MANAGEMENT_IMPORT_DATABASE_STEP_TABLES_INTRO: 'Seleziona le tabelle o viste che vuoi importare, per ogni tabella verr&agrave; creato o aggiornato un dataset.<br>Il nome del dataset pu&ograve; '+
+	'essere personalizzato.<br>Per i dataset gi&agrave; importati precedentemente, verr&agrave; creata una nuova versione, con gli  aggiornamenti',
+
+	MANAGEMENT_IMPORT_DATABASE_STEP_METADATA_INTRO: 'Definisci i metadati comuni per tutti i dataset nuovi, per i dataset  gi&agrave; importati in precedenza, vengono mantenuti i metadati originali ' +
+		'(che si potranno modificare nel prossimo step del wizard)',
+		
+	MANAGEMENT_IMPORT_DATABASE_STEP_CUSTOMIZE_INTRO: 'Personalizza i metadati dei singoli dataset,  e decidi quali colonne delle tabelle vanno incluse.<br> '+
+			'Per i dataset esistenti si possono includere le colonne che erano state eventualmente scartate in precedenti importazioni.',
+
+
+	
 	MANAGEMENT_IMPORT_DATABASE_START_SUBTITLE: 'Sorgente struttura database',
 	MANAGEMENT_IMPORT_DATABASE_SOURCE_TYPE_QUESTION: 'Da dove importiamo le tabelle?',
 	MANAGEMENT_IMPORT_DATABASE_SOURCE_TYPE_DB_TITLE: 'Connessione al Database', 
@@ -970,16 +988,23 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_TABLE: 'Tabelle',
 	MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_VIEW: 'Viste',
 
-	MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS: 'Colonne non incluse in precedenti importazioni',
+	MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS: 'Nuovo',
+	MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS_HINT: 'Colonne non incluse in precedenti importazioni',
+	
+	
 	
 	MANAGEMENT_IMPORT_DATABASE_TABLE_CUSTOMIZED: 'Personalizzato',
+	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_COLUMNS_COLUMN: 'Colonna',
+	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_COLUMNS_COLUMN_HINT: 'Colonna su database',
 	
 	MANAGEMENT_IMPORT_DATABASE_DATABASE_SUBTITLE: 'Configurazione importazione',
 	MANAGEMENT_IMPORT_DATABASE_FINISH_SUBTITLE: 'Creazione dei metadati',
 	
 	MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_TITLE:'Importazione conclusa',
 	MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_OK: '{{datasetCreated}} metadati importati con successo',
-	MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_KO: '{{datasetNotCreated}} metadati non importati',
+	MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_CREATED_OK: 'Metadati creati: {{datasetCreated}} ',
+	MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_UPDATED_OK: 'Metadati aggiornati: {{datasetUpdated}} ',
+	MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_KO: 'Metadati non importati: {{datasetNotCreated}}',
 	MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_KO_LIST: 'Metadati con errori', 
 	MANAGEMENT_IMPORT_DATABASE_FINISH_CREATE_METADATA: 'Creazione metadata ',
 	MANAGEMENT_IMPORT_DATABASE_FINISH_BACK_TO_START: 'Carica altri metadati',
@@ -1002,18 +1027,19 @@ var translations_it = {
 	JDBC_PARAM_PASSWORD_PLACEHOLDER: 'secret',
 	JDBC_PARAM_PASSWORD_HINT: 'Nome utente e password non vengono salvati su Yucca',
 	
-	MANAGEMENT_IMPORT_DATABASE_ERROR_CONNECTION: "Errore la connessione al database, verificare i parametri di connessione", 
+	MANAGEMENT_IMPORT_DATABASE_ERROR_CONNECTION: "Errore durante la connessione al database, verificare i parametri di connessione o il tipo di database", 
 
 	
 	MANAGEMENT_IMPORT_DATABASE_DATABASE_TYPE: 'Tipo di database',
-	
+	MANAGEMENT_IMPORT_DATABASE_JDBC_PARAMS_WARNING: 'Inserire tutti i parametri di connessione: url (hostname:port), nome istanza database, utente e password ',
+	MANAGEMENT_IMPORT_DATABASE_DBTYPE_NULL_WARNING: 'Specificare il tipo di database',
 	MANAGEMENT_IMPORT_DATABASE_UPLOAD_SOURCEFILE_DROPAREA: 'Rilascia qui il file da caricare',
 	MANAGEMENT_IMPORT_DATABASE_UPLOAD_SOURCEFILE_OR: 'oppure',
 	MANAGEMENT_IMPORT_DATABASE_UPLOAD_SOURCEFILE_BUTTON: 'Seleziona il file',
 	MANAGEMENT_IMPORT_DATABASE_SOURCEFILE_TOOBIG_WARNING: 'File troppo grande (max 1Mb)',
+	MANAGEMENT_IMPORT_DATABASE_SOURCEFILE_NULL_WARNING: 'Selezionare il file con lo script di creazione database',
 
 	MANAGEMENT_IMPORT_DATABASE_TABLES_SUBTITLE: 'Scelta tabelle',
-	MANAGEMENT_IMPORT_DATABASE_TABLES_INTRO: 'Seleziona le tabelle che vuoi importare,  ogni tabella corrisponde a un dataset',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_PROPERTIES: 'Propriet&agrave; Tabella',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_PROPERTIES_HINT: 'Metadato nuovo o importato in precedenza, tabella o vista...',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_NAME: 'Nome Tabella',
@@ -1021,14 +1047,13 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_DATASET_INFO: 'Nome, descrizione, riferimento esterno',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_DOMAIN: 'Domino, sottodominio e tag',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_COLUMNS: 'Colonne', 
+	MANAGEMENT_IMPORT_DATABASE_TABLES_ZERO_SELECTED_WARNING: 'Selezionare almeno una tabella da importare',
 	
 
 	MANAGEMENT_IMPORT_DATABASE_REQUESTOR_SUBTITLE: 'Richiedente',
 	MANAGEMENT_IMPORT_DATABASE_METADATA_SUBTITLE: 'Metadati',
-	MANAGEMENT_IMPORT_DATABASE_METADATA_INTRO: 'Definisci i metadati comuni per tutti i dataset, poi si potranno personalizzare uno a uno',
 	
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_SUBTITLE: 'Personalizza i dataset',
-	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_INTRO: 'Aggiorna gli eventuali metadati specifici. Potrai modificarli successivamente tramite la funzione di modifica del dataset',
 
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_NAME_DESCRIPTION: 'Nome e descrizione',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DOMAIN_DESCRIPTION: 'Dominio, sottodominio e tags',

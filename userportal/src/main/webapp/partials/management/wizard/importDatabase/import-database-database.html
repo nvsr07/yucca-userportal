@@ -5,6 +5,14 @@
 <div class='row'>
 	<div class='col-sm-10 col-sm-offset-1'>
 		<form class="form-horizontal" role="form" name="importDatabaseConfigForm" ng-cloak ng-if="importConfig.sourceType=='database'" class='text-left'>
+			<div class='wizard-step-intro'>
+				<div class='icon-hint '><i class='fa fa-lightbulb-o'></i></div>
+				<div class='wizard-step-intro-text' ng-bind-html="'MANAGEMENT_IMPORT_DATABASE_STEP_DB_JDBC_INTRO'|translate"></div>
+			</div>
+			<div class="alert alert-warning text-left" ng-show='warningMessages.length>0'  ng-cloak>
+				<strong translate-cloak translate>WARNING_TITLE</strong> <span translate-cloak translate>{{warningMessage}}</span>
+				<ul><li ng-repeat="warningMessage in warningMessages "><span translate-cloak translate>{{warningMessage}}</span></li></ul>
+			</div>
 			<h3 translate class='text-left'>JDBC_PARAM_INTRO</h3>
 			<div class="form-group">
 				<label for="inputJDBCHostname" class="col-sm-2 control-label"><span translate-cloak translate>JDBC_PARAM_HOSTNAME</span></label>
@@ -39,6 +47,14 @@
 			
 		</form>
 		<div  ng-cloak ng-if="importConfig.sourceType=='script'">
+			<div class='wizard-step-intro'>
+				<div class='icon-hint '><i class='fa fa-lightbulb-o'></i></div>
+				<div class='wizard-step-intro-text' ng-bind-html="'MANAGEMENT_IMPORT_DATABASE_STEP_DB_SCRIPT_INTRO'|translate"></div>
+			</div>
+			<div class="alert alert-warning text-left" ng-show='warningMessages.length>0'  ng-cloak>
+				<strong translate-cloak translate>WARNING_TITLE</strong> <span translate-cloak translate>{{warningMessage}}</span>
+				<ul><li ng-repeat="warningMessage in warningMessages "><span translate-cloak translate>{{warningMessage}}</span></li></ul>
+			</div>
 			<div ng-file-drop="onSqlSourceSelect($files)" class='upload-file-drop-area' ng-file-drag-over-class="upload-icon-drop-area-hover" ng-show="dropSupported">
 				<div translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_UPLOAD_SOURCEFILE_DROPAREA</div>
 				<div class='desc' translate>MANAGEMENT_IMPORT_DATABASE_UPLOAD_SOURCEFILE_OR</div>

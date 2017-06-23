@@ -57,14 +57,8 @@
 	<div class='content-gray'>
 		<div class='container'>
 			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'  ng-cloak>
-				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span>
+				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING_TITLE</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span>
 			</div>
-			<div class="alert alert-warning" ng-show='warningMessages.length>0'  ng-cloak>
-				<strong translate-cloak translate>WARNING</strong> <span translate-cloak translate>{{warningMessage}}</span>
-				<ul><li ng-repeat="warningMessage in warningMessages "><span translate-cloak translate>{{warningMessage}}</span></li></ul>
-			</div>
-			
-			
 			<div class='row'>
 				<div class="col-sm-12">
 					<carousel id='newDatasetWizard' interval="-1">

@@ -30,7 +30,7 @@
 			<div class="col-sm-8 col-sm-offset-2">
 				<div class='alert alert-danger '>
 					<div class='subtitle'><span translate>MANAGEMENT_IMPORT_DATABASE_FINISH_ERROR_SINGLE_TITLE</span> <strong> {{dbImport.currentDatasetName}}</strong></div>
-					<p class=''>{{dbImport.currentError}}</p>
+					<p ng-bind-html="dbImport.currentError"></p>
 				</div>
 			</div>
 			<div class='col-sm-4 col-sm-offset-2 import-database-create-metatada-toolbar'>	
@@ -40,22 +40,40 @@
 				<a ng-click='continueCreateDataset()' class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_ERROR_SINGLE_CONTINUE</a>
 			</div>
 		</div>
-		<div ng-if="dbImport.status =='finish'" class='text-left'>
-			<div class='title col-sm-4'><span translate>MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_TITLE</span></div>
-			<div class='col-sm-4 title text-success'>
-				<span translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_OK' translate-values="{ datasetCreated: dbImport.totalOk}"></span>
+		<div ng-if="dbImport.status =='finish'" class='text-left  col-sm-12'>
+			<div class='title title-finish'><span translate>MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_TITLE</span></div>
+			<div class='row'>
+				<div  class='col-sm-4'> 
+					<div class='import-database-create-metatada-finish-report-title import-database-create-metatada-finish-report-title-created' translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_CREATED_OK' translate-values="{ datasetCreated: dbImport.totalCreate}"></div>
+					<div class='import-database-create-metatada-finish-report-datalist'>
+						<div ng-repeat='datasetCode in dbImport.datasetCreated track by $index'>
+							<a href="#/management/viewDataset/{{tenantCode}}/{{datasetCode}}" target='_blank'>{{datasetCode}}</a>
+						</div>
+					</div>
+				</div>
+				<div  class='col-sm-4'> 
+					<div class='import-database-create-metatada-finish-report-title import-database-create-metatada-finish-report-title-updated' translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_UPDATED_OK' translate-values="{ datasetUpdated: dbImport.totalUpdate}"></div>
+					<div class='import-database-create-metatada-finish-report-datalist'>
+						<div ng-repeat='datasetCode in dbImport.datasetUpdated track by $index'>
+							<a href="#/management/viewDataset/{{tenantCode}}/{{datasetCode}}" target='_blank'>{{datasetCode}}</a>
+						</div>
+					</div>
+				</div>
+				<div class='col-sm-4' ng-if="dbImport.totalKo>0">
+					<div class='import-database-create-metatada-finish-report-title import-database-create-metatada-finish-report-title-error' translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_KO' translate-values="{ datasetNotCreated: dbImport.totalKo}"></div>
+					<div class='import-database-create-metatada-finish-report-datalist'>
+						<div ng-repeat='name in dbImport.datasetWithError track by $index'>{{name}}</div>
+					</div>
+				</div>
 			</div>
-			<div class='col-sm-4  text-danger' ng-if="dbImport.totalKo>0">
-				<div class='title' translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_KO' translate-values="{ datasetNotCreated: dbImport.totalKo}"></div>
-				<div translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_KO_LIST' translate-values="{ datasetNotCreated: dbImport.totalKo}"></div>
-				<div ng-repeat='name in dbImport.datasetWithError track by $index'>&minus; {{name}}</div>
-			</div>
-			<div class='col-sm-3 col-sm-offset-3 import-database-create-metatada-toolbar'>	
-				<a ng-click='goToStart()' class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_BACK_TO_START</a>
-			</div>
-			<div class='col-sm-3 import-database-create-metatada-toolbar'>
-				<a href="#/management/streams/{{tenantCode}}" class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_GO_TO_MANAGEMENT</a>
-			</div>
+			<div class='row'>
+				<div class='col-sm-3 col-sm-offset-3 import-database-create-metatada-toolbar'ng-if="dbImport.status =='finish'" >	
+					<a ng-click='goToStart()' class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_BACK_TO_START</a>
+				</div>
+				<div class='col-sm-3 import-database-create-metatada-toolbar'ng-if="dbImport.status =='finish'" >
+					<a href="#/management/streams/{{tenantCode}}" class="btn btn-default" translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_FINISH_GO_TO_MANAGEMENT</a>
+				</div>
+			</div>			
 		</div>
 	</div>
 	<div class='row import-database-create-metatada-bottom'>

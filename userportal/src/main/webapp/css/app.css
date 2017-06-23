@@ -912,6 +912,10 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 #new-dataset-choose-panel-csv-icon{font-size: 90px;top: 10px; left: 50%; margin-left: -45px;position: absolute; }
 #new-dataset-choose-panel-upload-icon{font-size: 48px; position: absolute; bottom: 10px; left: 60%; color: #00bbf0;}
 
+
+.wizard-step-intro{font-size: 18px; text-align: left; padding: 12px 18px 12px 62px; position: relative; background-color: #f8f8f8;line-height: 1.6em; border-radius: 4px;margin-bottom: 18px; min-height: 74px;}
+.wizard-step-intro .icon-hint{color:  #2ec7f2; font-size: 50px; position: absolute; left: 18px; top: 12px;}
+.wizard-step-intro .wizard-step-intro-text{font-weight: 300; font-style: italic; }
 /* import database */
 .import-dataset-choose-panel-question{margin-bottom: 91px;}
 #import-database-choose-source-db-icon{font-size: 98px;top: 10px; left: 50%; margin-left: -45px; position: absolute; }
@@ -938,7 +942,8 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 
 .import-database-table-new{font-size: smaller; background-color: #00bbf0; padding: 2px 4px; border-radius: 2px; color: white;}
 .import-database-table-existing{font-size: smaller; background-color: #dbdb00; padding: 2px 4px; border-radius: 2px; color: white;}
-.import-database-column-new{font-size: smaller; background-color: #bbb; padding: 2px 4px; border-radius: 2px; color: white;}
+.import-database-column-new{font-size: 10px; background-color: #00bbf0; padding: 2px 4px; border-radius: 2px; color: white;}
+.import-database-customize-table-column-skiprow .import-database-column-new{background-color: #ccc;}
 .import-database-column-row-separator{background-color: #efefef; font-style: italic;}
 .import-database-column-row:hover{background-color: #f5f5f5; }
 
@@ -969,6 +974,7 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 
 
 .import-database-finish .title{font-size: 24px;margin: 28px 0; }
+.import-database-finish .title-finish{font-size: 24px;text-align: center;}
 .import-database-finish .subtitle{font-size: 16px; }
 
 .import-database-create-metatada-top{margin: 40px 0;}
@@ -976,8 +982,14 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .import-database-create-metatada-toolbar{margin-top: 40px;}
 .import-database-create-metatada-toolbar .btn{font-size: 18px;}
 
+.import-database-create-metatada-finish-report-title{padding: .1em .3em; border-left: #e3e4e6 solid 10px; font-size: 24px;}
+.import-database-create-metatada-finish-report-title-updated{background-color: #f1f1ab;    border-color: #dbdb00;}
+.import-database-create-metatada-finish-report-title-created{background-color: #b8ecfb;    border-color: #00bbf0;}
+.import-database-create-metatada-finish-report-title-error{background-color: #e6b8b8;    border-color: #a40000 ;}
+.import-database-create-metatada-finish-report-datalist{font-size: 16px; padding: 1em;	}
 
 .import-database-customize-table-column-skiprow{color: #ccc; background-color: #f0f0f0!important;}
+.skiprow-disabled{color: #ccc;}
 .import-database-customize-table-column-skiprow .skip-row{color: #dc0000;}
 .import-database-customize-table-column-skiprow .import-database-customize-table-column-drag-icon{background-color:#ccc;}
 .import-database-customize-table-column-droprow{padding: .5em 0 .3em;border-bottom: solid #eee 1px;}
@@ -993,6 +1005,23 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 
 .primary-key{color: gold;}
 .foreign-key{color: silver;}
+
+.form-horizontal-compact .col-xs-1, .form-horizontal-compact .col-sm-1, .form-horizontal-compact .col-md-1, .form-horizontal-compact .col-lg-1, 
+.form-horizontal-compact .col-xs-2, .form-horizontal-compact .col-sm-2, .form-horizontal-compact .col-md-2, .form-horizontal-compact .col-lg-2, 
+.form-horizontal-compact .col-xs-3, .form-horizontal-compact .col-sm-3, .form-horizontal-compact .col-md-3, .form-horizontal-compact .col-lg-3, 
+.form-horizontal-compact .col-xs-4, .form-horizontal-compact .col-sm-4, .form-horizontal-compact .col-md-4, .form-horizontal-compact .col-lg-4, 
+.form-horizontal-compact .col-xs-5, .form-horizontal-compact .col-sm-5, .form-horizontal-compact .col-md-5, .form-horizontal-compact .col-lg-5, 
+.form-horizontal-compact .col-xs-6, .form-horizontal-compact .col-sm-6, .form-horizontal-compact .col-md-6, .form-horizontal-compact .col-lg-6, 
+.form-horizontal-compact .col-xs-7, .form-horizontal-compact .col-sm-7, .form-horizontal-compact .col-md-7, .form-horizontal-compact .col-lg-7, 
+.form-horizontal-compact .col-xs-8, .form-horizontal-compact .col-sm-8, .form-horizontal-compact .col-md-8, .form-horizontal-compact .col-lg-8, 
+.form-horizontal-compact .col-xs-9, .form-horizontal-compact .col-sm-9, .form-horizontal-compact .col-md-9, .form-horizontal-compact .col-lg-9, 
+.form-horizontal-compact .col-xs-10, .form-horizontal-compact .col-sm-10, .form-horizontal-compact .col-md-10, .form-horizontal-compact .col-lg-10, 
+.form-horizontal-compact .col-xs-11, .form-horizontal-compact .col-sm-11, .form-horizontal-compact .col-md-11, .form-horizontal-compact .col-lg-11, 
+.form-horizontal-compact .col-xs-12, .form-horizontal-compact .col-sm-12, .form-horizontal-compact .col-md-12, .form-horizontal-compact .col-lg-12
+{padding-left: 5px;    padding-right: 5px; }
+
+.form-horizontal-compact{font-size: 12px;}
+.form-horizontal-compact i{font-size: 14px;}
 
 .progress-bar-container{height: 36px; background-color: #efefef; border:solid 1px #8c8e8d; }
 .progress-bar-done{background-color: #dbdb00;height: 100%; width: 0%;}

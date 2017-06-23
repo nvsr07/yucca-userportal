@@ -127,16 +127,20 @@ appServices.factory('sharedUploadBulkErrors',  function () {
 
 appServices.factory('devService', function($q) {
 	return {
-		fakeHttpCall : function(isSuccessful) {
+		fakeHttpCall : function(isSuccessful, result) {
 		
 			var deferred = $q.defer();
 		
 			setTimeout(function() {
 			    if (isSuccessful === true) {
-			        deferred.resolve("Successfully resolved the fake $http call");
+			    	if(typeof result == 'undefined')
+			    		result = "Successfully resolved the fake $http call";
+			        deferred.resolve(result);
 			    }
 			    else {
-			        deferred.reject("Oh no! Something went terribly wrong in you fake $http call");
+			    	if(typeof result == 'undefined')
+			    		result = "Oh no! Something went terribly wrong in you fake $http call";
+			        deferred.reject(result);
 			    }
 			}, 200 );
 		

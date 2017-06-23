@@ -38,7 +38,7 @@
 	</div>
 	<div id='topForm' class='content-gray'>
 		<div class='container'>
-			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span></div>
+			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING_TITLE</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span></div>
 			<p>&nbsp;</p>
 			<div class='row'>
 				<div class="col-sm-10 col-sm-offset-1">
@@ -47,7 +47,7 @@
 						{{updateError.error_detail|translate}}
 					</div>
 					<div class="alert alert-warning" ng-show='saveWarning'>
-						<strong><span translate-cloak translate>WARNING</span></strong> 
+						<strong><span translate-cloak translate>WARNING_TITLE</span></strong> 
 						{{saveWarning|translate}}
 					</div>
 					<div class="alert alert-success" ng-show='updateInfo'>
@@ -107,7 +107,7 @@
 									</div>
 								</div>
 								<div ng-show="twitterError!=null" class="text-danger">
-									<small><strong translate-cloak translate>WARNING</strong> {{twitterError}}</small>
+									<small><strong translate-cloak translate>WARNING_TITLE</strong> {{twitterError}}</small>
 								</div>
 							</div>
 						</div>	
@@ -115,7 +115,7 @@
 							<label class="col-sm-2 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS</span></label>
 							<div class="col-sm-10 ">
 								<div class="alert alert-warning">
-									<strong><span translate-cloak translate>WARNING</span></strong> 
+									<strong><span translate-cloak translate>WARNING_TITLE</span></strong> 
 									<span translate-cloak translate>MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS_HELP</span>
 								</div>
 								<div ng-show="streamsToReinstall.length==0 && !showLoadingStreams">
