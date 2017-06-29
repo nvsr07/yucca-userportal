@@ -21,9 +21,11 @@
 		</div>
 		<div ng-if="dbImport.status=='running'">
 			<div class='title'>
-				<span translate class=''>MANAGEMENT_IMPORT_DATABASE_FINISH_CREATE_METADATA</span> 
-				<span>{{dbImport.currentIndex()}}/{{dbImport.total}}</span>
-				<strong>{{dbImport.currentDatasetName}}</strong>
+				<div class='ajax-loading '>
+					<span translate class=''>MANAGEMENT_IMPORT_DATABASE_FINISH_CREATE_METADATA</span> 
+					<span>{{dbImport.currentIndex()}}/{{dbImport.total}}</span>
+					<strong>{{dbImport.currentDatasetName}}</strong>
+				</div>
 			</div>
 		</div>
 		<div  ng-if="dbImport.status=='pause'">

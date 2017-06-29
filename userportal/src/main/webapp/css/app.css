@@ -953,7 +953,9 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .import-database-customize-table .editable-table-cell:hover .edit-icon{color: #000;}
 
 
-.import-database-finish{}
+.import-database-finish .ajax-loading{}
+
+
 .import-database-customize-table>thead>tr>th,.import-database-customize-table>tbody>tr>td{padding: 8px;}
 
 .import-database-finish .progress-bar-percent{font-size: 24px;font-weight: bold;line-height: 36px;}
