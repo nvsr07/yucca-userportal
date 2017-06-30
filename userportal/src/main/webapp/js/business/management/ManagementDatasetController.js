@@ -1678,7 +1678,6 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	$scope.importConfig = {};
 	$scope.defaultMetadata= {"info":{"visibility":"private","tenantssharing":{"tenantsharing": new Array()},"tags": new Array()}}; 
-	
 	$scope.chooseSourceType  = function(sourceType){
 		$scope.importConfig.sourceType = sourceType;
 		$scope.goToDatabase();
@@ -2079,63 +2078,64 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		}
 		if($scope.warningMessages.length>0)
 			return;
-	
-			$scope.isLoadingDB = true;
-		//if($scope.importConfig.sourceType == 'script'){
-			$scope.upload = $upload.upload({
-				url: Constants.API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL, 
-				method: 'POST',
-				data: $scope.importConfig,
-				file: $scope.importConfig.sqlSourcefile
-			}).progress(function(evt) {
-				$scope.isUploading = true;
-				console.log('evt');
-				console.log(evt);
-				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-			}).success(function(response, status, headers, config) {
-				console.log("importDatabase", response);
-				$scope.isLoadingDB = false;
+		$scope.isLoadingDB = true;
+	//if($scope.importConfig.sourceType == 'script'){
+		$scope.upload = $upload.upload({
+			url: Constants.API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL, 
+			method: 'POST',
+			data: $scope.importConfig,
+			file: $scope.importConfig.sqlSourcefile
+		}).progress(function(evt) {
+			$scope.isUploading = true;
+			console.log('evt');
+			console.log(evt);
+			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+		}).success(function(response, status, headers, config) {
+			console.log("importDatabase", response);
+			$scope.isLoadingDB = false;
 
-				$scope.tables = response;
-				for (var tableIndex = 0; tableIndex < $scope.tables.length; tableIndex++) {
-					$scope.tables[tableIndex].importTable = true;
-					$scope.tables[tableIndex].index = tableIndex;
-					$scope.tables[tableIndex].customized = {"name":false,"domain":false,"visibility":false, "dcat":false, "columns":false};
-					if($scope.tables[tableIndex].status == 'new'){
+			$scope.tables = response;
+			$scope.selectTablesFlag = true;
+			for (var tableIndex = 0; tableIndex < $scope.tables.length; tableIndex++) {
+				$scope.tables[tableIndex].importTable = true;
+				$scope.tables[tableIndex].index = tableIndex;
+				$scope.tables[tableIndex].customized = {"name":false,"domain":false,"visibility":false, "dcat":false, "columns":false};
+				if($scope.tables[tableIndex].status == 'new'){
+					for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.info.fields.length; columnIndex++) {
+						$scope.tables[tableIndex].dataset.info.fields[columnIndex].isNewField = true;
+					}
+				}
+				else if($scope.tables[tableIndex].status == 'existing'){
+					if(typeof $scope.tables[tableIndex].newFields != 'undefined' &&  $scope.tables[tableIndex].newFields.length>0 && 
+							$scope.tables[tableIndex].dataset.info.fields && $scope.tables[tableIndex].dataset.info.fields.length>0){
 						for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.info.fields.length; columnIndex++) {
-							$scope.tables[tableIndex].dataset.info.fields[columnIndex].isNewField = true;
-						}
-					}
-					else if($scope.tables[tableIndex].status == 'existing'){
-						if(typeof $scope.tables[tableIndex].newFields != 'undefined' &&  $scope.tables[tableIndex].newFields.length>0 && 
-								$scope.tables[tableIndex].dataset.info.fields && $scope.tables[tableIndex].dataset.info.fields.length>0){
-							for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.info.fields.length; columnIndex++) {
-								if(isNewField($scope.tables[tableIndex].dataset.info.fields[columnIndex], $scope.tables[tableIndex].newFields)){
-									$scope.tables[tableIndex].dataset.info.fields[columnIndex].isNewField = true;
-									$scope.tables[tableIndex].dataset.info.fields[columnIndex].skipColumn = true;
-								}
-								
+							if(isNewField($scope.tables[tableIndex].dataset.info.fields[columnIndex], $scope.tables[tableIndex].newFields)){
+								$scope.tables[tableIndex].dataset.info.fields[columnIndex].isNewField = true;
+								$scope.tables[tableIndex].dataset.info.fields[columnIndex].skipColumn = true;
 							}
+							
 						}
 					}
+				}
+				
 					
-						
 //					if($scope.tables[tableIndex].dataset.info.fields && $scope.tables[tableIndex].dataset.info.fields.length>0){
 //						for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.info.fields.length; columnIndex++) {
 //							$scope.tables[tableIndex].dataset.info.fields.sourceColumn = columnIndex;
 //						}
 //					}
-					//$scope.tables[tableIndex].columnsTooltip = createColumnsTooltip($scope.tables[tableIndex].dataset.info.fields);
-					
-				}
-				$scope.goToTables();
+				//$scope.tables[tableIndex].columnsTooltip = createColumnsTooltip($scope.tables[tableIndex].dataset.info.fields);
+				
+			}
 
-			}).error(function(response) {
-				console.error("importDatabase error", response);
-				$scope.isLoadingDB = false;
-				$scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_ERROR_CONNECTION");
+			$scope.goToTables();
 
-			});
+		}).error(function(response) {
+			console.error("importDatabase error", response);
+			$scope.isLoadingDB = false;
+			$scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_ERROR_CONNECTION");
+
+		});
 		
 //		}
 //		else {
@@ -2393,6 +2393,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	
 
+
 	
 	var createDataset = function() {
 		console.log("createDataset", $scope.dbImport.datasetList);
@@ -2424,8 +2425,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 				dataset.opendata.dataUpdateDate = new Date(dataset.opendata.dataUpdateDate).getTime();
 	
 			
-			
-		
+
 			
 			if(dataset.importStatus == 'new'){
 		
@@ -2437,19 +2437,29 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 				}).progress(function(evt) {
 					console.log('evt',evt, parseInt(100.0 * evt.loaded / evt.total));
 				}).success(function(data, status, headers, config) {
-					console.log("data loaded");
-					$scope.dbImport.totalOk++;
-					$scope.dbImport.totalCreate++;
-					$scope.dbImport.datasetCreated.push(data.metadata.datasetCode);
-					if($scope.dbImport.datasetList.length==0){
-						console.log("fine!");
-						$scope.dbImport.status = "finish";
-						$scope.dbImport.currentDatasetName ="";
+					console.log("data loaded", data);
+					if(data.errors && data.errors.length>0){
+						for (var errorIndex = 0; errorIndex < data.errors.length; errorIndex++) {
+							$scope.dbImport.currentError += data.errors[errorIndex].message +"<br>";
+						}
+						$scope.dbImport.datasetWithError.push($scope.dbImport.currentDatasetName);
+						$scope.dbImport.status="pause";
+						$scope.dbImport.totalKo++;
 					}
 					else{
-						console.log("ancora");
-						if($scope.dbImport.status=="running")
-							createDataset(datasetList);
+						$scope.dbImport.totalOk++;
+						$scope.dbImport.totalCreate++;
+						$scope.dbImport.datasetCreated.push(data.metadata.datasetCode);
+						if($scope.dbImport.datasetList.length==0){
+							console.log("fine!");
+							$scope.dbImport.status = "finish";
+							$scope.dbImport.currentDatasetName ="";
+						}
+						else{
+							console.log("ancora");
+							if($scope.dbImport.status=="running")
+								createDataset(datasetList);
+						}
 					}
 				}).error(function(err, status, headers, config) {
 					$scope.dbImport.currentError=err;
@@ -2662,6 +2672,13 @@ appControllers.controller('ManagementDatasetImportDatabaseEditDatasetVisibilityC
 		$scope.tables[selectedTableIndex].dataset.info.license = $scope.license; 
 		$scope.tables[selectedTableIndex].dataset.info.disclaimer = $scope.disclaimer; 
 		$scope.tables[selectedTableIndex].dataset.info.copyright = $scope.copyright;
+		if($scope.tables[selectedTableIndex].dataset.info.visibility=='private'){
+			$scope.tables[selectedTableIndex].dataset.info.copyright = "";
+		}
+		else if($scope.tables[selectedTableIndex].dataset.info.visibility=='public'){
+			$scope.tables[selectedTableIndex].dataset.info.license = "";
+			$scope.tables[selectedTableIndex].dataset.info.disclaimer = "";	
+		}
 		
 		
 		$modalInstance.close();
