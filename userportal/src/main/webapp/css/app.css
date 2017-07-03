@@ -1342,6 +1342,7 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 .table-application-api>tbody>tr>td.subscriptions-tokens-col{border-top-width: 0;}
 
 .subscriptions-api-panel{padding: 0 2em;}
+.subscription-api-panel{margin-right: 15px;}
 .subscriptions-api-panel img{margin: 0 5px;}
 .table-header{line-height: 18pt; margin-bottom:.5em;}
 .table-toolbar-actions{font-size: 18pt;}
