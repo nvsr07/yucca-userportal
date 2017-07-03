@@ -2,8 +2,8 @@
 	<div class='page-top-panel'>
 		<div class="title-container" ng-cloak>
 			<div class='container clearfix'>
-				<h1  class='pull-left'><span translate-cloak translate>MANAGEMENT_TITLE</span><small> {{tenant}}</small></h1>
-				<div class="pull-right title-menu">
+				<h1  class=''><span translate-cloak translate>MANAGEMENT_TITLE</span><small> {{tenant}}</small></h1>
+				<div class=" title-menu">
 					<a ng-disable="!isAuthorized('management/smartobjects/*')" href="#/management/virtualentities/{{activeTenantCode}}" ng-class="{active: isMenuActive('virtualentities')}"  class='btn  btn-top-toolbar btn-virtualentity' ng-if='canManageStream()'>
 						<span translate-cloak translate>MANAGEMENT_MENU_VIRTUAL_ENTITIES</span>
 					</a>

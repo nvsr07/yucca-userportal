@@ -87,8 +87,11 @@
 												</div>
 											</div>
 											<div><label><span translate>SUBSCRIPTIONS_API_SUBSCRIBED</span></label></div>
-											<div class='subscriptions-api-panel'>
-												<img ng-repeat="api in sub.subscriptions" ng-src="{{api.newIcon}}" alt="{{api.name}}" title="{{api.name}}" class="upload-icon-preview-img">
+											<div class='subscriptions-api-panel clearfix'>
+												<div ng-repeat="api in sub.subscriptions" class='pull-left'>
+													<img ng-src="{{api.newIcon}}" alt="{{api.name}}" title="{{api.name}}" class="upload-icon-preview-img img-thumbnail">
+													<div class='text-center'>{{api.name}}</div>
+												</div>
 											</div>
 										</div>
 									</div>

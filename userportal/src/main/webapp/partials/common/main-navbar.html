@@ -1,46 +1,106 @@
-<div ng-controller="NavigationCtrl as navigation" ng-cloak>
+<div ng-controller="NavigationCtrl as navigation" ng-cloak class='nav-bar-compact'>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+			    <button type="button" class="navbar-toggle" ng-click="navbarCollapsed = !navbarCollapsed" ng-init="navbarCollapsed=true">
+				<!--  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> -->
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a href="http://www.smartdatanet.it/" class="navbar-brand" >
+					<img alt="Smartdatanet" src="./img/familyidentity/logosdp-top-navbar.png">
+				</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" collapse="navbarCollapsed">
+				<ul class="nav navbar-nav action-navbar">
+					<li>
+						<a href="#/" ng-class="{active: $route.current.activetab == 'home'}" class='main-menu-item main-menu-item-dashboard'>
+							<span translate-cloak translate>MENU_HOME</span></a>
+					</li>
+					<li ng-show="isAuthorized('monitoring/*')" ng-if='canManageStream()' class='border-left'>
+						<a href="#/dashboard/streams" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'>
+							<span translate-cloak translate>MENU_DASHBOARD</span></a>
+					</li>
+					<li ng-show="isAuthorized('management/*')" class='border-left'>
+						<a ng-href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}" class='main-menu-item main-menu-item-management'>
+							<span translate-cloak translate>MENU_MANAGEMENT</span></a>
+					</li>
+					<li ng-show="isAuthorized('store/*')" class='border-left'>
+						<a href="#/dataexplorer/search?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'>
+							<span translate-cloak translate>MENU_STORE</span></a>
+					</li>
+					<li ng-show="isAuthorized('store/*') && user.loggedIn" class='border-left'><a href="#/dataexplorer/subscriptions?"
+							ng-class="{active: $route.current.activetab == 'subscriptions'}" class='main-menu-item main-menu-item-dataexplorer'>
+							<span translate-cloak translate>MENU_SUBSCRIPTIONS</span></a>
+					</li>
+				</ul>
+				
+				<span class="navbar-brand" '>
+					<span  class="yucca-logo">Yucca</span>
+				</span>
+				<main-navbar-profile></main-navbar-profile>
+				<ul class="nav navbar-nav navbar-right developer-center-navabar">
+					<li>
+						<a href="http://developer.smartdatanet.it/" target='_blank'  class="developer-center" title="Developer Center">
+							<img alt="Developer Center" src="./img/familyidentity/logo_dev_center_small.png">
+							<span class='developer-center-label'>Developer Center</span>
+						</a>
+					</li>
+					<!-- <li><a class="developer-center" href="http://developer.smartdatanet.it/" target='_blank' translate-cloak translate>developer center</a></li>-->
+					<!-- <li><a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it"> <img alt='Italiano' src='./img/flags/it-small.png'></a></li>
+					<li><a href="#" ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en"> <img alt='English' src='./img/flags/en-small.png'></a></li> -->
+					<!-- <li><main-navbar-profile></main-navbar-profile></li>  -->
+				</ul>
+				<span  class="yucca-logo-collapse">Yucca</span>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<!-- 
+
 	<div class="top-header">
 		<div class='container'>
 			<div class='top-header-logo-bg'>
-	   			<div class="row topbar-family-identity">
-			  			<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">  
-	            			<h1><a href="http://www.smartdatanet.it/">smartdatanet</a></h1>
-	   				</div>
-			        <div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
-	            		<ul>
-	            			<li><a class="developer" href="http://developer.smartdatanet.it/" target='_blank' translate-cloak translate>developer center</a></li>
-	            			<!-- <li><a  class="market" href="#" translate-cloak translate>HEADER_MARKET_PLACE_LINK</a></li> -->
-	            		</ul>
+				<div class="row topbar-family-identity">
+					<div class="col-xs-3 col-sm-4 col-md-6 col-lg-6 logo">
+						<h1>
+							<a href="http://www.smartdatanet.it/">smartdatanet</a>
+						</h1>
+					</div>
+					<div class="col-xs-9 col-sm-8 col-md-6 col-lg-6 link">
+						<ul>
+							<li><a class="developer" href="http://developer.smartdatanet.it/" target='_blank' translate-cloak translate>developer center</a></li>
+						</ul>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 yucca">
-		      			<div class='first-bar clearfix'>
-		      				<h2>Yucca</h2>
-		      				<div class='first-bar-menu pull-right'>
+						<div class='first-bar clearfix'>
+							<h2>Yucca</h2>
+							<div class='first-bar-menu pull-right'>
 								<div>
 									<ul class="nav navbar-nav navbar-right">
-										<li>
-											<a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it">
-												<img src='./img/flags/it.png'>
-											</a>
-										</li>
-										<li>
-											<a href="#"  ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en">
-												<img src='./img/flags/en.png'>
-											</a>
-										</li>
+										<li><a href="#" ng-click="changeLanguage('it')" title="{{'MENU_LANG_IT'|translate}}" class="menu-flag-icon menu-flag-icon-it"> <img
+												src='./img/flags/it.png'
+											>
+										</a></li>
+										<li><a href="#" ng-click="changeLanguage('en')" title="{{'MENU_LANG_EN'|translate}}" class="menu-flag-icon menu-flag-icon-en"> <img
+												src='./img/flags/en.png'
+											>
+										</a></li>
 										<li><p class="navbar-text">&nbsp;</p></li>
 									</ul>
 								</div>
-			      				<div>
-			      					<main-navbar-profile></main-navbar-profile>
+								<div>
+									<main-navbar-profile></main-navbar-profile>
 								</div>
-							</div>    
-		      			</div> 
-			  		</div>
-				</div>		
-				
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -48,23 +108,33 @@
 		<div class="container ">
 			<div class="row">
 				<div class='col-sm-12 col-xs-12 col-md-10 col-lg-10  col-md-offset-1 col-lg-offset-1 main-menu'>
-					<ul class="nav navbar-nav" >
+					<ul class="nav navbar-nav">
 						<li class="space-vertical"></li>
-						<li ><a href="#/" ng-class="{active: $route.current.activetab == 'home'}" class='main-menu-item main-menu-item-dashboard'><span translate-cloak translate>MENU_HOME</span></a></li>
+						<li><a href="#/" ng-class="{active: $route.current.activetab == 'home'}" class='main-menu-item main-menu-item-dashboard'><span translate-cloak
+								translate
+							>MENU_HOME</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('monitoring/*')" ng-if='canManageStream()' class='border-left'><a href="#/dashboard/streams" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'><span translate-cloak translate>MENU_DASHBOARD</span></a></li>
+						<li ng-show="isAuthorized('monitoring/*')" ng-if='canManageStream()' class='border-left'><a href="#/dashboard/streams"
+							ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'
+						><span translate-cloak translate>MENU_DASHBOARD</span></a></li>
 						<li class="divider-vertical"></li>
-						<li  ng-show="isAuthorized('management/*')"  class='border-left'><a ng-href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}"  class='main-menu-item main-menu-item-management'><span translate-cloak translate>MENU_MANAGEMENT</span></a></li>
+						<li ng-show="isAuthorized('management/*')" class='border-left'><a ng-href="{{managementUrl}}"
+							ng-class="{active: $route.current.activetab == 'management'}" class='main-menu-item main-menu-item-management'
+						><span translate-cloak translate>MENU_MANAGEMENT</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('store/*')"  class='border-left'><a href="#/dataexplorer/search?" ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'><span translate-cloak translate>MENU_STORE</span></a></li>
+						<li ng-show="isAuthorized('store/*')" class='border-left'><a href="#/dataexplorer/search?"
+							ng-class="{active: $route.current.activetab == 'dataexplorer'}" class='main-menu-item main-menu-item-dataexplorer'
+						><span translate-cloak translate>MENU_STORE</span></a></li>
 						<li class="divider-vertical"></li>
-						<li ng-show="isAuthorized('store/*') && user.loggedIn" class='border-left'><a href="#/dataexplorer/subscriptions?" ng-class="{active: $route.current.activetab == 'subscriptions'}" class='main-menu-item main-menu-item-dataexplorer'><span translate-cloak translate>MENU_SUBSCRIPTIONS</span></a></li>
+						<li ng-show="isAuthorized('store/*') && user.loggedIn" class='border-left'><a href="#/dataexplorer/subscriptions?"
+							ng-class="{active: $route.current.activetab == 'subscriptions'}" class='main-menu-item main-menu-item-dataexplorer'
+						><span translate-cloak translate>MENU_SUBSCRIPTIONS</span></a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
+-->
+
 </div>
 

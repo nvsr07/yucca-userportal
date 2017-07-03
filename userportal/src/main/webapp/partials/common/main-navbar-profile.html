@@ -1,15 +1,31 @@
-<ul class="nav navbar-nav navbar-right" ng-cloak>
-	<li class='main-menu-profile-item' ng-show="user.loggedIn"><span class='main-menu-username'>{{user.firstname}} {{user.lastname}}</span><span class='main-menu-tenant'>{{activeTenantCode}}</span></li>
-	<li class='main-menu-item'>
-		<a href='/userportal/api/authorize?returnUrl={{currentUrl()}}' ng-show="!isHomepage() && !user.loggedIn"><span translate-cloak translate>MENU_SING_IN</span></a>
-		<div class="dropdown" ng-show="user.loggedIn" dropdown>
-			<button class="btn btn-default main-menu-profile-button dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" dropdown-toggle>
+<ul class="nav navbar-nav navbar-right navbar-with-caret" ng-cloak>
+	<li class='main-menu-profile-item main-menu-item-with-caret' ng-if="user.loggedIn"><span class='main-menu-username'>{{user.firstname}} {{user.lastname}}</span><span class='main-menu-tenant'>{{activeTenantCode}}</span></li>
+	
+	<li class='main-menu-item main-menu-item-with-caret' ng-if="!isHomepage && !user.loggedIn">
+		<a href='/userportal/api/authorize?returnUrl={{currentUrl()}}' ><span translate-cloak translate>MENU_SING_IN</span></a>
+	</li>
+	<li class='main-menu-item main-menu-item-caret' class="dropdown" dropdown ng-if="user.loggedIn || !isHomepage">
+		  <a href class="dropdown-toggle main-menu-profile-caret"  id="dropdownMenu1" data-toggle="dropdown" dropdown-toggle>
 				<span class="caret main-menu-caret"></span>
-		  </button>
-		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+		  </a>
+		  <!--  not logged show only lang menu -->
+		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" ng-if="!user.loggedIn">
+		 	<li>
+		 		<a ng-click="changeLanguage('it')"  href title="{{'MENU_LANG_IT'|translate}}" ng-class="{'indent-dropdownitem-noicon':currentLang() != 'it'}" >
+		 			<i class='glyphicon glyphicon-ok indent-dropdownitem-icon' ng-show="currentLang() == 'it'"></i>&nbsp;<img class='lang-icon-menu-item' src='./img/flags/it-small.png'>&nbsp;<span translate>MENU_LANG_IT</span>
+		 		</a>
+		 	</li>
+		 	<li>
+		 		<a ng-click="changeLanguage('en')"  href title="{{'MENU_LANG_EN'|translate}}" ng-class="{'indent-dropdownitem-noicon':currentLang() != 'en'}" >
+		 			<i class='glyphicon glyphicon-ok indent-dropdownitem-icon' ng-show="currentLang() == 'en'"></i>&nbsp;<img  class='lang-icon-menu-item' src='./img/flags/en-small.png'>&nbsp;<span translate>MENU_LANG_EN</span>
+		 		</a>
+		 	</li>	
+		  </ul>
+		  <!--   logged show all menu -->
+		  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" ng-if="user.loggedIn">
 		 	<li ng-repeat="tenant in userTenants">
 		 		<a ng-click="$parent.changeActiveTenant(tenant)" ng-show="tenant.tenantType != 'trial' && tenant.tenantType != 'personal'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" >
-		 			<i class='glyphicon glyphicon-ok' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
+		 			<i class='glyphicon glyphicon-ok indent-dropdownitem-icon' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
 		 		</a>
 		 	</li>
 
@@ -18,7 +34,7 @@
 		   	<li role="presentation" ng-show="!user.havePersonalTenant && !user.havePersonalTenantToActivate && user.authType != 'social'"><a role="menuitem" tabindex="-1" href="" ng-click="requestTP('personal')"><span translate-cloak translate>MENU_MODAL_GET_PERSONAL_TENANT</span></a></li>
 		   	<li ng-repeat="tenant in userTenants" ng-show="user.havePersonalTenant">
 		 		<a ng-click="$parent.changeActiveTenant(tenant)"  ng-show="tenant.tenantType == 'personal'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" tooltip="{{'MENU_MODAL_YOUR_PERSONAL_TENANT'|translate}}">
-		 			<i class='glyphicon glyphicon-ok' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
+		 			<i class='glyphicon glyphicon-ok indent-dropdownitem-icon' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
 		 		</a>
 		 	</li>
 		   	<li ng-repeat="tenant in userTenantsToActivate" ng-show="user.havePersonalTenantToActivate">
@@ -30,7 +46,7 @@
 		   	<li role="presentation" ng-show="!user.haveTrialTenant && !user.haveTrialTenantToActivate"><a role="menuitem" tabindex="-1" href="" ng-click="requestTT('trial')"><span translate-cloak translate>MENU_MODAL_GET_TRAIL_TENANT</span></a></li>
 		   	<li ng-repeat="tenant in userTenants" ng-show="user.haveTrialTenant">
 		 		<a ng-click="$parent.changeActiveTenant(tenant)"  ng-show="tenant.tenantType == 'trial'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" tooltip="{{'MENU_MODAL_YOUR_TRAIL_TENANT'|translate}}">
-		 			<i class='glyphicon glyphicon-ok' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
+		 			<i class='glyphicon glyphicon-ok indent-dropdownitem-icon' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
 		 		</a>
 		 	</li>
 		   	<li ng-repeat="tenant in userTenantsToActivate" ng-show="user.haveTrialTenantToActivate">
@@ -44,9 +60,19 @@
 		 			<span translate-cloak translate>MENU_RESET_PASSWORD</span>
 		 		</a>
 		 	</li>
+		 	<li role="presentation" class="divider"></li>
+		 	<li>
+		 		<a ng-click="changeLanguage('it')"  href title="{{'MENU_LANG_IT'|translate}}" ng-class="{'indent-dropdownitem-noicon':currentLang() != 'it'}" >
+		 			<i class='glyphicon glyphicon-ok indent-dropdownitem-icon' ng-show="currentLang() == 'it'"></i>&nbsp;<img class='lang-icon-menu-item' src='./img/flags/it-small.png'>&nbsp;<span translate>MENU_LANG_IT</span>
+		 		</a>
+		 	</li>
+		 	<li>
+		 		<a ng-click="changeLanguage('en')"  href title="{{'MENU_LANG_EN'|translate}}" ng-class="{'indent-dropdownitem-noicon':currentLang() != 'en'}" >
+		 			<i class='glyphicon glyphicon-ok indent-dropdownitem-icon' ng-show="currentLang() == 'en'"></i>&nbsp;<img  class='lang-icon-menu-item' src='./img/flags/en-small.png'>&nbsp;<span translate>MENU_LANG_EN</span>
+		 		</a>
+		 	</li>	
 		   	<li role="presentation" class="divider"></li>
 		    <li role="presentation"><a role="menuitem" tabindex="-1" href="/userportal/api/authorize?logout={{user.username}}&returnUrl={{currentUrl()}}"><span translate-cloak translate>MENU_SING_OUT</span></a></li>
 		  </ul>
-		</div>
 	</li>
 </ul>

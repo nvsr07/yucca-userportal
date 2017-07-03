@@ -59,7 +59,8 @@
 			<a href='http://smartdatanet.it/yucca-cookies-policy.html' target='_blank'>Cookie Policy</a>&nbsp;
 			<a class='btn' ng-click='acceptCookie()' translate-cloak translate>OK</a>
 		</div>
-		<main-navbar></main-navbar>
+		<main-navbar ng-if="!isHomepage"></main-navbar>
+		<home-header ng-if="isHomepage"></home-header>
 		<div ng-view class='main-body'></div>
 		<main-footer></main-footer>
 		<iframe ng-src="{{linkLoginToStore}}" width="{{linkLoginToStoreW}}" height="{{linkLoginToStoreH}}"  iframe-onload="iframeStoreLoaded()"></iframe>

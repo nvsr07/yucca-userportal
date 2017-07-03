@@ -100,10 +100,34 @@ a{color: black; text-decoration: underline;}
 
 .menu-flag-icon{display: inline-block; height: 45px; width: 55px;}
 .menu-flag-icon img{}
+
+.nav-bar-compact{ font-family: Roboto, Arial, Helvetica; }
+.nav-bar-compact .navbar {padding-top: 6px;min-height: 60px; border-radius: 0;border-bottom: 0px;margin-bottom: 0px;}
+.nav-bar-compact .action-navbar{margin:0 30px;} 
+.nav-bar-compact .developer-center{height: 60px; padding-right: 60px;display: inline-block;font-family: 'Aldrich'}
+.navbar-collapse .developer-center-label{display: none;}
+.nav-bar-compact .yucca-logo{font-family: 'Aldrich', sans-serif; background: url(../img/familyidentity/top-navbar-logotree-rotated-small.png) no-repeat bottom left; padding-left: 136px;
+	height: 60px; display: block; font-size: 36px; line-height: 60px; margin:0 30px; }
+.nav-bar-compact .yucca-logo-collapse{display: none; }
+
+.nav-bar-compact  .main-menu-profile-button{border: none; padding-left: 0;}
+.nav-bar-compact  .main-menu-profile-button:hover{border: none;}
+.nav-bar-compact .main-menu-profile-item{padding-right: .5em;}
+
+.nav-bar-compact .navbar-nav.navbar-right.developer-center-navabar{margin-right: 30px;}
+
+
+.nav-bar-compact .navbar-nav > li > a {padding-top: 0px;padding-bottom: 0px; padding-left: 10px; padding-right: 10px;line-height: 60px; color: #999999;}
+.nav-bar-compact .btn-default:hover,.nav-bar-compact .btn-default:focus,.nav-bar-compact .btn-default:active,
+	.nav-bar-compact .btn-default.active,.nav-bar-compact .open .dropdown-toggle.btn-default{color: white; border-color: transparent; background-color: transparent;}
 /*
 .menu-flag-icon-en{background: url("../img/flags/en.png") center center no-repeat; }
 .menu-flag-icon-it{background: url("../img/flags/it.png") center center no-repeat; }
 */
+
+
+.nav > li > a.main-menu-profile-caret{ padding-left: 0;}
+.nav > li > a.main-menu-profile-before-caret{display: inline;}
 footer{text-align: center;   width: 100%; height: auto;  background-color:#fff; padding-top: 4em;}
 footer ul {list-style-type: none;}
 footer ul li { display:inline; text-align: center;}
@@ -117,8 +141,8 @@ footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 
 .page-top-panel{background-color: #e3e4e6; padding-top: 110px;}
 .title-container{ border-bottom:3px solid #00bff0; border-top:0px; 	color: #333;	margin-bottom: 1em; clear: both; position: relative;}
-.title-container h1{margin: 0 0 22px 0;}
-.title-container .title-menu{}
+.title-container h1{margin: 0 0 22px 0; float: left;}
+.title-container .title-menu{float:right;}
 .title-container .btn-top-toolbar{background-color: #efefef; margin-top:2px; border: solid 1px #8c8e8d; color: black; position: relative; font-size: 18px;    padding: 10px 12px;
 	text-transform: uppercase;box-shadow: none; margin-left: 20px; font-weight: bold; }
 
@@ -232,7 +256,8 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .chart-legend-checkbox{padding: .2em 1em .2em 2em; border-radius: 4px;background-color: #ccc;color: white;margin: 4px!important;}
 
 /* dropdown */
-.indent-dropdownitem-noicon{margin-left: 1em;}
+.indent-dropdownitem-icon{margin-right: .5em;}
+.indent-dropdownitem-noicon{margin-left: 1.5em;}
 
 /* popover html */
 .popover-html .tooltip-arrow{border-top-color: #ccc!important;}
@@ -632,7 +657,7 @@ border-bottom-color: transparent;border-radius: 0px 4px 0px 0px;-webkit-border-r
 .top-header-logo-bg{background: url(../img/familyidentity/top-navbar-logotree-rotated.png) no-repeat 85px bottom; min-height: 198px}
 .top-header .yucca .first-bar {padding-left: 530px;}
 .top-header .yucca .first-bar a{color: white;}
-.top-header .yucca .first-bar-menu{}
+.top-header .yucca .first-bar-menu{float: right;}
 .top-header .yucca h2{display: inline-block; font-size: 56px; line-height: 60px; font-family: 'Aldrich', sans-serif; margin: 0;color: white;}
 .top-header .yucca .first-bar .nav>li>a:hover, .nav>li>a:focus{background-color: transparent; color: white;}
 .top-header  .dropdown-menu{background-color:#687676;}
@@ -761,6 +786,7 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .nav-pills>li>a{border-radius: 4px; font-size: 17px;border: 0px solid #ccc;}
 .btn-default.disabled, .btn-default[disabled], fieldset[disabled] .btn-default{background-color: #ccc;}
 
+
 .main-menu-item{font-size: 17px; color: #ccc;}
 .main-menu-item-dashboard.active{color: #00bbf0!important;}
 .main-menu-item-management.active{color: #00bbf0!important; }
@@ -817,10 +843,6 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .navbar .divider-vertical { height: 50px; margin: 0 9px; border-right: 1px solid #ffffff; border-left: 1px solid #f2f2f2; }
 .navbar-inverse .divider-vertical { border-right-color: #222222; border-left-color: #111111; }
 
-@media (max-width: 767px) {
-	.navbar-collapse .nav > .divider-vertical {  display: none; }
-	.navbar-collapse .nav > .space-vertical {  display: none; }
-}
 
 .portalinfo-tile .tile-main{background-color: #ecf0f1; color: black;  padding: 1em; }
 .portalinfo-tile .tile-main a{background-color: #ecf0f1; color: black; padding: 0px; display: inline-block;width:auto; }
@@ -1574,3 +1596,8 @@ height: 100%;
 
 .checkbox-dropdown  .dropdown-menu a{text-decoration: none;}
 
+
+@media (max-width: 767px) {
+	
+	
+}

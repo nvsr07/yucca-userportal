@@ -8,6 +8,17 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
                                           function($scope, $route, $modal, info, $location, $translate, fabricAPIservice, localStorageService,storeAPIservice) {
 	$scope.$route = $route;
 	
+	$scope.currentLang = function(){return $translate.use();};
+	
+
+	$scope.$on("$routeChangeSuccess", function(event, current, previous){
+	     $scope.isHomepage = current.$$route.isHomepage;
+	     console.log("isHomepage", $scope.isHomepage, current.activetab);
+	 });
+
+	
+
+	
 	$scope.linkLoginToStore = "";
 	$scope.linkLoginToStoreW = "0";
 	$scope.linkLoginToStoreH = "0";
@@ -410,7 +421,7 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 }]);
 
 appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'fabricAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
-                                        function($scope, $route, $http, $filter, fabricAPIservice, fabricAPImanagement, $modal, info, $location) {
+                                        function($scope, $route, $http, $filter, fabricAPIservice,  fabricAPImanagement,  $modal, info, $location) {
 	$scope.$route = $route;
 	$scope.tenant = "";
 	var $translate = $filter('translate');
@@ -428,8 +439,10 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	//}
 	$scope.statistics = {};
 
+	//loadDataStatistics()
 	
 	fabricAPImanagement.loadDataStatistics().success(function(response) {
+	//odataAPIservice.loadDataStatistics().success(function(response) {
 		console.debug("statistics", response);	
 		$scope.statistics.total_tenants = response.lifetime.total_tenants;
 		$scope.statistics.total_streams = response.lifetime.total_streams;
