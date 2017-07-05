@@ -949,7 +949,9 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .import-database-columns-table-legend{display: inline-block;margin: 20px 0;}
 .column-info-icon{color: #aaa;}
 
-.import-database-choose-table, .import-database-customize-table{border-width: 1px 0;}
+table.import-database-choose-table>tbody>tr>td, .table.import-database-choose-table>tbody>tr>td
+table.import-database-customize-table>tbody>tr>td, .table.import-database-customize-table>tbody>tr>td
+	 {border-width: 1px 0;}
 .import-database-choose-table .tooltip-inner{background-color: #fff; text-align: left;}
 .import-database-choose-table .tooltip.in{opacity: 1;}
 .import-database-choose-table .tooltip.bottom .tooltip-arrow{border-bottom-color: #fff;}

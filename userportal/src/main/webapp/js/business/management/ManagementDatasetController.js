@@ -2081,7 +2081,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		$scope.isLoadingDB = true;
 	//if($scope.importConfig.sourceType == 'script'){
 		$scope.upload = $upload.upload({
-			url: Constants.API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL, 
+			url: Constants.API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL+"/" + $scope.tenantCode, 
 			method: 'POST',
 			data: $scope.importConfig,
 			file: $scope.importConfig.sqlSourcefile
@@ -2662,6 +2662,7 @@ appControllers.controller('ManagementDatasetImportDatabaseEditDatasetVisibilityC
 		}
 		
 		if($scope.opendata && $scope.opendata!=null){
+			$scope.tables[selectedTableIndex].dataset.opendata = {};
 			for (var opendataProp in $scope.opendata) {
 			    if ($scope.opendata.hasOwnProperty(opendataProp)) {
 			    	$scope.tables[selectedTableIndex].dataset.opendata[opendataProp] = $scope.opendata[opendataProp];
@@ -2828,7 +2829,11 @@ appControllers.controller('ManagementDatasetImportDatabaseEditColumnsCtrl', [ '$
 		$modalInstance.close();
 	};
 	
-	$scope.cancel = function () {$modalInstance.dismiss('cancel');};
+	$scope.cancel = function () {
+		for(var columnIndex = 0; columnIndex < $scope.tables[selectedTableIndex].dataset.info.fields.length; columnIndex++) 
+			$scope.tables[selectedTableIndex].dataset.info.fields[columnIndex].isKey = $scope.tables[selectedTableIndex].dataset.info.fields[columnIndex].isKey?1:0;
+		$modalInstance.dismiss('cancel');
+	};
 	
 	$scope.refreshColumnOrder();
 	$scope.htmlTooltip = '<div><table class="table table-supercondensed table-dateformat-help">'+
