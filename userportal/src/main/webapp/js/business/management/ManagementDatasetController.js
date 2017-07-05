@@ -2081,7 +2081,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		$scope.isLoadingDB = true;
 	//if($scope.importConfig.sourceType == 'script'){
 		$scope.upload = $upload.upload({
-			url: Constants.API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL+"/" + $scope.tenantCode, 
+			url: Constants.API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL+  $scope.tenantCode, 
 			method: 'POST',
 			data: $scope.importConfig,
 			file: $scope.importConfig.sqlSourcefile
