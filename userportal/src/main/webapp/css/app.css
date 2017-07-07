@@ -162,6 +162,10 @@ footer .footer-separator{color: #b4b4b4; padding: 0 2em; }
 }
 
 
+.coming-soon-panel-container{position: relative;}
+.coming-soon-panel{background-color: rgba(255, 255, 255, 0.9); position: absolute; width: 100%; height: 100%; z-index: 1000; top: 0; left: 0;}
+.coming-soon-panel-label{position: absolute; top: 50%; margin-top: -1em; text-align: center; width: 100%;}
+
 .title-container .btn-top-promo{background-color: #efefef; margin-top:2px; border: solid 1px #8c8e8d; color: black; position: relative; font-size: 18px;  padding: 10px 12px;
 	text-transform: uppercase;box-shadow: none; margin-left: 20px; font-weight: bold; }
 .title-container .btn-top-promo:hover{background-color: #00bbf0; color: #fff; border-color: #00bbf0;}
@@ -416,7 +420,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .card-row{padding: .5em 0;}
 .card-toolbar{margin: 60px 0 .5em 0; padding: .4em;text-align: right;}
 .mute{color: #ccc;}
-.content-gray .mute{color: #666;}
+.content-gray .mute{color: #bbb;}
 
 .ajax-loading{display: inline-block; height: 36px;background: url("../img/loading/loading-small.gif") center right no-repeat;}    /*http://loadergenerator.com/snake */
 .ajax-loading-label{display: inline-block; width: 36px; height: 36px;background: url("../img/loading/loading-small.gif") center left no-repeat;padding-left: 42px; line-height: 36px; font-size: 16pt;}    /*http://loadergenerator.com/snake */
@@ -940,6 +944,7 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .wizard-step-intro .wizard-step-intro-text{font-weight: 300; font-style: italic; }
 /* import database */
 .import-dataset-choose-panel-question{margin-bottom: 91px;}
+.import-dataset-choose-panel-question .coming-soon-panel-label{font-size: 48px; font-weight: bold; color: #00bbf0; transform: rotate(-50deg);text-shadow: 0px 0px 30px #fff;}
 #import-database-choose-source-db-icon{font-size: 98px;top: 10px; left: 50%; margin-left: -45px; position: absolute; }
 #import-database-choose-source-connect-icon{font-size: 48px; position: absolute; bottom: 0px; left: 140px;color: #00bbf0;}
 #import-database-choose-source-script-icon{font-size: 98px;top: 10px; left: 50%; margin-left: -45px; position: absolute; }
@@ -951,6 +956,7 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 
 table.import-database-choose-table>tbody>tr>td, .table.import-database-choose-table>tbody>tr>td
 table.import-database-customize-table>tbody>tr>td, .table.import-database-customize-table>tbody>tr>td
+table.import-database-customize-table-columns>tbody>tr>td, .table.import-database-customize-table-columns>tbody>tr>td
 	 {border-width: 1px 0;}
 .import-database-choose-table .tooltip-inner{background-color: #fff; text-align: left;}
 .import-database-choose-table .tooltip.in{opacity: 1;}
@@ -962,6 +968,8 @@ table.import-database-customize-table>tbody>tr>td, .table.import-database-custom
 .import-database-choose-table div.checkbox{margin:0 1em 0 0; padding-left: 0; min-height: 0;}
 
 .import-database-choose-table-type-icon{color: #999;}
+.import-database-choose-table-warning{color: #f40000; cursor: pointer; }
+.import-database-choose-synonym-type-icon{background-color: #999; color: white; display: inline-block; height: 14px; width: 14px;font-size: 10px;text-align: center; border-radius: 2px; }
 .info-table-cell{padding-right: 32px; position: relative;}
 .info-table-cell .info-icon{position: absolute; right: 8px;}
 

@@ -34,6 +34,7 @@
 							    <li role="separator" class="divider"></li>
 							    <li><a href ng-click="selectTables('tableType_table')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_TABLE</a></li>
 							    <li><a href ng-click="selectTables('tableType_view')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_VIEW</a></li>
+							    <li><a href ng-click="selectTables('tableType_synonym')" translate>MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_SYNONYM</a></li>
 							  </ul>
 						</div>
 					
@@ -56,8 +57,10 @@
 						</div>
 					</td>
 					<td class='nowrap'>
+						<i class="fa fa-exclamation-triangle import-database-choose-table-warning" aria-hidden="true"  ng-if='table.warnings.length>0' title="Show errors"  ng-click="showTablesWarnings(table.index)"></i>
 						<i class='fa fa-table import-database-choose-table-type-icon' title='Table' ng-if='table.tableType == "TABLE"'></i>
 						<i class='fa fa-eye import-database-choose-table-type-icon' title='View'  ng-if='table.tableType == "VIEW"'></i>
+						<span class='import-database-choose-synonym-type-icon' title='Synonym'  ng-if='table.tableType == "SYNONYM"'>S</span>
 						&nbsp;&nbsp;
 						<span  class='import-database-table-{{table.status}}'>{{'MANAGEMENT_IMPORT_DATABASE_TABLE_STATUS_'+table.status| translate}}</span>
 					</td>
@@ -89,6 +92,20 @@
 	</div>
 </div>
 
+<script type="text/ng-template" id="importDatabaseTablesWarnings.html">
+	<div class="modal-body modal-compact">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title"><span translate >MANAGEMENT_IMPORT_DATABASE_TABLES_WARNINGS</span> <small>{{table.tableName}}</small></h3>
+        </div>
+		<div class="modal-body">
+			<h4 translate>MANAGEMENT_IMPORT_DATABASE_TABLE_WARNINGS_TITLE</h4>
+
+			<div ng-bind-html="warningsList"></div>		
+		</div>
+	</div>
+</script>
+
 <script type="text/ng-template" id="importDatabaseTablesColumns.html">
 	<div class="modal-body modal-compact">
 		<div class="modal-header">
@@ -96,12 +113,7 @@
             <h3 class="modal-title"><span translate >MANAGEMENT_IMPORT_DATABASE_TABLES_COLUMS</span> <small>{{table.tableName}}</small></h3>
         </div>
 		<div class="modal-body">
-			<!--<div class='text-right'>
-				<table class='import-database-columns-table-legend text-left'>
-					<tr><td><strong>Primary key&nbsp;&nbsp;&nbsp;&nbsp;</strong></td><td><i class='primary-key fa fa-key'></i> <i>Table Name (optional) </i></td></tr>
-					<tr><td><strong>Foreign key&nbsp;&nbsp;&nbsp;&nbsp;</strong></td><td><i class='foreign-key fa fa-key'></i> <i>Table Name</i></td></tr>
-				</table>
-			</div>-->
+
 			<div ng-bind-html="columnsTable"></div>		
 		</div>
 	</div>

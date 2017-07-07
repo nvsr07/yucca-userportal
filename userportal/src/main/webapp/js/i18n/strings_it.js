@@ -507,7 +507,7 @@ var translations_it = {
 	HOME_STATISTIC_TOTAL_DATA_TIP: 'Totale dei dati  disponibili: ',
 	HOME_STATISTIC_CURRENT_MONTH_DATA: 'Misure questo mese',
 	HOME_STATISTIC_CURRENT_MONTH_DATA_TIP: 'Dati registrati nel mese corrente: ',
-	HOME_STATISTIC_TODAY_DATA: 'Misure acquisite ieri ',
+	HOME_STATISTIC_TODAY_DATA: 'Misure acquisite ieri',
 	HOME_STATISTIC_TODAY_DATA_TIP: 'Totale dei dati  registrati ieri: ',
 	HOME_STATISTIC_VIRTUALOBJECT_DATA: 'dati da smart object',
 	HOME_STATISTIC_VIRTUALOBJECT_DATA_TIP: 'Totale dei dati ricevuti dagli Smart Object: ',
@@ -987,6 +987,8 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_EXISTING: 'Esistenti', 
 	MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_TABLE: 'Tabelle',
 	MANAGEMENT_IMPORT_DATABASE_TABLES_SELECT_VIEW: 'Viste',
+	MANAGEMENT_IMPORT_DATABASE_TABLES_WARNINGS: 'Errori della tabella', 
+	MANAGEMENT_IMPORT_DATABASE_TABLE_WARNINGS_TITLE: 'Durante il caricamento si sono verificati i seguenti errori',
 
 	MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS: 'Nuovo',
 	MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS_HINT: 'Colonne non incluse in precedenti importazioni',

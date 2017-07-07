@@ -27,7 +27,8 @@
 							<p class='wizard-choose-panel-desc' translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_SOURCE_DATABASE_DESC</p>
 						</div>
 					</div>
-					<div class='col-sm-4 new-dataset-choose-panel-container col-sm-offset-2'>
+					<div class='col-sm-4 new-dataset-choose-panel-container col-sm-offset-2 coming-soon-panel-container'>
+						<div class='coming-soon-panel'><div class='coming-soon-panel-label'>Coming soon</div></div>
 						<h3><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_SOURCE_TYPE_SCRIPT_TITLE</span></h3>
 						<div class='wizard-choose-panel' id='import-database-choose-source-script'>
 							<div  class='wizard-choose-panel-icons'>
@@ -35,7 +36,7 @@
 								<i class="fa fa-file-o" id="import-database-choose-source-script-icon"></i>
 								<i class="fa fa-cog" id="import-database-choose-source-cogs-icon"></i>
 							</div>
-							<div class='wizard-choose-panel-action'><a class='btn btn-wizard-next'  href ng-click='chooseSourceType("script")'><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_SOURCE_SCRIPT</span></a></div>
+							<div class='wizard-choose-panel-action'><a class='btn btn-wizard-next'  href ng-click='chooseSourceType("script")' ng-disable='true'><span translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_SOURCE_SCRIPT</span></a></div>
 							<p class='wizard-choose-panel-desc' translate-cloak translate>MANAGEMENT_IMPORT_DATABASE_SOURCE_SCRIPT_DESC</p>
 						</div>
 					</div>

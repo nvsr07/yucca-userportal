@@ -2097,7 +2097,10 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 			$scope.tables = response;
 			$scope.selectTablesFlag = true;
 			for (var tableIndex = 0; tableIndex < $scope.tables.length; tableIndex++) {
-				$scope.tables[tableIndex].importTable = true;
+				if(typeof $scope.tables[tableIndex].warnings != 'undefined' && $scope.tables[tableIndex].warnings.length>0)
+					$scope.tables[tableIndex].importTable = false;	
+				else
+					$scope.tables[tableIndex].importTable = true;
 				$scope.tables[tableIndex].index = tableIndex;
 				$scope.tables[tableIndex].customized = {"name":false,"domain":false,"visibility":false, "dcat":false, "columns":false};
 				if($scope.tables[tableIndex].status == 'new'){
@@ -2159,6 +2162,19 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		$modal.open({
 	      templateUrl: 'importDatabaseTablesColumns.html',
 	      controller: 'ManagementDatasetImportTablesColumnsCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  selectedTableIndex: function () {return tableIndex;},
+	      	}
+    	});
+	};
+	
+	
+	$scope.showTablesWarnings = function(tableIndex){
+		$modal.open({
+	      templateUrl: 'importDatabaseTablesWarnings.html',
+	      controller: 'ManagementDatasetImportTablesWarningsCtrl',
 	      size: 'lg',
 	      scope: $scope,
 	      resolve: {
@@ -2314,6 +2330,10 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 				}
 				else if(selectionType == 'tableType_view'){
 					$scope.tables[tableIndex].tableType == 'VIEW';
+					$scope.selectAllTableFlag = false;
+				}
+				else if(selectionType == 'tableType_synonym'){
+					$scope.tables[tableIndex].tableType == 'SYNONYM';
 					$scope.selectAllTableFlag = false;
 				}
 			}
@@ -2526,6 +2546,25 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 } ]);
 
 
+appControllers.controller('ManagementDatasetImportTablesWarningsCtrl', [ '$scope', '$modalInstance',  'selectedTableIndex', '$translate',
+                                                                        function($scope, $modalInstance, selectedTableIndex,$translate) {
+	$scope.table = $scope.tables[selectedTableIndex];
+	var warnings  = $scope.tables[selectedTableIndex].warnings;
+	$scope.warningsList = "No warning found";
+	if(warnings && warnings.length>0){
+
+		var warningsList = "<ul class='import-database-customize-table-warnings'>";
+		for (var warningIndex = 0; warningIndex < warnings.length; warningIndex++) {
+			warningsList += "<li>" + warnings[warningIndex] + "</li>";
+		}
+		warningsList += "</ul>";
+		
+		$scope.warningsList = warningsList;
+}
+
+$scope.cancel = function () {$modalInstance.dismiss('cancel');};
+}]);
+
 appControllers.controller('ManagementDatasetImportTablesColumnsCtrl', [ '$scope', '$modalInstance',  'selectedTableIndex', '$translate',
                                                                                   function($scope, $modalInstance, selectedTableIndex,$translate) {
 	$scope.table = $scope.tables[selectedTableIndex];
@@ -2533,7 +2572,7 @@ appControllers.controller('ManagementDatasetImportTablesColumnsCtrl', [ '$scope'
 	$scope.columnsTable = "No column found";
 	if(columns && columns.length>0){
 		
-		var columnsTable = "<div><table class='table table-supercondensed '><thead><tr><th>Column</th><th>Name</th><th>Type</th><th>Alias</th><th>Keys</th><tr></thead><tbody>";
+		var columnsTable = "<div><table class='table table-supercondensed import-database-customize-table-columns text-left	'><thead><tr><th>Column</th><th>Name</th><th>Type</th><th>Alias</th><th>Keys</th><tr></thead><tbody>";
 		for (var columnIndex = 0; columnIndex < columns.length; columnIndex++) {
 			var newBadge = "";
 			if(columns[columnIndex].isNewField)
