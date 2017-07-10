@@ -60,7 +60,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 			
 			var tenantsSharingList = "";
 			if(typeof $scope.metadata.tenantDelegateCodes!= 'undefined')
-				tenantsSharingList = $scope.metadata.tenantDelegateCode.join(",");
+				tenantsSharingList = $scope.metadata.tenantDelegateCodes.join(",");
 
 				//	var tenantsSharingList = $scope.dataset.info.tenantssharing.tenantsharing.map(function(elem){
 				//	    return elem.tenantCode;
