@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.csi.yucca.userportal.userportal.entity.TwitterUser;
+import org.csi.yucca.userportal.userportal.entity.twitter.TwitterUser;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
 import twitter4j.Twitter;

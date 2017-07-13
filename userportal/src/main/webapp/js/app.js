@@ -150,6 +150,22 @@ app.factory('info',  function() {
     	return activeTenantType;
     };
     
+    infoService.getActiveShareInformationType = function(){
+    	var shareInformationType = "none";
+    	if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0){
+    		for (var i = 0; i < this.info.user.tenants.length; i++) {
+				if(this.info.user.tenants[i].tenantCode == this.getActiveTenantCode()){
+					shareInformationType = this.info.user.tenants[i].shareInformationType; 
+					break;
+				}
+			}
+    	}
+    		
+    	return shareInformationType;
+    };
+    
+    
+    
     infoService.getActiveTenant = function() {
     	if(this.info && this.info.activeTenant)
     		return this.info.activeTenant;

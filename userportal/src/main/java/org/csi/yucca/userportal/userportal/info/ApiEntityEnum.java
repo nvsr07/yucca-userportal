@@ -17,6 +17,12 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
+	API_STATISTICS("API_STATISTICS_URL", "/userportal/api/statistic") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
 	API_AUTH_TERMCONDITION("API_AUTH_TERMCONDITION_URL", "/userportal/api/termcondition") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

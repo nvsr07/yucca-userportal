@@ -138,6 +138,7 @@ appServices.factory('fabricAPImanagement', function($http, $q, info) {
 		return deferred.promise;
 	};
 	
+
 	fabricAPI.loadDataStatistics = function() {
 		return $http({
 			method : 'JSONP',

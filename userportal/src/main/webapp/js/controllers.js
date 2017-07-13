@@ -420,8 +420,8 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	};
 }]);
 
-appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'fabricAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
-                                        function($scope, $route, $http, $filter, fabricAPIservice,  fabricAPImanagement,  $modal, info, $location) {
+appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'fabricAPIservice', 'odataAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
+                                        function($scope, $route, $http, $filter, fabricAPIservice,  odataAPIservice, fabricAPImanagement,  $modal, info, $location) {
 	$scope.$route = $route;
 	$scope.tenant = "";
 	var $translate = $filter('translate');
@@ -442,7 +442,6 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	//loadDataStatistics()
 	
 	fabricAPImanagement.loadDataStatistics().success(function(response) {
-	//odataAPIservice.loadDataStatistics().success(function(response) {
 		console.debug("statistics", response);	
 		$scope.statistics.total_tenants = response.lifetime.total_tenants;
 		$scope.statistics.total_streams = response.lifetime.total_streams;
@@ -470,9 +469,33 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 		}
 
 		$scope.domainChartData = domains;
+		
 	});
 	
+	/*
+	odataAPIservice.loadDataStatistics_new().success(function(response) {
+		console.debug("statistics", response);	
+		$scope.statistics.total_tenants = response.totalOrganizations;
+		$scope.statistics.total_streams = response.totalStreams;
+		$scope.statistics.total_smart_objects = response.totalSmartobjects;
 
+		$scope.statistics.total_data = response.totalData;
+		$scope.statistics.total_measures = response.totalMeasures;
+		$scope.statistics.today_data = response.yesterdayData;
+		if(typeof response.lastUpdateMillis != 'undefined' && response.lastUpdateMillis >0)
+			$scope.statistics.lastupdate = new Date(response.lastUpdateMillis);
+
+		$scope.domainChartData = response.domains;
+		var domains= [];
+		for (var domain in response.domains) {
+			if (response.domains.hasOwnProperty(domain)) {
+				domains.push({key: $translate(domain), y:response.domains[domain]});
+		    }
+		}
+		$scope.domainChartData = domains;
+	});
+	
+ */
 
 
 	$scope.xDomainChartFunction = function(){

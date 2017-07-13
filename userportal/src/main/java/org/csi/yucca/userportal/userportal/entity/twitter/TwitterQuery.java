@@ -1,4 +1,4 @@
-package org.csi.yucca.userportal.userportal.entity;
+package org.csi.yucca.userportal.userportal.entity.twitter;
 
 import org.csi.yucca.userportal.userportal.utils.json.GSONExclusionStrategy;
 import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;

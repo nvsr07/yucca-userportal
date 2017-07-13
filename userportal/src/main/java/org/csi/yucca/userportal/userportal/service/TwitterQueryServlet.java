@@ -17,8 +17,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
-import org.csi.yucca.userportal.userportal.entity.TwitterMessage;
-import org.csi.yucca.userportal.userportal.entity.TwitterQuery;
+import org.csi.yucca.userportal.userportal.entity.twitter.TwitterMessage;
+import org.csi.yucca.userportal.userportal.entity.twitter.TwitterQuery;
 import org.csi.yucca.userportal.userportal.utils.Config;
 import org.csi.yucca.userportal.userportal.utils.json.GSONExclusionStrategy;
 import org.w3c.dom.Document;

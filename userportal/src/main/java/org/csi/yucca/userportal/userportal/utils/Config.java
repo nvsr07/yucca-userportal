@@ -43,7 +43,11 @@ public class Config {
 	public static final String API_PROXY_STORE_BASE_URL = "/userportal/api/proxy/store/";
 	public static final String API_PROXY_METADATA_BASE_URL = "/userportal/api/proxy/metadata/";
 	public static final String API_PROXY_RESOURCES_BASE_URL = "/userportal/api/proxy/resources/";
-	public static final String  SECDATA_NEWTOKEN = "/secdata/newtoken/";
+	public static final String SECDATA_NEWTOKEN = "/secdata/newtoken/";
+	
+	public static final String STATISTICS_DATASET_CODE = "STATISTICS_DATASET_CODE";
+	public static final String STATISTICS_AUTH_TOKEN = "STATISTICS_AUTH_TOKEN";
+	
 
 	
 	public static Properties loadClientConfiguration() throws IOException {
