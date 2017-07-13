@@ -25,6 +25,8 @@ public class Tenant {
 	private String userLastName;
 	private String userEmail;
 	private String userTypeAuth;
+	
+	private String shareInformationType;
 
 
 	public Tenant() {
@@ -205,6 +207,15 @@ public class Tenant {
 		sandbox.setUserFirstName("");
 		sandbox.setUserLastName("");
 		sandbox.setUserTypeAuth("");
+		sandbox.setShareInformationType("none");
 		return sandbox;
+	}
+
+	public String getShareInformationType() {
+		return shareInformationType;
+	}
+
+	public void setShareInformationType(String shareInformationType) {
+		this.shareInformationType = shareInformationType;
 	}
 }

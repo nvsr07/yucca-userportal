@@ -315,11 +315,14 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 
 	$scope.canCreatePublicDataset = function(){
-		return info.getActiveTenantType() != 'trial';
+		//return info.getActiveTenantType() != 'trial';
+		return info.getActiveShareInformationType() == "public";
+
 	}; 
 	
 	$scope.canShareDataset = function(){
-		return info.getActiveTenantType() != 'trial';
+		//return info.getActiveTenantType() != 'trial';
+		return info.getActiveShareInformationType() == "public";
 	}; 
 
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
@@ -918,11 +921,13 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 	
 	$scope.canCreatePublicDataset = function(){
-		return info.getActiveTenantType() != 'trial';
+		//return info.getActiveTenantType() != 'trial';
+		return info.getActiveShareInformationType() == "public";
 	}; 
 
 	$scope.canShareDataset = function(){
-		return info.getActiveTenantType() != 'trial';
+		//return info.getActiveTenantType() != 'trial';
+		return info.getActiveShareInformationType() == "public";
 	}; 
 
 
@@ -1724,11 +1729,13 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	
 	$scope.canCreatePublicDataset = function(){
-		return info.getActiveTenantType() != 'trial';
+		//return info.getActiveTenantType() != 'trial';
+		return info.getActiveShareInformationType() == "public";
 	}; 
 
 	$scope.canShareDataset = function(){
-		return info.getActiveTenantType() != 'trial';
+		// return info.getActiveTenantType() != 'trial';
+		return info.getActiveShareInformationType() == "public";
 	}; 
 
 

@@ -198,7 +198,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		}
 		
 		return returnValue;
-	}
+	};
 
 	refreshWizardToolbar();
 	$scope.goToRegister  = function(){ $scope.currentStep = 'register'; refreshWizardToolbar();};
@@ -225,12 +225,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 	
 	$scope.canCreatePublicStream = function(){
-		return info.getActiveTenantType() != 'trial';
+		//return info.getActiveTenantType() != 'trial';
+		return info.getActiveShareInformationType() == "public";
 	}; 
 	
 	
 	$scope.canShareStream = function(){
-		return info.getActiveTenantType() != 'trial';
+		//return info.getActiveTenantType() != 'trial';
+		return info.getActiveShareInformationType() == "public";
 	}; 
 
 
