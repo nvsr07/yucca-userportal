@@ -46,6 +46,13 @@
 		
 					<form class="form-horizontal" role="form" name="editDatasetForm" accept-charset="UTF-8">
 						<div class="form-group">
+							<label for="inputDatasetDesc" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_NAME</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" ng-model="dataset.info.datasetName" id="inputDatasetName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}"
+							ng-required="true" >
+							</div>
+						</div>
+						<div class="form-group">
 							<label for="inputDatasetDesc" class="col-sm-2 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
 							<div class="col-sm-10">
 								<textarea class="form-control" rows="4" resize="none" ng-model="dataset.info.description"  placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}" id="inputDatasetDesc" maxlength="3000">
@@ -220,24 +227,6 @@
 						</div>	
 						<div class='form-label-separator' translate-cloak translate>MANAGEMENT_NEW_DATASET_DCAT</div>				
 						<div class="form-group">
-							<label for="inputDatasetDcatCreatorName" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORNAME</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputDatasetDcatCreatorName" ng-model="dataset.dcatCreatorName">
-							</div>	
-						</div>		
-						<div class="form-group">
-							<label for="inputDatasetDcatCreatorType" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputDatasetDcatCreatorType" ng-model="dataset.dcatCreatorType">
-							</div>	
-						</div>		
-						<div class="form-group">
-							<label for="inputDatasetDcatCreatorId" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORID</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputDatasetDcatCreatorId" ng-model="dataset.dcatCreatorId">
-							</div>	
-						</div>	
-						<div class="form-group">
 							<label for="inputDatasetDcatRightHolderName" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span><span class='required-asterisk'>*</span></label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" id="inputDatasetDcatRightHolderName" ng-model="dataset.dcatRightsHolderName" ng-required="true">
@@ -255,6 +244,24 @@
 								<input type="text" class="form-control" id="inputDatasetDcatRightHolderId" ng-model="dataset.dcatRightsHolderId">
 							</div>	
 						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDcatCreatorName" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORNAME</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetDcatCreatorName" ng-model="dataset.dcatCreatorName">
+							</div>	
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDcatCreatorType" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetDcatCreatorType" ng-model="dataset.dcatCreatorType">
+							</div>	
+						</div>		
+						<div class="form-group">
+							<label for="inputDatasetDcatCreatorId" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORID</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="inputDatasetDcatCreatorId" ng-model="dataset.dcatCreatorId">
+							</div>	
+						</div>	
 						<div class="form-group">
 							<label for="inputDatasetOpendataNomeOrg" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</span><span class='required-asterisk'>*</span></label>
 							<div class="col-sm-4">
