@@ -7,6 +7,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
 	$scope.codeFilter = null;
+	$scope.nameFilter = null;
 	$scope.statusFilter = null;
 	$scope.domainFilter = null;
 	$scope.showLoading = true;
@@ -51,6 +52,11 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		var keyword = new RegExp($scope.codeFilter, 'i');
 		return !$scope.codeFilter || keyword.test(stream.codiceStream);
 	};
+	
+	$scope.searchNameFilter = function(stream) {
+		var keyword = new RegExp($scope.nameFilter, 'i');
+		return !$scope.nameFilter || keyword.test(stream.nomeStream);
+	};
 
 	$scope.searchStatusFilter = function(stream) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
@@ -79,7 +85,12 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredStreamsList.length;
 	});
-
+	
+	$scope.$watch('nameFilter', function(newName) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredStreamsList.length;
+	});
+	
 	$scope.$watch('statusFilter', function(newStatus) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredStreamsList.length;

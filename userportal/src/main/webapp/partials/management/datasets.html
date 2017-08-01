@@ -42,15 +42,16 @@
 						<thead>
 							<tr>
 								<th></th>
-								<th>
-									<a href="" ng-click="predicate = 'datasetCode'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_CODE</span>
-									<span ng-show="predicate=='datasetCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='datasetCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
-								</th>
+								<th></th>
 								<th>
 									<a href="" ng-click="predicate  = 'info.datasetName'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span>
 									<span ng-show="predicate=='info.datasetName' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='info.datasetName' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'datasetCode'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_CODE</span>
+									<span ng-show="predicate=='datasetCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='datasetCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
 									<a href="" ng-click="predicate = 'info.dataDomain'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> 
@@ -85,13 +86,17 @@
 							</tr>
 							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | filter: searchDomainFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
-								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
-								<td class='text-left'>
+								<td class='text-center no-border-right'>
 									<a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">
 										<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='list-entity-icon-preview-img' >
+									</a>
+								</td>
+								<td class='text-left no-border-left'>
+									<a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">
 										{{dataset.info.datasetName}}
 									</a>
 								</td>
+								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
 								<td><div class='domain-column'><i class="icon-{{dataset.info.dataDomain}} domain-icon" title="{{dataset.info.dataDomain|translate}}"></i></div></td>
 								<td>{{dataset.configData.type}} / {{dataset.configData.subtype}} 
 									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-show="dataset.info.attachment" title='Dataset with binary attachment'></i>

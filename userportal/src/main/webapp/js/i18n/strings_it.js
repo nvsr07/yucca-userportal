@@ -690,7 +690,8 @@ var translations_it = {
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM : 'Elimina',
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo stream',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'Per abilitare l\'eliminazione selezionare almeno uno stream',
-	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED : 'Mostra Disinstallati',
+	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED : 'Disinstallati',
+	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED_HINT : 'Mostra Disinstallati',
 	
 	/* view stream */
 	MANAGEMENT_VIEW_STREAM: 'Stream',

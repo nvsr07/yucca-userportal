@@ -193,6 +193,8 @@ table{border-collapse: collapse; border-style: hidden;text-align: center;}
 table>thead{color: #000; border: none; background-color:transparent; text-transform: uppercase;padding: 4px 5px;}
 table>thead>tr>th a{text-decoration: none; }
 table>tbody>tr>td, .table>tbody>tr>td{border: 2px solid #d5d5d5; vertical-align: middle;}
+table>tbody>tr>td.no-border-left, .table>tbody>tr>td.no-border-left{border-left: none;}
+table>tbody>tr>td.no-border-right, .table>tbody>tr>td.no-border-right{border-right: none;}
 
 .slim-td{width: 1px;}
 .input-hide-control{ appearance: none; -webkit-appearance: none; -moz-appearance: none; padding: 0 5px;}
@@ -353,7 +355,7 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .dashboard-streamList-table .domain-column{text-align: center; font-size: 24px;}
 
 .dashboard-card-icon-preview-img{width: 64px; height: 64px;}
-.list-entity-icon-preview-img{width: 48px; height: 48px; margin-right: 1em;}
+.list-entity-icon-preview-img{width: 48px; height: 48px;}
 
 /* data explorer */
 .dataExplorer-icon-preview{margin-right: 1em;}
@@ -1040,6 +1042,20 @@ table.import-database-customize-table-columns>tbody>tr>td, .table.import-databas
 
 .primary-key{color: gold;}
 .foreign-key{color: silver;}
+
+.row-compact .col-xs-1, .row-compact .col-sm-1, .row-compact .col-md-1, .row-compact .col-lg-1, 
+.row-compact .col-xs-2, .row-compact .col-sm-2, .row-compact .col-md-2, .row-compact .col-lg-2, 
+.row-compact .col-xs-3, .row-compact .col-sm-3, .row-compact .col-md-3, .row-compact .col-lg-3, 
+.row-compact .col-xs-4, .row-compact .col-sm-4, .row-compact .col-md-4, .row-compact .col-lg-4, 
+.row-compact .col-xs-5, .row-compact .col-sm-5, .row-compact .col-md-5, .row-compact .col-lg-5, 
+.row-compact .col-xs-6, .row-compact .col-sm-6, .row-compact .col-md-6, .row-compact .col-lg-6, 
+.row-compact .col-xs-7, .row-compact .col-sm-7, .row-compact .col-md-7, .row-compact .col-lg-7, 
+.row-compact .col-xs-8, .row-compact .col-sm-8, .row-compact .col-md-8, .row-compact .col-lg-8, 
+.row-compact .col-xs-9, .row-compact .col-sm-9, .row-compact .col-md-9, .row-compact .col-lg-9, 
+.row-compact .col-xs-10, .row-compact .col-sm-10, .row-compact .col-md-10, .row-compact .col-lg-10, 
+.row-compact .col-xs-11, .row-compact .col-sm-11, .row-compact .col-md-11, .row-compact .col-lg-11, 
+.row-compact .col-xs-12, .row-compact .col-sm-12, .row-compact .col-md-12, .row-compact .col-lg-12
+{padding-left: 5px;    padding-right: 5px; }
 
 .form-horizontal-compact .col-xs-1, .form-horizontal-compact .col-sm-1, .form-horizontal-compact .col-md-1, .form-horizontal-compact .col-lg-1, 
 .form-horizontal-compact .col-xs-2, .form-horizontal-compact .col-sm-2, .form-horizontal-compact .col-md-2, .form-horizontal-compact .col-lg-2, 
