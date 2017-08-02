@@ -245,7 +245,9 @@ small pre{font-size: 11px;padding: 4px;}
 pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 
 
-.input-icon-hint{  font-size: 18px!important;  color: #00bbf0;}
+.input-icon-hint{font-size: 18px!important;  color: #00bbf0;}
+.input-icon-warning{  font-size: 18px!important;  color: #fdd800;}
+.input-icon-valid{  font-size: 18px!important;  color: #88cc01;}
 
 /* validation */
 .ng-dirty.ng-invalid{border-color: #b50000;}
@@ -342,7 +344,9 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .alert{border-radius: 0; border-width: 2px;margin: 20px 0 10px;}
 .alert-danger {background-color: #ffcaca;border-color: #a40000;color: #550000;}
 .alert-warning{background-color: #fff59e;border-color: #edd400;color: #766000;}   
-.alert-sandbox{background-color: #fce94f;border-color: #000;color: #000; border-style: dashed; border-width: 3px;}
+.alert-sandbox{background-color: #f5f5dc;border-color: #000;color: #000; border-style: dashed; border-width: 1px; font-size: 18px;}
+.alert-sandbox strong{}
+.alert-sandbox i{color: #ffd700;margin-right: .5em; font-size: 24px;}
 
 /* cookies */
 .cookie-alert{padding:1em; color: white; background-color: #717b7c; text-align: center;}

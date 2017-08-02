@@ -207,7 +207,7 @@ public class Tenant {
 		sandbox.setUserFirstName("");
 		sandbox.setUserLastName("");
 		sandbox.setUserTypeAuth("");
-		sandbox.setShareInformationType("none");
+		sandbox.setShareInformationType("public");
 		return sandbox;
 	}
 

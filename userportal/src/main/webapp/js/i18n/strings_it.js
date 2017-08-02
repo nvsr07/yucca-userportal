@@ -185,7 +185,7 @@ var translations_it = {
 	/* Stream placeholder */
 	STREAM_FIELD_CODE_PLACEHOLDER : 'es. temperatura',
 	STREAM_FIELD_NAME_PLACEHOLDER : 'es. temperatura sala',
-	STREAM_FIELD_SLUG_PLACEHOLDER : 'inserisci il nome e dopo clicca qui, verrà creato un codice valido, modificabile.',
+	STREAM_FIELD_SLUG_PLACEHOLDER : 'inserisci il nome e dopo clicca qui, verr&agrave; creato un codice valido, modificabile.',
 	STREAM_FIELD_COMPONENTS_ID_PLACEHOLDER: 'es. 1.4',
 	STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER: 'es. wind',
 	STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER: 'es. 12',
@@ -868,6 +868,9 @@ var translations_it = {
 	MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE: "Errore durante la creazione dello Smart Object", 
 	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL: "Verificare di non aver gia' utilizzato questo account Twitter. E' possibile creare un solo Smart Object per account Twitter", 
 
+	MANAGEMENT_NEW_VIRTUALENTITY_SLUG_WARNING: 'Il nome dello slug viene ripulito da spazi e caratteri speciali automaticamente  in fase di salvataggio',
+	MANAGEMENT_NEW_VIRTUALENTITY_SLUG_VALID: 'Nome dello slug verificato',
+
 	
 	/* Management new Dataset */
 	MANAGEMENT_NEW_DATASET_CREATE_BUTTON : 'Crea',
@@ -955,7 +958,7 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_STEP_START_INTRO: 'Questa sezione consente la definizione automatica dei dataset a partire da una connessione jdbc o tramite lo script di creazione di un database',
 
 	MANAGEMENT_IMPORT_DATABASE_STEP_DB_JDBC_INTRO: '&Egrave; necessario che la piattaforma raggiunga il server su cui &egrave; attestato il database. <br>Contattare <a href="mailto:smartdatanet@csi.it" target="_blank">smartdatanet@csi.it</a> '+
-		'per ulteriori informazioni. <strong>Nessuna password verrà salvata sul sistema.</strong>',
+		'per ulteriori informazioni. <strong>Nessuna password verr&agrave; salvata sul sistema.</strong>',
 
 	MANAGEMENT_IMPORT_DATABASE_STEP_DB_SCRIPT_INTRO: 'Assicurati che lo script sia generato tramite export dal database stesso e che sia codificato in UTF-8',
 	MANAGEMENT_IMPORT_DATABASE_STEP_TABLES_INTRO: 'Seleziona le tabelle o viste che vuoi importare, per ogni tabella verr&agrave; creato o aggiornato un dataset.<br>Il nome del dataset pu&ograve; '+
@@ -1305,7 +1308,7 @@ var translations_it = {
 	/* Subscriptions */
 	SUBSCRIPTIONS_TITLE: 'Sottoscrizioni',
 	SUBSCRIPTIONS_ACCESS_TOKEN: 'Token di accesso',
-	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validità del token',
+	SUBSCRIPTIONS_TOKEN_VALIDITY: 'Validit&agrave; del token',
 	SUBSCRIPTIONS_CONSUMER_KEY: 'Consumer Key',
 	SUBSCRIPTIONS_CONSUMER_SECRET: 'Consumer Secret',
 	SUBSCRIPTIONS_TOKEN_OPERATION: 'Operazione',

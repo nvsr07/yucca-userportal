@@ -473,8 +473,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				
-				if(!$scope.canCreatePublicDataset())
-					$scope.dataset.info.visibility = 'private';
+//				if(!$scope.canCreatePublicDataset())
+//					$scope.dataset.info.visibility = 'private';
 
 			} catch (e) {
 				console.error("getDataset ERROR", e);

@@ -340,26 +340,40 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$scope.virtualentity.virtualEntitySlug = '';
 		}
 		return rtnBool;	
-	}
+	};
 	
-	$scope.generateSLUG = function(virtualentity){
+	$scope.isValidSlug = false;
+	
+	
+	$scope.checkSlug = function(slugInput){
+		  var validChars = /[^a-zA-Z0-9]/g;
+		  if (validChars.test(slugInput)) {
+			$scope.isValidSlug = false;
+		    return true;
+		  } else {
+			  $scope.isValidSlug = true;
+			  return false;
+		  }
+	};
+	
+	$scope.clearSlug = function(slugInput){
+		$scope.isValidSlug = false;
 		var d = new Date().getTime();
-		//var firstSlug = $scope.virtualentity.virtualEntityName.replace(/[\s\*\+\!\?\,\:\;\.\€\$\"\£\%\&\/\(\)\[\]\{\}\=\^\ç\°\§\+\*\\\\à\xE0\xE8\xE9\xF9\xF2\xEC\x27]/g, '');
-		var firstSlug = $scope.virtualentity.virtualEntityName.replace(/[^a-zA-Z0-9]/g, '');
+
+		var firstSlug = slugInput.replace(/[^a-zA-Z0-9]/g, '');
 		
 		var rtnBool = false;
-		console.log('tenantCode: ' + $scope.tenantCode);
 		var promise = fabricAPIservice.getVirtualentityByTenant($scope.tenantCode);
 		promise.then(function(result) {
 			var vEntities = Helpers.util.initArrayZeroOneElements(result.data.virtualEntities.virtualEntity);
 			console.log(vEntities);
 			vEntities.forEach(function(item) {
-			    console.log(item.virtualEntitySlug);
+			    //console.log(item.virtualEntitySlug);
 			    if (firstSlug == item.virtualEntitySlug){
 			    	rtnBool = true;
 			    }
 			});
-
+	
 			if (rtnBool){
 				var slug = firstSlug+'xxx'.replace(/[xy]/g, function(c) {
 					var r = (d + Math.random()*16)%16 | 0;
@@ -377,10 +391,11 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 					if (!rtnBool2){
 						$scope.virtualentity.virtualEntitySlug = slug;
 					} else {
-						//ERRORE!!!!
+						console.error("rtnBool2",rtnBool2);
 					}
 				}
 			} else {
+				$scope.isValidSlug = true;
 				$scope.virtualentity.virtualEntitySlug = firstSlug;
 			}
 		}, function(reason) {
@@ -392,6 +407,12 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		});
 	};
 	
+	$scope.generateSLUG = function(virtualentity){
+		if(typeof $scope.virtualentity.virtualEntityName!='undefined')
+			$scope.clearSlug($scope.virtualentity.virtualEntityName);
+	};
+
+
 	findDuplicateSlug = function(tenantCode, slugTest){
 		var rtn = false;
 		var promise = fabricAPIservice.getVirtualentityByTenant(tenantCode);
@@ -414,7 +435,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 			return rtn;
 		});
-	}
+	};
 
 	//$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
 	$scope.validationPatternUUID = (function() {
