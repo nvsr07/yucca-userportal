@@ -16,11 +16,11 @@ public class ApplicationSubscription {
 	private long prodValidityTime;
 	private boolean sandRegenarateOption;
 	private long sandValidityTime;
-	private List<String> sandboxAuthorizedDomains;
+	private String sandboxAuthorizedDomains;
 	private String sandboxConsumerKey;
 	private String sandboxConsumerSecret;
 	private String sandboxKey;
-	
+
 	@SerializedName("subscriptions")
 	private List<ApiSubscription> subscriptions;
 
@@ -116,11 +116,11 @@ public class ApplicationSubscription {
 		this.sandValidityTime = sandValidityTime;
 	}
 
-	public List<String> getSandboxAuthorizedDomains() {
+	public String getSandboxAuthorizedDomains() {
 		return sandboxAuthorizedDomains;
 	}
 
-	public void setSandboxAuthorizedDomains(List<String> sandboxAuthorizedDomains) {
+	public void setSandboxAuthorizedDomains(String sandboxAuthorizedDomains) {
 		this.sandboxAuthorizedDomains = sandboxAuthorizedDomains;
 	}
 

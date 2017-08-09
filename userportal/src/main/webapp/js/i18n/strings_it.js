@@ -1299,7 +1299,7 @@ var translations_it = {
 	DATA_EXPLORER_SUBSCRIBE_OK_UPDATE_APP: 'Applicazione aggiornata',
 	DATA_EXPLORER_SUBSCRIBE_ERROR_UPDATE_APP: 'Aggiornamento applicazione fallito',
 	DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP: 'Applicazione creata',
-	DATA_EXPLORER_SUBSCRIBE_OK_CREATE_APP: 'Creazione applicazione fallito',
+	DATA_EXPLORER_SUBSCRIBE_ERROR_CREATE_APP: 'Creazione applicazione fallito',
 	
 	DATA_EXPLORER_SUBSCRIBE_CREATE_APP_BTN: 'Crea applicazione',
 	
