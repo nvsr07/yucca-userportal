@@ -1,11 +1,13 @@
 package org.csi.yucca.userportal.userportal.service;
 
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,11 +25,19 @@ public class ApiManagementProxyServlet extends ApiProxyServlet {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	protected void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	protected void beforeExecute(HttpServletRequest request, GetMethod method) {
+	}
+
+	@Override
+	protected void beforeExecute(HttpServletRequest request, PostMethod method) throws ServletException {
 	}
 
 }

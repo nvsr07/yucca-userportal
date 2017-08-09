@@ -132,6 +132,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}
 		
 		//do authentication to the store
+		/*
 		if (url.indexOf("login=ok") > -1){
 			$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
 			$scope.linkLoginToStoreW = "1";
@@ -203,7 +204,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	    		console.error("getSubscriptions: error", response);
 	    	});	   
         };
-		
+		*/
 		checkTermCondition();
 
 		console.log('info', info);

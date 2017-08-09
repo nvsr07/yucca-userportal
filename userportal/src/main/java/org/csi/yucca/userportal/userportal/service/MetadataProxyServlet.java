@@ -3,10 +3,12 @@ package org.csi.yucca.userportal.userportal.service;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
@@ -33,6 +35,14 @@ public class MetadataProxyServlet extends ApiProxyServlet {
 			getMethod.setRequestHeader("Authorization", "Bearer "+info.getUser().getStoreToken());
 		}
 		
+	}
+
+	@Override
+	protected void beforeExecute(HttpServletRequest request, GetMethod method) {
+	}
+
+	@Override
+	protected void beforeExecute(HttpServletRequest request, PostMethod method) throws ServletException {
 	}
 	
 }

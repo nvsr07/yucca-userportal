@@ -30,12 +30,21 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.ssl.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
+import org.csi.yucca.userportal.userportal.entity.store.AllSubscriptionsResponse;
+import org.csi.yucca.userportal.userportal.entity.store.ApplicationSubscription;
+import org.csi.yucca.userportal.userportal.entity.store.GenerateTokenResponse;
+import org.csi.yucca.userportal.userportal.entity.store.LoadTokenFromApiResponse;
 import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.info.Tenant;
 import org.csi.yucca.userportal.userportal.info.TenantsContainer;
@@ -50,6 +59,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -61,7 +72,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 	static Logger log = Logger.getLogger(SAML2ConsumerServlet.class);
 
-//	static List<Tenant> allTenants = null;
+	// static List<Tenant> allTenants = null;
 
 	public void init(ServletConfig config) throws ServletException {
 		try {
@@ -86,7 +97,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			List<Tenant> tenants = null;
 
 			List<Tenant> allTenant = getAllTenants();
-			
+
 			if (responseMessage != null) {
 
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
@@ -135,29 +146,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setLoggedIn(true);
 					newUsername = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME));
 					newUser.setUsername(newUsername);
-					// String organizations =
-					// result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
 					List<String> tenantsCode = null;
-					// if (organizations != null) {
-					// tenants = Arrays.asList(organizations.split(","));
-					// }
-
 					try {
-						// the user for each tenant has a role
-						// tenantName_subscriber
 						tenantsCode = loadRoles(newUser, "*_subscriber");
-						// if (tenantsCode.isEmpty()) {
-						// tenantsCode =
-						// Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
-						// }
 					} catch (Exception e) {
-
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
-
 					// filtro sui tenant, data di disattivazione
-					// allTenants = getAllTenants();
 					tenants = filterDisabledTenants(tenantsCode, allTenant);
 
 					if (tenants.isEmpty()) {
@@ -185,7 +181,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 					if (!tecnicalUser) {
 						newUser.setTenants(tenants);
-						String regexCFPattern = "^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$";
+						// String regexCFPattern =
+						// "^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$";
 						if (newUsername.contains("_AT_")) {
 							socialUser = true;
 							// Entro con credenziali social ovvero: Facebook,
@@ -285,22 +282,21 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					String termAndConditionClaim = null;
 					try {
 						termAndConditionClaim = loadTermConditionTenantClaim(newUser);
-					} catch (KeyManagementException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (NoSuchAlgorithmException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ParserConfigurationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SAXException e) {
-						// TODO Auto-generated catch block
+					} catch (Exception e) {
+						log.error("[SAML2ConsumerServlet::doPost] - loadTermConditionTenantClaim Error " + e.getMessage());
 						e.printStackTrace();
 					}
 
 					if (termAndConditionClaim != null)
 						newUser.setAcceptTermConditionTenantsFromString(termAndConditionClaim);
+				}
+
+				try {
+					String storeToken = loadStoreToken(newUser.getUsername());
+					newUser.setStoreToken(storeToken);
+				} catch (Exception e) {
+					log.error("[SAML2ConsumerServlet::doPost] - loadStoreToken Error " + e.getMessage());
+					e.printStackTrace();
 				}
 
 				info.setUser(newUser);
@@ -380,11 +376,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// info);
 					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
-					//response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
+					// response.sendRedirect(requestMessage +
+					// "&issuer=userportal&customCssPath=" +
+					// URLEncoder.encode(consumer.getIdpLoginPageStylePath(),
+					// "UTF-8"));
 
 					String cssPath = consumer.getIdpLoginPageStylePath();
-					if (typeAuth != null){
-						cssPath = cssPath.substring(0, cssPath.length() - 4); 
+					if (typeAuth != null) {
+						cssPath = cssPath.substring(0, cssPath.length() - 4);
 						if (typeAuth.equals("personal"))
 							cssPath = cssPath + "Personal.css";
 						if (typeAuth.equals("trial"))
@@ -425,31 +424,31 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	private static List<Tenant> getAllTenants() {
 		List<Tenant> allTenants = new ArrayList<Tenant>();
 		String apiBaseUrl = "";
-			try {
-				Properties config = Config.loadServerConfiguration();
-				apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY) + "/tenants";
-				HttpClient client = HttpClientBuilder.create().build();
-				HttpGet httpget = new HttpGet(apiBaseUrl);
+		try {
+			Properties config = Config.loadServerConfiguration();
+			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY) + "/tenants";
+			HttpClient client = HttpClientBuilder.create().build();
+			HttpGet httpget = new HttpGet(apiBaseUrl);
 
-				HttpResponse r = client.execute(httpget);
-				log.debug("[SAML2ConsumerServlet::getAllTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
+			HttpResponse r = client.execute(httpget);
+			log.debug("[SAML2ConsumerServlet::getAllTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
 
-				StringBuilder out = new StringBuilder();
-				BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
-				String line = "";
+			StringBuilder out = new StringBuilder();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+			String line = "";
 
-				while ((line = rd.readLine()) != null) {
-					out.append(line);
-				}
-
-				String inputJson = out.toString();
-
-				TenantsContainer allTenantsContainer = TenantsContainer.fromJson(inputJson);
-				allTenants = allTenantsContainer.getTenants().getTenant();
-			} catch (IOException e) {
-				log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage());
-				e.printStackTrace();
+			while ((line = rd.readLine()) != null) {
+				out.append(line);
 			}
+
+			String inputJson = out.toString();
+
+			TenantsContainer allTenantsContainer = TenantsContainer.fromJson(inputJson);
+			allTenants = allTenantsContainer.getTenants().getTenant();
+		} catch (IOException e) {
+			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage());
+			e.printStackTrace();
+		}
 		return allTenants;
 	}
 
@@ -684,7 +683,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	private String loadUserClaimValue(User newUser, String claimKey) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
 			SAXException {
 
-		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
+		log.debug("[SAML2ConsumerServlet::loadUserClaimValue] - START");
 		String claimValue = null;
 		try {
 
@@ -707,7 +706,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String user = config.getProperty(Config.RBAC_WEBSERVICE_USER_KEY);
 			String password = authConfig.getProperty(Config.RBAC_WEBSERVICE_PASSWORD_KEY);
 			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
-			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
+			log.debug("[SAML2ConsumerServlet::loadUserClaimValue] - webServiceResponse: " + webServiceResponse);
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -727,9 +726,248 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			log.debug("[SAML2ConsumerServlet::loadRoles] - END");
+			log.debug("[SAML2ConsumerServlet::loadUserClaimValue] - END");
 		}
 		return claimValue;
+	}
+
+	private String loadStoreToken(String username) throws IOException {
+
+		String storeToken = null;
+
+		Properties config = Config.loadServerConfiguration();
+		String storeBaseUrl = config.getProperty(Config.API_STORE_URL_KEY);
+		// String username = info.getUser().getUsername();
+
+		AllSubscriptionsResponse allSubscriptions = loadSubscriptions(storeBaseUrl, username);
+		ApplicationSubscription defaultApplication = null;
+
+		String productConsumerKey = null;
+		String productConsumerSecret = null;
+		String oldStoreToken = null;
+
+		if (allSubscriptions != null && !allSubscriptions.getError()) {
+			for (ApplicationSubscription application : allSubscriptions.getSubscriptions()) {
+				if (application.getName().equals("DefaultApplication")) {
+					defaultApplication = application;
+					if (application.getProdConsumerKey() != null) {
+						productConsumerKey = application.getProdConsumerKey();
+						productConsumerSecret = application.getProdConsumerSecret();
+						oldStoreToken = application.getProdKey();
+					} else {
+						GenerateTokenResponse generateStoreToken = generateApplicationKey(storeBaseUrl, username);
+						if (generateStoreToken != null && !generateStoreToken.getError() && generateStoreToken.getData() != null && generateStoreToken.getData().getKey() != null) {
+							productConsumerKey = generateStoreToken.getData().getKey().getConsumerKey();
+							productConsumerSecret = generateStoreToken.getData().getKey().getConsumerSecret();
+							oldStoreToken = generateStoreToken.getData().getKey().getAccessToken();
+						} else
+							log.error("[AuthorizeFilter::doFilter] error generateApplicationKey");
+
+					}
+					break;
+				}
+			}
+		}
+
+		if (defaultApplication == null) {
+			GenerateTokenResponse generateStoreToken = addDefaultApplicationSubscription(storeBaseUrl, username);
+			if (generateStoreToken != null && !generateStoreToken.getError() && generateStoreToken.getData() != null && generateStoreToken.getData().getKey() != null) {
+
+				productConsumerKey = generateStoreToken.getData().getKey().getConsumerKey();
+				productConsumerSecret = generateStoreToken.getData().getKey().getConsumerSecret();
+				oldStoreToken = generateStoreToken.getData().getKey().getAccessToken();
+			} else
+				log.error("[AuthorizeFilter::doFilter] error addDefaultApplicationSubscription");
+		}
+
+		String apiBaseUrl = config.getProperty(Config.API_ODATA_URL_KEY);
+		storeToken = loadStoreTokenFromApi(apiBaseUrl, username, productConsumerKey, productConsumerSecret, storeBaseUrl);
+		//storeToken = refreshStoreToken(storeBaseUrl, username, productConsumerKey, productConsumerSecret, oldStoreToken);
+		log.debug("[AuthorizeFilter::doFilter] oldStoreToken " + oldStoreToken );
+
+		return storeToken;
+
+	}
+
+	private AllSubscriptionsResponse loadSubscriptions(String storeBaseUrl, String username) throws HttpException, IOException {
+
+		String url = storeBaseUrl + "/site/blocks/secure/subscription.jag?action=getAllSubscriptions&application=s&username=" + username;
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpGet httpget = new HttpGet(url);
+
+		HttpResponse r = client.execute(httpget);
+		log.debug("[SAML2ConsumerServlet::loadSubscriptions] call to " + url + " - status " + r.getStatusLine().toString());
+
+		StringBuilder out = new StringBuilder();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+		String line = "";
+
+		while ((line = rd.readLine()) != null) {
+			out.append(line);
+		}
+
+		Gson gson = new GsonBuilder().create();
+
+		AllSubscriptionsResponse allSubscriptions = gson.fromJson(out.toString(), AllSubscriptionsResponse.class);
+
+		return allSubscriptions;
+
+	}
+
+	private GenerateTokenResponse generateApplicationKey(String storeBaseUrl, String username) throws HttpException, IOException {
+
+		long validityTime = 86400;
+
+		HttpPost httpPost = new HttpPost(storeBaseUrl + "/site/blocks/secure/subscription.jag?");
+		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		httpPost.addHeader("charset", "UTF-8");
+
+		List<BasicNameValuePair> postParameters = new LinkedList<BasicNameValuePair>();
+		postParameters.add(new BasicNameValuePair("username", username));
+		postParameters.add(new BasicNameValuePair("action", "generateApplicationKey"));
+		postParameters.add(new BasicNameValuePair("application", "DefaultApplication"));
+		postParameters.add(new BasicNameValuePair("keytype", "PRODUCTION"));
+		postParameters.add(new BasicNameValuePair("authorizedDomains", "ALL"));
+		postParameters.add(new BasicNameValuePair("validityTime", "" + validityTime));
+
+		httpPost.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpResponse r = client.execute(httpPost);
+		log.debug("[SAML2ConsumerServlet::generateApplicationKey] call to " + storeBaseUrl + "/site/blocks/secure/subscription.jag?" + " - status " + r.getStatusLine().toString());
+
+		StringBuilder out = new StringBuilder();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+		String line = "";
+
+		while ((line = rd.readLine()) != null) {
+			out.append(line);
+		}
+
+		Gson gson = new GsonBuilder().create();
+		GenerateTokenResponse generateTokenResponse = gson.fromJson(out.toString(), GenerateTokenResponse.class);
+		return generateTokenResponse;
+
+	}
+
+	private String loadStoreTokenFromApi(String apiBaseUrl, String username, String productConsumerKey, String productConsumerSecret, String storeBaseUrl) throws HttpException,
+			IOException {
+
+		HttpPost httpPost = new HttpPost(apiBaseUrl + "/token?grant_type=client_credentials");
+		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		httpPost.addHeader("charset", "UTF-8");
+        byte[] encoding = new Base64().encode((productConsumerKey + ":" + productConsumerSecret).getBytes());
+		String authorizationHeader = "Basic " + new String(encoding) ;
+		httpPost.addHeader("Authorization", authorizationHeader);
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpResponse r = client.execute(httpPost);
+		log.debug("[SAML2ConsumerServlet::refreshStoreToken] call to " + apiBaseUrl + "/token?grant_type=client_credentials" + " - status "
+				+ r.getStatusLine().toString());
+
+		StringBuilder out = new StringBuilder();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+		String line = "";
+
+		while ((line = rd.readLine()) != null) {
+			out.append(line);
+		}
+
+		Gson gson = new GsonBuilder().create();
+		LoadTokenFromApiResponse loadTokenFromApiResponse = gson.fromJson(out.toString(), LoadTokenFromApiResponse.class);
+
+		String storeToken = loadTokenFromApiResponse.getAccess_token();
+		if (loadTokenFromApiResponse.getExpires_in()<=0){
+			storeToken = refreshStoreToken(storeBaseUrl, username, productConsumerKey, productConsumerSecret, loadTokenFromApiResponse.getAccess_token());
+			log.error("[AuthorizeFilter::refreshStoreToken] error refreshStoreToken ");
+		}
+		
+		return storeToken;
+
+	}
+
+	private String refreshStoreToken(String storeBaseUrl, String username, String productConsumerKey, String productConsumerSecret, String oldStoreToken) throws HttpException,
+			IOException {
+
+		HttpPost httpPost = new HttpPost(storeBaseUrl + "/site/blocks/secure/subscription.jag?");
+		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		httpPost.addHeader("charset", "UTF-8");
+
+		long validityTime = 86400;
+
+		List<BasicNameValuePair> postParameters = new LinkedList<BasicNameValuePair>();
+		postParameters.add(new BasicNameValuePair("username", username));
+		postParameters.add(new BasicNameValuePair("action", "refreshToken"));
+		postParameters.add(new BasicNameValuePair("application", "DefaultApplication"));
+		postParameters.add(new BasicNameValuePair("clientId", productConsumerKey));
+		postParameters.add(new BasicNameValuePair("clientSecret", productConsumerSecret));
+		postParameters.add(new BasicNameValuePair("keytype", "PRODUCTION"));
+		postParameters.add(new BasicNameValuePair("oldAccessToken", oldStoreToken));
+		postParameters.add(new BasicNameValuePair("authorizedDomains", "ALL"));
+		postParameters.add(new BasicNameValuePair("validityTime", "" + validityTime));
+
+		httpPost.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpResponse r = client.execute(httpPost);
+		log.debug("[SAML2ConsumerServlet::refreshStoreToken] call to " + storeBaseUrl + "/site/blocks/secure/subscription.jag?" + " - status " + r.getStatusLine().toString());
+
+		StringBuilder out = new StringBuilder();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+		String line = "";
+
+		while ((line = rd.readLine()) != null) {
+			out.append(line);
+		}
+
+		Gson gson = new GsonBuilder().create();
+		GenerateTokenResponse refreshTokenResponse = gson.fromJson(out.toString(), GenerateTokenResponse.class);
+		String storeToken = null;
+
+		if (refreshTokenResponse != null && !refreshTokenResponse.getError() && refreshTokenResponse.getData() != null && refreshTokenResponse.getData().getKey() != null)
+			storeToken = refreshTokenResponse.getData().getKey().getAccessToken();
+		else
+			log.error("[AuthorizeFilter::refreshStoreToken] error refreshStoreToken ");
+
+		return storeToken;
+
+	}
+
+	private GenerateTokenResponse addDefaultApplicationSubscription(String storeBaseUrl, String username) throws HttpException, IOException {
+
+
+		HttpPost httpPost = new HttpPost(storeBaseUrl + "/site/blocks/secure/subscription.jag?");
+		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		httpPost.addHeader("charset", "UTF-8");
+
+		List<BasicNameValuePair> postParameters = new LinkedList<BasicNameValuePair>();
+		postParameters.add(new BasicNameValuePair("username", username));
+		postParameters.add(new BasicNameValuePair("action", "addAPISubscription"));
+		postParameters.add(new BasicNameValuePair("name", "metadata_api"));
+		postParameters.add(new BasicNameValuePair("version", "1.0"));
+		postParameters.add(new BasicNameValuePair("provider", "admin"));
+		postParameters.add(new BasicNameValuePair("tier", "Unlimited"));
+		postParameters.add(new BasicNameValuePair("application", "DefaultApplication"));
+
+		httpPost.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpResponse r = client.execute(httpPost);
+		log.debug("[SAML2ConsumerServlet::addDefaultApplicationSubscription] call to " + storeBaseUrl + storeBaseUrl + "/site/blocks/secure/subscription.jag?" + " - status "
+				+ r.getStatusLine().toString());
+
+		StringBuilder out = new StringBuilder();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+		String line = "";
+
+		while ((line = rd.readLine()) != null) {
+			out.append(line);
+		}
+
+		log.info("[AuthorizeFilter::addDefaultApplicationSubscription] - add default application subscription response " + out);
+
+		return generateApplicationKey(storeBaseUrl, username);
+
 	}
 
 	public static void main(String[] args) {

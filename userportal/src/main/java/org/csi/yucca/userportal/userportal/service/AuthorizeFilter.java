@@ -31,16 +31,17 @@ public class AuthorizeFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
-
-		if (request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO) == null) {
-			Info info = new Info();
-			//info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
+		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+		if (info == null) {
+			info = new Info();
+			// info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
 			User defaultUser = AuthorizeUtils.DEFAULT_USER();
-			
+
 			defaultUser.setToken(SAML2ConsumerServlet.getTokenForTenant(defaultUser.getActiveTenant()));
-			
+
 			info.setUser(defaultUser);
 			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
+
 		}
 
 		try {
@@ -63,7 +64,7 @@ public class AuthorizeFilter implements Filter {
 
 		}
 	}
-	
+
 	public void destroy() {
 		// TODO Auto-generated method stub
 

@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -39,7 +41,6 @@ import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 
 //@WebServlet(description = "Api proxy Servlet", urlPatterns = { "/api/proxy/*" }, asyncSupported = false)
 public abstract class ApiProxyServlet extends HttpServlet {
@@ -60,75 +61,77 @@ public abstract class ApiProxyServlet extends HttpServlet {
 	}
 
 	protected abstract void setApiBaseUrl();
+
 	protected abstract void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod);
+
+	protected abstract void beforeExecute(HttpServletRequest request, GetMethod method);
+
+	protected abstract void beforeExecute(HttpServletRequest request, PostMethod method) throws ServletException;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		GetMethod getMethod = new GetMethod(createTargetUrlWithParameters(request));
-				
+
 		setOauthTokenInHeader(request, getMethod);
 
 		String authorizationHeader = request.getHeader("Authorization");
-		if(authorizationHeader!=null)
+		if (authorizationHeader != null)
 			getMethod.setRequestHeader("Authorization", authorizationHeader);
 
-		
+		beforeExecute(request, getMethod);
+
 		HttpClient httpclient = new HttpClient();
 		int result = httpclient.executeMethod(getMethod);
 		response.setStatus(result);
-		log.info("[ApiProxyServlet::doGet] Content-Type: " + getMethod.getResponseHeader("Content-Type") );
-		if(getMethod.getResponseHeader("Content-Type")!=null)
+		log.info("[ApiProxyServlet::doGet] Content-Type: " + getMethod.getResponseHeader("Content-Type"));
+		if (getMethod.getResponseHeader("Content-Type") != null)
 			response.setContentType(getMethod.getResponseHeader("Content-Type").getValue());
-		log.info("[ApiProxyServlet::doGet] getResponseCharSet: " + getMethod.getResponseCharSet() );
-		//if(getMethod.getResponseCharSet()==null)
-		//	response.setCharacterEncoding("UTF-8");
-		//else
-		//	response.setCharacterEncoding(getMethod.getResponseCharSet());
-		
+		log.info("[ApiProxyServlet::doGet] getResponseCharSet: " + getMethod.getResponseCharSet());
+		// if(getMethod.getResponseCharSet()==null)
+		// response.setCharacterEncoding("UTF-8");
+		// else
+		// response.setCharacterEncoding(getMethod.getResponseCharSet());
+
 		log.info("[ApiProxyServlet::doGet] response.getCharacterEncoding: " + response.getCharacterEncoding());
 		log.info("[ApiProxyServlet::doGet] response.getContentType: " + response.getContentType());
-		//		for (Header header : getMethod.getResponseHeaders()) {
-		//			System.out.println(header.getName() + "-"+header.getValue());
-		//		}
+		// for (Header header : getMethod.getResponseHeaders()) {
+		// System.out.println(header.getName() + "-"+header.getValue());
+		// }
 		Header contentDisposition = getMethod.getResponseHeader("Content-Disposition");
-		if(contentDisposition!=null)
+		if (contentDisposition != null)
 			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
-		if(
-				response.getContentType()!=null && 
-				(
-						response.getContentType().startsWith("application/octet-stream") ||
-						response.getContentType().startsWith("text/csv")
-				)
-			){
+		if (response.getContentType() != null && (response.getContentType().startsWith("application/octet-stream") || response.getContentType().startsWith("text/csv"))) {
 			ServletOutputStream out = response.getOutputStream();
 			InputStream in = getMethod.getResponseBodyAsStream();
 			log.info("[ApiProxyServlet::doGet] startcopy");
-			IOUtils.copyLarge(in,out);
+			IOUtils.copyLarge(in, out);
 			log.info("[ApiProxyServlet::doGet] stopcopy");
 			in.close();
 			out.close();
-		}
-		else{
-		//String jsonOut = getMethod.getResponseBodyAsString();
+		} else {
+			// String jsonOut = getMethod.getResponseBodyAsString();
 			byte[] responsBytes = getMethod.getResponseBody();
 			response.setCharacterEncoding("UTF-8");
-	
+
 			String jsonOut = new String(responsBytes, "UTF-8");
-	//		if(getMethod.getResponseHeader("Content-Type")!=null){
-	//			String contentType = getMethod.getResponseHeader("Content-Type").getValue();
-	//			if(contentType!= null && contentType.lastIndexOf("charset")<0){
-	//				byte[] responseISO_8859_1 = getMethod.getResponseBody();
-	//				String stringISO_8859_1 = new String(responseISO_8859_1, "ISO-8859-1");
-	//				String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
-	//				byte[] responseUTF_8 = new String(responseISO_8859_1, "ISO-8859-1").getBytes("UTF-8");
-	//				//jsonOut = new String(responseUTF_8);
-	//				jsonOut =stringUTF_8;
-	//			}
-	//		}
-	
-			//String jsonOut = getMethod.getResponseBodyAsString();
+			// if(getMethod.getResponseHeader("Content-Type")!=null){
+			// String contentType =
+			// getMethod.getResponseHeader("Content-Type").getValue();
+			// if(contentType!= null && contentType.lastIndexOf("charset")<0){
+			// byte[] responseISO_8859_1 = getMethod.getResponseBody();
+			// String stringISO_8859_1 = new String(responseISO_8859_1,
+			// "ISO-8859-1");
+			// String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
+			// byte[] responseUTF_8 = new String(responseISO_8859_1,
+			// "ISO-8859-1").getBytes("UTF-8");
+			// //jsonOut = new String(responseUTF_8);
+			// jsonOut =stringUTF_8;
+			// }
+			// }
+
+			// String jsonOut = getMethod.getResponseBodyAsString();
 			if (isJSONPRequest(request))
 				jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
 			PrintWriter out = response.getWriter();
@@ -145,12 +148,15 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			RequestEntity requestBody = null;
 			String contentType = request.getContentType();
 			String targetUrl = createTargetUrlWithParameters(request);
+
 			PostMethod post = new PostMethod(targetUrl);
-			
-			if(request.getCookies()!=null && request.getCookies().length>0){
+			if(request.getQueryString()==null || request.getQueryString().equals(""))
+				post.setQueryString("");
+
+			if (request.getCookies() != null && request.getCookies().length > 0) {
 				String cookies = "";
-				for (Cookie cookie: request.getCookies()) {
-					cookies += cookie.getName() + "="+cookie.getValue() + ";";
+				for (Cookie cookie : request.getCookies()) {
+					cookies += cookie.getName() + "=" + cookie.getValue() + ";";
 				}
 				post.setRequestHeader("Cookie", cookies);
 			}
@@ -158,6 +164,17 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 			if (contentType.startsWith("multipart/form-data")) {
 				requestBody = handleMultipartPost(request, post.getParams());
+			} else if (contentType.startsWith("application/x-www-form-urlencoded")) {
+				Enumeration<String> parameterNames = request.getParameterNames();
+				while (parameterNames.hasMoreElements()) {
+					String paramName = parameterNames.nextElement();
+					post.addParameter(new NameValuePair(paramName, request.getParameter(paramName)));
+				}
+				
+
+				
+				
+				
 			} else {
 				StringBuffer inBodyRequest = new StringBuffer();
 				String line = null;
@@ -174,10 +191,11 @@ public abstract class ApiProxyServlet extends HttpServlet {
 				requestBody = new StringRequestEntity(inBodyRequest.toString(), request.getContentType(), request.getCharacterEncoding());
 			}
 
-
-			post.setRequestEntity(requestBody);
-			post.setRequestHeader(STRING_CONTENT_TYPE_HEADER_NAME, requestBody.getContentType());
-
+			if(requestBody!=null){
+				post.setRequestEntity(requestBody);
+				post.setRequestHeader(STRING_CONTENT_TYPE_HEADER_NAME, requestBody.getContentType());
+			}
+			beforeExecute(request, post);
 			PrintWriter out = response.getWriter();
 			HttpClient httpclient = new HttpClient();
 			try {
@@ -241,53 +259,58 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//System.out.println(req.getRequestURL());
-		//super.doDelete(req, resp);
+		// System.out.println(req.getRequestURL());
+		// super.doDelete(req, resp);
 
 		DeleteMethod delMethod = new DeleteMethod(createTargetUrlWithParameters(request));
-				
+
 		String authorizationHeader = request.getHeader("Authorization");
-		if(authorizationHeader!=null)
+		if (authorizationHeader != null)
 			delMethod.setRequestHeader("Authorization", authorizationHeader);
 
 		HttpClient httpclient = new HttpClient();
 		int result = httpclient.executeMethod(delMethod);
 		response.setStatus(result);
-		log.info("[ApiProxyServlet::doDelete] Content-Type: " + delMethod.getResponseHeader("Content-Type") );
-		if(delMethod.getResponseHeader("Content-Type")!=null)
+		log.info("[ApiProxyServlet::doDelete] Content-Type: " + delMethod.getResponseHeader("Content-Type"));
+		if (delMethod.getResponseHeader("Content-Type") != null)
 			response.setContentType(delMethod.getResponseHeader("Content-Type").getValue());
-		log.info("[ApiProxyServlet::doDelete] getResponseCharSet: " + delMethod.getResponseCharSet() );
+		log.info("[ApiProxyServlet::doDelete] getResponseCharSet: " + delMethod.getResponseCharSet());
 		response.setCharacterEncoding("UTF-8");
-		//if(getMethod.getResponseCharSet()==null)
-		//	response.setCharacterEncoding("UTF-8");
-		//else
-		//	response.setCharacterEncoding(getMethod.getResponseCharSet());
-		
+		// if(getMethod.getResponseCharSet()==null)
+		// response.setCharacterEncoding("UTF-8");
+		// else
+		// response.setCharacterEncoding(getMethod.getResponseCharSet());
+
 		log.info("[ApiProxyServlet::doDelete] response.getCharacterEncoding: " + response.getCharacterEncoding());
 		log.info("[ApiProxyServlet::doDelete] response.getContentType: " + response.getContentType());
-		//		for (Header header : getMethod.getResponseHeaders()) {
-		//			System.out.println(header.getName() + "-"+header.getValue());
-		//		}
-		//Header contentDisposition = getMethod.getResponseHeader("Content-Disposition");
-		//if(contentDisposition!=null)
-		//	response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
+		// for (Header header : getMethod.getResponseHeaders()) {
+		// System.out.println(header.getName() + "-"+header.getValue());
+		// }
+		// Header contentDisposition =
+		// getMethod.getResponseHeader("Content-Disposition");
+		// if(contentDisposition!=null)
+		// response.setHeader("Content-Disposition",
+		// getMethod.getResponseHeader("Content-Disposition").getValue());
 
-		//String jsonOut = getMethod.getResponseBodyAsString();
+		// String jsonOut = getMethod.getResponseBodyAsString();
 		byte[] responsBytes = delMethod.getResponseBody();
 		String jsonOut = new String(responsBytes, "UTF-8");
-//		if(getMethod.getResponseHeader("Content-Type")!=null){
-//			String contentType = getMethod.getResponseHeader("Content-Type").getValue();
-//			if(contentType!= null && contentType.lastIndexOf("charset")<0){
-//				byte[] responseISO_8859_1 = getMethod.getResponseBody();
-//				String stringISO_8859_1 = new String(responseISO_8859_1, "ISO-8859-1");
-//				String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
-//				byte[] responseUTF_8 = new String(responseISO_8859_1, "ISO-8859-1").getBytes("UTF-8");
-//				//jsonOut = new String(responseUTF_8);
-//				jsonOut =stringUTF_8;
-//			}
-//		}
+		// if(getMethod.getResponseHeader("Content-Type")!=null){
+		// String contentType =
+		// getMethod.getResponseHeader("Content-Type").getValue();
+		// if(contentType!= null && contentType.lastIndexOf("charset")<0){
+		// byte[] responseISO_8859_1 = getMethod.getResponseBody();
+		// String stringISO_8859_1 = new String(responseISO_8859_1,
+		// "ISO-8859-1");
+		// String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
+		// byte[] responseUTF_8 = new String(responseISO_8859_1,
+		// "ISO-8859-1").getBytes("UTF-8");
+		// //jsonOut = new String(responseUTF_8);
+		// jsonOut =stringUTF_8;
+		// }
+		// }
 
-		//String jsonOut = getMethod.getResponseBodyAsString();
+		// String jsonOut = getMethod.getResponseBodyAsString();
 		if (isJSONPRequest(request))
 			jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
 		PrintWriter out = response.getWriter();
@@ -311,9 +334,9 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			for (String key : parameterMap.keySet()) {
 				i++;
 				if (!key.trim().equalsIgnoreCase("callback")) {
-					parametersOut += key + "=" +  URLEncoder.encode(parameterMap.get(key)[0],"UTF-8").replace("[+]","%2B").replace("+","%20") ;
-					if(i<parameterMap.size()){
-						parametersOut +="&";
+					parametersOut += key + "=" + URLEncoder.encode(parameterMap.get(key)[0], "UTF-8").replace("[+]", "%2B").replace("+", "%20");
+					if (i < parameterMap.size()) {
+						parametersOut += "&";
 					}
 				}
 			}
@@ -326,11 +349,11 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 	protected String createTargetUrlWithParameters(HttpServletRequest request) throws IOException {
 
-		//FIXME workaround to force security in the datadiscovery 
-		//String tenantCode = AuthorizeUtils.getTenantsInSession(request).get(0).getTenantCode();
-		
-		Map<String, String[]> parameterMap =  new HashMap<String, String[]>(request.getParameterMap());
-		
+		// FIXME workaround to force security in the datadiscovery
+		// String tenantCode =
+		// AuthorizeUtils.getTenantsInSession(request).get(0).getTenantCode();
+
+		Map<String, String[]> parameterMap = new HashMap<String, String[]>(request.getParameterMap());
 
 		String parameters = cleanParameters(parameterMap);
 		String path = request.getRequestURI() + parameters;
@@ -363,12 +386,12 @@ public abstract class ApiProxyServlet extends HttpServlet {
 				if (fileItemCurrent.isFormField()) {
 					String value = "";
 					try {
-						value = new String (fileItemCurrent.getString().getBytes ("iso-8859-1"), "UTF-8");
+						value = new String(fileItemCurrent.getString().getBytes("iso-8859-1"), "UTF-8");
 					} catch (UnsupportedEncodingException e) {
 						value = fileItemCurrent.getString();
 						e.printStackTrace();
 					}
-					StringPart stringPart = new StringPart(fileItemCurrent.getFieldName(), value,"UTF-8");
+					StringPart stringPart = new StringPart(fileItemCurrent.getFieldName(), value, "UTF-8");
 					listParts.add(stringPart);
 				} else {
 					FilePart filePart = new FilePart(fileItemCurrent.getFieldName(), new ByteArrayPartSource(fileItemCurrent.getName(), fileItemCurrent.get()));
