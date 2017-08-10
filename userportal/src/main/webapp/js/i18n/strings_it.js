@@ -465,7 +465,11 @@ var translations_it = {
 	HOME_START_DEMO_BUTTON_DESC: 'Prova la piattaforma sul tenant sandbox',
 	HOME_START_DEMO_BUTTON: 'Accesso anonimo ai dati pubblici', 
 	HOME_LOGGED_IN_WELCOME: 'Benvenuto, ',
-	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
+	//HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali non sono di un livello sufficiente per accedere, rivolgersi alla casella smartdatanet@csi.it',
+	HOME_LOGGED_NOT_STRONG_AUTHENTICATION: 'Le tue credenziali sono &quote;non imputabili &quote;, cio&eacute; sono state rilasciate senza l\'accertamento della tua identit&agrave; da parte '+
+							'di un operatore incaricato.<br>'+
+							'Puoi renderle &quote;imputabili&quote; recandoti, con un documento di identit&agrave; valido e la tessera sanitaria, presso uno degli sportelli abilitati dove l\'operatore '+
+							'autorizzato da Regione Piemonte accerter&agrave; la tua identit&agrave; e ti consegner&agrave; un nuovo PIN e un codice di attivazione con cui scegliere username e password.',
 	HOME_LOGGED_NOT_TENANT_AUTHENTICATION: 'Le tue credenziali non sono associate a nessun tenant',
 	HOME_LOGGED_TECHNICAL_AUTHENTICATION: 'Stai usando credenziali tecniche, rivolgersi alla casella smartdatanet@csi.it',
 	
@@ -1056,6 +1060,7 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_TABLE_COLUMNS: 'Colonne', 
 	MANAGEMENT_IMPORT_DATABASE_TABLES_ZERO_SELECTED_WARNING: 'Selezionare almeno una tabella da importare',
 	
+	MANAGEMENT_IMPORT_DATABASE_HIVE_STAGE_AREA_INFO: 'Per il Datalake di Yucca non &egrave; necessario indicare i parametri di connessione, verranno caricate le tabelle presenti nell\'area di stage relative all\'organizzazione e al tenant che stai utilizzando',
 
 	MANAGEMENT_IMPORT_DATABASE_REQUESTOR_SUBTITLE: 'Richiedente',
 	MANAGEMENT_IMPORT_DATABASE_METADATA_SUBTITLE: 'Metadati',

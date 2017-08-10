@@ -2070,11 +2070,12 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 			$scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_DBTYPE_NULL_WARNING");
 		
 		if($scope.importConfig.sourceType == "database"){
-			if($scope.importConfig.jdbc_hostname == null || $scope.importConfig.jdbc_hostname == "" ||
-					$scope.importConfig.jdbc_dbname == null || $scope.importConfig.jdbc_dbname == "" ||
-				$scope.importConfig.jdbc_username == null || $scope.importConfig.jdbc_username == "" ||
-				$scope.importConfig.jdbc_password == null || $scope.importConfig.jdbc_password == ""){
-				$scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_JDBC_PARAMS_WARNING");
+			if($scope.importConfig.dbType!='HIVE' && 
+			    ($scope.importConfig.jdbc_hostname == null || $scope.importConfig.jdbc_hostname == "" ||
+				 $scope.importConfig.jdbc_dbname == null || $scope.importConfig.jdbc_dbname == ""  ||
+				 $scope.importConfig.jdbc_username == null || $scope.importConfig.jdbc_username == "" ||
+				 $scope.importConfig.jdbc_password == null || $scope.importConfig.jdbc_password == "")){
+				 $scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_JDBC_PARAMS_WARNING");
 			}
 
 		}
@@ -2083,6 +2084,8 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 				$scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_SOURCEFILE_NULL_WARNING");
 			}
 		}
+		
+		$scope.importConfig.organizationCode = info.getActiveTenant().organizationCode;
 		if($scope.warningMessages.length>0)
 			return;
 		$scope.isLoadingDB = true;

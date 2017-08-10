@@ -1055,6 +1055,7 @@ var translations_en = {
 	MANAGEMENT_IMPORT_DATABASE_TABLE_COLUMNS: 'Columns', 
 	MANAGEMENT_IMPORT_DATABASE_TABLES_ZERO_SELECTED_WARNING: 'Choose at least one table to import',
 	
+	MANAGEMENT_IMPORT_DATABASE_HIVE_STAGE_AREA_INFO: 'For Yucca Data Lake you do not need to write the connection parameters, all the tables in the stage area of the organization and tenant you are using will be loaded',
 
 	MANAGEMENT_IMPORT_DATABASE_REQUESTOR_SUBTITLE: 'Requestor',
 	MANAGEMENT_IMPORT_DATABASE_METADATA_SUBTITLE: 'Metadata',
