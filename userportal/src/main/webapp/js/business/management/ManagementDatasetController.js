@@ -1033,6 +1033,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	else{
 		isClone = true;
 		$scope.metadata.info.datasetName = null;
+		if($scope.metadata.configData.deleted)
+			delete $scope.metadata.configData.deleted;
 		$scope.previewColumns = [];
 		$scope.previewBinaries = [];
 		if($scope.metadata.info.fields.length>0){
