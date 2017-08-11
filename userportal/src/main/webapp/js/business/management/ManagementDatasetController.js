@@ -195,6 +195,8 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$location', '$modalInstance', 'fabricAPImanagement', 'ds', 'tenant', 
                                                                    function($scope, $location, $modalInstance, fabricAPImanagement, ds, tenant) {
 
+	console.log("ManagementDatasetUninstallModalCtrl", ds);
+	console.log("ManagementDatasetUninstallModalCtrl", tenant);
 	$scope.ds = ds; 
 	$scope.tenant = tenant; 
 	
@@ -703,6 +705,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 					console.info('Modal dismissed at: ' + new Date());
 		});
 	};
+	
 
 	$scope.canDelete = function() {
 		if ($scope.dataset){
@@ -716,6 +719,72 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		}
 		return false;
 	};
+	
+	
+	
+	
+	$scope.openUninstalDatasetModal = function(){
+		console.log("openUninstalDatasetModal",$scope.dataset);
+	    var detailModalInstance = $modal.open({
+	      animation: true,
+	      templateUrl: 'unistallDatasetModal.html',
+	      controller: 'ManagementDatasetUninstallModalCtrl',
+	      scope: $scope,
+	      size: 'sm',
+	      resolve: {
+	    	  ds : function(){
+	    		  return $scope.dataset;
+	    	  },
+	    	  tenant : function(){
+	    		console.log('$scope.tenantCode', $scope.tenantCode);
+	        	return $scope.tenantCode;
+	    	  }
+	      }
+	    });
+	    
+	    detailModalInstance.result.then(function (result) {
+	    	console.log('result', result);
+//	        if (result){
+//	        	//$scope.datasetList = [];
+//		    	//console.log('fatto');
+//		    	//$scope.getDatasets();
+//	        	updateSelected('remove', ds);
+//	        	$route.reload();
+//	        }
+	      }, function () {
+	      	console.log('Modal dismissed at: ' + new Date());
+	      });
+	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	$scope.cloneDataset = function(){
 		console.log("cloneDataset");
