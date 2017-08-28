@@ -199,32 +199,40 @@ appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$l
 	console.log("ManagementDatasetUninstallModalCtrl", tenant);
 	$scope.ds = ds; 
 	$scope.tenant = tenant; 
+	$scope.update = {"loading":false, "status":"", };
 	
 	$scope.ok = function(){
 			
+		$scope.update.loading = true;
 		var promise = fabricAPImanagement.requestUnistallDataset($scope.tenant, $scope.ds.idDataset);
 		
 		promise.then(function(result) {
+			console.log("result ok ", result);
 			if(result.errors && data.errors.length>0){
-				$scope.updateError = true;
-				$scope.updateErrors = data.errors;
-				Helpers.util.scrollTo();
+				$scope.update.status="error";
+				$scope.errors = data.errors;
 			}
 			else{
-				$scope.updateInfo = {status: "Ok"};
+				$scope.update.status = "success";
 			}
+			$scope.update.loading = false;
+			//$modalInstance.close(true);
 		}, function(result) {
-			$scope.updateError = true;
-			$scope.updateErrors = angular.fromJson(result.data);
-			console.log("result.data ", result.data);
+			console.log("result ko", result);
+			$scope.update.status="error";
+			$scope.errors =angular.fromJson(result.data);
+			$scope.update.loading = false;
+			//$modalInstance.close(true);
 		}, function(result) {
 			console.log('Got notification: ' + result);
 		});
-		$modalInstance.close(true);
 	};
 	
 	$scope.cancel = function () {
-	    $modalInstance.dismiss('cancel');
+	    $modalInstance.dismiss(false);
+	};
+	$scope.close = function () {
+	    $modalInstance.dismiss(true);
 	};
 }]);
 
@@ -306,8 +314,8 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 	};
 }]);
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate','sharedUploadBulkErrors',
-                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate,sharedUploadBulkErrors) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate','sharedUploadBulkErrors', '$route',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate,sharedUploadBulkErrors, $route) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = null;//Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -709,11 +717,23 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 	$scope.canDelete = function() {
 		if ($scope.dataset){
-			console.log(">>>>>>>> $scope.dataset", $scope.dataset);
-			if ($scope.dataset.configData && $scope.dataset.configData.type == "dataset" &&  
+			if ($scope.dataset.configData && 
+					$scope.dataset.configData.type == "dataset" &&  
 					($scope.dataset.configData.subtype == "bulkDataset" || 
 					 $scope.dataset.configData.subtype == "streamDataset" || 
-					 $scope.dataset.configData.subtype == "socialDataset")){
+					 $scope.dataset.configData.subtype == "socialDataset") &&
+					 $scope.dataset.configData.deleted!=1){
+				return true;
+			}
+		}
+		return false;
+	};
+	$scope.canUnistall = function() {
+		if ($scope.dataset){
+			if ($scope.dataset.configData && 
+					$scope.dataset.configData.type == "dataset" && 
+					$scope.dataset.configData.subtype == "bulkDataset" &&
+					$scope.dataset.configData.deleted!=1){
 				return true;
 			}
 		}
@@ -751,38 +771,12 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 //	        	updateSelected('remove', ds);
 //	        	$route.reload();
 //	        }
-	      }, function () {
-	      	console.log('Modal dismissed at: ' + new Date());
+	      }, function (reload) {
+	    	  console.log('Modal dismissed reload: ' + reload);
+	    	  if(reload)
+	    		  $route.reload();
 	      });
 	};
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

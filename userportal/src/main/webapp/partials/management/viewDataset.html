@@ -19,6 +19,7 @@
 		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="alert alert-danger" ng-show='updateError'>
+					<strong>{{updateErrorStatus}}</strong> 
 					<div class='row  text-left' ng-repeat="error in updateErrors">
 						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
 						<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
@@ -50,7 +51,7 @@
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_VERSION</span></small></div>
-				<div><strong>{{dataset.datasetVersion}}</strong>  <span ng-show="dataset.configData.deleted==1" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</span></div>
+				<div><strong>{{dataset.datasetVersion}}</strong>  <strong class='entity-uninstalled' ng-show="dataset.configData.deleted==1" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong></div>
 			</div>
 		</div>
 	</div>		
@@ -351,9 +352,9 @@
 	   				<a href="javascript:void(0)" ng-click='openModalView()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" >
 						<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET</span>
 					</a>
-	   			<!-- <a href="javascript:void(0)" ng-click='openUninstalDatasetModal()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" >
+	   				<a href="javascript:void(0)" ng-click='openUninstalDatasetModal()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canUnistall()" >
 						<span class="glyphicon glyphicon-remove "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_DELETE_DATASET</span>
-					</a> -->
+					</a>
 				</div>
 			</div>
 		</div>
@@ -405,10 +406,28 @@
 				<div class="panel panel-default">
 					<span translate='MANAGEMENT_DATASET_CONFIRM_DELETE'></span> <strong>{{ds.info.datasetName}}?</strong>
     			</div>
+				<div class="panel panel-default" ng-if='update.status == "error"'>
+					<strong class='text-danger' translate='MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO'></strong>
+					<div class='row  text-left' ng-repeat="error in update.errors">
+						<div class="col-sm-12">{{error.message|string_ellipse:50}}</div>
+						<div class="col-sm-12 ">{{error.detail|string_ellipse:120}}</div>
+					</div>		
+    			</div>
+				<div class="panel panel-default" ng-if='update.status == "success"'>
+					<strong class='text-success' translate='MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK'></strong>
+				</div>
+				
+
    			</div>
-			<div class="modal-footer">
+			<div class="modal-footer" ng-if="update.loading">
+				<div class='text-right' translate>LOADING</div>
+			</div>
+			<div class="modal-footer" ng-if="!update.loading && update.status != 'success'">
 	 			<button class="btn " ng-click="cancel()" translate>CANCEL</button>
 	 			<button type="submit" class="btn btn-default" ng-click="ok()" translate>OK</button>
+    		</div>
+			<div class="modal-footer" ng-if="!update.loading && update.status == 'success'">
+	 			<button class="btn " ng-click="close()" translate>CLOSE</button>
     		</div>
 	</script>
 </div>
