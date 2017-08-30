@@ -150,7 +150,9 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			String targetUrl = createTargetUrlWithParameters(request);
 
 			PostMethod post = new PostMethod(targetUrl);
-			if(request.getQueryString()==null || request.getQueryString().equals(""))
+			if(request.getQueryString()==null)
+				post.setQueryString((String)null);
+			else if(request.getQueryString().equals(""))
 				post.setQueryString("");
 
 			if (request.getCookies() != null && request.getCookies().length > 0) {
