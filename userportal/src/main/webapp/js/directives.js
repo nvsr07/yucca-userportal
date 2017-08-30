@@ -104,3 +104,27 @@ appDirectives.directive('iframeOnload', [function(){
 	    }
 	};
 }]);
+
+//appDirectives.directive('inputWithHtmlHint', function(){
+//	  return {
+//	    require: "?ngModel",
+//	    scope: true,
+//		restrict : 'E',
+//	    link: function(scope, element, attrs, ngModel){
+//	      if (!ngModel) return;
+//
+//	      scope.onChange = function(){
+//	        ngModel.$setViewValue(scope.value);
+//	      };
+//
+//	      ngModel.$render = function(){
+//	        scope.value = ngModel.$modelValue;
+//	      };
+//	    },
+//	    template: '<div class="input-group input-group-sm " >' +  
+//				  '  <input class="input-sm form-control" type="text" name="'+inputName+'" ng-model="newField.dateTimeFormat" >
+//												<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
+//											</div>"
+//	  };
+//});
+

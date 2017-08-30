@@ -275,6 +275,10 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 .popover-html .tooltip.in{opacity:1!important;}
 .popover-html .alert{margin-bottom: 0px!important; padding: 4px!important; }
 
+/* hint html*/
+a.input-group-addon{text-decoration: none;}
+a.input-group-addon:hover{cursor: pointer;}
+
 /* button colors */
 .action-new{color: #19aeff;}
 .action-edit{color: #edd400;}

@@ -3,7 +3,7 @@
 	<div class='pull-right'><h3><small>Step 3/7</small></h3></div>
 </div>
 <div class='row'>
-	<div class='col-sm-10 col-sm-offset-1'>
+	<div class='col-sm-12'>
 		<div class='wizard-step-intro'>
 			<div class='icon-hint '><i class='fa fa-lightbulb-o'></i></div>
 			<div class='wizard-step-intro-text' ng-bind-html="'MANAGEMENT_IMPORT_DATABASE_STEP_TABLES_INTRO'|translate"></div>
@@ -43,6 +43,7 @@
 					<th translate class='slim-td' title="{{'MANAGEMENT_IMPORT_DATABASE_TABLE_PROPERTIES_HINT'|translate}}">MANAGEMENT_IMPORT_DATABASE_TABLE_PROPERTIES</th>
 					<th translate  class='slim-td'>MANAGEMENT_IMPORT_DATABASE_TABLE_NAME</th>
 					<th translate>MANAGEMENT_IMPORT_DATABASE_DATASET_NAME</th>
+					<th translate>MANAGEMENT_IMPORT_DATABASE_DATASET_DESCRIPTION</th>
 					<th translate  class='slim-td'>MANAGEMENT_IMPORT_DATABASE_TABLE_COLUMNS</th>
 				</tr>
 			</thead>
@@ -66,12 +67,19 @@
 					</td>
 					<td>
 						{{table.tableName}}
-						<small ng-if='table.dataset.info.description !=null'><br>{{table.dataset.info.description}}</small>
+						<!-- <small ng-if='table.dataset.info.description !=null'><br>{{table.dataset.info.description}}</small>-->
 					</td>
 					<td>
 						<div class="form-horizontal">
 							<div class="form-group col-sm-12">  
 								<input type='text' placeholder='Dataset Name' ng-model='table.dataset.info.datasetName' class="form-control"/>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="form-horizontal">
+							<div class="form-group col-sm-12">  
+								<input type='text' title='Dataset Description' ng-model='table.dataset.info.description' class="form-control"/>
 							</div>
 						</div>
 					</td>

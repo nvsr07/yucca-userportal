@@ -1105,6 +1105,8 @@ var translations_en = {
 	//MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT: 'Specifying the data source you will be indexed on the portal <a href="http://www.dati.piemonte.it" target="_blank">Dati Piemonte</a>',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Define data structure',
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'In the data structure you can change only the column\'s alias',
+	MANAGEMENT_EDIT_DATASET_NEW_COLUMN: 'Add column',
+
 	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO: 'Problems during the unistallation',
 	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK: 'unistallation correctly executed',
 	MANAGEMENT_EDIT_DATASET_OTHER_INFO: 'Additional Info',

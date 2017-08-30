@@ -1055,6 +1055,7 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_TABLE_PROPERTIES_HINT: 'Metadato nuovo o importato in precedenza, tabella o vista...',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_NAME: 'Nome Tabella',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_NAME: 'Nome Dataset',
+	MANAGEMENT_IMPORT_DATABASE_DATASET_DESCRIPTION: 'Descrizione Dataset',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_INFO: 'Nome, descrizione, riferimento esterno',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_DOMAIN: 'Domino, sottodominio e tag',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_COLUMNS: 'Colonne', 
@@ -1112,6 +1113,7 @@ var translations_it = {
 //	MANAGEMENT_METADATA_OPENDATA_SOURCEID_HINT: 'Indicando la sorgente dati verrai indicizzato sul portale <a href="http://www.dati.piemonte.it" target="_blank">Dati Piemonte</a>',
 	MANAGEMENT_EDIT_DATASET_COLUMNS: 'Definizione struttura dato',
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'Per la struttura del dato &eacute; possibile modificare solo gli alias delle colonne',
+	MANAGEMENT_EDIT_DATASET_NEW_COLUMN: 'Aggiungi colonna',
 
 	MANAGEMENT_EDIT_DATASET_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_DATASET_SETTINGS: 'Settings',
