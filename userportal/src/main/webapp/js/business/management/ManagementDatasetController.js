@@ -314,6 +314,7 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 	};
 }]);
 
+
 appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate','sharedUploadBulkErrors', '$route',
                                                      function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate,sharedUploadBulkErrors, $route) {
 	$scope.tenantCode = $routeParams.tenant_code;
@@ -436,6 +437,12 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	fabricAPIservice.getStreamDataType().success(function(response) {
 		$scope.dataTypeList = response.dataType.element;
 	});
+	
+	$scope.unitOfMesaurementList = [];
+	fabricAPIservice.getStreamUnitOfMesaurement().success(function(response) {
+		$scope.unitOfMesaurementList = response.measureUnit.element;
+	});
+
 
 	$scope.dataset = null;
 	$scope.stream = null;
@@ -483,6 +490,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				
+				$scope.newField = {sourceColumn: $scope.dataset.info.fields.length+1};
+
 //				if(!$scope.canCreatePublicDataset())
 //					$scope.dataset.info.visibility = 'private';
 
@@ -589,6 +598,37 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 					Helpers.util.scrollTo();
 				}
 		);
+	};
+	
+	$scope.isDateTimeField = function(field){
+		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "dateTime")
+			return true;
+		return false;
+	};
+	
+	$scope.htmlTooltip = Constants.HELP_HINT_DATE_FORMAT_TABLE;
+	
+	$scope.isCoordinatesField = function(field){
+		if(field && field.dataType && field.dataType.dataType && (field.dataType.dataType == "longitude" || field.dataType.dataType == "latitude"))
+			return true;
+		return false;
+	};
+	
+	$scope.isCommonField = function(field){
+		return !$scope.isCoordinatesField(field) && !$scope.isDateTimeField(field);
+	};
+
+	
+	$scope.showDateFormatHint = function(){
+		$modal.open({
+	      templateUrl: 'dataFormatHint.html',
+	      controller: 'DateFormatHintCtrl',
+	      //size: 'lg',
+	      //scope: $scope,
+	      //resolve: {
+	      //	  selectedTableIndex: function () {return tableIndex;},
+	      // 	}
+    	});
 	};
 	
 	$scope.canEdit = function() {
@@ -785,9 +825,95 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		sharedDataset.setDataset($scope.dataset);
 		$location.path('management/newDataset/'+$scope.tenantCode);
 	};
+	
+	$scope.addNewField = function(newField){
+		console.log("addNewField",newField);
+		$scope.insertColumnErrors = [];
+		
+		var checkNameDuplicate = false;
+		var checkSourceColumnDuplicate = false;
+
+		if(typeof newField.fieldName == 'undefined' || newField.fieldName==null || newField.fieldName=="")
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME');
+		else{
+			for (var int = 0; int < $scope.dataset.info.fields.length; int++) {
+				if($scope.dataset.info.fields[int].fieldName.toUpperCase() == newField.fieldName.toUpperCase()){
+					checkNameDuplicate = true;
+				}
+			}			
+		}
+
+		console.log("newField.sourceColumn",newField.sourceColumn);
+
+		if(typeof newField.sourceColumn =='undefined' || newField.sourceColumn==null || newField.sourceColumn=="" || isNaN(newField.sourceColumn))
+			$scope.insertColumnErrors .push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN');
+		else{
+			for (var int = 0; int < $scope.dataset.info.fields.length; int++) {
+				if($scope.dataset.info.fields[int].fieldName.toUpperCase() == newField.fieldName.toUpperCase()){
+					checkNameDuplicate = true;
+				}
+				if($scope.dataset.info.fields[int].sourceColumn == newField.sourceColumn){
+					checkSourceColumnDuplicate = true;
+				}
+			}
+		}
+		
+		if(checkNameDuplicate)
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME_UNIQUE');
+		
+		if(checkSourceColumnDuplicate)
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
+		
+		if($scope.insertColumnErrors.length == 0){
+			if(!newField.fieldAlias || newField.fieldAlias == null || newField.fieldAlias == ""){
+				newField.fieldAlias = newField.fieldName;
+			}
+			
+			newField.isNew  = true;
+			var dataType = newField.dataType?newField.dataType.dataType:'string';
+			var measureUnit = newField.measureUnit?newField.measureUnit.measureUnit:null;
+			
+			newField.dataType = dataType;
+			newField.measureUnit = measureUnit;
+			newField.isKey = newField.isKey?1:0, 
+			
+			
+			$scope.dataset.info.fields.push(newField);
+			$scope.newField = {sourceColumn: $scope.dataset.info.fields.length+1};
+		}
+	};
+	
+	$scope.removeNewField = function(index){
+		$scope.dataset.info.fields.splice(index,1);
+		$scope.newField = {sourceColumn: $scope.dataset.info.fields.length+1};
+
+		return false;
+	};
+	
+	$scope.onDropColumnComplete=function(fromIndex, toIndex,evt){
+		console.log("onDropColumnComplete",fromIndex, toIndex,evt,$scope.dataset.info.fields );
+		var columToMove = $scope.dataset.info.fields[fromIndex];
+		columToMove.dragging = false;
+		$scope.dataset.info.fields.splice(fromIndex, 1);
+		$scope.dataset.info.fields.splice(toIndex, 0, columToMove);
+	};
+
+	$scope.onDragColumnComplete=function (fromIndex,evt){
+		console.log("onDragColumnComplete",fromIndex,evt);
+	};
+
+
 
 } ]);
 
+
+
+
+
+appControllers.controller('DateFormatHintCtrl', [ '$scope', '$modalInstance', function($scope, $modalInstance) {
+	$scope.dataFormatHintTable = Constants.HELP_HINT_DATE_FORMAT_TABLE;
+	$scope.cancel = function () {$modalInstance.dismiss('cancel');};
+}]);
 
 
 appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'info', '$upload', 'readFilePreview','$translate',  
@@ -1468,6 +1594,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 
 	$scope.isDateTimeField = function(field){
+		console.log("isDateTimeField", field);
 		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "dateTime")
 			return true;
 		return false;
@@ -1487,35 +1614,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$location.path('management/datasets/'+$scope.tenantCode);
 	};
 
-	$scope.htmlTooltip = '<div><table class="table table-supercondensed table-dateformat-help">'+
-	'	<thead>'+
-	'		<tr><th>Letter</th><th>Date or Time</th><th>Presentation</th><th>Examples</th></tr>'+
-	'	</thead>'+
-	'	<tbody>'+
-	'		<tr><td><strong>G</strong></td><td>Era designator</td><td>Text</td><td><strong>AD</strong></td></tr>'+
-	'		<tr><td><strong>y</strong></td><td>Year</td><td>Year</td><td><strong>1996</strong>;<strong>96</strong></td></tr>'+
-	'		<tr><td><strong>M</strong></td><td>Month in year</td><td>Month</td><td><strong>July</strong>; <strong>Jul</strong>; <strong>07</strong></td></tr>'+
-	'		<tr><td><strong>w</strong></td><td>Week in year</td><td>Number</td><td><strong>27</strong></td></tr>'+
-	'		<tr><td><strong>W</strong></td><td>Week in month</td><td>Number</td><td><strong>2</strong></td></tr>'+
-	'		<tr><td><strong>D</strong></td><td>Day in year</td><td>Number</td><td><strong>189</strong></td></tr>'+
-	'		<tr><td><strong>d</strong></td><td>Day in month</td><td>Number</td><td><strong>10</strong></td></tr>'+
-	'		<tr><td><strong>F</strong></td><td>Day of week in month</td><td>Number</td><td><strong>2</strong></td></tr>'+
-	'		<tr><td><strong>E</strong></td><td>Day in week</td><td>Text</td><td><strong>Tuesday</strong>; <strong>Tue</strong></td></tr>'+
-	'		<tr><td><strong>a</strong></td><td>Am/pm marker</td><td>Text</td><td><strong>PM</strong></td></tr>'+
-	'		<tr><td><strong>H</strong></td><td>Hour in day (0-23)</td><td>Number</td><td><strong>0</strong></td></tr>'+
-	'		<tr><td><strong>k</strong></td><td>Hour in day (1-24)</td><td>Number</td><td><strong>24</strong></td></tr>'+
-	'		<tr><td><strong>K</strong></td><td>Hour in am/pm (0-11)</td><td>Number</td><td><strong>0</strong></td></tr>'+
-	'		<tr><td><strong>h</strong></td><td>Hour in am/pm (1-12)</td><td>Number</td><td><strong>12</strong></td></tr>'+
-	'		<tr><td><strong>m</strong></td><td>Minute in hour</td><td>Number</td><td><strong>30</strong></td></tr>'+
-	'		<tr><td><strong>s</strong></td><td>Second in minute</td><td>Number</td><td><strong>55</strong></td></tr>'+
-	'		<tr><td><strong>S</strong></td><td>Millisecond</td><td>Number</td><td><strong>978</strong></td></tr>'+
-	'		<tr><td><strong>z</strong></td><td>Time zone</td><td>General time zone</td><td><strong><span title="Pacific Standard Time; PST; GMT-08:00">Pacific Standard Time; PST; &hellip;</td></tr>'+
-	'		<tr><td><strong>Z</strong></td><td>Time zone</td><td>RFC 822 time zone</td><td><strong>-0800</strong></td>'+
-	'	</tbody>'+
-	'</table>' + 
-	'   </div>'+
-	'   <div class="alert">For detail refer to <a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html" target="_blank" class="alert-link">Java Date Format</a></div>' +
-	'   <div class="alert alert-info"><strong><i class="glyphicon glyphicon-time"></i></strong>&nbsp;Default timezone <strong>Europe/Rome</strong></div>';
+	$scope.htmlTooltip = Constants.HELP_HINT_DATE_FORMAT_TABLE;
 	
 	
 	$scope.goToStart  = function(){$scope.currentStep = 'start'; refreshWizardToolbar();};
@@ -1719,7 +1818,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};	
 } ]);
 
-// TODO Import Database
 
 appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal', 'devService',
                                                               function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate, $modal, devService) {
@@ -2950,35 +3048,7 @@ appControllers.controller('ManagementDatasetImportDatabaseEditColumnsCtrl', [ '$
 	};
 	
 	$scope.refreshColumnOrder();
-	$scope.htmlTooltip = '<div><table class="table table-supercondensed table-dateformat-help">'+
-		'	<thead>'+
-		'		<tr><th>Letter</th><th>Date or Time</th><th>Presentation</th><th>Examples</th></tr>'+
-		'	</thead>'+
-		'	<tbody>'+
-		'		<tr><td><strong>G</strong></td><td>Era designator</td><td>Text</td><td><strong>AD</strong></td></tr>'+
-		'		<tr><td><strong>y</strong></td><td>Year</td><td>Year</td><td><strong>1996</strong>;<strong>96</strong></td></tr>'+
-		'		<tr><td><strong>M</strong></td><td>Month in year</td><td>Month</td><td><strong>July</strong>; <strong>Jul</strong>; <strong>07</strong></td></tr>'+
-		'		<tr><td><strong>w</strong></td><td>Week in year</td><td>Number</td><td><strong>27</strong></td></tr>'+
-		'		<tr><td><strong>W</strong></td><td>Week in month</td><td>Number</td><td><strong>2</strong></td></tr>'+
-		'		<tr><td><strong>D</strong></td><td>Day in year</td><td>Number</td><td><strong>189</strong></td></tr>'+
-		'		<tr><td><strong>d</strong></td><td>Day in month</td><td>Number</td><td><strong>10</strong></td></tr>'+
-		'		<tr><td><strong>F</strong></td><td>Day of week in month</td><td>Number</td><td><strong>2</strong></td></tr>'+
-		'		<tr><td><strong>E</strong></td><td>Day in week</td><td>Text</td><td><strong>Tuesday</strong>; <strong>Tue</strong></td></tr>'+
-		'		<tr><td><strong>a</strong></td><td>Am/pm marker</td><td>Text</td><td><strong>PM</strong></td></tr>'+
-		'		<tr><td><strong>H</strong></td><td>Hour in day (0-23)</td><td>Number</td><td><strong>0</strong></td></tr>'+
-		'		<tr><td><strong>k</strong></td><td>Hour in day (1-24)</td><td>Number</td><td><strong>24</strong></td></tr>'+
-		'		<tr><td><strong>K</strong></td><td>Hour in am/pm (0-11)</td><td>Number</td><td><strong>0</strong></td></tr>'+
-		'		<tr><td><strong>h</strong></td><td>Hour in am/pm (1-12)</td><td>Number</td><td><strong>12</strong></td></tr>'+
-		'		<tr><td><strong>m</strong></td><td>Minute in hour</td><td>Number</td><td><strong>30</strong></td></tr>'+
-		'		<tr><td><strong>s</strong></td><td>Second in minute</td><td>Number</td><td><strong>55</strong></td></tr>'+
-		'		<tr><td><strong>S</strong></td><td>Millisecond</td><td>Number</td><td><strong>978</strong></td></tr>'+
-		'		<tr><td><strong>z</strong></td><td>Time zone</td><td>General time zone</td><td><strong><span title="Pacific Standard Time; PST; GMT-08:00">Pacific Standard Time; PST; &hellip;</td></tr>'+
-		'		<tr><td><strong>Z</strong></td><td>Time zone</td><td>RFC 822 time zone</td><td><strong>-0800</strong></td>'+
-		'	</tbody>'+
-		'</table>' + 
-		'   </div>'+
-		'   <div class="alert">For detail refer to <a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html" target="_blank" class="alert-link">Java Date Format</a></div>' +
-		'   <div class="alert alert-info"><strong><i class="glyphicon glyphicon-time"></i></strong>&nbsp;Default timezone <strong>Europe/Rome</strong></div>';
+	$scope.htmlTooltip = Constants.HELP_HINT_DATE_FORMAT_TABLE;
 		
 	
 	}]);

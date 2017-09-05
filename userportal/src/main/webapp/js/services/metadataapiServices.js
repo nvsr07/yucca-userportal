@@ -105,6 +105,11 @@ appServices.factory('metadataapiAPIservice',["$http","$q","info", function($http
 				metadataapiUrl += '&facet.mincount='+ facet.mincount;
 			if(typeof facet.missing != 'undefined' && facet.missing!=null) 
 				metadataapiUrl += '&facet.missing='+ facet.missing;
+			if(typeof facet.pivot != 'undefined' && facet.pivot!=null) {
+				metadataapiUrl += '&facet.pivot='+ facet.pivot;
+				if(typeof facet.pivot.mincount != 'undefined' && facet.pivot.mincount!=null) 
+					metadataapiUrl += '&facet.pivot.mincount='+ facet.pivot.mincount;
+			}
 
 		}
 		

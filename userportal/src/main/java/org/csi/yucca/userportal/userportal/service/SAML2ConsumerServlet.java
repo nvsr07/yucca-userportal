@@ -770,20 +770,21 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 
 		if (defaultApplication == null) {
-			GenerateTokenResponse generateStoreToken = addDefaultApplicationSubscription(storeBaseUrl, username);
+			GenerateTokenResponse generateStoreToken = createAndSubscribeDefaultApplication(storeBaseUrl, username);
 			if (generateStoreToken != null && !generateStoreToken.getError() && generateStoreToken.getData() != null && generateStoreToken.getData().getKey() != null) {
 
 				productConsumerKey = generateStoreToken.getData().getKey().getConsumerKey();
 				productConsumerSecret = generateStoreToken.getData().getKey().getConsumerSecret();
 				oldStoreToken = generateStoreToken.getData().getKey().getAccessToken();
 			} else
-				log.error("[AuthorizeFilter::doFilter] error addDefaultApplicationSubscription");
+				log.error("[AuthorizeFilter::doFilter] error createAndSubscribeDefaultApplication");
 		}
 
 		String apiBaseUrl = config.getProperty(Config.API_ODATA_URL_KEY);
 		storeToken = loadStoreTokenFromApi(apiBaseUrl, username, productConsumerKey, productConsumerSecret, storeBaseUrl);
-		//storeToken = refreshStoreToken(storeBaseUrl, username, productConsumerKey, productConsumerSecret, oldStoreToken);
-		log.debug("[AuthorizeFilter::doFilter] oldStoreToken " + oldStoreToken );
+		// storeToken = refreshStoreToken(storeBaseUrl, username,
+		// productConsumerKey, productConsumerSecret, oldStoreToken);
+		log.debug("[AuthorizeFilter::doFilter] oldStoreToken " + oldStoreToken);
 
 		return storeToken;
 
@@ -856,14 +857,13 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		HttpPost httpPost = new HttpPost(apiBaseUrl + "/token?grant_type=client_credentials");
 		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		httpPost.addHeader("charset", "UTF-8");
-        byte[] encoding = new Base64().encode((productConsumerKey + ":" + productConsumerSecret).getBytes());
-		String authorizationHeader = "Basic " + new String(encoding) ;
+		byte[] encoding = new Base64().encode((productConsumerKey + ":" + productConsumerSecret).getBytes());
+		String authorizationHeader = "Basic " + new String(encoding);
 		httpPost.addHeader("Authorization", authorizationHeader);
 
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpResponse r = client.execute(httpPost);
-		log.debug("[SAML2ConsumerServlet::refreshStoreToken] call to " + apiBaseUrl + "/token?grant_type=client_credentials" + " - status "
-				+ r.getStatusLine().toString());
+		log.debug("[SAML2ConsumerServlet::refreshStoreToken] call to " + apiBaseUrl + "/token?grant_type=client_credentials" + " - status " + r.getStatusLine().toString());
 
 		StringBuilder out = new StringBuilder();
 		BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
@@ -877,11 +877,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		LoadTokenFromApiResponse loadTokenFromApiResponse = gson.fromJson(out.toString(), LoadTokenFromApiResponse.class);
 
 		String storeToken = loadTokenFromApiResponse.getAccess_token();
-		if (loadTokenFromApiResponse.getExpires_in()<=0){
+		if (loadTokenFromApiResponse.getExpires_in() <= 0) {
 			storeToken = refreshStoreToken(storeBaseUrl, username, productConsumerKey, productConsumerSecret, loadTokenFromApiResponse.getAccess_token());
 			log.error("[AuthorizeFilter::refreshStoreToken] error refreshStoreToken ");
 		}
-		
+
 		return storeToken;
 
 	}
@@ -933,38 +933,67 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 	}
 
-	private GenerateTokenResponse addDefaultApplicationSubscription(String storeBaseUrl, String username) throws HttpException, IOException {
-
-
-		HttpPost httpPost = new HttpPost(storeBaseUrl + "/site/blocks/secure/subscription.jag?");
-		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
-		httpPost.addHeader("charset", "UTF-8");
-
-		List<BasicNameValuePair> postParameters = new LinkedList<BasicNameValuePair>();
-		postParameters.add(new BasicNameValuePair("username", username));
-		postParameters.add(new BasicNameValuePair("action", "addAPISubscription"));
-		postParameters.add(new BasicNameValuePair("name", "metadata_api"));
-		postParameters.add(new BasicNameValuePair("version", "1.0"));
-		postParameters.add(new BasicNameValuePair("provider", "admin"));
-		postParameters.add(new BasicNameValuePair("tier", "Unlimited"));
-		postParameters.add(new BasicNameValuePair("application", "DefaultApplication"));
-
-		httpPost.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
+	private GenerateTokenResponse createAndSubscribeDefaultApplication(String storeBaseUrl, String username) throws HttpException, IOException {
 
 		HttpClient client = HttpClientBuilder.create().build();
-		HttpResponse r = client.execute(httpPost);
-		log.debug("[SAML2ConsumerServlet::addDefaultApplicationSubscription] call to " + storeBaseUrl + storeBaseUrl + "/site/blocks/secure/subscription.jag?" + " - status "
-				+ r.getStatusLine().toString());
 
-		StringBuilder out = new StringBuilder();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
-		String line = "";
+		// create Default Application
+		HttpPost httpPostCreate = new HttpPost(storeBaseUrl + "/site/blocks/secure/application.jag?");
+		httpPostCreate.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		httpPostCreate.addHeader("charset", "UTF-8");
 
-		while ((line = rd.readLine()) != null) {
-			out.append(line);
+		List<BasicNameValuePair> postParametersCreate = new LinkedList<BasicNameValuePair>();
+		postParametersCreate.add(new BasicNameValuePair("description", "Default Application"));
+		postParametersCreate.add(new BasicNameValuePair("action", "addApplication"));
+		postParametersCreate.add(new BasicNameValuePair("callbackUrl", ""));
+		postParametersCreate.add(new BasicNameValuePair("tier", "Unlimited"));
+		postParametersCreate.add(new BasicNameValuePair("application", "DefaultApplication"));
+
+		httpPostCreate.setEntity(new UrlEncodedFormEntity(postParametersCreate, "UTF-8"));
+
+		HttpResponse rCreate = client.execute(httpPostCreate);
+		log.debug("[SAML2ConsumerServlet::createAndSubscribeDefaultApplication] call to " + storeBaseUrl + storeBaseUrl + "/site/blocks/secure/application.jag?" + " - status "
+				+ rCreate.getStatusLine().toString());
+
+		StringBuilder outCreate = new StringBuilder();
+		BufferedReader rdCreate = new BufferedReader(new InputStreamReader(rCreate.getEntity().getContent()));
+		String lineCreate = "";
+
+		while ((lineCreate = rdCreate.readLine()) != null) {
+			outCreate.append(lineCreate);
 		}
 
-		log.info("[AuthorizeFilter::addDefaultApplicationSubscription] - add default application subscription response " + out);
+		log.info("[AuthorizeFilter::createAndSubscribeDefaultApplication] - add default application create response " + outCreate);
+
+		// Subscribe Default Application
+		HttpPost httpPostSubscribe = new HttpPost(storeBaseUrl + "/site/blocks/secure/subscription.jag?");
+		httpPostSubscribe.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		httpPostSubscribe.addHeader("charset", "UTF-8");
+
+		List<BasicNameValuePair> postParametersSubscribe = new LinkedList<BasicNameValuePair>();
+		postParametersSubscribe.add(new BasicNameValuePair("username", username));
+		postParametersSubscribe.add(new BasicNameValuePair("action", "addAPISubscription"));
+		postParametersSubscribe.add(new BasicNameValuePair("name", "metadata_api"));
+		postParametersSubscribe.add(new BasicNameValuePair("version", "1.0"));
+		postParametersSubscribe.add(new BasicNameValuePair("provider", "admin"));
+		postParametersSubscribe.add(new BasicNameValuePair("tier", "Unlimited"));
+		postParametersSubscribe.add(new BasicNameValuePair("application", "DefaultApplication"));
+
+		httpPostSubscribe.setEntity(new UrlEncodedFormEntity(postParametersSubscribe, "UTF-8"));
+
+		HttpResponse rSubscribe = client.execute(httpPostSubscribe);
+		log.debug("[SAML2ConsumerServlet::createAndSubscribeDefaultApplication] call to " + storeBaseUrl + storeBaseUrl + "/site/blocks/secure/subscription.jag?" + " - status "
+				+ rSubscribe.getStatusLine().toString());
+
+		StringBuilder outSubscribe = new StringBuilder();
+		BufferedReader rdSubscribe = new BufferedReader(new InputStreamReader(rSubscribe.getEntity().getContent()));
+		String lineSubscribe = "";
+
+		while ((lineSubscribe = rdSubscribe.readLine()) != null) {
+			outSubscribe.append(lineSubscribe);
+		}
+
+		log.info("[AuthorizeFilter::createAndSubscribeDefaultApplication] - add default application subscription response " + outSubscribe);
 
 		return generateApplicationKey(storeBaseUrl, username);
 

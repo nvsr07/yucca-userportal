@@ -277,28 +277,92 @@
 						<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_COLUMNS</div>
 						<div class="col-sm-12"><span ng-bind-html="MANAGEMENT_EDIT_DATASET_COLUMNS_HELP|translate"></span></div>
 						<div class="col-sm-10 col-sm-offset-1">
-							<table class="table">
+							<table class="table dragDropTable">
 								<thead>
 									<tr>
 										<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
 										<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
-										<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
 										<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
-										<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
+										<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
+										<th><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE_FORMAT</span> |<br><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_UNIT</span></th>
 										<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+										<th translate-cloak translate class='nowrap'>&nbsp;</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="field in dataset.info.fields">
+									<tr ng-repeat="field in dataset.info.fields track by $index"  ng-drop="true" ng-drop-success="onDropColumnComplete($data,$index,$event)"
+										 class=' dataset-column-droprow'> 
 										<td>{{field.fieldName}}</td>
 										<td><input class="input-sm form-control" type="text" name="fieldAlias"ng-model="field.fieldAlias" ></td>
-										<td>{{field.dataType|nvl:' - '}}</td>
 										<td>{{field.sourceColumn}}</td>
-										<td>{{field.measureUnit|nvl:' - '}}</td>
+										<td>{{field.dataType|nvl:' - '}}</td>
+										<td >
+											<div class="input-group input-group-sm popover-html" ng-if="isDateTimeField(field)">
+												<input class="input-sm form-control" type="text" name="fieldDateTimeFormat"ng-model="field.dateTimeFormat" >
+												<a class="input-group-addon" ng-click="showDateFormatHint()">&quest;</a>
+											</div>
+											<div ng-if="isCommonField(field)">
+												<select class="input-sm form-control" name="fieldMeasureUnit" ng-model="field.measureUnit" 
+											 		ng-options="unitOfMesaurement.measureUnit as unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList">
+											 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
+											 	</select>
+											</div>
+											<div ng-if="isCoordinatesField(field)">
+												<i><small>Format: <code><strong>[lat,lon]</strong></code></small></i>
+											</div>
+										</td>
 										<td>{{field.isKey|booleanToString|translate}}</td>
+										<td class='nowrap text-left'>
+											<label class="dataset-column-drag-panel"  ng-drag="true" ng-drag-data="$index" ng-drag-success="onDragColumnComplete($data,$event)"  
+							 					title='{{"MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT"|translate}}' ><i class='glyphicon glyphicon-resize-vertical'></i>
+											</label>
+											<a href ng-click='removeNewField($index)' class="btn btn-icon-remove btn-sm" title="{{'DELETE'|translate}}"ng-if="field.isNew")><i class='glyphicon glyphicon-trash'></i></a>
+										</td>
+									</tr>
+									<tr ><td colspan="7" class='text-left'><strong translate>MANAGEMENT_EDIT_DATASET_NEW_COLUMN</strong></td></tr>
+									<tr>
+										<td><input class="input-sm form-control" type="text" name="newFielName" ng-model="newField.fieldName" ></td>
+										<td><input class="input-sm form-control" type="text" name="newFieldAlias" ng-model="newField.fieldAlias" ></td>
+										<td><input class="input-sm form-control" type="text" name="newFieldSourceColumn"ng-model="newField.sourceColumn" ></td>
+										<td><select class="input-sm form-control" name="newFieldDataType" ng-model="newField.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType"></select></td>
+										
+										
+										<td >
+											<div class="input-group input-group-sm popover-html" ng-if="isDateTimeField(newField)">
+												<input class="input-sm form-control" type="text" name="newFieldDateTimeFormat"ng-model="newField.dateTimeFormat" >
+												<a class="input-group-addon" ng-click="showDateFormatHint()">&quest;</a>
+											</div>
+											<div ng-if="isCommonField(newField)">
+												<select class="input-sm form-control" name="newFieldMeasureUnit" ng-model="newField.measureUnit" 
+											 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+											 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
+											 	</select>
+											</div>
+											<div ng-if="isCoordinatesField(newField)">
+												<i><small>Format: <code><strong>[lat,lon]</strong></code></small></i>
+											</div>
+										</td>
+										<td>
+											<label>
+												<input type="checkbox" name="newFieldIsKey" ng-model="newField.isKey">
+												<span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span>
+											</label>
+										</td>
+										<td class='text-right'>
+											<a href ng-click='addNewField(newField)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a>
+										</td>
+																			
+									</tr>
 								</tbody>
 							</table>
+							<div class="alert alert-danger text-left" ng-show='insertColumnErrors.length>0'>
+								<strong>{{updateError.error_message}}</strong>
+								<ul><li ng-repeat="insertColumnError in insertColumnErrors "><span translate-cloak translate>{{insertColumnError}}</span></li></ul>
+							</div>
+							
 						</div>
+						
+						
 						<div class="row"  ng-show="!isUploading">
 							<div class=" col-sm-12 form-toolbar" ng-show="isAuthorized('management/datasets/update')">
 								<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate-cloak translate>MANAGEMENT_EDIT_DATASET_FINISH_BUTTON</a>
@@ -316,3 +380,15 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/ng-template" id="dataFormatHint.html">
+	<div class="modal-body modal-compact">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Date Format</h4>
+        </div>
+		<div class="modal-body">
+			<div ng-bind-html="dataFormatHintTable"></div>
+		</div>
+	</div>
+</script>

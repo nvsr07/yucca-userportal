@@ -196,6 +196,7 @@ table>tbody>tr>td, .table>tbody>tr>td{border: 2px solid #d5d5d5; vertical-align:
 table>tbody>tr>td.no-border-left, .table>tbody>tr>td.no-border-left{border-left: none;}
 table>tbody>tr>td.no-border-right, .table>tbody>tr>td.no-border-right{border-right: none;}
 
+table.dragDropTable{border-style: inherit;}
 .slim-td{width: 1px;}
 .input-hide-control{ appearance: none; -webkit-appearance: none; -moz-appearance: none; padding: 0 5px;}
 
@@ -1049,6 +1050,13 @@ table.import-database-customize-table-columns>tbody>tr>td, .table.import-databas
 .aaimport-database-customize-table-column-drag-panel.dragging {background-color: #21a8f1;}
 
 .modal-dialog{transform:none !important;}
+
+.dataset-column-droprow{padding: .5em 0 .3em;border-bottom: solid #eee 1px;}
+tr.dataset-column-droprow.drag-enter, .dataset-column-droprow.drag-enter{background-color: #d8f1ff; border-left: #72ccfd solid 4px; border-radius: 0px;  }
+
+.dataset-column-drag-panel{ border-radius: 2px; ;border: dashed 2px transparent;border: solid 1px #ccc;padding: .2em .5em 0em;cursor: s-resize;}
+.dataset-column-drag-panel.dragging{background-color:rgba(114, 204, 253, 0.5);; border: solid #72ccfd; border-width: 1px 0;}
+
 
 .primary-key{color: gold;}
 .foreign-key{color: silver;}
