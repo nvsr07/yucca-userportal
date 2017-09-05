@@ -262,7 +262,8 @@
 								<td>{{field.fieldAlias}}</td>
 								<td>{{field.dataType|nvl:' - '}}</td>
 								<td>{{field.sourceColumn}}</td>
-								<td>{{field.measureUnit|nvl:' - '}}</td>
+								<td ng-if="isDateTimeField(field)">{{field.dateTimeFormat|nvl:' - '}}</td>
+								<td ng-if="!isDateTimeField(field)">{{field.measureUnit|nvl:' - '}}</td>
 								<td>{{field.isKey|booleanToString|translate}}</td>
 								
 						</tbody>

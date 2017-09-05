@@ -601,7 +601,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 	
 	$scope.isDateTimeField = function(field){
-		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "dateTime")
+		if(field && field.dataType && ((field.dataType.dataType && field.dataType.dataType == "dateTime") || (field.dataType && field.dataType == "dateTime")))
 			return true;
 		return false;
 	};
