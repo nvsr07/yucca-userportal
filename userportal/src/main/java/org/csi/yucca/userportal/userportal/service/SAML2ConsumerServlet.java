@@ -770,7 +770,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 
 		if (defaultApplication == null) {
-			GenerateTokenResponse generateStoreToken = createAndSubscribeDefaultApplication(storeBaseUrl, username);
+			//GenerateTokenResponse generateStoreToken = createAndSubscribeDefaultApplication(storeBaseUrl, username);
+			GenerateTokenResponse generateStoreToken = addDefaultApplication(storeBaseUrl, username);
+			
 			if (generateStoreToken != null && !generateStoreToken.getError() && generateStoreToken.getData() != null && generateStoreToken.getData().getKey() != null) {
 
 				productConsumerKey = generateStoreToken.getData().getKey().getConsumerKey();
@@ -932,7 +934,44 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return storeToken;
 
 	}
+	
+	private GenerateTokenResponse addDefaultApplication(String storeBaseUrl, String username) throws HttpException, IOException {
 
+
+		HttpClient client = HttpClientBuilder.create().build();
+
+		// create Default Application
+		HttpPost httpPostCreate = new HttpPost(storeBaseUrl + "/site/blocks/secure/application.jag?");
+		httpPostCreate.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		httpPostCreate.addHeader("charset", "UTF-8");
+
+		List<BasicNameValuePair> postParametersCreate = new LinkedList<BasicNameValuePair>();
+		postParametersCreate.add(new BasicNameValuePair("username", username));
+		postParametersCreate.add(new BasicNameValuePair("action", "addDefaultApplication"));
+
+		httpPostCreate.setEntity(new UrlEncodedFormEntity(postParametersCreate, "UTF-8"));
+
+		HttpResponse rCreate = client.execute(httpPostCreate);
+		log.debug("[SAML2ConsumerServlet::addDefaultApplication] call to " + storeBaseUrl + storeBaseUrl + "/site/blocks/secure/application.jag?" + " - status "
+				+ rCreate.getStatusLine().toString());
+
+		StringBuilder outCreate = new StringBuilder();
+		BufferedReader rdCreate = new BufferedReader(new InputStreamReader(rCreate.getEntity().getContent()));
+		String lineCreate = "";
+
+		while ((lineCreate = rdCreate.readLine()) != null) {
+			outCreate.append(lineCreate);
+		}
+
+		log.info("[AuthorizeFilter::addDefaultApplication] - add default application create response " + outCreate);
+
+
+		return generateApplicationKey(storeBaseUrl, username);
+
+	
+	}
+
+	/* no more usefull, now using addDefaultApplication 
 	private GenerateTokenResponse createAndSubscribeDefaultApplication(String storeBaseUrl, String username) throws HttpException, IOException {
 
 		HttpClient client = HttpClientBuilder.create().build();
@@ -943,7 +982,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		httpPostCreate.addHeader("charset", "UTF-8");
 
 		List<BasicNameValuePair> postParametersCreate = new LinkedList<BasicNameValuePair>();
-		postParametersCreate.add(new BasicNameValuePair("description", "Default Application"));
+		postParametersCreate.add(new BasicNameValuePair("username", username));
+		//postParametersCreate.add(new BasicNameValuePair("description", "Default Application"));
 		postParametersCreate.add(new BasicNameValuePair("action", "addApplication"));
 		postParametersCreate.add(new BasicNameValuePair("callbackUrl", ""));
 		postParametersCreate.add(new BasicNameValuePair("tier", "Unlimited"));
@@ -977,7 +1017,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		postParametersSubscribe.add(new BasicNameValuePair("version", "1.0"));
 		postParametersSubscribe.add(new BasicNameValuePair("provider", "admin"));
 		postParametersSubscribe.add(new BasicNameValuePair("tier", "Unlimited"));
-		postParametersSubscribe.add(new BasicNameValuePair("application", "DefaultApplication"));
+		postParametersSubscribe.add(new BasicNameValuePair("applicationName", "DefaultApplication"));
 
 		httpPostSubscribe.setEntity(new UrlEncodedFormEntity(postParametersSubscribe, "UTF-8"));
 
@@ -997,7 +1037,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 		return generateApplicationKey(storeBaseUrl, username);
 
-	}
+	} */
 
 	public static void main(String[] args) {
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><ns:getRolesOfUserResponse xmlns:ns=\"http://org.apache.axis2/xsd\" xmlns:ax2644=\"http://common.mgt.user.carbon.wso2.org/xsd\"><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>all4all_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>circe_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>csp_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>ondeuwc_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>sandbox_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>smartlab_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>tecnetdati_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>false</ax2644:editable><ax2644:itemDisplayName></ax2644:itemDisplayName><ax2644:itemName>false</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return></ns:getRolesOfUserResponse></soapenv:Body></soapenv:Envelope>";
