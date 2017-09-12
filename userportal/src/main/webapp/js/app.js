@@ -82,8 +82,13 @@ app.config(['$routeProvider', function($routeProvider) {
 	//$routeProvider.when('/market', {templateUrl: 'partials/market/index.html?'+BuildInfo.timestamp, controller: 'MarketCtrl', activetab: 'market'});
 	//$routeProvider.when('/store', {templateUrl: 'partials/store/index.html?'+BuildInfo.timestamp, controller: 'StoreCtrl', activetab: 'store'});
 	$routeProvider.when('/info', {templateUrl: 'partials/info/info.html?'+BuildInfo.timestamp, activetab: 'info'});
-	$routeProvider.otherwise({redirectTo: '/home'});
   
+	
+	
+	// demo
+	$routeProvider.when('/dataexplorer/search_demo', {templateUrl: 'partials/dataexplorer/datasearch/demo/search.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
+
+	$routeProvider.otherwise({redirectTo: '/home'});
  // $locationProvider.html5Mode(true).hashPrefix('!');
 }]);
 

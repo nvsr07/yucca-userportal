@@ -1259,6 +1259,10 @@ var translations_it = {
 	DATA_EXPLORER_DETAIL_GENERAL_INFO: 'Informazioni Principali',
 	DATA_EXPLORER_DETAIL_COMPONENTS: 'Definizione Struttura Dato',
 	
+	domainCode: 'Ambito',
+	subdomainCode: 'Sotto ambito',
+	organizationCode: 'Organizzazione',	
+
 	
 	FACET_tenantCode: ' Area di lavoro',
 	FACET_domainCode: 'Ambito',
