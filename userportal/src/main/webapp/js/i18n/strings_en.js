@@ -503,8 +503,12 @@ var translations_en = {
 	HOME_START_LOGGED_IN_BUTTON: 'Go to your streams',
 	HOME_MAP_INTRO: 'Smart object currently active on the territory',
 	HOME_STATISTIC_PANEL_TITLE: 'What can you find in the platform',
-	HOME_STATISTIC_TOTAL_DATA: 'Available measures',
-	HOME_STATISTIC_TOTAL_DATA_TIP: 'Total measures available: ',
+	HOME_STATISTIC_TOTAL_MEASURES: 'Available measures',
+	HOME_STATISTIC_TOTAL_MEASURES_TIP: 'Total measures available: ',
+	HOME_STATISTIC_TOTAL_DATA: 'Available data',
+	HOME_STATISTIC_TOTAL_DATA_TIP: 'Total data available: ',
+
+	
 	HOME_STATISTIC_CURRENT_MONTH_DATA: 'Measures this month',
 	HOME_STATISTIC_CURRENT_MONTH_DATA_TIP: 'Total  measures recorded this month: ',
 	HOME_STATISTIC_TODAY_DATA: 'Measures yesterday',

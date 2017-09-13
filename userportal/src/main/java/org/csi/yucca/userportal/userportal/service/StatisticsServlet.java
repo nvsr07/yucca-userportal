@@ -2,6 +2,7 @@ package org.csi.yucca.userportal.userportal.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -26,7 +27,7 @@ public class StatisticsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static Logger log = Logger.getLogger(StatisticsServlet.class);
 
-	private final long CACHE_TIME_TO_LIVE = 1000 * 30;
+	private static final long CACHE_TIME_TO_LIVE = 1000 * 60 * 60 * 24;
 	private static long lastLoad = System.currentTimeMillis();
 	private static String statisticJson;
 
@@ -62,7 +63,7 @@ public class StatisticsServlet extends HttpServlet {
 					loadStatistics(statisticsResponse, httpclient, baseODataUrl, statisticDatasetCode, statisticAuthToken, counter * 1000);
 					counter++;
 				}
-				
+
 				statisticsResponse.setTotalOrganizations(statisticsResponse.getOrganizations().size());
 				statisticsResponse.setTotalStreams(statisticsResponse.getStreams().size());
 				statisticsResponse.setTotalSmartobjects(statisticsResponse.getSmartobjects().size());
@@ -123,6 +124,12 @@ public class StatisticsServlet extends HttpServlet {
 		int totalRows = 0;
 		if (odataResponse != null && odataResponse.getD() != null && odataResponse.getD().getResults() != null && odataResponse.getD().getResults().size() > 0) {
 			for (StatisticsRow row : odataResponse.getD().getResults()) {
+
+				if (statisticsResponse.getLastUpdateMillis() == 0) {
+					long lastUpdateMillis = Long.parseLong(row.getInternalId().substring(0, 8), 16) * 1000;
+					statisticsResponse.setLastUpdateMillis(lastUpdateMillis);
+				}
+
 				totalRows = odataResponse.getD().get__count();
 				statisticsResponse.incrementStatisticRowCounter();
 				statisticsResponse.addTotalData(row.getNumRows(), row.getSubtype(), row.getVisibility());
@@ -139,4 +146,10 @@ public class StatisticsServlet extends HttpServlet {
 
 	}
 
+	public static void main(String[] args) {
+		String mongoId = "59b876fa7f3aad3ced192af2";
+		long millis = Long.parseLong(mongoId.substring(0, 8), 16) * 1000;
+		System.out.println("millis  " + mongoId.substring(0, 4) + " " + millis);
+		System.out.println("date  " + new Date(millis));
+	}
 }

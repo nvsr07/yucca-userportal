@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class StatisticsRow {
 
+	@SerializedName("internalId")
+	private String internalId;
 	@SerializedName("Organizationcode")
 	private String organizationCode;
 	@SerializedName("Tenantcode")
@@ -35,6 +37,14 @@ public class StatisticsRow {
 
 	public StatisticsRow() {
 		super();
+	}
+
+	public String getInternalId() {
+		return internalId;
+	}
+
+	public void setInternalId(String internalId) {
+		this.internalId = internalId;
 	}
 
 	public String getOrganizationCode() {

@@ -441,7 +441,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	$scope.statistics = {};
 
 	//loadDataStatistics()
-	
+	/*
 	fabricAPImanagement.loadDataStatistics().success(function(response) {
 		console.debug("statistics", response);	
 		$scope.statistics.total_tenants = response.lifetime.total_tenants;
@@ -472,9 +472,9 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 		$scope.domainChartData = domains;
 		
 	});
+	*/
 	
-	/*
-	odataAPIservice.loadDataStatistics_new().success(function(response) {
+	odataAPIservice.loadDataStatistics().success(function(response) {
 		console.debug("statistics", response);	
 		$scope.statistics.total_tenants = response.totalOrganizations;
 		$scope.statistics.total_streams = response.totalStreams;
@@ -496,7 +496,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 		$scope.domainChartData = domains;
 	});
 	
- */
+ 
 
 
 	$scope.xDomainChartFunction = function(){
