@@ -59,8 +59,9 @@ public class StatisticsServlet extends HttpServlet {
 
 				boolean loadOtherResults = true;
 				int counter = 0;
+				int page = 500;
 				while (loadOtherResults && counter < 50) {
-					loadStatistics(statisticsResponse, httpclient, baseODataUrl, statisticDatasetCode, statisticAuthToken, counter * 1000);
+					loadStatistics(statisticsResponse, httpclient, baseODataUrl, statisticDatasetCode, statisticAuthToken, page,  counter * page);
 					counter++;
 				}
 
@@ -102,10 +103,10 @@ public class StatisticsServlet extends HttpServlet {
 		return (callbackMethod != null && callbackMethod.length() > 0);
 	}
 
-	private boolean loadStatistics(StatisticsResponse statisticsResponse, HttpClient httpclient, String baseODataUrl, String statisticDatasetCode, String statisticAuthToken,
+	private boolean loadStatistics(StatisticsResponse statisticsResponse, HttpClient httpclient, String baseODataUrl, String statisticDatasetCode, String statisticAuthToken, int page,
 			int skip) throws IOException {
 
-		String statisticsUrl = baseODataUrl + "/" + statisticDatasetCode + "/DataEntities?$format=json&$filter=Tenantcode%20ne%20'sandbox'&$top=1000&$skip=" + skip;
+		String statisticsUrl = baseODataUrl + "/" + statisticDatasetCode + "/DataEntities?$format=json&$top="+page+"&$skip=" + skip;
 
 		GetMethod getMethod = new GetMethod(statisticsUrl);
 
@@ -130,7 +131,7 @@ public class StatisticsServlet extends HttpServlet {
 					statisticsResponse.setLastUpdateMillis(lastUpdateMillis);
 				}
 
-				totalRows = odataResponse.getD().get__count();
+				totalRows++;
 				statisticsResponse.incrementStatisticRowCounter();
 				statisticsResponse.addTotalData(row.getNumRows(), row.getSubtype(), row.getVisibility());
 				statisticsResponse.addYesterdayData(row.getNumYesterday(), row.getSubtype(), row.getVisibility());
@@ -139,10 +140,9 @@ public class StatisticsServlet extends HttpServlet {
 				statisticsResponse.addStream(row.getStreamcode());
 				statisticsResponse.addSmartobject(row.getVirtualentitycode());
 			}
-		} else
-			totalRows = skip;
+		} 
 		//
-		return totalRows == 0 || skip - totalRows < 0;
+		return totalRows < page;
 
 	}
 

@@ -81,6 +81,16 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		return !$scope.subDomainFilter || keyword.test(dataset.info.codSubDomain) || keyword.test(dataset.info.codSubDomainTranslated);
 	};
 	
+	$scope.searchTypeFilter = function(dataset) {
+		var keyword = new RegExp($scope.typeFilter, 'i');
+		return !$scope.typeFilter || (dataset.configData.type && keyword.test(dataset.configData.type)) || (dataset.configData.subtype && keyword.test(dataset.configData.subtype));
+	};
+
+	$scope.$watch('nameFilter', function(newName) {
+		$scope.currentPage = 1;
+		$scope.totalItems = $scope.filteredDatasetsList.length;
+	});
+	
 	$scope.$watch('domainFilter', function(newDomain) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredDatasetsList.length;
