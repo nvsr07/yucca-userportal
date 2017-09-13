@@ -189,8 +189,8 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 	
 	odataAPIservice.loadDataStatistics = function() {
 		return $http({
-			method : 'JSONP',
-			url : Constants.API_STATISTICS_URL + '?callback=JSON_CALLBACK'
+			method : 'GET',
+			url : Constants.API_STATISTICS_URL + '?'
 		});
 	};
 	return odataAPIservice;

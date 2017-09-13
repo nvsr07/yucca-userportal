@@ -486,7 +486,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 		if(typeof response.lastUpdateMillis != 'undefined' && response.lastUpdateMillis >0)
 			$scope.statistics.lastupdate = new Date(response.lastUpdateMillis);
 
-		$scope.domainChartData = response.domains;
+		//$scope.domainChartData = response.domains;
 		var domains= [];
 		for (var domain in response.domains) {
 			if (response.domains.hasOwnProperty(domain)) {
@@ -494,6 +494,8 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 		    }
 		}
 		$scope.domainChartData = domains;
+	}).error(function(response){
+		console.error("statistics error", response);	
 	});
 	
  
