@@ -61,7 +61,7 @@ public class StatisticsServlet extends HttpServlet {
 				int counter = 0;
 				int page = 500;
 				while (loadOtherResults && counter < 50) {
-					loadStatistics(statisticsResponse, httpclient, baseODataUrl, statisticDatasetCode, statisticAuthToken, page,  counter * page);
+					loadOtherResults = loadStatistics(statisticsResponse, httpclient, baseODataUrl, statisticDatasetCode, statisticAuthToken, page,  counter * page);
 					counter++;
 				}
 
@@ -142,7 +142,7 @@ public class StatisticsServlet extends HttpServlet {
 			}
 		} 
 		//
-		return totalRows < page;
+		return totalRows == page;
 
 	}
 
