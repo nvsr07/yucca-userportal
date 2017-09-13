@@ -297,7 +297,7 @@ appControllers.controller('DataSearchDemoCtrl', [ '$scope', '$routeParams', 'fab
 //		metadataPivotSearch("domainCode,organizationCode");
 //	};
 //	
-	$scope.chooseDemo('bigicon');
+	$scope.chooseDemo('netflix');
 
 	$scope.netflixRowDelta = {};
 	$scope.scrollNetflixRow = function(rowId, direction){

@@ -90,9 +90,9 @@
  			<h3><span ng-bind-html="'HOME_STATISTIC_PANEL_TITLE'|translate"></span></h3>
  			<div class='row'>
  				<div class='col-sm-4 statistic-data-panel'>
+ 				 	<p><span class='data-number-label' translate-cloak translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TOTAL_DATA_TIP"|translate}} {{statistics.total_data}}'><span ng-bind-html="statistics.total_data|format_big_number"></span></span></p>
  					<p><span class='data-number-label' translate-cloak translate>HOME_STATISTIC_TOTAL_MEASURES</span> <span class='data-number' title='{{"HOME_STATISTIC_TOTAL_MEASURES_TIP"|translate}} {{statistics.total_measures}}' ng-bind-html="statistics.total_measures|format_big_number"></span></p>
  				 	<!-- <p><span class='data-number-label' translate-cloak translate>HOME_STATISTIC_CURRENT_MONTH_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_CURRENT_MONTH_DATA_TIP"|translate}} {{statistics.last_month_data}}'><span ng-bind-html="statistics.last_month_data|format_big_number"></span></span></p> -->
- 				 	<p><span class='data-number-label' translate-cloak translate>HOME_STATISTIC_TOTAL_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TOTAL_DATA_TIP"|translate}} {{statistics.total_data}}'><span ng-bind-html="statistics.total_data|format_big_number"></span></span></p>
  					<p><span class='data-number-label' translate-cloak translate>HOME_STATISTIC_TODAY_DATA</span> <span class='data-number' title='{{"HOME_STATISTIC_TODAY_DATA_TIP"|translate}} {{statistics.today_data}}' ng-bind-html="statistics.today_data|format_big_number"></span></p>
  				</div>
  				<div class='col-sm-4 statistic-chart-panel'>

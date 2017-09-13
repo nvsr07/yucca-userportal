@@ -321,6 +321,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = null;//Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
 
+	$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
+	$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
+	$scope.topic = $scope.datasetCode;
+
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
@@ -446,7 +450,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 	$scope.dataset = null;
 	$scope.stream = null;
-	$scope.apiMetdataUrl = "";
+	//$scope.apiMetdataUrl = "";
 
 	$scope.onDateChange = function() {
         if ($scope.dataset.opendata.datetimez) {
@@ -460,7 +464,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		fabricAPImanagement.getDataset($scope.tenantCode, $scope.datasetCode).then(function(response) {
 			try{
 				console.debug("loadDataset- response",response);
-				$scope.apiMetdataUrl = response.apiMetadataUrl;
+				//$scope.apiMetdataUrl = response.apiMetadataUrl;
 				$scope.dataset = response.metadata;
 				$scope.stream = response.stream;
 				$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;

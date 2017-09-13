@@ -482,7 +482,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 		$scope.statistics.total_data = response.totalData;
 		$scope.statistics.total_measures = response.totalMeasures;
-		$scope.statistics.today_data = response.yesterdayData;
+		$scope.statistics.today_data = response.yesterdayMeasures;
 		if(typeof response.lastUpdateMillis != 'undefined' && response.lastUpdateMillis >0)
 			$scope.statistics.lastupdate = new Date(response.lastUpdateMillis);
 
