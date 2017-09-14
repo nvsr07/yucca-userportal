@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.csi.yucca.userportal.userportal.utils.json.IgnoredJSON;
+
 public class StatisticsResponse {
 
 	public static final String SUBTYPE_STREAM_DATASET = "streamDataset";
@@ -36,6 +38,9 @@ public class StatisticsResponse {
 	private Map<String, Integer> domains;
 	private long lastUpdateMillis;
 
+	@IgnoredJSON
+	private List<String> datasetCodes;
+
 	public StatisticsResponse() {
 		super();
 		totalStatisticRows = 0;
@@ -54,6 +59,7 @@ public class StatisticsResponse {
 		organizations = new HashMap<String, Integer>();
 		smartobjects = new LinkedList<String>();
 		streams = new LinkedList<String>();
+		datasetCodes = new LinkedList<String>();
 		domains = new HashMap<String, Integer>();
 	}
 
@@ -186,9 +192,11 @@ public class StatisticsResponse {
 			smartobjects.add(smartobject);
 	}
 
-	public void addStream(String stream) {
-		if (stream != null && !streams.contains(stream))
+	public void addStream(String stream, String datasetCode) {
+		if (stream != null && datasetCode != null && !datasetCodes.contains(datasetCode)){
 			streams.add(stream);
+			datasetCodes.add(datasetCode);
+		}
 	}
 
 	public void addDomain(String domain) {
