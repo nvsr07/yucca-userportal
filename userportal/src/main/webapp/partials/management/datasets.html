@@ -32,8 +32,11 @@
 								<div class="col-sm-3">
 									<input type="text" class="form-control input-sm " ng-model="domainFilter" placeholder="{{'DATASET_LIST_DOMAIN_FILTER'|translate}}" />
 								</div>
-								<div class="col-sm-3">
+								<!-- <div class="col-sm-3">
 									<input type="text" class="form-control input-sm" ng-model="typeFilter" placeholder="{{'DATASET_LIST_TYPE_FILTER'|translate}}" />
+								</div> -->
+								<div class="col-sm-3">
+									<input type="text" class="form-control input-sm" ng-model="codeFilter" placeholder="{{'DATASET_LIST_CODE_FILTER'|translate}}" />
 								</div>
 								<div class="col-sm-3">
 									<input type="text" class="form-control input-sm" ng-model="nameFilter" placeholder="{{'DATASET_LIST_NAME_FILTER'|translate}}" />
@@ -92,7 +95,7 @@
 									</div>
 								</td>
 							</tr>
-							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | filter: searchDomainFilter | filter: searchTypeFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | filter: searchDomainFilter | filter: searchCodeFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
 								<td class='text-center no-border-right'>
 									<a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">

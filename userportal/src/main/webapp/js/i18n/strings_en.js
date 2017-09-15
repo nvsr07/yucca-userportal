@@ -448,6 +448,7 @@ var translations_en = {
 	DATASET_LIST_DOMAIN_FILTER: 'Filter by domain',
 	DATASET_LIST_STATUS_FILTER: 'Filter by status',
 	DATASET_LIST_TYPE_FILTER: 'Filter by type/subtype', 
+	DATASET_LIST_CODE_FILTER: 'Filter by code', 
 
 	/* header */
 	HEADER_DEVELOPER_CENTER_LINK: 'developer center',

@@ -35,9 +35,10 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 						if(!response[i].info  || response[i].info ==null)
 							response[i].info ={};
 		
-						if(!response[i].info.icon || response[i].info.icon == null)
-							response[i].info.icon  = "img/dataset-icon-default.png";
-	
+						//if(!response[i].info.icon || response[i].info.icon == null)
+						//	response[i].info.icon  = "img/dataset-icon-default.png";
+						response[i].info.icon  = Constants.API_METADATA_URL + "/resource/icon/"+ $scope.tenantCode+"/" +response[i].datasetCode;
+
 						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
 							response[i].info.attachment  = true;
 						
@@ -64,6 +65,11 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	$scope.searchNameFilter = function(dataset) {
 		var keyword = new RegExp($scope.nameFilter, 'i');
 		return !$scope.nameFilter || (dataset.info.datasetName && keyword.test(dataset.info.datasetName));
+	};
+
+	$scope.searchCodeFilter = function(dataset) {
+		var keyword = new RegExp($scope.codeFilter, 'i');
+		return !$scope.codeFilter || (dataset.datasetCode && keyword.test(dataset.datasetCode));
 	};
 
 	$scope.$watch('nameFilter', function(newName) {

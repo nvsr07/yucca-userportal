@@ -106,7 +106,7 @@ public class StatisticsServlet extends HttpServlet {
 	private boolean loadStatistics(StatisticsResponse statisticsResponse, HttpClient httpclient, String baseODataUrl, String statisticDatasetCode, String statisticAuthToken, int page,
 			int skip) throws IOException {
 
-		String statisticsUrl = baseODataUrl + "/" + statisticDatasetCode + "/DataEntities?$format=json&$top="+page+"&$skip=" + skip;
+		String statisticsUrl = baseODataUrl + "/" + statisticDatasetCode + "/DataEntities?$format=json&$top="+page+"&$skip=" + skip + "&$orderby=internalId";
 
 		GetMethod getMethod = new GetMethod(statisticsUrl);
 
@@ -139,6 +139,8 @@ public class StatisticsServlet extends HttpServlet {
 				statisticsResponse.addOrganization(row.getOrganizationCode());
 				statisticsResponse.addStream(row.getStreamcode(), row.getDatasetCode());
 				statisticsResponse.addSmartobject(row.getVirtualentitycode());
+				
+				System.out.println("org " +row.getOrganizationCode() + " - " + statisticsResponse.getOrganizations().size());
 			}
 		} 
 		//
