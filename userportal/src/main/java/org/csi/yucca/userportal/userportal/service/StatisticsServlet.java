@@ -27,7 +27,7 @@ public class StatisticsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static Logger log = Logger.getLogger(StatisticsServlet.class);
 
-	private static final long CACHE_TIME_TO_LIVE = 1000 * 60 * 60 * 24;
+	private static final long CACHE_TIME_TO_LIVE = 1000 * 60 * 60 * 12;
 	private static long lastLoad = System.currentTimeMillis();
 	private static String statisticJson;
 
