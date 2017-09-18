@@ -35,9 +35,11 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 						if(!response[i].info  || response[i].info ==null)
 							response[i].info ={};
 		
-						//if(!response[i].info.icon || response[i].info.icon == null)
-						//	response[i].info.icon  = "img/dataset-icon-default.png";
-						response[i].info.icon  = Constants.API_METADATA_URL + "/resource/icon/"+ $scope.tenantCode+"/" +response[i].datasetCode;
+						if(typeof response[i].info.icon == 'undefined' || response[i].info.icon == null)
+							response[i].info.icon  = Constants.API_RESOURCES_URL + "dataset/icon/"+ $scope.tenantCode+"/" +response[i].datasetCode;
+						else
+							response[i].info.icon  = "img/dataset-icon-default.png";
+						//data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
 
 						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
 							response[i].info.attachment  = true;
