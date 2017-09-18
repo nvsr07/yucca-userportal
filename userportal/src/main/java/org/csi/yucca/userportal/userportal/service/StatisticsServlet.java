@@ -21,7 +21,6 @@ import org.csi.yucca.userportal.userportal.utils.Config;
 import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @WebServlet(description = "Configuration Parameter for clients", urlPatterns = { "/api/statistic" }, asyncSupported = true)
 public class StatisticsServlet extends HttpServlet {
@@ -70,7 +69,7 @@ public class StatisticsServlet extends HttpServlet {
 				statisticsResponse.setTotalStreams(statisticsResponse.getStreams().size());
 				statisticsResponse.setTotalSmartobjects(statisticsResponse.getSmartobjects().size());
 
-				Gson gson = new GsonBuilder().create();
+				Gson gson  = JSonHelper.getInstance();
 				statisticJson = gson.toJson(statisticsResponse);
 			}
 
