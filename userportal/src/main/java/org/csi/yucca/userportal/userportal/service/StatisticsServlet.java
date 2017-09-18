@@ -18,6 +18,7 @@ import org.csi.yucca.userportal.userportal.entity.statistics.OdataResponse;
 import org.csi.yucca.userportal.userportal.entity.statistics.StatisticsResponse;
 import org.csi.yucca.userportal.userportal.entity.statistics.StatisticsRow;
 import org.csi.yucca.userportal.userportal.utils.Config;
+import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -118,7 +119,7 @@ public class StatisticsServlet extends HttpServlet {
 
 		String jsonOdata = new String(responsBytes, "UTF-8");
 
-		Gson gson = new GsonBuilder().create();
+		Gson gson = JSonHelper.getInstance();
 
 		OdataResponse odataResponse = gson.fromJson(jsonOdata, OdataResponse.class);
 
