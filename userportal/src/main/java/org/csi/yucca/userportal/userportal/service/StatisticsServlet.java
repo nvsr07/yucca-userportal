@@ -137,7 +137,9 @@ public class StatisticsServlet extends HttpServlet {
 				statisticsResponse.addYesterdayData(row.getNumYesterday(), row.getSubtype(), row.getVisibility());
 				statisticsResponse.addDomain(row.getDataDomain());
 				statisticsResponse.addOrganization(row.getOrganizationCode());
-				statisticsResponse.addStream(row.getStreamcode(), row.getDatasetCode());
+				if(row.getDeleted()!=null && row.getDeleted())
+					statisticsResponse.addStream(row.getStreamcode(), row.getDatasetCode());
+				
 				statisticsResponse.addSmartobject(row.getVirtualentitycode());
 				
 				System.out.println("org " +row.getOrganizationCode() + " - " + statisticsResponse.getOrganizations().size());

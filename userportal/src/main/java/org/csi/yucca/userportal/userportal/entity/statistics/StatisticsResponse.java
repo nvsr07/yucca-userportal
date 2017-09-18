@@ -33,7 +33,9 @@ public class StatisticsResponse {
 	private int yesterdayPublicMeasures;
 	private int yesterdayPrivateMeasures;
 	private Map<String, Integer> organizations;
+	@IgnoredJSON
 	private List<String> smartobjects;
+	@IgnoredJSON
 	private List<String> streams;
 	private Map<String, Integer> domains;
 	private long lastUpdateMillis;

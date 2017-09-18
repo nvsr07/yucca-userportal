@@ -34,7 +34,9 @@ public class StatisticsRow {
 	private String numYesterday;
 	@SerializedName("Elencoshare")
 	private String shareList;
-
+	@SerializedName("Deleted")
+	private Boolean deleted;
+	
 	public StatisticsRow() {
 		super();
 	}
@@ -157,6 +159,14 @@ public class StatisticsRow {
 
 	public void setShareList(String shareList) {
 		this.shareList = shareList;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 }
