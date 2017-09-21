@@ -112,33 +112,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				if (result == null) {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
-					log.debug("[SAML2ConsumerServlet::doPost] - result null");
-
-					// GIGACLOOD: commented: why only one result?
-					// } else if (result.size() == 1) {
-					// log.debug("[SAML2ConsumerServlet::doPost] - result size
-					// 1");
-					//
-					// newUser = new User();
-					// newUser.setLoggedIn(true);
-					// newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
-					// newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
-					//
-					// try {
-					// newUser.setPermissions(loadPermissions(newUser));
-					// } catch (Exception e) {
-					// log.error("[SAML2ConsumerServlet::doPost] - ERROR: " +
-					// e.getMessage());
-					// e.printStackTrace();
-					// }
-					//
-					// newUser.setActiveTenant(newUser.getTenants().get(0));
-					// newUser.setToken(getTokenForTenant(newUser));
-					//
-					// log.debug("[SAML2ConsumerServlet::doPost] - result size 1
-					// - username: " + newUser.getUsername() + " | tenant: " +
-					// newUser.getTenants());
-
+					log.info("[SAML2ConsumerServlet::doPost] - result null");
 				} else if (result.size() > 0 && checkStrongAuthentication(result)) {
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1");
 					newUser = new User();
@@ -156,6 +130,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// filtro sui tenant, data di disattivazione
 					tenants = filterDisabledTenants(tenantsCode, allTenant);
 
+					// verifichiamo che non sia un utente tecnico
 					if (tenants.isEmpty()) {
 						tenantUser = false;
 						List<String> tenantsCodeForTechincal = null;
@@ -407,12 +382,12 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		String riscontro = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_RISCONTRO));
 		String livello = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_LIVAUTH));
 
-		// Non utilizzo shibboleth, ma credenziali interne
+		// Non utilizzo shibboleth, ma credenziali interne o social
 		if (livello == null)
 			return true;
 		try {
 			// user password e PIN
-			if (Integer.parseInt(livello) == 4)
+			if (Integer.parseInt(livello) == 2 || Integer.parseInt(livello) == 4)
 				return (riscontro != null && riscontro.equalsIgnoreCase("S"));
 			if (Integer.parseInt(livello) == 8 || Integer.parseInt(livello) == 16)
 				return true;
