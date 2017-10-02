@@ -316,6 +316,11 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	
+	DATASET_FIELD_UNPUBLISHED_TRUE: 'Non pubblicato',
+	DATASET_FIELD_UNPUBLISHED_FALSE: 'Pubblicato',
+	DATASET_FIELD_UNPUBLISHED_TRUE_HINT: 'Non pubblicato sullo store',
+	DATASET_FIELD_UNPUBLISHED_FALSE_HINT: 'Pubblicato sullo store',
+	
 	DATASET_FIELD_METADATA_OPENDATA: 'Opendata',
 	DATASET_FIELD_METADATA_OPENDATA_AUTHOR: 'Autore',
 	DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER: 'es. Regione Piemonte',
@@ -344,6 +349,22 @@ var translations_it = {
 	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_PLACEHOLDER: 'es. http://purl.org/adms/publishertype/Company',
 	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID: 'Identificativo del Titolare',
 	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID_PLACEHOLDER: 'es. 80087670016',
+	
+	
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDER: 'Titolare',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME_SHORT: 'Nome',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID_SHORT: 'Identificativo',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_SHORT: 'Tipo',
+
+	DATASET_FIELD_METADATA_DCAT_CREATOR: 'Autore',
+	DATASET_FIELD_METADATA_DCAT_CREATORNAME_SHORT: 'Nome',
+	DATASET_FIELD_METADATA_DCAT_CREATORTYPE_SHORT: 'Tipo',
+	DATASET_FIELD_METADATA_DCAT_CREATORID_SHORT: 'Identificativo',
+
+	DATASET_FIELD_METADATA_DCAT_ORG: 'Organizzazione',
+	DATASET_FIELD_METADATA_DCAT_NOMEORG_SHORT: 'Nome',
+	DATASET_FIELD_METADATA_DCAT_EMAILORG_SHORT: 'E-Mail ',
+	
 	
 	DATASET_BINARY_DETAIL_ID: 'Id',
 	DATASET_BINARY_DETAIL_FILENAME: 'File',
@@ -684,8 +705,12 @@ var translations_it = {
     
     MANAGEMENT_SANDBOX_WARNING: 'Stai utilizzando il tenant demo Sandbox. I dati caricati per questo tenant vengono periodicamente eliminati', 
     
-    MANAGEMENT_DESCRIPTION_ON_STORE_HINT: 'Scegli con cura, sar&agrave; utilizzato nello store',
-
+    MANAGEMENT_DATASET_START_NAME_HINT: 'Il <strong>nome</strong> del dataset sar&agrave; <strong>utilizzato nello store</strong>',
+    MANAGEMENT_DATASET_METADATA_DESCRIPTION_HINT: 'La <strong>descrizione</strong> del dataset sar&agrave; </strong>utilizzato nello store</strong>',
+    MANAGEMENT_DATASET_METADATA_MANDATORY_HINT:'Campi obbligatori',
+    MANAGEMENT_DATASET_MATADATA_TAG_HINT: 'Almeno un tag',
+    MANAGEMENT_DATASET_MATADATA_DCAT_HINT: 'Metadati DCat AP',
+    
     /* Management Stream  */
 	MANAGEMENT_DASHBOARD_SUBTITLE: 'Dashboard',
 	MANAGEMENT_DASHBOARD_TENANT_PANEL_TITLE: 'Informazioni sull\'organizzazione',
@@ -765,13 +790,15 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_RESPONSE: 'Verifica query',		
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_OK_NO_MESSAGE: 'La query e\' valida, ma non ha restituito risultati',
 	MANAGEMENT_EDIT_STREAM_TWT_POLLING_HELP: 'L\'intervallo di polling dipende dal numero di stream impostato nella creazione dello smart object e dai limiti imposti dalle API di Twitter',
-	
+
+	MANAGEMENT_EDIT_STREAM_TENANT_TOOLTIP_TITLE: 'Organizzazioni disponibili',
+
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Informazioni Principali',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Informazioni aggiuntive',
 	MANAGEMENT_EDIT_STREAM_LEGAL_INFO: 'Informazioni legali',
 	MANAGEMENT_EDIT_STREAM_SETTINGS: 'Settings',
 	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_DROPAREA: 'Rilascia qui l\'icona',
-	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Oppure clicca qui per selezionare ',
+	MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE: 'Sfoglia...',
 	MANAGEMENT_EDIT_STREAM_OPENDATA: 'OPENDATA',
 	MANAGEMENT_EDIT_STREAM_OPENDATA_AUTHOR: 'Autore',
 	MANAGEMENT_EDIT_STREAM_OPENDATA_LANGUAGE: 'Lingua scheda metadato',
@@ -864,7 +891,7 @@ var translations_it = {
 	MANAGEMENT_VIEW_DATASET_DATA_URLS: 'API di Accesso ai dati',
 	MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON: 'Data explorer',
 	MANAGEMENT_VIEW_DATASET_GO_TO_DATASET_CARD: 'Vai alla scheda del Dataset',
-	
+	MANAGEMENT_VIEW_DATASET_UNPUBLISHED: 'Pubblicato sullo store',
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_REGISTER: 'Registra',
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_POSITION: 'Posizione',
 	MANAGEMENT_NEW_VIRTUALENTITY_WIZARD_STEP_DETAIL: 'Altre informazioni',
@@ -972,7 +999,7 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_STEP_TABLES_INTRO: 'Seleziona le tabelle o viste che vuoi importare, per ogni tabella verr&agrave; creato o aggiornato un dataset.<br>Il nome del dataset pu&ograve; '+
 	'essere personalizzato.<br>Per i dataset gi&agrave; importati precedentemente, verr&agrave; creata una nuova versione, con gli  aggiornamenti',
 
-	MANAGEMENT_IMPORT_DATABASE_STEP_METADATA_INTRO: 'Definisci i metadati comuni per tutti i dataset nuovi, per i dataset  gi&agrave; importati in precedenza, vengono mantenuti i metadati originali ' +
+	MANAGEMENT_IMPORT_DATABASE_STEP_METADATA_INTRO: 'Definisci i <strong>metadati comuni</strong> per tutti i dataset nuovi, per i dataset  gi&agrave; importati in precedenza, vengono mantenuti i metadati originali ' +
 		'(che si potranno modificare nel prossimo step del wizard)',
 		
 	MANAGEMENT_IMPORT_DATABASE_STEP_CUSTOMIZE_INTRO: 'Personalizza i metadati dei singoli dataset,  e decidi quali colonne delle tabelle vanno incluse.<br> '+
@@ -1061,6 +1088,7 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_DATASET_NAME: 'Nome Dataset',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_DESCRIPTION: 'Descrizione Dataset',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_INFO: 'Nome, descrizione, riferimento esterno',
+	MANAGEMENT_IMPORT_DATABASE_DATASET_STORE_PUBLICATION: 'Pubblicazione sullo store',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_DOMAIN: 'Domino, sottodominio e tag',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_COLUMNS: 'Colonne', 
 	MANAGEMENT_IMPORT_DATABASE_TABLES_ZERO_SELECTED_WARNING: 'Selezionare almeno una tabella da importare',
@@ -1073,16 +1101,20 @@ var translations_it = {
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_SUBTITLE: 'Personalizza i dataset',
 
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_NAME_DESCRIPTION: 'Nome e descrizione',
-	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DOMAIN_DESCRIPTION: 'Dominio, sottodominio e tags',
+	//MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DOMAIN_DESCRIPTION: 'Dominio, sottodominio e tags',
+	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_PUBLISH_STORE_DESCRIPTION: 'Dati di pubblicazione sullo store',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_VISIBILITY: 'Visibilit&agrave;',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_VISIBILITY_DESCRIPTION: 'Visibilit&agrave;',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DCAT: 'DCat',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_COLUMNS: 'Colonne',
 	
 	MANAGEMENT_IMPORT_DATABASE_TENANT_SHARED: 'Condiviso con ',
+	MANAGEMENT_IMPORT_DATABASE_DCAT_UNEXPECTED: 'I dati DCat AP non sono previsti per i dataset non pubblicati',
 	
 	
 	
+	MANAGEMENT_PANEL_START_HINT_TITLE: 'Scegli con cura',
+	MANAGEMENT_PANEL_METADATA_HINT_TITLE: 'Suggerimenti',
 	
 	/* Management upload dataset*/
 	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Carica dati',
@@ -1091,6 +1123,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_UPLOAD_ICON_DROPAREA: 'Rilascia qui l\'icona',
 	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
 	MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER: 'Scegli un sotto dominio...',
+	MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION: 'Il sottodomino non puo\' contenere spazi',
 	MANAGEMENT_EDIT_STREAM_DATATYPE_PLACEHOLDER: 'Scegli...',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA_LABEL: 'Salva dati',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA: 'Salva',
@@ -1107,7 +1140,13 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_LEGAL_INFO: 'Informazioni Legali', 
 	MANAGEMENT_EDIT_DATASET_ADD_TENANT_SHARING : 'Aggiungi tenant', 
 	MANAGEMENT_EDIT_DATASET_TENANT_SHARING_PLACEHOLDER: 'Scegli un tenant...',	
-
+	MANAGEMENT_EDIT_DATASET_DOMAIN_SUBDOMAIN_HINT: 'Il dominio e il sotto dominio <strong>non saranno pi&ugrave; modificabili</strong>',
+	MANAGEMENT_EDIT_DATASET_UNPUBLISHED: 'Pubblica sullo store',
+	MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG: 'Non pubbblicare',
+	MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG_HINT: 'I dataset <strong>non pubblicati</strong> non sono visibili nelle ricerche',
+	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG: 'Usa il dominio speciale MULTI',
+	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG_HINT: 'Nel domino speciale <strong>MULTI</strong> vengono salvati i dataset di supporto condivisi fra i vari domini',
+	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_WARNING: 'Attenzione, scegliendo il dominio speciale MULTI, non sar&agrave; possibile pubblicare il dataset in futuro',
 	MANAGEMENT_EDIT_DATASET_API_URL: 'Url accesso API', 
 	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO: 'Si sono verificati dei problemi durante la disinstallazione del Dataset',
 	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK: 'disinstallazione avvenuta correttamente',

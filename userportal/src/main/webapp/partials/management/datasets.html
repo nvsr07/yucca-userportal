@@ -108,7 +108,15 @@
 									</a>
 								</td>
 								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
-								<td><div class='domain-column'><i class="icon-{{dataset.info.dataDomain}} domain-icon" title="{{dataset.info.dataDomain|translate}}"></i></div></td>
+								<td>
+									<div class='domain-column'>
+										<i ng-if='dataset.info.dataDomain!="MULTI"' class="icon-{{dataset.info.dataDomain}} domain-icon" title="{{dataset.info.dataDomain|translate}}"></i>
+										<div class='domain-multi-icon'  ng-if='dataset.info.dataDomain=="MULTI"'>
+											<i class='fa fa-circle-o'></i>
+											<small>MULTI</small>
+										</div>
+									</div>
+								</td>
 								<td>{{dataset.configData.type}} / {{dataset.configData.subtype}} 
 									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-show="dataset.info.attachment" title='Dataset with binary attachment'></i>
 								</td>

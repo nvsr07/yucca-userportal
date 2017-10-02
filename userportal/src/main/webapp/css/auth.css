@@ -40,9 +40,10 @@ label, .control-label{font-size: 14px;line-height: 20px; padding: 8px;}
 
 .different-login-container {background:none;-webkit-box-shadow: none;-moz-box-shadow:none;box-shadow: none; border-bottom: solid 1px lightgray; width: inherit;}
 div.different-login-container a.truncate{width: inherit!important;}
-a.main-link[title~="SistemaPiemonte"] {background: url(../img/auth/logo-sistemapiemonte.jpg) no-repeat left top;  width: 665px; height: 107px;}
-a.main-link[title~="Social"] {background: url(../img/auth/logo-authsocial.png) no-repeat left top;  width: 665px; height: 82px;}
-
+a.main-link[title~="SistemaPiemonte"] {background: url(../img/auth/logo-sistemapiemonte_squared.png) no-repeat left top;  width: 665px; height: 100px;}
+a.main-link[title~="Social"] {background: url(../img/auth/logo-authsocial_squared.png) no-repeat left top;  width: 665px; height: 100px;}
+a.main-link[title~="Spid"] {background: url(../img/auth/logo-spid_squared.png) no-repeat left top;  width: 665px; height: 82px;}
+a.main-link{min-height: 120px;}
 /* a.main-link[title~="CSI_indentity"]:after{content: ' - CSI Piemonte';} 
 .different-login-container a.main-link{font-size: 22px; line-height: 28px; padding-left: 86px; padding-top: 6px;}
 div.different-login-container a.truncate{white-space: normal!important;text-overflow: clip!important; overflow: visible!important;}		

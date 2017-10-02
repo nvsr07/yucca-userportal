@@ -172,7 +172,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		if($scope.selectedDatasets.length===1){
 			$scope.detailModal($scope.selectedDatasets[0]);
 		} else {
-			// FIXME error message...
+			console.error("deleteDataset error selectedDatasets  wrong size: ",$scope.selectedDatasets);
 		}
 	};
 	
@@ -321,7 +321,7 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 			console.log("result.data ", result.data);
 			$scope.loadDataset();*/
 		}, function(result) {
-			// FIXME error message...
+			
 		});
 	};
 
@@ -343,8 +343,16 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
 	$scope.topic = $scope.datasetCode;
 
+	$scope.validationPatternSubdomain = Constants.VALIDATION_PATTERN_NO_SPACE;
+
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
+	};
+	$scope.showHint = false;
+	
+	$scope.showHintToggle = function(){
+		$scope.showHint = !$scope.showHint;
+
 	};
 
 	$scope.canCreatePublicDataset = function(){
@@ -352,6 +360,13 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return info.getActiveShareInformationType() == "public";
 
 	}; 
+	
+	$scope.changeUnpublished = function(){
+		if($scope.dataset.info.unpublished){
+			$scope.dataset.info.visibility = 'private';
+		}
+		
+	};
 	
 	$scope.canShareDataset = function(){
 		//return info.getActiveTenantType() != 'trial';
@@ -403,13 +418,6 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return returnValue;
 	};
 
-//	$scope.tagList = [];
-//	fabricAPIservice.getStreamTags().success(function(response) {
-//		for (var int = 0; int < response.streamTags.element.length; int++) {
-//			$scope.tagList.push(response.streamTags.element[int].tagCode);
-//		}
-//	});
-
 	$scope.tagList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
 		for (var int = 0; int < response.streamTags.element.length; int++) {
@@ -421,23 +429,23 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		    return ((a.tagLabel < b.tagLabel) ? -1 : ((a.tagLabel > b.tagLabel) ? 1 : 0));
 		});
 		
-		var delta = Math.trunc($scope.tagList.length/3);
-		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
-		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
-
-		for (var i = 0; i < delta+1; i++) {
-			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
-			if($scope.tagList.length>i+delta+1)
-				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
-			else
-				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
-			if($scope.tagList.length>i+delta*2+2)
-				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
-			else
-				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
-		}
-		$scope.tagTooltipHtml += "</div>";
-		$scope.tagTooltipHtml += "</div>";
+//		var delta = Math.trunc($scope.tagList.length/3);
+//		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
+//		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
+//
+//		for (var i = 0; i < delta+1; i++) {
+//			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
+//			if($scope.tagList.length>i+delta+1)
+//				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
+//			else
+//				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+//			if($scope.tagList.length>i+delta*2+2)
+//				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
+//			else
+//				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+//		}
+//		$scope.tagTooltipHtml += "</div>";
+//		$scope.tagTooltipHtml += "</div>";
 
 	});
 	
@@ -545,6 +553,24 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return false;
 
 	};
+
+	$scope.showChooseTagTable = function(){
+		var chooseTagDialog = $modal.open({
+	      templateUrl: 'tagChooerDialog.html',
+	      controller: 'ManagementDatasetChooseTagControllerCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  tagList: function () {return $scope.tagList;},
+	      	}
+    	});
+		
+		chooseTagDialog.result.then(function (selectedTag) {
+			$scope.addTag(selectedTag.tagCode);
+	    }, function () {
+	      $log.info('Modal dismissed at: ' + new Date());
+	    });
+	};
 	
 	$scope.onTagSelect = function($item, $model, $label){
 		console.log("onTagSelect",$item, $model, $label);
@@ -556,6 +582,17 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.removeTag = function(index){
 		$scope.dataset.info.tags.splice(index,1);
 		return false;
+	};
+	
+	$scope.checkTag = function(){ 
+		var rslt = true;
+		if(typeof $scope.dataset.info.tags != "undefined"){
+			if ($scope.dataset.info.tags.length > 0){ 
+				rslt = false;
+			}
+		}
+		
+		return rslt;
 	};
 	
 	$scope.addTenantSharing = function(newTenantSharing){
@@ -597,6 +634,31 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return false;
 	};
 	
+	
+	$scope.onTenantSharingSelect = function($item, $model, $label){
+		console.log("onTenantSharingSelect",$item, $model, $label);
+		$scope.addTenantSharing($item);
+		
+	};
+	
+	$scope.showChooseTenantTable = function(){
+		var chooseTenantDialog = $modal.open({
+	      templateUrl: 'tenantChooerDialog.html',
+	      controller: 'ManagementDatasetChooseTenantControllerCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  tenantsList: function () {return $scope.tenantsList;},
+	      	}
+    	});
+		
+		chooseTenantDialog.result.then(function (selectedTenant) {
+			$scope.addTenantSharing(selectedTenant);
+	    }, function () {
+	      $log.info('Modal dismissed at: ' + new Date());
+	    });
+	};
+
 	$scope.selectedIcon;
 	$scope.onIconSelect = function($files) {
 		$scope.selectedIcon = $files[0];
@@ -1078,8 +1140,8 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 }]);
 
 
-appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate',
-                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate) {
+appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal',
+                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate,$modal) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -1133,7 +1195,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	
 	$scope.canCreatePublicDataset = function(){
 		//return info.getActiveTenantType() != 'trial';
-		return info.getActiveShareInformationType() == "public";
+		return info.getActiveShareInformationType() == "public" &&  !$scope.metadata.info.unpublished;
 	}; 
 
 	$scope.canShareDataset = function(){
@@ -1144,6 +1206,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
+		response.streamDomains.element.sort(function(a, b) { 
+		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+		});
+		
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
 		}
@@ -1151,6 +1217,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 	$scope.subDomainList = [];
 	fabricAPIservice.getStreamSubDomains().success(function(response) {
+		response.streamSubDomains.element.sort(function(a, b) { 
+		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+		});
 		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
 			$scope.subDomainList.push(response.streamSubDomains.element[int]);
 		}
@@ -1168,30 +1237,47 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			//$scope.tagList.push(response.streamTags.element[int].tagCode);
 			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
 		}
-		
 		$scope.tagList.sort(function(a, b) { 
-		    return ((a.tagLabel < b.tagLabel) ? -1 : ((a.tagLabel > b.tagLabel) ? 1 : 0));
+		    return ((a.tagLabel.trim().toUpperCase() < b.tagLabel.trim().toUpperCase()) ? -1 : ((a.tagLabel.trim().toUpperCase() > b.tagLabel.trim().toUpperCase()) ? 1 : 0));
 		});
 		
-		var delta = Math.trunc($scope.tagList.length/3);
-		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
-		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
-
-		for (var i = 0; i < delta+1; i++) {
-			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
-			if($scope.tagList.length>i+delta+1)
-				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
-			else
-				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
-			if($scope.tagList.length>i+delta*2+2)
-				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
-			else
-				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
-		}
-		$scope.tagTooltipHtml += "</div>";
-		$scope.tagTooltipHtml += "</div>";
+//		var delta = Math.trunc($scope.tagList.length/3);
+//		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
+//		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
+//
+//		for (var i = 0; i < delta+1; i++) {
+//			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
+//			if($scope.tagList.length>i+delta+1)
+//				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
+//			else
+//				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+//			if($scope.tagList.length>i+delta*2+2)
+//				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
+//			else
+//				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
+//		}
+//		$scope.tagTooltipHtml += "</div>";
+//		$scope.tagTooltipHtml += "</div>";
 
 	});	
+
+	$scope.showChooseTagTable = function(){
+		var chooseTagDialog = $modal.open({
+	      templateUrl: 'tagChooerDialog.html',
+	      controller: 'ManagementDatasetChooseTagControllerCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  tagList: function () {return $scope.tagList;},
+	      	}
+    	});
+		
+		chooseTagDialog.result.then(function (selectedTag) {
+			$scope.addTag(selectedTag.tagCode);
+	    }, function () {
+	      $log.info('Modal dismissed at: ' + new Date());
+	    });
+	};
 	
 	$scope.tenantsList = [];
 	fabricAPIservice.getTenants().success(function(response) {
@@ -1199,13 +1285,37 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			
 			for (var int = 0; int <  response.tenants.tenant.length; int++) {
 				var t = response.tenants.tenant[int];
-				if(t.tenantCode!=$scope.tenantCode)
+				if(t.tenantCode!=$scope.tenantCode && t.tenantName!=null)
 					$scope.tenantsList.push(t);
 			}
+			
+			$scope.tenantsList.sort(function(a, b) { 
+			    return ((a.tenantName.trim().toUpperCase() < b.tenantName.trim().toUpperCase()) ? -1 : ((a.tenantName.trim().toUpperCase() > b.tenantName.trim().toUpperCase()) ? 1 : 0));
+			});
+
 		} catch (e) {
 			console.error("getTenants ERROR",e);
 		}
 	});
+	
+	
+	$scope.showChooseTenantTable = function(){
+		var chooseTenantDialog = $modal.open({
+	      templateUrl: 'tenantChooerDialog.html',
+	      controller: 'ManagementDatasetChooseTenantControllerCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  tenantsList: function () {return $scope.tenantsList;},
+	      	}
+    	});
+		
+		chooseTenantDialog.result.then(function (selectedTenant) {
+			$scope.addTenantSharing(selectedTenant);
+	    }, function () {
+	      $log.info('Modal dismissed at: ' + new Date());
+	    });
+	};
 
 
 	$scope.unitOfMesaurementList = [];
@@ -1232,6 +1342,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.previewLines = [];
 	$scope.previewColumns = [];
 	$scope.previewBinaries = [];
+	
+	$scope.validationPatternSubdomain = Constants.VALIDATION_PATTERN_NO_SPACE;
 
 	if($scope.metadata==null){
 		$scope.metadata = {info:{}, configData: {}, opendata: {}};
@@ -1240,6 +1352,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.metadata.info.importFileType = "csv";
 		$scope.metadata.opendata.language = 'it';
 		$scope.metadata.opendata.isOpendata = 'false';
+		$scope.metadata.info.publish = true;
 	}
 	else{
 		isClone = true;
@@ -1260,7 +1373,18 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		
 	}
 	$scope.metadata.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(new Date());
-
+	$scope.useDomainMulti  = function(useDomainMultiFlag){
+		console.log("useDomainMulti", useDomainMultiFlag);
+		if(useDomainMultiFlag){
+			$scope.metadata.info.dataDomain = 'MULTI';
+			$scope.metadata.info.visibility = 'private';
+		}
+		else
+			$scope.metadata.info.dataDomain = null;
+		
+		$scope.metadata.info.codSubDomain = null;
+	};
+	
 	$scope.user = {};
 
 	fabricAPIservice.getInfo().success(function(result) {
@@ -1311,6 +1435,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		return false;
 	};
 	
+	
 	$scope.addTenantSharing = function(newTenantSharing){
 		console.log("addTenantSharing ",newTenantSharing);
 		if(newTenantSharing){
@@ -1351,6 +1476,13 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		$scope.metadata.info.tenantssharing.tenantsharing.splice(index,1);
 		return false;
 	};
+	
+	$scope.onTenantSharingSelect = function($item, $model, $label){
+		console.log("onTenantSharingSelect",$item, $model, $label);
+		$scope.addTenantSharing($item);
+		
+	};
+
 
 	$scope.creationError = null;
 	$scope.saveError = null;
@@ -1616,7 +1748,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 
 	$scope.isDateTimeField = function(field){
-		console.log("isDateTimeField", field);
 		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "dateTime")
 			return true;
 		return false;
@@ -1845,6 +1976,9 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
                                                               function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate, $modal, devService) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.warningMessages = [];
+	
+	$scope.validationPatternSubdomain = Constants.VALIDATION_PATTERN_NO_SPACE;
+
 
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -1873,6 +2007,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		$scope.goToDatabase();
 	};
 	
+
 	$scope.importConfig.sqlSourcefile;
 	$scope.onSqlSourceSelect = function($files) {
 		if( $files[0] !=null &&  $files[0].size>Constants.DATABASE_IMPORT_SOURCEFILE_MAX_FILE_SIZE){
@@ -1884,7 +2019,18 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		}
 	};
 
-	
+	$scope.useDomainMulti  = function(useDomainMultiFlag){
+		console.log("useDomainMulti", useDomainMultiFlag);
+		if(useDomainMultiFlag){
+			$scope.defaultMetadata.info.dataDomain = 'MULTI';
+			$scope.defaultMetadata.info.visibility = 'private';
+		}
+		else
+			$scope.defaultMetadata.info.dataDomain = null;
+		
+		$scope.defaultMetadata.info.codSubDomain = null;
+	};
+
 	
 	$scope.isLicenceVisible = function(){
 		var returnValue = true;
@@ -1915,17 +2061,21 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	$scope.canCreatePublicDataset = function(){
 		//return info.getActiveTenantType() != 'trial';
-		return info.getActiveShareInformationType() == "public";
+		return info.getActiveShareInformationType() == "public" &&  !$scope.defaultMetadata.info.unpublished;
 	}; 
 
 	$scope.canShareDataset = function(){
 		// return info.getActiveTenantType() != 'trial';
 		return info.getActiveShareInformationType() == "public";
 	}; 
-
-
+	
+	
 	$scope.domainList = [];
 	fabricAPIservice.getStreamDomains().success(function(response) {
+		response.streamDomains.element.sort(function(a, b) { 
+		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+		});
+		
 		for (var int = 0; int < response.streamDomains.element.length; int++) {
 			$scope.domainList.push(response.streamDomains.element[int].codDomain);
 		}
@@ -1933,10 +2083,15 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 
 	$scope.subDomainList = [];
 	fabricAPIservice.getStreamSubDomains().success(function(response) {
+		response.streamSubDomains.element.sort(function(a, b) { 
+		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+		});
 		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
 			$scope.subDomainList.push(response.streamSubDomains.element[int]);
 		}
 	});
+	
+	
 
 	$scope.tagList = [];
 	fabricAPIservice.getStreamTags().success(function(response) {
@@ -2053,19 +2208,43 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		return false;
 	};
 	
-	$scope.addTenantSharing = function(newTenantSharing, tenantsharing){
+	$scope.showChooseTagTable = function(){
+		var chooseTagDialog = $modal.open({
+	      templateUrl: 'tagChooerDialog.html',
+	      controller: 'ManagementDatasetChooseTagControllerCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  tagList: function () {return $scope.tagList;},
+	      	}
+    	});
+		
+		chooseTagDialog.result.then(function (selectedTag) {
+			$scope.addTag(selectedTag.tagCode,$scope.defaultMetadata.info.tags);
+	    }, function () {
+	      $log.info('Modal dismissed at: ' + new Date());
+	    });
+	};
+
+	
+	$scope.addTenantSharing = function(newTenantSharing){
 		console.log("addTenantSharing ",newTenantSharing);
 		if(newTenantSharing){
 			var found = false;	
 //			if(!$scope.defaultMetadata.info.tenantssharing || $scope.defaultMetadata.info.tenantssharing == null){
 //				$scope.defaultMetadata.info.tenantssharing = {};
-//			}
-			if(!tenantsharing || tenantsharing == null){
-				tenantsharing = [];
+//			}defaultMetadata.info.tenantssharing.tenantsharing
+			if(!$scope.defaultMetadata.info.tenantssharing || $scope.defaultMetadata.info.tenantssharing == null){
+				$scope.defaultMetadata.info.tenantssharing = [];
 			}
 			
-			for (var int = 0; int < tenantsharing.length; int++) {
-				var existingTenantSharing = tenantsharing[int];
+			if(!$scope.defaultMetadata.info.tenantssharing.tenantsharing || $scope.defaultMetadata.info.tenantssharing.tenantsharing == null){
+				$scope.defaultMetadata.info.tenantssharing.tenantsharing = [];
+			}
+			
+			
+			for (var int = 0; int < $scope.defaultMetadata.info.tenantssharing.tenantsharing.length; int++) {
+				var existingTenantSharing = $scope.defaultMetadata.info.tenantssharing.tenantsharing[int];
 				console.log("existing",existingTenantSharing);
 				if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
 					console.log("found");
@@ -2075,24 +2254,50 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 
 			}
 			if(!found){
-				tenantsharing.push(
+				$scope.defaultMetadata.info.tenantssharing.tenantsharing.push(
 							{"idTenant":newTenantSharing.idTenant, 
 								"tenantName": newTenantSharing.tenantName, 
 								"tenantDescription": newTenantSharing.tenantDescription, 
 								"tenantCode": newTenantSharing.tenantCode, 
 								"isOwner": 0
 							});
-				console.log("added", tenantsharing );
+				console.log("added", $scope.defaultMetadata.info.tenantssharing );
 			}
 		}
 
 		return false;
 	};
 
-	$scope.removeTenantSharing = function(index, tenantsharing){
-		tenantsharing.splice(index,1);
+	$scope.removeTenantSharing = function(index){
+		$scope.defaultMetadata.info.tenantssharing.tenantsharing.splice(index,1);
 		return false;
 	};
+	
+	$scope.onTenantSharingSelect = function($item, $model, $label){
+		console.log("onTenantSharingSelect",$item, $model, $label);
+		$scope.addTenantSharing($item);
+		
+	};
+
+	
+	$scope.showChooseTenantTable = function(){
+		var chooseTenantDialog = $modal.open({
+	      templateUrl: 'tenantChooerDialog.html',
+	      controller: 'ManagementDatasetChooseTenantControllerCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  tenantsList: function () {return $scope.tenantsList;},
+	      	}
+    	});
+		
+		chooseTenantDialog.result.then(function (selectedTenant) {
+			$scope.addTenantSharing(selectedTenant);
+	    }, function () {
+	      $log.info('Modal dismissed at: ' + new Date());
+	    });
+	};
+
 
 	$scope.creationError = null;
 	$scope.saveError = null;
@@ -2461,7 +2666,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	$scope.isTableCustomized = function(tableIndex){
 		return $scope.tables[tableIndex].customized.name ||
-			$scope.tables[tableIndex].customized.domain ||
+			$scope.tables[tableIndex].customized.publishStore ||
 			$scope.tables[tableIndex].customized.visibility ||
 			$scope.tables[tableIndex].customized.dcat ||
 			$scope.tables[tableIndex].customized.columns;
@@ -2546,6 +2751,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
     	});
 	};
 	
+	/*
 	$scope.editDatasetDomain = function(tableIndex){
 		
 		$modal.open({
@@ -2574,6 +2780,24 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
     	});
 
 	};
+
+	*/
+	
+	$scope.editDatasetPublishStore = function(tableIndex){
+		
+		$modal.open({
+	      templateUrl: 'importDatabaseEditDatasetPublisStore.html',
+	      controller: 'ManagementDatasetImportDatabaseEditPublishStoreCtrl',
+	      scope: $scope,
+	      size: 'lg',
+	      resolve: {
+	    	  selectedTableIndex: function () {return tableIndex;},
+	    	  
+	      	}
+    	});
+
+	};
+	
 	
 	$scope.editDatasetDCat = function(tableIndex){
 		
@@ -2760,6 +2984,7 @@ appControllers.controller('ManagementDatasetImportTablesWarningsCtrl', [ '$scope
 $scope.cancel = function () {$modalInstance.dismiss('cancel');};
 }]);
 
+
 appControllers.controller('ManagementDatasetImportTablesColumnsCtrl', [ '$scope', '$modalInstance',  'selectedTableIndex', '$translate',
                                                                                   function($scope, $modalInstance, selectedTableIndex,$translate) {
 	$scope.table = $scope.tables[selectedTableIndex];
@@ -2830,6 +3055,8 @@ appControllers.controller('ManagementDatasetImportDatabaseEditDatasetNameCtrl', 
 	$scope.cancel = function () {$modalInstance.dismiss('cancel');};
 }]);
 
+
+/*
 
 
 appControllers.controller('ManagementDatasetImportDatabaseEditDatasetDomainCtrl', [ '$scope', '$modalInstance', 'selectedTableIndex',
@@ -2920,6 +3147,222 @@ appControllers.controller('ManagementDatasetImportDatabaseEditDatasetVisibilityC
 	};
 	$scope.cancel = function () {$modalInstance.dismiss('cancel');};
 }]);
+
+
+*/
+
+
+
+appControllers.controller('ManagementDatasetImportDatabaseEditPublishStoreCtrl', [ '$scope', '$modalInstance', '$modal', 'info', 'selectedTableIndex', 
+                                                                                    function($scope, $modalInstance, $modal, info, selectedTableIndex) {
+	$scope.table = $scope.tables[selectedTableIndex];
+	
+	console.log("qui prima prima", $scope.tables[selectedTableIndex].dataset.info);
+	console.log("qui prima prima i", $scope.info);
+	
+	$scope.info = {"dataDomain":$scope.tables[selectedTableIndex].dataset.info.dataDomain,
+		"codSubDomain":$scope.tables[selectedTableIndex].dataset.info.codSubDomain,
+		"tags":$scope.tables[selectedTableIndex].dataset.info.tags.slice(),
+		"visibility":$scope.tables[selectedTableIndex].dataset.info.visibility,
+		"license":$scope.tables[selectedTableIndex].dataset.info.license,
+		"disclaimer":$scope.tables[selectedTableIndex].dataset.info.disclaimer,
+		"copyright":$scope.tables[selectedTableIndex].dataset.info.copyright,
+		"unpublished":$scope.tables[selectedTableIndex].dataset.info.unpublished
+	};
+	
+	$scope.canCreatePublicDataset = function(){
+		return info.getActiveShareInformationType() == "public" &&  !$scope.info.unpublished;
+	}; 
+
+	
+
+
+
+	if($scope.tables[selectedTableIndex].dataset.info.tenantssharing && $scope.tables[selectedTableIndex].dataset.info.tenantssharing!=null)
+		$scope.info.tenantsharing = $scope.tables[selectedTableIndex].dataset.info.tenantssharing.tenantsharing;
+	else
+		$scope.info.tenantsharing = new Array();
+
+	if($scope.tables[selectedTableIndex].dataset.opendata && $scope.tables[selectedTableIndex].dataset.opendata!=null){
+		$scope.opendata = {};
+		for (var opendataProp in $scope.tables[selectedTableIndex].dataset.opendata) {
+		    if ($scope.tables[selectedTableIndex].dataset.opendata.hasOwnProperty(opendataProp)) {
+		    	$scope.opendata[opendataProp] = $scope.tables[selectedTableIndex].dataset.opendata[opendataProp];
+		    }
+		}
+	}
+
+	$scope.useDomainMulti  = function(useDomainMultiFlag){
+		if(useDomainMultiFlag){
+			$scope.info.dataDomain = 'MULTI';
+			$scope.info.visibility = 'private';
+		}
+		else{
+			$scope.info.dataDomain = null;
+		}
+		$scope.info.codSubDomain = null;
+	};
+
+	$scope.ok = function(){
+		$scope.tables[selectedTableIndex].customized.publishStore = true;
+		$scope.tables[selectedTableIndex].dataset.info.unpublished = $scope.info.unpublished;
+		$scope.tables[selectedTableIndex].dataset.info.dataDomain = $scope.info.dataDomain; 
+		$scope.tables[selectedTableIndex].dataset.info.codSubDomain = $scope.info.codSubDomain; 
+		$scope.tables[selectedTableIndex].dataset.info.tags = $scope.info.tags.slice(); 
+		
+		$scope.tables[selectedTableIndex].dataset.info.visibility = $scope.info.visibility; 
+		if($scope.info.tenantsharing && $scope.info.tenantsharing!=null && $scope.info.tenantsharing.length>0){
+			if(typeof $scope.tables[selectedTableIndex].dataset.info.tenantssharing == 'undefined')
+				$scope.tables[selectedTableIndex].dataset.info.tenantssharing = {};
+			$scope.tables[selectedTableIndex].dataset.info.tenantssharing.tenantsharing = $scope.info.tenantsharing.slice(); 
+		}
+		
+		if($scope.info.opendata && $scope.info.opendata!=null){
+			$scope.tables[selectedTableIndex].dataset.opendata = {};
+			for (var opendataProp in $scope.info.opendata) {
+			    if ($scope.info.opendata.hasOwnProperty(opendataProp)) {
+			    	$scope.tables[selectedTableIndex].dataset.opendata[opendataProp] = $scope.info.opendata[opendataProp];
+			    }
+			}
+		}
+		
+		$scope.tables[selectedTableIndex].dataset.info.license = $scope.info.license; 
+		$scope.tables[selectedTableIndex].dataset.info.disclaimer = $scope.info.disclaimer; 
+		$scope.tables[selectedTableIndex].dataset.info.copyright = $scope.info.copyright;
+		if($scope.tables[selectedTableIndex].dataset.info.visibility=='private'){
+			$scope.tables[selectedTableIndex].dataset.info.license = "";
+			$scope.tables[selectedTableIndex].dataset.info.disclaimer = "";	
+		}
+		else if($scope.tables[selectedTableIndex].dataset.info.visibility=='public'){
+			$scope.tables[selectedTableIndex].dataset.info.copyright = "";
+		}
+
+
+		
+		$modalInstance.close();
+	};
+	$scope.cancel = function () {$modalInstance.dismiss('cancel');};
+	
+
+	$scope.onTagSelectInDialog = function($item, $model, $label){
+		console.log("onTagSelect",$item, $model, $label);
+		if($item.tagCode!=null)
+			$scope.addTagInDialog($item.tagCode);
+		
+	};
+	
+	$scope.showChooseTagTableInDialog = function(){
+		var chooseTagDialog = $modal.open({
+	      templateUrl: 'tagChooerDialog.html',
+	      controller: 'ManagementDatasetChooseTagControllerCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  tagList: function () {return $scope.tagList;},
+	      	}
+    	});
+		
+		chooseTagDialog.result.then(function (selectedTag) {
+			$scope.addTagInDialog(selectedTag.tagCode);
+	    }, function () {
+	      $log.info('Modal dismissed at: ' + new Date());
+	    });
+	};
+
+	$scope.newTag = {value:""};
+	$scope.addTagInDialog = function(newTag){
+		console.log("addTag", newTag);
+		if(newTag){
+			if(! $scope.info.tags)
+				$scope.info.tags = [];
+
+			var found = false;	
+			for (var int = 0; int < $scope.info.tags.length; int++) {
+				var existingTag = $scope.info.tags[int];
+				if(existingTag.tagCode == newTag){
+					found = true;
+					break;
+				}
+
+			}
+			if(!found)
+				$scope.info.tags.push({"tagCode":newTag});
+		}
+		$scope.newTag.value = "";
+		return false;
+
+	};
+
+
+	$scope.removeTagInDialog = function(index){
+		$scope.info.tags.splice(index,1);
+		return false;
+	};
+	
+	
+	
+	$scope.addTenantSharingInDialog = function(newTenantSharing){
+		console.log("addTenantSharing ",newTenantSharing);
+		if(newTenantSharing){
+			var found = false;	
+			
+			for (var int = 0; int < $scope.info.tenantsharing.length; int++) {
+				var existingTenantSharing = $scope.info.tenantsharing[int];
+				console.log("existing",existingTenantSharing);
+				if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
+					console.log("found");
+					found = true;
+					break;
+				}
+
+			}
+			if(!found){
+				$scope.info.tenantsharing.push(
+							{"idTenant":newTenantSharing.idTenant, 
+								"tenantName": newTenantSharing.tenantName, 
+								"tenantDescription": newTenantSharing.tenantDescription, 
+								"tenantCode": newTenantSharing.tenantCode, 
+								"isOwner": 0
+							});
+				console.log("added", $scope.info.tenantsharing );
+			}
+		}
+
+		return false;
+	};
+
+	$scope.removeTenantSharingInDialog = function(index, tenantsharing){
+		$scope.info.tenantsharing.splice(index,1);
+		return false;
+	};
+	
+	$scope.onTenantSharingSelectInDialog = function($item, $model, $label){
+		console.log("onTenantSharingSelect",$item, $model, $label);
+		$scope.addTenantSharingInDialog($item);
+		
+	};
+
+	
+	$scope.showChooseTenantTableInDialog = function(){
+		var chooseTenantDialog = $modal.open({
+	      templateUrl: 'tenantChooerDialog.html',
+	      controller: 'ManagementDatasetChooseTenantControllerCtrl',
+	      size: 'lg',
+	      scope: $scope,
+	      resolve: {
+	    	  tenantsList: function () {return $scope.tenantsList;},
+	      	}
+    	});
+		
+		chooseTenantDialog.result.then(function (selectedTenant) {
+			$scope.addTenantSharingInDialog(selectedTenant);
+	    }, function () {
+	      $log.info('Modal dismissed at: ' + new Date());
+	    });
+	};
+	
+}]);
+
 
 
 appControllers.controller('ManagementDatasetImportDatabaseEditDCatCtrl', [ '$scope', '$modalInstance', 'selectedTableIndex',
@@ -3074,3 +3517,56 @@ appControllers.controller('ManagementDatasetImportDatabaseEditColumnsCtrl', [ '$
 		
 	
 	}]);
+
+
+
+
+appControllers.controller('ManagementDatasetChooseTagControllerCtrl', [ '$scope', '$modalInstance', 'tagList',
+                                                                        function($scope, $modalInstance, tagList) {
+	
+	$scope.tagMap = {};
+	var firstLetter = null;
+	for (var i = 0; i < tagList.length; i++) {
+		if(firstLetter != tagList[i].tagLabel.substring(0,1)){
+			firstLetter = tagList[i].tagLabel.substring(0,1);
+			$scope.tagMap[firstLetter] = new Array();
+		}
+		$scope.tagMap[firstLetter].push(tagList[i]);
+	}
+	
+	
+	$scope.chooseTag = function(choosenTag){
+		console.log("chooseTag",choosenTag);
+		$modalInstance.close(choosenTag);
+	};
+	
+	$scope.cancel = function () {$modalInstance.dismiss('cancel');};
+}]);
+
+
+appControllers.controller('ManagementDatasetChooseTenantControllerCtrl', [ '$scope', '$modalInstance', 'tenantsList',
+                                                                        function($scope, $modalInstance, tenantsList) {
+	console.log("ManagementDatasetChooseTenantControllerCtrl",tenantsList);
+	
+	$scope.tenantsList = tenantsList;
+//	$scope.tenantMap = {};
+//	var firstLetter = null;
+//	for (var i = 0; i < tenantsList.length; i++) {
+//		if(tenantsList[i]!=null && typeof tenantsList[i].tenantName != 'undefined' && tenantsList[i].tenantName!=null)
+//		if(firstLetter != tenantsList[i].tenantName.substring(0,1)){
+//			firstLetter = tenantsList[i].tenantName.substring(0,1);
+//			$scope.tenantMap[firstLetter] = new Array();
+//		}
+//		$scope.tenantMap[firstLetter].push(tenantsList[i]);
+//	}
+	
+	
+
+	$scope.chooseTenant = function(choosenTenant){
+		console.log("choosenTenant",choosenTenant);
+		$modalInstance.close(choosenTenant);
+	};
+	
+	$scope.cancel = function () {$modalInstance.dismiss('cancel');};
+}]);
+

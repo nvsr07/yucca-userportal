@@ -360,6 +360,33 @@ Helpers.errors = {
 };
 
 
+Helpers.common = {
+	createChooseTagTable : function(tagList){
+		
+		var numColum = 6;
+		var chooseTagTable = "<div class='choose-tag-table'><div>";
+		var firstLetter = "";
+		var columnCounter = 0;
+		for (var i = 0; i < tagList.length; i++) {
+			if(firstLetter != tagList[i].tagLabel.substring(0,1)){
+				firstLetter = tagList[i].tagLabel.substring(0,1);
+				chooseTagTable += "</div><div class='choose-tag-table-section'><h4>"+ firstLetter+"</h4></div><div class='row'>";
+				columnCounter =0;
+			}
+			chooseTagTable += "<div class='col-sm-2'><div class='choose-tag-table-item' ng-click='chooseTag("+tagList[i].tagCode+")'>" + tagList[i].tagLabel +  "</div></div>";
+			if(columnCounter==numColum)
+				chooseTagTable += "</div><div class='row'>";
+			columnCounter =0;
+		}
+		
+		
+		chooseTagTable += "</div>";
+		
+		return chooseTagTable;
+
+	}	
+};
+
 Helpers.render = {
 		
 	safeTags : function (stringIn) {

@@ -71,6 +71,13 @@
 							<div class='col-sm-10'><span >{{dataset.info.description}}</span></div>
 						</div>	
 						<div class="row card-row">
+							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_VIEW_DATASET_UNPUBLISHED</span></strong></div>
+							<div class='col-sm-10'>
+								<span ng-if="!dataset.info.unpublished" translate>YES</span>
+								<span ng-if="dataset.info.unpublished" translate>NO</span>
+							</div>
+						</div>	
+						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong></div>
 							<div class='col-sm-6'><span >{{dataset.info.dataDomain|translate}}</span></div>
 						</div>	
@@ -271,7 +278,7 @@
 				</div>
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status6.open">
+		<accordion-group is-open="status6.open" ng-if="!dataset.info.unpublished">
 			<accordion-heading>
 				<div class='container'>
 					<span translate-cloak translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span>
@@ -292,7 +299,7 @@
 				</div>
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status7.open">
+		<accordion-group is-open="status7.open" ng-if="!dataset.info.unpublished">
 			<accordion-heading>
 				<div class='container'>
 					<span translate-cloak translate>DCAT</span>
