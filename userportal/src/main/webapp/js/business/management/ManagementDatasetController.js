@@ -1140,8 +1140,8 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 }]);
 
 
-appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal',
-                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate,$modal) {
+appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors',
+                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate,$modal,sharedUploadBulkErrors) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},

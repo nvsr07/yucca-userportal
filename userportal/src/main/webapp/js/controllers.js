@@ -331,7 +331,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 }]);
 
 
-appControllers.factory("initCtrl", function(fabricAPIservice, info, $q) {
+appControllers.factory("initCtrl", function($scope,fabricAPIservice, info, $q) {
     return {
     	"getInfo": function() {
     	    	var promise = fabricAPIservice.getInfo();
