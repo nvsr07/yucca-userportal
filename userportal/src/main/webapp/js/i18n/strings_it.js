@@ -1110,7 +1110,7 @@ var translations_it = {
 	
 	MANAGEMENT_IMPORT_DATABASE_TENANT_SHARED: 'Condiviso con ',
 	MANAGEMENT_IMPORT_DATABASE_DCAT_UNEXPECTED: 'I dati DCat AP non sono previsti per i dataset non pubblicati',
-	
+	MANAGEMENT_IMPORT_DATABASE_DCAT_UNCOMPLETED: 'Mancano alcuni valori DCat AP',
 	
 	
 	MANAGEMENT_PANEL_START_HINT_TITLE: 'Scegli con cura',

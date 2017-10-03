@@ -58,7 +58,13 @@
 				</td>
 				<td class='editable-table-cell' ng-click="editDatasetDCat(table.index)" ng-class="{'dataset-element-customized': table.customized.dcat}">
 					 <i class='fa fa-pencil edit-icon'  title='{{"EDIT"|translate}}' ng-if='!table.dataset.info.unpublished'></i>
-					<span ng-if='!table.dataset.info.unpublished'>{{table.dataset.dcatRightsHolderName}}</span>
+					<span ng-if='!table.dataset.info.unpublished'>
+					<span ng-if='!checkDcatFields(table)' class='error-validation-icon'>
+						<i class='fa fa-exclamation-triangle '></i> 
+						<i><small translate>MANAGEMENT_IMPORT_DATABASE_DCAT_UNCOMPLETED</small></i>
+					</span>
+						{{table.dataset.dcatRightsHolderName}}
+					</span>
 					<span ng-if='table.dataset.info.unpublished'><i translate>MANAGEMENT_IMPORT_DATABASE_DCAT_UNEXPECTED</i></span>
 				</td>
 				<td class='editable-table-cell' ng-click="editDatasetColumns(table.index)" ng-class="{'dataset-element-customized': table.customized.columns}">
@@ -72,7 +78,7 @@
 <div class="row">
 	<div class=" col-sm-12 form-toolbar">
 		<a ng-click='goToMetadata()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-		<a ng-click='goToFinish()' class="btn btn-wizard-next" ng-disabled="!isOwner() " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+		<a ng-click='goToFinish()' class="btn btn-wizard-next" ng-disabled="!isOwner() || !checkAllDcatFields()" translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 	</div>
 </div>
 
@@ -316,7 +322,7 @@
 								<strong translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG</strong>
 							</label>
 						</div>
-						<div class='text-left checkbox-hint'><i class='fa fa fa-exclamation-triangle'></i> <span translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_WARNING</span></div>
+						<div class='text-left checkbox-hint'><i class='fa fa-exclamation-triangle'></i> <span translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_WARNING</span></div>
 					</div>
 				</div>
 

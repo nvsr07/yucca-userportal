@@ -2297,8 +2297,48 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	      $log.info('Modal dismissed at: ' + new Date());
 	    });
 	};
+	
+	
+	//FIXME eliminare
+	$scope.importConfig.jdbc_hostname='prd-sdp-vdb01.sdp.csi.it:5432';
+	$scope.importConfig.jdbc_dbname='INT-SDPCONFIG';
+	$scope.importConfig.jdbc_username='int_internal';
+	$scope.importConfig.jdbc_password='mypass01';
+	$scope.importConfig.dbType='POSTGRESQL';
+	$scope.defaultMetadata.info.requestorName='a';
+	$scope.defaultMetadata.info.requestorSurname='a';
+	$scope.defaultMetadata.info.requestornEmail='a';
 
 
+	$scope.checkDcatFields = function(table){
+		var isOk = false;
+		if(typeof table != 'undefined' && table !=null && 
+		   typeof table.dataset != 'undefined' && table.dataset !=null){
+			if( typeof table.dataset.info != 'undefined' && table.dataset.info !=null  &&
+				table.dataset.info.unpublished)
+				isOk = true;
+			else{
+				isOk = typeof table.dataset.dcatRightsHolderName !=  'undefined' && table.dataset.dcatRightsHolderName !=null &&table.dataset.dcatRightsHolderName !='' &&
+					typeof table.dataset.dcatNomeOrg !=  'undefined' && table.dataset.dcatNomeOrg !=null &&table.dataset.dcatNomeOrg !='' &&
+					typeof table.dataset.dcatEmailOrg !=  'undefined' && table.dataset.dcatEmailOrg !=null &&table.dataset.dcatEmailOrg !='';
+			}
+			
+		} 
+			
+		return isOk;
+	};
+	
+	$scope.checkAllDcatFields = function(){
+		var allOk = true;
+		for (var tableIndex = 0; tableIndex < $scope.tables.length; tableIndex++) {
+			if($scope.tables[tableIndex].importTable && !$scope.checkDcatFields($scope.tables[tableIndex])){
+				allOk = false;
+				break;
+			}
+		}
+		return allOk;
+	};
+	
 	$scope.creationError = null;
 	$scope.saveError = null;
 	$scope.saveErrors = null;
@@ -2797,6 +2837,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
     	});
 
 	};
+	
 	
 	
 	$scope.editDatasetDCat = function(tableIndex){
