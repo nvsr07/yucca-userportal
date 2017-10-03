@@ -331,7 +331,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 }]);
 
 
-appControllers.factory("initCtrl", function($scope,fabricAPIservice, info, $q) {
+appControllers.factory("initCtrl", function(fabricAPIservice, info, $q) {
     return {
     	"getInfo": function() {
     	    	var promise = fabricAPIservice.getInfo();
@@ -339,16 +339,16 @@ appControllers.factory("initCtrl", function($scope,fabricAPIservice, info, $q) {
     	    		info.setInfo(result);
     	    		console.log("result", result);
     	    		console.log("info", info);
-    	    		$scope.activeTenantCode = info.getActiveTenantCode();
-    	    		$scope.userTenants = info.getInfo().user.tenants;
-    	    		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
-    	    		$scope.user = result.user;
-    	    		
-    	    		$scope.user.haveTrialTenant = false;
-    	    		angular.forEach($scope.userTenants, function(value, key) {
-    	    		  if (value.tenantType == "trial")
-    	    			  $scope.user.haveTrialTenant = true;
-    	    		});
+//    	    		$scope.activeTenantCode = info.getActiveTenantCode();
+//    	    		$scope.userTenants = info.getInfo().user.tenants;
+//    	    		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
+//    	    		$scope.user = result.user;
+//    	    		
+//    	    		$scope.user.haveTrialTenant = false;
+//    	    		angular.forEach($scope.userTenants, function(value, key) {
+//    	    		  if (value.tenantType == "trial")
+//    	    			  $scope.user.haveTrialTenant = true;
+//    	    		});
     	    	});
     	        return promise;
     	      }

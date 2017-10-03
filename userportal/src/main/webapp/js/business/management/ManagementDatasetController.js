@@ -1951,7 +1951,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 			}).success(function(data, status, headers, config) {
 				$scope.isUploading = false;
-				console.log("data loaded");
+				console.log("data loaded", data);
 				if(data.errors && data.errors.length>0){
 					$scope.saveError = true;
 					$scope.saveErrors = data.errors;

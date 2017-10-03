@@ -45,7 +45,7 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 	$scope.queryOdataLink = "-";
 	
 	$scope.loadMetadata = function(){
-		console.log("loadMetadata",$scope.metadata)
+		console.log("loadMetadata",$scope.metadata);
 		if ($scope.metadata!=null){
 			
 			console.log("dataset.code", $scope.metadata.dataset.code);
