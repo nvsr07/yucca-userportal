@@ -38,7 +38,7 @@
 					 <small ng-if='table.dataset.info.externalReference!=null'><br><i>{{table.dataset.info.externalReference}}</i></small>
 				</td>
 				<td class='editable-table-cell' ng-click="editDatasetPublishStore(table.index)" ng-class="{'dataset-element-customized': table.customized.publishStore}">
-					<i class='fa fa-pencil edit-icon'  title='{{"EDIT"|translate}}'></i>
+					<i class='fa f	a-pencil edit-icon'  title='{{"EDIT"|translate}}'></i>
 					<span>{{table.dataset.info.dataDomain|translate}}/{{table.dataset.info.codSubDomain|translate}}</span>
 					<span ng-repeat="tag in table.dataset.info.tags track by $index"><span class='label-custom-small label-tag' ng-bind-html="tag.tagCode|translate"></span> </span>
 					<br>
@@ -299,14 +299,14 @@
 		<div class="modal-header">
             <h3 class="modal-title"><span translate >MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_PUBLISH_STORE_DESCRIPTION</span> <small>{{table.tablename}}</small></h3>
         </div>
+		<form class="form-horizontal" name='importDatasaetPublishStoreForm'>
 		<div class="modal-body">
-			<form class="form-horizontal" name='importDatasaetPublishStoreForm'>
 				<div class="form-group">
 					<label for="inputDatasetUnpublished" class="col-sm-3 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_UNPUBLISHED</span></label>
 					<div class="col-sm-9">
 						<div class="checkbox text-left">
 							<label>
-								<input type="checkbox" ng-model="info.unpublished"  name="inputDatasetUnpublished">
+								<input type="checkbox" ng-model="info.unpublished"  name="inputDatasetUnpublished" ng-disabled='info.dataDomain=="MULTI" && table.status!="new"'>
 								<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 								<strong translate>MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG</strong>
 							</label>
@@ -317,7 +317,7 @@
 					<div class="col-sm-9 col-sm-offset-3">
 						<div class="checkbox text-left">
 							<label>
-								<input type="checkbox" ng-change="useDomainMulti(useDomainMultiFlag)" ng-model='useDomainMultiFlag'>
+								<input type="checkbox" ng-change="useDomainMulti(useDomainMultiFlag)" ng-model='useDomainMultiFlag'  ng-disabled='table.status!="new"'>
 								<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 								<strong translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG</strong>
 							</label>
@@ -329,21 +329,21 @@
 				<div class="form-group">
 					<label for="inputDatasetDomain" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> </label>
 					<div class="col-sm-9">
-						<select class="input-sm form-control" ng-model="info.dataDomain" ng-if='info.dataDomain!="MULTI"' ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+						<select class="input-sm form-control" ng-model="info.dataDomain" ng-if='info.dataDomain!="MULTI" && table.status=="new"' ng-options="domain as (domain|translate) for domain in domainList" ng-required="true"'>
 							<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
 						</select>
-						<input type="text" ng-if='info.dataDomain=="MULTI"' class="form-control" ng-model="info.dataDomain" id="inputDatasetDomain" disabled='disabled'
+						<input type="text" ng-if='info.dataDomain=="MULTI" || table.status!="new"' class="form-control" ng-model="info.dataDomain" id="inputDatasetDomain" disabled='disabled'
 							ng-required="true" maxlength="255" >
 					</div>
 				</div>
 				<div class="form-group has-feedback">
 					<label for="inputDatasetCodSubDomain" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span></label>
 					<div class="col-sm-9">
-						<select class="input-sm form-control" ng-if='info.dataDomain!="MULTI"' ng-model="info.codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subDomainList|subDomainFilter:info.dataDomain" ng-required="true">
+						<select class="input-sm form-control" ng-if='info.dataDomain!="MULTI" && table.status=="new"' ng-model="info.codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subDomainList|subDomainFilter:info.dataDomain" ng-required="true">
 							<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER</option>
 						</select>
-						<input type="text" ng-if='info.dataDomain=="MULTI"' class="form-control" ng-model="info.codSubDomain" id="inputSubdomainCode" 
-							placeholder="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER'|translate}}" name="inputSubdomainCode"
+						<input type="text" ng-if='info.dataDomain=="MULTI" || table.status!="new"' class="form-control" ng-model="info.codSubDomain" id="inputSubdomainCode" 
+							placeholder="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER'|translate}}" name="inputSubdomainCode" ng-disabled='table.status!="new"'
 							ng-required="true" maxlength="255" ng-pattern="validationPatternSubdomain" >
 						<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION'|translate}}"
 							ng-show="importDatasaetPublishStoreForm.inputSubdomainCode.$error.pattern && importDatasaetPublishStoreForm.inputSubdomainCode.$dirty"></span>
@@ -476,36 +476,14 @@
 							<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_METADATA_COPYRIGHT'|translate}}" ng-model="info.copyright" >
 						</div>
 					</div>			
-			</form>
-		</div>
- 		<div class="modal-footer">
- 			<button class="btn " ng-click="cancel()" translate>CANCEL</button>
-			<button type="submit" class="btn btn-default" ng-click="ok()" ng-disabled="importDatasaetPublishStoreForm.$invalid &&  info.tags.length<1"  translate>OK</button>
-		</div>
+			</div>
+ 			<div class="modal-footer">
+ 				<button class="btn " ng-click="cancel()" translate>CANCEL</button>
+				<button type="submit" class="btn btn-default" ng-click="ok()" ng-disabled="importDatasaetPublishStoreForm.$invalid ||  info.tags.length<1"  translate>OK</button>
+			</div>
+		</form>
 	</div>
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script type="text/ng-template" id="importDatabaseEditDCat.html">
 	<div class="modal-body modal-compact">

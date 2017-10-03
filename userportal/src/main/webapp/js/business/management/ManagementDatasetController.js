@@ -2298,16 +2298,6 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	    });
 	};
 	
-	
-	//FIXME eliminare
-	$scope.importConfig.jdbc_hostname='prd-sdp-vdb01.sdp.csi.it:5432';
-	$scope.importConfig.jdbc_dbname='INT-SDPCONFIG';
-	$scope.importConfig.jdbc_username='int_internal';
-	$scope.importConfig.jdbc_password='mypass01';
-	$scope.importConfig.dbType='POSTGRESQL';
-	$scope.defaultMetadata.info.requestorName='a';
-	$scope.defaultMetadata.info.requestorSurname='a';
-	$scope.defaultMetadata.info.requestornEmail='a';
 
 
 	$scope.checkDcatFields = function(table){
