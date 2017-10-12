@@ -184,7 +184,7 @@
 								
 								<h3 class='text-left form-section-title'  translate-cloak translate><span ng-bind-html="'MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING'|translate"></span></h3>
 								<div class="form-group">
-									<label for="RadioGroupVisibility" class="col-sm-3 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span> {{dataset.info.unpublished}}</label>
+									<label for="RadioGroupVisibility" class="col-sm-3 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
 									<div class="col-sm-9">
 										<label class="radio-inline">
 					              			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="dataset.info.visibility" ng-disabled='!canCreatePublicDataset() || dataset.info.unpublished'>

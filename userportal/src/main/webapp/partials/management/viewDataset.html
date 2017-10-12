@@ -349,7 +349,7 @@
 		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="row card-toolbar">
-					<a  href='#/dataexplorer/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" >
+					<a  href='#/dataexplorer/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-if='!dataset.info.unpublished'>
 						<i class="fa fa-table" aria-hidden="true"></i> {{'MANAGEMENT_VIEW_DATASET_DATA_EXPLORER_BUTTON'|translate}}
 					</a>
 					<a  href ng-click='cloneDataset()' class="btn btn-edit">
@@ -361,7 +361,7 @@
 					<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData() && isAuthorized('management/datasets/upload')">
 						<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
 					</a>
-					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download')"  >
+					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download') && ng-if='!dataset.info.unpublished'"  >
 						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 					</a>
 	   				<a href="javascript:void(0)" ng-click='openModalView()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" >

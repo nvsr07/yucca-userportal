@@ -176,6 +176,31 @@ Helpers.util = {
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		return "";
 	}, 
+	camelize: function (str) {
+		if(str && str!=null)
+			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		else
+			return "";
+	},
+	
+	stringEllipse: function(text, length, end) {
+    	
+    	if(typeof text === "undefined"  || text == null)
+    		text = "";
+    	
+        if (isNaN(length))
+            length = 10;
+
+        if (end === undefined)
+            end = "...";
+
+        if (text.length <= length || text.length - end.length <= length) {
+            return text;
+        }
+        else {
+            return String(text).substring(0, length-end.length) + end;
+        }
+	}, 
 	
 	arrayContainsString:function (element, array) {
 	    if(typeof array != 'undefined' && array!=null)
@@ -360,6 +385,9 @@ Helpers.errors = {
 };
 
 
+
+
+
 Helpers.common = {
 	createChooseTagTable : function(tagList){
 		
@@ -384,7 +412,10 @@ Helpers.common = {
 		
 		return chooseTagTable;
 
-	}	
+	},
+	getDomainIcon : function(domainKey){
+		return typeof Constants.DOMAIN_ICON_MAP[domainKey]!= 'undefined'?Constants.DOMAIN_ICON_MAP[domainKey]:"";
+	}
 };
 
 Helpers.render = {

@@ -1288,6 +1288,7 @@ var translations_it = {
 	DATASEARCH_TITLE: 'Cerca i dati che ti servono',
 	DATASEARCH_DOMAINS_TITLE: 'Famiglie di dati',
 	DATASEARCH_DOMAINS_SUBTITLE: '&egrave; possibile cercare dati partendo dalle categorie in cui sono organizzati',
+	DATASEARCH_DOMAINS_TOOLTIP_PREFIX: 'Cerca ',
 	
 	DATASEARCHRESULT_NEW_SEARCH: 'Nuova Ricerca',
 	DATASEARCHRESULT_TOTAL: 'Risultati',

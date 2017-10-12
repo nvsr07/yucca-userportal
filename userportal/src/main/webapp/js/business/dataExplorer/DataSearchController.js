@@ -1,11 +1,29 @@
 
 // TODO start Browse
-appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info', 'dataexplorerService', 'metadataapiAPIservice','$translate',
-                                                function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $location, $filter,  $http, info,dataexplorerService, metadataapiAPIservice,$translate) {
+appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info', 'dataexplorerService', 'metadataapiAPIservice','$translate', '$timeout',
+                                                function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $location, $filter,  $http, info,dataexplorerService, metadataapiAPIservice,$translate,$timeout) {
 	
 	var domainList = {};
 	$scope.domainList = [];
 	$scope.metadataSearchInput = {query:'',filter:{}, start:0, rows: 10, currentPage: 1};
+	
+	$scope.domainSingleTreeData = {};
+	$scope.organizationTree = {
+				tree: {"title": "Data Lake", "parent": "null", "cssClass": "datalake", "icon": "", "children": [], "filter":{}},
+				treeReady: false};
+	
+	
+	$scope.browseBy = 'domain';
+	$scope.browseByDomain = function(){
+		$scope.browseBy = 'domain';
+		//metadataPivotSearch("domainCode,subdomainCode,organizationCode");
+	};
+	
+	$scope.browseByOrganization = function(){
+		$scope.browseBy = 'organization';
+		metadataPivotSearch($scope.organizationTree, "organizationCode,domainCode,subdomainCode");
+	};
+
 
 	fabricAPIservice.getStreamDomains().success(function(response) {
 
@@ -24,7 +42,12 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 			for (var domainFacet in domainFacets) {
 				if (domainFacets.hasOwnProperty(domainFacet)) {
 					if(typeof domainList[domainFacet.toUpperCase()] != 'undefined')
-						domainList[domainFacet.toUpperCase()] = {"domain":domainFacet.toUpperCase(),"count":domainFacets[domainFacet]};
+						domainList[domainFacet.toUpperCase()] = {"domain":domainFacet.toUpperCase(),
+							"count":domainFacets[domainFacet], 
+							isOpen: false, 
+							forceOpen: false, 
+							tree: {"title": domainFacet.toUpperCase(), "parent": "null", "cssClass": "", "icon": "", "children": [], "filter":{}},
+							treeReady: false};
 				}
 			}
 			for (var d in domainList) {
@@ -44,6 +67,7 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 		});
 		
 		$scope.domainList.sort();
+		console.log(",,",$scope.domainList);
 	}).error(function(response) {
 		Console.error("fabricAPIservice.getStreamDomains() ",response );
 	});
@@ -56,6 +80,151 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 		dataexplorerService.setSearchInput($scope.metadataSearchInput);
 		$location.path('dataexplorer/searchresults').search({query:$scope.metadataSearchInput.query});
 	};
+	
+	$scope.expandRoot = function(domainIndex){
+		$scope.domainList[domainIndex].isOpen = true;
+		$scope.domainList[domainIndex].forceOpen = true;
+		metadataPivotSearch($scope.domainList[domainIndex], "domainCode,subdomainCode,organizationCode", {"domainCode": [$scope.domainList[domainIndex].domain]}, 16);
+
+	};
+	
+	$scope.updateTreeCallback = function(isRoot, domainIndex){
+		console.log("updateTreeCallback",isRoot, domainIndex, $scope.domainList[domainIndex]);
+		console.log("prima",$scope.domainList[domainIndex].isOpen);
+		 $timeout( function(){
+			 if($scope.domainList[domainIndex].forceOpen){
+				 $scope.domainList[domainIndex].isOpen = true;
+				 $scope.domainList[domainIndex].forceOpen = false;
+			 }else
+	            $scope.domainList[domainIndex].isOpen = !isRoot;
+	        }, 10);
+		//console.log("dopo",$scope.domainList[domainIndex].isOpen);
+	};
+	
+	
+	$scope.treeListDomain = {};
+	
+	
+	var emptyPagination = {"start": "0", "rows":"0"};
+
+	var metadataPivotSearch  = function(treeContainer, pivotFacetFields, filter, ellipse){
+
+		var pivotFacet = {"pivot": pivotFacetFields};
+		$scope.treeListData =  [{"title": "Data Lake", "parent": "null", "cssClass": "datalake", "icon": "", "children": [], "filter":{}}];
+
+		//$scope.netflixData = {"title": "Data Lake", "parent": "null", "cssClass": "datalake", "children": [], "filter":{}};
+		
+		console.log("metadataPivotSearch", pivotFacet);
+		$scope.treeListDomainReady = false;
+		
+		metadataapiAPIservice.search(null,null, null, emptyPagination,filter, null, pivotFacet).success(function(response) {
+			console.log("metadataapiAPIservice.domainSubdomainFacet _ response", response);
+			var domainSubdomainPivot = response.facetCount.facetPivotList[pivotFacetFields];
+			//console.log("tree data",$scope.treeListData[0]);
+			
+			//addPivotToTree($scope.treeListData[0], domainSubdomainPivot,{});
+			addPivotToTree(treeContainer.tree, domainSubdomainPivot,{}, ellipse);
+			
+			//addPivotToTree($scope.netflixData, domainSubdomainPivot,{});
+			//console.log("2",$scope.netflixData);
+
+			
+//			for (var dIndex = 0; dIndex < $scope.netflixData.children.length; dIndex++) {
+//				$scope.domainSingleTreeData[$scope.netflixData.children[dIndex].code]=$scope.netflixData.children[dIndex];
+//			}
+			console.log("3",treeContainer.tree);
+
+			
+			//addPivotToTree($scope.domainSingleTreeData, domainSubdomainPivot,{});
+
+			
+			//sortChildren($scope.treeListData[0]);
+			sortChildren(treeContainer.tree);
+			
+			treeContainer.treeReady = true;
+
+		});
+
+	};
+	
+	var sortChildren = function(tree){
+		if(tree!=null && typeof tree.children != 'undefined'){
+			tree.children.sort(
+				function(a,b) {
+					if (a.name < b.name)
+						return -1;
+					if (a.name > b.name)
+						return 1;
+					return 0;
+				});
+		
+			for (var cIndex = 0; cIndex < tree.children.length; cIndex++) {
+				sortChildren(tree.children[cIndex].children);
+				
+			}
+		}
+	};
+	
+	
+	var searchTooltipPrefix = $translate.instant('DATASEARCH_DOMAINS_TOOLTIP_PREFIX');
+	
+	var addPivotToTree = function(tree, pivotList, prevFilter, ellipse){
+		if(typeof tree.children == 'undefined' || tree.children==null)
+			tree.children = [];
+		for (var pivotListIndex = 0; pivotListIndex < pivotList.length; pivotListIndex++) {
+			pivot = pivotList[pivotListIndex];
+			var filter = {};
+			for (var property in prevFilter) {
+			    if (prevFilter.hasOwnProperty(property)) {
+			    	filter[property] = prevFilter[property];
+			    }
+			}
+			filter[pivot.field] = pivot.value;
+			var icon = "";
+			var cssIcon = "";
+			var cssClass = "";
+
+			if(pivot.field=="domainCode"){
+				icon = Helpers.common.getDomainIcon(pivot.value.toUpperCase());
+				cssIcon = "domain-icon";
+				cssClass = "domain";
+			}
+			var childTitle = Helpers.util.camelize($translate.instant(pivot.value.toUpperCase()));
+			if(!isNaN(ellipse))
+				childTitle = Helpers.util.stringEllipse(childTitle,ellipse);
+			var child = {"code":pivot.value.toUpperCase(), 
+						 "title": childTitle, 
+						 "subtitle": "[" + pivot.count + "]", 
+						 "parent": tree.name, 
+						 "cssClass": cssClass, 
+						 "icon": icon, 
+						 "tooltip": searchTooltipPrefix + " " + childTitle,
+						 "cssIcon": cssIcon, 
+						 "filter": filter, "field": pivot.field, "value": pivot.value,
+						 "action": function(filter){
+							console.log("search - filter",filter);
+							$scope.metadataSearchInput = {query:'',filter:{}, start:0, rows: 10, currentPage: 1};
+							for (var property in filter) {
+							    if (filter.hasOwnProperty(property)) {
+							    	$scope.metadataSearchInput.filter[property] = [filter[property]];
+							    }
+							}
+							console.log("search - metadataSearchInput", $scope.metadataSearchInput);
+							dataexplorerService.setSearchInput($scope.metadataSearchInput);
+							$scope.$apply(function() {
+								$location.path('dataexplorer/searchresults').search();
+							});
+						 } 
+			};
+			
+			if(typeof pivot.pivot != 'undefined'  && pivot.pivot!=null)
+				addPivotToTree(child, pivot.pivot,filter, ellipse);
+			tree.children.push(child);
+		}
+	};
+	
+	//metadataPivotSearch("domainCode,subdomainCode,organizationCode");
+
 	
 }]);
 

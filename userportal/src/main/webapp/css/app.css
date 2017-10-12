@@ -1325,20 +1325,70 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 #datasearch .search-inputpanel{background-color: #dbdb01; height: 300px; box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);margin-bottom: 32px;}
 #datasearch .search-title{text-transform: uppercase; margin: 90px 0 32px 0; font-size: 26px; text-align: center;}
 #datasearch .dataseach-input-query i{font-size: 24px; padding-right: 16px; cursor: pointer; z-index:10;}
+
 #datasearch .search-input-checks .checkbox label{text-transform: uppercase; font-weight: bold;}
+#datasearch .search-input-checks .inline{display: inline-block;}
 #datasearch .search-input-checks .checkbox .cr{border-radius: 0; border: solid 2px #000;}
 
 #datasearch .search-domains .search-title{text-transform: uppercase; margin: 90px 0 12px 0; font-size: 26px;text-align: center;}
 #datasearch .search-domains .search-subtitle{text-transform: uppercase; margin: 12px 0 75px 0; font-size: 16px;text-align: center;}
 
-#datasearch .domains-table{width: auto; margin: 0 auto 60px auto; font-size: 24pt}
-#datasearch .domains-table>tbody>tr>td, #databrowser .domains-table>tbody>tr>td{border: solid 1px #000; padding: 0.2em .5em;  width: 50%;}
-#datasearch .domains-table-left-column i{margin-right: .5em; }
+
+#datasearch .search-domains .search-title{margin: 40px 0 12px 0;}
+#datasearch .search-domains .search-subtitle{margin:12px 0 25px 0;}
+#datasearch .search-domains .search-toolbar {text-align: center;margin-bottom: 40px;}
+#datasearch .search-domains .search-toolbar .first-column{text-align: right;}
+#datasearch .search-domains .search-toolbar .second-column{text-align: left;}
+#datasearch .search-domains .search-toolbar .btn-default{margin: 12px; background-color: #f1f1ab; color: #333!important; text-transform: uppercase;
+	font-weight: bold; padding: 10px 12px; border: solid 1px #dbdb00;position: relative;box-shadow: none;}
+#datasearch .search-toolbar .btn-default{background-color: #f1f1ab;}
+#datasearch .search-toolbar .btn-default.active{background-color: #dbdb00;}
+
+
+#datasearch .domains-table{width: auto; margin: 0 auto 60px auto; font-size: 24pt;}
+#datasearch .domains-table>tbody>tr>td, #databrowser .domains-table>tbody>tr>td{border: solid 1px #000;  width: 50%;}
+#datasearch .domains-table-left-column i.domain-icon{margin-right: .5em; }
+
 /*#datasearch .domains-table-right-column i{margin-left: .5em; } */
 
-#datasearch .domains-table i{font-size: 1.5em;}
+
+
+#datasearch .domains-table i.domain-icon{font-size: 1.5em;}
 #datasearch .domains-table span{font-size: .78em; font-weight: bold;}
 #datasearch .domains-table small{font-size: .6em; line-height: 1em; color:#8a8a8a; }
+#datasearch .domains-closed-cell > * {vertical-align:middle;}
+#datasearch .expand_tree_button{font-size: .78em; color: #dbdb00; display: inline-block; border: solid 1px #8a8a8a; color: #8a8a8a; 
+	background-color: #fafafa; height: 24px; width: 24px; text-align: center;font-size: 18px;}
+#datasearch .expand_tree_button:hover{text-decoration: none;}
+
+
+
+.browse-tree-container .node {cursor: pointer;	}
+.browse-tree-container .node circle {fill: #fff; stroke: #ccc;stroke-width: 3px;}
+.browse-tree-container .node text {font: 14px sans-serif;}
+.browse-tree-container .link {fill: none; stroke: #ccc; stroke-width: 2px;}
+
+.browse-tree-container .node text	
+
+.browse-tree-container tspan.domain-icon, .browse-tree-container text.domain-icon{font-family: 'smartdatanet-domains'; font-size: 24px}
+
+.expand_tree_button{color: #999;text-decoration: none;}
+.expand_tree_button:hover, .expand_tree_button:active {text-decoration: none;}
+
+#datasearch .search-domains .search-domain-link{cursor: url(/img/cursor/search.png),pointer;}
+
+#datasearch .search-domains .domains-table .title{font-weight: normal;}
+#datasearch .search-domains .domains-table .domain .title{font-size: 16px;font-weight: bold;}
+#datasearch .search-domains .domains-table tspan.subtitle {font-size: 16px; line-height: 1em; fill: #8a8a8a;font-weight: normal;}
+#datasearch .search-domains text{cursor: url(/img/cursor/search.png),pointer;}
+#datasearch .search-domains  circle{cursor: pointer;}
+
+
+#datasearch .search-domains .browse-tree-container .link {stroke-width: 1px;stroke: #999;}
+
+#datasearch .search-domains .browse-tree-container .node circle.node_circle.empty{stroke: #999; fill: #999;}
+#datasearch .search-domains .browse-tree-container .node circle.node_circle.full{stroke: #999; fill: #fff;}
+
 
 #datasearchresult{background-color: #fff;}
 #datasearchresult .facet-side-panel{padding: 36px 22px 36px 0; background-color: #e3e4e6;padding-left: 12%; width: 30%; float: left}

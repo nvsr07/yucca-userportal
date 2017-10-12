@@ -155,3 +155,28 @@ Constants.HELP_HINT_DATE_FORMAT_TABLE = '<div><table class="table table-supercon
 '   <div class="alert alert-info"><strong><i class="glyphicon glyphicon-time"></i></strong>&nbsp;Default timezone <strong>Europe/Rome</strong></div>';
 
 
+// domain icon
+Constants.DOMAIN_ICON_MAP= {
+		"TRADE":"\ue800",
+		"TRANSPORT":"\ue801",
+		"CULTURE":"\ue802", 
+		"ECONOMY_FINANCES_TAXES":"\ue803", 
+		"AGRICULTURE":"\ue804", 
+		"EMPLOYMENT_TRAINING":"\ue805", 
+		"ENERGY":"\ue806", 
+		"ENVIRONMENT":"\ue807", 
+		"GOVERNMENT":"\ue808", 
+		"HEALTH":"\ue809", 
+		"POPULATION_SOCIAL_ISSUE":"\ue80a", 
+		"PRODUCTION":"\ue80b", 
+		"SCHOOL":"\ue80c",
+		"SCIENCE_TECHNOLOGY":"\ue80d", 
+		"SECURITY":"\ue80e", 
+		"SMART_COMMUNITY":"\ue80f",
+		"TERRITORY":"\ue810", 
+		"TOURISM_SPORT":"\ue811"
+};
+
+
+
+
