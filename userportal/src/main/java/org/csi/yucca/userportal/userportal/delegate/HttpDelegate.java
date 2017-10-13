@@ -4,23 +4,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.http.HttpHeaders;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -32,6 +33,7 @@ import org.apache.http.message.BasicNameValuePair;
 //import org.apache.commons.httpclient.methods.GetMethod;
 //import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
+import org.opensaml.xml.util.Base64;
 
 
 public class HttpDelegate {
@@ -74,13 +76,10 @@ public class HttpDelegate {
 			// auth
 			if (basicUser!=null && basicPassword!=null)
 			{
-				CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-				credentialsProvider.setCredentials(AuthScope.ANY, 
-						new UsernamePasswordCredentials(basicUser, basicPassword));
-				httpClientB.setDefaultCredentialsProvider(credentialsProvider).build();
+				httpRequestBase.setHeader(HttpHeaders.AUTHORIZATION, Base64.encodeBytes(new String(basicUser+":"+basicPassword).getBytes()));
 			}
 			client = httpClientB.build();
-			
+
 			CloseableHttpResponse response = client.execute(httpRequestBase);
 
 			StringBuffer buffer = new StringBuffer();
