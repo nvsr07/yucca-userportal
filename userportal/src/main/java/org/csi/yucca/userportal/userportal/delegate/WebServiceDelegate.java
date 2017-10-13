@@ -97,7 +97,7 @@ public class WebServiceDelegate {
 		}
 		// Parse the String output to a org.w3c.dom.Document and be able to
 		// reach every node with the org.w3c.dom API.
-		log.info("Result: " + outputString);
+		log.info("Result: " + outputString.substring(0, 20)+"...");
 		return outputString;
 	}
 

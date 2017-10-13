@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
@@ -150,19 +151,21 @@ public class HttpDelegate {
 			}
 
 			
-			log.debug("[HttpDelegate::executePost] - targetUrl: " + targetUrl);
 			PostMethod post = new PostMethod(targetUrl);
-
+			log.info("[HttpDelegate::executePost] Posting data: " + postData.size());
 			if (postData!=null && !postData.isEmpty())
 			{
 				List<Part> parts = new ArrayList<Part>();
 
-				for (Iterator<Entry<String, String>> iterator = postData.entrySet().iterator(); iterator.hasNext();) {
-					Entry<String, String> part = (Entry<String, String>) iterator.next();
-					parts.add(new StringPart(part.getKey(), part.getValue()));
+				Set<Entry<String, String>> entryPost = postData.entrySet();
+				
+				for (Entry<String, String> entry : entryPost) {
+					parts.add(new StringPart(entry.getKey(), entry.getValue()));
+					log.info("[HttpDelegate::executePost] adding data: " + entry.getKey()+":"+entry.getValue());
 				}
+	
 					      
-				RequestEntity requestEntity = new MultipartRequestEntity(parts.toArray(new Part[0]),post.getParams());
+				RequestEntity requestEntity = new MultipartRequestEntity(parts.toArray(new Part[]{}),post.getParams());
 				post.setRequestEntity(requestEntity);
 			
 			}
