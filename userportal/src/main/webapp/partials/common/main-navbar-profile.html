@@ -2,7 +2,7 @@
 	<li class='main-menu-profile-item main-menu-item-with-caret' ng-if="user.loggedIn"><span class='main-menu-username'>{{user.firstname}} {{user.lastname}}</span><span class='main-menu-tenant'>{{activeTenantCode}}</span></li>
 	
 	<li class='main-menu-item main-menu-item-with-caret' ng-if="!isHomepage && !user.loggedIn">
-		<a href='/{{_baseUrl}}/api/authorize?returnUrl={{currentUrl()}}' ><span translate-cloak translate>MENU_SING_IN</span></a>
+		<a href='{{_baseUrl}}/api/authorize?returnUrl={{currentUrl()}}' ><span translate-cloak translate>MENU_SING_IN</span></a>
 	</li>
 	<li class='main-menu-item main-menu-item-caret' class="dropdown" dropdown ng-if="user.loggedIn || !isHomepage">
 		  <a href class="dropdown-toggle main-menu-profile-caret"  id="dropdownMenu1" data-toggle="dropdown" dropdown-toggle>
