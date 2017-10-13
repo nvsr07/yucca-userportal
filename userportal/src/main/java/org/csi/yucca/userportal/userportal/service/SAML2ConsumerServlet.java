@@ -52,6 +52,7 @@ import org.csi.yucca.userportal.userportal.info.TenantsContainer;
 import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
+import org.csi.yucca.userportal.userportal.utils.SamlUtil;
 import org.csi.yucca.userportal.userportal.utils.Util;
 import org.opensaml.xml.ConfigurationException;
 import org.w3c.dom.Document;
@@ -376,7 +377,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						if (typeAuth.equals("work"))
 							cssPath = cssPath + "Work.css";
 					}
-					response.sendRedirect(requestMessage + "&issuer=userportal&customCssPath=" + URLEncoder.encode(cssPath, "UTF-8"));
+					response.sendRedirect(requestMessage + "&issuer="+consumer.getIssuer()+"&customCssPath=" + URLEncoder.encode(cssPath, "UTF-8"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
@@ -424,7 +425,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			postData.put("assertion", b64samlAssertion);
 			
 			
-			String result = HttpDelegate.executePost(apiBaseUrl, user, password, "application/json", "charset=utf-8", null, postData);
+			String result = HttpDelegate.executePost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "charset=utf-8", null, postData);
 			
 			token = result;
 			

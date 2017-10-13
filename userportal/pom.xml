@@ -355,7 +355,7 @@
 
 				<resources>
 					<resource>
-						<directory>${project.build.directory}/checkout/userportal/resources/int</directory>
+						<directory>${project.build.directory}/checkout/userportal/resources/int2</directory>
 					</resource>
 					<resource>
 						<directory>src/main/resources/images</directory>
@@ -364,7 +364,7 @@
 				</resources>
 			</build>
 			<properties>
-				<webXmlPath>${project.build.directory}/checkout/userportal/resources/int/</webXmlPath>
+				<webXmlPath>${project.build.directory}/checkout/userportal/resources/int2/</webXmlPath>
 			</properties>
 		</profile>
 		<profile>
