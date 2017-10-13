@@ -70,6 +70,8 @@ public class AuthorizeUtils {
 	public static Map<String, String> claimsKeys;
 
 	public static final String CLAIM_DIALECT_WSO2 = "WSO2";
+	
+	public static final String ASSERTION_KEY = "ASSERTION_KEY";
 
 	public static final String RBAC_BASE_PERMISSION_PATH = "/permission/applications/userportal";
 

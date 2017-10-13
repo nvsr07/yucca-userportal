@@ -22,6 +22,9 @@ public class Config {
 	public static final String RBAC_WEBSERVICE_PASSWORD_KEY = "rbac.webservice.secret";
 	
 	
+	public static final String TOKEN_FROM_SAML_URL_KEY = "TOKEN_FROM_SAML_URL";
+	public static final String TOKEN_FROM_SAML_USER_KEY = "TOKEN_FROM_SAML_USER";
+	public static final String TOKEN_FROM_SAML_PASSWORD_KEY = "token.from.saml.secret";
 
 	
 	public static final String TWITTER_POLLER_URL_KEY="TWITTER_POLLER_URL";
