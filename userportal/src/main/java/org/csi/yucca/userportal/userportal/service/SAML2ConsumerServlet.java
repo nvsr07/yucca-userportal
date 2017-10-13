@@ -424,7 +424,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			postData.put("assertion", b64samlAssertion);
 			
 			
-			String result = HttpDelegate.getInstance().doPost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "charset=utf-8", null, postData);
+			String result = HttpDelegate.getInstance().doPost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "utf-8", null, postData);
 			
 			token = result;
 			
