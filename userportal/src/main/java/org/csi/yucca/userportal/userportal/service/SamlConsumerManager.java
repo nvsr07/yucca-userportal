@@ -260,7 +260,7 @@ public class SamlConsumerManager {
 
 		byte[] base64DecodedResponse = Base64.decode(responseMessage);
 
-		log.info("Response: " + new String(base64DecodedResponse));
+		log.debug("Response: " + new String(base64DecodedResponse));
 
 		ByteArrayInputStream is = new ByteArrayInputStream(base64DecodedResponse);
 
