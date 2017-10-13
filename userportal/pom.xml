@@ -3,10 +3,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.csi.yucca.userportal.userportal</groupId>
-	<artifactId>userportal</artifactId>
-	<version>1.11.0-005</version>
+	<artifactId>userportal2</artifactId>
+	<version>1.20.0-000</version>
 	<packaging>war</packaging>
-	<name>userportal</name>
+	<name>userportal2</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

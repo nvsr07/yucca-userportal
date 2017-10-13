@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-web>
-    <context-root>/userportal</context-root>
+    <context-root>/userportal2</context-root>
 </jboss-web>

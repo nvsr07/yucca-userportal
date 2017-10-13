@@ -6,8 +6,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources/local"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources/images"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/checkout/userportal/test/int"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/checkout/userportal/resources/int"/>
         <property name="context-root" value="userportal"/>
         <property name="java-output-path" value="/userportal/build/classes"/>
         <property name="component.exclusion.patterns" value="lib/angular/,lib/angular-bootstrap/,lib/angular-route/,lib/angular-sanitize/,lib/angular-translate/,lib/angularjs-nvd3-directives/,lib/d3/,lib/freeboard/,lib/jquery/,lib/ng-prettyjson/,lib/nvd3/,lib/openlayers/,lib/reconnecting-websocket/,lib/stomp/,freeboard/"/>
