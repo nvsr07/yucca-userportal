@@ -340,7 +340,7 @@ public enum ApiEntityEnum {
 	public abstract boolean isAuthorizeAccess(HttpServletRequest request);
 
 	public void addPropertyForJs(String contextPath, Properties prop) {
-		prop.put(nameEntity, "/" + contextPath + baseUrl);
+		prop.put(nameEntity, contextPath + baseUrl);
 	}
 
 	

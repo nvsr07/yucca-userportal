@@ -10,9 +10,13 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	$scope.currentLang = function(){return $translate.use();};
 	
+	
 	console.log("$location", $location);
+	
+	$scope._origin = $window.location.origin;
 	$scope._contextPath = $window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
-
+	$scope._baseUrl = $scope._origin + $scope._contextPath;
+	
 	$scope.$on("$routeChangeSuccess", function(event, current, previous){
 	     $scope.isHomepage = current.$$route.isHomepage;
 	     console.log("isHomepage", $scope.isHomepage, current.activetab);
