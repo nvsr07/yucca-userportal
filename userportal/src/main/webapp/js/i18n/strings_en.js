@@ -316,6 +316,11 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Measurement unit',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with',
 	
+	DATASET_FIELD_UNPUBLISHED_TRUE: 'Not published',
+	DATASET_FIELD_UNPUBLISHED_FALSE: 'Published',
+	DATASET_FIELD_UNPUBLISHED_TRUE_HINT: 'Not published on the store',
+	DATASET_FIELD_UNPUBLISHED_FALSE_HINT: 'Published on the store',
+	
 	DATASET_FIELD_METADATA_OPENDATA: 'Opendata',
 	DATASET_FIELD_METADATA_OPENDATA_AUTHOR: 'Author',
 	DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER: 'e.g. Regione Piemonte',
@@ -344,6 +349,22 @@ var translations_en = {
 	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_PLACEHOLDER: 'es. http://purl.org/adms/publishertype/Company',
 	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID: 'RightHolder Identifier',
 	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID_PLACEHOLDER: 'es. 80087670016',
+	
+	
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDER: 'Rightholder',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME_SHORT: 'Name',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID_SHORT: 'Identification',
+	DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_SHORT: 'Type',
+
+	DATASET_FIELD_METADATA_DCAT_CREATOR: 'Creator',
+	DATASET_FIELD_METADATA_DCAT_CREATORNAME_SHORT: 'Name',
+	DATASET_FIELD_METADATA_DCAT_CREATORTYPE_SHORT: 'Type',
+	DATASET_FIELD_METADATA_DCAT_CREATORID_SHORT: 'Identification',
+
+	DATASET_FIELD_METADATA_DCAT_ORG: 'organization',
+	DATASET_FIELD_METADATA_DCAT_NOMEORG_SHORT: 'Name',
+	DATASET_FIELD_METADATA_DCAT_EMAILORG_SHORT: 'E-Mail ',
+	
 	
 	DATASET_BINARY_DETAIL_ID: 'Id',
 	DATASET_BINARY_DETAIL_FILENAME: 'File',
@@ -482,14 +503,14 @@ var translations_en = {
 	HOME_LOGIN_REQUEST_WORKAREA_BUTTON : 'Active',
 	HOME_LOGIN_REQUEST_TESTAREA_TITLE : 'Do you want a test area?',
 	HOME_LOGIN_REQUEST_TESTAREA_TEXT : 'You can activate a <strong>trial period</strong> of 30 days using an account ' +
-	/*'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +*/
-	'<img src="img/icons/fb-art.png" width="25px">  <img src="img/icons/1342004.png" width="25px">   <img src="img/icons/yahoo-icon.png" width="25px"> ' +
+										/*'<i class="fa fa-facebook" aria-hidden="true" title="Facebook"></i> <i class="fa fa-google" aria-hidden="true" title="Google"></i>  <i class="fa fa-yahoo" aria-hidden="true" title="Yahoo!"></i>' +*/
+										'<img src="img/icons/fb-art.png" width="25px">  <img src="img/icons/1342004.png" width="25px">   <img src="img/icons/yahoo-icon.png" width="25px"> ' +
 	' or credentials <i>recognized</i> by SistemaPiemonte',
 	HOME_LOGIN_REQUEST_TESTAREA_BUTTON : 'Active',
 	HOME_LOGIN_REGISTER_TITLE : 'Do you want to request the SistemaPiemonte credentials??',
 	HOME_LOGIN_REGISTER_TEXT : 'Register for free',
 	HOME_LOGIN_REGISTER_BUTTON : 'Register',
-
+	
 	HOME_TITLE_TEXT: '<a href="http://www.smartdatanet.it/yucca.html">USING YUCCA YOU CAN:</a>',
 	HOME_REGISTRATION_TEXT: 'If you wish to request the SistemaPiemonte <br> credentials you have to do is follow the link to the registration page <a class=\'\' href="http://www.sistemapiemonte.it/registrazione/index.shtml"> clicking here. </a>',
 						
@@ -509,8 +530,6 @@ var translations_en = {
 	HOME_STATISTIC_TOTAL_MEASURES_TIP: 'Total measures available: ',
 	HOME_STATISTIC_TOTAL_DATA: 'Available data',
 	HOME_STATISTIC_TOTAL_DATA_TIP: 'Total data available: ',
-
-	
 	HOME_STATISTIC_CURRENT_MONTH_DATA: 'Measures this month',
 	HOME_STATISTIC_CURRENT_MONTH_DATA_TIP: 'Total  measures recorded this month: ',
 	HOME_STATISTIC_TODAY_DATA: 'Measures yesterday',
@@ -682,8 +701,12 @@ var translations_en = {
     
     MANAGEMENT_SANDBOX_WARNING: 'You are using the demo tenant Sandbox. The data uploaded to this tenant are periodically removed',
     
-    MANAGEMENT_DESCRIPTION_ON_STORE_HINT: 'Choose carefully, will be used in the store',
-
+    MANAGEMENT_DATASET_START_NAME_HINT: 'The <strong>dataset name</strong> will be <strong>used  in the store</strong>',
+    MANAGEMENT_DATASET_METADATA_DESCRIPTION_HINT: 'The <strong>dataset description</strong> will be <strong>used  in the store</strong>',
+    MANAGEMENT_DATASET_METADATA_MANDATORY_HINT:'Required fields ',
+    MANAGEMENT_DATASET_MATADATA_TAG_HINT: 'At least one tag',
+    MANAGEMENT_DATASET_MATADATA_DCAT_HINT: 'Metadata DCat AP',
+    
     /* Management Stream  */
 	MANAGEMENT_DASHBOARD_SUBTITLE: 'Dashboard',
 	MANAGEMENT_DASHBOARD_TENANT_PANEL_TITLE: 'Info about tenant',
@@ -716,12 +739,12 @@ var translations_en = {
 	MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER : 'Choose one Smart Object',
 	MANAGEMENT_NEW_STREAM_SUBTITLE: 'New Stream',
 	
-	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER: 'Registra',
-	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR: 'Richiedente',
-	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL: 'Dettagli',
-	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS: 'Componenti',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER: 'Register',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR: 'Requestor',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_DETAIL: 'Detail',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS: 'Components',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_TWEETDATA: 'Twitter',
-	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE: 'Condividi',
+	MANAGEMENT_NEW_STREAM_WIZARD_STEP_SHARE: 'Share',
 	
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REGISTER_TITLE: 'Register the Stream',
 	MANAGEMENT_NEW_STREAM_WIZARD_STEP_REQUESTOR_TITLE: 'Insert the requestor information',
@@ -763,7 +786,9 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_RESPONSE: 'Verify query',		
 	MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_OK_NO_MESSAGE: 'The query is valid, but have not been returned no results',
 	MANAGEMENT_EDIT_STREAM_TWT_POLLING_HELP: 'The polling interval depends on the number of streams configurated in the creation of smart objects and the limits imposed by the Twitter API',
-	
+
+	MANAGEMENT_EDIT_STREAM_TENANT_TOOLTIP_TITLE: 'Organizations available',
+
 	MANAGEMENT_EDIT_STREAM_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_STREAM_OTHER_INFO: 'Additional Info',
 	MANAGEMENT_EDIT_STREAM_LEGAL_INFO: 'Legal Info',
@@ -1056,7 +1081,9 @@ var translations_en = {
 	MANAGEMENT_IMPORT_DATABASE_TABLE_PROPERTIES_HINT: 'Metadata new or imported previously, table or view ...',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_NAME: 'Table name',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_NAME: 'Dataset Name',
+	MANAGEMENT_IMPORT_DATABASE_DATASET_DESCRIPTION: 'Dataset Description',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_INFO: 'Name, description, external reference',
+	MANAGEMENT_IMPORT_DATABASE_DATASET_STORE_PUBLICATION: 'Publishing on the  store',
 	MANAGEMENT_IMPORT_DATABASE_DATASET_DOMAIN: 'Domain, subdomain and tag',
 	MANAGEMENT_IMPORT_DATABASE_TABLE_COLUMNS: 'Columns', 
 	MANAGEMENT_IMPORT_DATABASE_TABLES_ZERO_SELECTED_WARNING: 'Choose at least one table to import',
@@ -1069,16 +1096,20 @@ var translations_en = {
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_SUBTITLE: 'Cusomize datasets',
 
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_NAME_DESCRIPTION: 'Name and description',
-	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DOMAIN_DESCRIPTION: 'Domain, subdomain and tag',
+	//MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DOMAIN_DESCRIPTION: 'Domain, subdomain and tag',
+	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_PUBLISH_STORE_DESCRIPTION: 'Info for publishing on the store',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_VISIBILITY: 'Visibility',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_VISIBILITY_DESCRIPTION: 'Visibility',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_DCAT: 'DCat',
 	MANAGEMENT_IMPORT_DATABASE_CUSTOMIZE_COLUMNS: 'Columns',
 	
 	MANAGEMENT_IMPORT_DATABASE_TENANT_SHARED: 'Shared with ',
+	MANAGEMENT_IMPORT_DATABASE_DCAT_UNEXPECTED: 'DCat AP data is not expected for unpublished datasets',
+	MANAGEMENT_IMPORT_DATABASE_DCAT_UNCOMPLETED: 'Some DCat AP values are missing',
 	
 	
-	
+	MANAGEMENT_PANEL_START_HINT_TITLE: 'Choose with care',
+	MANAGEMENT_PANEL_METADATA_HINT_TITLE: 'Tips',
 	
 	/* Management upload dataset*/
 	MANAGEMENT_UPLOAD_DATASET_SUBTITLE: 'Load data',
@@ -1087,6 +1118,7 @@ var translations_en = {
 	MANAGEMENT_EDIT_DATASET_UPLOAD_ICON_DROPAREA: 'Drop here the icon',
 	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Choose one domain...',
 	MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER: 'Choose one sub-domain...',
+	MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION: 'The subdomain can not contain spaces',
 	MANAGEMENT_EDIT_STREAM_DATATYPE_PLACEHOLDER: 'Choose...',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA_LABEL: 'Save data',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA: 'Save',
@@ -1103,8 +1135,16 @@ var translations_en = {
 	MANAGEMENT_EDIT_DATASET_LEGAL_INFO: 'Legal informations', 
 	MANAGEMENT_EDIT_DATASET_ADD_TENANT_SHARING : 'Add tenant', 
 	MANAGEMENT_EDIT_DATASET_TENANT_SHARING_PLACEHOLDER: 'Choose one tenant...',	
-
+	MANAGEMENT_EDIT_DATASET_DOMAIN_SUBDOMAIN_HINT: 'Domain and subdomain <strong>will no longer be editable</strong>',
+	MANAGEMENT_EDIT_DATASET_UNPUBLISHED: 'Publish sullo store',
+	MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG: 'Don\'t publish',
+	MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG_HINT: '<strong>Unpublished datasets</strong> are not visible in searches',
+	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG: 'Use special domain <strong>MULTI</strong>',
+	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG_HINT: 'In the special domain <strong>MULTI</strong> are stored the helper dataset shared between the various domains',
+	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_WARNING: 'Warning, choosing the special domain <strong>MULTI</strong> , you will not be able to publish the dataset in the future',
 	MANAGEMENT_EDIT_DATASET_API_URL: 'API Url', 
+	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO: 'Problems during the unistallation',
+	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK: 'Unistallation correctly executed',
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Genearl Info',
 	MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING: 'Visibility and sharing', 
@@ -1113,8 +1153,6 @@ var translations_en = {
 	MANAGEMENT_EDIT_DATASET_COLUMNS_HELP: 'In the data structure you can change only the column\'s alias',
 	MANAGEMENT_EDIT_DATASET_NEW_COLUMN: 'Add column',
 
-	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO: 'Problems during the unistallation',
-	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK: 'unistallation correctly executed',
 	MANAGEMENT_EDIT_DATASET_OTHER_INFO: 'Additional Info',
 	MANAGEMENT_EDIT_DATASET_SETTINGS: 'Settings (coming soon)',
 	
@@ -1245,6 +1283,7 @@ var translations_en = {
 	DATASEARCH_TITLE: 'Find data you need',
 	DATASEARCH_DOMAINS_TITLE: 'Data categories',
 	DATASEARCH_DOMAINS_SUBTITLE: 'You can search  data starting from the categories in which they are organized',
+	DATASEARCH_DOMAINS_TOOLTIP_PREFIX: 'Search ',
 	
 	DATASEARCHRESULT_NEW_SEARCH: 'New research',
 	DATASEARCHRESULT_TOTAL: 'Results',
@@ -1254,17 +1293,15 @@ var translations_en = {
 	DATASEARCHRESULT_COMPACT_DESCRIPTION: 'Hide',
 	DATASEARCHRESULT_SHOWALL_DESCRIPTION: 'Read all',
 	
-	DATA_EXPLORER_DETAIL_STREAM_CODE: 'Codice Stream',
-	DATA_EXPLORER_DETAIL_DATASET_CODE: 'Codice Dataset',
-	DATA_EXPLORER_DETAIL_GENERAL_INFO: 'Informazioni Principali',
-	DATA_EXPLORER_DETAIL_COMPONENTS: 'Definizione Struttura Dato',
-	
-	
 	DATA_EXPLORER_DETAIL_STREAM_CODE: 'Stream Code',
 	DATA_EXPLORER_DETAIL_DATASET_CODE: 'Dataset Code',
 	DATA_EXPLORER_DETAIL_GENERAL_INFO: 'Main Info',
 	DATA_EXPLORER_DETAIL_COMPONENTS: 'Data Structure Definition',
 	
+	domainCode: 'Domain',
+	subdomainCode: 'Subdomain',
+	organizationCode: 'Organizzation',	
+
 	
 	FACET_tenantCode: 'Workarea',
 	FACET_domainCode: 'Domain',

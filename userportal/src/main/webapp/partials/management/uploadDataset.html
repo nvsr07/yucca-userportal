@@ -109,6 +109,14 @@
 					<p>&nbsp;</p>
 				</div>
 				<div ng-show="previewLines!=null && previewLines.length>0">
+					<div class='row  text-left' >
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<p>
+								<label><input type="checkbox" ng-model="csvSkipFirstRow"> <span translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
+								<small class='mute' translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
+							</p>
+						</div>
+					</div>
 					<div class='row'>
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div class='management-upload-preview-table-container'>
@@ -120,17 +128,8 @@
 							</div>
 						</div>
 					</div>
-					
 					<div class='row'>
 						<p>&nbsp;</p>
-					</div>
-					<div class='row  text-left' >
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<p>
-								<label><input type="checkbox" ng-model="csvSkipFirstRow"> <span translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
-								<small class='mute' translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
-							</p>
-						</div>
 					</div>
 				</div>
 				<div class="row" ng-show="!isUploading && isAuthorized('management/datasets/upload') ">
