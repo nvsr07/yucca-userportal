@@ -76,7 +76,7 @@ public class HttpDelegate {
 			// auth
 			if (basicUser!=null && basicPassword!=null)
 			{
-				httpRequestBase.setHeader(HttpHeaders.AUTHORIZATION, Base64.encodeBytes(new String("BASIC "+basicUser+":"+basicPassword).getBytes()));
+				httpRequestBase.setHeader(HttpHeaders.AUTHORIZATION,"BASIC " + Base64.encodeBytes(new String(basicUser+":"+basicPassword).getBytes()));
 			}
 			client = httpClientB.build();
 
