@@ -1,246 +1,161 @@
 package org.csi.yucca.userportal.userportal.delegate;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.DeleteMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+//import org.apache.commons.httpclient.HttpClient;
+//import org.apache.commons.httpclient.HttpMethod;
+//import org.apache.commons.httpclient.UsernamePasswordCredentials;
+//import org.apache.commons.httpclient.auth.AuthScope;
+//import org.apache.commons.httpclient.methods.GetMethod;
+//import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
+
 
 public class HttpDelegate {
 
 	static Logger log = Logger.getLogger(HttpDelegate.class);
-	
-	public static String executeGet(String targetUrl, String contentType, String characterEncoding, Map<String, String> parameters) throws IOException {
-		log.debug("[HttpDelegate::executeGet] START");
-		String result = "";
-		int resultCode = -1;
-		try {
 
-			if (contentType == null)
-				contentType = "application/json";
-			if (characterEncoding == null)
-				characterEncoding = "UTF-8";
+	private static HttpDelegate instance;
 
-			log.debug("[HttpDelegate::executeGet] - targetUrl: " + targetUrl);
+	private HttpDelegate() {
+	};
 
-			if (parameters != null) {
-				for (String key : parameters.keySet()) {
-					targetUrl += key + "=" + parameters.get(key).replaceAll("  ", " ").replaceAll(" ", "%20").
-							replaceAll("\\[", "%5B").replaceAll("\\]", "%5D").replaceAll(">", "%3E").replaceAll("<", "%3C") + "&";
-				}
-
-			}
-
-			log.debug("[HttpDelegate::executeGet] - targetUrl: " + targetUrl);
-			GetMethod get = new GetMethod(targetUrl);
-			
-
-			contentType = "application/x-www-form-urlencoded";
-			get.setRequestHeader("Content-Type", contentType);
-
-			HttpClient httpclient = new HttpClient();
-			try {
-				resultCode = httpclient.executeMethod(get);
-				log.debug("[HttpDelegate::executeGet] - get result: " + resultCode);
-				result = get.getResponseBodyAsString();
-			} finally {
-				get.releaseConnection();
-			}
-
-		} finally {
-			log.debug("[HttpDelegate::executeGet] END");
-		}
-		return result;
-	}
-	
-	
-	public static String executePost(String targetUrl, String basicUser, String basicPassword, String contentType, String characterEncoding, Map<String, String> parameters, String data) throws Exception {
-		log.debug("[HttpDelegate::executePost] START");
-		String result = "";
-		int resultCode = -1;
-		try {
-
-			if (contentType == null)
-				contentType = "application/json";
-			if (characterEncoding == null)
-				characterEncoding = "UTF-8";
-
-			log.debug("[HttpDelegate::executePost] - targetUrl: " + targetUrl);
-
-			if (parameters != null) {
-				for (String key : parameters.keySet()) {
-					targetUrl += key + "=" + parameters.get(key).replaceAll("  ", " ").replaceAll(" ", "%20").
-							replaceAll("\\[", "%5B").replaceAll("\\]", "%5D").replaceAll(">", "%3E").replaceAll("<", "%3C") + "&";
-				}
-
-			}
-
-			
-			log.debug("[HttpDelegate::executePost] - targetUrl: " + targetUrl);
-			PostMethod post = new PostMethod(targetUrl);
-
-			RequestEntity requestEntity = new StringRequestEntity(data, contentType, characterEncoding);
-			post.setRequestEntity(requestEntity);
-			
-
-			post.setRequestHeader("Content-Type", contentType);
-			HttpClient httpclient = new HttpClient();
-
-			if(basicUser!=null && basicPassword!=null){
-				post.setDoAuthentication( true );
-				String userPassowrd  = basicUser + ":" + basicPassword;
-				byte[] encoding = Base64.encodeBase64(userPassowrd.getBytes());
-				post.setRequestHeader("Authorization", "Basic " + new String(encoding));
-				
-			}
-			
-			try {
-				resultCode = httpclient.executeMethod(post);
-				result = post.getResponseBodyAsString();
-				if (resultCode >= 400) {
-					log.error("[HttpDelegate::executePost] - post result: " + resultCode);
-					log.error(post.getResponseHeaders().toString());
-					throw new Exception(result);
-				}
-				log.debug("[HttpDelegate::executePost] - post result: " + resultCode);
-			} finally {
-				post.releaseConnection();
-			}
-
-		} finally {
-			log.debug("[HttpDelegate::executePost] END");
-		}
-		return result;
+	public static HttpDelegate getInstance() {
+		if (instance == null)
+			instance = new HttpDelegate();
+		return instance;
 	}
 
-	
-	
-	public static String executePost(String targetUrl, String basicUser, String basicPassword, String contentType, String characterEncoding, Map<String, String> parameters,  Map<String, String> postData) throws Exception {
-		log.debug("[HttpDelegate::executePost] START");
+	public String doGet(String targetUrl, String basicUser, String basicPassword, 
+						String contentType, String characterEncoding, Map<String, String> parameters) throws Exception {
+		return makeCall("GET", targetUrl,   basicUser,  basicPassword, contentType, characterEncoding, parameters,null);
+	}
+
+	public String doPost(String targetUrl, String basicUser, String basicPassword,
+						String contentType, String characterEncoding, Map<String, String> parameters,
+						 Map<String, String> postData) throws Exception {
+		return makeCall("POST", targetUrl,   basicUser,  basicPassword, contentType, characterEncoding, parameters, postData);
+	}
+
+	private String makeCall(String method, String targetUrl,  String basicUser, String basicPassword,
+							String contentType, String characterEncoding, Map<String, String> parameters,
+			 				Map<String, String> postData) throws Exception {
+		log.debug("[AbstractService::doPost] START");
 		String result = "";
-		int resultCode = -1;
+		CloseableHttpClient client = null;
 		try {
 
-			if (contentType == null)
-				contentType = "application/json";
-			if (characterEncoding == null)
-				characterEncoding = "UTF-8";
+			HttpRequestBase httpRequestBase = prepareCall(method, targetUrl, contentType, characterEncoding, parameters,postData);
 
-			log.debug("[HttpDelegate::executePost] - targetUrl: " + targetUrl);
-
-			if (parameters != null) {
-				for (String key : parameters.keySet()) {
-					targetUrl += key + "=" + parameters.get(key).replaceAll("  ", " ").replaceAll(" ", "%20").
-							replaceAll("\\[", "%5B").replaceAll("\\]", "%5D").replaceAll(">", "%3E").replaceAll("<", "%3C") + "&";
-				}
-
-			}
-
-			
-			PostMethod post = new PostMethod(targetUrl);
-			log.info("[HttpDelegate::executePost] Posting data: " + postData.size());
-			if (postData!=null && !postData.isEmpty())
+			HttpClientBuilder httpClientB =HttpClientBuilder.create();
+			// auth
+			if (basicUser!=null && basicPassword!=null)
 			{
-				List<Part> parts = new ArrayList<Part>();
+				CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+				credentialsProvider.setCredentials(AuthScope.ANY, 
+						new UsernamePasswordCredentials(basicUser, basicPassword));
+				httpClientB.setDefaultCredentialsProvider(credentialsProvider).build();
+			}
+			client = httpClientB.build();
+			
+			CloseableHttpResponse response = client.execute(httpRequestBase);
 
+			StringBuffer buffer = new StringBuffer();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			String dataLine = null;
+			while ((dataLine = reader.readLine()) != null) {
+				buffer.append(dataLine);
+			}
+			result = buffer.toString();
+
+
+		} catch (IOException e) {
+			log.error("[AbstractService::doPost] ERROR IOException: " + e.getMessage());
+			throw new Exception(e);
+		} finally {
+			if (client!=null)
+				client.close();
+			log.debug("[AbstractService::doPost] END");
+		}
+		return result;
+	}
+
+	private HttpRequestBase prepareCall(String method, String targetUrl, String contentType, 
+										String characterEncoding, Map<String, String> parameters,
+										Map<String, String> postData) {
+
+		if (contentType == null)
+			contentType = "application/json";
+		if (characterEncoding == null)
+			characterEncoding = "UTF-8";
+
+		log.debug("[AbstractService::doPost] - targetUrl: " + targetUrl);
+
+		if (parameters != null) {
+			for (String key : parameters.keySet()) {
+				// targetUrl += key + "=" + parameters.get(key) + "&";
+				// post.addParameter(key, parameters.get(key));
+				targetUrl += key
+						+ "="
+						+ parameters.get(key).replaceAll("  ", " ").replaceAll(" ", "%20").replaceAll("\\[", "%5B").replaceAll("\\]", "%5D").replaceAll(">", "%3E")
+								.replaceAll("<", "%3C") + "&";
+
+			}
+		}
+
+		HttpRequestBase httpRequestBase = new HttpGet(targetUrl);
+
+		// HttpMethod httpMethod = new GetMethod(targetUrl);
+		if (method.equals("POST"))
+		{
+			HttpPost httppost = new HttpPost(targetUrl);
+			if (postData!=null) {
+
+				List<BasicNameValuePair> postParameters = new LinkedList<BasicNameValuePair>();
 				Set<Entry<String, String>> entryPost = postData.entrySet();
 				
 				for (Entry<String, String> entry : entryPost) {
-					parts.add(new StringPart(entry.getKey(), entry.getValue()));
-					log.info("[HttpDelegate::executePost] adding data: " + entry.getKey()+":"+entry.getValue());
+					postParameters.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+					log.debug("[HttpDelegate::executePost] adding data: " + entry.getKey()+":"+entry.getValue());
 				}
-	
-					      
-				RequestEntity requestEntity = new MultipartRequestEntity(parts.toArray(new Part[]{}),post.getParams());
-				post.setRequestEntity(requestEntity);
-			
-			}
-			post.setRequestHeader("Content-Type", contentType);
-			HttpClient httpclient = new HttpClient();
-
-			if(basicUser!=null && basicPassword!=null){
-				post.setDoAuthentication( true );
-				String userPassowrd  = basicUser + ":" + basicPassword;
-				byte[] encoding = Base64.encodeBase64(userPassowrd.getBytes());
-				post.setRequestHeader("Authorization", "Basic " + new String(encoding));
-				
-			}
-			
-			try {
-				resultCode = httpclient.executeMethod(post);
-				result = post.getResponseBodyAsString();
-				if (resultCode >= 400) {
-					log.error("[HttpDelegate::executePost] - post result: " + resultCode);
-					log.error(post.getResponseHeaders().toString());
-					throw new Exception(result);
+				try {
+					httppost.setEntity(new UrlEncodedFormEntity(postParameters, characterEncoding));
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				log.debug("[HttpDelegate::executePost] - post result: " + resultCode);
-			} finally {
-				post.releaseConnection();
 			}
 
-		} finally {
-			log.debug("[HttpDelegate::executePost] END");
+			httpRequestBase = httppost;
+			
+
 		}
-		return result;
+
+		httpRequestBase.setHeader("Content-Type", contentType);
+
+		return httpRequestBase;
 	}
-	
-	public static String executeDelete(String targetUrl, String contentType, String characterEncoding, Map<String, String> parameters) throws IOException {
-		log.debug("[HttpDelegate::executeDelete] START");
-		String result = "";
-		int resultCode = -1;
-		try {
-
-			if (contentType == null)
-				contentType = "application/json";
-			if (characterEncoding == null)
-				characterEncoding = "UTF-8";
-
-			log.debug("[HttpDelegate::executeDelete] - targetUrl: " + targetUrl);
-
-			if (parameters != null) {
-				for (String key : parameters.keySet()) {
-					targetUrl += key + "=" + parameters.get(key).replaceAll("  ", " ").replaceAll(" ", "%20").
-							replaceAll("\\[", "%5B").replaceAll("\\]", "%5D").replaceAll(">", "%3E").replaceAll("<", "%3C") + "&";
-				}
-
-			}
-
-			log.debug("[HttpDelegate::executeDelete] - targetUrl: " + targetUrl);
-			DeleteMethod delete = new DeleteMethod(targetUrl);
-			
-
-			//contentType = "application/x-www-form-urlencoded";
-			delete.setRequestHeader("Content-Type", contentType);
-
-			HttpClient httpclient = new HttpClient();
-			try {
-				resultCode = httpclient.executeMethod(delete);
-				log.debug("[HttpDelegate::executeDelete] - delete result: " + resultCode);
-				result = delete.getResponseBodyAsString();
-			} finally {
-				delete.releaseConnection();
-			}
-
-		} finally {
-			log.debug("[HttpDelegate::executeDelete] END");
-		}
-		return result;
-	}
-	
-
 }

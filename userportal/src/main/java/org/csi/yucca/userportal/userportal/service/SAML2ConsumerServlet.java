@@ -41,6 +41,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.HttpDelegate;
+import org.csi.yucca.userportal.userportal.delegate.HttpDelegateOld;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.entity.store.AllSubscriptionsResponse;
 import org.csi.yucca.userportal.userportal.entity.store.ApplicationSubscription;
@@ -425,7 +426,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			postData.put("assertion", b64samlAssertion);
 			
 			
-			String result = HttpDelegate.executePost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "charset=utf-8", null, postData);
+			String result = HttpDelegate.getInstance().doPost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "charset=utf-8", null, postData);
 			
 			token = result;
 			
