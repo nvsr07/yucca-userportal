@@ -1,5 +1,6 @@
 package org.csi.yucca.userportal.userportal.service;
 
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.SamlUtil;
 
 import java.io.ByteArrayInputStream;
@@ -19,10 +20,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.axiom.util.UIDGenerator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xml.serialize.OutputFormat;
 import org.joda.time.DateTime;
 import org.opensaml.Configuration;
 import org.opensaml.DefaultBootstrap;
@@ -52,6 +62,7 @@ import org.opensaml.saml2.core.impl.SessionIndexBuilder;
 import org.opensaml.xml.ConfigurationException;
 import org.opensaml.xml.XMLObject;
 import org.opensaml.xml.io.Marshaller;
+import org.opensaml.xml.io.MarshallerFactory;
 import org.opensaml.xml.io.MarshallingException;
 import org.opensaml.xml.io.Unmarshaller;
 import org.opensaml.xml.io.UnmarshallerFactory;
@@ -60,6 +71,7 @@ import org.opensaml.xml.util.Base64;
 import org.opensaml.xml.util.XMLHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.ls.DOMImplementationLS;
 import org.xml.sax.SAXException;
 
 public class SamlConsumerManager {
@@ -259,6 +271,27 @@ public class SamlConsumerManager {
 		return unmarshaller.unmarshall(element);
 
 	}
+	
+	private String marshallB64(XMLObject response) throws MarshallingException, TransformerFactoryConfigurationError, TransformerException  {
+		
+		MarshallerFactory marshallerFactory = Configuration.getMarshallerFactory();
+		Marshaller marshaller = marshallerFactory.getMarshaller(response);
+
+		Element element = marshaller.marshall(response);
+		
+		
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT,"no");
+	    StringWriter stw = new StringWriter();  
+	    transformer.transform(new DOMSource(element), new StreamResult(stw));  
+
+	    log.info("XML-->"+stw.toString());
+	    
+	    return Base64.encodeBytes(stw.toString().getBytes());
+		
+		
+	}
+	
 
 	/*
 	 * Process the response and returns the results
@@ -302,6 +335,21 @@ public class SamlConsumerManager {
 					}
 				}
 			}
+			
+			// Add assertion for token request
+			
+			try {
+				resutls.put(AuthorizeUtils.ASSERTION_KEY, marshallB64(assertion));
+			} catch (MarshallingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransformerFactoryConfigurationError e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransformerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return resutls;
 	}
@@ -309,4 +357,6 @@ public class SamlConsumerManager {
 	public String getIdpLoginPageStylePath() {
 		return idpLoginPageStylePath;
 	}
+
+	
 }

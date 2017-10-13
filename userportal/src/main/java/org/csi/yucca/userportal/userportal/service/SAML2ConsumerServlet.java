@@ -40,6 +40,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.delegate.HttpDelegate;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.entity.store.AllSubscriptionsResponse;
 import org.csi.yucca.userportal.userportal.entity.store.ApplicationSubscription;
@@ -91,12 +92,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		try {
 			String responseMessage = request.getParameter("SAMLResponse");
 			log.debug("[SAML2ConsumerServlet::doPost] - responseMessage: " + responseMessage);
+
+			
 			Info info = (Info) request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 			String newUsername = null;
 
 			List<Tenant> tenants = null;
 
-			List<Tenant> allTenant = getAllTenants();
+			List<Tenant> allTenant = getAllTenants(); // call without JWT, needed for sandbox
 
 			if (responseMessage != null) {
 
@@ -115,8 +118,15 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					log.info("[SAML2ConsumerServlet::doPost] - result null");
 				} else if (result.size() > 0 && checkStrongAuthentication(result)) {
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1");
+					// OBTAIN TOKEN and JWT FROM WSO2 IS (REPLACEBLE WITH CUSTOM LOCAL JWT GENERATION)
+					log.info("[SAML2ConsumerServlet::doPost] BEGIN - TOKEN FROM SAML ");
+					
+					String b64SAMLAssertion = result.get(AuthorizeUtils.ASSERTION_KEY);
+					String token =loadTokenFromSaml2(b64SAMLAssertion);
+					
+					
+					log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML "+token);
 					newUser = new User();
-
 					newUser.setLoggedIn(true);
 					newUsername = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME));
 					newUser.setUsername(newUsername);
@@ -378,6 +388,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 	}
 
+
+
 	private boolean checkStrongAuthentication(Map<String, String> result) {
 		String riscontro = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_RISCONTRO));
 		String livello = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_LIVAUTH));
@@ -394,6 +406,33 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 		}
 		return false;
+	}
+	
+	
+	private String loadTokenFromSaml2(String b64samlAssertion) {
+		String token = null;
+		try {
+			Properties config = Config.loadServerConfiguration();
+			String apiBaseUrl = config.getProperty(Config.TOKEN_FROM_SAML_URL_KEY) ;
+			String user = config.getProperty(Config.TOKEN_FROM_SAML_USER_KEY);
+			config = Config.loadAuthorizationConfiguration();
+			String password = config.getProperty(Config.TOKEN_FROM_SAML_PASSWORD_KEY);
+
+			Map<String, String> postData = new HashMap<String, String>();
+			
+			postData.put("grant_type", "urn:ietf:params:oauth:grant-type:saml2-bearer");
+			postData.put("assertion", b64samlAssertion);
+			
+			
+			String result = HttpDelegate.executePost(apiBaseUrl, user, password, "application/json", "charset=utf-8", null, postData);
+			
+			token = result;
+			
+		} catch (Exception e) {
+			log.error("[SAML2ConsumerServlet::loadTokenFromSaml2] - ERROR " + e.getMessage());
+			e.printStackTrace();
+		}
+		return token;
 	}
 
 	private static List<Tenant> getAllTenants() {
