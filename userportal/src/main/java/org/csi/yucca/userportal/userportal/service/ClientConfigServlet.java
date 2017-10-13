@@ -41,7 +41,7 @@ public class ClientConfigServlet extends HttpServlet {
 			Properties constants = new Properties();
 						
 			for (ApiEntityEnum apiEntity : ApiEntityEnum.values()) {
-				apiEntity.addPropertyForJs(constants);	
+				apiEntity.addPropertyForJs(request.getContextPath(), constants);	
 			}
 			
 			constants.put("RBAC_BASE_PERMISSION_PATH", AuthorizeUtils.RBAC_BASE_PERMISSION_PATH);

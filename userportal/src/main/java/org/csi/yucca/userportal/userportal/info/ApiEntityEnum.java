@@ -11,25 +11,25 @@ import org.csi.yucca.userportal.userportal.utils.Config;
 
 public enum ApiEntityEnum {
 
-	API_INFO("API_INFO_URL", "/userportal/api/info") {
+	API_INFO("API_INFO_URL", "/api/info") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
-	API_STATISTICS("API_STATISTICS_URL", "/userportal/api/statistic") {
+	API_STATISTICS("API_STATISTICS_URL", "/api/statistic") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
-	API_AUTH_TERMCONDITION("API_AUTH_TERMCONDITION_URL", "/userportal/api/termcondition") {
+	API_AUTH_TERMCONDITION("API_AUTH_TERMCONDITION_URL", "/api/termcondition") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
-	API_AUTH_UPDATE_USER_INFO("API_AUTH_UPDATE_USER_INFO_URL", "/userportal/api/updateUserInfo") {
+	API_AUTH_UPDATE_USER_INFO("API_AUTH_UPDATE_USER_INFO_URL", "/api/updateUserInfo") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
@@ -117,10 +117,18 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
-	API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
+	
+	API_ADMIN_SO_CATEGORIES("API_ADMIN_SO_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "1/public/data_types"){
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
+		}
+	},
+	@Deprecated
+	API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return false;//AuthorizeUtils.isReadMethod(request);
 		}
 	},
 	API_SERVICES_VIRTUALENTITY_TYPES("API_SERVICES_VIRTUALENTITY_TYPES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/types/") {
@@ -331,8 +339,8 @@ public enum ApiEntityEnum {
 
 	public abstract boolean isAuthorizeAccess(HttpServletRequest request);
 
-	public void addPropertyForJs(Properties prop) {
-		prop.put(nameEntity, baseUrl);
+	public void addPropertyForJs(String contextPath, Properties prop) {
+		prop.put(nameEntity, "/" + contextPath + baseUrl);
 	}
 
 	

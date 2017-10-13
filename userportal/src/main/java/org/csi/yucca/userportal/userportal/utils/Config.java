@@ -14,6 +14,8 @@ public class Config {
 	public static final String API_ODATA_URL_KEY = "API_ODATA_URL";
 	public static final String API_STORE_URL_KEY = "API_STORE_URL";
 	public static final String API_METADATA_URL_KEY = "API_METADATA_URL";
+	public static final String API_ADMIN_URL_KEY = "API_ADMIN_URL_KEY";
+	
 
 	public static final String RBAC_PERMISSIONS_WEBSERVICE_URL_KEY = "RBAC_PERMISSIONS_WEBSERVICE_URL";
 	public static final String RBAC_ROLES_WEBSERVICE_URL_KEY = "RBAC_ROLES_WEBSERVICE_URL";
@@ -37,15 +39,15 @@ public class Config {
 	
 	public static final String TAG_DOMAINS_URL_KEY = "TAG_DOMAINS_URL";
 	
-	public static final String API_PROXY_SERVICES_BASE_URL = "/userportal/api/proxy/services/";
-	public static final String API_PROXY_SERVICES_TWITTER_BASE_URL = "/userportal/api/proxy/twitter/";
-	public static final String API_PROXY_MANAGEMENT_BASE_URL = "/userportal/api/proxy/management/";
-	public static final String API_PROXY_DATA_STATISTICS_URL = "/userportal/api/proxy/management/statistics/";
-	public static final String API_PROXY_DISCOVERY_BASE_URL = "/userportal/api/proxy/discovery/";
-	public static final String API_PROXY_ODATA_BASE_URL = "/userportal/api/proxy/odata/";
-	public static final String API_PROXY_STORE_BASE_URL = "/userportal/api/proxy/store/";
-	public static final String API_PROXY_METADATA_BASE_URL = "/userportal/api/proxy/metadata/";
-	public static final String API_PROXY_RESOURCES_BASE_URL = "/userportal/api/proxy/resources/";
+	public static final String API_PROXY_SERVICES_BASE_URL = "/api/proxy/services/";
+	public static final String API_PROXY_SERVICES_TWITTER_BASE_URL = "/api/proxy/twitter/";
+	public static final String API_PROXY_MANAGEMENT_BASE_URL = "/api/proxy/management/";
+	public static final String API_PROXY_DATA_STATISTICS_URL = "/api/proxy/management/statistics/";
+	public static final String API_PROXY_DISCOVERY_BASE_URL = "/api/proxy/discovery/";
+	public static final String API_PROXY_ODATA_BASE_URL = "/api/proxy/odata/";
+	public static final String API_PROXY_STORE_BASE_URL = "/api/proxy/store/";
+	public static final String API_PROXY_METADATA_BASE_URL = "/api/proxy/metadata/";
+	public static final String API_PROXY_RESOURCES_BASE_URL = "/api/proxy/resources/";
 	public static final String SECDATA_NEWTOKEN = "/secdata/newtoken/";
 	
 	public static final String STATISTICS_DATASET_CODE = "STATISTICS_DATASET_CODE";

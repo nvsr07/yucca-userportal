@@ -4,12 +4,14 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', 'storeAPIservice',
-                                          function($scope, $route, $modal, info, $location, $translate, fabricAPIservice, localStorageService,storeAPIservice) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', 'storeAPIservice','$window',
+                                          function($scope, $route, $modal, info, $location, $translate, fabricAPIservice, localStorageService,storeAPIservice,$window) {
 	$scope.$route = $route;
 	
 	$scope.currentLang = function(){return $translate.use();};
 	
+	console.log("$location", $location);
+	$scope._contextPath = $window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 
 	$scope.$on("$routeChangeSuccess", function(event, current, previous){
 	     $scope.isHomepage = current.$$route.isHomepage;
