@@ -358,5 +358,9 @@ public class SamlConsumerManager {
 		return idpLoginPageStylePath;
 	}
 
+	public String getIssuer()
+	{
+		return issuerId;
+	}
 	
 }
