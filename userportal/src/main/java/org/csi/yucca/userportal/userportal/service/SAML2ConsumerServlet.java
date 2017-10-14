@@ -32,9 +32,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.minidev.json.JSONObject;
 
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.ssl.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -44,7 +43,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
-import org.csi.yucca.userportal.userportal.delegate.HttpDelegate;
 import org.csi.yucca.userportal.userportal.delegate.JWTDelegate;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.entity.store.AllSubscriptionsResponse;
@@ -65,7 +63,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
