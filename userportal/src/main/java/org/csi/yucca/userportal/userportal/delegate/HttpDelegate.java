@@ -12,22 +12,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.logging.impl.SLF4JLog;
-import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.BasicAuthCache;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -38,10 +28,7 @@ import org.apache.http.message.BasicNameValuePair;
 //import org.apache.commons.httpclient.methods.GetMethod;
 //import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
-import org.csi.yucca.userportal.userportal.utils.Config;
 import org.opensaml.xml.util.Base64;
-
-import com.gargoylesoftware.htmlunit.javascript.host.fetch.Headers;
 
 
 public class HttpDelegate {
