@@ -701,15 +701,15 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			InputSource is = new InputSource(new StringReader(webServiceResponse));
 			Document doc = db.parse(is);
 
-			NodeList fieldsNodeList = doc.getFirstChild().getFirstChild().getFirstChild().getChildNodes();
+			NodeList fieldsNodeList = doc.getFirstChild().getFirstChild().getFirstChild().getFirstChild().getChildNodes();
 			if (fieldsNodeList != null) {
 				
 				for (int i = 0; i < fieldsNodeList.getLength(); i++) {
 
 					Node fieldNode = fieldsNodeList.item(i);
 					
-					log.info("fieldNode.getLocalName"+fieldNode.getLocalName());
-					log.info("fieldNode.getNodeName"+fieldNode.getNodeName());
+					log.info("fieldNode.getLocalName |"+fieldNode.getLocalName());
+					log.info("fieldNode.getNodeName |"+fieldNode.getNodeName());
 					
 					if (fieldNode.getNodeName().endsWith("valid"))
 						valid = Boolean.getBoolean(fieldNode.getTextContent());
