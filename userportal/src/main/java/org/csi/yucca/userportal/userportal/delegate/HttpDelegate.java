@@ -4,13 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.commons.logging.impl.SLF4JLog;
+import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.AuthCache;
@@ -33,7 +38,10 @@ import org.apache.http.message.BasicNameValuePair;
 //import org.apache.commons.httpclient.methods.GetMethod;
 //import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.utils.Config;
 import org.opensaml.xml.util.Base64;
+
+import com.gargoylesoftware.htmlunit.javascript.host.fetch.Headers;
 
 
 public class HttpDelegate {
@@ -76,9 +84,19 @@ public class HttpDelegate {
 			// auth
 			if (basicUser!=null && basicPassword!=null)
 			{
-				httpRequestBase.setHeader(HttpHeaders.AUTHORIZATION,"BASIC " + Base64.encodeBytes(new String(basicUser+":"+basicPassword).getBytes()));
+				httpRequestBase.setHeader(HttpHeaders.AUTHORIZATION,"Basic " + Base64.encodeBytes(new String(basicUser+":"+basicPassword).getBytes()));
 			}
-			client = httpClientB.build();
+
+//			HttpClientContext context = HttpClientContext.create();
+//			context.setTargetHost(new HttpHost("www.google.ru"));
+			
+			
+			URI uri = new URI(targetUrl);
+		    String hostname = uri.getHost();
+		    
+		    httpRequestBase.setHeader(HttpHeaders.HOST, hostname);
+		    
+		    client = httpClientB.build();
 
 			CloseableHttpResponse response = client.execute(httpRequestBase);
 
@@ -125,14 +143,14 @@ public class HttpDelegate {
 			}
 		}
 
-		HttpRequestBase httpRequestBase = new HttpGet(targetUrl);
+		HttpRequestBase httpRequestBase = null;
 
 		// HttpMethod httpMethod = new GetMethod(targetUrl);
 		if (method.equals("POST"))
 		{
 			HttpPost httppost = new HttpPost(targetUrl);
 			if (postData!=null) {
-
+				
 				List<BasicNameValuePair> postParameters = new LinkedList<BasicNameValuePair>();
 				Set<Entry<String, String>> entryPost = postData.entrySet();
 				
@@ -146,15 +164,39 @@ public class HttpDelegate {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 			}
 
 			httpRequestBase = httppost;
 			
 
 		}
+		else
+		{
+			httpRequestBase = new HttpGet(targetUrl);
+			httpRequestBase.setHeader("Content-Type", contentType);
+		}
 
-		httpRequestBase.setHeader("Content-Type", contentType);
-
+//		
 		return httpRequestBase;
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		
+		String apiBaseUrl = "" ;
+		String user = "";
+		String password = "";
+
+		
+		Map<String, String> postData = new HashMap<String, String>();
+		
+		postData.put("grant_type", "urn:ietf:params:oauth:grant-type:saml2-bearer");
+		postData.put("assertion", "sssss");
+		
+		
+		String result = HttpDelegate.getInstance().doPost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "utf-8", null, postData);
+		
+		System.out.println(result);
 	}
 }
