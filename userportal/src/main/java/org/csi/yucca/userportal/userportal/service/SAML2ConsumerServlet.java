@@ -708,12 +708,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 					Node fieldNode = fieldsNodeList.item(i);
 					
-					log.info("fieldNode.getLocalName |"+fieldNode.getLocalName());
-					log.info("fieldNode.getNodeName |"+fieldNode.getNodeName());
 					
-					if (fieldNode.getNodeName().endsWith("valid"))
+					if (fieldNode.getNodeName().endsWith("valid")){
+						log.info("Valid|"+fieldNode.getTextContent());
 						valid = Boolean.getBoolean(fieldNode.getTextContent());
-					
+					}
 					if (fieldNode.getNodeName().endsWith("authorizationContextToken"))
 					{
 						NodeList authContNodeList = fieldNode.getChildNodes();
@@ -721,8 +720,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						{
 							for (int j = 0; j < authContNodeList.getLength(); j++) {
 								Node authNode = authContNodeList.item(i);
-								if (authNode.getNodeName().endsWith("tokenString"))
+								log.info("authNode.getNodeName |"+authNode.getNodeName());
+								if (authNode.getNodeName().endsWith("tokenString")) {
+									log.info("tokenString |"+authNode.getTextContent());
 									jwt = authNode.getTextContent();
+								}
 							}
 						}
 					}
