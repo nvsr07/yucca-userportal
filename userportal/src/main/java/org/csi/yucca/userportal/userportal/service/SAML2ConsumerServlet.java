@@ -30,7 +30,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.minidev.json.JSONObject;
+
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.ssl.Base64;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -41,7 +45,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.HttpDelegate;
-import org.csi.yucca.userportal.userportal.delegate.HttpDelegate2;
+import org.csi.yucca.userportal.userportal.delegate.JWTDelegate;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.entity.store.AllSubscriptionsResponse;
 import org.csi.yucca.userportal.userportal.entity.store.ApplicationSubscription;
@@ -61,6 +65,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -72,7 +77,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private SamlConsumerManager consumer;
 
-	static Logger log = Logger.getLogger(SAML2ConsumerServlet.class);
+	public static Logger log = Logger.getLogger(SAML2ConsumerServlet.class);
 
 	// static List<Tenant> allTenants = null;
 
@@ -96,7 +101,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 			
 			Info info = (Info) request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			String newUsername = null;
 
 			List<Tenant> tenants = null;
 
@@ -118,53 +122,36 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
 					log.info("[SAML2ConsumerServlet::doPost] - result null");
 				} else if (result.size() > 0 && checkStrongAuthentication(result)) {
-					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1");
-					// OBTAIN TOKEN and JWT FROM WSO2 IS (REPLACEBLE WITH CUSTOM LOCAL JWT GENERATION)
-					log.info("[SAML2ConsumerServlet::doPost] BEGIN - TOKEN FROM SAML ");
-					
-					String b64SAMLAssertion = result.get(AuthorizeUtils.ASSERTION_KEY);
-					LoadTokenFromApiResponse token =loadTokenFromSaml2(b64SAMLAssertion);
-					
-					
-					
-					if (token !=null)
-					{
-						try {
-							String jwt = getJWT(token.getAccess_token());
-							log.info("[SAML2ConsumerServlet::doPost] JWT "+jwt);
-						} catch (KeyManagementException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NoSuchAlgorithmException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (ParserConfigurationException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (SAXException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-					}
-					else {
-						log.error("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML NESSUN TOKEN!!! ");
-					}
-					
-					log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML "+token);
+					// setting User
 					newUser = new User();
 					newUser.setLoggedIn(true);
-					//
+					// get username from SAML2
+					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
+					// OBTAIN TOKEN and JWT FROM WSO2 IS (REPLACEBLE WITH CUSTOM LOCAL JWT GENERATION)
+					log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET TOKEN FROM SAML ");
+					String b64SAMLAssertion = result.get(AuthorizeUtils.ASSERTION_KEY);
+					LoadTokenFromApiResponse token =JWTDelegate.loadTokenFromSaml2(b64SAMLAssertion);
 					newUser.setSecretTokenFromSaml(token);
-					
-					newUsername = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME));
-					newUser.setUsername(newUsername);
+					log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML "+token);
+					//
+					log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET JWT from TOKEN");
+					// NOTE: JWT expires very soon. It will be refreshed 
+					try {
+						JSONObject jwt = JWTDelegate.getJWTFromToken(newUser.getSecretTokenFromSaml());
+						newUser.setSecretTempJwt(jwt);
+					} catch (Exception e1) {
+						log.error("[SAML2ConsumerServlet::doPost] Unable to get JWT! "+e1.getMessage(),e1);
+						// TODO HOW TO REDIRECT PROBLEM
+					}
+					log.info("[SAML2ConsumerServlet::doPost] END - GET JWT from TOKEN");
 					List<String> tenantsCode = null;
 					try {
-						tenantsCode = loadRoles(newUser, "*_subscriber");
+						tenantsCode = loadRolesFromJwt(newUser, "_subscriber");
+						
+						log.info("[SAML2ConsumerServlet::doPost] GOT Tenants:"+tenantsCode);
 					} catch (Exception e) {
-						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-						e.printStackTrace();
+						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage(),e);
+						// TODO: HOW TO REDIRECT PROBLEM
 					}
 					// filtro sui tenant, data di disattivazione
 					tenants = filterDisabledTenants(tenantsCode, allTenant);
@@ -177,7 +164,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						try {
 							// the user for each tenant has a role
 							// tenantName_subscriber
-							tenantsCodeForTechincal = loadRoles(newUser, "mb-topic-*");
+							tenantsCodeForTechincal = loadRolesFromJwt(newUser, "mb-topic-");
 						} catch (Exception e) {
 
 							log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
@@ -195,6 +182,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 					if (!tecnicalUser) {
 						newUser.setTenants(tenants);
+						String newUsername = newUser.getUsername();
 						// String regexCFPattern =
 						// "^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$";
 						if (newUsername.contains("_AT_")) {
@@ -438,36 +426,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	}
 	
 	
-	private static LoadTokenFromApiResponse loadTokenFromSaml2(String b64samlAssertion) {
-		LoadTokenFromApiResponse loadTokenFromSaml = null;
-		try {
-			Properties config = Config.loadServerConfiguration();
-			String apiBaseUrl = config.getProperty(Config.TOKEN_FROM_SAML_URL_KEY) ;
-			String user = config.getProperty(Config.TOKEN_FROM_SAML_USER_KEY);
-			config = Config.loadAuthorizationConfiguration();
-			String password = config.getProperty(Config.TOKEN_FROM_SAML_PASSWORD_KEY);
-
-			Map<String, String> postData = new HashMap<String, String>();
-			
-			postData.put("grant_type", "urn:ietf:params:oauth:grant-type:saml2-bearer");
-			postData.put("assertion", b64samlAssertion);
-			
-			
-			String result = HttpDelegate2.executePost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "utf-8", null, postData);
-			
-			log.info("[loadTokenFromSaml2]-->"+result.toString());
-			
-			Gson gson = new GsonBuilder().create();
-			loadTokenFromSaml = gson.fromJson(result.toString(), LoadTokenFromApiResponse.class);
-
-					
-		} catch (Exception e) {
-			log.error("[SAML2ConsumerServlet::loadTokenFromSaml2] - ERROR " + e.getMessage());
-			e.printStackTrace();
-		}
-		return loadTokenFromSaml;
-	}
-
 	private static List<Tenant> getAllTenants() {
 		List<Tenant> allTenants = new ArrayList<Tenant>();
 		String apiBaseUrl = "";
@@ -658,95 +616,32 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return permissions;
 	}
 
-	private String getJWT(String token) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
+	
+	private List<String> loadRolesFromJwt(User newUser, String filter) {
 
-		log.debug("[SAML2ConsumerServlet::getJWT] - START");
-		String jwt = null;
-		Boolean valid= false;
-		try {
-
-			String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://org.apache.axis2/xsd\" xmlns:xsd1=\"http://dto.oauth2.identity.carbon.wso2.org/xsd\">";
-				xmlInput += "   <soapenv:Header/>";
-				xmlInput += "   <soapenv:Body>";
-				xmlInput += "      <xsd:validate>";
-				xmlInput += "         <xsd:validationReqDTO>";
-				xmlInput += "            <xsd1:accessToken>";
-				xmlInput += "               <xsd1:identifier>"+token+"</xsd1:identifier>";
-				xmlInput += "               <xsd1:tokenType>bearer</xsd1:tokenType>";
-				xmlInput += "            </xsd1:accessToken>";
-				xmlInput += "            <xsd1:context>";
-				xmlInput += "               <xsd1:key></xsd1:key>";
-				xmlInput += "               <xsd1:value></xsd1:value>";
-				xmlInput += "            </xsd1:context>";
-				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_ROLE)+"</xsd1:requiredClaimURIs>";
-				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)+"</xsd1:requiredClaimURIs>";
-				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)+"</xsd1:requiredClaimURIs>";
-				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_NICKNAME)+"</xsd1:requiredClaimURIs>";
-				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)+"</xsd1:requiredClaimURIs>";
-				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_LIVAUTH)+"</xsd1:requiredClaimURIs>";
-				xmlInput += "            </xsd:validationReqDTO>";
-				xmlInput += "      </xsd:validate>";
-				xmlInput += "   </soapenv:Body>";
-				xmlInput += "</soapenv:Envelope>";
-				
-			String SOAPAction = "validate";
-
-			Properties config = Config.loadServerConfiguration();
-			Properties authConfig = Config.loadAuthorizationConfiguration();
-
-			String webserviceUrl = config.getProperty(Config.JWT_FROM_VALIDATION_TOKEN_URL_KEY);
-			String user = config.getProperty(Config.JWT_FROM_VALIDATION_TOKEN_USER_KEY);
-			String password = authConfig.getProperty(Config.JWT_FROM_VALIDATION_TOKEN_PASSWORD_KEY);
-			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
-			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
-
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-
-			InputSource is = new InputSource(new StringReader(webServiceResponse));
-			Document doc = db.parse(is);
-
-			NodeList fieldsNodeList = doc.getFirstChild().getFirstChild().getFirstChild().getFirstChild().getChildNodes();
-			if (fieldsNodeList != null) {
-				
-				for (int i = 0; i < fieldsNodeList.getLength(); i++) {
-
-					Node fieldNode = fieldsNodeList.item(i);
-					
-					
-					if (fieldNode.getNodeName().endsWith("valid")){
-						log.debug("Valid|"+fieldNode.getTextContent()+"|");
-						valid = Boolean.parseBoolean(fieldNode.getTextContent());
-					}
-					if (fieldNode.getNodeName().endsWith("authorizationContextToken"))
-					{
-						NodeList authContNodeList = fieldNode.getChildNodes();
-						if (authContNodeList!=null)
-						{
-							for (int j = 0; j < authContNodeList.getLength(); j++) {
-								Node authNode = authContNodeList.item(i);
-								log.info("authNode.getNodeName |"+authNode.getNodeName());
-								if (authNode.getNodeName().endsWith("tokenString")) {
-									log.debug("tokenString |"+authNode.getTextContent());
-									jwt = authNode.getTextContent();
-								}
-							}
-						}
-					}
+		log.debug("[SAML2ConsumerServlet::loadRolesFromJwt] - START");
+		List<String> roles = new LinkedList<String>();
+		JSONObject jwt = newUser.getSecretTempJwt();
+		
+		// it will be ignored expiration
+		
+		String rolesString = jwt.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_ROLE)).toString();
+		if (rolesString!=null)
+		{
+			String[] rolesToFilter = StringUtils.split(rolesString, ',');
+			
+			for (int i = 0; i < rolesToFilter.length; i++) {
+				String role = rolesToFilter[i];
+				if (role.contains(filter))
+				{
+					roles.add(StringUtils.remove(role, filter));
 				}
 			}
-
-		} finally {
-			log.debug("[SAML2ConsumerServlet::getJWT] - END");
 		}
-		if (valid)
-			return jwt;
-		else
-			return null;
+		return roles;
 	}
-
 	
-	
+	@Deprecated
 	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadRoles] - START");

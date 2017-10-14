@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.minidev.json.JSONObject;
+
 import org.csi.yucca.userportal.userportal.entity.store.LoadTokenFromApiResponse;
 
 import com.google.gson.Gson;
@@ -26,6 +28,12 @@ public class User {
 	// fields starting with secret will not be serialized in json for client
 	
 	private LoadTokenFromApiResponse secretTokenFromSaml;
+	private JSONObject secretTempJwt;
+	
+	
+	public JSONObject getSecretTempJwt() {
+		return secretTempJwt;
+	}
 
 	public User() {
 	}
@@ -47,6 +55,7 @@ public class User {
 		}
 		this.acceptTermConditionTenants = acceptTermConditionTenants;
 		this.secretTokenFromSaml = null;
+		this.secretTempJwt = null;
 	}
 
 	public String getUsername() {
@@ -214,6 +223,10 @@ public class User {
 
 	public void setSecretTokenFromSaml(LoadTokenFromApiResponse secretTokenFromSaml) {
 		this.secretTokenFromSaml = secretTokenFromSaml;
+	}
+
+	public void setSecretTempJwt(JSONObject jwt) {
+		this.secretTempJwt = jwt;
 	}
 
 }
