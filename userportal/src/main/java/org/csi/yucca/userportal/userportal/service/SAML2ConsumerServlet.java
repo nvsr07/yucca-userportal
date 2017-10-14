@@ -710,7 +710,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					
 					
 					if (fieldNode.getNodeName().endsWith("valid")){
-						log.info("Valid|"+fieldNode.getTextContent());
+						log.info("Valid|"+fieldNode.getTextContent()+"|");
 						valid = Boolean.getBoolean(fieldNode.getTextContent());
 					}
 					if (fieldNode.getNodeName().endsWith("authorizationContextToken"))
@@ -734,6 +734,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		} finally {
 			log.debug("[SAML2ConsumerServlet::getJWT] - END");
 		}
+		log.info("-->"+valid);
+		log.info("-->"+jwt);
 		if (valid)
 			return jwt;
 		else
