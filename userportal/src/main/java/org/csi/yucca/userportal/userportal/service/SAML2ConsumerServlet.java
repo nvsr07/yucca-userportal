@@ -125,6 +125,29 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					String b64SAMLAssertion = result.get(AuthorizeUtils.ASSERTION_KEY);
 					String token =loadTokenFromSaml2(b64SAMLAssertion);
 					
+					if (token !=null)
+					{
+						try {
+							String jwt = getJWT(token);
+							log.info("[SAML2ConsumerServlet::doPost] JWT "+jwt);
+						} catch (KeyManagementException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (NoSuchAlgorithmException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ParserConfigurationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SAXException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}
+					else {
+						log.error("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML NESSUN TOKEN!!! ");
+					}
 					
 					log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML "+token);
 					newUser = new User();
@@ -427,7 +450,10 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			
 			String result = HttpDelegate2.executePost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "utf-8", null, postData);
 			
-			token = result;
+			Gson gson = new GsonBuilder().create();
+			LoadTokenFromApiResponse loadTokenFromSaml = gson.fromJson(result.toString(), LoadTokenFromApiResponse.class);
+
+			token = loadTokenFromSaml.getAccess_token();
 			
 		} catch (Exception e) {
 			log.error("[SAML2ConsumerServlet::loadTokenFromSaml2] - ERROR " + e.getMessage());
@@ -627,6 +653,93 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return permissions;
 	}
 
+	private String getJWT(String token) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
+
+		log.debug("[SAML2ConsumerServlet::getJWT] - START");
+		String jwt = null;
+		boolean valid= false;
+		try {
+
+			String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://org.apache.axis2/xsd\" xmlns:xsd1=\"http://dto.oauth2.identity.carbon.wso2.org/xsd\">";
+				xmlInput += "   <soapenv:Header/>";
+				xmlInput += "   <soapenv:Body>";
+				xmlInput += "      <xsd:validate>";
+				xmlInput += "         <xsd:validationReqDTO>";
+				xmlInput += "            <xsd1:accessToken>";
+				xmlInput += "               <xsd1:identifier>"+token+"</xsd1:identifier>";
+				xmlInput += "               <xsd1:tokenType>bearer</xsd1:tokenType>";
+				xmlInput += "            </xsd1:accessToken>";
+				xmlInput += "            <xsd1:context>";
+				xmlInput += "               <xsd1:key></xsd1:key>";
+				xmlInput += "               <xsd1:value></xsd1:value>";
+				xmlInput += "            </xsd1:context>";
+				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_ROLE)+"</xsd1:requiredClaimURIs>";
+				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)+"</xsd1:requiredClaimURIs>";
+				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)+"</xsd1:requiredClaimURIs>";
+				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_NICKNAME)+"</xsd1:requiredClaimURIs>";
+				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)+"</xsd1:requiredClaimURIs>";
+				xmlInput += "            <xsd1:requiredClaimURIs>"+AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_LIVAUTH)+"</xsd1:requiredClaimURIs>";
+				xmlInput += "            </xsd:validationReqDTO>";
+				xmlInput += "      </xsd:validate>";
+				xmlInput += "   </soapenv:Body>";
+				xmlInput += "</soapenv:Envelope>";
+				
+			String SOAPAction = "validate";
+
+			Properties config = Config.loadServerConfiguration();
+			Properties authConfig = Config.loadAuthorizationConfiguration();
+
+			String webserviceUrl = config.getProperty(Config.JWT_FROM_VALIDATION_TOKEN_URL_KEY);
+			String user = config.getProperty(Config.JWT_FROM_VALIDATION_TOKEN_USER_KEY);
+			String password = authConfig.getProperty(Config.JWT_FROM_VALIDATION_TOKEN_PASSWORD_KEY);
+			String webServiceResponse = WebServiceDelegate.callWebService(webserviceUrl, user, password, xmlInput, SOAPAction, "text/xml");
+			log.debug("[SAML2ConsumerServlet::loadRoles] - webServiceResponse: " + webServiceResponse);
+
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+
+			InputSource is = new InputSource(new StringReader(webServiceResponse));
+			Document doc = db.parse(is);
+
+			NodeList fieldsNodeList = doc.getFirstChild().getFirstChild().getFirstChild().getChildNodes();
+			if (fieldsNodeList != null) {
+				
+				for (int i = 0; i < fieldsNodeList.getLength(); i++) {
+
+					Node fieldNode = fieldsNodeList.item(i);
+					
+					log.info("fieldNode.getLocalName"+fieldNode.getLocalName());
+					log.info("fieldNode.getNodeName"+fieldNode.getNodeName());
+					
+					if (fieldNode.getNodeName().endsWith("valid"))
+						valid = Boolean.getBoolean(fieldNode.getTextContent());
+					
+					if (fieldNode.getNodeName().endsWith("authorizationContextToken"))
+					{
+						NodeList authContNodeList = fieldNode.getChildNodes();
+						if (authContNodeList!=null)
+						{
+							for (int j = 0; j < authContNodeList.getLength(); j++) {
+								Node authNode = authContNodeList.item(i);
+								if (authNode.getNodeName().endsWith("tokenString"))
+									jwt = authNode.getTextContent();
+							}
+						}
+					}
+				}
+			}
+
+		} finally {
+			log.debug("[SAML2ConsumerServlet::getJWT] - END");
+		}
+		if (valid)
+			return jwt;
+		else
+			return null;
+	}
+
+	
+	
 	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadRoles] - START");
