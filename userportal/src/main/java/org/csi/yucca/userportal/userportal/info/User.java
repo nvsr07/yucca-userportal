@@ -4,7 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.csi.yucca.userportal.userportal.entity.store.LoadTokenFromApiResponse;
+
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class User {
 	private String username;
@@ -19,6 +22,10 @@ public class User {
 	private Map<String, String> tenantsTokens;
 	private List<String> acceptTermConditionTenants;
 	private String storeToken;
+	
+	// fields starting with secret will not be serialized in json for client
+	
+	private LoadTokenFromApiResponse secretTokenFromSaml;
 
 	public User() {
 	}
@@ -39,7 +46,7 @@ public class User {
 			this.activeTenant = "sandbox";
 		}
 		this.acceptTermConditionTenants = acceptTermConditionTenants;
-
+		this.secretTokenFromSaml = null;
 	}
 
 	public String getUsername() {
@@ -67,7 +74,7 @@ public class User {
 	}
 
 	public String toJson() {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setExclusionStrategies(new UserJsonExclusionStrategy()).create();
 		return gson.toJson(this);
 	}
 
@@ -199,6 +206,14 @@ public class User {
 
 	public void setStoreToken(String storeToken) {
 		this.storeToken = storeToken;
+	}
+
+	public LoadTokenFromApiResponse getSecretTokenFromSaml() {
+		return secretTokenFromSaml;
+	}
+
+	public void setSecretTokenFromSaml(LoadTokenFromApiResponse secretTokenFromSaml) {
+		this.secretTokenFromSaml = secretTokenFromSaml;
 	}
 
 }

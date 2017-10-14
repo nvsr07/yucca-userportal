@@ -123,12 +123,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					log.info("[SAML2ConsumerServlet::doPost] BEGIN - TOKEN FROM SAML ");
 					
 					String b64SAMLAssertion = result.get(AuthorizeUtils.ASSERTION_KEY);
-					String token =loadTokenFromSaml2(b64SAMLAssertion);
+					LoadTokenFromApiResponse token =loadTokenFromSaml2(b64SAMLAssertion);
+					
+					
 					
 					if (token !=null)
 					{
 						try {
-							String jwt = getJWT(token);
+							String jwt = getJWT(token.getAccess_token());
 							log.info("[SAML2ConsumerServlet::doPost] JWT "+jwt);
 						} catch (KeyManagementException e) {
 							// TODO Auto-generated catch block
@@ -152,6 +154,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML "+token);
 					newUser = new User();
 					newUser.setLoggedIn(true);
+					//
+					newUser.setSecretTokenFromSaml(token);
+					
 					newUsername = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME));
 					newUser.setUsername(newUsername);
 					List<String> tenantsCode = null;
@@ -433,8 +438,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	}
 	
 	
-	private String loadTokenFromSaml2(String b64samlAssertion) {
-		String token = null;
+	private static LoadTokenFromApiResponse loadTokenFromSaml2(String b64samlAssertion) {
+		LoadTokenFromApiResponse loadTokenFromSaml = null;
 		try {
 			Properties config = Config.loadServerConfiguration();
 			String apiBaseUrl = config.getProperty(Config.TOKEN_FROM_SAML_URL_KEY) ;
@@ -450,16 +455,17 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			
 			String result = HttpDelegate2.executePost(apiBaseUrl, user, password, "application/x-www-form-urlencoded", "utf-8", null, postData);
 			
-			Gson gson = new GsonBuilder().create();
-			LoadTokenFromApiResponse loadTokenFromSaml = gson.fromJson(result.toString(), LoadTokenFromApiResponse.class);
-
-			token = loadTokenFromSaml.getAccess_token();
+			log.info("[loadTokenFromSaml2]-->"+result.toString());
 			
+			Gson gson = new GsonBuilder().create();
+			loadTokenFromSaml = gson.fromJson(result.toString(), LoadTokenFromApiResponse.class);
+
+					
 		} catch (Exception e) {
 			log.error("[SAML2ConsumerServlet::loadTokenFromSaml2] - ERROR " + e.getMessage());
 			e.printStackTrace();
 		}
-		return token;
+		return loadTokenFromSaml;
 	}
 
 	private static List<Tenant> getAllTenants() {
@@ -592,7 +598,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 			String access_token = rootObj.get("access_token").getAsString();
 
-			System.out.println("TOKEN :: " + access_token);
 
 			return access_token;
 
@@ -710,7 +715,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					
 					
 					if (fieldNode.getNodeName().endsWith("valid")){
-						log.info("Valid|"+fieldNode.getTextContent()+"|");
+						log.debug("Valid|"+fieldNode.getTextContent()+"|");
 						valid = Boolean.parseBoolean(fieldNode.getTextContent());
 					}
 					if (fieldNode.getNodeName().endsWith("authorizationContextToken"))
@@ -722,7 +727,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 								Node authNode = authContNodeList.item(i);
 								log.info("authNode.getNodeName |"+authNode.getNodeName());
 								if (authNode.getNodeName().endsWith("tokenString")) {
-									log.info("tokenString |"+authNode.getTextContent());
+									log.debug("tokenString |"+authNode.getTextContent());
 									jwt = authNode.getTextContent();
 								}
 							}
@@ -734,8 +739,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		} finally {
 			log.debug("[SAML2ConsumerServlet::getJWT] - END");
 		}
-		log.info("-->"+valid);
-		log.info("-->"+jwt);
 		if (valid)
 			return jwt;
 		else
