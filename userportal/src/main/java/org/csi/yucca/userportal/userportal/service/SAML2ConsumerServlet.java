@@ -657,7 +657,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 		log.debug("[SAML2ConsumerServlet::getJWT] - START");
 		String jwt = null;
-		boolean valid= false;
+		Boolean valid= false;
 		try {
 
 			String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://org.apache.axis2/xsd\" xmlns:xsd1=\"http://dto.oauth2.identity.carbon.wso2.org/xsd\">";
@@ -711,7 +711,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					
 					if (fieldNode.getNodeName().endsWith("valid")){
 						log.info("Valid|"+fieldNode.getTextContent()+"|");
-						valid = Boolean.getBoolean(fieldNode.getTextContent());
+						valid = Boolean.parseBoolean(fieldNode.getTextContent());
 					}
 					if (fieldNode.getNodeName().endsWith("authorizationContextToken"))
 					{
