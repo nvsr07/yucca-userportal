@@ -169,6 +169,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						}
 
 						if (!tenantsCodeForTechincal.isEmpty()) {
+							log.info("[SAML2ConsumerServlet::doPost] Tecnical user!:"+tenantsCodeForTechincal);
 							tecnicalUser = true;
 						}
 					}

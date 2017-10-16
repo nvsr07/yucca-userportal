@@ -7,6 +7,8 @@ import java.util.Map;
 import net.minidev.json.JSONObject;
 
 import org.csi.yucca.userportal.userportal.entity.store.LoadTokenFromApiResponse;
+import org.csi.yucca.userportal.userportal.utils.json.IgnoredJSON;
+import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,7 +29,10 @@ public class User {
 	
 	// fields starting with secret will not be serialized in json for client
 	
+	@IgnoredJSON
 	private LoadTokenFromApiResponse secretTokenFromSaml;
+	
+	@IgnoredJSON
 	private JSONObject secretTempJwt;
 	
 	
@@ -83,7 +88,7 @@ public class User {
 	}
 
 	public String toJson() {
-		Gson gson = new GsonBuilder().setExclusionStrategies(new UserJsonExclusionStrategy()).create();
+		Gson gson = JSonHelper.getInstance();
 		return gson.toJson(this);
 	}
 

@@ -1,5 +1,7 @@
 package org.csi.yucca.userportal.userportal.info;
 
+import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,7 +14,7 @@ public class Info {
 	private Tenant trialTenantToActivated;
 
 	public String toJson() {
-		Gson gson = new GsonBuilder().setExclusionStrategies(new UserJsonExclusionStrategy()).create();
+		Gson gson = JSonHelper.getInstance();
 		return gson.toJson(this);
 	}
 
