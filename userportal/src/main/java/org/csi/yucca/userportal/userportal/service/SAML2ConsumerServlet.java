@@ -133,7 +133,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						//
 						log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET JWT from TOKEN");
 						// NOTE: JWT expires very soon. It will be refreshed 
-						JSONObject jwt = JWTDelegate.getJWTFromToken(newUser.getSecretTokenFromSaml());
+						JSONObject jwt = JWTDelegate.getJWTFromToken(token);
 						newUser.setLoggedIn(true);
 						newUser.setSecretTokenFromSaml(token);
 						newUser.setSecretTempJwt(jwt);
