@@ -80,70 +80,29 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
 					log.debug("[SAML2ConsumerServlet::doPost] - result null");
 
-				} else if (result.size() == 1) {
-					log.debug("[SAML2ConsumerServlet::doPost] - result size 1");
-
-					newUser = new User();
-					newUser.setLoggedIn(true);
-					//newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
-					newUser.setUsername(result.get("Subject"));
-					//newUser.setTenants(AuthorizeUtils.DEFAULT_TENANT);
-
-					try {
-						newUser.setPermissions(loadPermissions(newUser));
-					} catch (Exception e) {
-						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-						e.printStackTrace();
-					}
-
-					//newUser.setActiveTenant(newUser.getTenants().get(0));
-					newUser.setToken(getTokenForTenant(newUser));
-
-					log.debug("[SAML2ConsumerServlet::doPost] - result size 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
-
-				} else if (result.size() > 1) {
+				} else  {
 					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1");
 					newUser = new User();
 					newUser.setLoggedIn(true);
 					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
 					//String organizations = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TENANT));
 
-					List<String> tenants = AuthorizeUtils.DEFAULT_TENANT;
-					//if (organizations != null) {
-					//	tenants = Arrays.asList(organizations.split(","));
-					//}
 
-					try {
-						// the user for each tenant has a role tenantName_subscriber
-						tenants = loadRoles(newUser, "*_subscriber");
-					} catch (Exception e) {
-						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-						e.printStackTrace();
-					}
-
-					newUser.setTenants(tenants);
 					newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
 					newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 					newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
-					newUser.setActiveTenant(tenants.get(0));
-					log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
 					} catch (Exception e) {
 						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
 						e.printStackTrace();
 					}
-					newUser.setActiveTenant(newUser.getTenants().get(0));
-					newUser.setToken(getTokenForTenant(newUser));
 
 					for (Object key : result.keySet().toArray()) {
 						String value = (String) result.get(key);
 						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - value: " + value);
 					}
-				} else {
-					// something wrong, re-login
 				}
-
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
 
@@ -176,51 +135,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 	}
 
-	public static String getTokenForTenant(User newUser) {
-
-		String apiBaseUrl = "";
-
-		try {
-			Properties config = Config.loadServerConfiguration();
-			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
-
-			if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0)
-				apiBaseUrl += Config.SECDATA_NEWTOKEN + newUser.getActiveTenant();
-			else
-				apiBaseUrl += Config.SECDATA_NEWTOKEN + "sandbox";
-
-			HttpClient client = HttpClientBuilder.create().build();
-			HttpGet httpget = new HttpGet(apiBaseUrl);
-
-			HttpResponse r = client.execute(httpget);
-			String status = r.getStatusLine().toString();
-			System.out.println("status " + status);
-
-			StringBuilder out = new StringBuilder();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
-			String line = "";
-
-			while ((line = rd.readLine()) != null) {
-				out.append(line);
-			}
-
-			String inputJson = out.toString();
-
-			JsonParser parser = new JsonParser();
-			JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
-
-			String access_token = rootObj.get("access_token").getAsString();
-
-			System.out.println("TOKEN :: " + access_token);
-
-			return access_token;
-
-		} catch (IOException e) {
-			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
-			e.printStackTrace();
-		}
-		return "";
-	}
+	
 
 	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
 			SAXException {

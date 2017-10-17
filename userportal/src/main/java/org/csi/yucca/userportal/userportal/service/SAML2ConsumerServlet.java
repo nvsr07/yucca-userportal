@@ -55,6 +55,7 @@ import org.csi.yucca.userportal.userportal.info.TenantsContainer;
 import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
+import org.csi.yucca.userportal.userportal.utils.JWTUtil;
 import org.csi.yucca.userportal.userportal.utils.Util;
 import org.opensaml.xml.ConfigurationException;
 import org.w3c.dom.Document;
@@ -133,10 +134,12 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						//
 						log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET JWT from TOKEN");
 						// NOTE: JWT expires very soon. It will be refreshed 
-						JSONObject jwt = JWTDelegate.getJWTFromToken(token);
+						String jwtRaw = JWTDelegate.getJWTFromToken(token);
+						JSONObject jwt =JWTUtil.getJsonFromJwt(jwtRaw);
 						newUser.setLoggedIn(true);
 						newUser.setSecretTokenFromSaml(token);
 						newUser.setSecretTempJwt(jwt);
+						newUser.setSecretTempJwtRaw(jwtRaw);
 						}
 					} catch (Exception e1) {
 						log.error("[SAML2ConsumerServlet::doPost] Unable to get JWT! "+e1.getMessage(),e1);

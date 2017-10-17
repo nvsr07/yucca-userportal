@@ -23,14 +23,7 @@ public class InfoServlet extends HttpServlet {
 		try {
 			//String info =  "{\"info\":{\"tenant\": {\"tenantCode\":\"" + request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_TENANT_CODE) + "\"}}}";
 			Info info  = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			if(info!=null && info.getUser()!=null && info.getUser().getTenants()!=null
-					&& info.getUser().getTenants().contains(request.getParameter("activeTenant")) 
-					&& request.getParameter("activeTenant")!=null && !request.getParameter("activeTenant").equals("")){
-				
-				info.getUser().setActiveTenant(request.getParameter("activeTenant"));
-				String token = SAML2ConsumerServlet.getTokenForTenant(info.getUser());
-				info.getUser().setToken(token);
-			}
+			
 			String infoJson = info.toJson();
 			if (isJSONPRequest(request))
 				infoJson = getCallbackMethod(request) + "(" +infoJson + ")";

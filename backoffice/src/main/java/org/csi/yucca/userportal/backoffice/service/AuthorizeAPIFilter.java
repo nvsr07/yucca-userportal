@@ -37,8 +37,6 @@ public class AuthorizeAPIFilter implements Filter {
 			//info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
 			User defaultUser = AuthorizeUtils.DEFAULT_USER();
 
-			defaultUser.setToken(SAML2ConsumerServlet.getTokenForTenant(defaultUser));
-			
 			info.setUser(defaultUser);
 			request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 		}

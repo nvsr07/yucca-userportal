@@ -3,10 +3,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.csi.yucca.userportal.backoffice</groupId>
-	<artifactId>backoffice</artifactId>
+	<artifactId>backoffice2</artifactId>
 	<version>1.7.0-001</version>
 	<packaging>war</packaging>
-	<name>backoffice</name>
+	<name>backoffice2</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -148,6 +148,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency> 
+			<groupId>io.jsonwebtoken</groupId> 
+			<artifactId>jjwt</artifactId> 
+			<version>0.7.0</version> 
+		</dependency>
 		<dependency>
 			<groupId>org.opensaml</groupId>
 			<artifactId>openws</artifactId>
@@ -287,13 +292,13 @@
             			<directory>${project.basedir}/src/test/resources</directory>
         			</testResource>			
 					<testResource>
-						<directory>${project.build.directory}/checkout/backoffice/test/int</directory>
+						<directory>${project.build.directory}/checkout/backoffice/test/int2</directory>
 					</testResource>
 				</testResources>
 
 				<resources>
 					<resource>
-						<directory>${project.build.directory}/checkout/backoffice/resources/int</directory>
+						<directory>${project.build.directory}/checkout/backoffice/resources/int2</directory>
 					</resource>
 					<resource>
 						<directory>src/main/resources/images</directory>
@@ -302,7 +307,7 @@
 				</resources>
 			</build>
 			<properties>
-				<webXmlPath>${project.build.directory}/checkout/backoffice/resources/int/</webXmlPath>
+				<webXmlPath>${project.build.directory}/checkout/backoffice/resources/int/2</webXmlPath>
 			</properties>
 		</profile>
 		<profile>

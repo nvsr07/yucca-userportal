@@ -38,7 +38,18 @@ public class User {
 	@IgnoredJSON
 	private JSONObject secretTempJwt;
 	
+	@IgnoredJSON
+	private String secretTempJwtRaw;
 	
+	
+	public String getSecretTempJwtRaw() {
+		return secretTempJwtRaw;
+	}
+
+	public void setSecretTempJwtRaw(String secretTempJwtRaw) {
+		this.secretTempJwtRaw = secretTempJwtRaw;
+	}
+
 	public JSONObject getSecretTempJwt() {
 		return secretTempJwt;
 	}

@@ -138,30 +138,18 @@ public class AuthorizeUtils {
 
 	}
 
-	public static List<String> getTenantsInSession(HttpServletRequest request) {
-		List<String> tenant = DEFAULT_TENANT;
-		Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-		// if (info != null && !Util.nvlt(info.getTenantCode()).equals("")) {
-		// tenant = info.getTenantCode();
-		// }
-
-		if (info != null && info.getUser() != null && info.getUser().getTenants() != null) {
-			tenant = info.getUser().getTenants();
-		}
-		return tenant;
-	}
-
+	
 	public static boolean checkTenantInSession(HttpServletRequest request, String tenant) {
 		boolean result = false;
-		if (tenant != null) {
-			for (String t : getTenantsInSession(request)) {
-				if (tenant.equals(t)) {
-					result = true;
-					break;
-				}
-
-			}
-		}
+//		if (tenant != null) {
+//			for (String t : getTenantsInSession(request)) {
+//				if (tenant.equals(t)) {
+//					result = true;
+//					break;
+//				}
+//
+//			}
+//		}
 
 		return result;
 

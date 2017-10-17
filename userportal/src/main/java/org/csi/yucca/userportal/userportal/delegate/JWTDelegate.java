@@ -64,7 +64,7 @@ public class JWTDelegate {
 	}
 
 	
-	public static JSONObject getJWTFromToken(LoadTokenFromApiResponse loadTokenFromApiResponse) throws Exception {
+	public static String getJWTFromToken(LoadTokenFromApiResponse loadTokenFromApiResponse) throws Exception {
 
 		log.debug("[SAML2ConsumerServlet::getJWT] - START");
 		if (loadTokenFromApiResponse==null)
@@ -148,7 +148,7 @@ public class JWTDelegate {
 			log.debug("[SAML2ConsumerServlet::getJWT] - END");
 		}
 		if (valid) {
-			return JWTUtil.getJsonFromJwt(jwt);
+			return jwt;
 		}
 		else
 			return null;

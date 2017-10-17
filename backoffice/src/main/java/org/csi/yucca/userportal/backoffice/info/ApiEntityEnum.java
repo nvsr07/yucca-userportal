@@ -28,16 +28,16 @@ public enum ApiEntityEnum {
 
 			String activeTenant = request.getParameter("visibleFrom");
 			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			if((activeTenant!=null && !"".equals(activeTenant)) ){				
-				if(activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)){
-					return true;
-				}else{
-					return false;
-				}				
-			}
-			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())){
-				return true;
-			}
+//			if((activeTenant!=null && !"".equals(activeTenant)) ){				
+//				if(activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)){
+//					return true;
+//				}else{
+//					return false;
+//				}				
+//			}
+//			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())){
+//				return true;
+//			}
 			return false;
 		}
 	},
@@ -65,9 +65,9 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 
 			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())){
-				return true;
-			}
+//			if(AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())){
+//				return true;
+//			}
 			return false;
 		}
 	},
