@@ -598,16 +598,6 @@ var translations_it = {
 	
 	
 	HOME_HOWTO_TITLE: 'Come posso usare la piattaforma?',
-	HOME_HOWTO_TEXT_HTML:   '<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configura</a> i tuoi sensori e invia i dati utilizzando il tuo tenant o il tenant di prova <strong>Sandbox</strong></li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Fruisci</a> di tutti gli stream disponibili via <strong>Websocket</strong> o <strong>MQTT</strong></li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/overview">Monitora</a> i tuoi stream nella dashboard </li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Importa</a> i tuoi <strong>dataset bulk</strong> tramite upload</li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Cerca e fruisci</a> di tutti i dati storicizzati e dei dataset tramite <strong>API OData</strong> </li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Crea stream</a> derivati da uno o pi&ugrave; stream aggiungendo <strong>logiche personalizzate in SiddhiQL</strong></li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Crea stream derivati in maniera semplice attraverso wizard guidati (coming soon...)</li>',
-							
-
-							
 	/* Term and conditions */						
 							
 	TERM_CONDITION_TITLE: 'Termini e condizioni di utilizzo',

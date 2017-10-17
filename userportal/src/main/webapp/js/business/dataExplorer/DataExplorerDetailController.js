@@ -1,5 +1,5 @@
-appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', 'metadataapiAPIservice', 'fabricAPImanagement', '$filter', 'info', '$location', '$modal', 
-                                                      function($scope, $route, $routeParams, odataAPIservice, dataDiscoveryService, metadataapiAPIservice, fabricAPImanagement, $filter, info, $location, $modal) {
+appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$routeParams', 'odataAPIservice', 'metadataapiAPIservice', 'fabricAPImanagement', '$filter', 'info', '$location', '$modal', 
+                                                      function($scope, $route, $routeParams, odataAPIservice, metadataapiAPIservice, fabricAPImanagement, $filter, info, $location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = ($routeParams.entity_code) ? $routeParams.entity_code : '';
 	$scope.streamCode = ($routeParams.stream_code) ? $routeParams.stream_code : '';
@@ -97,7 +97,6 @@ appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$rout
 		});
 	};
 	
-	//http://localhost:8080/userportal/api/proxy/discovery/Streams?$expand=Dataset&$format=json&$filter=(tenantCode eq "sandbox"  and  smartOCode eq "9c25107f-fdd7-4010-83bb-9c0213153602"  and  streamCode eq "deviceStream")
 	$scope.loadStream = function(){
 		$scope.error = null;
 		metadataapiAPIservice.detailStream(null, $scope.tenantCode, $scope.virtualentityCode, $scope.streamCode).success(function(response) {

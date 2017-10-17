@@ -78,7 +78,6 @@ app.config(['$routeProvider', function($routeProvider) {
 	
 	$routeProvider.when('/dataexplorer/browsedata', {templateUrl: 'partials/dataexplorer/dataBrowser.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
 
-	$routeProvider.when('/discovery', {templateUrl: 'partials/discovery/index.html?'+BuildInfo.timestamp, activetab: 'discovery'});
 	//$routeProvider.when('/market', {templateUrl: 'partials/market/index.html?'+BuildInfo.timestamp, controller: 'MarketCtrl', activetab: 'market'});
 	//$routeProvider.when('/store', {templateUrl: 'partials/store/index.html?'+BuildInfo.timestamp, controller: 'StoreCtrl', activetab: 'store'});
 	$routeProvider.when('/info', {templateUrl: 'partials/info/info.html?'+BuildInfo.timestamp, activetab: 'info'});

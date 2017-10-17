@@ -308,8 +308,8 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 } 
 ]);*/
 
-appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'webSocketService', 'odataAPIservice', 'dataDiscoveryService',  'metadataapiAPIservice', '$filter', '$interval',
-                                                   function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, webSocketService, odataAPIservice, dataDiscoveryService, metadataapiAPIservice,  $filter,$interval) {
+appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'webSocketService', 'odataAPIservice',  'metadataapiAPIservice', '$filter', '$interval',
+                                                   function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, webSocketService, odataAPIservice, metadataapiAPIservice,  $filter,$interval) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
 	$scope.chartComponentNames = [];

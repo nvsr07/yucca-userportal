@@ -6,7 +6,6 @@ var Constants = Constants || {};
 var API_BASE_URL = '/userportal/api/proxy/';
 var API_BASE_SERVICE_URL = '/userportal/api/proxy/service/';
 var API_BASE_DATA_MANAGEMENT_URL = '/userportal/api/proxy/datamanagement';
-var API_BASE_DISCOVERY_URL = '/userportal/api/proxy/discovery';
 
 
 /* stream status */
@@ -47,13 +46,7 @@ Constants.WEBSOCKET_CONNECTING = 'Connecting';
 Constants.WEBSOCKET_CONNECTED = 'Connected';
 Constants.WEBSOCKET_NOT_CONNECTED = 'Not Connected';
 
-/* discovery */
-Constants.DISCOVERY_FIELD_TITLE = 'DISCOVERY_FIELD_TITLE';
-Constants.DISCOVERY_FIELD_TAG = 'DISCOVERY_FIELD_TAG';
-Constants.DISCOVERY_FIELD_LICENSE = 'DISCOVERY_FIELD_LICENSE';
-Constants.DISCOVERY_FIELD_TENANT = 'DISCOVERY_FIELD_TENANT';
-Constants.DISCOVERY_FIELD_FPS = 'DISCOVERY_FIELD_FPS';
-Constants.DISCOVERY_FIELD_UNIT_OF_MEASUREMENT = 'DISCOVERY_FIELD_UNIT_OF_MEASUREMENT';
+
 
 Constants.DISCOVERY_FIELD_STCODE = 'DISCOVERY_FIELD_STCODE';
 Constants.DISCOVERY_FIELD_STNAME = 'DISCOVERY_FIELD_STNAME';

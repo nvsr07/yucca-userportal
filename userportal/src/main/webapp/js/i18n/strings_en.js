@@ -594,16 +594,7 @@ var translations_en = {
 	
 	
 	HOME_HOWTO_TITLE: 'What can I do with the platform',
-	HOME_HOWTO_TEXT_HTML:   '<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/virtualentities/{{tenant}}">Configure</a> your smart object and sends data using your tenant or the demo tenant <strong>Sandbox</strong></li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/streams">Consumes</a> all available streams via <strong>WebSocket</strong> or <strong>MQTT</strong></li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/dashboard/main/example">Monitor</a> your streams in the dashboard </li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/datasets/sandbox">Import</a> your <strong>bulk dataset </strong> via upload</li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/discovery">Discover and  consume</a> all archived data and dataset via <strong>OData API</strong> </li>' +
-							'<li><span class="glyphicon glyphicon-check"></span> &nbsp;<a href="#/management/streams/sandbox">Create derived streams</a> from one or more streams with <strong>custom logic using SiddhiQL</strong></li>' +
-							'<li class="mute"><span class="glyphicon glyphicon-unchecked"></span> &nbsp;Create derived streams simply with wizard (coming soon...)</li>',
-							
 
-							
 	/* Term and conditions */						
 							
 	TERM_CONDITION_TITLE: 'Terms and conditions',

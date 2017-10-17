@@ -1,5 +1,5 @@
-appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', 'metadataapiAPIservice', '$filter', 'info', '$location', '$modal', 
-                                                     function($scope, $routeParams, odataAPIservice, dataDiscoveryService, metadataapiAPIservice, $filter, info, $location, $modal) {
+appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odataAPIservice',  'metadataapiAPIservice', '$filter', 'info', '$location', '$modal', 
+                                                     function($scope, $routeParams, odataAPIservice,  metadataapiAPIservice, $filter, info, $location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 
@@ -541,8 +541,8 @@ appControllers.controller('DataExplorerPreviewBinaryCtrl', [ '$scope', '$modalIn
 ]);
 
 // TODO start Browse
-appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info', 'dataexplorerBrowseData', 'metadataapiAPIservice','$translate',
-                                                function($scope, $routeParams, fabricAPIservice, adminAPIservice, dataDiscoveryService, $location, $filter,  $http, info,dataexplorerBrowseData, metadataapiAPIservice,$translate) {
+appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice',  '$location', '$filter', '$http',  'info', 'dataexplorerBrowseData', 'metadataapiAPIservice','$translate',
+                                                function($scope, $routeParams, fabricAPIservice, adminAPIservice,  $location, $filter,  $http, info,dataexplorerBrowseData, metadataapiAPIservice,$translate) {
 	
 	$scope.currentStep = 'domains';
 	$scope.browseSteps = [{'name':'domains', 'style':''},
@@ -1201,8 +1201,8 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 
 //TODO end Browse
 
-appControllers.controller('DatepickerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', 'dataDiscoveryService', '$filter', 'info', '$location', '$modal', 
-                                                function($scope, $routeParams, odataAPIservice, dataDiscoveryService, $filter, info, $location, $modal) {
+appControllers.controller('DatepickerCtrl', [ '$scope', '$routeParams', 'odataAPIservice', '$filter', 'info', '$location', '$modal', 
+                                                function($scope, $routeParams, odataAPIservice,  $filter, info, $location, $modal) {
 	
 	  $scope.today = function() {
 		  $scope.dt = new Date();
