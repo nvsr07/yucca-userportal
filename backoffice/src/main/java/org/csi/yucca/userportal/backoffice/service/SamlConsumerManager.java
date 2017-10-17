@@ -67,6 +67,10 @@ public class SamlConsumerManager {
 	private String authReqRandomId = Integer.toHexString(new Double(Math.random()).intValue());
 	private String relayState = null;
 	private String issuerId = null;
+	public String getIssuerId() {
+		return issuerId;
+	}
+
 	private String idpUrl = null;
 	private String idpLoginPageStylePath = null;
 	private String attribIndex = null;

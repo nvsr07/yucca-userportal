@@ -124,7 +124,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// info);
 					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
-					response.sendRedirect(requestMessage + "&issuer=backoffice&customCssPath="
+					response.sendRedirect(requestMessage + "&issuer="+consumer.getIssuerId()+"&customCssPath="
 							+ URLEncoder.encode(consumer.getIdpLoginPageStylePath(), "UTF-8"));
 				} catch (IOException e) {
 					e.printStackTrace();
