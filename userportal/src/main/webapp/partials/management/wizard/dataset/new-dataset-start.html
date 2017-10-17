@@ -40,7 +40,8 @@
 			<div class="form-group">
 				<label for="inputDatasetDomain" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-9 text-left">
-					<select  ng-if='metadata.info.dataDomain!="MULTI"' class="input-sm form-control" ng-model="metadata.info.dataDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+					<select  ng-if='metadata.info.dataDomain!="MULTI"' class="input-sm form-control" ng-model="metadata.info.dataDomain" 
+						ng-options="domain as (domain|translate) for domain in domainList" ng-required="true" ng-change="selectSubdomain(metadata.info.dataDomain)" >
 						<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
 					</select>
 					<input type="text" ng-if='metadata.info.dataDomain=="MULTI"' class="form-control" ng-model="metadata.info.dataDomain" id="inputDatasetName" disabled='disabled'
@@ -50,7 +51,7 @@
 			<div class="form-group   has-feedback">
 				<label for="inputDatasetCodSubDomain" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-9" >
-					<select  ng-if='metadata.info.dataDomain!="MULTI"' class="input-sm form-control" ng-model="metadata.info.codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subDomainList|subDomainFilter:metadata.info.dataDomain" ng-required="true">
+					<select  ng-if='metadata.info.dataDomain!="MULTI"' class="input-sm form-control" ng-model="metadata.info.codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subdomainList" ng-required="true">
 						<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER</option>
 					</select>
 					<input type="text" ng-if='metadata.info.dataDomain=="MULTI"' class="form-control" ng-model="metadata.info.codSubDomain" id="inputSubdomainCode" 

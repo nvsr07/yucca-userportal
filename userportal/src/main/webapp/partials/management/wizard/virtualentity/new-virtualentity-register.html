@@ -17,7 +17,7 @@
 			<label for="inputType" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_TYPE</span>  <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-5">
 				<select id='inputType' class="form-control" ng-model="virtualentity.idTipoVe"   ng-change="selectTypeChange(virtualentity.idTipoVe)"
-					ng-options=" type.idTipoVirtualEntity as type.descrizioneTipoVirtualEntity for type in typesList" 
+					ng-options=" so_type.idSoType as so_type.description for so_type in so_typesList" 
 					 required >
 					<option  value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER'|translate}}</option>
 				</select>
@@ -53,7 +53,7 @@
 			</label>
 			<div class="col-sm-5">
 				<select id='inputCategory' class="form-control" ng-model="virtualentity.idCategoriaVe"  
-					ng-options="category.idCategoria as  category.descrizioneCategoria for category in categoriesList" 
+					ng-options="so_category.idSoCategory as  so_category.description for so_category in so_categoriesList" 
 					 ng-required="isCategoryRequired()" ng-disabled="isTwitter()" >
 					<option value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER'|translate}}</option>
 				</select>

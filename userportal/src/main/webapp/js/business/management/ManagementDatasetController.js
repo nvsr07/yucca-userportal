@@ -419,10 +419,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	};
 
 	$scope.tagList = [];
-	fabricAPIservice.getStreamTags().success(function(response) {
-		for (var int = 0; int < response.streamTags.element.length; int++) {
-			//$scope.tagList.push(response.streamTags.element[int].tagCode);
-			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
+	adminAPIservice.loadTags().success(function(response) {
+		for (var int = 0; int < response.length; int++) {
+			var tagLabel = $translate.use()=='it'?response[int].langit:response[int].langen;
+			$scope.tagList.push({"tagCode":response[int].tagcode, "tagLabel":tagLabel} );
 		}
 		
 		$scope.tagList.sort(function(a, b) { 
@@ -450,27 +450,41 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	});
 	
 	$scope.domainList = [];
-	fabricAPIservice.getStreamDomains().success(function(response) {
-		for (var int = 0; int < response.streamDomains.element.length; int++) {
-			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+	adminAPIservice.loadDomains().success(function(response) {
+		response.sort(function(a, b) { 
+		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+		});
+		for (var int = 0; int < response.length; int++) {
+			$scope.domainList.push(response[int].domaincode);
 		}
-	});
-
-	$scope.subDomainList = [];
-	fabricAPIservice.getStreamSubDomains().success(function(response) {
-		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
-			$scope.subDomainList.push(response.streamSubDomains.element[int]);
-		}
-	});
-
-	$scope.dataTypeList = [];
-	fabricAPIservice.getStreamDataType().success(function(response) {
-		$scope.dataTypeList = response.dataType.element;
 	});
 	
-	$scope.unitOfMesaurementList = [];
-	fabricAPIservice.getStreamUnitOfMesaurement().success(function(response) {
-		$scope.unitOfMesaurementList = response.measureUnit.element;
+//	fabricAPIservice.getStreamDomains().success(function(response) {
+//		for (var int = 0; int < response.streamDomains.element.length; int++) {
+//			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+//		}
+//	});
+
+	$scope.subDomainList = [];
+	$scope.selectSubdomain = function(domain){
+		adminAPIservice.loadSubDomains(domain).success(function(response) {
+			response.sort(function(a, b) { 
+			    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+			});
+			for (var int = 0; int < response.length; int++) {
+				$scope.subdomainList.push(response[int].subdomaincode);
+			}
+		});
+	};
+
+	$scope.dataTypeList = [];
+	adminAPIservice.loadDataTypes().success(function(response) {
+		$scope.dataTypeList = response;
+	});
+	
+	$scope.measureUnitsList = [];
+	adminAPIservice.loadMeasureUnits().success(function(response) {
+		$scope.measureUnitsList = response;
 	});
 
 
@@ -1140,8 +1154,8 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 }]);
 
 
-appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors',
-                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate,$modal,sharedUploadBulkErrors) {
+appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors',
+                                                              function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate,$modal,sharedUploadBulkErrors) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -1205,25 +1219,40 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 
 	$scope.domainList = [];
-	fabricAPIservice.getStreamDomains().success(function(response) {
-		response.streamDomains.element.sort(function(a, b) { 
+	adminAPIservice.loadDomains().success(function(response) {
+		response.sort(function(a, b) { 
 		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
 		});
-		
-		for (var int = 0; int < response.streamDomains.element.length; int++) {
-			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		for (var int = 0; int < response.length; int++) {
+			$scope.domainList.push(response[int].domaincode);
 		}
 	});
+	
+//	fabricAPIservice.getStreamDomains().success(function(response) {
+//		response.streamDomains.element.sort(function(a, b) { 
+//		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+//		});
+//		
+//		for (var int = 0; int < response.streamDomains.element.length; int++) {
+//			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+//		}
+//	});
 
-	$scope.subDomainList = [];
-	fabricAPIservice.getStreamSubDomains().success(function(response) {
-		response.streamSubDomains.element.sort(function(a, b) { 
-		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+	$scope.subdomainList = [];
+	$scope.selectSubdomain = function(domain){
+		console.log("selectSubdomain", domain);
+		adminAPIservice.loadSubDomains(domain).success(function(response) {
+			console.log("loadSubDomains", response);
+			response.sort(function(a, b) { 
+			    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+			});
+			for (var int = 0; int < response.length; int++) {
+				$scope.subdomainList.push(response[int].subdomaincode);
+			}
+			console.log("loadSubDomains subdomainList", $scope.subdomainList);
+
 		});
-		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
-			$scope.subDomainList.push(response.streamSubDomains.element[int]);
-		}
-	});
+	};
 
 //	$scope.tagList = [];
 //	fabricAPIservice.getStreamTags().success(function(response) {
@@ -1232,10 +1261,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 //		}
 //	});
 	$scope.tagList = [];
-	fabricAPIservice.getStreamTags().success(function(response) {
-		for (var int = 0; int < response.streamTags.element.length; int++) {
-			//$scope.tagList.push(response.streamTags.element[int].tagCode);
-			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
+	adminAPIservice.loadTags().success(function(response) {
+		for (var int = 0; int < response.length; int++) {
+			var tagLabel = $translate.use()=='it'?response[int].langit:response[int].langen;
+			$scope.tagList.push({"tagCode":response[int].tagcode, "tagLabel":tagLabel} );
 		}
 		$scope.tagList.sort(function(a, b) { 
 		    return ((a.tagLabel.trim().toUpperCase() < b.tagLabel.trim().toUpperCase()) ? -1 : ((a.tagLabel.trim().toUpperCase() > b.tagLabel.trim().toUpperCase()) ? 1 : 0));
@@ -1318,20 +1347,19 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 
 
-	$scope.unitOfMesaurementList = [];
-	fabricAPIservice.getStreamUnitOfMesaurement().success(function(response) {
-		$scope.unitOfMesaurementList = response.measureUnit.element;
+	$scope.measureUnitsList = [];
+	adminAPIservice.loadMeasureUnits().success(function(response) {
+		$scope.measureUnitsList = response;
 	});
 
 	var defaultDataType = null;
 	$scope.dataTypeList = [];
-	fabricAPIservice.getStreamDataType().success(function(response) {
-		$scope.dataTypeList = response.dataType.element;
-		//$scope.dataTypeList.push(coordinatesDataType);
+	adminAPIservice.loadDataTypes().success(function(response) {
+		$scope.dataTypeList = response;
 		for (var int = 0; int < $scope.dataTypeList; int++) {
-			if($scope.dataTypeList[int].dataType == 'string'){
-				console.log("$scope.dataTypeList[int].dataType", $scope.dataTypeList[int].dataType);
-				defaultDataType = $scope.dataTypeList[int].dataType;
+			if($scope.dataTypeList[int].datatypecode == 'string'){
+				console.log("$scope.dataTypeList[int].dataType", $scope.dataTypeList[int].datatypecode);
+				defaultDataType = $scope.dataTypeList[int].datatypecode;
 				break;
 			}
 		}
@@ -1972,8 +2000,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 } ]);
 
 
-appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal', 'devService',
-                                                              function($scope, $route, $location, fabricAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate, $modal, devService) {
+appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice' ,'fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal', 'devService',
+                                                              function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate, $modal, devService) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.warningMessages = [];
 	
@@ -2071,33 +2099,34 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	
 	$scope.domainList = [];
-	fabricAPIservice.getStreamDomains().success(function(response) {
-		response.streamDomains.element.sort(function(a, b) { 
+	adminAPIservice.loadDomains().success(function(response) {
+		response.sort(function(a, b) { 
 		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
 		});
-		
-		for (var int = 0; int < response.streamDomains.element.length; int++) {
-			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+		for (var int = 0; int < response.length; int++) {
+			$scope.domainList.push(response[int].domaincode);
 		}
 	});
 
 	$scope.subDomainList = [];
-	fabricAPIservice.getStreamSubDomains().success(function(response) {
-		response.streamSubDomains.element.sort(function(a, b) { 
-		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+	$scope.selectSubdomain = function(domain){
+		adminAPIservice.loadSubDomains(domain).success(function(response) {
+			response.sort(function(a, b) { 
+			    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+			});
+			for (var int = 0; int < response.length; int++) {
+				$scope.subdomainList.push(response[int].subdomaincode);
+			}
 		});
-		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
-			$scope.subDomainList.push(response.streamSubDomains.element[int]);
-		}
-	});
+	};
 	
 	
 
 	$scope.tagList = [];
-	fabricAPIservice.getStreamTags().success(function(response) {
-		for (var int = 0; int < response.streamTags.element.length; int++) {
-			//$scope.tagList.push(response.streamTags.element[int].tagCode);
-			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
+	adminAPIservice.loadTags().success(function(response) {
+		for (var int = 0; int < response.length; int++) {
+			var tagLabel = $translate.use()=='it'?response[int].langit:response[int].langen;
+			$scope.tagList.push({"tagCode":response[int].tagcode, "tagLabel":tagLabel} );
 		}
 		
 		$scope.tagList.sort(function(a, b) { 
@@ -2139,20 +2168,19 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	}).error(function(response) {console.error("erro", response);});
 
 
-	$scope.unitOfMesaurementList = [];
-	fabricAPIservice.getStreamUnitOfMesaurement().success(function(response) {
-		$scope.unitOfMesaurementList = response.measureUnit.element;
+	$scope.measureUnitsList = [];
+	adminAPIservice.loadMeasureUnits().success(function(response) {
+		$scope.measureUnitsList = response;
 	});
 
 	var defaultDataType = null;
 	$scope.dataTypeList = [];
-	fabricAPIservice.getStreamDataType().success(function(response) {
-		$scope.dataTypeList = response.dataType.element;
-		//$scope.dataTypeList.push(coordinatesDataType);
+	adminAPIservice.loadDataTypes().success(function(response) {
+		$scope.dataTypeList = response;
 		for (var int = 0; int < $scope.dataTypeList; int++) {
-			if($scope.dataTypeList[int].dataType == 'string'){
-				console.log("$scope.dataTypeList[int].dataType", $scope.dataTypeList[int].dataType);
-				defaultDataType = $scope.dataTypeList[int].dataType;
+			if($scope.dataTypeList[int].datatypecode == 'string'){
+				console.log("$scope.dataTypeList[int].dataType", $scope.dataTypeList[int].datatypecode);
+				defaultDataType = $scope.dataTypeList[int].datatypecode;
 				break;
 			}
 		}

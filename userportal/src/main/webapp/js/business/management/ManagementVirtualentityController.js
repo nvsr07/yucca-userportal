@@ -137,7 +137,7 @@ appControllers.controller('ManagementVirtualentityWizardCtrl', [ '$scope', funct
 
 } ]);
 
-appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info) {
+appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'adminAPIservice','info', function($scope, $route, $location, fabricAPIservice, adminAPIservice, info) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 
 	$scope.isOwner = function(){
@@ -145,22 +145,34 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	};
 
 
-	$scope.categoriesList = [];
-	fabricAPIservice.getVirtualentityCategories().success(function(response) {
-		$scope.categoriesList = response.categoriaVirtualEntity.element;
+	$scope.so_categoriesList = [];
+	adminAPIservice.loadSOCategories().success(function(response) {
+		console.log("loadSOCategories", loadSOCategories);
+		$scope.so_categoriesList = response.categoriaVirtualEntity.element;
 	});
+//	fabricAPIservice.getVirtualentityCategories().success(function(response) {
+//		$scope.so_categoriesList = response.categoriaVirtualEntity.element;
+//	});
 
-	$scope.typesList = [];
-	fabricAPIservice.getVirtualentityTypes().success(function(response) {
-		for (var int = 0; int < response.tipoVirtualEntity.element.length; int++) {
-			var virtualentity = response.tipoVirtualEntity.element[int];
-
-			if(virtualentity.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
-				$scope.typesList.push(virtualentity);
+	
+	$scope.so_typesList = [];
+	fabricAPIservice.loadSOTypes().success(function(response) {
+		for (var int = 0; int < response.length; int++) {
+			if(response[int].idSoType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+				$scope.so_typesList.push(response[int]);
 		}
 
-		//$scope.typesList = response.tipoVirtualEntity.element;
 	});
+//	fabricAPIservice.getVirtualentityTypes().success(function(response) {
+//		for (var int = 0; int < response.tipoVirtualEntity.element.length; int++) {
+//			var virtualentity = response.tipoVirtualEntity.element[int];
+//
+//			if(virtualentity.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+//				$scope.typesList.push(virtualentity);
+//		}
+//
+//	});
+
 	$scope.codeVirtualEntity;
 	$scope.generateUUID = function(virtualentity){
 		console.log("ui");
@@ -287,7 +299,7 @@ appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route'
 	};
 } ]);
 
-appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$location', function($scope, $routeParams, fabricAPIservice, info, $location) {
+appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'info', '$location', function($scope, $routeParams, fabricAPIservice, adminAPIservice,  info, $location) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	
 	$scope.changeTwitterUser = false;
@@ -296,22 +308,26 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		return info.isOwner( $scope.tenantCode);
 	};
 
-	$scope.categoriesList = [];
-	fabricAPIservice.getVirtualentityCategories().success(function(response) {
-		$scope.categoriesList = response.categoriaVirtualEntity.element;
-	});
+	$scope.so_categoriesList = [];
 
-	$scope.typesList = [];
-	fabricAPIservice.getVirtualentityTypes().success(function(response) {
-		for (var int = 0; int < response.tipoVirtualEntity.element.length; int++) {
-			var virtualentity = response.tipoVirtualEntity.element[int];
+//	adminAPIservice.loadSOCategories().success(function(response) {
+//		console.log("loadSOCategories", response);
+//		$scope.so_categoriesList = response;
+//	});
+//	fabricAPIservice.getVirtualentityCategories().success(function(response) {
+//		$scope.so_categoriesList = response.categoriaVirtualEntity.element;
+//	});
 
-			if(virtualentity.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
-				$scope.typesList.push(virtualentity);
-		};
-
-		//$scope.typesList = response.tipoVirtualEntity.element;
-	});
+//	$scope.so_typesList = [];
+//	adminAPIservice.loadSOTypes().success(function(response) {
+//		for (var int = 0; int < response.length; int++) {
+//
+//			if(response[int].idSoType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+//				$scope.so_typesList.push(response[int]);
+//		};
+//
+//		//$scope.typesList = response.tipoVirtualEntity.element;
+//	});
 	
 	
 	$scope.generateUUID = function(virtualentity){

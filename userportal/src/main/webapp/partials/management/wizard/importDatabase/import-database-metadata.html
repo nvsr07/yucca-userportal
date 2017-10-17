@@ -36,7 +36,7 @@
 			<div class="form-group">
 				<label for="inputDatasetDomain" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-9">
-					<select class="input-sm form-control" ng-if='defaultMetadata.info.dataDomain!="MULTI"' ng-model="defaultMetadata.info.dataDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+					<select class="input-sm form-control" ng-if='defaultMetadata.info.dataDomain!="MULTI"' ng-model="defaultMetadata.info.dataDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true"  ng-change="selectSubdomain(defaultMetadata.info.dataDomain)">
 						<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
 					</select>
 					<input type="text" ng-if='defaultMetadata.info.dataDomain=="MULTI"' class="form-control" ng-model="defaultMetadata.info.dataDomain" id="inputDatasetName" disabled='disabled'
@@ -46,7 +46,7 @@
 			<div class="form-group has-feedback">
 				<label for="inputDatasetCodSubDomain" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-9">
-					<select class="input-sm form-control" ng-if='defaultMetadata.info.dataDomain!="MULTI"' ng-model="defaultMetadata.info.codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subDomainList|subDomainFilter:defaultMetadata.info.dataDomain" ng-required="true">
+					<select class="input-sm form-control" ng-if='defaultMetadata.info.dataDomain!="MULTI"' ng-model="defaultMetadata.info.codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subdomainList" ng-required="true">
 						<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER</option>
 					</select>
 					<input type="text" ng-if='defaultMetadata.info.dataDomain=="MULTI"' class="form-control" ng-model="defaultMetadata.info.codSubDomain" id="inputSubdomainCode" 

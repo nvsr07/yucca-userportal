@@ -44,17 +44,18 @@ appFilters.filter('number_ellipse', function() {
 	};
 });
 
-appFilters.filter('subDomainFilter', function () {
-    return function (subDomainList, domain) {
-    	var subDomainFilteredList = [];
-    	angular.forEach(subDomainList, function(val, key) {
-    		if ((val.codDomain == domain) && (val.deprecated == 0)){
-    			this.push(val.codSubDomain);
-    		}
-    	}, subDomainFilteredList);
-    	return subDomainFilteredList;
-    };
-});
+// remove with new admin api
+//appFilters.filter('subDomainFilter', function () {
+//    return function (subDomainList, domain) {
+//    	var subDomainFilteredList = [];
+//    	angular.forEach(subDomainList, function(val, key) {
+//    		if ((val.codDomain == domain) && (val.deprecated == 0)){
+//    			this.push(val.codSubDomain);
+//    		}
+//    	}, subDomainFilteredList);
+//    	return subDomainFilteredList;
+//    };
+//});
 
 appFilters.filter('string_ellipse', function () {
     return function (text, length, end) {

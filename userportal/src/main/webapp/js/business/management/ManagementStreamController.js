@@ -154,8 +154,8 @@ appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($sc
 } ]);
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream', '$translate',
-                                                    function($scope, $routeParams, fabricAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream, $translate) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream', '$translate',
+                                                    function($scope, $routeParams, fabricAPIservice, adminAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
@@ -429,10 +429,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	});
 
 	$scope.tagList = [];
-	fabricAPIservice.getStreamTags().success(function(response) {
-		for (var int = 0; int < response.streamTags.element.length; int++) {
-			//$scope.tagList.push(response.streamTags.element[int].tagCode);
-			$scope.tagList.push({"tagCode":response.streamTags.element[int].tagCode, "tagLabel":$translate.instant(response.streamTags.element[int].tagCode)} );
+	adminAPIservice.loadTags().success(function(response) {
+		for (var int = 0; int < response.length; int++) {
+			var tagLabel = $translate.use()=='it'?response[int].langit:response[int].langen;
+			$scope.tagList.push({"tagCode":response[int].tagcode, "tagLabel":tagLabel} );
 		}
 		
 		$scope.tagList.sort(function(a, b) { 
@@ -460,33 +460,49 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	});
 
 	$scope.domainList = [];
-	fabricAPIservice.getStreamDomains().success(function(response) {
-		for (var int = 0; int < response.streamDomains.element.length; int++) {
-			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+	adminAPIservice.loadDomains().success(function(response) {
+		response.sort(function(a, b) { 
+		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+		});
+		for (var int = 0; int < response.length; int++) {
+			$scope.domainList.push(response[int].domaincode);
 		}
 	});
+
+	
+//	fabricAPIservice.getStreamDomains().success(function(response) {
+//		for (var int = 0; int < response.streamDomains.element.length; int++) {
+//			$scope.domainList.push(response.streamDomains.element[int].codDomain);
+//		}
+//	});
 
 	$scope.subdomainList = [];
-	fabricAPIservice.getStreamSubDomains().success(function(response) {
-		for (var int = 0; int < response.streamSubDomains.element.length; int++) {
-			$scope.subdomainList.push(response.streamSubDomains.element[int]);
-		}
-	});
-
-	$scope.unitOfMesaurementList = [];
-	fabricAPIservice.getStreamUnitOfMesaurement().success(function(response) {
-		$scope.unitOfMesaurementList = response.measureUnit.element;
+	$scope.selectSubdomain = function(domain){
+		adminAPIservice.loadSubDomains(domain).success(function(response) {
+			response.sort(function(a, b) { 
+			    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
+			});
+			for (var int = 0; int < response.length; int++) {
+				$scope.subdomainList.push(response[int].subdomaincode);
+			}
+		});
+	};
+	
+	$scope.measureUnitsList = [];
+	adminAPIservice.loadMeasureUnits().success(function(response) {
+		$scope.measureUnitsList = response;
 	});
 
 
 	$scope.phenomenomList = [];
-	fabricAPIservice.getStreamPhenomenom().success(function(response) {
-		$scope.phenomenomList = response.Phenomenon.element;
+	
+	adminAPIservice.loadPhenomenons().success(function(response) {
+		$scope.phenomenomList = response;
 	});
 
 	$scope.dataTypeList = [];
-	fabricAPIservice.getStreamDataType().success(function(response) {
-		$scope.dataTypeList = response.dataType.element;
+	adminAPIservice.loadDataTypes().success(function(response) {
+		$scope.dataTypeList = response;
 	});
 
 	$scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
@@ -718,13 +734,13 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$scope.editComponentName=c.nome;
 		$scope.editComponentUnitOfMeasurement = {};
 		$scope.editComponentUnitOfMeasurement.idMeasureUnit = c.idMeasureUnit;
-		$scope.editComponentUnitOfMeasurement.measureUnit = c.measureUnit;
-		$scope.editComponentUnitOfMeasurement.measureUnitCategory = c.measureUnitType;
+		$scope.editComponentUnitOfMeasurement.measureUnit = c.measureunit;
+		$scope.editComponentUnitOfMeasurement.measureUnitCategory = c.measureunitcategory;
 		$scope.editComponentTolerance = c.tolerance;
 		$scope.editComponentPhenomenon = {};
 		$scope.editComponentPhenomenon.idPhenomenon = c.idPhenomenon;
-		$scope.editComponentPhenomenon.phenomenon = c.phenomenon;
-		$scope.editComponentPhenomenon.phenomenonCategory = c.phenomenonType;
+		$scope.editComponentPhenomenon.phenomenon = c.phenomenonname;
+		$scope.editComponentPhenomenon.phenomenonCategory = c.phenomenoncetegory;
 	};
 	
 	$scope.cancelEditComponent = function(index){
@@ -738,8 +754,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		editComponentDataType.idDataType = $scope.stream.componenti.element[index].idDataType;
 		editComponentDataType.dataType = $scope.stream.componenti.element[index].dataType;
 
-		editComponentUnitOfMeasurement.measureUnitType = $scope.stream.componenti.element[index].measureUnitCategory;
-		editComponentPhenomenon.phenomenonType = $scope.stream.componenti.element[index].phenomenonCategory;
+		editComponentUnitOfMeasurement.measureunitcategory = $scope.stream.componenti.element[index].measureUnitCategory;
+		editComponentPhenomenon.phenomenoncetegory = $scope.stream.componenti.element[index].phenomenonCategory;
 		if(!editComponentTolerance) 
 			editComponentTolerance = "0";
 		editComponentSinceVersion = $scope.stream.componenti.element[index].sinceVersion;
@@ -801,19 +817,19 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					
 					if(componentUnitOfMeasurement){
 						component.idMeasureUnit = componentUnitOfMeasurement.idMeasureUnit;
-						component.measureUnit = componentUnitOfMeasurement.measureUnit;
-						component.measureUnitCategory = componentUnitOfMeasurement.measureUnitType;
+						component.measureUnit = componentUnitOfMeasurement.measureunit;
+						component.measureUnitCategory = componentUnitOfMeasurement.measureunitcategory;
 					}  
 					component.tolerance = componentTolerance;
 
 					if(componentPhenomenon){
 						component.idPhenomenon = componentPhenomenon.idPhenomenon;
-						component.phenomenon = componentPhenomenon.phenomenon;
-						component.phenomenonCategory = componentPhenomenon.phenomenonType;
+						component.phenomenon = componentPhenomenon.phenomenonname;
+						component.phenomenonCategory = componentPhenomenon.phenomenoncetegory;
 					}
 					if(componentDataType){
 						component.idDataType = componentDataType.idDataType;
-						component.dataType = componentDataType.dataType;
+						component.dataType = componentDataType.datatypecode;
 					}
 					component.sinceVersion = componentSinceVersion;
 				} else {
