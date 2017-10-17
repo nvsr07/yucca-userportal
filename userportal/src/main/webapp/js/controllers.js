@@ -225,34 +225,32 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	var gestModalWindow = function(){
 
-		if (url.indexOf("?") > -1){
-			$scope.user.authType = $scope.user.authType || "local";
-			if (!$scope.user.isStrongUser){  //Compare la modale perchè non hai credenziali strong!
-				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
-				$scope.user.authType = "notStrong";
-			} else if ($scope.user.isTechnicalUser){
-				$scope.user.authType = "tecnical";
-				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
-			} else if (url.indexOf("tenant=false") > -1){
-				if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
-					if ($scope.user.isSocialUser){
-						$scope.user.authType = "social";
-						$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
-					} else {
-						$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
-					}
+		$scope.user.authType = $scope.user.authType || "local";
+		if (!$scope.user.isStrongUser){  //Compare la modale perchè non hai credenziali strong!
+			$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
+			$scope.user.authType = "notStrong";
+		} else if ($scope.user.isTechnicalUser){
+			$scope.user.authType = "tecnical";
+			$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
+		} else if ($scope.user.tenants == 'undefined' || $scope.user.tenants.length == 0 ){
+			if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
+				if ($scope.user.isSocialUser){
+					$scope.user.authType = "social";
+					$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
 				} else {
-					//Tutto ok! NO MODAL
+					$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
 				}
 			} else {
 				//Tutto ok! NO MODAL
 			}
-			
-			if ($scope.user.isSocialUser)
-				$scope.user.authType = "social";
-			
-			console.log("user.authType", $scope.user.authType);
+		} else {
+			//Tutto ok! NO MODAL
 		}
+		
+		if ($scope.user.isSocialUser)
+			$scope.user.authType = "social";
+		
+		console.log("user.authType", $scope.user.authType);
 	};
 	
 	$scope.changeLanguage = function(langKey) {
@@ -302,7 +300,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	};
 		
 	console.log('location', $location.$$url);
-	var url = $location.$$url;
 	
 	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
 		var modalInstance = $modal.open({

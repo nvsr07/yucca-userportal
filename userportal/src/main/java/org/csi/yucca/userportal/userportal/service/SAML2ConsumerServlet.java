@@ -209,14 +209,13 @@ public class SAML2ConsumerServlet extends HttpServlet {
 							e.printStackTrace();
 						}
 
+						info.setPersonalTenantToActivated(filterPersonalTenant(allTenant, newUser.getUsername()));
+						info.setTrialTenantToActivated(filterTrialTenant(allTenant, newUser.getUsername()));
 
-						
 					}
 
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
-				info.setPersonalTenantToActivated(filterPersonalTenant(allTenant, newUser.getUsername()));
-				info.setTrialTenantToActivated(filterTrialTenant(allTenant, newUser.getUsername()));
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"
