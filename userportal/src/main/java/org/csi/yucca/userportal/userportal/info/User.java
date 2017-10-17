@@ -27,11 +27,14 @@ public class User {
 	private List<String> acceptTermConditionTenants;
 	private String storeToken;
 	
-	// fields starting with secret will not be serialized in json for client
+	private boolean isSocialUser;
+	private boolean isTechnicalUser;
+	private boolean isStrongUser;
+	private String errorOnLogin;
 	
+	// fields starting with secret will not be serialized in json for client
 	@IgnoredJSON
 	private LoadTokenFromApiResponse secretTokenFromSaml;
-	
 	@IgnoredJSON
 	private JSONObject secretTempJwt;
 	
@@ -232,6 +235,38 @@ public class User {
 
 	public void setSecretTempJwt(JSONObject jwt) {
 		this.secretTempJwt = jwt;
+	}
+
+	public boolean isSocialUser() {
+		return isSocialUser;
+	}
+
+	public void setSocialUser(boolean isSocialUser) {
+		this.isSocialUser = isSocialUser;
+	}
+
+	public boolean isTechnicalUser() {
+		return isTechnicalUser;
+	}
+
+	public void setTechnicalUser(boolean isTechnicalUser) {
+		this.isTechnicalUser = isTechnicalUser;
+	}
+
+	public boolean isStrongUser() {
+		return isStrongUser;
+	}
+
+	public void setStrongUser(boolean isStrongUser) {
+		this.isStrongUser = isStrongUser;
+	}
+
+	public String getErrorOnLogin() {
+		return errorOnLogin;
+	}
+
+	public void setErrorOnLogin(String errorOnLogin) {
+		this.errorOnLogin = errorOnLogin;
 	}
 
 }

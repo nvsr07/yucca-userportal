@@ -104,282 +104,134 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			List<Tenant> allTenant = getAllTenants(); // call without JWT, needed for sandbox
 
 			if (responseMessage != null) {
-
+				log.info("[SAML2ConsumerServlet::doPost] - Response message available");
+				
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
 
 				User newUser = info.getUser();
-				Boolean strongUser = true;
-				Boolean tenantUser = true;
-				Boolean socialUser = false;
-				Boolean tecnicalUser = false;
 
 				// HttpSession sessParam = request.getSession();
 
 				if (result == null) {
 					// newUser = AuthorizeUtils.DEFAULT_USER;
-					log.info("[SAML2ConsumerServlet::doPost] - result null");
-				} else if (result.size() > 0 && checkStrongAuthentication(result)) {
+					log.info("[SAML2ConsumerServlet::doPost] - result not logged");
+				} else if (result.size() > 0) {
 					// setting User
 					newUser = new User();
-					newUser.setLoggedIn(true);
-					// get username from SAML2
-					newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
-					// OBTAIN TOKEN and JWT FROM WSO2 IS (REPLACEBLE WITH CUSTOM LOCAL JWT GENERATION)
-					log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET TOKEN FROM SAML ");
-					String b64SAMLAssertion = result.get(AuthorizeUtils.ASSERTION_KEY);
-					LoadTokenFromApiResponse token =JWTDelegate.loadTokenFromSaml2(b64SAMLAssertion);
-					newUser.setSecretTokenFromSaml(token);
-					log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML "+token);
-					//
-					log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET JWT from TOKEN");
-					// NOTE: JWT expires very soon. It will be refreshed 
 					try {
-						JSONObject jwt = JWTDelegate.getJWTFromToken(newUser.getSecretTokenFromSaml());
+						// OBTAIN TOKEN and JWT FROM WSO2 IS (REPLACEBLE WITH CUSTOM LOCAL JWT GENERATION)
+						log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET TOKEN FROM SAML ");
+						String b64SAMLAssertion = result.get(AuthorizeUtils.ASSERTION_KEY);
+						LoadTokenFromApiResponse token =JWTDelegate.loadTokenFromSaml2(b64SAMLAssertion);
+						log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML "+token);
+						if (token==null)
+						{
+							newUser.setErrorOnLogin("Unable to get token from SAML");
+							newUser.setLoggedIn(false);
+						}
+						else {
+						//
+						log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET JWT from TOKEN");
+						// NOTE: JWT expires very soon. It will be refreshed 
+						JSONObject jwt = JWTDelegate.getJWTFromToken(token);
+						newUser.setLoggedIn(true);
+						newUser.setSecretTokenFromSaml(token);
 						newUser.setSecretTempJwt(jwt);
+						}
 					} catch (Exception e1) {
 						log.error("[SAML2ConsumerServlet::doPost] Unable to get JWT! "+e1.getMessage(),e1);
-						// TODO HOW TO REDIRECT PROBLEM
+						newUser.setErrorOnLogin("Unable to get Jwt");
+						newUser.setLoggedIn(false);
 					}
 					log.info("[SAML2ConsumerServlet::doPost] END - GET JWT from TOKEN");
-					List<String> tenantsCode = null;
-					try {
+
+					if (newUser.getLoggedIn()) // user is loggedin!
+					{
+						newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
+						newUser.setStrongUser(checkStrongAuthentication(result));
+						
+						// BEGIN get tenants
+						List<String> tenantsCode = null;
 						tenantsCode = loadRolesFromJwt(newUser, "_subscriber");
+						// do we need to add sandbox? 
+						if (tenantsCode.isEmpty()) {
+							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
+						}
 						
 						log.info("[SAML2ConsumerServlet::doPost] GOT Tenants:"+tenantsCode);
-					} catch (Exception e) {
-						log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage(),e);
-						// TODO: HOW TO REDIRECT PROBLEM
-					}
-					// filtro sui tenant, data di disattivazione
-					tenants = filterDisabledTenants(tenantsCode, allTenant);
+						// filtro sui tenant, data di disattivazione
+						tenants = filterDisabledTenants(tenantsCode, allTenant);
 
-					// verifichiamo che non sia un utente tecnico
-					if (tenants.isEmpty()) {
-						tenantUser = false;
-						List<String> tenantsCodeForTechincal = null;
+						newUser.setTenants(tenants);
+						// END get tenants
 
-						try {
-							// the user for each tenant has a role
-							// tenantName_subscriber
-							tenantsCodeForTechincal = loadRolesFromJwt(newUser, "mb-topic-");
-						} catch (Exception e) {
-
-							log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-							e.printStackTrace();
-						}
-
+						List<String> tenantsCodeForTechincal = loadRolesFromJwt(newUser, "mb-topic-");
 						if (!tenantsCodeForTechincal.isEmpty()) {
 							log.info("[SAML2ConsumerServlet::doPost] Tecnical user!:"+tenantsCodeForTechincal);
-							tecnicalUser = true;
+							newUser.setTechnicalUser(true);
 						}
-					}
+						
 
-					if (tenantsCode.isEmpty()) {
-						tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
-					}
+						newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
+						newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
+						newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 
-					if (!tecnicalUser) {
-						newUser.setTenants(tenants);
-						String newUsername = newUser.getUsername();
-						// String regexCFPattern =
-						// "^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$";
-						if (newUsername.contains("_AT_")) {
-							socialUser = true;
-							// Entro con credenziali social ovvero: Facebook,
-							// Google o Yahoo
-							String[] emailParts = newUsername.split("_AT_");
-							String firstEmailParts = emailParts[0];
-							String lastEmailParts = emailParts[1];
-							newUser.setEmail(firstEmailParts + "@" + lastEmailParts);
-							newUser.setUsername(newUsername);
-							// newUser.setUsername(firstEmailParts + "@" +
-							// lastEmailParts);
-							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)).contains(" ")) {
-								// sembrerebbe il caso di Google o Yahoo
-								String[] givenNameParts = AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
-								String firstName = givenNameParts[0];
-								String lastName = givenNameParts[1];
-
-								newUser.setFirstname(firstName);
-								newUser.setLastname(lastName);
-							} else {
-								// sembrerebbe il caso di Facebook
-								newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
-								newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
-							}
-						} else if (newUsername.contains("tw:")) {
-							// Entro con credenziali social ovvero: Twitter
-							if (result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)).contains(" ")) {
-								String[] givenNameParts = AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME).split(" ");
-								String firstName = givenNameParts[0];
-								String lastName = givenNameParts[1];
-
-								newUser.setFirstname(firstName);
-								newUser.setLastname(lastName);
-							} else {
-								newUser.setLastname(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME));
-							}
-						} else {
-							// Entro con credenziali non social
-							newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
-							newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
-							newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
-						}
-
-						newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
-
-						if (tenants.isEmpty())
-							tenants = filterDisabledTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode()), allTenant);
-
+						detectSocialAndSetFields(newUser);
+						
+						newUser.setAcceptTermConditionTenantsFromString(loadTermConditionFromJwt(newUser));
 						newUser.setActiveTenant(tenants.get(0).getTenantCode());
-
-						log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - username: " + newUser.getUsername() + " | tenant: " + newUser.getTenants());
-
+						
 						try {
 							newUser.setPermissions(loadPermissions(newUser));
 						} catch (Exception e) {
-							log.error("[SAML2ConsumerServlet::doPost] - ERROR: " + e.getMessage());
-							e.printStackTrace();
+							log.error("[SAML2ConsumerServlet::doPost] - ERROR on load permission" + e.getMessage(),e);
 						}
-						// newUser.setActiveTenant(newUser.getTenants().get(0));
-						// newUser.setToken(getTokenForTenant(newUser));
+						
 						Map<String, String> tokens = new HashMap<String, String>();
 
 						if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0) {
 							newUser.setToken(getTokenForTenant(newUser.getActiveTenant()));
 							tokens.put(newUser.getActiveTenant(), newUser.getToken());
-						} else {
-							newUser.setToken(getTokenForTenant("sandbox"));
-							tokens.put("sandbox", newUser.getToken());
-						}
-
-						for (Tenant tnt : newUser.getTenants()) {
-							if (!tnt.equals(newUser.getActiveTenant())) {
-								tokens.put(tnt.getTenantCode(), getTokenForTenant(tnt.getTenantCode()));
+							for (Tenant tnt : newUser.getTenants()) {
+								if (!tnt.equals(newUser.getActiveTenant())) {
+									tokens.put(tnt.getTenantCode(), getTokenForTenant(tnt.getTenantCode()));
+								}
 							}
+
 						}
 						newUser.setTenantsTokens(tokens);
 
-						for (Object key : result.keySet().toArray()) {
-							String value = (String) result.get(key);
-							log.debug("[SAML2ConsumerServlet::doPost] - result size > 1 - value: " + value);
+						try {
+							String storeToken = loadStoreToken(newUser.getUsername());
+							newUser.setStoreToken(storeToken);
+						} catch (Exception e) {
+							log.error("[SAML2ConsumerServlet::doPost] - loadStoreToken Error " + e.getMessage());
+							e.printStackTrace();
 						}
+
+						info.setPersonalTenantToActivated(filterPersonalTenant(allTenant, newUser.getUsername()));
+						info.setTrialTenantToActivated(filterTrialTenant(allTenant, newUser.getUsername()));
+
 					}
-				} else {
-					// something wrong, re-login
-					// Add modalview
-					// Utente senza strong authentication
-
-					strongUser = false;
-					tenantUser = false;
-				}
-
-				if ((socialUser) && (newUser.getTenants().isEmpty())) {
-					newUser.setTenants(Arrays.asList(AuthorizeUtils.DEFAULT_TENANT));
-				}
-
-				if ((newUser.getAcceptTermConditionTenants() == null) || (newUser.getAcceptTermConditionTenants().size() <= 0)) {
-					String termAndConditionClaim = null;
-					try {
-						termAndConditionClaim = loadTermConditionTenantClaim(newUser);
-					} catch (Exception e) {
-						log.error("[SAML2ConsumerServlet::doPost] - loadTermConditionTenantClaim Error " + e.getMessage());
-						e.printStackTrace();
-					}
-
-					if (termAndConditionClaim != null)
-						newUser.setAcceptTermConditionTenantsFromString(termAndConditionClaim);
-				}
-
-				try {
-					String storeToken = loadStoreToken(newUser.getUsername());
-					newUser.setStoreToken(storeToken);
-				} catch (Exception e) {
-					log.error("[SAML2ConsumerServlet::doPost] - loadStoreToken Error " + e.getMessage());
-					e.printStackTrace();
-				}
 
 				info.setUser(newUser);
 				// info.setTenantCode(newUser.getTenant());
-				info.setPersonalTenantToActivated(filterPersonalTenant(allTenant, newUser.getUsername()));
-				info.setTrialTenantToActivated(filterTrialTenant(allTenant, newUser.getUsername()));
 
 				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
 				String returnPath = request.getContextPath() + "/"
 						+ URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 
-				if (!strongUser) { // Ovvero l'utente non ha credenziali forti
-					int found = returnPath.indexOf("?");
-					if (found == -1) {
-						returnPath += "?strong=false";
-					} else {
-						returnPath += "&strong=false";
-					}
-				}
-
-				if (!tenantUser) { // Ovvero l'utente non ha tenant associati!
-					int found = returnPath.indexOf("?");
-					if (found == -1) {
-						returnPath += "?tenant=false";
-					} else {
-						returnPath += "&tenant=false";
-					}
-				}
-
-				if (socialUser) { // Ovvero l'utente ha usato credenziali
-									// social, strong=false&social=true non può
-									// capitare
-					int found = returnPath.indexOf("?");
-					if (found == -1)
-						returnPath += "?social=true";
-					else
-						returnPath += "&social=true";
-				} else {
-					int found = returnPath.indexOf("?");
-					if (found == -1)
-						returnPath += "?social=false";
-					else
-						returnPath += "&social=false";
-				}
-
-				if (tecnicalUser) { // Accesso con credenziali tecniche,
-									// mb-topic-*
-					request.getSession().invalidate();
-					int found = returnPath.indexOf("?");
-					if (found != -1)
-						returnPath += "&tecnical=true";
-				}
-
-				if (strongUser && tenantUser) { // Se hai credenziali strong e
-												// hai tenant, non compare la
-												// modale!!
-					int found = returnPath.indexOf("?");
-					if (found == -1) {
-						returnPath += "?login=ok";
-					} else {
-						returnPath += "&login=ok";
-					}
-				}
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 				response.sendRedirect(returnPath);
-			} else {
+			}
+		} else {
 				try {
 					String returnPath = request.getParameter("returnUrl");
 					String typeAuth = request.getParameter("typeAuth");
 					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION, returnPath);
-					// info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
-					// User defaultUser = AuthorizeUtils.DEFAULT_USER;
-					// defaultUser.setPermissions(AuthorizeUtils.DEFAULT_PERMISSIONS);
-					// info.setUser(defaultUser);
-					// request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO,
-					// info);
 					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
-					// response.sendRedirect(requestMessage +
-					// "&issuer=userportal&customCssPath=" +
-					// URLEncoder.encode(consumer.getIdpLoginPageStylePath(),
-					// "UTF-8"));
 
 					String cssPath = consumer.getIdpLoginPageStylePath();
 					if (typeAuth != null) {
@@ -392,18 +244,34 @@ public class SAML2ConsumerServlet extends HttpServlet {
 							cssPath = cssPath + "Work.css";
 					}
 					response.sendRedirect(requestMessage + "&issuer="+consumer.getIssuer()+"&customCssPath=" + URLEncoder.encode(cssPath, "UTF-8"));
-				} catch (IOException e) {
-					e.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		} finally {
 			log.debug("[SAML2ConsumerServlet::doPost] - END");
-		}
+		}			
 	}
 
 
+	
+	private void detectSocialAndSetFields(User newUser)
+	{
+		String newUsername = newUser.getUsername();
+		if (newUsername.contains("_AT_")) {
+			newUser.setSocialUser(true);
+			// Entro con credenziali social ovvero: Facebook,
+			// Google o Yahoo
+			String[] emailParts = newUsername.split("_AT_");
+			String firstEmailParts = emailParts[0];
+			String lastEmailParts = emailParts[1];
+			newUser.setEmail(firstEmailParts + "@" + lastEmailParts);
+			
+		} else if (newUsername.contains("tw:")) {
+			newUser.setSocialUser(true);
+		} 
+		
+	}
 
 	private boolean checkStrongAuthentication(Map<String, String> result) {
 		String riscontro = result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_SHIB_RISCONTRO));
@@ -614,6 +482,20 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return permissions;
 	}
 
+	private String loadTermConditionFromJwt(User newUser) {
+		log.debug("[SAML2ConsumerServlet::loadTermConditionFromJwt] - START");
+		JSONObject jwt = newUser.getSecretTempJwt();
+		
+		// it will be ignored expiration
+		
+		Object termString = jwt.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
+		if (termString!=null)
+			return termString.toString();
+		else
+			return null;
+	}
+
+	
 	
 	private List<String> loadRolesFromJwt(User newUser, String filter) {
 
@@ -999,73 +881,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	
 	}
 
-	/* no more usefull, now using addDefaultApplication 
-	private GenerateTokenResponse createAndSubscribeDefaultApplication(String storeBaseUrl, String username) throws HttpException, IOException {
-
-		HttpClient client = HttpClientBuilder.create().build();
-
-		// create Default Application
-		HttpPost httpPostCreate = new HttpPost(storeBaseUrl + "/site/blocks/secure/application.jag?");
-		httpPostCreate.addHeader("Content-Type", "application/x-www-form-urlencoded");
-		httpPostCreate.addHeader("charset", "UTF-8");
-
-		List<BasicNameValuePair> postParametersCreate = new LinkedList<BasicNameValuePair>();
-		postParametersCreate.add(new BasicNameValuePair("username", username));
-		//postParametersCreate.add(new BasicNameValuePair("description", "Default Application"));
-		postParametersCreate.add(new BasicNameValuePair("action", "addApplication"));
-		postParametersCreate.add(new BasicNameValuePair("callbackUrl", ""));
-		postParametersCreate.add(new BasicNameValuePair("tier", "Unlimited"));
-		postParametersCreate.add(new BasicNameValuePair("application", "DefaultApplication"));
-
-		httpPostCreate.setEntity(new UrlEncodedFormEntity(postParametersCreate, "UTF-8"));
-
-		HttpResponse rCreate = client.execute(httpPostCreate);
-		log.debug("[SAML2ConsumerServlet::createAndSubscribeDefaultApplication] call to " + storeBaseUrl + storeBaseUrl + "/site/blocks/secure/application.jag?" + " - status "
-				+ rCreate.getStatusLine().toString());
-
-		StringBuilder outCreate = new StringBuilder();
-		BufferedReader rdCreate = new BufferedReader(new InputStreamReader(rCreate.getEntity().getContent()));
-		String lineCreate = "";
-
-		while ((lineCreate = rdCreate.readLine()) != null) {
-			outCreate.append(lineCreate);
-		}
-
-		log.info("[AuthorizeFilter::createAndSubscribeDefaultApplication] - add default application create response " + outCreate);
-
-		// Subscribe Default Application
-		HttpPost httpPostSubscribe = new HttpPost(storeBaseUrl + "/site/blocks/secure/subscription.jag?");
-		httpPostSubscribe.addHeader("Content-Type", "application/x-www-form-urlencoded");
-		httpPostSubscribe.addHeader("charset", "UTF-8");
-
-		List<BasicNameValuePair> postParametersSubscribe = new LinkedList<BasicNameValuePair>();
-		postParametersSubscribe.add(new BasicNameValuePair("username", username));
-		postParametersSubscribe.add(new BasicNameValuePair("action", "addAPISubscription"));
-		postParametersSubscribe.add(new BasicNameValuePair("name", "metadata_api"));
-		postParametersSubscribe.add(new BasicNameValuePair("version", "1.0"));
-		postParametersSubscribe.add(new BasicNameValuePair("provider", "admin"));
-		postParametersSubscribe.add(new BasicNameValuePair("tier", "Unlimited"));
-		postParametersSubscribe.add(new BasicNameValuePair("applicationName", "DefaultApplication"));
-
-		httpPostSubscribe.setEntity(new UrlEncodedFormEntity(postParametersSubscribe, "UTF-8"));
-
-		HttpResponse rSubscribe = client.execute(httpPostSubscribe);
-		log.debug("[SAML2ConsumerServlet::createAndSubscribeDefaultApplication] call to " + storeBaseUrl + storeBaseUrl + "/site/blocks/secure/subscription.jag?" + " - status "
-				+ rSubscribe.getStatusLine().toString());
-
-		StringBuilder outSubscribe = new StringBuilder();
-		BufferedReader rdSubscribe = new BufferedReader(new InputStreamReader(rSubscribe.getEntity().getContent()));
-		String lineSubscribe = "";
-
-		while ((lineSubscribe = rdSubscribe.readLine()) != null) {
-			outSubscribe.append(lineSubscribe);
-		}
-
-		log.info("[AuthorizeFilter::createAndSubscribeDefaultApplication] - add default application subscription response " + outSubscribe);
-
-		return generateApplicationKey(storeBaseUrl, username);
-
-	} */
 
 	public static void main(String[] args) {
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><ns:getRolesOfUserResponse xmlns:ns=\"http://org.apache.axis2/xsd\" xmlns:ax2644=\"http://common.mgt.user.carbon.wso2.org/xsd\"><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>all4all_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>circe_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>csp_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>ondeuwc_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>sandbox_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>smartlab_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>tecnetdati_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>false</ax2644:editable><ax2644:itemDisplayName></ax2644:itemDisplayName><ax2644:itemName>false</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return></ns:getRolesOfUserResponse></soapenv:Body></soapenv:Envelope>";

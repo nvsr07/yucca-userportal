@@ -137,80 +137,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			$scope.BuildInfo.timestamp = new Date().getMilliseconds();
 		}
 		
-		//do authentication to the store
-		/*
-		if (url.indexOf("login=ok") > -1){
-			$scope.linkLoginToStore = "/store/site/pages/sso-filter.jag?requestedPage=%2Fstore%2F";
-			$scope.linkLoginToStoreW = "1";
-			$scope.linkLoginToStoreH = "1";
-		}
 		
-		$scope.iframeStoreLoaded = function(){
-			console.log("iframeStoreLoaded - START");
-        	storeAPIservice.getSubscriptions().success(function(response) {
-        		console.log("getSubscriptions response",response);
-        		var subscriptionList = response.subscriptions;
-        		var storeToken=null;
-        		var foundDefaultApplication = false;
-        		if(subscriptionList!=null){
-        			for (var appIndex = 0; appIndex < subscriptionList.length; appIndex++) {
-        				if (subscriptionList[appIndex].name == 'DefaultApplication')
-        				{
-        					foundDefaultApplication = true;
-        					console.log("Application DefaultApplication FOUND!");
-        					if (subscriptionList[appIndex].prodKey != null)
-        					{
-            					console.log("Token for DefaultApplication FOUND");
-            					storeToken=subscriptionList[appIndex].prodKey;
-            					//info.setStoreToken(subscriptionList[appIndex].prodKey);
-        					}
-        					break;
-        				}
-        			}
-        		}
-        		if (foundDefaultApplication == false){
-        			console.log("Token for DefaultApplication NOT FOUND!");
-        			storeAPIservice.addAPISubscription('metadata_api', "1.0", 'admin', 'DefaultApplication')
-        				.success(function(response) {
-        					console.log("addAPISubscription response",response);
-                			storeAPIservice.generateToken('DefaultApplication',30758400)
-                				.success(function(response) {
-                					console.log("generateToken response",response);
-                					storeToken=response.data.key.accessToken;
-                					//info.setStoreToken(response.data.key.accessToken);
-                					console.log("Token for DefaultApplication GENERATED");
-                				}).error(function(response){
-                					console.error("generateToken: error", response);
-                				});	
-        				}).error(function(response){
-        					console.error("addAPISubscription: error", response);
-            	    	});	
-        		}
-        		else if (storeToken == null){
-        			storeAPIservice.generateToken('DefaultApplication',30758400)
-    				.success(function(response) {
-    					console.log("generateToken response",response);
-    					storeToken=response.data.key.accessToken;
-    					//info.setStoreToken(response.data.key.accessToken);
-
-    					console.log("Token for DefaultApplication GENERATED");
-    				}).error(function(response){
-    					console.error("generateToken: error", response);
-    				});	
-        		}
-        		
-        		if(storeToken!=null){
-        			fabricAPIservice.saveStoreTokenInSession(storeToken).success(function(info){
-        				console.log("saveStoreTokenInSession a", info);
-        			}).error(function(e){
-        				console.log("error",e);
-        			});
-        		}
-        	}).error(function(response){
-	    		console.error("getSubscriptions: error", response);
-	    	});	   
-        };
-		*/
 		checkTermCondition();
 
 		console.log('info', info);
@@ -225,17 +152,18 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	var gestModalWindow = function(){
 
-		if (url.indexOf("?") > -1){
+		if ($scope.user.loggedIn)
+		{
 			$scope.user.authType = $scope.user.authType || "local";
-			if (url.indexOf("strong=false") > -1){  //Compare la modale perchè non hai credenziali strong!
+			if (!$scope.user.isStrongUser){  //Compare la modale perchè non hai credenziali strong!
 				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
 				$scope.user.authType = "notStrong";
-			} else if (url.indexOf("tecnical=true") > -1){
+			} else if ($scope.user.isTechnicalUser){
 				$scope.user.authType = "tecnical";
 				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
-			} else if (url.indexOf("tenant=false") > -1){
+			} else if ($scope.user.tenants == 'undefined' || $scope.user.tenants.length == 0 ){
 				if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
-					if (url.indexOf("social=true") > -1){
+					if ($scope.user.isSocialUser){
 						$scope.user.authType = "social";
 						$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
 					} else {
@@ -248,7 +176,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				//Tutto ok! NO MODAL
 			}
 			
-			if (url.indexOf("social=true") > -1)
+			if ($scope.user.isSocialUser)
 				$scope.user.authType = "social";
 			
 			console.log("user.authType", $scope.user.authType);
@@ -302,7 +230,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	};
 		
 	console.log('location', $location.$$url);
-	var url = $location.$$url;
 	
 	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
 		var modalInstance = $modal.open({

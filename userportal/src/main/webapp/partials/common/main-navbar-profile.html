@@ -31,7 +31,7 @@
 
 		 	
 		   	<li role="presentation" class="divider" ng-show="user.authType != 'social'"></li>
-		   	<li role="presentation" ng-show="!user.havePersonalTenant && !user.havePersonalTenantToActivate && user.authType != 'social'"><a role="menuitem" tabindex="-1" href="" ng-click="requestTP('personal')"><span translate-cloak translate>MENU_MODAL_GET_PERSONAL_TENANT</span></a></li>
+		   	<li role="presentation" ng-show="!user.havePersonalTenant && !user.havePersonalTenantToActivate && user.authType != 'social' && user.authType != 'technical'"><a role="menuitem" tabindex="-1" href="" ng-click="requestTP('personal')"><span translate-cloak translate>MENU_MODAL_GET_PERSONAL_TENANT</span></a></li>
 		   	<li ng-repeat="tenant in userTenants" ng-show="user.havePersonalTenant">
 		 		<a ng-click="$parent.changeActiveTenant(tenant)"  ng-show="tenant.tenantType == 'personal'" href="" ng-class="{'indent-dropdownitem-noicon':tenant.tenantCode != activeTenantCode}" tooltip="{{'MENU_MODAL_YOUR_PERSONAL_TENANT'|translate}}">
 		 			<i class='glyphicon glyphicon-ok indent-dropdownitem-icon' ng-show="tenant.tenantCode == activeTenantCode"></i>&nbsp;{{tenant.tenantCode}}
