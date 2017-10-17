@@ -329,7 +329,7 @@
 				<div class="form-group">
 					<label for="inputDatasetDomain" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> </label>
 					<div class="col-sm-9">
-						<select class="input-sm form-control" ng-model="info.dataDomain" ng-if='info.dataDomain!="MULTI" && table.status=="new"' ng-options="domain as (domain|translate) for domain in domainList" ng-required="true"'>
+						<select class="input-sm form-control" ng-model="info.dataDomain" ng-if='info.dataDomain!="MULTI" && table.status=="new"' ng-options="domain as (domain|translate) for domain in domainList" ng-required="true"' ng-change="selectSubdomain(info.dataDomain)" >
 							<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
 						</select>
 						<input type="text" ng-if='info.dataDomain=="MULTI" || table.status!="new"' class="form-control" ng-model="info.dataDomain" id="inputDatasetDomain" disabled='disabled'
@@ -339,7 +339,7 @@
 				<div class="form-group has-feedback">
 					<label for="inputDatasetCodSubDomain" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span></label>
 					<div class="col-sm-9">
-						<select class="input-sm form-control" ng-if='info.dataDomain!="MULTI" && table.status=="new"' ng-model="info.codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subDomainList|subDomainFilter:info.dataDomain" ng-required="true">
+						<select class="input-sm form-control" ng-if='info.dataDomain!="MULTI" && table.status=="new"' ng-model="info.codSubDomain" ng-options="subDomain as (subDomain|translate) for subDomain in subDomainList" ng-required="true">
 							<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER</option>
 						</select>
 						<input type="text" ng-if='info.dataDomain=="MULTI" || table.status!="new"' class="form-control" ng-model="info.codSubDomain" id="inputSubdomainCode" 
@@ -586,7 +586,7 @@
 					<div class="col-sm-2"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias" ng-disabled="column.skipColumn"  ></div>
 					<div class="col-sm-2">
 						<select class="input-sm form-control" ng-model="column.dataType" ng-disabled="!column.isNewField || column.skipColumn" ng-change="refreshColumnOrder(column)">
-							<option ng-repeat="dataType in dataTypeList track by $index">{{dataType.dataType}}</option>
+							<option ng-repeat="dataType in dataTypeList track by $index">{{dataType.datatypecode}}</option>
 			          	</select>
 					</div>
 					<div class="col-sm-2 animate-show" ng-show="isDateTimeField(column)">
@@ -597,7 +597,7 @@
 					</div>
 					<div class="col-sm-2 animate-show" ng-show="isCommonField(column)">
 					 	<select class="input-sm form-control" ng-model="column.measureUnit" ng-change="refreshColumnOrder()"
-					 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit" 
+							ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit"
       							ng-disabled="!column.isNewField || column.skipColumn">
 					 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 					 	</select>

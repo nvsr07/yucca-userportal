@@ -339,7 +339,7 @@
 														<span ng-show="editingComponentIndex!=$index">{{component.measureUnitCategory}}: {{component.measureUnit}}</span>
 														<div class="has-feedback" ng-show="editingComponentIndex==$index">
 															<select class="input-sm form-control" ng-model="editComponentUnitOfMeasurement" id="editComponentUnitOfMeasurement{{$index}}"  ng-required="true"  name="editComponentUnitOfMeasurement{{$index}}"
-						             					 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+						             					 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
 						             					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option> 
 						             					 	</select>
 															<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED'|translate}}"
@@ -359,7 +359,7 @@
 														<span ng-show="editingComponentIndex!=$index">{{component.phenomenonCategory}}: {{component.phenomenon}}</span>
 														<div class="has-feedback" ng-show="editingComponentIndex==$index">
 															<select class="input-sm form-control" ng-model="editComponentPhenomenon" name="editComponentPhenomenon{{$index}}" ng-required="true"  id="editComponentPhenomenon{{$index}}" 
-						             					 		ng-options="phenomenom.phenomenon group by phenomenom.phenomenonType for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
+						             					 		ng-options="phenomenom.phenomenonname group by phenomenom.phenomenoncetegory for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
 						             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 						             					 	</select>
 															<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED'|translate}}"
@@ -392,7 +392,7 @@
 					               					 		 placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
 					             					 <td>
 					             					 	<select class="input-sm form-control" ng-model="newComponentUnitOfMeasurement" 
-					             					 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+					             					 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
 					             					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option> 
 					             					 	</select>
 													</td>
@@ -402,12 +402,12 @@
 									                </td>
 					             					<td>
 					             					 	<select class="input-sm form-control" ng-model="newComponentPhenomenon" 
-					             					 		ng-options="phenomenom.phenomenon group by phenomenom.phenomenonType for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
+					             					 		ng-options="phenomenom.phenomenonname group by phenomenom.phenomenoncetegory for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
 					             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 					             					 	</select>
 													</td>
 					             					 <td>
-					             					 	<select class="input-sm form-control" ng-model="newComponentDataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType" >
+					             					 	<select class="input-sm form-control" ng-model="newComponentDataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType" >
 					             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 					             					 	</select>
 													</td>

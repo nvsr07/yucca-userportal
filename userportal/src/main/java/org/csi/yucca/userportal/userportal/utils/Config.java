@@ -13,7 +13,7 @@ public class Config {
 	public static final String API_ODATA_URL_KEY = "API_ODATA_URL";
 	public static final String API_STORE_URL_KEY = "API_STORE_URL";
 	public static final String API_METADATA_URL_KEY = "API_METADATA_URL";
-	public static final String API_ADMIN_URL_KEY = "API_ADMIN_URL_KEY";
+	public static final String API_ADMIN_URL_KEY = "API_ADMIN_URL";
 	
 
 	public static final String RBAC_PERMISSIONS_WEBSERVICE_URL_KEY = "RBAC_PERMISSIONS_WEBSERVICE_URL";
@@ -49,6 +49,7 @@ public class Config {
 	public static final String API_PROXY_STORE_BASE_URL = "/api/proxy/store/";
 	public static final String API_PROXY_METADATA_BASE_URL = "/api/proxy/metadata/";
 	public static final String API_PROXY_RESOURCES_BASE_URL = "/api/proxy/resources/";
+	public static final String API_PROXY_ADMIN_BASE_URL = "/api/proxy/admin/";
 	public static final String SECDATA_NEWTOKEN = "/secdata/newtoken/";
 	
 	public static final String STATISTICS_DATASET_CODE = "STATISTICS_DATASET_CODE";

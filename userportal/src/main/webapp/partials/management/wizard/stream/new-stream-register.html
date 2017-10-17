@@ -53,7 +53,7 @@
 		<div class="form-group">
 			<label for="inputStreamDomain" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_DOMAIN</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<select class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList" ng-required="true">
+				<select class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList" ng-change="selectSubdomain(stream.domain)" ng-required="true">
 	  					<option value="" translate-cloak translate>{{'MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER'|translate}}</option>
 	  				</select>
 				
@@ -63,7 +63,8 @@
 		<div class="form-group">
 			<label for="inputStreamSubDomain" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_SUBDOMAIN</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<select class="input-sm form-control" name="inputStreamSubDomain" ng-model="stream.codSubDomain" ng-options="subdomain as (subdomain|translate) for subdomain in subdomainList | subDomainFilter:stream.domain" ng-required="true">
+				<select class="input-sm form-control" name="inputStreamSubDomain" ng-model="stream.codSubDomain" 
+					ng-options="subdomain as (subdomain|translate) for subdomain in subdomainList" ng-required="true">
 					<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_SUBDOMAIN_PLACEHOLDER</option>
 				</select>
 			</div>

@@ -28,7 +28,7 @@
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-group" ><input class="input-sm form-control" type="text" ng-model="column.fieldName" ></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="column.fieldAlias"  ></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-			<select class="input-sm form-control" ng-model="column.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType"  
+			<select class="input-sm form-control" ng-model="column.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType"  
 			 ng-change="refreshColumnOrder(column)">
           	</select>
 		</div>
@@ -40,7 +40,7 @@
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCommonField(column)">
 		 	<select class="input-sm form-control" ng-model="column.measureUnit"   ng-change="refreshColumnOrder()"
-		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+		 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
 		 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 		 	</select>
         </div>
@@ -68,7 +68,7 @@
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="newColumnDefinition.fieldAlias" ></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-			<select class="input-sm form-control" ng-model="newColumnDefinition.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType"></select>
+			<select class="input-sm form-control" ng-model="newColumnDefinition.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType"></select>
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isDateTimeField(newColumnDefinition)">
 			<div class="input-group input-group-sm popover-html">
@@ -78,7 +78,7 @@
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 animate-show" ng-show="isCommonField(newColumnDefinition)">
 		 	<select class="input-sm form-control" ng-model="newColumnDefinition.measureUnit"
-		 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+		 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
 		 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 		 	</select>
         </div>

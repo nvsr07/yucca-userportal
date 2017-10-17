@@ -541,8 +541,8 @@ appControllers.controller('DataExplorerPreviewBinaryCtrl', [ '$scope', '$modalIn
 ]);
 
 // TODO start Browse
-appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info', 'dataexplorerBrowseData', 'metadataapiAPIservice','$translate',
-                                                function($scope, $routeParams, fabricAPIservice, dataDiscoveryService, $location, $filter,  $http, info,dataexplorerBrowseData, metadataapiAPIservice,$translate) {
+appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'dataDiscoveryService', '$location', '$filter', '$http',  'info', 'dataexplorerBrowseData', 'metadataapiAPIservice','$translate',
+                                                function($scope, $routeParams, fabricAPIservice, adminAPIservice, dataDiscoveryService, $location, $filter,  $http, info,dataexplorerBrowseData, metadataapiAPIservice,$translate) {
 	
 	$scope.currentStep = 'domains';
 	$scope.browseSteps = [{'name':'domains', 'style':''},
@@ -623,14 +623,14 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 	var domainList = {};
 	$scope.domainList = [];
 //	$scope.selectedDomains = [];
-	fabricAPIservice.getStreamDomains().success(function(response) {
+	adminAPIservice.loadDomains().success(function(response) {
 
 		var domainListPagination = {"start": "0", "rows":"0"};
 		var domainListFacet = {"field":"domainCode"};
 		
 		
-		for (var int = 0; int < response.streamDomains.element.length; int++) {
-			domainList[response.streamDomains.element[int].codDomain] = {"domain":response.streamDomains.element[int].codDomain,"count":0};
+		for (var int = 0; int < response.length; int++) {
+			domainList[response[int].domaincode] = {"domain":response[int].domaincode,"count":0};
 		}
 		
 		metadataapiAPIservice.search(null,null, null, domainListPagination,null, null, domainListFacet).success(function(response) {
@@ -661,7 +661,7 @@ appControllers.controller('DataBrowserCtrl', [ '$scope', '$routeParams', 'fabric
 		
 		$scope.domainList.sort();
 	}).error(function(response) {
-		Console.error("fabricAPIservice.getStreamDomains() ",response );
+		Console.error("adminAPIservice.loadDomains() ",response );
 	});
 	
 

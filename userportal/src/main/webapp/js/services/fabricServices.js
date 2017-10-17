@@ -282,61 +282,61 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 	};
 
 
-	fabricAPI.getVirtualentityCategories = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_VIRTUALENTITY_CATEGORIES_URL + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getVirtualentityCategories = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_VIRTUALENTITY_CATEGORIES_URL + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
-	fabricAPI.getVirtualentityTypes = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_VIRTUALENTITY_TYPES_URL + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getVirtualentityTypes = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_VIRTUALENTITY_TYPES_URL + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
-	fabricAPI.getStreamTags = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getStreamTags = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_STREAM_TAGS_URL + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
+//
+//	fabricAPI.getStreamDomains = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
+//
+//	fabricAPI.getStreamSubDomains = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_STREAM_SUB_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
+//
+//	fabricAPI.getStreamPhenomenom = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_STREAM_PHENOMENOM_URL + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
-	fabricAPI.getStreamDomains = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getStreamUnitOfMesaurement = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
-	fabricAPI.getStreamSubDomains = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_SUB_DOMAINS_URL + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
-
-	fabricAPI.getStreamPhenomenom = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_PHENOMENOM_URL + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
-
-	fabricAPI.getStreamUnitOfMesaurement = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
-
-	fabricAPI.getStreamDataType = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_DATATYPE_URL + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getStreamDataType = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_STREAM_DATATYPE_URL + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
 
 	fabricAPI.getVirtualentity = function(tenant_code, virtualentity_code) {

@@ -389,7 +389,7 @@
 													</div>
 													<div ng-if="isCommonField(field)">
 														<select class="input-sm form-control" name="fieldMeasureUnit" ng-model="field.measureUnit" 
-													 		ng-options="unitOfMesaurement.measureUnit as unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList">
+													 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
 													 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 													 	</select>
 													</div>
@@ -410,7 +410,7 @@
 												<td><input class="input-sm form-control" type="text" name="newFielName" ng-model="newField.fieldName" ></td>
 												<td><input class="input-sm form-control" type="text" name="newFieldAlias" ng-model="newField.fieldAlias" ></td>
 												<td><input class="input-sm form-control" type="text" name="newFieldSourceColumn"ng-model="newField.sourceColumn" ></td>
-												<td><select class="input-sm form-control" name="newFieldDataType" ng-model="newField.dataType" ng-options="dataType.dataType for dataType in dataTypeList track by dataType.idDataType"></select></td>
+												<td><select class="input-sm form-control" name="newFieldDataType" ng-model="newField.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType"></select></td>
 												
 												
 												<td >
@@ -420,7 +420,7 @@
 													</div>
 													<div ng-if="isCommonField(newField)">
 														<select class="input-sm form-control" name="newFieldMeasureUnit" ng-model="newField.measureUnit" 
-													 		ng-options="unitOfMesaurement.measureUnit group by unitOfMesaurement.measureUnitType for unitOfMesaurement in unitOfMesaurementList track by unitOfMesaurement.idMeasureUnit">
+													 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit"">
 													 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 													 	</select>
 													</div>
