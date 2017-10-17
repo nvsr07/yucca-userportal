@@ -307,7 +307,7 @@
 				</resources>
 			</build>
 			<properties>
-				<webXmlPath>${project.build.directory}/checkout/backoffice/resources/int/2</webXmlPath>
+				<webXmlPath>${project.build.directory}/checkout/backoffice/resources/int2</webXmlPath>
 			</properties>
 		</profile>
 		<profile>
