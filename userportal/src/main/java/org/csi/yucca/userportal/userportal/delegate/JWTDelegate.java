@@ -58,16 +58,17 @@ public class JWTDelegate {
 	
 					
 		} catch (Exception e) {
-			SAML2ConsumerServlet.log.error("[SAML2ConsumerServlet::loadTokenFromSaml2] - ERROR " + e.getMessage());
-			e.printStackTrace();
+			SAML2ConsumerServlet.log.error("[SAML2ConsumerServlet::loadTokenFromSaml2] - ERROR " + e.getMessage(),e);
 		}
 		return loadTokenFromSaml;
 	}
 
 	
-	public static JSONObject getJWTFromToken(LoadTokenFromApiResponse loadTokenFromApiResponse) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException, ParseException {
+	public static JSONObject getJWTFromToken(LoadTokenFromApiResponse loadTokenFromApiResponse) throws Exception {
 
 		log.debug("[SAML2ConsumerServlet::getJWT] - START");
+		if (loadTokenFromApiResponse==null)
+			throw new Exception("Token is null.");
 		String jwt = null;
 		Boolean valid= false;
 		try {

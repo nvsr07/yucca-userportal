@@ -227,15 +227,15 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 
 		if (url.indexOf("?") > -1){
 			$scope.user.authType = $scope.user.authType || "local";
-			if (url.indexOf("strong=false") > -1){  //Compare la modale perchè non hai credenziali strong!
+			if (!$scope.user.isStrongUser){  //Compare la modale perchè non hai credenziali strong!
 				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
 				$scope.user.authType = "notStrong";
-			} else if (url.indexOf("tecnical=true") > -1){
+			} else if ($scope.user.isTechnicalUser){
 				$scope.user.authType = "tecnical";
 				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
 			} else if (url.indexOf("tenant=false") > -1){
 				if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
-					if (url.indexOf("social=true") > -1){
+					if ($scope.user.isSocialUser){
 						$scope.user.authType = "social";
 						$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
 					} else {
@@ -248,7 +248,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				//Tutto ok! NO MODAL
 			}
 			
-			if (url.indexOf("social=true") > -1)
+			if ($scope.user.isSocialUser)
 				$scope.user.authType = "social";
 			
 			console.log("user.authType", $scope.user.authType);
