@@ -178,7 +178,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 						detectSocialAndSetFields(newUser);
 						
-						newUser.setAcceptTermConditionTenantsFromString(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS)));
+						newUser.setAcceptTermConditionTenantsFromString(loadTermConditionFromJwt(newUser));
 						newUser.setActiveTenant(tenants.get(0).getTenantCode());
 						
 						try {
@@ -254,6 +254,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	}
 
 
+	
 	private void detectSocialAndSetFields(User newUser)
 	{
 		String newUsername = newUser.getUsername();
@@ -481,6 +482,20 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return permissions;
 	}
 
+	private String loadTermConditionFromJwt(User newUser) {
+		log.debug("[SAML2ConsumerServlet::loadTermConditionFromJwt] - START");
+		JSONObject jwt = newUser.getSecretTempJwt();
+		
+		// it will be ignored expiration
+		
+		Object termString = jwt.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
+		if (termString!=null)
+			return termString.toString();
+		else
+			return null;
+	}
+
+	
 	
 	private List<String> loadRolesFromJwt(User newUser, String filter) {
 
