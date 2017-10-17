@@ -225,23 +225,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 				response.sendRedirect(returnPath);
-			} else {
+			}
+		} else {
 				try {
 					String returnPath = request.getParameter("returnUrl");
 					String typeAuth = request.getParameter("typeAuth");
 					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION, returnPath);
-					// info.setTenantCode(AuthorizeUtils.DEFAULT_TENANT);
-					// User defaultUser = AuthorizeUtils.DEFAULT_USER;
-					// defaultUser.setPermissions(AuthorizeUtils.DEFAULT_PERMISSIONS);
-					// info.setUser(defaultUser);
-					// request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO,
-					// info);
 					request.getSession().removeAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 					String requestMessage = consumer.buildRequestMessage(request);
-					// response.sendRedirect(requestMessage +
-					// "&issuer=userportal&customCssPath=" +
-					// URLEncoder.encode(consumer.getIdpLoginPageStylePath(),
-					// "UTF-8"));
 
 					String cssPath = consumer.getIdpLoginPageStylePath();
 					if (typeAuth != null) {
@@ -257,9 +248,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				}
 			}
-		}finally {
+		} finally {
 			log.debug("[SAML2ConsumerServlet::doPost] - END");
 		}			
 	}
