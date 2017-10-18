@@ -412,18 +412,18 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			} );
 	});
 
-	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);
+	adminAPIservice.loadTenants().success(function(response) {
+		console.debug("response", response);
 		try{
 			$scope.tenantsList = [];
-			for (var int = 0; int <  response.tenants.tenant.length; int++) {
-				var t = response.tenants.tenant[int];
-				if(t.tenantCode!=$scope.tenantCode)
+			for (var int = 0; int <  response.length; int++) {
+				var t = response[int];
+				if(t.tenantcode!=$scope.tenantCode)
 					$scope.tenantsList.push(t);
 			}
 		}
 		catch (e) {
-			log.error("getTenants ERROR",e);
+			log.error("loadTenants ERROR",e);
 		}
 		
 	});
@@ -928,9 +928,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if(!found){
 				$scope.stream.tenantsShare.tenantList.push(
 							{"idTenant":newTenantSharing.idTenant, 
-								"tenantName": newTenantSharing.tenantName, 
-								"tenantDescription": newTenantSharing.tenantDescription, 
-								"tenantCode": newTenantSharing.tenantCode, 
+								"tenantName": newTenantSharing.name, 
+								"tenantDescription": newTenantSharing.description, 
+								"tenantCode": newTenantSharing.tenantcode, 
 								"isOwner": 0
 							});
 				console.log("added",$scope.stream.tenantsShare.tenantList );

@@ -182,12 +182,12 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		return deferred.promise;
 	};
 
-	fabricAPI.getTenants = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_TENANT_LIST_URL+ '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getTenants = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_TENANT_LIST_URL+ '?callback=JSON_CALLBACK'
+//		});
+//	};
 
 	fabricAPI.getVirtualentities = function(tenant_code) {
 		if(tenant_code && tenant_code!=null && tenant_code!="")

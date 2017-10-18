@@ -2,12 +2,14 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 
 	var adminAPI = {};
 
-	adminAPI.getTenants = function() {
+	adminAPI.loadTenants = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_SERVICES_TENANT_LIST_URL + '?callback=JSON_CALLBACK'
+			url : Constants.API_ADMIN_TENANTS_URL + '?callback=JSON_CALLBACK'
 		});
 	};
+	
+	
 
 	adminAPI.loadSOCategories = function() {
 		return $http({

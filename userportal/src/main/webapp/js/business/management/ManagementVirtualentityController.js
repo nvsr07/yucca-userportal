@@ -309,25 +309,24 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	};
 
 	$scope.so_categoriesList = [];
-
-//	adminAPIservice.loadSOCategories().success(function(response) {
-//		console.log("loadSOCategories", response);
-//		$scope.so_categoriesList = response;
-//	});
+	adminAPIservice.loadSOCategories().success(function(response) {
+		console.log("loadSOCategories", response);
+		$scope.so_categoriesList = response;
+	});
 //	fabricAPIservice.getVirtualentityCategories().success(function(response) {
 //		$scope.so_categoriesList = response.categoriaVirtualEntity.element;
 //	});
 
-//	$scope.so_typesList = [];
-//	adminAPIservice.loadSOTypes().success(function(response) {
-//		for (var int = 0; int < response.length; int++) {
-//
-//			if(response[int].idSoType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
-//				$scope.so_typesList.push(response[int]);
-//		};
-//
-//		//$scope.typesList = response.tipoVirtualEntity.element;
-//	});
+	$scope.so_typesList = [];
+	adminAPIservice.loadSOTypes().success(function(response) {
+		for (var int = 0; int < response.length; int++) {
+
+			if(response[int].idSoType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+				$scope.so_typesList.push(response[int]);
+		};
+
+		//$scope.typesList = response.tipoVirtualEntity.element;
+	});
 	
 	
 	$scope.generateUUID = function(virtualentity){

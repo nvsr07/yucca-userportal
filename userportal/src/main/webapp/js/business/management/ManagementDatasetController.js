@@ -333,8 +333,8 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 }]);
 
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate','sharedUploadBulkErrors', '$route',
-                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate,sharedUploadBulkErrors, $route) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice',  'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate','sharedUploadBulkErrors', '$route',
+                                                     function($scope, $routeParams, fabricAPIservice, adminAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate,sharedUploadBulkErrors, $route) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 	$scope.downloadCsvUrl = null;//Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
@@ -394,17 +394,17 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 //		}
 //	}
 
-	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);
+	adminAPIservice.loadTenants().success(function(response) {
+		console.log("response", response);
 		try{
 			$scope.tenantsList = [];
-			for (var int = 0; int <  response.tenants.tenant.length; int++) {
-				var t = response.tenants.tenant[int];
-				if(t.tenantCode!=$scope.tenantCode)
+			for (var int = 0; int <  response.length; int++) {
+				var t = response[int];
+				if(t.tenantcode!=$scope.tenantCode)
 					$scope.tenantsList.push(t);
 			}
 		} catch (e) {
-			console.error("getTenants ERROR",e);
+			console.error("loadTenants ERROR",e);
 		}
 	});
 	
@@ -632,9 +632,9 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			if(!found){
 				$scope.dataset.info.tenantssharing.tenantsharing.push(
 							{"idTenant":newTenantSharing.idTenant, 
-								"tenantName": newTenantSharing.tenantName, 
-								"tenantDescription": newTenantSharing.tenantDescription, 
-								"tenantCode": newTenantSharing.tenantCode, 
+								"tenantName": newTenantSharing.name, 
+								"tenantDescription": newTenantSharing.description, 
+								"tenantCode": newTenantSharing.tenantcode, 
 								"isOwner": 0
 							});
 				console.log("added", $scope.dataset.info.tenantssharing.tenantsharing );
@@ -669,7 +669,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		chooseTenantDialog.result.then(function (selectedTenant) {
 			$scope.addTenantSharing(selectedTenant);
 	    }, function () {
-	      $log.info('Modal dismissed at: ' + new Date());
+	      console.log.info('Modal dismissed at: ' + new Date());
 	    });
 	};
 
@@ -1309,21 +1309,21 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 	
 	$scope.tenantsList = [];
-	fabricAPIservice.getTenants().success(function(response) {
+	adminAPIservice.loadTenants().success(function(response) {
 		try{
 			
-			for (var int = 0; int <  response.tenants.tenant.length; int++) {
-				var t = response.tenants.tenant[int];
-				if(t.tenantCode!=$scope.tenantCode && t.tenantName!=null)
+			for (var int = 0; int <  response.length; int++) {
+				var t = response[int];
+				if(t.tenantcode!=$scope.tenantCode && t.n!=null)
 					$scope.tenantsList.push(t);
 			}
 			
 			$scope.tenantsList.sort(function(a, b) { 
-			    return ((a.tenantName.trim().toUpperCase() < b.tenantName.trim().toUpperCase()) ? -1 : ((a.tenantName.trim().toUpperCase() > b.tenantName.trim().toUpperCase()) ? 1 : 0));
+			    return ((a.name.trim().toUpperCase() < b.name.trim().toUpperCase()) ? -1 : ((a.name.trim().toUpperCase() > b.name.trim().toUpperCase()) ? 1 : 0));
 			});
 
 		} catch (e) {
-			console.error("getTenants ERROR",e);
+			console.error("loadTenants ERROR",e);
 		}
 	});
 	
@@ -1488,9 +1488,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			if(!found){
 				$scope.metadata.info.tenantssharing.tenantsharing.push(
 							{"idTenant":newTenantSharing.idTenant, 
-								"tenantName": newTenantSharing.tenantName, 
-								"tenantDescription": newTenantSharing.tenantDescription, 
-								"tenantCode": newTenantSharing.tenantCode, 
+								"tenantName": newTenantSharing.name, 
+								"tenantDescription": newTenantSharing.description, 
+								"tenantCode": newTenantSharing.tenantcode, 
 								"isOwner": 0
 							});
 				console.log("added", $scope.metadata.info.tenantssharing.tenantsharing );
@@ -2154,16 +2154,16 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	}).error(function(response) {console.error("getStreamTags", response);});	
 	
 	$scope.tenantsList = [];
-	fabricAPIservice.getTenants().success(function(response) {
+	adminAPIservice.loadTenants().success(function(response) {
 		try{
 			
-			for (var int = 0; int <  response.tenants.tenant.length; int++) {
-				var t = response.tenants.tenant[int];
-				if(t.tenantCode!=$scope.tenantCode)
+			for (var int = 0; int <  response.length; int++) {
+				var t = response[int];
+				if(t.tenantcode!=$scope.tenantCode)
 					$scope.tenantsList.push(t);
 			}
 		} catch (e) {
-			console.error("getTenants ERROR",e);
+			console.error("loadTenants ERROR",e);
 		}
 	}).error(function(response) {console.error("erro", response);});
 
@@ -2284,9 +2284,9 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 			if(!found){
 				$scope.defaultMetadata.info.tenantssharing.tenantsharing.push(
 							{"idTenant":newTenantSharing.idTenant, 
-								"tenantName": newTenantSharing.tenantName, 
-								"tenantDescription": newTenantSharing.tenantDescription, 
-								"tenantCode": newTenantSharing.tenantCode, 
+								"tenantName": newTenantSharing.name, 
+								"tenantDescription": newTenantSharing.description, 
+								"tenantCode": newTenantSharing.tenantcode, 
 								"isOwner": 0
 							});
 				console.log("added", $scope.defaultMetadata.info.tenantssharing );
@@ -3378,9 +3378,9 @@ appControllers.controller('ManagementDatasetImportDatabaseEditPublishStoreCtrl',
 			if(!found){
 				$scope.info.tenantsharing.push(
 							{"idTenant":newTenantSharing.idTenant, 
-								"tenantName": newTenantSharing.tenantName, 
-								"tenantDescription": newTenantSharing.tenantDescription, 
-								"tenantCode": newTenantSharing.tenantCode, 
+								"tenantName": newTenantSharing.name, 
+								"tenantDescription": newTenantSharing.description, 
+								"tenantCode": newTenantSharing.tenantcode, 
 								"isOwner": 0
 							});
 				console.log("added", $scope.info.tenantsharing );

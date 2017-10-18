@@ -213,41 +213,54 @@ public enum ApiEntityEnum {
 		}
 	},
 
-	@Deprecated
-	API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return false;// AuthorizeUtils.isReadMethod(request);
-		}
-	},
-	@Deprecated
-	API_SERVICES_VIRTUALENTITY_TYPES("API_SERVICES_VIRTUALENTITY_TYPES_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/types/") {
+	API_ADMIN_TENANTS("API_ADMIN_TENANTS_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/tenants") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-	@Deprecated
-	API_SERVICES_STREAM_TAGS("API_SERVICES_STREAM_TAGS_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/streamtags/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
-		}
-	},
-	@Deprecated
-	API_SERVICES_STREAM_DOMAINS("API_SERVICES_STREAM_DOMAINS_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/streamdomains/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
-		}
-	},
-	@Deprecated
-	API_SERVICES_STREAM_SUB_DOMAINS("API_SERVICES_STREAM_SUB_DOMAINS_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/streamsubdomains/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
-		}
-	},
+
+	// @Deprecated
+	// API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL",
+	// Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
+	// @Override
+	// public boolean isAuthorizeAccess(HttpServletRequest request) {
+	// return false;// AuthorizeUtils.isReadMethod(request);
+	// }
+	// },
+	// @Deprecated
+	// API_SERVICES_VIRTUALENTITY_TYPES("API_SERVICES_VIRTUALENTITY_TYPES_URL",
+	// Config.API_PROXY_SERVICES_BASE_URL + "misc/types/") {
+	// @Override
+	// public boolean isAuthorizeAccess(HttpServletRequest request) {
+	// return AuthorizeUtils.isReadMethod(request);
+	// }
+	// },
+	// @Deprecated
+	// API_SERVICES_STREAM_TAGS("API_SERVICES_STREAM_TAGS_URL",
+	// Config.API_PROXY_SERVICES_BASE_URL + "misc/streamtags/") {
+	// @Override
+	// public boolean isAuthorizeAccess(HttpServletRequest request) {
+	// return AuthorizeUtils.isReadMethod(request);
+	// }
+	// },
+	// @Deprecated
+	// API_SERVICES_STREAM_DOMAINS("API_SERVICES_STREAM_DOMAINS_URL",
+	// Config.API_PROXY_SERVICES_BASE_URL + "misc/streamdomains/") {
+	// @Override
+	// public boolean isAuthorizeAccess(HttpServletRequest request) {
+	// return AuthorizeUtils.isReadMethod(request);
+	// }
+	// },
+	// @Deprecated
+	// API_SERVICES_STREAM_SUB_DOMAINS("API_SERVICES_STREAM_SUB_DOMAINS_URL",
+	// Config.API_PROXY_SERVICES_BASE_URL + "misc/streamsubdomains/") {
+	// @Override
+	// public boolean isAuthorizeAccess(HttpServletRequest request) {
+	// return AuthorizeUtils.isReadMethod(request);
+	// }
+	// },
+
 	API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL("API_SERVICES_STREAM_UNIT_OF_MESAUREMENT_URL", Config.API_PROXY_SERVICES_BASE_URL + "misc/measureunits/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -266,17 +279,18 @@ public enum ApiEntityEnum {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-	API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			if ("/tenants/".equals(request.getPathInfo()) && AuthorizeUtils.isReadMethod(request))
-				return true;
-			else if ("/tenants/newNotDefault/".equals(request.getPathInfo()) && AuthorizeUtils.isWriteMethod(request))
-				return true;
-			else
-				return false;
-		}
-	},
+//	@Deprecated
+//	API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
+//		@Override
+//		public boolean isAuthorizeAccess(HttpServletRequest request) {
+//			if ("/tenants/".equals(request.getPathInfo()) && AuthorizeUtils.isReadMethod(request))
+//				return true;
+//			else if ("/tenants/newNotDefault/".equals(request.getPathInfo()) && AuthorizeUtils.isWriteMethod(request))
+//				return true;
+//			else
+//				return false;
+//		}
+//	},
 	API_SERVICES_LIFECYCLE_STREAM_REQ_INST("API_SERVICES_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {

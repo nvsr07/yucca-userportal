@@ -1,12 +1,12 @@
 /* Controllers */
 //var appControllers = angular.module('userportal.controllers', []);
 //appControllers.controller('DashboardCtrl', ['$scope', function($scope) {}]);
-appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'fabricAPIservice', function($scope, $route, fabricAPIservice) {
+appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'adminAPIservice', function($scope, $route, fabricAPIservice) {
 	$scope.tenantsList = null;
 	
-	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);
-		$scope.tenantsList = response.tenants.tenant;		
+	adminAPIservice.loadTenants().success(function(response) {
+		console.debug("response", response);
+		$scope.tenantsList = response;		
 	});
 	
 	$scope.currentPanel  = 'main';
@@ -26,9 +26,9 @@ appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIs
 	if(!$scope.dashboard)
 		$scope.dashboard = "overview";
 	
-	fabricAPIservice.getTenants().success(function(response) {
-		console.debug("response", response.tenants);
-		$scope.tenantsList = response.tenants.tenant;		
+	adminAPIservice.loadTenants().success(function(response) {
+		console.debug("response", response);
+		$scope.tenantsList = response;		
 	});
 	
 	freeboard.initialize(false);
@@ -791,9 +791,6 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope','info', '$routePar
 		subscribeWSClientError();
 	};
 	
-	//TODO remove other tenants let only the current
-//	fabricAPIservice.getTenants().success(function(response) {
-//		console.debug("response", response.tenants);
 		
 	
 	fabricAPIservice.getInfo().success(function(info){
