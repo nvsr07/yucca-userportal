@@ -22,6 +22,8 @@ public class AuthorizeFilter implements Filter {
 
 	static Logger log = Logger.getLogger(AuthorizeFilter.class);
 
+	static String contextUrl  = "backoffice2";
+	
 	public void init(FilterConfig arg0) throws ServletException {
 
 	}
@@ -37,10 +39,10 @@ public class AuthorizeFilter implements Filter {
 		boolean isLoggedIn = (info != null && info.getUser() != null && info.getUser().getLoggedIn());
 
 		if (!isLoggedIn && !isAuthorizedPath(uri)) {
-			response.sendRedirect("/backoffice/api/authorize?returnUrl=");
+			response.sendRedirect("/"+contextUrl+"/api/authorize?returnUrl=");
 			return;
 		} else if (isLoggedIn && !checkPermission(info.getUser().getPermissions()) && !isAuthorizedPath(uri)) {
-			response.sendRedirect("/backoffice/403.html");
+			response.sendRedirect("/"+contextUrl+"/403.html");
 			return;
 		} else
 			chain.doFilter(request, response);
@@ -60,8 +62,8 @@ public class AuthorizeFilter implements Filter {
 
 	private boolean isAuthorizedPath(String uri) {
 
-		return uri.startsWith("/backoffice/api/authorize") || uri.startsWith("/backoffice/403.html") || uri.startsWith("/backoffice/css")
-				|| uri.startsWith("/backoffice/js") || uri.startsWith("/backoffice/lib");
+		return uri.startsWith("/"+contextUrl+"/api/authorize") || uri.startsWith("/"+contextUrl+"/403.html") || uri.startsWith("/"+contextUrl+"/css")
+				|| uri.startsWith("/"+contextUrl+"/js") || uri.startsWith("/"+contextUrl+"/lib");
 
 	}
 
