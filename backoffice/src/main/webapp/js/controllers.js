@@ -4,8 +4,15 @@
 
 var appControllers = angular.module('backoffice.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', function($scope, $route, info, $location, $translate, fabricAPIservice, localStorageService) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route",'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', '$window',
+                                          function($scope, $route, info, $location, $translate, fabricAPIservice, localStorageService, $window) {
 	$scope.$route = $route;
+	
+	$scope._origin = $window.location.origin;
+	$scope._contextPath = $window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+	$scope._baseUrl = $scope._origin + $scope._contextPath;
+	
+
 
 
 	$scope.isAuthorized = function(operation){

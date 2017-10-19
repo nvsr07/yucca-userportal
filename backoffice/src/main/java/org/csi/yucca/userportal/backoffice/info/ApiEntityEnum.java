@@ -9,7 +9,7 @@ import org.csi.yucca.userportal.backoffice.utils.Config;
 
 public enum ApiEntityEnum {
 
-	API_INFO("API_INFO_URL", "/backoffice/api/info") {
+	API_INFO("API_INFO_URL", "/api/info") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
@@ -238,12 +238,12 @@ public enum ApiEntityEnum {
 
 	public abstract boolean isAuthorizeAccess(HttpServletRequest request);
 
-	public void addPropertyForJs(Properties prop) {
-		prop.put(nameEntity, baseUrl);
+	public void addPropertyForJs(String contextPath, Properties prop) {
+		prop.put(nameEntity, contextPath + baseUrl);
 	}
 
 	public boolean isApiCalled(HttpServletRequest request) {
 		String requestURI = request.getRequestURI();
-		return (requestURI).startsWith(baseUrl);
+		return (requestURI).startsWith(request.getContextPath() + baseUrl);
 	}
 }

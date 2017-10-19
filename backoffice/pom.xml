@@ -221,6 +221,51 @@
 	<profiles>
 		<profile>
 			<id>local</id>
+			<build>
+			<plugins>
+			 <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-scm-plugin</artifactId>
+		        <version>1.9.5</version>
+		        <configuration>
+		          <connectionType>connection</connectionType>
+		        </configuration>
+		        <executions>
+		        	<execution>
+		        		<id>1</id>
+		        		<phase>validate</phase>
+			            <goals>
+			              <goal>checkout</goal>
+			            </goals>
+			          </execution>
+			    </executions>
+		      </plugin>
+			</plugins>
+				<testResources>
+	 				<testResource>
+            			<directory>${project.basedir}/src/test/resources</directory>
+        			</testResource>			
+					<testResource>
+						<directory>${project.build.directory}/checkout/backoffice/test/local</directory>
+					</testResource>
+				</testResources>
+
+				<resources>
+					<resource>
+						<directory>${project.build.directory}/checkout/backoffice/resources/local</directory>
+					</resource>
+					<resource>
+						<directory>src/main/resources/images</directory>
+						<targetPath>.</targetPath>
+					</resource>
+				</resources>
+			</build>
+			<properties>
+				<webXmlPath>${project.build.directory}/checkout/backoffice/resources/local</webXmlPath>
+			</properties>
+		</profile>
+		<profile>
+			<id>local_old</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>

@@ -22,11 +22,11 @@ public class Config {
 	public static final String RBAC_WEBSERVICE_PASSWORD_KEY = "rbac.webservice.secret";
 
 	
-	public static final String API_PROXY_SERVICES_BASE_URL = "/backoffice/api/proxy/services/";
-	public static final String API_PROXY_MANAGEMENT_BASE_URL = "/backoffice/api/proxy/management/";
-	public static final String API_PROXY_DATA_STATISTICS_URL = "/backoffice/api/proxy/management/statistics/";
-	public static final String API_PROXY_FABRIC_BASE_URL = "/backoffice/api/proxy/fabric/";
-	public static final String API_PROXY_DEPLOY_BASE_URL = "/backoffice/api/proxy/deploy/";
+	public static final String API_PROXY_SERVICES_BASE_URL = "/api/proxy/services/";
+	public static final String API_PROXY_MANAGEMENT_BASE_URL = "/api/proxy/management/";
+	public static final String API_PROXY_DATA_STATISTICS_URL = "/api/proxy/management/statistics/";
+	public static final String API_PROXY_FABRIC_BASE_URL = "/api/proxy/fabric/";
+	public static final String API_PROXY_DEPLOY_BASE_URL = "/api/proxy/deploy/";
 	public static final String  SECDATA_NEWTOKEN = "/secdata/newtoken/";
 
 	public static Properties loadClientConfiguration() throws IOException {
