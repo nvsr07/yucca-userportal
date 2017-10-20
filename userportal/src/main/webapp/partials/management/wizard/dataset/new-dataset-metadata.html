@@ -84,7 +84,7 @@
 				<label for="inputStreamAddTenantSharing" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_TENANTSSHARING</span></label>
 				<div class="col-sm-4 text-left">
 					<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
-						<input type="text" ng-model="newTenantSharing.value" typeahead="tenant as tenant.tenantName for tenant in tenantsList | filter:{tenantName:$viewValue} | limitTo:8" class="form-control"
+						<input type="text" ng-model="newTenantSharing.value" typeahead="tenant as tenant.name for tenant in tenantsList | filter:{name:$viewValue} | limitTo:8" class="form-control"
 								typeahead-editable="false" typeahead-on-select="onTenantSharingSelect($item, $model, $label)"/>
 						<span class="input-group-addon tag-html-tooltip-button" ng-click="showChooseTenantTable()">&quest;</span>
 						

@@ -11,7 +11,6 @@ import org.csi.yucca.userportal.userportal.utils.json.IgnoredJSON;
 import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class User {
 	private String username;

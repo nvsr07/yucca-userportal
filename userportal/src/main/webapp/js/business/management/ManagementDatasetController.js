@@ -1310,11 +1310,12 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	
 	$scope.tenantsList = [];
 	adminAPIservice.loadTenants().success(function(response) {
+		console.log("loadTenants",response);
 		try{
 			
 			for (var int = 0; int <  response.length; int++) {
 				var t = response[int];
-				if(t.tenantcode!=$scope.tenantCode && t.n!=null)
+				if(t.tenantcode!=$scope.tenantCode && t.name!=null)
 					$scope.tenantsList.push(t);
 			}
 			

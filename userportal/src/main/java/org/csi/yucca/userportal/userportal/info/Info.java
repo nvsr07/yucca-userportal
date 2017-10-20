@@ -3,7 +3,6 @@ package org.csi.yucca.userportal.userportal.info;
 import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 public class Info {
 

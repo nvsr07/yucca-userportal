@@ -7,10 +7,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.minidev.json.JSONObject;
+
 import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
 import org.csi.yucca.userportal.userportal.info.Info;
 import org.csi.yucca.userportal.userportal.info.Tenant;
 import org.csi.yucca.userportal.userportal.info.User;
+
+import com.nimbusds.jwt.SignedJWT;
 
 public class AuthorizeUtils {
 
@@ -31,7 +35,13 @@ public class AuthorizeUtils {
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/dataexplorer");
 
 	public static final User DEFAULT_USER() {
-		return new User("Guest", Arrays.asList(DEFAULT_TENANT), "Guest1", "Guest", null, DEFAULT_PERMISSIONS, Arrays.asList(DEFAULT_TENANT.getTenantCode()));
+		User defaultUser = new User("Guest", Arrays.asList(DEFAULT_TENANT), "Guest1", "Guest", null, DEFAULT_PERMISSIONS, Arrays.asList(DEFAULT_TENANT.getTenantCode()));
+		SignedJWT signedJWT = JWTUtil.createSecretJwt(defaultUser);
+		JSONObject defaultSecretJwt = signedJWT.getPayload().toJSONObject();
+		
+		defaultUser.setSecretTempJwtRaw(new String(signedJWT.serialize()));
+		defaultUser.setSecretTempJwt(defaultSecretJwt);
+		return defaultUser;
 	};
 
 	public static final String CLAIM_KEY_USERNAME = "USERNAME";
