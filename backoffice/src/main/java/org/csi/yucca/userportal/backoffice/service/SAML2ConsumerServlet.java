@@ -24,6 +24,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.minidev.json.JSONObject;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -34,6 +36,7 @@ import org.csi.yucca.userportal.backoffice.info.Info;
 import org.csi.yucca.userportal.backoffice.info.User;
 import org.csi.yucca.userportal.backoffice.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.backoffice.utils.Config;
+import org.csi.yucca.userportal.backoffice.utils.JWTUtil;
 import org.csi.yucca.userportal.backoffice.utils.Util;
 import org.opensaml.xml.ConfigurationException;
 import org.w3c.dom.Document;
@@ -44,6 +47,7 @@ import org.xml.sax.SAXException;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.nimbusds.jwt.SignedJWT;
 
 @WebServlet(name = "AuthorizeServlet", description = "Authorization Servlet", urlPatterns = { "/api/authorize" }, asyncSupported = false)
 public class SAML2ConsumerServlet extends HttpServlet {
@@ -91,6 +95,15 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
 					newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 					newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
+					
+					//20171023 - Inserita libreria JWT
+					SignedJWT signedJWT = JWTUtil.createSecretJwt(newUser);
+					JSONObject defaultSecretJwt = signedJWT.getPayload().toJSONObject();
+					
+					newUser.setSecretTempJwtRaw(new String(signedJWT.serialize()));
+					newUser.setSecretTempJwt(defaultSecretJwt);
+				
+					
 					try {
 						newUser.setPermissions(loadPermissions(newUser));
 					} catch (Exception e) {

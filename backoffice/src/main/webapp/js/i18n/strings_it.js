@@ -200,6 +200,8 @@ var translations_it = {
 	TENANT_FIELD_USER_LASTTNAME: 'Cognome',
 	TENANT_FIELD_USER_EMAIL: 'Email',
 	TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE: ' Max ODAta result per pagina',
+	TENANT_FIELD_HAS_STAGE: 'Stage',
+	TENANT_FIELD_ZEPPELIN: 'Zeppelin',
 	
 	TENANT_FORM_INFO: 'Info',
 	TENANT_FORM_USER: 'Utente',

@@ -20,6 +20,8 @@ public class Config {
 	public static final String RBAC_ROLES_WEBSERVICE_URL_KEY = "RBAC_ROLES_WEBSERVICE_URL";
 	public static final String RBAC_WEBSERVICE_USER_KEY = "RBAC_WEBSERVICE_USER";
 	public static final String RBAC_WEBSERVICE_PASSWORD_KEY = "rbac.webservice.secret";
+	//20171023 - Aggiunta nuova chiave per nuove API
+	public static final String API_ADMIN_URL_KEY = "API_ADMIN_URL";
 
 	
 	public static final String API_PROXY_SERVICES_BASE_URL = "/api/proxy/services/";
@@ -28,6 +30,9 @@ public class Config {
 	public static final String API_PROXY_FABRIC_BASE_URL = "/api/proxy/fabric/";
 	public static final String API_PROXY_DEPLOY_BASE_URL = "/api/proxy/deploy/";
 	public static final String  SECDATA_NEWTOKEN = "/secdata/newtoken/";
+	//20171023 - Aggiunto nuovo proxy
+	public static final String API_PROXY_ADMIN_BASE_URL = "/api/proxy/admin/";
+	
 
 	public static Properties loadClientConfiguration() throws IOException {
 		return loadConfiguration("client.properties");

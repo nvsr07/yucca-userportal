@@ -225,7 +225,20 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
-	}
+	},
+	//20171023 - Nuove API
+	API_ADMIN_TENANTS("API_ADMIN_TENANTS_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/backoffice/tenants") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
+	},
+	API_ADMIN_ORGANIZATIONS("API_ADMIN_ORGANIZATIONS_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/public/organizations") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
+	},
 	;
 
 	private String nameEntity;
