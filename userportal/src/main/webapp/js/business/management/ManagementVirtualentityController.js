@@ -668,9 +668,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 
 
-	$scope.updateInfo = null;
-	$scope.updateError = null;
-
+	
 	//$scope.virtualentity = null;
 
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
@@ -833,11 +831,10 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	};
 
 	
-	$scope.saveWarning = null;
 	$scope.save = function(){
-		$scope.saveWarning = null;
 		if(!isTwitterOk()){
-			$scope.saveWarning = 'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR';
+			$scope.admin_response.type = 'warning';
+			$scope.admin_response.message = 'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR';
 		}
 		else{
 			if($scope.isNewSo){
@@ -854,7 +851,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	
 	$scope.createSo  = function(){
 		console.log("createSo", $scope.so);
-		//$scope.so.idTenant  = info.getActiveTenant().idTenant;
+		$scope.so.idTenant  = info.getActiveTenant().idTenant;
 		$scope.admin_response = {};
 		sharedAdminResponse.setResponse($scope.admin_response); 
 

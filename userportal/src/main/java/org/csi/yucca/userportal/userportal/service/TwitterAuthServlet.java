@@ -59,9 +59,9 @@ public class TwitterAuthServlet extends HttpServlet {
 				String tenant = request.getParameter("tenant");
 				String virtualentityCode = request.getParameter("virtualentityCode");
 
-				String nextUrl = "/userportal/#/management/newVirtualentity/"+tenant;
+				String nextUrl = request.getContextPath() + "/#/management/newVirtualentity/"+tenant;
 				if("edit".equals(request.getParameter("vitualEntityAction"))){
-					nextUrl = "/userportal/#/management/editVirtualentity/"+tenant+"/"+virtualentityCode;
+					nextUrl = request.getContextPath() + "/#/management/editVirtualentity/"+tenant+"/"+virtualentityCode;
 				}
 				
 				request.getSession().setAttribute(SESSION_KEY_TWITTER_VIRTUAL_ENTITY_REDIRECT_URL, nextUrl);
