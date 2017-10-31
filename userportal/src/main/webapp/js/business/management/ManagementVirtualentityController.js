@@ -615,7 +615,6 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				$scope.so.twtuserid = null;
 				$scope.twtMiniProfileImageURLHttps = null;
 			}
-			$scope.so.twtmaxsearchnumber = 5;
 			console.log("[loadTwitterCredential] - isTwitter", $scope.isTwitter());
 
 		}).error(function(data, status, headers, config) {
@@ -643,6 +642,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		$scope.so.idSoCategory = null;
 		if($scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
 			$scope.so.idSoCategory = Constants.VIRTUALENTITY_CATEGORY_NONE;
+			$scope.so.twtmaxsearchnumber = 5;
 			loadTwitterCredential();
 		}
 		$scope.so.slug = '';
@@ -838,7 +838,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		}
 		else{
 			if($scope.isNewSo){
-				$scope.createSo($scope.virtualentity);
+				$scope.createSo();
 			}
 			else
 				$scope.updateSo();
@@ -849,20 +849,24 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		$location.path('management/virtualentities/'+$scope.tenantCode);
 	};
 	
+
 	$scope.createSo  = function(){
 		console.log("createSo", $scope.so);
 		$scope.so.idTenant  = info.getActiveTenant().idTenant;
 		$scope.admin_response = {};
 		sharedAdminResponse.setResponse($scope.admin_response); 
 
+		$scope.isUpdating = true;
 		adminAPIservice.createSmartobject(info.getActiveTenant(), $scope.so).success(function(response) {
 			console.log("createSo SUCCESS", response);
 			$scope.admin_response.type = 'success';
 			$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
 			sharedAdminResponse.setResponse($scope.admin_response);
+			$scope.isUpdating = false;
 			$location.path('management/viewVirtualentity/'+$scope.tenantCode +'/'+response.socode);
 		}).error(function(response){
 			console.error("createSo ERROR", response);
+			$scope.isUpdating = false;
 			$scope.admin_response.type = 'danger';
 			$scope.admin_response.message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
 			if(response && response.errorName)
@@ -924,9 +928,10 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		console.log("updateSo", $scope.so);
 		$scope.admin_response = {};
 		sharedAdminResponse.setResponse($scope.admin_response); 
-
+		$scope.isUpdating = true;
 		adminAPIservice.updateSmartobject(info.getActiveTenant(), $scope.so).success(function(response) {
 			console.log("updateSo SUCCESS", response);
+			$scope.isUpdating = false;
 			$scope.admin_response.type = 'success';
 			$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
 			sharedAdminResponse.setResponse($scope.admin_response);
@@ -934,6 +939,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			Helpers.util.scrollTo("topForm");
 		}).error(function(response){
 			console.error("updateSo ERROR", response);
+			$scope.isUpdating = false;
 			$scope.admin_response.type = 'danger';
 			$scope.admin_response.message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
 			if(response && response.errorName)
