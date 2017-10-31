@@ -642,7 +642,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		$scope.so.idSoCategory = null;
 		if($scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
 			$scope.so.idSoCategory = Constants.VIRTUALENTITY_CATEGORY_NONE;
-			$scope.so.twtmaxsearchnumber = 5;
+			$scope.so.twtmaxstreams = 5;
 			loadTwitterCredential();
 		}
 		$scope.so.slug = '';
