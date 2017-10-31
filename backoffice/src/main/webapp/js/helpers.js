@@ -83,6 +83,32 @@ Helpers.tenant = {
 			}
 
 			return icon;
+		},
+		statusIconAdmin : function(stream) {
+			var icon = "";
+			if (stream.tenantStatus.description) {
+				var cssClass = "";
+				switch (stream.tenantStatus.tenantstatuscode) {
+				case "draft":
+					cssClass = "glyphicon-pencil action-edit";
+					break;
+				case "req_inst":
+					cssClass = "glyphicon-cog action-request-installation";
+					break;
+				case "inst":
+					cssClass = "glyphicon-save action-install";
+					break;
+				case "req_uninst":
+					cssClass = "glyphicon-cog action-uninstall";
+					break;
+				case "uninst":
+					cssClass = "glyphicon-time action-historical";
+					break;
+				}
+				icon = "<span class='glyphicon " + cssClass + "'></span>";
+			}
+
+			return icon;
 		}
 	};
 

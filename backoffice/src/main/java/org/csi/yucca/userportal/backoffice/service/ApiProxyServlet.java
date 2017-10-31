@@ -42,7 +42,7 @@ import org.csi.yucca.userportal.backoffice.utils.AuthorizeUtils;
 public abstract class ApiProxyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	static Logger log = Logger.getLogger(ApiProxyServlet.class);
+	protected static Logger log = Logger.getLogger(ApiProxyServlet.class);
 
 	private static final File FILE_UPLOAD_TEMP_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
 	private static final String STRING_CONTENT_TYPE_HEADER_NAME = "Content-Type";

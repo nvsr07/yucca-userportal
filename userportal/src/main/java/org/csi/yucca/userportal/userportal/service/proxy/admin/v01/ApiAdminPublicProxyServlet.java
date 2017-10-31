@@ -13,7 +13,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.csi.yucca.userportal.userportal.service.ApiProxyServlet;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
-@WebServlet(description = "Api proxy Servlet  for admin public", urlPatterns = { "/api/proxy/admin/1/public/*" }, asyncSupported = false)
+@WebServlet(description = "Api proxy Servlet  for service", urlPatterns = { "/api/proxy/admin/1/public/*" }, asyncSupported = false)
 public class ApiAdminPublicProxyServlet extends ApiProxyServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class ApiAdminPublicProxyServlet extends ApiProxyServlet {
 			Properties config = Config.loadServerConfiguration();
 			apiBaseUrl = config.getProperty(Config.API_ADMIN_URL_KEY)+"/1/public";
 		} catch (IOException e) {
-			log.error("[ApiAdminPublicProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
+			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
 			e.printStackTrace();
 		}
 	}

@@ -3,6 +3,8 @@ package org.csi.yucca.userportal.backoffice.info;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minidev.json.JSONObject;
+
 import com.google.gson.Gson;
 
 public class User {
@@ -13,6 +15,11 @@ public class User {
 	private boolean loggedIn;
 	private List<String> permissions;
 	private String token;
+	
+	//20171023 - Inseriti due nuovi attributi per libreria jwt
+	private JSONObject secretTempJwt;
+	private String secretTempJwtRaw;
+	
 
 	public User() {
 	}
@@ -101,6 +108,22 @@ public class User {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public JSONObject getSecretTempJwt() {
+		return secretTempJwt;
+	}
+
+	public void setSecretTempJwt(JSONObject secretTempJwt) {
+		this.secretTempJwt = secretTempJwt;
+	}
+
+	public String getSecretTempJwtRaw() {
+		return secretTempJwtRaw;
+	}
+
+	public void setSecretTempJwtRaw(String secretTempJwtRaw) {
+		this.secretTempJwtRaw = secretTempJwtRaw;
 	}
 
 }
