@@ -695,6 +695,8 @@ var translations_it = {
     
     MANAGEMENT_SANDBOX_WARNING: 'Stai utilizzando il tenant demo Sandbox. I dati caricati per questo tenant vengono periodicamente eliminati', 
     
+    MANAGEMENT_DESCRIPTION_ON_STORE_HINT: 'Scegli con cura, sar&agrave; utilizzato nello store',
+    
     MANAGEMENT_DATASET_START_NAME_HINT: 'Il <strong>nome</strong> del dataset sar&agrave; <strong>utilizzato nello store</strong>',
     MANAGEMENT_DATASET_METADATA_DESCRIPTION_HINT: 'La <strong>descrizione</strong> del dataset sar&agrave; </strong>utilizzato nello store</strong>',
     MANAGEMENT_DATASET_METADATA_MANDATORY_HINT:'Campi obbligatori',

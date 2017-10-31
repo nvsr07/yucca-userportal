@@ -689,7 +689,8 @@ var translations_en = {
     MANAGEMENT_MENU_DATASET: 'Dataset',
 	MANAGEMENT_MENU_STREAM_UPGRADE: 'For <strong>stream</strong> and <strong>smart object</strong> ask for an upgrade of your tenant',
 
-    
+	MANAGEMENT_DESCRIPTION_ON_STORE_HINT: 'Choose carefully, will be used in the store',
+	 
     MANAGEMENT_SANDBOX_WARNING: 'You are using the demo tenant Sandbox. The data uploaded to this tenant are periodically removed',
     
     MANAGEMENT_DATASET_START_NAME_HINT: 'The <strong>dataset name</strong> will be <strong>used  in the store</strong>',

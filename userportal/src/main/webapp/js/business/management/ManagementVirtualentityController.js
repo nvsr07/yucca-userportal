@@ -615,7 +615,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				$scope.so.twtuserid = null;
 				$scope.twtMiniProfileImageURLHttps = null;
 			}
-			$scope.so.twtmaxstreams = 5;
+			$scope.so.twtmaxsearchnumber = 5;
 			console.log("[loadTwitterCredential] - isTwitter", $scope.isTwitter());
 
 		}).error(function(data, status, headers, config) {
