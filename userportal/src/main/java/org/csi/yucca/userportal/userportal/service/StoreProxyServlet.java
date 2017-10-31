@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -36,7 +37,7 @@ public class StoreProxyServlet extends ApiProxyServlet {
 	}
 
 	@Override
-	protected void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod) {
+	protected void setOauthTokenInHeader(HttpServletRequest request, HttpMethod method) {
 
 	}
 

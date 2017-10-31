@@ -1,4 +1,5 @@
-appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'info', function($scope, $route, $location, fabricAPIservice, info, filterFilter) {
+appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'adminAPIservice', 'info', 
+                                                               function($scope, $route, $location, fabricAPIservice, adminAPIservice, info, filterFilter) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.showLoading = true;
 
@@ -9,107 +10,101 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 	};
 
 
-	$scope.virtualentitiesList = [];
-	$scope.filteredVirtualentitiesList = [];
+	$scope.soList = [];
+	$scope.filteredSoList = [];
 	$scope.codeFilter = null;
 	$scope.statusFilter = null;
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
-	$scope.totalItems = $scope.virtualentitiesList.length;
+	$scope.totalItems = $scope.soList.length;
 	$scope.predicate = '';
 
-
-	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
+	
+	
+	adminAPIservice.loadSmartobjects(info.getActiveTenant()).success(function(response) {
 		$scope.showLoading = false;
-
-		// Dig into the responde to get the relevant data
 		console.log("response", response);
-		if(response.virtualEntities==null)
-			response.virtualEntities = {};
-		$scope.virtualentitiesList = Helpers.util.initArrayZeroOneElements(response.virtualEntities.virtualEntity);
-		$scope.totalItems = $scope.virtualentitiesList.length;
-		//$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		if(response==null)
+			response = {};
+		$scope.soList = response;
+		$scope.totalItems = $scope.soList.length;
+		//$scope.filteredSoList = $scope.soList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	}).error(function(response) {
+		console.error("loadSmartobjects ERROR",response);
 	});
 
+	
+	
+//	fabricAPIservice.getVirtualentities($scope.tenantCode).success(function(response) {
+//		$scope.showLoading = false;
+//
+//		// Dig into the responde to get the relevant data
+//		console.log("response", response);
+//		if(response.virtualEntities==null)
+//			response.virtualEntities = {};
+//		$scope.soList = Helpers.util.initArrayZeroOneElements(response.virtualEntities.virtualEntity);
+//		$scope.totalItems = $scope.soList.length;
+//		//$scope.filteredSoList = $scope.soList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+//	});
+
 	$scope.selectPage = function() {
-		//$scope.filteredVirtualentitiesList = $scope.virtualentitiesList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+		//$scope.filteredSoList = $scope.soList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	};
 
-	$scope.searchCodeFilter = function(virtualentity) {
+	$scope.searchCodeFilter = function(so) {
 		var keyword = new RegExp($scope.codeFilter, 'i');
-		return !$scope.codeFilter || keyword.test(virtualentity.codeVirtualEntity);
+		return !$scope.codeFilter || keyword.test(so.socode);
 	};
 
-	$scope.searchStatusFilter = function(virtualentity) {
-		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(virtualentity.deploymentStatusDesc);
-	};
+//	$scope.searchStatusFilter = function(virtualentity) {
+//		var keyword = new RegExp($scope.statusFilter, 'i');
+//		return !$scope.statusFilter || keyword.test(virtualentity.deploymentStatusDesc);
+//	};
 
 	$scope.$watch('codeFilter', function(newCode) {
 		$scope.currentPage = 1;
-//		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
+//		$scope.totalItems = $scope.filteredSoList.length;
 	});
 
 	$scope.$watch('statusFilter', function(newStatus) {
 		$scope.currentPage = 1;
-//		$scope.totalItems = $scope.filteredVirtualentitiesList.length;
+//		$scope.totalItems = $scope.filteredSoList.length;
 	});
 
-	$scope.selectedVirtualentities = [];
+	$scope.selectedSo = [];
 
-	$scope.isSelected = function(virtualentity) {
-		return $scope.selectedVirtualentities.indexOf(virtualentity) >= 0;
+	$scope.isSelected = function(so) {
+		return $scope.selectedSo.indexOf(so) >= 0;
 	};
 
-	$scope.isInternal = function(virtualentity) {
-		return virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+	$scope.isInternal = function(so) {
+		return so.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
 
-	$scope.updateSelection = function($event, virtualentity) {
+	$scope.updateSelection = function($event, so) {
 		var checkbox = $event.target;
 		var action = (checkbox.checked ? 'add' : 'remove');
-		updateSelected(action, virtualentity);
+		updateSelected(action, so);
 	};	
-	var updateSelected = function(action, virtualentity) {
-		if (action === 'add' && $scope.selectedVirtualentities.indexOf(virtualentity) === -1) {
-			$scope.selectedVirtualentities.push(virtualentity);
+	var updateSelected = function(action, so) {
+		if (action === 'add' && $scope.selectedSo.indexOf(so) === -1) {
+			$scope.selectedSo.push(so);
 		}
-		if (action === 'remove' && $scope.selectedVirtualentities.indexOf(virtualentity) !== -1) {
-			$scope.selectedVirtualentities.splice($scope.selectedVirtualentities.indexOf(virtualentity), 1);
+		if (action === 'remove' && $scope.selectedSo.indexOf(so) !== -1) {
+			$scope.selectedSo.splice($scope.selectedSo.indexOf(so), 1);
 		}
 	};
 
-	$scope.editVirtualentity = function(){
-		if($scope.selectedVirtualentities.length===1){
-			$location.path('management/editVirtualentity/'+$scope.selectedVirtualentities[0].codiceTenant +'/'+ $scope.selectedVirtualentities[0].codeVirtualEntity );
-		}
-		else{
-			// FIXME error message...
-		}
-	};
-	$scope.deleteStream = function(){
-		//FIXME forse codice morto!!
-//		alert("Funzionalita non ancora abilitata!");
-		if($scope.selectedVirtualentities.length>0){
-			console.debug("delete Stream");
-			//$location.path('management/editStream/'+$scope.selectedVirtualentities[0].codiceTenant +'/'+$scope.selectedVirtualentities[0].codiceVirtualEntity+'/'+$scope.selectedVirtualentities[0].codiceStream);
+	$scope.editSo = function(){
+		if($scope.selectedSo.length===1){
+			$location.path('management/editVirtualentity/'+$scope.selectedSo[0].organization.organizationcode +'/'+ $scope.selectedSo[0].socode );
 		}
 		else{
 			// FIXME error message...
 		}
 	};
 
-	$scope.deleteVirtualentity = function(){
-//		alert("Funzionalita non ancora abilitata!");
-		if($scope.selectedVirtualentities.length>0){
-			console.debug("delete VE");
-			//$location.path('management/editStream/'+$scope.selectedVirtualentities[0].codiceTenant +'/'+$scope.selectedVirtualentities[0].codiceVirtualEntity+'/'+$scope.selectedVirtualentities[0].codiceStream);
-		}
-		else{
-			// FIXME error message...
-		}
-	};
 } ]);
 
 
@@ -137,169 +132,170 @@ appControllers.controller('ManagementVirtualentityWizardCtrl', [ '$scope', funct
 
 } ]);
 
-appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'adminAPIservice','info', function($scope, $route, $location, fabricAPIservice, adminAPIservice, info) {
-	$scope.tenantCode = $route.current.params.tenant_code;
-
-	$scope.isOwner = function(){
-		return info.isOwner( $scope.tenantCode);
-	};
-
-
-	$scope.so_categoriesList = [];
-	adminAPIservice.loadSOCategories().success(function(response) {
-		console.log("loadSOCategories", loadSOCategories);
-		$scope.so_categoriesList = response.categoriaVirtualEntity.element;
-	});
-//	fabricAPIservice.getVirtualentityCategories().success(function(response) {
+//appControllers.controller('ManagementNewVirtualentityCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'adminAPIservice','info', function($scope, $route, $location, fabricAPIservice, adminAPIservice, info) {
+//	$scope.tenantCode = $route.current.params.tenant_code;
+//
+//	$scope.isOwner = function(){
+//		return info.isOwner( $scope.tenantCode);
+//	};
+//
+//
+//	$scope.so_categoriesList = [];
+//	adminAPIservice.loadSOCategories().success(function(response) {
+//		console.log("loadSOCategories", loadSOCategories);
 //		$scope.so_categoriesList = response.categoriaVirtualEntity.element;
 //	});
-
-	
-	$scope.so_typesList = [];
-	fabricAPIservice.loadSOTypes().success(function(response) {
-		for (var int = 0; int < response.length; int++) {
-			if(response[int].idSoType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
-				$scope.so_typesList.push(response[int]);
-		}
-
-	});
-//	fabricAPIservice.getVirtualentityTypes().success(function(response) {
-//		for (var int = 0; int < response.tipoVirtualEntity.element.length; int++) {
-//			var virtualentity = response.tipoVirtualEntity.element[int];
+////	fabricAPIservice.getVirtualentityCategories().success(function(response) {
+////		$scope.so_categoriesList = response.categoriaVirtualEntity.element;
+////	});
 //
-//			if(virtualentity.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
-//				$scope.typesList.push(virtualentity);
+//	
+//	$scope.so_typesList = [];
+//	fabricAPIservice.loadSOTypes().success(function(response) {
+//		for (var int = 0; int < response.length; int++) {
+//			if(response[int].idSoType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+//				$scope.so_typesList.push(response[int]);
 //		}
 //
 //	});
+////	fabricAPIservice.getVirtualentityTypes().success(function(response) {
+////		for (var int = 0; int < response.tipoVirtualEntity.element.length; int++) {
+////			var virtualentity = response.tipoVirtualEntity.element[int];
+////
+////			if(virtualentity.idTipoVirtualEntity != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
+////				$scope.typesList.push(virtualentity);
+////		}
+////
+////	});
+//
+//	$scope.codeVirtualEntity;
+//	$scope.generateUUID = function(virtualentity){
+//		console.log("ui");
+//		var d = new Date().getTime();
+//		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+//			var r = (d + Math.random()*16)%16 | 0;
+//			d = Math.floor(d/16);
+//			return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+//		});
+//		$scope.codeVirtualEntity = uuid;
+//	};
+//
+//	//$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
+//	$scope.validationPatternUUID = (function() {
+//		return {
+//			test: function(value) {
+//				if( $scope.selectedType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ){
+//					return Constants.VALIDATION_PATTERN_CODE_VIRTUALENTITY.test(value);
+//				}
+//				else 
+//					return Constants.VALIDATION_PATTERN_UUID.test(value);
+//			}
+//		};
+//	})();
+//
+//	$scope.validationCodeTooltip = function(){
+//		if( $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID )
+//			return 'VALIDATION_PATTERN_UUID_TOOLTIP';
+//		return 'VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP';
+//	};
+//	
+//	$scope.selectedType;
+//	$scope.selectedFeedTweetType=false;
+//	$scope.selectedCategory = null;
+//	$scope.creationError = null;
+//	
+//	$scope.isDevice = function() {
+//		console.log("isDevice",$scope.selectedType);
+//		if(!$scope.selectedType)
+//			return false;
+//		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+//	};
+//
+//	$scope.isTwitter = function() {
+//		console.log("isTwitter",$scope.selectedType);
+//		if(!$scope.selectedType)
+//			return false;
+//		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+//	};
+//	
+//	$scope.isInternal = function() {
+//		if(!$scope.selectedType)
+//			return false;
+//		return $scope.selectedType.idTipoVirtualEntity == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+//	};
+//
+//	$scope.isCodeRequired = function() {
+//		console.debug("isCodeRequired function $scope.selectedType ::",$scope.selectedType);
+//		if(!$scope.selectedType){
+//			return false;
+//		}
+//		//return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ||  $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+//		return true;
+//	};
+//
+//	$scope.enableCodeGeneateButton = function() {
+//		if(!$scope.selectedType){
+//			return false;
+//		}
+//		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ;
+//	};
+//
+//	$scope.isCategoryRequired= function() {
+//		console.debug("isCategoryRequired function $scope.selectedType ::",$scope.selectedType);
+//		if(!$scope.selectedType){
+//			return false;
+//		}
+//		//return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+//		return true;
+//	};
+//
+//
+//	$scope.selectTypeChange = function() {
+//		console.debug("selectTypeChange function $scope.selectedType ::", $scope.selectedType);
+//		$scope.codeVirtualEntity = "";
+//		$scope.selectedCategory = null;
+//		return true;
+//	};
+//
+//
+//
+//	$scope.createVirtualentity = function(virtualentity) {
+//		console.log("virtualentity", virtualentity);
+//		if(!virtualentity)
+//			virtualentity = new Object();
+//
+//		virtualentity.idTipoVe = $scope.selectedType;
+//		if($scope.selectedCategory)
+//			virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria;
+//
+//		var newVirtualentity = new Object();
+//		newVirtualentity.codeVirtualEntity = $scope.codeVirtualEntity;
+//		newVirtualentity.virtualEntity = virtualentity;
+//
+//		console.log("newVirtualentity", newVirtualentity);
+//
+//		$scope.isUpdating = true;
+//		var promise   = fabricAPIservice.createVirtualentity($scope.tenantCode, $scope.codeVirtualEntity,  newVirtualentity);
+//		promise.then(function(result) {
+//			$scope.isUpdating = false;
+//			console.log("result qui ", result);
+//			$location.path('management/editVirtualentity/'+$scope.tenantCode +'/'+$scope.codeVirtualEntity);
+//		}, function(result) {
+//			$scope.isUpdating = false;
+//			$scope.creationError = angular.fromJson(result.data);
+//			console.log("result.data ", result.data);
+//		}, function(result) {
+//			console.log('Got notification: ' + result);
+//		});
+//	};	
+//
+//	$scope.cancel = function(){    
+//		$location.path('management/virtualentities/'+$scope.tenantCode);
+//	};
+//} ]);
 
-	$scope.codeVirtualEntity;
-	$scope.generateUUID = function(virtualentity){
-		console.log("ui");
-		var d = new Date().getTime();
-		var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = (d + Math.random()*16)%16 | 0;
-			d = Math.floor(d/16);
-			return (c=='x' ? r : (r&0x7|0x8)).toString(16);
-		});
-		$scope.codeVirtualEntity = uuid;
-	};
-
-	//$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
-	$scope.validationPatternUUID = (function() {
-		return {
-			test: function(value) {
-				if( $scope.selectedType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ){
-					return Constants.VALIDATION_PATTERN_CODE_VIRTUALENTITY.test(value);
-				}
-				else 
-					return Constants.VALIDATION_PATTERN_UUID.test(value);
-			}
-		};
-	})();
-
-	$scope.validationCodeTooltip = function(){
-		if( $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID )
-			return 'VALIDATION_PATTERN_UUID_TOOLTIP';
-		return 'VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP';
-	};
-	
-	$scope.selectedType;
-	$scope.selectedFeedTweetType=false;
-	$scope.selectedCategory = null;
-	$scope.creationError = null;
-	
-	$scope.isDevice = function() {
-		console.log("isDevice",$scope.selectedType);
-		if(!$scope.selectedType)
-			return false;
-		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
-	};
-
-	$scope.isTwitter = function() {
-		console.log("isTwitter",$scope.selectedType);
-		if(!$scope.selectedType)
-			return false;
-		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
-	};
-	
-	$scope.isInternal = function() {
-		if(!$scope.selectedType)
-			return false;
-		return $scope.selectedType.idTipoVirtualEntity == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
-	};
-
-	$scope.isCodeRequired = function() {
-		console.debug("isCodeRequired function $scope.selectedType ::",$scope.selectedType);
-		if(!$scope.selectedType){
-			return false;
-		}
-		//return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ||  $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
-		return true;
-	};
-
-	$scope.enableCodeGeneateButton = function() {
-		if(!$scope.selectedType){
-			return false;
-		}
-		return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ;
-	};
-
-	$scope.isCategoryRequired= function() {
-		console.debug("isCategoryRequired function $scope.selectedType ::",$scope.selectedType);
-		if(!$scope.selectedType){
-			return false;
-		}
-		//return $scope.selectedType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
-		return true;
-	};
-
-
-	$scope.selectTypeChange = function() {
-		console.debug("selectTypeChange function $scope.selectedType ::", $scope.selectedType);
-		$scope.codeVirtualEntity = "";
-		$scope.selectedCategory = null;
-		return true;
-	};
-
-
-
-	$scope.createVirtualentity = function(virtualentity) {
-		console.log("virtualentity", virtualentity);
-		if(!virtualentity)
-			virtualentity = new Object();
-
-		virtualentity.idTipoVe = $scope.selectedType;
-		if($scope.selectedCategory)
-			virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria;
-
-		var newVirtualentity = new Object();
-		newVirtualentity.codeVirtualEntity = $scope.codeVirtualEntity;
-		newVirtualentity.virtualEntity = virtualentity;
-
-		console.log("newVirtualentity", newVirtualentity);
-
-		$scope.isUpdating = true;
-		var promise   = fabricAPIservice.createVirtualentity($scope.tenantCode, $scope.codeVirtualEntity,  newVirtualentity);
-		promise.then(function(result) {
-			$scope.isUpdating = false;
-			console.log("result qui ", result);
-			$location.path('management/editVirtualentity/'+$scope.tenantCode +'/'+$scope.codeVirtualEntity);
-		}, function(result) {
-			$scope.isUpdating = false;
-			$scope.creationError = angular.fromJson(result.data);
-			console.log("result.data ", result.data);
-		}, function(result) {
-			console.log('Got notification: ' + result);
-		});
-	};	
-
-	$scope.cancel = function(){    
-		$location.path('management/virtualentities/'+$scope.tenantCode);
-	};
-} ]);
-
-appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'info', '$location', function($scope, $routeParams, fabricAPIservice, adminAPIservice,  info, $location) {
+appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'sharedAdminResponse', 'info', '$location', 
+                                                           function($scope, $routeParams, fabricAPIservice, adminAPIservice, sharedAdminResponse, info, $location) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	
 	$scope.changeTwitterUser = false;
@@ -324,9 +320,25 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			if(response[int].idSoType != Constants.VIRTUALENTITY_TYPE_INTERNAL_ID)
 				$scope.so_typesList.push(response[int]);
 		};
-
-		//$scope.typesList = response.tipoVirtualEntity.element;
 	});
+	
+	$scope.locationTypeList = [];
+	adminAPIservice.loadLocationTypes().success(function(response) {
+		$scope.locationTypeList = response;
+	});
+	
+	$scope.supplyTypeList = [];
+	adminAPIservice.loadSupplyTypes().success(function(response) {
+		$scope.supplyTypeList = response;
+	});
+	
+	$scope.exposureTypeList = [];
+	adminAPIservice.loadExposureTypes().success(function(response) {
+		$scope.exposureTypeList = response;
+	});
+	
+	
+	$scope.admin_response = sharedAdminResponse.getResponse();
 	
 	
 	$scope.generateUUID = function(virtualentity){
@@ -337,22 +349,22 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			d = Math.floor(d/16);
 			return (c=='x' ? r : (r&0x7|0x8)).toString(16);
 		});
-		$scope.virtualentity.codeVirtualEntity = uuid;
+		$scope.so.socode= uuid;
 	};
 	
 
 	
 	$scope.slugDisabled = function(e){
 		var rtnBool = false;
-		if((typeof $scope.virtualentity.virtualEntityName) == 'undefined'){
+		if((typeof $scope.so.name) == 'undefined'){
 			rtnBool = true;
 		} else {
-			if ($scope.virtualentity.virtualEntityName.length < 1){
+			if ($scope.so.name.length < 1){
 				rtnBool = true;
 			}
 		}
 		if (rtnBool){
-			$scope.virtualentity.virtualEntitySlug = '';
+			$scope.so.slug = '';
 		}
 		return rtnBool;	
 	};
@@ -371,6 +383,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		  }
 	};
 	
+	var soList = null;
 	$scope.clearSlug = function(slugInput){
 		$scope.isValidSlug = false;
 		var d = new Date().getTime();
@@ -378,13 +391,11 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		var firstSlug = slugInput.replace(/[^a-zA-Z0-9]/g, '');
 		
 		var rtnBool = false;
-		var promise = fabricAPIservice.getVirtualentityByTenant($scope.tenantCode);
-		promise.then(function(result) {
-			var vEntities = Helpers.util.initArrayZeroOneElements(result.data.virtualEntities.virtualEntity);
-			console.log(vEntities);
-			vEntities.forEach(function(item) {
-			    //console.log(item.virtualEntitySlug);
-			    if (firstSlug == item.virtualEntitySlug){
+		adminAPIservice.loadSmartobjects(info.getActiveTenant()).success(function(response) {
+			console.log("response", soList);
+			soList = response;
+			soList.forEach(function(item) {
+			    if (firstSlug == item.slug){
 			    	rtnBool = true;
 			    }
 			});
@@ -396,67 +407,129 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 					return (c=='x' ? r : (r&0x7|0x8)).toString(16);
 				});
 				var rtnBool2 = false;
-				if ($scope.virtualentity.virtualEntityName.length >= 1){
+				if ($scope.so.name.length >= 1){
 					vEntities.forEach(function(item) {
-					    console.log(item.virtualEntitySlug);
-					    if (slug == item.virtualEntitySlug){
+					    if (slug == item.slug){
 					    	rtnBool2 = true;
 					    }
 					});
 					if (!rtnBool2){
-						$scope.virtualentity.virtualEntitySlug = slug;
+						$scope.slug = slug;
 					} else {
 						console.error("rtnBool2",rtnBool2);
 					}
 				}
 			} else {
 				$scope.isValidSlug = true;
-				$scope.virtualentity.virtualEntitySlug = firstSlug;
+				$scope.so.slug = firstSlug;
 			}
-		}, function(reason) {
-		  console.log('Failed: ');
-		  console.log(reason);
-		}, function(update) {
-		  console.log('Got notification: ');
-		  console.log(update);
+		
+		}).error(function(response) {
+			console.error("loadSmartobjects ERROR",response);
 		});
+		
+//		var promise = fabricAPIservice.getVirtualentityByTenant($scope.tenantCode);
+//		promise.then(function(result) {
+//			var vEntities = Helpers.util.initArrayZeroOneElements(result.data.virtualEntities.virtualEntity);
+//			console.log(vEntities);
+//			vEntities.forEach(function(item) {
+//			    //console.log(item.virtualEntitySlug);
+//			    if (firstSlug == item.virtualEntitySlug){
+//			    	rtnBool = true;
+//			    }
+//			});
+//	
+//			if (rtnBool){
+//				var slug = firstSlug+'xxx'.replace(/[xy]/g, function(c) {
+//					var r = (d + Math.random()*16)%16 | 0;
+//					d = Math.floor(d/16);
+//					return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+//				});
+//				var rtnBool2 = false;
+//				if ($scope.virtualentity.virtualEntityName.length >= 1){
+//					vEntities.forEach(function(item) {
+//					    console.log(item.virtualEntitySlug);
+//					    if (slug == item.virtualEntitySlug){
+//					    	rtnBool2 = true;
+//					    }
+//					});
+//					if (!rtnBool2){
+//						$scope.virtualentity.virtualEntitySlug = slug;
+//					} else {
+//						console.error("rtnBool2",rtnBool2);
+//					}
+//				}
+//			} else {
+//				$scope.isValidSlug = true;
+//				$scope.virtualentity.virtualEntitySlug = firstSlug;
+//			}
+//		}, function(reason) {
+//		  console.log('Failed: ');
+//		  console.log(reason);
+//		}, function(update) {
+//		  console.log('Got notification: ');
+//		  console.log(update);
+//		});
 	};
 	
-	$scope.generateSLUG = function(virtualentity){
-		if(typeof $scope.virtualentity.virtualEntityName!='undefined')
-			$scope.clearSlug($scope.virtualentity.virtualEntityName);
+	$scope.generateSLUG = function(){
+		if(typeof $scope.so.name!='undefined')
+			$scope.clearSlug($scope.so.name);
 	};
 
 
 	findDuplicateSlug = function(tenantCode, slugTest){
 		var rtn = false;
-		var promise = fabricAPIservice.getVirtualentityByTenant(tenantCode);
-		promise.then(function(result) {
-			var vEntities = result.data.virtualEntities.virtualEntity;
-			console.log(vEntities);
-			vEntities.forEach(function(item) {
+		if(soList==null){
+		
+			adminAPIservice.loadSmartobjects(info.getActiveTenant()).success(function(response) {
+				soList.forEach(function(item) {
+				    console.log(item.virtualEntitySlug);
+				    if (slugTest == item.virtualEntitySlug){
+				    	rtn = true;
+				    }
+				});
+				return rtn;
+			}).error(function(response) {
+				console.error("loadSmartobjects ERROR",response);
+			});
+		}
+		else{
+			soList.forEach(function(item) {
 			    console.log(item.virtualEntitySlug);
 			    if (slugTest == item.virtualEntitySlug){
 			    	rtn = true;
 			    }
 			});
-
 			return rtn;
-		}, function(result) {
-			console.log("result data ", result.data);
-			return rtn;
-		}, function(result) {
-			console.log('Got notification: ' + result);
-
-			return rtn;
-		});
+		}
+//		var promise = fabricAPIservice.getVirtualentityByTenant(tenantCode);
+//		promise.then(function(result) {
+//			var vEntities = result.data.virtualEntities.virtualEntity;
+//			console.log(vEntities);
+//			vEntities.forEach(function(item) {
+//			    console.log(item.virtualEntitySlug);
+//			    if (slugTest == item.virtualEntitySlug){
+//			    	rtn = true;
+//			    }
+//			});
+//
+//			return rtn;
+//		}, function(result) {
+//			console.log("result data ", result.data);
+//			return rtn;
+//		}, function(result) {
+//			console.log('Got notification: ' + result);
+//
+//			return rtn;
+//		});
 	};
 
 	//$scope.validationPatternUUID = Constants.VALIDATION_PATTERN_UUID;
 	$scope.validationPatternUUID = (function() {
 		return {
 			test: function(value) {
-				if($scope.virtualentity.idTipoVe != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ){
+				if($scope.so.idSoType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID ){
 					return Constants.VALIDATION_PATTERN_CODE_VIRTUALENTITY.test(value);
 				}
 				else {
@@ -467,7 +540,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	})();
 
 	$scope.validationCodeTooltip = function(){
-		if($scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID )
+		if($scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID )
 			return 'VALIDATION_PATTERN_UUID_TOOLTIP';
 		return 'VALIDATION_PATTERN_CODE_VIRTUALENTITY_TOOLTIP';
 	};
@@ -478,40 +551,38 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.creationError = null;
 	
 	$scope.isDevice = function() {
-		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe == null)
+		if(!$scope.so || $scope.so.idSoType == null)
 			return false;
-		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
+		return $scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 	};
 
 	$scope.isTwitter = function() {
-		//console.log("isTwitter",$scope.virtualentity.idTipoVe);
-		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe == null)
+		//console.log("isTwitter",$scope.so.soType.idSoType);
+		if(!$scope.so || $scope.so.idSoType == null)
 			return false;
-		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+		return $scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
 	};
 	
 
 	$scope.isInternal = function() {
-		if(!$scope.virtualentity || !$scope.virtualentity.idTipoVe == null)
+		if(!$scope.so || $scope.so.idSoType == null)
 			return false;
-		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+		return $scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
 
 	$scope.isCodeRequired = function() {
-		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe==null)
-			return !$scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID ||  !$scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
-		return true;
+		return !$scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID ||  !$scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
 	};
 
 	$scope.enableCodeGeneateButton = function() {
-		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe==null){
+		if(!$scope.so || $scope.so.idSoType==null){
 			return false;
 		}
-		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ;
+		return $scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID ;
 	};
 
 	$scope.isCategoryRequired= function() {
-		if(!$scope.virtualentity || $scope.virtualentity.idTipoVe==null){
+		if(!$scope.so || $scope.so.idSoType==null){
 			return false;
 		}
 		return true;
@@ -528,23 +599,23 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			console.log("[loadTwitterCredential] - result.data", response.result);
 			if(response.result=="OK"){
 				$scope.twitterCredentialFound = true;
-				$scope.virtualentity.twtUsername = response.twitterUser.twtUsername;
-				$scope.virtualentity.twtUsertoken = response.twitterUser.twtUsertoken;
-				$scope.virtualentity.twtTokenSecret = response.twitterUser.twtTokenSecret;
-				$scope.virtualentity.twtName = response.twitterUser.twtName;
-				$scope.virtualentity.twtIdUser = response.twitterUser.twtIdUser;
+				$scope.so.twtusername = response.twitterUser.twtUsername;
+				$scope.so.twtusertoken = response.twitterUser.twtUsertoken;
+				$scope.so.twttokensecret = response.twitterUser.twtTokenSecret;
+				$scope.so.twtname = response.twitterUser.twtName;
+				$scope.so.twtuserid = response.twitterUser.twtIdUser;
 				$scope.twtMiniProfileImageURLHttps = response.twitterUser.twtMiniProfileImageURLHttps;
 			}
 			else{
 				$scope.twitterCredentialFound = false;
-				$scope.virtualentity.twtUsername = null;
-				$scope.virtualentity.twtUsertoken = null;
-				$scope.virtualentity.twtTokenSecret = null;
-				$scope.virtualentity.twtName = null;
-				$scope.virtualentity.twtIdUser = null;
+				$scope.so.twtusername = null;
+				$scope.so.twtusertoken = null;
+				$scope.so.twttokensecret = null;
+				$scope.so.twtname = null;
+				$scope.so.twtuserid = null;
 				$scope.twtMiniProfileImageURLHttps = null;
 			}
-			$scope.virtualentity.twtMaxStreams = 5;
+			$scope.so.twtmaxstreams = 5;
 			console.log("[loadTwitterCredential] - isTwitter", $scope.isTwitter());
 
 		}).error(function(data, status, headers, config) {
@@ -567,27 +638,27 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				$scope.wizardSteps[2].style = "";
 			}
 		}
-		$scope.virtualentity.idTipoVe = selectTypeChange;
-		$scope.virtualentity.codeVirtualEntity = "";
-		$scope.virtualentity.idCategoriaVe = null;
-		if($scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
-			$scope.virtualentity.idCategoriaVe = Constants.VIRTUALENTITY_CATEGORY_NONE;
+		$scope.so.idSoType = selectTypeChange;
+		$scope.so.socode= "";
+		$scope.so.idSoCategory = null;
+		if($scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+			$scope.so.idSoCategory = Constants.VIRTUALENTITY_CATEGORY_NONE;
 			loadTwitterCredential();
 		}
-		$scope.virtualentity.virtualEntitySlug = '';
+		$scope.so.slug = '';
 		return true;
 	};
 
 
 	var isTwitterOk = function(){
-		console.log("isTwitterOk",$scope.virtualentity.idTipoVe);
-		console.log("isTwitterOk",$scope.virtualentity.twtUsername);
-		console.log("isTwitterOk",$scope.virtualentity.twtUsertoken);
-		console.log("isTwitterOk",$scope.virtualentity.twtTokenSecret);
-		if($scope.virtualentity && $scope.virtualentity.idTipoVe && $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
-			if($scope.virtualentity.twtUsername && $scope.virtualentity.twtUsername != null && $scope.virtualentity.twtUsername != "" &&
-					$scope.virtualentity.twtUsertoken && $scope.virtualentity.twtUsertoken != null && $scope.virtualentity.twtUsertoken != "" &&
-					$scope.virtualentity.twtTokenSecret && $scope.virtualentity.twtTokenSecret != null && $scope.virtualentity.twtTokenSecret != "")
+		console.log("isTwitterOk",$scope.so.idSoType);
+		console.log("isTwitterOk",$scope.so.twtusername);
+		console.log("isTwitterOk",$scope.so.twtusertoken);
+		console.log("isTwitterOk",$scope.so.twttokensecret);
+		if($scope.so && $scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+			if($scope.so.twtusername && $scope.so.twtusername != null && $scope.so.twtusername != "" &&
+					$scope.so.twtusertoken && $scope.so.twtusertoken != null && $scope.so.twtusertoken != "" &&
+					$scope.so.twttokensecret && $scope.so.twttokensecret != null && $scope.so.twttokensecret != "")
 				return true;
 			else
 				return false;
@@ -600,23 +671,23 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 
-	$scope.virtualentity = null;
+	//$scope.virtualentity = null;
 
 	$scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	$scope.validationPatternInteger = Constants.VALIDATION_PATTERN_INTEGER;
 
-	$scope.isNewVirtualentity = false;
+	$scope.isNewSo = false;
 	if(!$routeParams.entity_code || $routeParams.entity_code == null || $routeParams.entity_code === undefined )
-		$scope.isNewVirtualentity = true;
+		$scope.isNewSo = true;
 	
-	$scope.loadVirtualentity = function(){
-		if(!$scope.isNewVirtualentity){
+	var loadSo = function(){
+		if(!$scope.isNewSo){
 			
-			var editVirtualentity = $location.search().virtualEntityInSession;
+			var editSo = $location.search().virtualEntityInSession;
 			
-			if(editVirtualentity && editVirtualentity!=null){
-				$scope.virtualentity  = JSON.parse(decodeURI(editVirtualentity));
-				if($scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+			if(editSo && editSo!=null){
+				$scope.so  = JSON.parse(decodeURI(editSo));
+				if($scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
 					console.log("loadTwitterCredential",loadTwitterCredential);
 					loadTwitterCredential();
 				}
@@ -624,52 +695,133 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 			}
 			else{
-				fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.entity_code).success(function(response) {
-					$scope.virtualentity = response.virtualEntities.virtualEntity;
-					if(!$scope.virtualentity.virtualEntityPositions)
-						$scope.virtualentity.virtualEntityPositions = {};
-					$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
-					if($scope.virtualentity.virtualEntityPositions.position.length == 0){
-						$scope.virtualentity.virtualEntityPositions.position.push({});
-						$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
-						$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
-					}
-					if($scope.virtualentity.twtIdUser == 0)
-						$scope.virtualentity.twtIdUser = null;
+				$scope.admin_response = {};		
+				sharedAdminResponse.setResponse($scope.admin_response); 
+				adminAPIservice.loadSmartobject(info.getActiveTenant(), $routeParams.entity_code).success(function(response) {
+					console.log("loadSmartobject", response);
+					$scope.so = response;
+					if(Helpers.util.has($scope.so, 'exposureType.idExposureType'))
+						$scope.so.idExposureType = response.exposureType.idExposureType;
+					if(Helpers.util.has($scope.so, 'locationType.idLocationType'))
+						$scope.so.idLocationType = response.locationType.idLocationType;
+					if(Helpers.util.has($scope.so, 'soType.idSoType'))
+						$scope.so.idSoType = response.soType.idSoType;
+					if(Helpers.util.has($scope.so, 'soCategory.idSoCategory'))
+						$scope.so.idSoCategory = response.soCategory.idSoCategory;
+					if(Helpers.util.has($scope.so, 'supplyType.idSupplyType'))
+						$scope.so.idSupplyType = response.supplyType.idSupplyType;
+					// idTenant ????
+					
+					
+					
+					
+//					if(!$scope.so.virtualEntityPositions)
+//						$scope.virtualentity.virtualEntityPositions = {};
+//					$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
+//					if($scope.virtualentity.virtualEntityPositions.position.length == 0){
+//						$scope.virtualentity.virtualEntityPositions.position.push({});
+//						$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+//						$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
+//					}
+//					if($scope.virtualentity.twtuserid == 0)
+//						$scope.virtualentity.twtuserid = null;
 						
-					Helpers.util.cleanNilInField($scope.virtualentity);
+//					Helpers.util.cleanNilInField($scope.virtualentity);
+				}).error(function(response) {
+					console.error("loadSo ERROR", response);
+					$scope.admin_response.type = 'danger';
+					$scope.admin_response.message = 'Smartobject not loaded';
+					if(response && response.errorName)
+						$scope.admin_response.detail= response.errorName;
+					if(response && response.errorCode)
+						$scope.admin_response.code= response.errorCode;
 				});
 			}
-
 		}
 		else {
-			var newVirtualentity = $location.search().virtualEntityInSession;
-			console.log("newVirtualentity", newVirtualentity);
-			if(newVirtualentity && newVirtualentity!=null){
-				//var newVirtualentityObj = JSON.parse(decodeURI(newVirtualentity));
-				$scope.virtualentity  = JSON.parse(decodeURI(newVirtualentity));
-				//$scope.selectTypeChange(newVirtualentityObj.idTipoVe);
-				console.log("$scope.virtualentity.idTipoVe: ", $scope.virtualentity.idTipoVe);
-				if($scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+			var newSo = $location.search().virtualEntityInSession;
+			console.log("newSo", newSo);
+			if(newSo && newSo!=null){
+				$scope.so  = JSON.parse(decodeURI(newSo));
+				if($scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
 					console.log("loadTwitterCredential",loadTwitterCredential);
 					loadTwitterCredential();
 				}
-
-				//$scope.virtualentity  = newVirtualentityObj;
-
-				//$scope.selectedType = $scope.virtualentity.idTipoVe;
 			}
 			else{
-				$scope.virtualentity = {};
-				$scope.virtualentity.virtualEntityPositions = {};
-				$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
-				$scope.virtualentity.virtualEntityPositions.position.push({});
-			}//$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+				$scope.so = {};
+//				$scope.virtualentity.virtualEntityPositions = {};
+//				$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
+//				$scope.virtualentity.virtualEntityPositions.position.push({});
+			}
 
 		};
 	};
+	
+	loadSo();
 
-	$scope.loadVirtualentity();
+	
+//	$scope.loadVirtualentity = function(){
+//		if(!$scope.isNewSo){
+//			
+//			var editVirtualentity = $location.search().virtualEntityInSession;
+//			
+//			if(editVirtualentity && editVirtualentity!=null){
+//				$scope.virtualentity  = JSON.parse(decodeURI(editVirtualentity));
+//				if($scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+//					console.log("loadTwitterCredential",loadTwitterCredential);
+//					loadTwitterCredential();
+//				}
+//				$scope.changeTwitterUser =  true;
+//
+//			}
+//			else{
+//				fabricAPIservice.getVirtualentity($routeParams.tenant_code, $routeParams.entity_code).success(function(response) {
+//					$scope.virtualentity = response.virtualEntities.virtualEntity;
+//					if(!$scope.virtualentity.virtualEntityPositions)
+//						$scope.virtualentity.virtualEntityPositions = {};
+//					$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
+//					if($scope.virtualentity.virtualEntityPositions.position.length == 0){
+//						$scope.virtualentity.virtualEntityPositions.position.push({});
+//						$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+//						$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
+//					}
+//					if($scope.virtualentity.twtuserid == 0)
+//						$scope.virtualentity.twtuserid = null;
+//						
+//					Helpers.util.cleanNilInField($scope.virtualentity);
+//				});
+//			}
+//
+//		}
+//		else {
+//			var newVirtualentity = $location.search().virtualEntityInSession;
+//			console.log("newVirtualentity", newVirtualentity);
+//			if(newVirtualentity && newVirtualentity!=null){
+//				//var newVirtualentityObj = JSON.parse(decodeURI(newVirtualentity));
+//				$scope.virtualentity  = JSON.parse(decodeURI(newVirtualentity));
+//				//$scope.selectTypeChange(newVirtualentityObj.idTipoVe);
+//				console.log("$scope.so.soType.idSoType: ", $scope.so.soType.idSoType);
+//				if($scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+//					console.log("loadTwitterCredential",loadTwitterCredential);
+//					loadTwitterCredential();
+//				}
+//
+//				//$scope.virtualentity  = newVirtualentityObj;
+//
+//				//$scope.selectedType = $scope.so.soType.idSoType;
+//			}
+//			else{
+//				$scope.virtualentity = {};
+//				$scope.virtualentity.virtualEntityPositions = {};
+//				$scope.virtualentity.virtualEntityPositions.position = Helpers.util.initArrayZeroOneElements($scope.virtualentity.virtualEntityPositions.position);
+//				$scope.virtualentity.virtualEntityPositions.position.push({});
+//			}//$scope.virtualentity.virtualEntityPositions.position[0].room = 0;
+//
+//		};
+//	};
+
+//	$scope.loadVirtualentity();
 
 	$scope.initDate = new Date();
 	$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
@@ -677,9 +829,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 
 	$scope.isInternal = function() {
-		if(!$scope.virtualentity || !$scope.virtualentity.tipoVirtualEntity)
-			return false;
-		return $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+		return $scope.so && $scope.so.idSoType && $scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
 
 	
@@ -690,46 +840,67 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$scope.saveWarning = 'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR';
 		}
 		else{
-			if($scope.isNewVirtualentity){
-				$scope.createVirtualentity($scope.virtualentity);
+			if($scope.isNewSo){
+				$scope.createSo($scope.virtualentity);
 			}
 			else
-				$scope.updateVirtualentity();
+				$scope.updateSo();
 		}
 	};
 
 	$scope.cancel = function(){    
 		$location.path('management/virtualentities/'+$scope.tenantCode);
 	};
+	
+	$scope.createSo  = function(){
+		console.log("createSo", $scope.so);
+		//$scope.so.idTenant  = info.getActiveTenant().idTenant;
+		$scope.admin_response = {};
+		sharedAdminResponse.setResponse($scope.admin_response); 
 
-	$scope.createVirtualentity = function(virtualentity) {
-		console.log("virtualentity", virtualentity);
-		if(!virtualentity)
-			virtualentity = new Object();
+		adminAPIservice.createSmartobject(info.getActiveTenant(), $scope.so).success(function(response) {
+			console.log("createSo SUCCESS", response);
+			$scope.admin_response.type = 'success';
+			$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
+			sharedAdminResponse.setResponse($scope.admin_response);
+			$location.path('management/viewVirtualentity/'+$scope.tenantCode +'/'+response.socode);
+		}).error(function(response){
+			console.error("createSo ERROR", response);
+			$scope.admin_response.type = 'danger';
+			$scope.admin_response.message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
+			if(response && response.errorName)
+				$scope.admin_response.detail= response.errorName;
+			if(response && response.errorCode)
+				$scope.admin_response.code= response.errorCode;
 
-		//virtualentity.idTipoVe = selectedType;
-		//if($scope.selectedCategory)
-		//	virtualentity.idCategoriaVe = $scope.selectedCategory.idCategoria;
-		
+		});
+	};
+/*
+	$scope.createSo_old = function(so) {
+		console.log("so", so);
+		if(!so)
+			so = new Object();
 
-		var newVirtualentity = new Object();
-		newVirtualentity.codeVirtualEntity = virtualentity.codeVirtualEntity;
-		newVirtualentity.virtualEntity = virtualentity;
-		if(newVirtualentity.virtualEntity.idTipoVe != Constants.VIRTUALENTITY_TYPE_DEVICE_ID)
-			newVirtualentity.virtualEntity.virtualEntityPositions=null;
+
+
+		var newSo = new Object();
+		newSo.socode = so.socode;
+		newSo.so = so;
+		if(newSo.so.idSoType != Constants.VIRTUALENTITY_TYPE_DEVICE_ID)
+			newSo.position=null;
 		else{
-			if($scope.virtualentity.virtualEntityPositions.position[0].lat == "" || $scope.virtualentity.virtualEntityPositions.position[0].lat ==null )
-				$scope.virtualentity.virtualEntityPositions.position[0].lat = 0;
-			if($scope.virtualentity.virtualEntityPositions.position[0].lon == "" || $scope.virtualentity.virtualEntityPositions.position[0].lon ==null )
-			$scope.virtualentity.virtualEntityPositions.position[0].lon = 0;
-			if($scope.virtualentity.virtualEntityPositions.position[0].elevation == "" || $scope.virtualentity.virtualEntityPositions.position[0].elevation ==null )
-			$scope.virtualentity.virtualEntityPositions.position[0].elevation = 0;
-			if($scope.virtualentity.virtualEntityPositions.position[0].floor == "" || $scope.virtualentity.virtualEntityPositions.position[0].floor ==null )
-			$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
+//			if($scope.virtualentity.virtualEntityPositions.position[0].lat == "" || $scope.virtualentity.virtualEntityPositions.position[0].lat ==null )
+//				$scope.virtualentity.virtualEntityPositions.position[0].lat = 0;
+//			if($scope.virtualentity.virtualEntityPositions.position[0].lon == "" || $scope.virtualentity.virtualEntityPositions.position[0].lon ==null )
+//			$scope.virtualentity.virtualEntityPositions.position[0].lon = 0;
+//			if($scope.virtualentity.virtualEntityPositions.position[0].elevation == "" || $scope.virtualentity.virtualEntityPositions.position[0].elevation ==null )
+//			$scope.virtualentity.virtualEntityPositions.position[0].elevation = 0;
+//			if($scope.virtualentity.virtualEntityPositions.position[0].floor == "" || $scope.virtualentity.virtualEntityPositions.position[0].floor ==null )
+//			$scope.virtualentity.virtualEntityPositions.position[0].floor = 0;
 		}
 		
 		console.log("virtualentity.codeVirtualEntity", virtualentity.codeVirtualEntity);
-		console.log("newVirtualentity", newVirtualentity);
+		console.log("newSo", newSo);
 	
 		$scope.isUpdating = false;
 		var promise   = fabricAPIservice.createVirtualentity($scope.tenantCode, virtualentity.codeVirtualEntity,  newVirtualentity);
@@ -741,7 +912,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$scope.isUpdating = true;
 			$scope.creationError = angular.fromJson(result.data);
 			$scope.creationError.error_message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
-			if($scope.creationError && $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
+			if($scope.creationError && $scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
 				$scope.creationError.error_detail =  'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL';
 			console.log("result.data ", result.data);
 		}, function(result) {
@@ -749,10 +920,35 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		});
 	};	
 
+*/
+	
+	
+	$scope.updateSo  = function(){
+		console.log("updateSo", $scope.so);
+		$scope.admin_response = {};
+		sharedAdminResponse.setResponse($scope.admin_response); 
 
-	
-	
-	$scope.updateVirtualentity = function() {
+		adminAPIservice.updateSmartobject(info.getActiveTenant(), $scope.so).success(function(response) {
+			console.log("updateSo SUCCESS", response);
+			$scope.admin_response.type = 'success';
+			$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
+			sharedAdminResponse.setResponse($scope.admin_response);
+			$location.path('management/editVirtualentity/'+$scope.tenantCode +'/'+response.socode);
+			Helpers.util.scrollTo("topForm");
+		}).error(function(response){
+			console.error("updateSo ERROR", response);
+			$scope.admin_response.type = 'danger';
+			$scope.admin_response.message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
+			if(response && response.errorName)
+				$scope.admin_response.detail= response.errorName;
+			if(response && response.errorCode)
+				$scope.admin_response.code= response.errorCode;
+			Helpers.util.scrollTo("topForm");
+		});
+	};
+
+	/*
+	$scope.updateSo_old = function() {
 		$scope.updateInfo = null;
 		$scope.updateError = null;
 
@@ -772,8 +968,8 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 		}
 		
-		if($scope.virtualentity.twtIdUser == 0)
-			$scope.virtualentity.twtIdUser = null;
+		if($scope.virtualentity.twtuserid == 0)
+			$scope.virtualentity.twtuserid = null;
 
 		newVirtualentity.virtualEntity =  $scope.virtualentity;
 		console.log("newVirtualentity", newVirtualentity);
@@ -798,7 +994,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$scope.isUpdating = false;
 			$scope.updateError = angular.fromJson(result.data);
 			$scope.updateError.error_message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
-			if($scope.updateError && $scope.virtualentity.idTipoVe == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
+			if($scope.updateError && $scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID)
 				$scope.updateError.error_detail =  'MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_ERROR_DETAIL';
 			console.log("result.data ", result.data);
 		}, function(result) {
@@ -806,18 +1002,18 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		});
 
 
-	};	
+	};	*/
 
 	$scope.twitterAuthUrl =  function() {
-		var vitualEntityAction = "new";
-		var virtualentityCode = "";
-		if(!$scope.isNewVirtualentity){
-			vitualEntityAction = "edit";
-			virtualentityCode = $routeParams.entity_code;
+		var soAction = "new";
+		var soCode = "";
+		if(!$scope.isNewSo){
+			soAction = "edit";
+			soCode = $routeParams.entity_code;
 		}
 		
-		return Constants.API_SERVICES_TWITTER_AUTH_URL+"?vitualEntityAction="+ vitualEntityAction +"&tenant=" + $scope.tenantCode + "&virtualentityCode=" + virtualentityCode  +
-				"&virtualEntityInSession="+encodeURI(JSON.stringify($scope.virtualentity));
+		return Constants.API_SERVICES_TWITTER_AUTH_URL+"?vitualEntityAction="+ soAction +"&tenant=" + $scope.tenantCode + "&virtualentityCode=" + soCode  +
+				"&virtualEntityInSession="+encodeURI(JSON.stringify($scope.so));
 	};
 	
 	$scope.twitterError = null;

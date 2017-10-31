@@ -2,15 +2,6 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 
 	var adminAPI = {};
 
-	adminAPI.loadTenants = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_ADMIN_TENANTS_URL + '?callback=JSON_CALLBACK'
-		});
-	};
-	
-	
-
 	adminAPI.loadSOCategories = function() {
 		return $http({
 			method : 'JSONP',
@@ -112,7 +103,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	adminAPI.loadOrganizations = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_ADMIN_ORGANIZATIONS_URL + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_ADMIN_ORGANIZATIONS_URL + '/' + '?ecosystemCode=SDNET&callback=JSON_CALLBACK'
 		});
 	};
 
@@ -123,12 +114,43 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 		});
 	};
 
-	adminAPI.getVirtualentity = function(tenant_code, virtualentity_code) {
+	adminAPI.loadTenants = function() {
 		return $http({
 			method : 'JSONP',
-			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
+			url : Constants.API_ADMIN_TENANTS_URL + '?callback=JSON_CALLBACK'
 		});
 	};
+
+	
+	/**
+	 * SMART OBJECTS
+	 */
+	adminAPI.loadSmartobjects = function(activeTenant) {
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/' + '?tenantCode='+activeTenant.tenantCode+'&callback=JSON_CALLBACK'; 
+		return $http({
+			method : 'JSONP',
+			url : urlWithParam
+		});
+	};
+
+	adminAPI.loadSmartobject = function(activeTenant, so_code) {
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/' +so_code + '/' + '?callback=JSON_CALLBACK'; 
+		return $http({
+			method : 'JSONP',
+			url : urlWithParam
+		});
+	};
+	
+	adminAPI.createSmartobject = function(activeTenant, so) {
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode);
+		return $http.post(urlWithParam, so);
+	};
+
+	adminAPI.updateSmartobject = function(activeTenant, so) {
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/' +so.socode;
+		return $http.put(urlWithParam, so);
+	};
+
 
 	return adminAPI;
 } ]);

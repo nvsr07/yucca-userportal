@@ -1,38 +1,32 @@
 <div ng-controller="ManagementVirtualentityCtrl as streamCtrl" ng-cloak>
 	<div class='container'>
-		<!-- <h3 class='entity-title'><span translate-cloak translate>VIRTUALENTITY</span> <small> {{virtualentity.virtualEntityName}}</small></h3>-->
-		
+		<!-- <h3 class='entity-title'><span translate-cloak translate>VIRTUALENTITY</span> <small> {{so.virtualEntityName}}</small></h3>-->
+		<alert-panel ng-if='admin_response.message' message='{{admin_response.message}}'  code="{{admin_response.code}}" detail="{{admin_response.detail}}" type='{{admin_response.type}}'></alert-panel>
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>VIRTUALENTITY_FIELD_NAME</span></small></div>
-				<div class='main-info'><strong>{{virtualentity.virtualEntityName}}</strong></div>
+				<div class='main-info'><strong>{{so.name}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>VIRTUALENTITY_FIELD_CREATION_DATE</span></small></div>
-				<div><strong>{{virtualentity.creationDate|date}}</strong></div>
+				<div><strong>{{so.creationdate|smartobject_date_format}}</strong></div>
 			
 			</div>
 		</div>
 		<div class='clearfix entity-info entity-info-bottom'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>VIRTUALENTITY_FIELD_CODE</span></small></div>
-				<div class='url'><strong>{{virtualentity.codeVirtualEntity}}</strong></div>
+				<div class='url'><strong>{{so.socode}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>VIRTUALENTITY_FIELD_TYPE</span></small></div>
-				<div><strong>{{virtualentity.tipoVirtualEntity}}</strong></div>
-			
+				<div><strong title="Type code: {{so.soType.sotypecode}}">{{so.soType.description}}</strong></div>			
 			</div>
 		</div>
 		<div class='clearfix entity-info entity-info-bottom'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>VIRTUALENTITY_SLUG</span></small></div>
-				<div class='url'><strong>{{virtualentity.virtualEntitySlug}}</strong></div>
-			</div>
-			<div class='pull-right text-right'>
-				<div><small><span translate-cloak translate></span></small></div>
-				<div><strong></strong></div>
-			
+				<div class='url'><strong>{{so.slug}}</strong></div>
 			</div>
 		</div>
 	</div>
@@ -47,25 +41,25 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
-					<div class="col-sm-10">{{virtualentity.virtualEntityDescription}}</div>
+					<div class="col-sm-10">{{so.description}}</div>
 				</div>	
-				<div class="row card-row" ng-show="isDevice()">
+				<div class="row card-row" ng-if="isDevice()">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
-					<div class="col-sm-10">{{virtualentity.categoriaVirtualEntity}}</div>
+					<div class="col-sm-10"><span title="Category code: {{so.soCategory.socategorycode}}">{{so.soCategory.description}}</span></div>
 				</div>			
-				<div class="row card-row"  ng-show="isDevice()">
+				<div class="row card-row"  ng-if="isDevice()">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_MODEL</span></strong></div>
-					<div class="col-sm-10">{{virtualentity.virtualEntityModel}}</div>
+					<div class="col-sm-10">{{so.model}}</div>
 				</div>			
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_STATUS</span></strong></div>
-					<div class="col-sm-10">{{virtualentity.deploymentStatusDesc}}</div>
+					<div class="col-sm-10"><span title="Status code: {{so.status.statuscode}}">{{so.status.descriptionStatus}}</span></div>
 				</div>	
-				<div class="row card-row" ng-show='virtualentity.twtUsername!=null'>
+				<div class="row card-row" ng-if='so.twtusername!=null'>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_TWITTER_USER_NAME</span></strong></div>
-					<div class="col-sm-5">{{virtualentity.twtUsername}}</div>
+					<div class="col-sm-5">{{so.twtusername}}</div>
 					<div class="col-sm-3 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_TWITTER_MAX_STREAM</span></strong></div>
-					<div class="col-sm-2">{{virtualentity.twtMaxStreams}}</div>
+					<div class="col-sm-2">{{so.twtmaxstreams}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -79,24 +73,24 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
-					<div class="col-sm-1">{{virtualentity.tipoPosizione}}</div>
+					<div class="col-sm-1"><span title='Location type code:{{so.locationType.locationtype}}'>{{so.locationType.description}}</span></div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_LATITUDE</span></strong></div>
-					<div class="col-sm-1">{{virtualentity.virtualEntityPositions.position[0].lat}}</div>
+					<div class="col-sm-1">{{so.position.lat}}</div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_LONGITUDE</span></strong></div>
-					<div class="col-sm-1">{{virtualentity.virtualEntityPositions.position[0].lon}}</div>
+					<div class="col-sm-1">{{so.position.lon}}</div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
-					<div class="col-sm-1">{{virtualentity.virtualEntityPositions.position[0].elevation}}</div>
+					<div class="col-sm-1">{{so.position.elevation}}</div>
 				</div>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ESPOSITION</span></strong></div>
-					<div class="col-sm-1	">{{virtualentity.tipoEsposizione}}</div>
-					<div ng-show="virtualentity.tipoEsposizione=='indoor'">
+					<div class="col-sm-1"><span title='Exposure type code:{{so.exposureType.exposuretype}}'>{{so.exposureType.description}}</span></div>
+					<div ng-show="so.tipoEsposizione=='indoor'">
 						<div class="col-sm-2 card-label" ><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_BUILDING</span></strong></div>
-						<div class="col-sm-1" >{{virtualentity.virtualEntityPositions.position[0].building}}</div>
+						<div class="col-sm-1" >{{so.position.building}}</div>
 						<div class="col-sm-2 card-label" ><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_FLOOR</span></strong></div>
-						<div class="col-sm-1" >{{virtualentity.virtualEntityPositions.position[0].floor}}</div>
+						<div class="col-sm-1" >{{so.position.floor}}</div>
 						<div class="col-sm-2 card-label" ><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_ROOM</span></strong></div>
-						<div class="col-sm-1" >{{virtualentity.virtualEntityPositions.position[0].room}}</div>
+						<div class="col-sm-1" >{{so.position.room}}</div>
 					</div>
 				</div>
 			</div>
@@ -111,15 +105,15 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_SUPPLY_TYPE</span></strong></div>
-					<div class="col-sm-10">{{virtualentity.supplyType}}</div>
+					<div class="col-sm-10"><span title='Supply type code:{{so.supplyType.supplytype}}'>{{so.supplyType.description}}</span></div>
 				</div>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ADMIN_URI</span></strong></div>
-					<div class="col-sm-10"><a href="{{virtualentity.urlAdmin}}" target="_blank">{{virtualentity.urlAdmin}}</a></div>
+					<div class="col-sm-10"><a href="{{so.urladmin}}" target="_blank">{{so.urladmin}}</a></div>
 				</div>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_SOFTWARE_VERSION</span></strong></div>
-					<div class="col-sm-10">{{virtualentity.swClientVersion}}</div>
+					<div class="col-sm-10">{{so.swclientversion}}</div>
 				</div>
 			</div>
 		</accordion-group>
@@ -129,7 +123,7 @@
 			<a  href='#' class="btn btn-delete disabled" title="{{'COMING_SOON'|translate}}">
 				<span class="glyphicon glyphicon-trash"></span> <span translate-cloak translate>MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON</span>
 			</a>
-			<a  href='#/management/editVirtualentity/{{tenant}}/{{virtualentity.codeVirtualEntity}}' class="btn btn-edit" ng-show="isAuthorized('management/smartobjects/update')">
+			<a  href='#/management/editVirtualentity/{{tenant}}/{{so.socode}}' class="btn btn-edit" ng-show="isAuthorized('management/smartobjects/update')">
 				<span class="glyphicon glyphicon-pencil "></span> <span translate-cloak translate>MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON</span>
 			</a>
 		</div>

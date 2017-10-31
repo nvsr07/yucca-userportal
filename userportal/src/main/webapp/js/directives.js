@@ -105,6 +105,27 @@ appDirectives.directive('iframeOnload', [function(){
 	};
 }]);
 
+
+
+appDirectives.directive('alertPanel', [function(){
+	return {
+	  restrict: 'EA',
+	  template: '<div class="alert alert-{{type}}">'+
+				'  <strong>{{message|translate}}</strong>'+
+				'  <div> <span ng-if="code">Code: {{code}} - </span> <span ng-if="detail">{{detail}}</span></div>'+
+				'</div>',
+	  scope: {
+		type: '@',
+	    code: '@',
+	    message: '@',
+	    detail: '@',
+	    details: '@'
+	  }
+	};
+}]);
+
+
+
 //appDirectives.directive('inputWithHtmlHint', function(){
 //	  return {
 //	    require: "?ngModel",

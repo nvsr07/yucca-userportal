@@ -62,17 +62,18 @@ public enum ApiEntityEnum {
 		}
 
 	},
-	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-
-			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
-				return true;
-			}
-			return false;
-		}
-	},
+//	@Deprecated
+//	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
+//		@Override
+//		public boolean isAuthorizeAccess(HttpServletRequest request) {
+//
+//			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+//			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
+//				return true;
+//			}
+//			return false;
+//		}
+//	},
 	API_SERVICES_TWITTER_AUTH_URL("API_SERVICES_TWITTER_AUTH_URL", Config.API_PROXY_SERVICES_TWITTER_BASE_URL + "auth") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -216,10 +217,17 @@ public enum ApiEntityEnum {
 	API_ADMIN_TENANTS("API_ADMIN_TENANTS_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/tenants") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
-			return AuthorizeUtils.isReadMethod(request);
+			return true;
 		}
 	},
-
+	API_ADMIN_SMARTOBJECTS("API_ADMIN_SMARTOBJECTS_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/organizations/{organizationCode}/smartobjects") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+	
+	
 	// @Deprecated
 	// API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL",
 	// Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
@@ -480,6 +488,10 @@ public enum ApiEntityEnum {
 
 	public boolean isApiCalled(HttpServletRequest request) {
 		String requestURI = request.getRequestURI();
-		return (requestURI).startsWith(request.getContextPath() + baseUrl);
+		String startWith  =baseUrl;
+		if(baseUrl.indexOf("{")>0)
+			startWith = baseUrl.substring(0, baseUrl.indexOf("{"));
+		//return (requestURI).startsWith(request.getContextPath() + baseUrl);
+		return (requestURI).startsWith(request.getContextPath() + startWith);
 	}
 }

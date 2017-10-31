@@ -1,15 +1,16 @@
 package org.csi.yucca.userportal.userportal.service;
 
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.csi.yucca.userportal.userportal.utils.Config;
-
 import java.io.IOException;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.csi.yucca.userportal.userportal.utils.Config;
 
 @WebServlet(description = "Api proxy Servlet  for service", urlPatterns = { "/api/proxy/management/*" }, asyncSupported = false)
 public class ApiManagementProxyServlet extends ApiProxyServlet {
@@ -27,7 +28,7 @@ public class ApiManagementProxyServlet extends ApiProxyServlet {
 	}
 
 	@Override
-	protected void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod) {
+	protected void setOauthTokenInHeader(HttpServletRequest request, HttpMethod method) {
 		// TODO Auto-generated method stub
 
 	}

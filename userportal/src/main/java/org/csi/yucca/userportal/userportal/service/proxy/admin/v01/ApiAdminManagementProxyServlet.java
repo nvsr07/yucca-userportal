@@ -1,4 +1,12 @@
-package org.csi.yucca.userportal.userportal.service;
+package org.csi.yucca.userportal.userportal.service.proxy.admin.v01;
+
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.csi.yucca.userportal.userportal.info.Info;
+import org.csi.yucca.userportal.userportal.service.ApiProxyServlet;
+import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
+import org.csi.yucca.userportal.userportal.utils.Config;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -7,24 +15,17 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.csi.yucca.userportal.userportal.info.Info;
-import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
-import org.csi.yucca.userportal.userportal.utils.Config;
-
-@WebServlet(description = "Api proxy Servlet  for service", urlPatterns = { "/api/proxy/metadata/*" }, asyncSupported = false)
-public class MetadataProxyServlet extends ApiProxyServlet {
+@WebServlet(description = "Api proxy Servlet  for admin manangement", urlPatterns = { "/api/proxy/admin/1/management/*" }, asyncSupported = false)
+public class ApiAdminManagementProxyServlet extends ApiProxyServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void setApiBaseUrl() {
 		try {
 			Properties config = Config.loadServerConfiguration();
-			apiBaseUrl = config.getProperty(Config.API_METADATA_URL_KEY);
+			apiBaseUrl = config.getProperty(Config.API_ADMIN_URL_KEY)+"/1/management";
 		} catch (IOException e) {
-			log.error("[MetadataProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
+			log.error("[ApiAdminManagementProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -32,10 +33,9 @@ public class MetadataProxyServlet extends ApiProxyServlet {
 	@Override
 	protected void setOauthTokenInHeader(HttpServletRequest request, HttpMethod method) {
 		Info info  = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-		if(info!=null && info.getUser()!=null && info.getUser().getStoreToken()!=null){
-			method.setRequestHeader("Authorization", "Bearer "+info.getUser().getStoreToken());
+		if(info!=null && info.getUser()!=null && info.getUser().getSecretTempJwtRaw()!=null){
+			method.setRequestHeader("x-auth-token", info.getUser().getSecretTempJwtRaw());
 		}
-		
 	}
 
 	@Override
@@ -45,5 +45,5 @@ public class MetadataProxyServlet extends ApiProxyServlet {
 	@Override
 	protected void beforeExecute(HttpServletRequest request, PostMethod method) throws ServletException {
 	}
-	
+
 }

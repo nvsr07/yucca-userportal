@@ -189,14 +189,14 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 //		});
 //	};
 
-	fabricAPI.getVirtualentities = function(tenant_code) {
-		if(tenant_code && tenant_code!=null && tenant_code!="")
-			tenant_code = tenant_code + '/';
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getVirtualentities = function(tenant_code) {
+//		if(tenant_code && tenant_code!=null && tenant_code!="")
+//			tenant_code = tenant_code + '/';
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
 	fabricAPI.createStream = function(tenant_code, virtualentity_code, stream) {
 		// return $http({
@@ -339,34 +339,34 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 //	};
 
 
-	fabricAPI.getVirtualentity = function(tenant_code, virtualentity_code) {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getVirtualentity = function(tenant_code, virtualentity_code) {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
 
-	fabricAPI.getVirtualentityByTenant = function(tenant_code) {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + '?callback=JSON_CALLBACK'
-		});
-	};
+//	fabricAPI.getVirtualentityByTenant = function(tenant_code) {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
-	fabricAPI.createVirtualentity = function(tenant_code, virtualentity_code, virtualentity) {
-		var deferred = $q.defer();
-		var resultData = null;
-
-		$http.post(Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity).success(function(responseData) {
-			resultData = {status: "ok", data: responseData};
-			deferred.resolve(resultData);
-		}).error(function(responseData, responseStatus) {
-			resultData = {status: "ko - "+responseStatus, data: responseData};
-			deferred.reject(resultData);
-		});
-		return deferred.promise;
-	};
+//	fabricAPI.createVirtualentity = function(tenant_code, virtualentity_code, virtualentity) {
+//		var deferred = $q.defer();
+//		var resultData = null;
+//
+//		$http.post(Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/', virtualentity).success(function(responseData) {
+//			resultData = {status: "ok", data: responseData};
+//			deferred.resolve(resultData);
+//		}).error(function(responseData, responseStatus) {
+//			resultData = {status: "ko - "+responseStatus, data: responseData};
+//			deferred.reject(resultData);
+//		});
+//		return deferred.promise;
+//	};
 	
 	fabricAPI.createNewTrialTenant = function(tenantObject) {
 		//int-sdnet-intapi.sdp.csi.it:90/wso001/services/tenants/newNotDefault
@@ -434,21 +434,21 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 	
-	fabricAPI.updateVirtualentity = function(virtualentity) {
-		var deferred = $q.defer();
-		var resultData = null;
-		console.debug("updateVirtualEntity url", Constants.API_SERVICES_STREAM_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/');
-		$http.put(Constants.API_SERVICES_VIRTUALENTITY_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/', virtualentity, {
-			crossDomain : true,
-		}).success(function(responseData) {
-			resultData = {status: "ok", data: responseData};
-			deferred.resolve(resultData);
-		}).error(function(responseData, responseStatus) {
-			resultData = {status: "ko - "+responseStatus, data: responseData};
-			deferred.reject(resultData);
-		});
-		return deferred.promise;
-	};
+//	fabricAPI.updateVirtualentity = function(virtualentity) {
+//		var deferred = $q.defer();
+//		var resultData = null;
+//		console.debug("updateVirtualEntity url", Constants.API_SERVICES_STREAM_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/');
+//		$http.put(Constants.API_SERVICES_VIRTUALENTITY_URL + virtualentity.virtualEntity.codiceTenant + '/' + virtualentity.virtualEntity.codeVirtualEntity + '/', virtualentity, {
+//			crossDomain : true,
+//		}).success(function(responseData) {
+//			resultData = {status: "ok", data: responseData};
+//			deferred.resolve(resultData);
+//		}).error(function(responseData, responseStatus) {
+//			resultData = {status: "ko - "+responseStatus, data: responseData};
+//			deferred.reject(resultData);
+//		});
+//		return deferred.promise;
+//	};
 
 
 	fabricAPI.lifecycleStream = function(action, stream) {

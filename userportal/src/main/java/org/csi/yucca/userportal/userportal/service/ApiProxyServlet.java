@@ -26,6 +26,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -62,7 +63,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 	protected abstract void setApiBaseUrl();
 
-	protected abstract void setOauthTokenInHeader(HttpServletRequest request, GetMethod getMethod);
+	protected abstract void setOauthTokenInHeader(HttpServletRequest request, HttpMethod method);
 
 	protected abstract void beforeExecute(HttpServletRequest request, GetMethod method);
 
@@ -150,6 +151,9 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			String targetUrl = createTargetUrlWithParameters(request);
 
 			PostMethod post = new PostMethod(targetUrl);
+			setOauthTokenInHeader(request, post);
+
+			
 			if(request.getQueryString()==null)
 				post.setQueryString((String)null);
 			else if(request.getQueryString().equals(""))
@@ -236,6 +240,8 @@ public abstract class ApiProxyServlet extends HttpServlet {
 
 			String targetUrl = createTargetUrlWithParameters(request);
 			PutMethod put = new PutMethod(targetUrl);
+			setOauthTokenInHeader(request, put);
+
 			RequestEntity requestBody = new StringRequestEntity(inBodyRequest.toString(), " application/json", request.getCharacterEncoding());
 			log.debug("[ApiProxyServlet::doPut] - targetUrl: " + targetUrl);
 
@@ -265,6 +271,8 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		// super.doDelete(req, resp);
 
 		DeleteMethod delMethod = new DeleteMethod(createTargetUrlWithParameters(request));
+
+		setOauthTokenInHeader(request, delMethod);
 
 		String authorizationHeader = request.getHeader("Authorization");
 		if (authorizationHeader != null)

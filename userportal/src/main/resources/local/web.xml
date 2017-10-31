@@ -13,7 +13,7 @@
 		<servlet-name>AuthorizeServlet</servlet-name>
 		<init-param>
 			<param-name>Issuer</param-name>
-			<param-value>userportal.local.8080</param-value>
+			<param-value>userportal2.local.8080</param-value>
 		</init-param>
 		<init-param>
 			<param-name>IdpUrl</param-name>
@@ -21,11 +21,11 @@
 		</init-param>
 		<init-param>
 			<param-name>ConsumerUrl</param-name>
-			<param-value>http://localhost:8080/userportal/api/authorize</param-value>
+			<param-value>http://localhost:8080/userportal2/api/authorize</param-value>
 		</init-param>
 		<init-param>
 			<param-name>AttributeConsumingServiceIndex</param-name>
-			<param-value>1207467120</param-value>
+			<param-value>1051583553</param-value>
 		</init-param>
 		<init-param>
 			<param-name>IdpLoginPageStylePath</param-name>

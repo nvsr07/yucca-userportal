@@ -16,7 +16,7 @@
 		<div class="form-group">
 			<label for="inputType" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_TYPE</span>  <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-5">
-				<select id='inputType' class="form-control" ng-model="virtualentity.idTipoVe"   ng-change="selectTypeChange(virtualentity.idTipoVe)"
+				<select id='inputType' class="form-control" ng-model="so.idSoType"   ng-change="selectTypeChange(so.idSoType)"
 					ng-options=" so_type.idSoType as so_type.description for so_type in so_typesList" 
 					 required >
 					<option  value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_TYPE_PLACEHOLDER'|translate}}</option>
@@ -30,7 +30,7 @@
 					<div ng-show='!twitterCredentialLoading'>
 						<div ng-show='twitterCredentialFound'>
 							<span class='twitter-username-intro' translate-cloak translate>VIRTUALENTITY_FIELD_TWITTER_USER_NAME</span>
-							<img ng-src="{{twtMiniProfileImageURLHttps}}" title='User Twitter'/> <span class='twitter-username-label'>{{virtualentity.twtUsername}}</span> 
+							<img ng-src="{{twtMiniProfileImageURLHttps}}" title='User Twitter'/> <span class='twitter-username-label'>{{so.twtusername}}</span> 
 							<a href ng-click="clearTwitterCredential()" class='btn btn-default btn-sm' translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGOUT</a>
 						</div>
 						<div ng-show='!twitterCredentialFound'>
@@ -49,20 +49,19 @@
 		<div class="form-group">
 			<label for="inputCategory" class="col-sm-2 control-label" >
 				<span translate-cloak translate>VIRTUALENTITY_FIELD_CATEGORY</span> <span class='required-asterisk'>*</span>
-				<!-- <abbr class="help-bullet" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_HINT'|translate}}"><strong>&#x25cf;</strong></abbr>  --> 
 			</label>
 			<div class="col-sm-5">
-				<select id='inputCategory' class="form-control" ng-model="virtualentity.idCategoriaVe"  
+				<select id='inputCategory' class="form-control" ng-model="so.idSoCategory"  
 					ng-options="so_category.idSoCategory as  so_category.description for so_category in so_categoriesList" 
 					 ng-required="isCategoryRequired()" ng-disabled="isTwitter()" >
 					<option value="">{{'MANAGEMENT_NEW_VIRTUALENTITY_CATEGORY_PLACEHOLDER'|translate}}</option>
 				</select>
 			</div>
-			<label for="inputTwtMaxStreams" class="col-sm-3 control-label" ng-show='isTwitter()'>
+			<label for="inputTwtMaxStreams" class="col-sm-3 control-label" ng-if='isTwitter()'>
 				<span translate-cloak translate>VIRTUALENTITY_FIELD_TWITTER_MAX_STREAM</span> <span class='required-asterisk'>*</span>
 			</label>
-			<div class="col-sm-2" ng-show='isTwitter()'>
-				<input  type="number" min="1" max="100" class="form-control" ng-model="virtualentity.twtMaxStreams"  id="inputTwtMaxStreams" placeholder="5"  ng-required="isTwitter()">
+			<div class="col-sm-2" ng-if='isTwitter()'>
+				<input  type="number" min="1" max="100" class="form-control" ng-model="so.twtmaxstreams"  id="inputTwtMaxStreams" placeholder="5"  ng-required="isTwitter()">
 			</div>
 		</div>
 		<div class="form-group  has-feedback">
@@ -70,7 +69,7 @@
 				<span translate-cloak translate>VIRTUALENTITY_FIELD_CODE</span> <span class='required-asterisk'>*</span> 
 			</label>
 			<div class="col-sm-8">
-				<input type="text" class="form-control" ng-model="virtualentity.codeVirtualEntity"  id="inputVirtualentityCode" 
+				<input type="text" class="form-control" ng-model="so.socode"  id="inputVirtualentityCode" 
 					placeholder="{{'VIRTUALENTITY_FIELD_CODE'|translate}}" ng-required="isCodeRequired()"  name="inputVirtualentityCode"
 						maxlength="38" ng-pattern="validationPatternUUID">
 					<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{validationCodeTooltip()|translate}}"
@@ -83,7 +82,7 @@
 		<div class="form-group">
 			<label for="inputVirtualentityName" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-5">
-				<input type="text" class="form-control" id="inputVirtualentityName" placeholder="{{'VIRTUALENTITY_FIELD_NAME'|translate}}" ng-model="virtualentity.virtualEntityName"
+				<input type="text" class="form-control" id="inputVirtualentityName" placeholder="{{'VIRTUALENTITY_FIELD_NAME'|translate}}" ng-model="so.name"
 					ng-blur="generateSLUG()" required  maxlength="250">
 			</div>
 			<div class="col-sm-5 form-hint text-right" >
@@ -93,16 +92,16 @@
 		<div class="form-group">
 			<label for="inputVirtualentityDescription" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></label>
 			<div class="col-sm-10">
-				<textarea class="form-control" rows="2" id="inputVirtualentityDescription" placeholder="{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}" ng-model="virtualentity.virtualEntityDescription"></textarea>
+				<textarea class="form-control" rows="2" id="inputVirtualentityDescription" placeholder="{{'VIRTUALENTITY_FIELD_DESCRIPTION'|translate}}" ng-model="so.description"></textarea>
 			</div>
 		</div>		
 		<div class="form-group">
 			<label for="inputSlug" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_SLUG</span> <span class="required-asterisk">*</span></label>
 			<div class="col-sm-8   has-feedback">
-				<input  type="text"  class="form-control" ng-blur="clearSlug(virtualentity.virtualEntitySlug)" ng-disabled="slugDisabled()" ng-model="virtualentity.virtualEntitySlug" id="inputSlug" 
+				<input  type="text"  class="form-control" ng-blur="clearSlug(so.slug)" ng-disabled="slugDisabled()" ng-model="so.slug" id="inputSlug" 
 				placeholder="{{'STREAM_FIELD_SLUG_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40"  >
 				<i class="fa fa-warning form-control-feedback input-icon-warning" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_SLUG_WARNING'|translate}}"
-				ng-show='!slugDisabled() && checkSlug(virtualentity.virtualEntitySlug)'></i>
+				ng-show='!slugDisabled() && checkSlug(so.virtualEntitySlug)'></i>
 				<i class="fa fa-check form-control-feedback input-icon-valid" title="{{'MANAGEMENT_NEW_VIRTUALENTITY_SLUG_VALID'|translate}}"
 				ng-show='!slugDisabled() && isValidSlug'></i>
 			</div>

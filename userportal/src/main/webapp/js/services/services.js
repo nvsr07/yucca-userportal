@@ -81,6 +81,19 @@ appServices.factory('sharedDataset',  function () {
 });
 
 
+appServices.factory('sharedAdminResponse',  function () {
+	var response = null;
+	
+	return {
+		getResponse: function () {
+			return response;
+		},
+		setResponse: function(value) {
+			response = value;
+		}
+	};
+});
+
 
 appServices.factory('dataexplorerBrowseData',  function () {
 	var searchResult = null;
