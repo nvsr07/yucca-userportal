@@ -392,7 +392,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		
 		var rtnBool = false;
 		adminAPIservice.loadSmartobjects(info.getActiveTenant()).success(function(response) {
-			console.log("response", soList);
+			console.debug("response", response);
 			soList = response;
 			soList.forEach(function(item) {
 			    if (firstSlug == item.slug){
@@ -408,13 +408,13 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				});
 				var rtnBool2 = false;
 				if ($scope.so.name.length >= 1){
-					vEntities.forEach(function(item) {
+					soList.forEach(function(item) {
 					    if (slug == item.slug){
 					    	rtnBool2 = true;
 					    }
 					});
 					if (!rtnBool2){
-						$scope.slug = slug;
+						$scope.so.slug = slug;
 					} else {
 						console.error("rtnBool2",rtnBool2);
 					}
