@@ -5,66 +5,89 @@
 	</div>
 	<form class="form-horizontal" role="form" name="requestorStreamForm" ng-cloak>
 		<div class="form-group">
-			<label for="nomeRichiedente" class="col-sm-2 control-label"><span translate-cloak translate>USER_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
+			<label for="requestername" class="col-sm-2 control-label"><span translate-cloak translate>USER_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" ng-model="stream.nomeRichiedente"  id="nomeRichiedente" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" >
+				<input type="text" class="form-control" ng-model="stream.requestername"  id="requestername" placeholder="{{'USER_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" >
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="cognomeRichiedente" class="col-sm-2 control-label"><span translate-cloak translate>USER_FIELD_SURNAME</span> <span class='required-asterisk'>*</span></label>
+			<label for="requestersurname" class="col-sm-2 control-label"><span translate-cloak translate>USER_FIELD_SURNAME</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" ng-model="stream.cognomeRichiedente"  id="cognomeRichiedente" placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" ng-required="true" >
+				<input type="text" class="form-control" ng-model="stream.requestersurname"  id="requestersurname" placeholder="{{'USER_FIELD_SURNAME_PLACEHOLDER'|translate}}" ng-required="true" >
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="mailRichiedente" class="col-sm-2 control-label"><span translate-cloak translate>USER_FIELD_EMAIL</span> <span class='required-asterisk'>*</span></label>
+			<label for="requestermail" class="col-sm-2 control-label"><span translate-cloak translate>USER_FIELD_EMAIL</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" ng-model="stream.mailRichiedente"  id="mailRichiedente" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}" ng-required="true" >
+				<input type="text" class="form-control" ng-model="stream.requestermail"  id="requestermail" placeholder="{{'USER_FIELD_EMAIL_PLACEHOLDER'|translate}}" ng-required="true" >
 			</div>
 		</div>		
 		
 		
 		<div class="form-group">
-			<label for="accettazionePrivacy" class="col-sm-2 control-label"><span ng-bind-html="'USER_FIELD_PRIVACY'|translate"></span> <span class='required-asterisk'>*</span></label>
+			<label for="privacyAcceptance" class="col-sm-2 control-label"><span ng-bind-html="'USER_FIELD_PRIVACY'|translate"></span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<div class="form-control terms-of-privacy" readonly> <span ng-bind-html="'USER_FIELD_ACCEPT_PRIVACY'|translate"></span></div>
+				<div class="form-control terms-of-privacy" readonly>
+					<span ng-bind-html="'USER_FIELD_ACCEPT_PRIVACY'|translate"></span>
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-sm-2"></div>
-			<div class="col-sm-4">
-				<label>
-					<input type="radio" name="accettazionePrivacy" value="1" ng-model="accettazionePrivacy" ng-required="true">&nbsp;<span translate-cloak translate>USER_FIELD_ACCEPT_YES</span>
-				</label>
+			<div class="col-sm-5"></div>
+			<div class="col-sm-2 text-left">
+				<div class="radio">
+					<label>
+						<input type="radio" name="privacyAcceptance" value="1" ng-model="privacyAcceptance" ng-required="true">
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<span translate-cloak translate>USER_FIELD_ACCEPT_YES</span>
+					</label>
+				</div>
 			</div>
-			<div class="col-sm-4">
-				<label>
-					<input type="radio" name="accettazionePrivacy" value="0" ng-model="accettazionePrivacy" ng-required="true">&nbsp;<span translate-cloak translate>USER_FIELD_ACCEPT_NO</span>
-				</label>
+			
+			
+			<div class="col-sm-5 text-left">
+				<div class="radio">
+					<label>
+						<input type="radio" name="privacyAcceptance" value="0" ng-model="privacyAcceptance" ng-required="true">
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<span translate-cloak translate>USER_FIELD_ACCEPT_NO</span>
+					</label>
+				</div>
 			</div>
 		</div>
-		
-		
-		
+			
+
+
 		<div class="form-group">
-			<label for="accettazioneResponsability" class="col-sm-2 control-label"><span ng-bind-html="'USER_FIELD_RESPONSABILITY'|translate"></span> <span class='required-asterisk'>*</span></label>						
+			<label for="responsabilityAcceptance" class="col-sm-2 control-label"><span ng-bind-html="'USER_FIELD_RESPONSABILITY'|translate"></span> <span class='required-asterisk'>*</span></label>						
 			<div class="col-sm-10">
-				<div class="form-control terms-of-privacy" readonly> <span ng-bind-html="'USER_FIELD_ACCEPT_STREAM_RESPONSABILITY'|translate"></span></div>
+				<div class="form-control terms-of-privacy" readonly>
+					<span ng-bind-html="'USER_FIELD_ACCEPT_DATASET_RESPONSABILITY'|translate"></span>
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-sm-2"></div>
-			<div class="col-sm-4">
-				<label>
-					<input type="radio" name="accettazioneResponsability" value="1" ng-model="accettazioneResponsability" ng-required="true">&nbsp;<span translate-cloak translate>USER_FIELD_ACCEPT_YES</span>
-				</label>
+			<div class="col-sm-5"></div>
+			<div class="col-sm-2 text-left">
+				<div class="radio">
+					<label>
+						<input type="radio" name="responsabilityAcceptance" value="1" ng-model="responsabilityAcceptance" ng-required="true">
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<span translate-cloak translate>USER_FIELD_ACCEPT_YES</span>
+					</label>
+				</div>
 			</div>
-			<div class="col-sm-4">
-				<label>
-					<input type="radio" name="accettazioneResponsability" value="0" ng-model="accettazioneResponsability" ng-required="true">&nbsp;<span translate-cloak translate>USER_FIELD_ACCEPT_NO</span>
-				</label>
+			<div class="col-sm-5 text-left">
+				<div class="radio">
+					<label>
+						<input type="radio" name="responsabilityAcceptance" value="0" ng-model="responsabilityAcceptance" ng-required="true">
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<span translate-cloak translate>USER_FIELD_ACCEPT_NO</span>
+					</label>
+				</div>
 			</div>
 		</div>
+
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
 				<a ng-click='goToRegister()' class="btn " translate-cloak translate>BACK</a>

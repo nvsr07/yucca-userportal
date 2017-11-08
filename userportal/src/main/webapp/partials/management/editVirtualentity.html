@@ -176,17 +176,10 @@
 									<label class="radio-inline" ng-repeat="et in exposureTypeList track by $index">
 				              			<input type="radio" name="RadioGroupEsposition" value="{{et.idExposureType}}" id="RadioGroupEsposition_{{$index}}" ng-model="so.idExposureType" required>{{et.description}}
 				            		</label>
-								
-								
-								<!-- <label class="radio-inline">
-				              			<input type="radio" name="RadioGroupEsposition" value="indoor" id="RadioGroupEsposition_0" ng-model="so.tipoEsposizione" required><span translate-cloak translate>VIRTUALENTITY_FIELD_ESPOSITION_INDOOR</span>
-				            		</label>
-									<label class="radio-inline">
-				              			<input type="radio" name="RadioGroupEsposition" value="outdoor" id="RadioGroupEsposition_1" ng-model="so.tipoEsposizione" required><span translate-cloak translate>VIRTUALENTITY_FIELD_ESPOSITION_OUTDOOR</span>
-				            		</label> -->
+
 								</div>
 							</div>
-							<div class="form-group has-feedback" ng-show="so.tipoEsposizione=='indoor'">
+							<div class="form-group has-feedback" ng-show="so.idExposureType==1">
 								<label class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_ESPOSITION_INDOOR_ADDITIONAL</span></label>
 								<label for="inputVirtualentityBuilding" class="col-sm-1 control-label" ><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_BUILDING</span></label>
 								<div class="col-sm-2">
@@ -244,7 +237,7 @@
 						<div class="row" ng-show="!isUpdating">
 							<div class=" col-sm-12 form-toolbar"  ng-show="isAuthorized('management/smartobjects/update')" >
 								<a  href='#/management/viewVirtualentity/{{tenant}}/{{so.socode}}' class="btn"><span translate-cloak translate>MANAGEMENT_EDIT_VIRTUALENTITY_FINISH_BUTTON</span></a>
-								<a  ng-click='save()'  class="btn btn-default" ng-disabled="!isOwner() && editVirtualentityForm.$invalid"><span translate-cloak translate>MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON</span></a>
+								<a  ng-click='save()'  class="btn btn-default" ng-disabled="!isOwner() || isInternal() || editVirtualentityForm.$invalid"><span translate-cloak translate>MANAGEMENT_EDIT_VIRTUALENTITY_SAVE_BUTTON</span></a>
 							</div>
 						</div>
 						<div class="row"  ng-show="isUpdating" ng-cloak>

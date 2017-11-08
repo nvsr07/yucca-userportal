@@ -220,13 +220,28 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
+
 	API_ADMIN_SMARTOBJECTS("API_ADMIN_SMARTOBJECTS_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/organizations/{organizationCode}/smartobjects") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
 	},
-	
+
+	API_ADMIN_STREAMS("API_ADMIN_STREAM_UPDATE_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/organizations/{organizationCode}/smartobject/{soCode}/streams") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+
+	API_ADMIN_STREAM("API_ADMIN_STREAM_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/organizations/{organizationCode}/streams") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+
 	
 	// @Deprecated
 	// API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL",

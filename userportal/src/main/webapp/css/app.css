@@ -291,6 +291,38 @@ a.input-group-addon:hover{cursor: pointer;}
 
 .entity-uninstalled{color: #ff5a5f;}
 
+
+/* bright colors */
+/*
+.stream-status{border-radius: 2px; padding: .4em .9em; font-size: .9em}
+.stream-status-draft{background-color: #edd400;}
+.stream-status-inst{background-color: #9ade00;}
+.stream-status-uninst{background-color: #9955bb; color: white;}
+.stream-status-req_uninst{background-color: #d49725; color: white;}
+.stream-status-req_inst{background-color: #ff9900;}
+*/
+
+/* portal colors */
+.stream-status{border-radius: 2px; padding: .4em .9em; font-size: .9em}
+.stream-status-draft{background-color: #8ae0f8;}
+.stream-status-inst{background-color: #e8e85c;}
+.stream-status-uninst{background-color: #dfdfdf;}
+.stream-status-req_uninst{background-color: #b9dac7;}
+.stream-status-req_inst{background-color: #8cc2a2;}
+
+
+
+
+.action-edit{color: #edd400;}
+.action-request-installation{color: #ff9900;}
+.action-delete{color: #b50000;}
+.action-install{color: #9ade00;}
+.action-uninstall{color: #d49725;}
+.action-historical{color: #9955bb;}
+
+.entity-uninstalled{color: #ff5a5f;}
+
+
 /*
 .btn-new{color: white!important; background-color: #19aeff;border-color: #0aa9ff;}
 .btn-new:hover{background-color: #0085cc;}

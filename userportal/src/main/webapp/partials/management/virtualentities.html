@@ -58,7 +58,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-show="showLoading">
+						<tr ng-if="showLoading && !unexpectedError">
 							<td colspan='7' >
 								<div class='ajax-loading-container'>
 									<span class='ajax-loading-big'></span>
@@ -66,6 +66,22 @@
 								</div>
 							</td>
 						</tr>
+						<tr ng-if="!showLoading && soList.length==0 && !unexpectedError">
+							<td colspan='7' >
+								<div class='alert alert-info'>
+									<span ng-bind-html="'UNEXPECTED_ERROR'|translate"></span> 
+								</div>
+							</td>
+						</tr>
+						<tr ng-if="unexpectedError">
+							<td colspan='7' >
+								<div class='alert alert-danger'>
+									<span ng-bind-html="'UNEXPECTED_ERROR'|translate"></span> 
+								</div>
+							</td>
+						</tr>
+						
+						
 						<tr ng-repeat="so in filteredSoList = ( soList | filter: searchCodeFilter | orderBy:predicate:reverse  )  |startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
 							<td><input type="checkbox" name="selected" ng-checked="isSelected(so)"  ng-click="updateSelection($event, so)" ng-show="!isInternal(so)"/>
 							<td><a href="#/management/viewVirtualentity/{{tenant}}/{{so.socode}}">{{so.socode}}</a></td>

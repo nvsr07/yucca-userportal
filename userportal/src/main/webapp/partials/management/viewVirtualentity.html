@@ -84,7 +84,7 @@
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ESPOSITION</span></strong></div>
 					<div class="col-sm-1"><span title='Exposure type code:{{so.exposureType.exposuretype}}'>{{so.exposureType.description}}</span></div>
-					<div ng-show="so.tipoEsposizione=='indoor'">
+					<div ng-show="so.exposureType.exposuretype=='indoor'">
 						<div class="col-sm-2 card-label" ><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_BUILDING</span></strong></div>
 						<div class="col-sm-1" >{{so.position.building}}</div>
 						<div class="col-sm-2 card-label" ><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_FLOOR</span></strong></div>
@@ -119,11 +119,14 @@
 		</accordion-group>
 	</accordion>
 	<div class='container'>
-		<div class="row card-toolbar" ng-show="!isInternal() && isOwner()">
+		<div class="row text-right" ng-if="isInternal()">
+			<i><span translate>MANAGEMENT_VIEW_VIRTUALENTITY_INTERNAL_NOT_MODIFIED_INFO</span></i>
+		</div>
+		<div class="row card-toolbar" ng-if="!isInternal() && isOwner()">
 			<a  href='#' class="btn btn-delete disabled" title="{{'COMING_SOON'|translate}}">
 				<span class="glyphicon glyphicon-trash"></span> <span translate-cloak translate>MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON</span>
 			</a>
-			<a  href='#/management/editVirtualentity/{{tenant}}/{{so.socode}}' class="btn btn-edit" ng-show="isAuthorized('management/smartobjects/update')">
+			<a  href='#/management/editVirtualentity/{{tenant}}/{{so.socode}}' class="btn btn-edit" ng-if="isAuthorized('management/smartobjects/update')  && !isInternal()">
 				<span class="glyphicon glyphicon-pencil "></span> <span translate-cloak translate>MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON</span>
 			</a>
 		</div>

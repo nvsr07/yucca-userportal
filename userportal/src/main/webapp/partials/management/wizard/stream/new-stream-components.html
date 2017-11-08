@@ -4,18 +4,18 @@
 		<div class='pull-right'><h3><small>Step 4/5</small></h3></div>
 	</div>
 	<form class="form-horizontal" role="form" name="componentsStreamForm" ng-cloak>
-		<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class='form-label-separator'><span translate-cloak translate>STREAM_INPUT_FIELDS</span></div>
-			<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class="form-group">
+		<div ng-if='extra.isInternal' class='form-label-separator'><span translate-cloak translate>STREAM_INPUT_FIELDS</span></div>
+			<div class="form-group" ng-if="internalStreams.length>0">
 				<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_INTERNAL_SELECTED_STREAM</span></label>
 				<div class="col-sm-10">
 					<div class="table-responsive">
   					 		<table class="table">
   					  			<tbody class="internalStreamsBorder" ng-repeat="streamInt in internalStreams track by $index">
 			       				<tr>
-						            <td>{{streamInt.nomeStream}}</td>
-						            <td>{{streamInt.codiceVirtualEntity}}</td>
+						            <td>{{streamInt.streamname}}</td>
+						            <td>{{streamInt.smartobject.socode}}</td>
 						            <td> as input{{$index}}</td>	
-						        	<td><a  ng-click='cancelStreamToArray($index)' class="btn btn-remove btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td>
+						        	<td><a ng-click='removeStreamFromArray($index)' class="btn btn-remove btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td>
 			        			</tr>
 			        			<tr>
 			        			<!-- td colspan="3"><small><pre pretty-json="{'componenti' : streamInt.componenti}"/></small></td-->
@@ -32,8 +32,8 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr ng-repeat="el in streamInt.componenti.element">
-													<td><span style="display: none"> {{el.idComponente}}</span>{{el.nome}}</td>
+												<tr ng-repeat="el in streamInt.components">
+													<td><span style="display: none"> {{el.componentId}}</span>{{el.name}}</td>
 													<td>{{el.measureUnitCategory}} : {{el.measureUnit}}</td>
 													<td>{{el.tolerance}} </td>
 													<td>{{el.phenomenonCategory}} : {{el.phenomenon}}</td>
@@ -41,35 +41,40 @@
 												</tr>
 											</tbody>
 										</table>
-									<td>			        		        
+									</td>
 			        			</tr>
 			     			</tbody>   					 
-  					 		</table>
-  						</div>
+  					 	</table>
+  					</div>
 				</div>					
 			</div>
-		
-			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
+			<div class="form-group" ng-if='admin_response_add_stream.message'>
+				<alert-panel  message='{{admin_response_add_stream.message}}'  code="{{admin_response_add_stream.code}}" detail="{{admin_response_add_stream.detail}}" type='{{admin_response_add_stream.type}}'></alert-panel>
+			</div>
+			<div class="form-group">
 				<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-8">
 					<select class="form-control col-sm-8" ng-model="streamSelectedItem">
 						  <option ng-repeat="streamItem in streamsList" class="{{streamItem.cssClass}}" value="{{$index}}">{{streamItem.label}}</option>
 					</select>
 				</div>
-				<div class="col-sm-2"><a ng-click='addStreamToArray(streamSelectedItem)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></div>	
+				<div class="col-sm-2">
+					<a ng-click='addStreamToArray(streamSelectedItem)' class="btn btn-sm" ng-if='!showLoadingAddStream'><i class='glyphicon glyphicon-plus'></i></a>
+					<div class='ajax-loading' ng-if='showLoadingAddStream'><span translate-cloak translate ></span></div>
+				</div>	
 			</div>
 			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group option-warning">
 				<i class="fa fa-lightbulb-o"></i> <span translate>MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING</span>
 			</div>
 		
-			<div ng-hide='stream.codiceVirtualEntity!="internal"'>
+			<div>
 				<div id="validateMsg" class="col-sm-10 col-sm-offset-2">
 					<div class="alert-danger"><p ng-hide='validationRes!=1'>{{errorMsg|translate}}</p></div>
 					<div class="alert-success"><p ng-hide='validationRes!=0'><span translate-cloak translate>STREAM_SIDDHI_QUERY_SUCCESS</span></p></div>
 				</div>	
 		
 			</div >
-			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
+			<div class="form-group">
 				<div class="col-sm-2">
 					<label for="streamSiddhiQueryLabel" class="control-label"><span translate-cloak translate>STREAM_SIDDHI_QUERY</span> <span class='required-asterisk'>*</span></label>
 					<a href="http://developer.smartdatanet.it/docs/specifiche-di-creazione-stream-a-partire-da-stream-esistenti/" target="_blank" class="link-help" >Help <i class="glyphicon glyphicon-question-sign"></i></a>
@@ -82,13 +87,6 @@
 				</div>					
 			</div>
 		
-<!-- 			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group"> -->
-<!-- 				<label for="streamSiddhiDefaultQueryLabel" class="col-sm-2 control-label">{{'STREAM_SIDDHI_QUERY_DEFAULT'|translate}} <span class='required-asterisk'>*</span></label> -->
-<!-- 				<textarea class="col-sm-8" rows="8"  ng-disabled="true">{{defaultQuery}}</textarea> -->
-<!-- 			</div>									 -->
-		
-		
-				
 			<div class='form-label-separator'><span translate-cloak translate>STREAM_FIELD_COMPONENTS_OUTPUT</span></div>
 			<div class="form-group">
 				<div class="col-sm-2" id="management-edit-stream-component-help-fix">
@@ -99,7 +97,7 @@
 					<div class="alert alert-warning" ng-show='updateWarning'>
 						<strong translate-cloak translate>WARNING_TITLE</strong> <span translate-cloak translate>MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS</span>
 					</div>
-					<a class="btn btn-default btn-xs"  ng-disabled="true"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON</span></a>
+					<!-- <a class="btn btn-default btn-xs"  ng-disabled="true"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON</span></a>-->
 					
 					<table class="table">
 						<thead>
@@ -113,41 +111,40 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="component in stream.componenti.element">
-								<td><span style="display: none"> {{component.idComponente}}</span>{{component.nome}}</td>
-								<td>{{component.measureUnitCategory}}: {{component.measureUnit}}</td>
+							<tr ng-repeat="component in stream.components">
+								<td><span style="display: none"> {{component.idComponente}}</span>{{component.name}}</td>
+								<td>{{component.measureUnit.measureunitcategory}}: {{component.measureUnit.measureunit}}</td>
 								<td>{{component.tolerance}}</td>
-								<td>{{component.phenomenonCategory}}: {{component.phenomenon}}</td>
-								<td>{{component.dataType}}</td>
+								<td>{{component.phenomenon.phenomenoncetegory}}: {{component.phenomenon.phenomenonname}}</td>
+								<td>{{component.dataType.description}}</td>
 								<td><a href="javascript:void(0)" ng-click='removeComponent($index)' class="btn btn-remove btn-sm"><i class='glyphicon glyphicon-minus'></i></a></td> 
-								<!--  <td><a href="javascript:void(0)"  class="btn btn-danger btn-sm disabled" title="{{'COMING_SOON'|translate}}"><i class='glyphicon glyphicon-minus'></i></a></td>-->
 							</tr>
 							<tr>
                					 <td ng-class="{ 'has-error': insertComponentError }">
-               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponentName" 
+               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponent.name" ng-model="newComponent.name" 
                					 		 placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
              					 <td>
-             					 	<select class="input-sm form-control" ng-model="newComponentUnitOfMeasurement" 
+             					 	<select class="input-sm form-control" ng-model="newComponent.measureUnit" 
              					 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
              					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option> 
              					 	</select>
 								</td>
 				                <td>
 				                	<input class="input-sm form-control" type="text" name="newComponentTolerance" id="newComponentTolerance" 
-				                		ng-model="newComponentTolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
+				                		ng-model="newComponent.tolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
 				                </td>
              					<td>
-             					 	<select class="input-sm form-control" ng-model="newComponentPhenomenon" 
-             					 		ng-options="phenomenom.phenomenon group by phenomenom.phenomenoncetegory for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
+             					 	<select class="input-sm form-control" ng-model="newComponent.phenomenon" 
+             					 		ng-options="phenomenom.phenomenonname group by phenomenom.phenomenoncetegory for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
              						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
              					 	</select>
 								</td>
              					 <td>
-             					 	<select class="input-sm form-control" ng-model="newComponentDataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType" >
+             					 	<select class="input-sm form-control" ng-model="newComponent.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType" >
              						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
              					 	</select>
 								</td>
-         						<td><a href="javascript:void(0)" ng-click='addComponent(newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
+         						<td><a href ng-click='addComponent(newComponent)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -160,7 +157,7 @@
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
 				<a ng-click='goToDetail()' class="btn " translate-cloak translate>BACK</a>
-				<a ng-click='goToShare()' class="btn btn-wizard-next" ng-disabled="!isOwner() || componentsStreamForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+				<a ng-click='goToShare()' class="btn btn-wizard-next" ng-disabled="!isOwner() || componentsStreamForm.$invalid  " translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
 			</div>
 		</div>
 	</form>

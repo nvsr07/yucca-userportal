@@ -33,6 +33,8 @@ var translations_it = {
 	DATE_MONTH_PLACEHOLDER: 'mm',
 	DATE_YEAR_PLACEHOLDER: 'aaaa',
 	
+	UNEXPECTED_ERROR: 'Un errore inaspettato',
+	
 	/* languages */
 	el:"e???????",
 	en:"English",
@@ -105,7 +107,7 @@ var translations_it = {
 	STREAM_FIELD_COMPONENTS_SINCE_VERSION: 'Inserito in versione',
 	STREAM_FIELD_DOMAIN: 'Ambito tematico',
 	STREAM_FIELD_SUBDOMAIN: 'Subdomain',
-	STREAM_FIELD_SLUG : 'Virtual Entity Slug',
+	STREAM_FIELD_SLUG : 'Slug',
 	STREAM_FIELD_LICENCE: 'Licenza',
 	STREAM_FIELD_DISCLAIMER : 'Restrizioni contenute in licenza',
 	STREAM_FIELD_COPYRIGHT : 'Copyright',
@@ -131,10 +133,10 @@ var translations_it = {
 	STREAM_FIELD_ISOPENDATA: 'E\' Opendata',
 	STREAM_FIELD_ISOPENDATA_TRUE: 'Si',
 	STREAM_FIELD_ISOPENDATA_FALSE: 'No',
-	STREAM_FIELD_METADATA_LICENCE_OTHER: 'Altro',
+	STREAM_FIELD_METADATA_LICENSE_OTHER: 'Altro',
 	STREAM_FIELD_METADATA_LICENSE: 'Licenza',
-	STREAM_FIELD_METADATA_LICENCE_CCBY: 'CC BY 4.0',
-	STREAM_FIELD_METADATA_LICENCE_CC0: 'CC 0 1.0',
+	STREAM_FIELD_METADATA_LICENSE_CCBY: 'CC BY 4.0',
+	STREAM_FIELD_METADATA_LICENSE_CC0: 'CC 0 1.0',
 		
 	STREAM_FIELD_TWT_QUERY: 'Query di ricerca',
 	STREAM_FIELD_TWT_GEO: 'Geolocalizzazione',
@@ -173,6 +175,7 @@ var translations_it = {
 	STREAM_FIELDSET: 'Internal Stream Definition',
 	STREAM_FIELD_COMPONENTS_OUTPUT: 'Componenti stream in uscita',
 	STREAM_INTERNAL_SELECTED_STREAM: 'Stream Selezionati',
+	STREAM_INTERNAL_SELECTED_ONE_WARNING: 'Selezionare uno stream',
 	
 	STREAM_SIDDHI_QUERY_SUCCESS: "La query Siddhi e' valida.",
 	STREAM_SIDDHI_QUERY: "Query SIDDHI ",
@@ -818,6 +821,7 @@ var translations_it = {
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Object',
 
 	/* Management Stream List */
+	MANAGEMENT_VIRTUALENTITY_LIST_NO_DATA_FOUND : 'Non sono presenti Smart Object ',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY : 'Crea nuovo Smart Object ',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_APP : 'App',
 	MANAGEMENT_VIRTUALENTITY_LIST_NEW_VIRTUALENTITY_DEVICE : 'Device',
@@ -858,7 +862,8 @@ var translations_it = {
 	MANAGEMENT_VIEW_VIRTUALENTITY_DELETE_BUTTON: 'Elimina',
 	MANAGEMENT_VIEW_VIRTUALENTITY_EDIT_BUTTON: 'Modifica',
 	MANAGEMENT_VIEW_VIRTUALENTITY_INSTALL_BUTTON: 'Installa',
-	
+	MANAGEMENT_VIEW_VIRTUALENTITY_INTERNAL_NOT_MODIFIED_INFO: 'Gli Smart Object di tipo internal non sono modificabili',
+
 	/* Management dataset */
 	MANAGEMENT_DATASET_SUBTITLE: 'Dataset',
 	MANAGEMENT_DATASET_LIST_NEW_DATASET: 'Carica nuovo Dataset',
