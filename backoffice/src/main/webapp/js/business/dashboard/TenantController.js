@@ -24,6 +24,9 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	if(env == "" )
 		env = 'prod';
 	
+	/******
+	 * LOAD TENANTS
+	 ******/
 	var loadTenants = function(){
 		$scope.tenantsList = [];
 		
@@ -44,6 +47,9 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	
 	loadTenants();
 	
+	/******
+	 * LOAD ECOSISTEMS
+	 ******/
 	var loadEcosistems = function(){
 		$scope.ecosystemList = [];
 		fabricAPIservice.getEcosystems().success(function(response) {
@@ -60,6 +66,9 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	
 	loadEcosistems();
 	
+	/******
+	 * LOAD ORGANIZATIONS
+	 ******/
 	//20171025 - Modifiche per nuove API
 	var organizationMap =  {};
 	var loadOrganizations = function(){
@@ -85,6 +94,25 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	
 	loadOrganizations();	
 	
+	 /******
+	 * LOAD TENANT TYPE
+	 ******/
+	var tenantTypeMap =  {};
+	var loadTenantTypes = function(){
+		$scope.tenantTypeList = [];
+		adminAPIservice.loadTenantTypes().success(function(response) {		
+			$scope.showLoading = false;
+			console.debug("loadTenantTypes - response",response);
+			
+			for (var i = 0; i < response.length; i++) {
+				$scope.tenantTypeList.push(response[i]);					
+				tenantTypeMap[response[i].idTenantType]= response[i];					
+			}
+					
+		});
+	}	
+	loadTenantTypes();
+	
 	var initRow = function(tenantIn){
 		var row = {};
 		row.tenant = tenantIn;		
@@ -96,19 +124,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		row.isSelected = false;
 		row.isUpdating = false;
 		row.updated = false;
-		/*
-		if(!row.tenant.codDeploymentStatus || row.tenant.codDeploymentStatus==null)
-			row.tenant.codDeploymentStatus = "draft";
 		
-		if(row.tenant.codDeploymentStatus=='req_inst'){
-			row.action = 'install';
-		}
-		else if(row.tenant.codDeploymentStatus=='inst'){
-			row.action = 'migrate';
-		}
-		else if(row.tenant.codDeploymentStatus=='req_uninst'){
-			row.action = 'delete';
-		}*/
 		if(!row.tenant.tenantStatus.tenantstatuscode || row.tenant.tenantStatus.tenantstatuscode==null)
 			row.tenant.tenantStatus.tenantstatuscode = "draft";
 		
@@ -217,6 +233,9 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		}
 	}
 	
+	/*********
+	 *EXEC ACTION
+	 **********/
 	$scope.execActions = function(){
 		console.log("execActions");
 		$scope.errors = [];
@@ -257,6 +276,9 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 
 	}
 	
+	/*********
+	 *EXEC ACTION
+	 **********/
 	var execAction = function(rowIndex){
 		$scope.tenantsList[rowIndex].actionIconClass='fa fa-rocket';
 		$scope.tenantsList[rowIndex].actionFeedback='Started';
@@ -266,10 +288,14 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		var tenant = $scope.tenantsList[rowIndex].tenant;
 		var startStep = $scope.tenantsList[rowIndex].startStep;
 		var endStep = $scope.tenantsList[rowIndex].endStep;
-			
-		var actionParams = createActionParams(operation, tenant, startStep, endStep);
-		console.log("actionParams",actionParams);
-		fabricBuildService.execAction(actionParams).success(function(response) {
+	
+		var actionParams = {};
+		actionParams.action = operation;
+		actionParams.startStep = startStep;
+		actionParams.endStep = endStep;
+		
+		console.log("actionParams",actionParams,"tenantCode",tenant.tenantcode );
+		adminAPIservice.execAction(actionParams,tenant.tenantcode).success(function(response) {
 			console.log("response",response);
 		});
 		
@@ -280,7 +306,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	
 	var someOneIsUpdating = false;
 
-	var chekStepsLog = function(rowIndex, stepsLogUrl) {
+	/*var chekStepsLog = function(rowIndex, stepsLogUrl) {
 		
 		 var checkStepTimeout =  $timeout(function() {
     		var step_width = null;
@@ -354,7 +380,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
         	if($scope.tenantsList[rowIndex].feedback==null || !$scope.tenantsList[rowIndex].feedback.finish || $scope.tenantsList[rowIndex].feedback.finish!=true)
         		chekStepsLog(rowIndex,stepsLogUrl);
         }, 1000);
-    };     
+    };     */
     
     var refreshStream = function(row){
     	fabricAPIservice.getStream(row.stream.codiceTenant, row.stream.codiceVirtualEntity, row.stream.codiceStream).success(function(response) {
@@ -424,8 +450,9 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	      size: 'lg',
 	      resolve: {
 	    	  organizationList: function(){return $scope.organizationList;},
-	    	  organizationMap: function(){return organizationMap}
-	        
+	    	  organizationMap: function(){return organizationMap},
+	    	  tenantTypeList: function(){return $scope.tenantTypeList;},
+	    	  tenantTypeMap: function(){return tenantTypeMap}   	  
 	      }
 	    });
 	    
@@ -548,24 +575,13 @@ appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' 
 
 
 //20171025 - Modifiche per puntamento a nuove API
-appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabricAPIservice', 'adminAPIservice', '$filter',"$http", '$location', 'organizationList', 'organizationMap',
-                                           function ($scope, $modalInstance, fabricAPIservice, adminAPIservice,  $filter, $http, $location,  organizationList,organizationMap) {
+appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabricAPIservice', 'adminAPIservice', '$filter',"$http", '$location', 'organizationList', 'organizationMap', 'tenantTypeList', 'tenantTypeMap',
+                                           function ($scope, $modalInstance, fabricAPIservice, adminAPIservice,  $filter, $http, $location,  organizationList,organizationMap,tenantTypeList, tenantTypeMap) {
 		
 	$scope.warning = null;
-	/*$scope.newTenant = {"tenantType":"default", 
-						"maxOdataResultPerPage":1000,
-						"maxDatasetNum":-1,
-			   			"maxStreamsNum":-1,
-			   			"tenantPassword": "XXXX",
-			   			"userTypeAuth":"admin",
-			   			"idEcosystem": 1,};*/
-
-	//$scope.forms.submitted = false;
-	$scope.newTenant = {"tenantCode":"default", 
-			"idTenantType": 1,
-			"idTenantStatus": 1,
-			"tenantPassword": "XXXX",
-			"userTypeAuth":"admin",
+	
+	$scope.newTenant = {
+			"usertypeauth":"admin",
 			"idEcosystem": 1,};
 
 	$scope.newTenant.dataphoenixtablename = "DATA";
@@ -574,13 +590,15 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 	$scope.newTenant.mediaphoenixtablename = "MEDIA";
 	
 	$scope.organizationList = organizationList;
+	$scope.tenantTypeList = tenantTypeList;
 	
 	$scope.tenantTypeChange = function(){
+		/*
 		console.log("tenantTypeChange", $scope.newTenant.tenantType);
-		if($scope.newTenant.tenantCode == "plus")
+		if($scope.newTenant.tenantType == "plus")
 			$scope.newTenant.maxOdataResultPerPage = 10000;
 		else 
-			$scope.newTenant.maxOdataResultPerPage = 1000;
+			$scope.newTenant.maxOdataResultPerPage = 1000;*/
 	};
 	var env = Helpers.util.getEnvirorment($location.host());
 	//var env = Helpers.util.getEnvirorment('int-userportal.smartdatanet.it');
@@ -605,8 +623,7 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 
 
 	};
-	
-	
+		
 	//20171025 - Modifiche per nuove API
 	$scope.createNewTenant = function(){
 		console.log("new tenant", $scope.newTenant);
@@ -647,11 +664,10 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 				delete $scope.newTenant.mediaphoenixtablename;
 			}	
 			
-			
-			var tenant = {"tenant": $scope.newTenant};
-			
-			
-			var promise   = adminAPIservice.createTenant(tenant);
+			//Il campo tenantCode viene valorizzato come il name
+			$scope.newTenant.tenantcode = $scope.newTenant.name;		
+
+			var promise   = adminAPIservice.createTenant($scope.newTenant);
 			promise.then(function(result) {
 				console.log("result qui ", result);
 				$scope.info = "Tenant created";

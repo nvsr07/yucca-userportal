@@ -260,25 +260,23 @@
 						<input type='email' class="form-control " ng-model="newTenant.useremail" ng-required="true" placeholder="{{'TENANT_FIELD_USER_EMAIL'|translate}}" id="newTenant_useremail"/>
 					</div>
 				  </div>
+				
 				  <div class='form-section form-section-1 col-sm-4'>
 					<legend class='form-section-title'><span translate>TENANT_FORM_CONFIG</span></legend>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_idTenantType" translate>TENANT_FIELD_TYPE</label>
-					
-						<select class="form-control " ng-model="newTenant.tenantCode" id="newTenant_tenantCode"" ng-change="tenantTypeChange()">
-							<option value='default'>default</option>
-							<option value='develop'>develop</option>
-							<option value='plus'>plus</option>
-							<option value='zero'>zero</option>
+						<label class="small-label" for="newTenant_idTenantType" translate>TENANT_FIELD_TYPE</label>					
+						<select class="form-control " ng-model="newTenant.idTenantType" id="newTenant_idTenantType"  ng-required="true" >
+							<option value="" disabled selected translate>TENANT_FIELD_TYPE</option>
+							<option value='{{tenantType.idTenantType}}' title='{{tenantType.tenanttypecode}}' ng-repeat="tenantType in tenantTypeList track by $index">{{tenantType.tenanttypecode}}</option>
 						</select>
-					</div>
+					</div> 		
 					<div class='form-group'>
 						<label class="small-label" for="newTenant_maxOdataResultPerPage" translate>TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE</label>
 						<input type='number'  min="1" class="form-control " ng-model="newTenant.bundles.maxOdataResultPerPage" ng-required="true" placeholder="{{'TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE'|translate}}" id="newTenant_maxOdataResultPerPage"/>
 					</div>
 					<div class='form-group'>
 						<label class="small-label"  translate>TENANT_FIELD_HAS_STAGE</label>
-						<input type='number'   class="form-control " ng-model="newTenant.bundles.hasstage" ng-required="true" placeholder="{{'TENANT_FIELD_HAS_STAGE'|translate}}" id="newTenant_hasstage"/>
+						<input type='text'   class="form-control " ng-model="newTenant.bundles.hasstage" ng-required="true" placeholder="{{'TENANT_FIELD_HAS_STAGE'|translate}}" id="newTenant_hasstage"/>
 					</div>
 					<div class='form-group'>
 						<label class="small-label"  translate>TENANT_FIELD_MAX_DATASET_NUM</label>
@@ -290,7 +288,7 @@
 					</div>
 					<div class='form-group'>
 						<label class="small-label"  translate>TENANT_FIELD_ZEPPELIN</label>
-						<input type='number'  class="form-control " ng-model="newTenant.bundles.zeppelin" ng-required="true" placeholder="{{'TENANT_FIELD_ZEPPELIN'|translate}}" id="newTenant_zeppelin"/>
+						<input type='text'  class="form-control " ng-model="newTenant.bundles.zeppelin" ng-required="true" placeholder="{{'TENANT_FIELD_ZEPPELIN'|translate}}" id="newTenant_zeppelin"/>
 					</div>
 				</div>
 				<div class='row'>

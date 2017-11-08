@@ -17,6 +17,12 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 		});
 	};	
 	
+	adminAPI.loadTenantTypes = function() {
+		return $http({method : 'JSONP',
+			url : Constants.API_ADMIN_TENANTTYPES_URL + '/' + '?callback=JSON_CALLBACK'
+		});
+	};	
+	
 	adminAPI.createTenant = function(tenant) {
 		var deferred = $q.defer();
 		var resultData = null;
@@ -24,6 +30,15 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 		return $http.post(Constants.API_ADMIN_TENANTS_URL , tenant);
 	};
 	
+	adminAPI.execAction = function(operations,tenantCode) {
+		console.log("execAction - operations", operations,tenantCode);
+		
+		return $http({
+			method : 'PUT',
+			data:operations,
+			url : Constants.API_ADMIN_TENANTS_URL+"/"+tenantCode+"/action"
+		});
+	};
 
 	adminAPI.loadSOCategories = function() {
 		return $http({
