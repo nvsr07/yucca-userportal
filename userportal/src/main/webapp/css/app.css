@@ -1737,6 +1737,16 @@ height: 100%;
     position: relative;
     border-radius: 0;
 }
+
+.home-page-modal{background-color: #e3e4e6;font-size: 18px;}
+.home-page-modal .modal-header h1{border-bottom:3px solid #00bff0;}
+.home-page-modal .modal-body{}
+.home-page-modal .modal-body .intro{margin-bottom: 1em;}
+.home-page-modal .btn{font-size: 18px;}
+
+
+
+
 .showTTForm-details{background-color: #e3e4e6; padding: 15px;}
 .modal-content-panel{background-color: #e3e4e6;}
 .modal-top-panel{background-color: #e3e4e6;}

@@ -94,7 +94,7 @@
 								</div>
 							</div>
 						</div>	
-						<div class="row card-row management-virtualentity-update-stream" ng-show="streamsToReinstall!=null">
+						<div class="row card-row management-virtualentity-update-stream" ng-show="streamsToReinstall.length>0">
 							<label class="col-sm-2 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_VIRTUALENTITY_REINSTALL_STREAMS</span></label>
 							<div class="col-sm-10 ">
 								<div class="alert alert-warning">
@@ -109,17 +109,17 @@
 								</div>
 								<div class='row stream-list' ng-repeat="streamRow in streamsToReinstall">
 									<div class='col-sm-5'>
-										<img ng-src="{{streamRow.stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
-										<span title="{{streamRow.stream.codiceStream|string_ellipse:20}} - {{streamRow.stream.nomeStream|string_ellipse:15}}"><strong>{{streamRow.stream.codiceStream}}</strong> - {{streamRow.stream.nomeStream|string_ellipse:20}}</span>
+										<img ng-src="{{streamIconUrl(organizationCode,streamRow.stream.idstream)}}" alt="logo stream" class='list-entity-icon-preview-img' >
+										<span title="{{streamRow.stream.streamcode}} - {{streamRow.stream.streamname}}"><strong>{{streamRow.stream.streamcode}}</strong> - {{streamRow.stream.streamname|string_ellipse:20}}</span>
 									</div>
-									<div class='col-sm-1 col-no-padding'>										
-										<span ng-bind-html="streamRow.stream.statusIcon" title="{{streamRow.stream.deploymentStatusCode|translate}}"></span> {{streamRow.stream.deploymentStatusCode|translate|string_ellipse:8}}
+									<div class='col-sm-1 col-no-padding'>	
+										<span class="stream-status stream-status-{{streamRow.stream.status.statuscode}}">{{streamRow.stream.status.statuscode|translate|translate|string_ellipse:8}}</span>									
 									</div>
 									<div class='col-sm-6 col-sm-6'>
-										<a href class='btn btn-default btn-sm' ng-click='reinstallStream(streamRow)' ng-disabled="streamRow.isUpdating || streamRow.stream.deploymentStatusCode!=STREAM_STATUS_INST">
+										<a href class='btn btn-default btn-sm' ng-click='reinstallStream(streamRow)' ng-disabled="streamRow.isUpdating || streamRow.stream.status.statuscode!=STREAM_STATUS_INST">
 											<span class="glyphicon glyphicon-save "></span> <span translate-cloak translate>MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON</span>
 										</a>
-										<a  href class='btn btn-default btn-sm' ng-click='unInstallStream(streamRow)' ng-disabled="streamRow.isUpdating || streamRow.stream.deploymentStatusCode!=STREAM_STATUS_INST">
+										<a  href class='btn btn-default btn-sm' ng-click='unInstallStream(streamRow)' ng-disabled="streamRow.isUpdating || streamRow.stream.status.statuscode!=STREAM_STATUS_INST">
 											<span class="glyphicon glyphicon-open "></span> <span translate-cloak translate>MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON</span>
 										</a>
 										<i class="fa fa-check text-success" ng-show='streamRow.updateOk'></i>

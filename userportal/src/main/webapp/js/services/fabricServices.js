@@ -33,16 +33,16 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 	};
 	
-	fabricAPI.saveStoreTokenInSession = function(storeToken) {
-
-		var updateUserInfoUrl = Constants.API_AUTH_UPDATE_USER_INFO_URL + '?storeToken=' + storeToken;
-		console.log("updateUserInfoUrl",updateUserInfoUrl);
-
-		return $http({
-			method : 'GET',
-			url : updateUserInfoUrl
-		});
-	};
+//	fabricAPI.saveStoreTokenInSession = function(storeToken) {
+//
+//		var updateUserInfoUrl = Constants.API_AUTH_UPDATE_USER_INFO_URL + '?storeToken=' + storeToken;
+//		console.log("updateUserInfoUrl",updateUserInfoUrl);
+//
+//		return $http({
+//			method : 'GET',
+//			url : updateUserInfoUrl
+//		});
+//	};
 	
 	
 
@@ -53,99 +53,100 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 			url : Constants.API_VALIDATE_SIDDHI
 		});
 	};
-
-	fabricAPI.getStreams = function(tenant_code) {
-		var tenantUrl = '';
-		if(tenant_code)
-			tenantUrl = tenant_code + '/';
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '?callback=JSON_CALLBACK'
-		});
-	};
+//
+//	fabricAPI.getStreams = function(tenant_code) {
+//		var tenantUrl = '';
+//		if(tenant_code)
+//			tenantUrl = tenant_code + '/';
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '?callback=JSON_CALLBACK'
+//		});
+//	};
 
 	
-	fabricAPI.getStreamsByVirtualentity = function(tenant_code, virtualentity_code) {
-		console.log("getStreamsByVirtualentity",tenant_code, virtualentity_code);
-		var deferred = $q.defer();
-		fabricAPI.getInfo().success(function(infoData){
-			console.debug(infoData);
-			var streamsUrl = '';
-			if(tenant_code)
-				streamsUrl = tenant_code + '/';
-			streamsUrl += virtualentity_code + '/';
+//	fabricAPI.getStreamsByVirtualentity = function(tenant_code, virtualentity_code) {
+//		console.log("getStreamsByVirtualentity",tenant_code, virtualentity_code);
+//		var deferred = $q.defer();
+//		fabricAPI.getInfo().success(function(infoData){
+//			console.debug(infoData);
+//			var streamsUrl = '';
+//			if(tenant_code)
+//				streamsUrl = tenant_code + '/';
+//			streamsUrl += virtualentity_code + '/';
+//	
+//			if(infoData.user.activeTenant!=undefined)
+//				streamsUrl += '?visibleFrom='+infoData.user.activeTenant;			
+//			else
+//				streamsUrl += '?visibleFrom=sandbox';
+//
+//			console.log("url",  Constants.API_SERVICES_STREAM_URL + streamsUrl  + '&callback=JSON_CALLBACK');
+//			
+//			 $http({
+//				method : 'JSONP',
+//				url : Constants.API_SERVICES_STREAM_URL + streamsUrl  + '&callback=JSON_CALLBACK'
+//			});
+//		});
+//		
+//		return deferred.promise;
+//	};
 	
-			if(infoData.user.activeTenant!=undefined)
-				streamsUrl += '?visibleFrom='+infoData.user.activeTenant;			
-			else
-				streamsUrl += '?visibleFrom=sandbox';
-
-			console.log("url",  Constants.API_SERVICES_STREAM_URL + streamsUrl  + '&callback=JSON_CALLBACK');
-			
-			 $http({
-				method : 'JSONP',
-				url : Constants.API_SERVICES_STREAM_URL + streamsUrl  + '&callback=JSON_CALLBACK'
-			});
-		});
-		
-		return deferred.promise;
-	};
+//	fabricAPI.getVisibleStreamsFromTenant = function(tenantCode) {
+//		
+//		var deferred = $q.defer();
+//		fabricAPI.getInfo().success(function(infoData){
+//			console.debug(infoData);
+//		
+//			var tenantUrl = 'sandbox/';
+//			if(tenantCode != undefined)
+//				tenantUrl = tenantCode + '/';			
+//			
+//			
+//			$http({
+//				method : 'JSONP',
+//				url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '?callback=JSON_CALLBACK'
+//			}).success(function(responseData) {
+//				deferred.resolve(responseData);
+//			}).error(function(responseData, responseStatus) {
+//				resultData = {status: "ko - "+responseStatus, data: responseData};
+//				deferred.reject(resultData);
+//			});			
+//		});
+//		
+//		return deferred.promise;
+//	};
 	
-	fabricAPI.getVisibleStreamsFromTenant = function(tenantCode) {
-		
-		var deferred = $q.defer();
-		fabricAPI.getInfo().success(function(infoData){
-			console.debug(infoData);
-		
-			var tenantUrl = 'sandbox/';
-			if(tenantCode != undefined)
-				tenantUrl = tenantCode + '/';			
-			
-			
-			$http({
-				method : 'JSONP',
-				url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '?callback=JSON_CALLBACK'
-			}).success(function(responseData) {
-				deferred.resolve(responseData);
-			}).error(function(responseData, responseStatus) {
-				resultData = {status: "ko - "+responseStatus, data: responseData};
-				deferred.reject(resultData);
-			});			
-		});
-		
-		return deferred.promise;
-	};
-	fabricAPI.getVisibleStreams = function() {
-		
-		var deferred = $q.defer();
-		fabricAPI.getInfo().success(function(infoData){
-			console.debug(infoData);
-		
-			var tenantUrl = '?visibleFrom=sandbox';
-			if(infoData.user.activeTenant!=undefined)
-				tenantUrl = '?visibleFrom='+infoData.user.activeTenant;			
-			
-			$http({
-				method : 'JSONP',
-				url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
-			}).success(function(responseData) {
-				deferred.resolve(responseData);
-			}).error(function(responseData, responseStatus) {
-				resultData = {status: "ko - "+responseStatus, data: responseData};
-				deferred.reject(resultData);
-			});			
-		});
-		
-		return deferred.promise;
-		
-		//var tenantUrl = '?visibleFrom=sandbox';
-		//if(tenant_code!=null && tenant_code!=undefined)
-		//	tenantUrl = '?visibleFrom='+tenant_code;
-		//return $http({
-		//	method : 'JSONP',
-		//	url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
-		//});
-	};
+//	fabricAPI.getVisibleStreams = function() {
+//		
+//		var deferred = $q.defer();
+//		fabricAPI.getInfo().success(function(infoData){
+//			console.debug(infoData);
+//		
+//			var tenantUrl = '?visibleFrom=sandbox';
+//			if(infoData.user.activeTenant!=undefined)
+//				tenantUrl = '?visibleFrom='+infoData.user.activeTenant;			
+//			
+//			$http({
+//				method : 'JSONP',
+//				url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
+//			}).success(function(responseData) {
+//				deferred.resolve(responseData);
+//			}).error(function(responseData, responseStatus) {
+//				resultData = {status: "ko - "+responseStatus, data: responseData};
+//				deferred.reject(resultData);
+//			});			
+//		});
+//		
+//		return deferred.promise;
+//		
+//		//var tenantUrl = '?visibleFrom=sandbox';
+//		//if(tenant_code!=null && tenant_code!=undefined)
+//		//	tenantUrl = '?visibleFrom='+tenant_code;
+//		//return $http({
+//		//	method : 'JSONP',
+//		//	url : Constants.API_SERVICES_STREAM_URL + tenantUrl  + '&callback=JSON_CALLBACK'
+//		//});
+//	};
 
 	fabricAPI.getStream = function(tenant_code, virtualentity_code, stream_code) {
 //FIXME
@@ -242,44 +243,44 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		return deferred.promise;
 	};
 
-	fabricAPI.createComponents = function(stream) {
-		var deferred = $q.defer();
-		var resultData = null;
-
-		var urlCalls = [];
-		console.log("stream.stream.componenti", stream.stream);
-		for (var int = 0; int < stream.stream.componenti.element.length; int++) {
-			var component = stream.stream.componenti.element[int];
-			if(!component.idComponente || component.idComponente==null){
-				component.nomeAttributo = component.nome;
-				component.tipoAttributo = component.tipo;
-				var componentParam = {"componente": { "nomeAttributo": component.nome, "tipoAttributo": component.tipo }};
-				urlCalls.push($http.post(Constants.API_SERVICES_STREAM_COMPONENT_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', componentParam));
-			}
-		}
-
-		console.log("urlCalls", urlCalls);
-
-
-		$q.all(urlCalls).then(
-				function(responseData) {
-					console.log("qui ok" , responseData);
-					resultData = {status: "ok", data: responseData};
-					deferred.resolve(resultData);
-				},
-				function(errors) {
-					console.log("qui ko" , errors);
-					resultData = {status: "ko", data: errors};
-					deferred.reject(errors);
-				},
-				function(updates) {
-					console.log("qui update" , updates);
-
-					deferred.update(updates);
-				}
-		);
-		return deferred.promise;
-	};
+//	fabricAPI.createComponents = function(stream) {
+//		var deferred = $q.defer();
+//		var resultData = null;
+//
+//		var urlCalls = [];
+//		console.log("stream.stream.componenti", stream.stream);
+//		for (var int = 0; int < stream.stream.componenti.element.length; int++) {
+//			var component = stream.stream.componenti.element[int];
+//			if(!component.idComponente || component.idComponente==null){
+//				component.nomeAttributo = component.nome;
+//				component.tipoAttributo = component.tipo;
+//				var componentParam = {"componente": { "nomeAttributo": component.nome, "tipoAttributo": component.tipo }};
+//				urlCalls.push($http.post(Constants.API_SERVICES_STREAM_COMPONENT_URL + stream.stream.codiceTenant + '/' + stream.stream.codiceVirtualEntity + '/' + stream.stream.codiceStream + '/', componentParam));
+//			}
+//		}
+//
+//		console.log("urlCalls", urlCalls);
+//
+//
+//		$q.all(urlCalls).then(
+//				function(responseData) {
+//					console.log("qui ok" , responseData);
+//					resultData = {status: "ok", data: responseData};
+//					deferred.resolve(resultData);
+//				},
+//				function(errors) {
+//					console.log("qui ko" , errors);
+//					resultData = {status: "ko", data: errors};
+//					deferred.reject(errors);
+//				},
+//				function(updates) {
+//					console.log("qui update" , updates);
+//
+//					deferred.update(updates);
+//				}
+//		);
+//		return deferred.promise;
+//	};
 
 
 //	fabricAPI.getVirtualentityCategories = function() {

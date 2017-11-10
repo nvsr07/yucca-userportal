@@ -105,7 +105,7 @@
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/></td>
 								<td class='text-center no-border-right'>
 									<a href="#/management/viewStream/{{tenant}}/{{stream.smartobject.socode}}/{{stream.streamcode}}">
-										<img ng-src="{{streamIconSrc(organizationCode,stream.idstream)}}" alt="logo stream" class='list-entity-icon-preview-img' >
+										<img ng-src="{{streamIconUrl(organizationCode,stream.idstream)}}" alt="logo stream" class='list-entity-icon-preview-img' >
 									</a>
 								</td>
 								<td class='text-left no-border-left'>

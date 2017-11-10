@@ -114,17 +114,34 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 		});
 	};
 
+
+	
+	/**
+	 * TENANTS
+	 */
 	adminAPI.loadTenants = function() {
 		return $http({
 			method : 'JSONP',
 			url : Constants.API_ADMIN_TENANTS_URL + '?callback=JSON_CALLBACK'
 		});
 	};
-
+	
+	adminAPI.createTenant = function(installationTenantRequest) {
+		var urlWithParam = Constants.API_ADMIN_TENANTS_URL;
+		return $http.post(urlWithParam, installationTenantRequest);
+	};
 	
 	/**
 	 * SMART OBJECTS
 	 */
+	adminAPI.loadSmartobjectsOfOrganization = function(activeTenant) {
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/?callback=JSON_CALLBACK'; 
+		return $http({
+			method : 'JSONP',
+			url : urlWithParam
+		});
+	};
+
 	adminAPI.loadSmartobjects = function(activeTenant) {
 		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/?tenantCode='+activeTenant.tenantCode+'&callback=JSON_CALLBACK'; 
 		return $http({

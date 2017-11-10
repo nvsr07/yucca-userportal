@@ -163,7 +163,7 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info
 		
 	};
 	
-	$scope.streamIconSrc = function(organizationCode, idstream){
+	$scope.streamIconUrl= function(organizationCode, idstream){
 		return Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), organizationCode)+"/"+idstream+"/icon";
 	};
 
