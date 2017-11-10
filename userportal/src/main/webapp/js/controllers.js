@@ -23,12 +23,6 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	 });
 
 	
-
-	
-	$scope.linkLoginToStore = "";
-	$scope.linkLoginToStoreW = "0";
-	$scope.linkLoginToStoreH = "0";
-	
 	$scope.storeUrl = '/store/';	
 	console.log("storeUrl",$scope.storeUrl);
 
@@ -147,27 +141,32 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		console.log('managementUrl', $scope.managementUrl);
 		console.log('user', $scope.user);
 		
-		gestModalWindow();
+		if ($scope.user.loggedIn)
+			gestModalWindow();
+		
+
 	});
 	
 	var gestModalWindow = function(){
 
-		if ($scope.user.loggedIn)
-		{
 			$scope.user.authType = $scope.user.authType || "local";
 			if (!$scope.user.isStrongUser){  //Compare la modale perchè non hai credenziali strong!
-				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
+				$scope.openForceLogout();
+//				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'strong', 'notenant');
 				$scope.user.authType = "notStrong";
 			} else if ($scope.user.isTechnicalUser){
+				$scope.openForceLogout();
 				$scope.user.authType = "tecnical";
-				$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
+				//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
 			} else if ($scope.user.tenants == 'undefined' || $scope.user.tenants.length == 0 ){
 				if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
 					if ($scope.user.isSocialUser){
 						$scope.user.authType = "social";
-						$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
+						$scope.openRequestTenant('trial', true);
+						//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
 					} else {
-						$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
+						$scope.openRequestTenant('pesonal', true);
+						//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
 					}
 				} else {
 					//Tutto ok! NO MODAL
@@ -180,7 +179,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				$scope.user.authType = "social";
 			
 			console.log("user.authType", $scope.user.authType);
-		}
+	
 	};
 	
 	$scope.changeLanguage = function(langKey) {
@@ -231,36 +230,84 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		
 	console.log('location', $location.$$url);
 	
-	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
+//	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
+//		var modalInstance = $modal.open({
+//			animation : $scope.animationsEnabled,
+//			templateUrl : templateUrlParam,
+//			controller : controllerParam,
+//			size : 0,
+//			backdrop  : 'static',
+//			keyboard  : false,
+//			resolve: { 
+//				op: function () {
+//					return opParam;
+//				},
+//				tenantType: function () {
+//					return tenantType;
+//				},
+//				globalUser: function(){
+//					return $scope.user;
+//				},
+//				globalUserTenantsToActivate: function(){
+//					return $scope.userTenantsToActivate;
+//				}
+//			}
+//		});
+//
+//		modalInstance.result.then(function(selectedItem) {
+//			$scope.selected = selectedItem;
+//		}, function() {
+//			console.info('Modal dismissed at: ' + new Date());
+//		});
+//	};
+	
+	
+	$scope.openRequestTenant = function(tenantType, hasNoTenant){
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
-			templateUrl : templateUrlParam,
-			controller : controllerParam,
+			templateUrl : 'requestTenant.html',
+			controller : 'RequestTenantCtrl',
 			size : 0,
 			backdrop  : 'static',
 			keyboard  : false,
 			resolve: { 
-				op: function () {
-					return opParam;
-				},
 				tenantType: function () {
 					return tenantType;
 				},
-				globalUser: function(){
+				user: function () {
 					return $scope.user;
 				},
-				globalUserTenantsToActivate: function(){
-					return $scope.userTenantsToActivate;
+				hasNoTenant: function () {
+					return hasNoTenant;
 				}
 			}
 		});
 
-		modalInstance.result.then(function(selectedItem) {
-			$scope.selected = selectedItem;
+		modalInstance.result.then(function() {
 		}, function() {
-			console.info('Modal dismissed at: ' + new Date());
 		});
 	};
+	
+	$scope.openForceLogout = function(){
+		var modalInstance = $modal.open({
+			animation : $scope.animationsEnabled,
+			templateUrl : 'forceLogout.html',
+			controller : 'ForceLogoutCtrl',
+			size : 0,
+			backdrop  : 'static',
+			keyboard  : false,
+			resolve: { 
+				user: function () {
+					return $scope.user;
+				}
+			}
+		});
+
+		modalInstance.result.then(function() {
+		}, function() {
+		});
+	};
+
 }]);
 
 
@@ -313,45 +360,49 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 	};
 	
 	$scope.requestTT = function(tenantType){
-		$scope.showTTForm = true;
-		$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'newTT', tenantType);
+		$scope.openRequestTenant('trial', false);
+
+//		$scope.showTTForm = true;
+//		$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'newTT', tenantType);
 	};
 	
 	$scope.requestTP = function(tenantType){
-		$scope.showTPForm = true;
-		$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'newTP', tenantType);
+		$scope.openRequestTenant('pesonal', false);
+
+//		$scope.showTPForm = true;
+//		$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'newTP', tenantType);
 	};
 	
-	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
-		var modalInstance = $modal.open({
-			animation : $scope.animationsEnabled,
-			templateUrl : templateUrlParam,
-			controller : controllerParam,
-			size : 0,
-			backdrop  : 'static',
-			keyboard  : false,
-			resolve: {
-				op: function () {
-					return opParam;
-				},
-				tenantType: function () {
-					return tenantType;
-				},
-				globalUser: function(){
-					return $scope.user;
-				},
-				globalUserTenantsToActivate: function(){
-					return $scope.userTenantsToActivate;
-				}
-			}
-		});
-
-		modalInstance.result.then(function(selectedItem) {
-			$scope.selected = selectedItem;
-		}, function() {
-			console.info('Modal dismissed at: ' + new Date());
-		});
-	};
+//	$scope.openModalWindow = function(templateUrlParam, controllerParam, opParam, tenantType){
+//		var modalInstance = $modal.open({
+//			animation : $scope.animationsEnabled,
+//			templateUrl : templateUrlParam,
+//			controller : controllerParam,
+//			size : 0,
+//			backdrop  : 'static',
+//			keyboard  : false,
+//			resolve: {
+//				op: function () {
+//					return opParam;
+//				},
+//				tenantType: function () {
+//					return tenantType;
+//				},
+//				globalUser: function(){
+//					return $scope.user;
+//				},
+//				globalUserTenantsToActivate: function(){
+//					return $scope.userTenantsToActivate;
+//				}
+//			}
+//		});
+//
+//		modalInstance.result.then(function(selectedItem) {
+//			$scope.selected = selectedItem;
+//		}, function() {
+//			console.info('Modal dismissed at: ' + new Date());
+//		});
+//	};
 }]);
 
 appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'fabricAPIservice', 'odataAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
@@ -452,157 +503,229 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 	 
 } ]);
 
-appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'readFilePreview', 'op', 'tenantType', 'globalUser', 'globalUserTenantsToActivate', 
-                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, readFilePreview, op, tenantType, globalUser, globalUserTenantsToActivate) {
 
-	console.log("--->info = ", info);
-
-	$scope.showTPForm = false;
-	$scope.resultTPFormKO = false;
-	$scope.resultTPFormOK = false;
-	$scope.showTTForm = false;
-	$scope.resultTTFormKO = false;
-	$scope.resultTTFormOK = false;
-	$scope.authParam = op;
-	$scope.user = globalUser;
-	$scope.userTenantsToActivate = globalUserTenantsToActivate;
-	$scope.tenantType = tenantType;
-	$scope.tenantNew = {};
-	if (typeof(info.getInfo()) != 'undefined' && info.getInfo() != null){
-		$scope.tenantNew.userName = info.getInfo().user.username;
-		$scope.tenantNew.userFirstName = info.getInfo().user.firstname;
-		$scope.tenantNew.userLastName = info.getInfo().user.lastname;
-		$scope.tenantNew.userEmail = info.getInfo().user.email;
-		$scope.userFirstNameTT = info.getInfo().user.firstname;
-		$scope.userLastNameTT = info.getInfo().user.lastname;
-		$scope.userEmailTT = info.getInfo().user.email;
-	} else {
-		$scope.tenantNew.userName = '';
-		$scope.tenantNew.userFirstName = '';
-		$scope.tenantNew.userLastName = '';
-		$scope.tenantNew.userEmail = '';
-		$scope.userFirstNameTT = '';
-		$scope.userLastNameTT = '';
-		$scope.userEmailTT = '';
-		
-		fabricAPIservice.getInfo().success(function(result) {
-			info.setInfo(result);
-			console.log("result", result);
-			console.log("info", info);
-			$scope.activeTenantCode = info.getActiveTenantCode();
-			$scope.userTenants = info.getInfo().user.tenants;
-			$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
-			
-			$scope.tenantNew.userName = info.getInfo().user.username;
-			$scope.tenantNew.userFirstName = info.getInfo().user.firstname;
-			$scope.tenantNew.userLastName = info.getInfo().user.lastname;
-			$scope.tenantNew.userEmail = info.getInfo().user.email;
-			$scope.userFirstNameTT = info.getInfo().user.firstname;
-			$scope.userLastNameTT = info.getInfo().user.lastname;
-			$scope.userEmailTT = info.getInfo().user.email;
-			if ($scope.authParam == 'social')
-				$scope.tenantNew.userTypeAuth = $scope.authParam;
-			else 
-				$scope.tenantNew.userTypeAuth = 'default';
-		});
-	}
-	console.log("$scope.user", $scope.user);
-	if ($scope.authParam == 'social') {
-		$scope.tenantNew.userTypeAuth = $scope.authParam;
-	} else if ($scope.authParam == 'newTT') { //in questo caso solo utenti con credenziali non social possono richiedere tenant (trial) dal menù in alto a dx!
-		$scope.tenantNew.userTypeAuth = 'default';
-		$scope.showTTForm = true;
-	} else if ($scope.authParam == 'newTP') { //in questo caso solo utenti con credenziali non social possono richiedere tenant (personal) dal menù in alto a dx!
-		$scope.tenantNew.userTypeAuth = 'default';
-		$scope.showTPForm = true;
-	} else {
-		$scope.tenantNew.userTypeAuth = 'default';
-	}
-	console.log("--->op = ", op);
-	console.log("--->$scope.tenantTest = ", $scope.tenantNew);
+appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'info', 'adminAPIservice', 'tenantType', 'hasNoTenant', 'user',
+                                                 function($scope, $modalInstance, info, adminAPIservice, tenantType, hasNoTenant, user) {
 	
 	console.log("--->info = ", info);
-	$scope.cancel = function () {
-	    $modalInstance.dismiss('cancel');
+	console.log("--->user = ", user);
+	$scope.status = 'start';
+	$scope.modalTitle = tenantType == 'trial'? 'REQUEST_TENANT_TRIAL_TITLE':'REQUEST_TENANT_PERSONAL_TITLE';
+	$scope.modalIntro = tenantType == 'trial'? 'REQUEST_TENANT_TRAIL_INFO':'REQUEST_TENANT_PERSONAL_INFO';
+	$scope.missingEmail = typeof user.email == 'undefined' || user.email == null || user.email == "";
+	$scope.hasNoTenant = hasNoTenant;
+	
+	$scope.isValidEmai = function(){
+		return Helpers.util.isValidEmail($scope.installationTenantRequest.useremail);
 	};
-	 
-	$scope.goToRequestor = function () {
-		
-		$scope.tenantNew.userFirstName = $scope.userFirstNameTT;
-		$scope.tenantNew.userLastName = $scope.userLastNameTT;
-		$scope.tenantNew.userEmail = $scope.userEmailTT;
-		
-		$scope.resultTPFormOK = false;
-		$scope.resultTTFormOK = false;
-		$scope.resultTPFormKO = false;
-		$scope.resultTTFormKO = false;
-		
-		$scope.codiceTenantData = {
-			tenantCode: "none"
-		};
-
-		console.log(" ---> $scope.tenantNew = ", $scope.tenantNew);
-		var tenantParam = {};
-		tenantParam.tenant = $scope.tenantNew;
-		console.log(" ---> tenantParam = ", tenantParam);
-		
-		var promise = null;
-		if ($scope.showTPForm)
-			promise = fabricAPIservice.createNewPersonalTenant(tenantParam);
-		else
-			promise = fabricAPIservice.createNewTrialTenant(tenantParam);
-		
-		if (promise != null){
-			promise.then(function(result) {
-				console.log("result OK => ", result);
-				if ($scope.showTPForm){
-					$scope.resultTPFormOK = true;
-					$scope.user.havePersonalTenantToActivate = true; 
-					$scope.showTPForm = false;
-					$scope.userTenantsToActivate.push(result.data.tenants.tenant);
-				} else {
-					$scope.resultTTFormOK = true;
-					$scope.user.haveTrialTenantToActivate = true; 
-					$scope.showTTForm = false;
-					$scope.userTenantsToActivate.push(result.data.tenants.tenant);
-				}
-				$scope.codiceTenantData.tenantCode = result.data.tenants.tenant.codiceTenant;
-			}, function(result) {
-				console.log("ERROR: ", result);
-				if ($scope.showTPForm){
-					$scope.resultTPFormKO = true;
-				} else {
-					$scope.resultTTFormKO = true;
-				}
-			}, function(result) {
-				console.log('Got notification: ' + result);
+	
+	$scope.installationTenantRequest = {
+			  "idTenantType": tenantType=='trial'?Constants.TENANT_TYPE_TRIAL_ID:Constants.TENANT_TYPE_PERSONAL_ID,
+			  "useremail": user.email,
+			  "userfirstname":  user.firstname,
+			  "userlastname": user.lastname,
+			  "username":user.username,
+			  "usertypeauth": info.getActiveTenant().userTypeAuth
+			};
+	
+	$scope.validationError = {};
+	$scope.requestTenant = function(){
+		console.log("requestTenant - installationTenantRequest", $scope.installationTenantRequest);
+		$scope.validationError = {};
+		if(!Helpers.util.isValidEmail($scope.installationTenantRequest.useremail)){
+			$scope.validationError.message = 'REQUEST_TENANT_EMAIL_ERROR';
+		}
+		else{
+			$scope.status = 'sending';
+			adminAPIservice.createTenant($scope.installationTenantRequest).success(function(response) {
+				console.log("createTenant SUCCESS", response);
+				$scope.status = 'finish';
+				$scope.requestResponse = response;
+			}).error(function(response){
+				console.error("createTenant ERROR", response);
+				$scope.status = 'finish';
+				$scope.requestResponse = response;
+	
 			});
 		}
-	}; 
+	};
 	
-	$scope.truthyTTForm = function(field){
-		var rtnResponse = true;
-		switch(field) {
-		    case 'username':
-		        break;
-		    case 'firstname':
-		        if ($scope.tenantNew.userFirstName == null)
-		        	rtnResponse = false;
-		        break;
-		    case 'lastname':
-		        if ($scope.tenantNew.userLastName == null)
-		        	rtnResponse = false;
-		        break;
-		    case 'email':
-		        if ($scope.tenantNew.userEmail == null)
-		        	rtnResponse = false;
-		        break;
-		}
-		return rtnResponse;
+	$scope.cancel = function () {
+	    $modalInstance.dismiss('cancel');
 	};
 	
 }]);
 
+
+//appControllers.controller('HomePageModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'adminAPIservice', 'readFilePreview', 'op', 'tenantType', 'globalUser', 'globalUserTenantsToActivate', 
+//                                                     function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice, adminAPIservice, readFilePreview, op, tenantType, globalUser, globalUserTenantsToActivate) {
+//
+//	console.log("--->info = ", info);
+//
+//	$scope.showTPForm = false;
+//	$scope.resultTPFormKO = false;
+//	$scope.resultTPFormOK = false;
+//	$scope.showTTForm = false;
+//	$scope.resultTTFormKO = false;
+//	$scope.resultTTFormOK = false;
+//	$scope.authParam = op;
+//	$scope.user = globalUser;
+//	$scope.userTenantsToActivate = globalUserTenantsToActivate;
+//	$scope.tenantType = tenantType;
+//	$scope.tenantNew = {};
+//	if (typeof(info.getInfo()) != 'undefined' && info.getInfo() != null){
+//		$scope.tenantNew.userName = info.getInfo().user.username;
+//		$scope.tenantNew.userFirstName = info.getInfo().user.firstname;
+//		$scope.tenantNew.userLastName = info.getInfo().user.lastname;
+//		$scope.tenantNew.userEmail = info.getInfo().user.email;
+//		$scope.userFirstNameTT = info.getInfo().user.firstname;
+//		$scope.userLastNameTT = info.getInfo().user.lastname;
+//		$scope.userEmailTT = info.getInfo().user.email;
+//	} else {
+//		$scope.tenantNew.userName = '';
+//		$scope.tenantNew.userFirstName = '';
+//		$scope.tenantNew.userLastName = '';
+//		$scope.tenantNew.userEmail = '';
+//		$scope.userFirstNameTT = '';
+//		$scope.userLastNameTT = '';
+//		$scope.userEmailTT = '';
+//		
+//		fabricAPIservice.getInfo().success(function(result) {
+//			info.setInfo(result);
+//			console.log("result", result);
+//			console.log("info", info);
+//			$scope.activeTenantCode = info.getActiveTenantCode();
+//			$scope.userTenants = info.getInfo().user.tenants;
+//			$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
+//			
+//			$scope.tenantNew.userName = info.getInfo().user.username;
+//			$scope.tenantNew.userFirstName = info.getInfo().user.firstname;
+//			$scope.tenantNew.userLastName = info.getInfo().user.lastname;
+//			$scope.tenantNew.userEmail = info.getInfo().user.email;
+//			$scope.userFirstNameTT = info.getInfo().user.firstname;
+//			$scope.userLastNameTT = info.getInfo().user.lastname;
+//			$scope.userEmailTT = info.getInfo().user.email;
+//			if ($scope.authParam == 'social')
+//				$scope.tenantNew.userTypeAuth = $scope.authParam;
+//			else 
+//				$scope.tenantNew.userTypeAuth = 'default';
+//		});
+//	}
+//	console.log("$scope.user", $scope.user);
+//	if ($scope.authParam == 'social') {
+//		$scope.tenantNew.userTypeAuth = $scope.authParam;
+//	} else if ($scope.authParam == 'newTT') { //in questo caso solo utenti con credenziali non social possono richiedere tenant (trial) dal menù in alto a dx!
+//		$scope.tenantNew.userTypeAuth = 'default';
+//		$scope.showTTForm = true;
+//	} else if ($scope.authParam == 'newTP') { //in questo caso solo utenti con credenziali non social possono richiedere tenant (personal) dal menù in alto a dx!
+//		$scope.tenantNew.userTypeAuth = 'default';
+//		$scope.showTPForm = true;
+//	} else {
+//		$scope.tenantNew.userTypeAuth = 'default';
+//	}
+//	console.log("--->op = ", op);
+//	console.log("--->$scope.tenantTest = ", $scope.tenantNew);
+//	
+//	console.log("--->info = ", info);
+//	$scope.cancel = function () {
+//	    $modalInstance.dismiss('cancel');
+//	};
+//	 
+//	$scope.goToRequestor = function () {
+//		
+//		$scope.tenantNew.userFirstName = $scope.userFirstNameTT;
+//		$scope.tenantNew.userLastName = $scope.userLastNameTT;
+//		$scope.tenantNew.userEmail = $scope.userEmailTT;
+//		
+//		$scope.resultTPFormOK = false;
+//		$scope.resultTTFormOK = false;
+//		$scope.resultTPFormKO = false;
+//		$scope.resultTTFormKO = false;
+//		
+//		$scope.codiceTenantData = {
+//			tenantCode: "none"
+//		};
+//
+//		console.log(" ---> $scope.tenantNew = ", $scope.tenantNew);
+//		var tenantParam = {};
+//		tenantParam.tenant = $scope.tenantNew;
+//		console.log(" ---> tenantParam = ", tenantParam);
+//		
+//		var promise = null;
+//		
+//		
+//		var tenantType  = TENANT_TYPE_TRIAL_ID;
+//		if ($scope.showTPForm)
+//			tenantType  = TENANT_TYPE_PERSONAL_ID;
+//
+//		var installationTenantRequest = {
+//				  "idTenantType": tenantType,
+//				  "useremail": $scope.userEmailTT,
+//				  "userfirstname":  $scope.userFirstNameTT,
+//				  "userlastname": $scope.userLastNameTT,
+//				  "username": $scope,
+//				  "usertypeauth": info.getActiveTenant().userTypeAuth
+//				};
+//		
+//		
+//		
+//		if (promise != null){
+//			promise.then(function(result) {
+//				console.log("result OK => ", result);
+//				if ($scope.showTPForm){
+//					$scope.resultTPFormOK = true;
+//					$scope.user.havePersonalTenantToActivate = true; 
+//					$scope.showTPForm = false;
+//					$scope.userTenantsToActivate.push(result.data.tenants.tenant);
+//				} else {
+//					$scope.resultTTFormOK = true;
+//					$scope.user.haveTrialTenantToActivate = true; 
+//					$scope.showTTForm = false;
+//					$scope.userTenantsToActivate.push(result.data.tenants.tenant);
+//				}
+//				$scope.codiceTenantData.tenantCode = result.data.tenants.tenant.codiceTenant;
+//			}, function(result) {
+//				console.log("ERROR: ", result);
+//				if ($scope.showTPForm){
+//					$scope.resultTPFormKO = true;
+//				} else {
+//					$scope.resultTTFormKO = true;
+//				}
+//			}, function(result) {
+//				console.log('Got notification: ' + result);
+//			});
+//		}
+//	}; 
+//	
+//	$scope.truthyTTForm = function(field){
+//		var rtnResponse = true;
+//		switch(field) {
+//		    case 'username':
+//		        break;
+//		    case 'firstname':
+//		        if ($scope.tenantNew.userFirstName == null)
+//		        	rtnResponse = false;
+//		        break;
+//		    case 'lastname':
+//		        if ($scope.tenantNew.userLastName == null)
+//		        	rtnResponse = false;
+//		        break;
+//		    case 'email':
+//		        if ($scope.tenantNew.userEmail == null)
+//		        	rtnResponse = false;
+//		        break;
+//		}
+//		return rtnResponse;
+//	};
+//	
+//}]);
+
+appControllers.controller('ForceLogoutCtrl', [ '$scope', '$modalInstance', 'user',
+                                                 function($scope, $modalInstance, user) {
+	console.log("--->user = ", user);
+	$scope.modalIntro = user.isStrongUser? 'HOME_LOGGED_NOT_STRONG_AUTHENTICATION':'HOME_LOGGED_TECHNICAL_AUTHENTICATION';
+	
+}]);
 
 appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType','$translate',
                                                  function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType,$translate) {

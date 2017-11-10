@@ -1738,7 +1738,7 @@ height: 100%;
     border-radius: 0;
 }
 
-.home-page-modal{background-color: #e3e4e6;font-size: 18px;}
+.home-page-modal{background-color: #efefef;font-size: 18px;}
 .home-page-modal .modal-header h1{border-bottom:3px solid #00bff0;}
 .home-page-modal .modal-body{}
 .home-page-modal .modal-body .intro{margin-bottom: 1em;}
