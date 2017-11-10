@@ -391,7 +391,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		var firstSlug = slugInput.replace(/[^a-zA-Z0-9]/g, '');
 		
 		var rtnBool = false;
-		adminAPIservice.loadSmartobjects(info.getActiveTenant()).success(function(response) {
+		adminAPIservice.loadSmartobjectsOfOrganization(info.getActiveTenant()).success(function(response) {
 			console.debug("response", response);
 			soList = response;
 			soList.forEach(function(item) {
@@ -482,7 +482,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		var rtn = false;
 		if(soList==null){
 		
-			adminAPIservice.loadSmartobjects(info.getActiveTenant()).success(function(response) {
+			adminAPIservice.loadSmartobjectsOfOrganization(info.getActiveTenant()).success(function(response) {
 				soList.forEach(function(item) {
 				    console.log(item.virtualEntitySlug);
 				    if (slugTest == item.virtualEntitySlug){
@@ -945,6 +945,12 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			sharedAdminResponse.setResponse($scope.admin_response);
 			$location.path('management/editVirtualentity/'+$scope.tenantCode +'/'+response.socode);
 			Helpers.util.scrollTo("topForm");
+			if($scope.changeTwitterUser ){
+				$scope.loadStreams();
+			}
+			else
+				$scope.changeTwitterUser = false;
+
 		}).error(function(response){
 			console.error("updateSo ERROR", response);
 			$scope.isUpdating = false;
@@ -1049,33 +1055,67 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	$scope.streamsToReinstall = null;
 
 	$scope.STREAM_STATUS_INST = Constants.STREAM_STATUS_INST;
+	
 	$scope.loadStreams = function(){
 		$scope.showLoadingStreams = true;
 		$scope.streamsToReinstall = [];
-		fabricAPIservice.getVisibleStreams().then(function(response) {
-			console.log("loadStreams",response);
+		
+		adminAPIservice.loadStreams(info.getActiveTenant(), info.getActiveTenant().tenantCode).success(function(response) {
+			
+			console.log("loadStreams SUCCESS", response);
 			$scope.showLoadingStreams = false;
-			var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
-			for (var i = 0; i < responseList.length; i++) {
-				console.log("responseList",responseList[i].deploymentStatusCode,responseList[i].codiceVirtualEntity,$routeParams.entity_code);
-				if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST  && responseList[i].codiceVirtualEntity ==  $routeParams.entity_code){
-					responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
-					if(!responseList[i].streamIcon || responseList[i].streamIcon == null){
-						responseList[i].streamIcon  = "img/stream-icon-default.png";
-					}
+			$scope.admin_response = {};
+			for (var i = 0; i < response.length; i++) {
+				if(response[i].status.statuscode == Constants.STREAM_STATUS_INST)
+					console.warn("s",  response[i].status.statuscode, response[i].smartobject.socode);
+
+				if(response[i].status && response[i].status.statuscode && 
+						response[i].status.statuscode == Constants.STREAM_STATUS_INST  && 
+						response[i].smartobject.socode ==  $routeParams.entity_code){
 					var streamRow = {};
-					streamRow.stream = responseList[i];
+					streamRow.stream = response[i];
 					streamRow.rowIndex = i;
 					streamRow.updateOk = false;
 					streamRow.updateKo = false;
 					streamRow.isUpdating = false;
 					$scope.streamsToReinstall.push(streamRow);					
-				}
-			}			
-		});
-	};
+				}				
+			}
+		}).error(function(response){
+			console.error("loadStreams ERROR", response);
+			$scope.showLoadingStreams = false;
+			$scope.admin_response.type = 'danger';
+			$scope.admin_response.message = 'UNEXPECTED_ERROR';
+			if(response && response.errorName)
+				$scope.admin_response.detail= response.errorName;
+			if(response && response.errorCode)
+				$scope.admin_response.code= response.errorCode;
 
-	
+		});
+		
+		
+//		fabricAPIservice.getVisibleStreams().then(function(response) {
+//			console.log("loadStreams",response);
+//			$scope.showLoadingStreams = false;
+//			var responseList = Helpers.util.initArrayZeroOneElements(response.streams.stream);
+//			for (var i = 0; i < responseList.length; i++) {
+//				console.log("responseList",responseList[i].deploymentStatusCode,responseList[i].codiceVirtualEntity,$routeParams.entity_code);
+//				if(responseList[i].deploymentStatusCode && 	responseList[i].deploymentStatusCode == Constants.STREAM_STATUS_INST  && responseList[i].codiceVirtualEntity ==  $routeParams.entity_code){
+//					responseList[i].statusIcon = Helpers.stream.statusIcon(responseList[i]);
+//					if(!responseList[i].streamIcon || responseList[i].streamIcon == null){
+//						responseList[i].streamIcon  = "img/stream-icon-default.png";
+//					}
+//					var streamRow = {};
+//					streamRow.stream = responseList[i];
+//					streamRow.rowIndex = i;
+//					streamRow.updateOk = false;
+//					streamRow.updateKo = false;
+//					streamRow.isUpdating = false;
+//					$scope.streamsToReinstall.push(streamRow);					
+//				}
+//			}			
+//		});
+	};
 	
 	$scope.unInstallStream = function(streamRow){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST,streamRow, false);

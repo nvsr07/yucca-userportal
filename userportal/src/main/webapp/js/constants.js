@@ -20,6 +20,11 @@ Constants.VIRTUALENTITY_TYPE_INTERNAL_ID = 0;
 Constants.VIRTUALENTITY_TYPE_DEVICE_ID = 1;
 Constants.VIRTUALENTITY_TYPE_TWITTER_ID = 3;
 
+/* tenant type */
+Constants.TENANT_TYPE_PERSONAL_ID = 2;  
+Constants.TENANT_TYPE_TRIAL_ID = 4;   
+
+
 Constants.VIRTUALENTITY_CATEGORY_NONE = 999;
 
 /* Lifecycle */

@@ -69,6 +69,13 @@ var translations_it = {
 	MENU_MODAL_RESPONSE_TEXT_OK: 'La richiesta per la creazione del tenant con codice {{tenantCode}} è stata inviata, riceverai una risposta alla mail che ci hai comunicato: ',
 	MENU_MODAL_RESPONSE_TEXT_KO: 'Non è stato possibile prendere in considerazione la richiesta, ci scusiamo per il disagio.',
 	
+	REQUEST_TENANT_TRIAL_TITLE: 'Richiesta Trial Tenant',
+	REQUEST_TENANT_TRAIL_INFO: 'Richiedi la  creazione di un tenant di prova per effettuare delle prove, una volta effettuate le normali verifiche, lo vedrai nell\'elenco a tendina in alto a destra.',
+	REQUEST_TENANT_PERSONAL_INFO: 'Richiedi la  creazione di un tenant personale, una volta effettuate le normali verifiche, lo vedrai nell\'elenco a tendina in alto a destra.',
+	REQUEST_TENANT_EMAIL_INFO: 'Inserisci l\'indirizzo email a cui verranno inviate gli aggiornamneti relativi alla creazione del tenant.',
+	REQUEST_TENANT_EMAIL_ERROR: 'Per proseguire inserire un\'indirizzo email valido',
+	REQUEST_TENANT_PERSONAL_TITLE: 'Richiesta Tenant Personale',
+	REQUEST_TENANT_SENDING: 'Richiesta inviata, attendere prego',
 	/* Entity */
 	STREAM: 'Stream',
 	TENANT: 'Organizzazione',

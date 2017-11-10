@@ -1230,7 +1230,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.soList = [];
 	//$scope.extra.inputTypeStream = 1;
 
-	adminAPIservice.loadSmartobjects(info.getActiveTenant()).success(function(response) {
+	adminAPIservice.loadSmartobjects(info.getActiveTenant(), info.getActiveTenant().tenantCode).success(function(response) {
 		console.log(response);
 		for (var int = 0; int < response.length; int++) {
 			var so = response[int];
