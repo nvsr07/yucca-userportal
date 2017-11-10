@@ -120,7 +120,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		//row.statusIcon = Helpers.tenant.statusIcon(row.tenant);
 		//row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.codDeploymentStatus);
 		row.statusIcon = Helpers.tenant.statusIconAdmin(row.tenant);
-		row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.tenantStatus.tenantstatuscode);
+		row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.tenantStatus.description);
 		row.isSelected = false;
 		row.isUpdating = false;
 		row.updated = false;
@@ -306,7 +306,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	
 	var someOneIsUpdating = false;
 
-	/*var chekStepsLog = function(rowIndex, stepsLogUrl) {
+	var chekStepsLog = function(rowIndex, stepsLogUrl) {
 		
 		 var checkStepTimeout =  $timeout(function() {
     		var step_width = null;
@@ -380,7 +380,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
         	if($scope.tenantsList[rowIndex].feedback==null || !$scope.tenantsList[rowIndex].feedback.finish || $scope.tenantsList[rowIndex].feedback.finish!=true)
         		chekStepsLog(rowIndex,stepsLogUrl);
         }, 1000);
-    };     */
+    };     
     
     var refreshStream = function(row){
     	fabricAPIservice.getStream(row.stream.codiceTenant, row.stream.codiceVirtualEntity, row.stream.codiceStream).success(function(response) {
@@ -400,7 +400,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	}
 
 	function createStepsLogUrl(operation, tenant){
-		return "installer_" + operation + "_tenant_" +  tenant.tenantCode + ".json"; 
+		return "installer_" + operation + "_tenant_" +  tenant.tenantcode + ".json"; 
 	}
 	
     
@@ -529,7 +529,7 @@ appControllers.controller('TenantInstallLogCtrl', [ '$scope', '$modalInstance', 
 	}
 
 	function createActionLogUrl(tenant, operation){
-		return operation + "_tenant_" + tenant.tenantCode + ".log"; 
+		return operation + "_tenant_" + tenant.tenantcode + ".log"; 
 	}
 
 	
@@ -546,7 +546,7 @@ appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' 
 	
 	$scope.tenantMail = {};
 	$scope.tenantMail.loading = true;
-	fabricAPIservice.loadTenantInstallationMail(row.tenant.tenantCode).success(function(response) {
+	fabricAPIservice.loadTenantInstallationMail(row.tenant.tenantcode).success(function(response) {
 		console.log("response",response);
 		$scope.tenantMail.loading = false;
 		$scope.tenantMail = response.tenantMail.tenantMail;
@@ -593,12 +593,12 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 	$scope.tenantTypeList = tenantTypeList;
 	
 	$scope.tenantTypeChange = function(){
-		/*
-		console.log("tenantTypeChange", $scope.newTenant.tenantType);
-		if($scope.newTenant.tenantType == "plus")
-			$scope.newTenant.maxOdataResultPerPage = 10000;
+		
+		console.log("tenantTypeChange", $scope.newTenant.tenantType.idTenantType);
+		if($scope.newTenant.tenantType.tenanttypecode == "plus")
+			$scope.newTenant.bundles.maxOdataResultperPage = 10000;
 		else 
-			$scope.newTenant.maxOdataResultPerPage = 1000;*/
+			$scope.newTenant.bundles.maxOdataResultperPage = 1000;
 	};
 	var env = Helpers.util.getEnvirorment($location.host());
 	//var env = Helpers.util.getEnvirorment('int-userportal.smartdatanet.it');
@@ -635,13 +635,13 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 		}
 		else{
 			
-			/*
-			$scope.newTenant.status = "draft";
-			if(typeof $scope.newTenant.maxDatasetNum == 'undefined' || $scope.newTenant.maxDatasetNum == null || $scope.newTenant.maxDatasetNum == 0)
-				$scope.newTenant.maxDatasetNum = -1;
-			if(typeof $scope.newTenant.maxStreamsNum == 'undefined' || $scope.newTenant.maxStreamsNum == null || $scope.newTenant.maxStreamsNum == 0)
-				$scope.newTenant.maxStreamsNum = -1;*/
-			
+			/*	- ELIMINATO STATUS DA OGGETTO NEW TENANT
+			$scope.newTenant.tenantStatus.tenantstatuscode = "draft";
+			if(typeof $scope.newTenant.bundles.maxdatasetnum == 'undefined' || $scope.newTenant.bundles.maxdatasetnum == null || $scope.newTenant.bundles.maxdatasetnum == 0)
+				$scope.newTenant.bundles.maxdatasetnum = -1;
+			if(typeof $scope.newTenant.bundles.maxstreamsnum == 'undefined' || $scope.newTenant.bundles.maxstreamsnum == null || $scope.newTenant.bundles.maxstreamsnum == 0)
+				$scope.newTenant.bundles.maxstreamsnum = -1;
+			*/
 			//Se ho la check collection a false non ho modificato i campi --> li elimino dall'oggetto tenant
 			if(!$scope.checked) {
 				delete $scope.newTenant.datasolrcollectionname;
