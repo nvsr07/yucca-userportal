@@ -10,14 +10,6 @@
 				<label class="radio-inline" ng-repeat='lt in locationTypeList track by $index'>
 					<input type="radio" name="RadioGroupPositionType" value="{{lt.idLocationType}}" id="RadioGroupPositionType_{{$index}}" ng-model="so.idLocationType">{{lt.description}}
 				</label>
-				
-			<!--
-				<label class="radio-inline">
-	            	<input type="radio" name="RadioGroupPositionType" value="static" id="RadioGroupPositionType_0" ng-model="so.tipoPosizione">{{'VIRTUALENTITY_FIELD_POSITION_TYPE_STATIC'|translate}}
-	          	</label>
-				<label class="radio-inline">
-	            	<input type="radio" name="RadioGroupPositionType" value="mobile" id="RadioGroupPositionType_1" ng-model="so.tipoPosizione">{{'VIRTUALENTITY_FIELD_POSITION_TYPE_MOBILE'|translate}}
-	          	</label>-->
 			</div> 
 		</div>
 		<div class="form-group  has-feedback">
@@ -59,7 +51,7 @@
 			</div>
 		</div>
 		
-		<div class="form-group has-feedback" ng-show="so.tipoEsposizione=='indoor'">
+		<div class="form-group has-feedback" ng-show="so.idExposureType==1">
 			<label class="col-sm-2 control-label" for="inputVirtualentityBuilding" ><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_BUILDING</span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="inputVirtualentityBuilding" name="inputVirtualentityBuilding" placeholder="{{'VIRTUALENTITY_FIELD_INDOOR_BUILDING'|translate}}" 
@@ -69,7 +61,7 @@
 			</div>
 		</div>
 
-		<div class="form-group has-feedback" ng-show="so.tipoEsposizione=='indoor'">
+		<div class="form-group has-feedback" ng-show="so.idExposureType==1">
 			<label class="col-sm-2 control-label" for=""inputVirtualentityFloor"" ><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_FLOOR</span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="inputVirtualentityFloor" name="inputVirtualentityFloor" placeholder="{{'VIRTUALENTITY_FIELD_INDOOR_FLOOR'|translate}}" 
@@ -79,7 +71,7 @@
 			</div>
 		</div>
 
-		<div class="form-group has-feedback" ng-show="so.tipoEsposizione=='indoor'">
+		<div class="form-group has-feedback" ng-show="so.idExposureType==1">
 			<label class="col-sm-2 control-label" for="inputVirtualentityRoom" ><span translate-cloak translate>VIRTUALENTITY_FIELD_INDOOR_ROOM</span></label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="inputVirtualentityRoom" name="inputVirtualentityRoom" placeholder="{{'VIRTUALENTITY_FIELD_INDOOR_ROOM'|translate}}" 

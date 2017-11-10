@@ -467,6 +467,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 
 	$scope.subDomainList = [];
 	$scope.selectSubdomain = function(domain){
+		$scope.subDomainList = [];
 		adminAPIservice.loadSubDomains(domain).success(function(response) {
 			response.sort(function(a, b) { 
 			    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));

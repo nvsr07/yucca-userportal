@@ -23,6 +23,7 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 	
 	
 	adminAPIservice.loadSmartobjects(info.getActiveTenant()).success(function(response) {
+		$scope.unexpectedError = false;
 		$scope.showLoading = false;
 		console.log("response", response);
 		if(response==null)
@@ -32,6 +33,7 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 		//$scope.filteredSoList = $scope.soList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 	}).error(function(response) {
 		console.error("loadSmartobjects ERROR",response);
+		$scope.unexpectedError = true;
 	});
 
 	
@@ -351,9 +353,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		});
 		$scope.so.socode= uuid;
 	};
-	
-
-	
+		
 	$scope.slugDisabled = function(e){
 		var rtnBool = false;
 		if((typeof $scope.so.name) == 'undefined'){
@@ -564,11 +564,11 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	};
 	
 
-	$scope.isInternal = function() {
-		if(!$scope.so || $scope.so.idSoType == null)
-			return false;
-		return $scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
-	};
+//	$scope.isInternal = function() {
+//		if(!$scope.so || $scope.so.idSoType == null)
+//			return false;
+//		return $scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+//	};
 
 	$scope.isCodeRequired = function() {
 		return !$scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID ||  !$scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_DEVICE_ID;
@@ -827,7 +827,15 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 
 
 	$scope.isInternal = function() {
-		return $scope.so && $scope.so.idSoType && $scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+		console.log("So", $scope.so);
+		var isInternal = undefined;
+		if(Helpers.util.has($scope, "so.soType.idSoType"))
+			isInternal = $scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+		else if(Helpers.util.has($scope, "so.idSoType"))
+			isInternal = $scope.so.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
+
+		return isInternal;
+		//return $scope.so && $scope.so.soType && $scope.so.soType.idSoType && $scope.so.soType.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID;
 	};
 
 	

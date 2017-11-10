@@ -53,71 +53,76 @@
 								<th>
 								</th>
 								<th class='text-left'>
-									<a href="" ng-click="predicate = 'codiceStream'; reverse=!reverse"><span translate-cloak translate>STREAM</span> 
-									<span ng-show="predicate=='codiceStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='codiceStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'streamcode'; reverse=!reverse"><span translate-cloak translate>STREAM</span> 
+									<span ng-show="predicate=='streamcode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='streamcode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
 								</th>
 								<th class='text-left'>
-									<a href="" ng-click="predicate = 'codiceVirtualEntity'; reverse=!reverse"><span translate-cloak translate>VIRTUALENTITY</span> 
-									<span ng-show="predicate=='codiceVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='codiceVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'smartobject.socode'; reverse=!reverse"><span translate-cloak translate>VIRTUALENTITY</span> 
+									<span ng-show="predicate=='smartobject.socode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='smartobject.socode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'domainStream'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_DOMAIN</span> 
-									<span ng-show="predicate=='domainStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='domainStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'domain.domaincode|translate'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_DOMAIN</span> 
+									<span ng-show="predicate=='domain.domaincode|translate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='domain.domaincode|translate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'lastupdate'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_LASTUPDATE</span> 
-									<span ng-show="predicate=='lastupdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='lastupdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'registrationdate'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_LASTUPDATE</span> 
+									<span ng-show="predicate=='registrationdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='registrationdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'deploymentStatusDesc'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_STATUS</span> 
-									<span ng-show="predicate=='deploymentStatusDesc' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='deploymentStatusDesc' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'status.statuscode|translate'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_STATUS</span> 
+									<span ng-show="predicate=='status.statuscode|translate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='status.statuscode|translate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'installed_version'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_VERSION</span> 
-									<span ng-show="predicate=='installed_version' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-									<span ng-show="predicate=='installed_version' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+									<a href="" ng-click="predicate = 'version'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_VERSION</span> 
+									<span ng-show="predicate=='version' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='version' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 							</tr>
 						</thead>
 						<tbody  >
-							<tr ng-show="showLoading">
-								<td colspan='6' >
+							<tr ng-if="showLoading">
+								<td colspan='8' >
 									<div class='ajax-loading-container'>
 										<span class='ajax-loading-big'></span>
 										<h4>Loading...</h4>
 									</div>
 								</td>
 							</tr>
+							<tr ng-if="admin_response.message">
+								<td colspan='8' >
+									<alert-panel ng-if='admin_response.message' message='{{admin_response.message}}'  code="{{admin_response.code}}" detail="{{admin_response.detail}}" type='{{admin_response.type}}'></alert-panel>
+								</td>
+							</tr>
 							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchNameFilter | filter: searchStatusFilter| filter: viewUnistalledFilter| filter:searchDomainFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/></td>
 								<td class='text-center no-border-right'>
-									<a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">
-										<img ng-src="{{stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
+									<a href="#/management/viewStream/{{tenant}}/{{stream.smartobject.socode}}/{{stream.streamcode}}">
+										<img ng-src="{{streamIconSrc(organizationCode,stream.idstream)}}" alt="logo stream" class='list-entity-icon-preview-img' >
 									</a>
 								</td>
 								<td class='text-left no-border-left'>
-									<a href="#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}">
-										<strong title='{{"STREAM_FIELD_CODE"|translate}}'>{{stream.codiceStream}}</strong> <br> 
-										<span title='{{"STREAM_FIELD_NAME"|translate}}'>{{stream.nomeStream}}</span>
+									<a href="#/management/viewStream/{{tenant}}/{{stream.smartobject.socode}}/{{stream.streamcode}}">
+										<strong title='{{"STREAM_FIELD_CODE"|translate}}'>{{stream.streamcode}}</strong> <br> 
+										<span title='{{"STREAM_FIELD_NAME"|translate}}'>{{stream.streamname}}</span>
 									</a>
 								</td>
 								
 								<td class='text-left'>
-									<strong title='{{"VIRTUALENTITY_FIELD_CODE"|translate}}'>{{stream.codiceVirtualEntity}}</strong> <br> 
-									<span title='{{"VIRTUALENTITY_FIELD_NAME"|translate}}'>{{stream.virtualEntityName}}</span>
+									<strong title='{{"VIRTUALENTITY_FIELD_CODE"|translate}}'>{{stream.smartobject.socode}}</strong> <br> 
+									<span title='{{"VIRTUALENTITY_FIELD_NAME"|translate}}'>{{stream.smartobject.name}}</span>
 								</td>
-								<td><div class='domain-column'><i class="icon-{{stream.domainStream}} domain-icon" title="{{stream.domainStream|translate}}"></i></div></td>
-								<td>{{stream.lastUpdate|date}}</td>
-								<td class='text-left'><span ng-bind-html="stream.statusIcon"></span> {{stream.deploymentStatusCode|translate}}</td>
-								<td>{{stream.deploymentVersion}}</td>
+								<td><div class='domain-column'><i class="icon-{{stream.domain.domaincode}} domain-icon" title="{{stream.domain.domaincode|translate}}"></i></div></td>
+								<td>{{stream.registrationdate|smartobject_date_format}}</td>
+								<td class='text-left'><span class="stream-status stream-status-{{stream.status.statuscode}}">{{stream.status.statuscode|translate}}</span></td>
+								<td>{{stream.version}}</td>
 							</tr>
 						</tbody>
 					</table>

@@ -8,34 +8,34 @@
 			<label for="inputTypeStream" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-2">
 				<span>
-					<span translate-cloak translate>STREAM_NEW_DEFINITION</span> 
-					<input  type="radio" name="inputTypeStream" value="1" ng-click="stream.codiceVirtualEntity=null"  ng-checked="stream.codiceVirtualEntity!='internal'" ng-model="extra.inputTypeStream"  >
+					<span translate-cloak translate>STREAM_NEW_DEFINITION </span> 
+					<input  type="radio" name="inputTypeStream" ng-value="false" ng-click="selectSoInternal(false)"  ng-model="extra.isInternal"  >
 				</span> <br/>
 			</div>
 			<div class="col-sm-2">
 				<span>
 					<span translate-cloak translate>STREAM_AGGREGATE_DEFINITION</span>  
-					<input  type="radio" name="inputTypeStream" value="0" ng-click="stream.codiceVirtualEntity=virtualentityInternal.codeVirtualEntity"  ng-model="extra.inputTypeStream" ng-checked="stream.codiceVirtualEntity=='internal'" >
+					<input  type="radio" name="inputTypeStream" ng-value="true" ng-click="selectSoInternal(true)"  ng-model="extra.isInternal" >
 				</span>
 			</div>
 		</div>
 		<div class="form-group  has-feedback">
-			<label for="inputVirtualEntity" class="col-sm-2 control-label">
+			<label for="inputSo" class="col-sm-2 control-label">
 			<span translate-cloak translate>VIRTUALENTITY</span> <span class='required-asterisk'>*</span>
 			</label>
 			<div class="col-sm-10">
-           		<select class="form-control col-sm-10" ng-model="stream.codiceVirtualEntity" ng-disabled="extra.inputTypeStream==0"  ng-change="selectVirtualEntity(stream.codiceVirtualEntity)" name="inputVirtualEntity"
-           		  ng-options="virtualEntity.codeVirtualEntity as virtualEntity.virtualEntityName group by virtualEntity.tipoVirtualEntity for virtualEntity in virtualEntitiesList" ng-required="true" >
-           			<option value="" class='mute'>{{'MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER'|translate}}</span></option>
+           		<select class="form-control col-sm-10" ng-model="extra.selectedSo" ng-disabled="extra.isInternal"  ng-change="selectSoChange()" name="inputSo"
+           		  ng-options="so.name group by so.soType.description for so in soList track by so.socode" ng-required="!extra.isInternal" >
+           			<option value="" class='mute'>{{'MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER'|translate}}</option>
            		</select>
 				<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon error-validation-icon-select' title="{{'VALIDATION_MAX_STREAM_TWITTER_TOOLTIP'|translate}}"
-					ng-show="forms.registerStreamForm.inputVirtualEntity.$error.streamCount  && forms.registerStreamForm.inputVirtualEntity.$dirty"></span>
+					ng-show="forms.registerStreamForm.inputSo.$error.streamCount  && forms.registerStreamForm.inputSo.$dirty"></span>
 			</div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="inputStreamCode" class="col-sm-2 control-label"><span translate-cloak translate>STREAM</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" ng-model="stream.codiceStream"  id="inputStreamCode"  name="inputStreamCode"
+				<input type="text" class="form-control" ng-model="stream.streamcode"  id="inputStreamCode"  name="inputStreamCode"
 				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternStreamCode">
 				<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon error-validation-icon-select' title="{{'VALIDATION_PATTERN_CODE_STREAM_TOOLTIP'|translate}}"
 					ng-show="forms.registerStreamForm.inputStreamCode.$error.pattern  && forms.registerStreamForm.inputStreamCode.$dirty"></span>
@@ -44,7 +44,7 @@
 		<div class="form-group">
 			<label for="inputStreamName" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_NAME</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-5">
-				<input  type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40" >
+				<input  type="text" class="form-control" ng-model="stream.streamname"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40" >
 			</div>
 			<div class="col-sm-5 form-hint">
 				<span class='hint-message' ng-bind-html="'MANAGEMENT_DESCRIPTION_ON_STORE_HINT'|translate"></span>  <i class="fa fa-long-arrow-right hint-arrow"></i>  <i class="fa fa-user hint-store-icon"></i>
@@ -53,7 +53,7 @@
 		<div class="form-group">
 			<label for="inputStreamDomain" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_DOMAIN</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<select class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList" ng-change="selectSubdomain(stream.domain)" ng-required="true">
+				<select class="input-sm form-control" ng-model="selectedDomain" ng-options="domain as (domain|translate) for domain in domainList" ng-change="selectSubdomain(selectedDomain)" ng-required="true">
 	  					<option value="" translate-cloak translate>{{'MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER'|translate}}</option>
 	  				</select>
 				
@@ -63,7 +63,7 @@
 		<div class="form-group">
 			<label for="inputStreamSubDomain" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_SUBDOMAIN</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10">
-				<select class="input-sm form-control" name="inputStreamSubDomain" ng-model="stream.codSubDomain" 
+				<select class="input-sm form-control" name="inputStreamSubDomain" ng-model="stream.idSubdomain" 
 					ng-options="subdomain as (subdomain|translate) for subdomain in subdomainList" ng-required="true">
 					<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_SUBDOMAIN_PLACEHOLDER</option>
 				</select>
@@ -73,7 +73,7 @@
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
 				<a ng-click='cancel()' class="btn " translate-cloak translate>BACK</a>
-				<a ng-click='goToRequestor()' class="btn btn-wizard-next" ng-disabled="!isOwner() || forms.registerStreamForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+				<a ng-click='goToRequestor()' class="btn btn-wizard-next" ng-disabled="!isOwner() || forms.registerStreamForm.$invalid || extra.selectedSo==null" translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
 			</div>
 		</div>
 	</form>

@@ -7,12 +7,12 @@
 		<div class="form-group has-feedback">
 			<label for="inputStreamTwtQuery" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-6">
-				<input type="text" class="form-control" ng-model="stream.twtQuery"  id="inputStreamTwtQuery"  name="inputStreamTwtQuery"
+				<input type="text" class="form-control" ng-model="stream.twitterInfoRequest.twtquery"  id="inputStreamTwtQuery"  name="inputStreamTwtQuery"
 				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true">
 			</div>
 			<label for="inputStreamTwtLang" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_TWT_LANG</span> </label>
 			<div class="col-sm-2">
-				<select class="input-sm form-control" ng-model="stream.twtLang" ng-options="k as v for (k, v) in Lang_ISO_639_1">
+				<select class="input-sm form-control" ng-model="streamtwitterInfoRequest.twtlang" ng-options="k as v for (k, v) in Lang_ISO_639_1">
 	  				<option value="">{{'CHOOSE'|translate}}</option>
 	  			</select>
 			</div>
@@ -20,19 +20,19 @@
 		<div class="form-group">
 			<label for="inputStreamTwtGeoLat" class="col-sm-2 control-label"><span translate-cloak translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span> </label>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" ng-model="stream.twtGeolocLat"  id="inputStreamTwtGeoLat"  name="inputStreamTwtGeoLat" ng-pattern="validationPatternFloat"
+				<input type="text" class="form-control" ng-model="streamtwitterInfoRequest.twtgeoloclat"  id="inputStreamTwtGeoLat"  name="inputStreamTwtGeoLat" ng-pattern="validationPatternFloat"
 				placeholder="{{'STREAM_FIELD_TWT_GEO_LAT'|translate}}">
 			</div>
 			<div class="col-sm-3">
-				<input type="text" class="form-control" ng-model="stream.twtGeolocLon"  id="inputStreamTwtGeoLon"  name="inputStreamTwtGeoLon" ng-pattern="validationPatternFloat"
+				<input type="text" class="form-control" ng-model="streamtwitterInfoRequest.twtgeoloclon"  id="inputStreamTwtGeoLon"  name="inputStreamTwtGeoLon" ng-pattern="validationPatternFloat"
 				placeholder="{{'STREAM_FIELD_TWT_GEO_LON'|translate}}">
 			</div>
 			<label for="inputStreamTwtGeoRadius" class="col-sm-1  control-label"><span translate-cloak translate>STREAM_FIELD_TWT_GEO_RADIUS</span></label>
 			<div class="col-sm-1">
-				<input type="text" class="form-control" ng-model="stream.twtGeolocRadius"  id="inputStreamTwtGeoRadius"  name="inputStreamTwtGeoRadius" ng-pattern="validationPatternFloat">
+				<input type="text" class="form-control" ng-model="streamtwitterInfoRequest.twtgeolocradius"  id="inputStreamTwtGeoRadius"  name="inputStreamTwtGeoRadius" ng-pattern="validationPatternFloat">
 			</div>
 			<div class="col-sm-2">
-				<select class="input-sm form-control" ng-model="stream.twtUnit" ng-options="k as v for (k, v) in TWITTER_GEO_SEARCH_RADIUS_UNIT">
+				<select class="input-sm form-control" ng-model="streamtwitterInfoRequest.twtgeolocunit" ng-options="k as v for (k, v) in TWITTER_GEO_SEARCH_RADIUS_UNIT">
 	  				<option value="">{{'CHOOSE'|translate}}</option>
 	  			</select>
 			</div>
@@ -42,7 +42,10 @@
 			<div class="col-sm-2">
 				<a href ng-click="checkTwitterQuery()" class='btn btn-default btn-sm' translate-cloak translate>MANAGEMENT_EDIT_STREAM_TWT_QUERY_CHECK_RESPONSE</a>
 			</div>
-			<div ng-show="checkTwitterQueryResult.result=='KO'" class='twitter-feedback-error-panel'>
+			<div ng-if="checkTwitterQueryResult.result=='LOADING'" class='twitter-feedback-error-panel'>
+				<div class='ajax-loading'><span translate-cloak translate>LOADING</span></div>
+			</div>
+			<div ng-if="checkTwitterQueryResult.result=='KO'" class='twitter-feedback-error-panel'>
 				<div class='col-sm-1 text-center text-danger'>
 					<div><i class="fa fa-times" title="Invalid Query"></i></div>
 					<div>Invalid</div>
@@ -51,7 +54,7 @@
 					<span class='twitter-feedback-message'>{{checkTwitterQueryResult.message}}</span>
 				</div>									
 			</div>
-			<div ng-show="checkTwitterQueryResult.result=='OK'" class='twitter-feedback-ok-panel'>
+			<div ng-if="checkTwitterQueryResult.result=='OK'" class='twitter-feedback-ok-panel'>
 				<div class='col-sm-1 text-center text-success'>
 					<div><i class="fa fa-check twitter-feedback-icon" title="{{checkTwitterQueryResult.message}}"></i></div>
 					<div>Valid</div>
