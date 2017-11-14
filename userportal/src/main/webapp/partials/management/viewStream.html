@@ -18,11 +18,11 @@
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>STREAM_FIELD_NAME</span></small></div>
-				<div class='main-info'><strong>{{stream.nomeStream}}</strong></div>
+				<div class='main-info'><strong>{{stream.streamname}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>STREAM_FIELD_CREATION_DATE</span></small></div>
-				<div><strong>{{stream.registrationDate}}</strong></div>
+				<div><strong>{{stream.registrationdate}}</strong></div>
 			
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>STREAM_FIELD_VERSION</span></small></div>
-				<div><strong>{{stream.deploymentVersion}}</strong></div>
+				<div><strong>{{stream.version}}</strong></div>
 			
 			</div>
 		</div>
@@ -51,28 +51,28 @@
 					<div class="col-sm-10">
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_CODE</span></strong></div>
-							<div class="col-sm-10">{{stream.codiceStream}}</div>
+							<div class="col-sm-10">{{stream.streamcode}}</div>
 						</div>			
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY</span></strong></div>
-							<div class='col-sm-10'>{{stream.codiceVirtualEntity}} - {{stream.virtualEntityName}}</div>
+							<div class='col-sm-10'>{{stream.smartobject.socode}} - {{stream.smartobject.name}}</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_STATUS</span></strong></div>
-							<div class='col-sm-10'>{{stream.deploymentStatusDesc|translate}}</div>
+							<div class='col-sm-10'>{{stream.status.descriptionStatus|translate}}</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TAGS</span></strong></div>
 							<div class='col-sm-10'>
 								<ul class="list-inline">
-									<li ng-repeat="tag in stream.streamTags.tag"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span></span></li>
+									<li ng-repeat="tag in stream.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.langit|translate"></span></span></li>
 									
 								</ul>
 							</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_DOMAIN</span></strong></div>
-							<div class='col-sm-10'>{{stream.domain|translate}}<span ng-show='stream.codSubDomain != stream.domain'> - {{stream.codSubDomain|translate}}</span></div>
+							<div class='col-sm-10'>{{stream.domain.langit|translate}}<span ng-if='stream.subdomain.subdomaincode != stream.domain.domaincode'> - {{stream.subdomain.langIt|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong></div>
@@ -80,7 +80,7 @@
 						</div>	
 					</div>
 					<div class="col-sm-2 text-right">
-						<img ng-src="{{stream.streamIcon}}" alt="logo stream" class='upload-icon-preview-img' >
+						<img ng-src="{{stream.icon}}" alt="logo stream" class='upload-icon-preview-img' >
 					</div>
 				</div>
 			</div>
@@ -100,7 +100,7 @@
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_LICENCE</span></strong></div>
-					<div class='col-sm-10'>{{stream.licence}}</div>
+					<div class='col-sm-10'>{{stream.license.description}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_DISCLAIMER</span></strong></div>
@@ -123,15 +123,15 @@
 
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_OPENDATA_AUTHOR</span></strong></div>
-					<div class='col-sm-10'>{{stream.opendata.author}}</div>
+					<div class='col-sm-10'>{{stream.openData.opendataauthor}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_OPENDATA_LANGUAGE</span></strong></div>
-					<div class='col-sm-10'>{{stream.opendata.language}}</div>
+					<div class='col-sm-10'>{{stream.openData.opendatalanguage}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_OPENDATA_UPDATE_DATE</span></strong></div>
-					<div class='col-sm-10'>{{stream.opendata.dataUpdateDate}}</div>
+					<div class='col-sm-10'>{{stream.openData.opendataupdatedate}}</div>
 				</div>
 			</div>	
 		</accordion-group>
@@ -155,19 +155,19 @@
 						</tr>	
 					</thead>
 					<tbody>
-						<tr ng-repeat="component in stream.componenti.element">
-							<td><span style="display: none"> {{component.idComponente}}</span>{{component.nome}}</td>
-							<td>{{component.measureUnitCategory}}: {{component.measureUnit}}</td>
+						<tr ng-repeat="component in stream.components">
+							<td><span style="display: none"> {{component.idComponent}}</span>{{component.name}}</td>
+							<td>{{component.measureUnit.measureunitcategory}}: {{component.measureUnit.measureunit}}</td>
 							<td>{{component.tolerance}}</td>
-							<td>{{component.phenomenonCategory}}: {{component.phenomenon}}</td>
-							<td>{{component.dataType}}</td>
+							<td>{{component.phenomenon.phenomenoncetegory}}: {{component.phenomenon.phenomenonname}}</td>
+							<td>{{component.dataType.description}}</td>
 							<td>{{component.sinceVersion}}</td>
 						</tr>	
 					</tbody>
 				</table>
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status5.open"  ng-show="stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID">
+		<accordion-group is-open="status5.open"  ng-if="stream.smartobject.soType.idSoType == VIRTUALENTITY_TYPE_TWITTER_ID">
 			<accordion-heading>
 				<div class='container'>
 		 			<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
@@ -177,15 +177,15 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
-					<div class='col-sm-6'>{{stream.twtQuery}}</div>
+					<div class='col-sm-6'>{{stream.twitterInfo.twtquery}}</div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_LANG</span></strong></div>
-					<div class='col-sm-2'>{{stream.twtLang}}</div>
+					<div class='col-sm-2'>{{stream.twitterInfo.twtlang}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong></div>
-					<div class='col-sm-6'><span ng-show="stream.twtGeolocLat!=0 || stream.twtGeolocLon!=0">{{stream.twtGeolocLat}},{{stream.twtGeolocLon}}</span></div>
+					<div class='col-sm-6'><span ng-show="stream.twitterInfo.twtgeoloclat!=0 || stream.twitterInfo.twtgeoloclon!=0">{{stream.twitterInfo.twtgeoloclat}},{{stream.twitterInfo.twtgeoloclon}}</span></div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
-					<div class='col-sm-2'><span ng-show="stream.twtGeolocRadius!=0">{{stream.twtGeolocRadius}} {{stream.twtUnit}}</span></div>
+					<div class='col-sm-2'><span ng-show="stream.twitterInfo.twtgeolocradius!=0">{{stream.twitterInfo.twtgeolocradius}} {{stream.twitterInfo.twtgeolocunit}}</span></div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_RATE</span></strong></div>
@@ -215,8 +215,8 @@
 					<div class='col-sm-2'>{{stream.visibility}}</div>
 					<div class='col-sm-2 text-right'card-label" ng-show="stream.visibility=='private'"><strong><span translate-cloak translate>STREAM_FIELD_TENANTSSHARED_WITH</span></strong></div>
 					<div class='col-sm-6'>
-						<span  ng-repeat="tenantSharing in stream.tenantssharing.tenantsharing">
-							<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
+						<span  ng-repeat="tenantSharing in stream.sharingTenants">
+							<span ng-if="tenantSharing.isOwner==0" >{{tenantSharing.name}}</span>
 						</span> &nbsp;
 					</div>
 				</div>	
@@ -236,35 +236,35 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORNAME</span></strong></div>
-					<div class='col-sm-10'>{{stream.dcatCreatorName}}</div>
+					<div class='col-sm-10'>{{stream.dcat.dcatcreatorname}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORTYPE</span></strong></div>
-					<div class='col-sm-10'>{{stream.dcatCreatorType}}</div>
+					<div class='col-sm-10'>{{stream.dcat.dcatcreatortype}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORID</span></strong></div>
-					<div class='col-sm-10'>{{stream.dcatCreatorId}}</div>
+					<div class='col-sm-10'>{{stream.dcat.dcatcreatorid}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span></strong></div>
-					<div class='col-sm-10'>{{stream.dcatRightsHolderName}}</div>
+					<div class='col-sm-10'>{{stream.dcat.dcatrightsholdername}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE</span></strong></div>
-					<div class='col-sm-10'>{{stream.dcatRightsHolderType}}</div>
+					<div class='col-sm-10'>{{stream.dcat.dcatrightsholdertype}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERID</span></strong></div>
-					<div class='col-sm-10'>{{stream.dcatRightsHolderId}}</div>
+					<div class='col-sm-10'>{{stream.dcat.dcatrightsholderid}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_NOMEORG</span></strong></div>
-					<div class='col-sm-10'>{{stream.dcatNomeOrg}}</div>
+					<div class='col-sm-10'>{{stream.dcat.dcatnomeorg}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_EMAILORG</span></strong></div>
-					<div class='col-sm-10'>{{stream.dcatEmailOrg}}</div>
+					<div class='col-sm-10'>{{stream.dcat.dcatemailorg}}</div>
 				</div>		
 			</div>
 		</accordion-group>
