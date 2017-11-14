@@ -175,8 +175,11 @@
  						<div class="main-icon"><i class="fa fa-puzzle-piece role-icon"></i></div>
  						<div class='role-panel'><span translate-cloak translate>HOME_ROLE_DEVELOPER</span></div>
   						<p class='intro'><span ng-bind-html="'HOME_ROLE_DEVELOPER_INTRO'|translate"></span></p>
+ 						<!--  disabled dashboard 13/11/2017 -->
+ 						<!-- 
  						<a href="#/dashboard/streams" class='home-action'><span translate-cloak translate>HOME_ACTION_DASHBOARD</span></a>
  						<p><span translate-cloak translate>HOME_ACTION_DEVELOPER_SEP_1</span></p>
+ 						-->
   						<a class='home-action' ng-href="#/management/newStream/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_NEW_STREAM_INTERNAL</span></a>
   					</div>
   				</div>
@@ -185,7 +188,9 @@
  						<div class="main-icon"><i class="fa fa-key role-icon"></i></div>
  						<div class='role-panel'><span translate-cloak translate>HOME_ROLE_PUBLISHER</span></div>
   						<p class='intro'><span ng-bind-html="'HOME_ROLE_PUBLISHER_INTRO'|translate"></span></p>
+						<!-- 			
  						<a class='home-action'href="#/dashboard/streams" ng-if="canManageStream()"><span translate-cloak translate>HOME_ACTION_DASHBOARD</span></a>
+ 						-->
   						<a class='home-action'ng-href="#/management/virtualentities/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_MANAGEMENT</span></a>
   						<p><span translate-cloak translate>HOME_ACTION_PUBLISHER_SEP_1</span></a></p>
   						<a class='home-action' ng-if="canManageStream()" ng-href="#/management/newVirtualentity/{{activeTenantCode}}"><span translate-cloak translate>HOME_ACTION_NEW_VIRTUAL_ENTITY</span></a>
@@ -199,7 +204,7 @@
  						<div class="main-icon"><i class="fa fa-user role-icon"></i></div>
  						<div class='role-panel'><span translate-cloak translate>HOME_ROLE_SUBSCRIBER</span></div>
   						<p class='intro'><span ng-bind-html="'HOME_ROLE_SUBSCRIBER_INTRO'|translate"></span></p>
- 						<a class='home-action'href="#/dashboard/streams"><span translate-cloak translate>HOME_ACTION_DASHBOARD</span></a>
+ 						<!-- <a class='home-action'href="#/dashboard/streams"><span translate-cloak translate>HOME_ACTION_DASHBOARD</span></a> -->
   						<a class='home-action'href="#/dataexplorer/search"><span translate-cloak translate>HOME_ACTION_SEARCH</span></a>
   					</div>
   				</div>

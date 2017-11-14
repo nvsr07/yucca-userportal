@@ -25,13 +25,13 @@ var app = angular.module('userportal', [
 
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {templateUrl: 'partials/common/home.html?'+BuildInfo.timestamp, isHomepage: true});
-	$routeProvider.when('/home-family-identity', {templateUrl: 'partials/common/home-family-identity.html?'+BuildInfo.timestamp, isHomepage: true});
+//	$routeProvider.when('/home-family-identity', {templateUrl: 'partials/common/home-family-identity.html?'+BuildInfo.timestamp, isHomepage: true});
 //	$routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard/main.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 //	$routeProvider.when('/dashboard/main/:dashboard', {templateUrl: 'partials/dashboard/main.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
-	$routeProvider.when('/dashboard/streams', {templateUrl: 'partials/dashboard/streams.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
+//	$routeProvider.when('/dashboard/streams', {templateUrl: 'partials/dashboard/streams.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/stream/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/dashboard/stream-data.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/streamstats/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/dashboard/stream-data.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
-	$routeProvider.when('/dashboard/error_log', {templateUrl: 'partials/dashboard/error-log.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
+	//$routeProvider.when('/dashboard/error_log', {templateUrl: 'partials/dashboard/error-log.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/management', {templateUrl: 'partials/management/choose_tenant.html?'+BuildInfo.timestamp, controller: 'ManagementCtrl', activetab: 'management'});
 	$routeProvider.when('/management/:managementTab', {templateUrl: 'partials/management/choose_tenant.html?'+BuildInfo.timestamp, activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});

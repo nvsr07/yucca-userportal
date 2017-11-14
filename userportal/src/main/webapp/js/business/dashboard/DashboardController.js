@@ -1,7 +1,5 @@
 /* Controllers */
-//var appControllers = angular.module('userportal.controllers', []);
-//appControllers.controller('DashboardCtrl', ['$scope', function($scope) {}]);
-appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'adminAPIservice', function($scope, $route, fabricAPIservice) {
+/*appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'adminAPIservice', function($scope, $route, fabricAPIservice) {
 	$scope.tenantsList = null;
 	
 	adminAPIservice.loadTenants().success(function(response) {
@@ -17,47 +15,41 @@ appControllers.controller('DashboardMenuCtrl', [ '$scope', "$route", 'adminAPIse
 	else if($route.current.templateUrl.indexOf("stream")>-1)
 		$scope.currentPanel  = 'stream';
 } ]);
-
-appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIservice', function($scope, $route, fabricAPIservice) {
-	
-	$scope.dashboard = $route.current.params.dashboard;
-	$scope.tenantWithNoDashboardError = null;
-	$scope.buildTimestamp = BuildInfo.timestamp;
-	if(!$scope.dashboard)
-		$scope.dashboard = "overview";
-	
-	adminAPIservice.loadTenants().success(function(response) {
-		console.debug("response", response);
-		$scope.tenantsList = response;		
-	});
-	
-	freeboard.initialize(false);
-	
-	console.debug('url','../../ris/userportal/freeboard/"+$scope.dashboard+"-dashboard.json');
-	$.ajax({
-	    url: '../../ris/userportal/freeboard/'+$scope.dashboard+'-dashboard.json?'+BuildInfo.timestamp,
-	    dataType: 'json',
-	    success: function(json) {
-		    console.log(json); 
-		    freeboard.loadDashboard(json, new function(){
-		    		console.debug("loadDashboard - finish", json);
-			    	freeboard.showLoadingIndicator(false);
-			    });
-		    },
-	    error: function(){
-	    	$scope.tenantWithNoDashboardError = 'DASHBOARD_SECTION_TENANT_NO_DASHBOARD_ERROR';
-	    }
-	});
-
-//	$.getJSON("js/dashboard/freeboard/"+$scope.dashboard+"-dashboard.json", function(json) {
-//	    console.log(json); 
-//	    freeboard.loadDashboard(json, new function(){
-//	    	freeboard.showLoadingIndicator(false);
-//	    });
+*/
+//appControllers.controller('DashboardHomeCtrl', [ '$scope', "$route", 'fabricAPIservice', function($scope, $route, fabricAPIservice) {
+//	
+//	$scope.dashboard = $route.current.params.dashboard;
+//	$scope.tenantWithNoDashboardError = null;
+//	$scope.buildTimestamp = BuildInfo.timestamp;
+//	if(!$scope.dashboard)
+//		$scope.dashboard = "overview";
+//	
+//	adminAPIservice.loadTenants().success(function(response) {
+//		console.debug("response", response);
+//		$scope.tenantsList = response;		
 //	});
-	freeboard.showLoadingIndicator(false);
-} ]);
-
+//	
+//	freeboard.initialize(false);
+//	
+//	console.debug('url','../../ris/userportal/freeboard/"+$scope.dashboard+"-dashboard.json');
+//	$.ajax({
+//	    url: '../../ris/userportal/freeboard/'+$scope.dashboard+'-dashboard.json?'+BuildInfo.timestamp,
+//	    dataType: 'json',
+//	    success: function(json) {
+//		    console.log(json); 
+//		    freeboard.loadDashboard(json, new function(){
+//		    		console.debug("loadDashboard - finish", json);
+//			    	freeboard.showLoadingIndicator(false);
+//			    });
+//		    },
+//	    error: function(){
+//	    	$scope.tenantWithNoDashboardError = 'DASHBOARD_SECTION_TENANT_NO_DASHBOARD_ERROR';
+//	    }
+//	});
+//
+//	freeboard.showLoadingIndicator(false);
+//} ]);
+/*
 appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice','$translate', function($scope,info, fabricAPIservice, $translate) {
 	$scope.streamsList = [];
 	$scope.filteredStreamsList = [];
@@ -137,6 +129,7 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 
 
 } ]);
+*/
 
 /*appControllers.controller('DashboardStreamCtrl', [ '$scope', '$routeParams', 'metadataapiAPIservice', 'webSocketService', "$filter",
                                                    function($scope, $routeParams, metadataapiAPIservice, webSocketService, $filter) {
@@ -722,6 +715,8 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 ]);
 
 
+/*
+
 appControllers.controller('DashboardErrorLogCtrl', [ '$scope','info', '$routeParams', 'fabricAPIservice', 'webSocketService', "$filter",
                                                      function($scope,info, $routeParams, fabricAPIservice, webSocketService, $filter) {
 	$scope.tenant_sel = null;
@@ -805,3 +800,4 @@ appControllers.controller('DashboardErrorLogCtrl', [ '$scope','info', '$routePar
 
 } 
 ]);
+*/

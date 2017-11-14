@@ -18,10 +18,13 @@
 						<a href="#/" ng-class="{active: $route.current.activetab == 'home'}" class='main-menu-item main-menu-item-dashboard'>
 							<span translate-cloak translate>MENU_HOME</span></a>
 					</li>
+					<!-- disabled dashboard 13/11/2017 
 					<li ng-show="isAuthorized('monitoring/*')" ng-if='canManageStream()' class='border-left'>
 						<a href="#/dashboard/streams" ng-class="{active: $route.current.activetab == 'dashboard'}" class='main-menu-item main-menu-item-dashboard'>
 							<span translate-cloak translate>MENU_DASHBOARD</span></a>
 					</li>
+					 -->
+					
 					<li ng-show="isAuthorized('management/*')" class='border-left'>
 						<a ng-href="{{managementUrl}}"  ng-class="{active: $route.current.activetab == 'management'}" class='main-menu-item main-menu-item-management'>
 							<span translate-cloak translate>MENU_MANAGEMENT</span></a>
