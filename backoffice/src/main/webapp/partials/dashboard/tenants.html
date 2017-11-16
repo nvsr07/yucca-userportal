@@ -93,11 +93,11 @@
 						<td class='text-left'>
 							<strong>{{row.tenant.idTenant}}</strong>
 						</td>
-						<td><small>{{row.tenant.name}}</small></td>
-						<td><small>{{row.tenant.tenantcode}}</small></td>
-						<td><span title='{{row.tenant.description}}'><small>{{row.tenant.description|string_ellipse:15}}</small></span></td>
-						<td><small>{{row.tenant.bundles.maxdatasetnum}}</small></td>
-						<td><small>{{row.tenant.bundles.maxstreamsnum}}</small></td>
+						<td><small>{{row.tenant.tenantName}}</small></td>
+						<td><small>{{row.tenant.tenantCode}}</small></td>
+						<td><span title='{{row.tenant.tenantDescription}}'><small>{{row.tenant.tenantDescription|string_ellipse:15}}</small></span></td>
+						<td><small>{{row.tenant.maxDatasetNum}}</small></td>
+						<td><small>{{row.tenant.maxStreamsNum}}</small></td>
 						<td class='text-left'><span ng-bind-html="row.statusIcon"></span> <small>{{row.codDeploymentStatusTranslated}}</small></td>
 						<td class='text-right'> 
 							<a class='btn btn-default btn-sm' href ng-click='prepareMail(row)' title="{{'DASHBOARD_TENANT_PREPARE_MAIL_BUTTON_HINT'|translate}}">
@@ -226,46 +226,46 @@
 				  <div class='form-section form-section-1 col-sm-4'>
 					<legend class='form-section-title'><span translate>TENANT_FORM_INFO</span></legend>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_name" translate>TENANT_FIELD_NAME</label>
-						<input type='text' class="form-control " ng-model="newTenant.name" ng-required="true" placeholder="{{'TENANT_FIELD_NAME'|translate}}" id="newTenant_name"/>
+						<label class="small-label" for="newTenant_tenantName" translate>TENANT_FIELD_NAME</label>
+						<input type='text' class="form-control " ng-model="newTenant.tenantName" ng-required="true" placeholder="{{'TENANT_FIELD_NAME'|translate}}" id="newTenant_tenantName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_description" translate>TENANT_FIELD_DESCRIPTION</label>
-						<input type='text' class="form-control " ng-model="newTenant.description" placeholder="{{'TENANT_FIELD_DESCRIPTION'|translate}}" id="newTenant_description"/>
+						<label class="small-label" for="newTenant_tenantDescription" translate>TENANT_FIELD_DESCRIPTION</label>
+						<input type='text' class="form-control " ng-model="newTenant.tenantDescription" placeholder="{{'TENANT_FIELD_DESCRIPTION'|translate}}" id="newTenant_tenantDescription"/>
 					</div>
 					<div class='form-group'>
 						<label class="small-label" for="newTenant_idOrganization" translate>TENANT_FIELD_ORGANIZATION</label>
 						<select class="form-control " ng-model="newTenant.idOrganization" id="newTenant_idOrganization" ng-change="organizationCodeChange()" ng-required="true" >
 							<option value="" disabled selected translate>TENANT_FIELD_ORGANIZATION</option>
-							<option value='{{organization.idOrganization}}' title='{{organization.organizationcode}}' ng-repeat="organization in organizationList track by $index">{{organization.organizationcode}}</option>
+							<option value='{{organization.idOrganization}}' title='{{organization.organizationDescription}}' ng-repeat="organization in organizationList track by $index">{{organization.organizationCode}}</option>
 						</select>
 					</div>
 				  </div>
 				  <div class='form-section form-section-1 col-sm-4'>
 					<legend class='form-section-title'><span translate>TENANT_FORM_USER</span></legend>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_username" translate>TENANT_FIELD_USERNAME</label>
-						<input type='text' class="form-control " ng-model="newTenant.username" ng-required="true" placeholder="{{'TENANT_FIELD_USERNAME'|translate}}" id="newTenant_username"/>
+						<label class="small-label" for="newTenant_userName" translate>TENANT_FIELD_USERNAME</label>
+						<input type='text' class="form-control " ng-model="newTenant.userName" ng-required="true" placeholder="{{'TENANT_FIELD_USERNAME'|translate}}" id="newTenant_userName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_userfirstname" translate>TENANT_FIELD_USER_FIRSTNAME</label>
-						<input type='text' class="form-control " ng-model="newTenant.userfirstname" ng-required="true" placeholder="{{'TENANT_FIELD_USER_FIRSTNAME'|translate}}" id="newTenant_userfirstname"/>
+						<label class="small-label" for="newTenant_userFirstName" translate>TENANT_FIELD_USER_FIRSTNAME</label>
+						<input type='text' class="form-control " ng-model="newTenant.userFirstName" ng-required="true" placeholder="{{'TENANT_FIELD_USER_FIRSTNAME'|translate}}" id="newTenant_userFirstName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_userlastname" translate>TENANT_FIELD_USER_LASTTNAME</label>
-						<input type='text' class="form-control " ng-model="newTenant.userlastname" ng-required="true" placeholder="{{'TENANT_FIELD_USER_LASTTNAME'|translate}}" id="newTenant_userlastname"/>
+						<label class="small-label" for="newTenant_userLastName" translate>TENANT_FIELD_USER_LASTTNAME</label>
+						<input type='text' class="form-control " ng-model="newTenant.userLastName" ng-required="true" placeholder="{{'TENANT_FIELD_USER_LASTTNAME'|translate}}" id="newTenant_userLastName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_useremail" translate>TENANT_FIELD_USER_EMAIL</label>
-						<input type='email' class="form-control " ng-model="newTenant.useremail" ng-required="true" placeholder="{{'TENANT_FIELD_USER_EMAIL'|translate}}" id="newTenant_useremail"/>
+						<label class="small-label" for="newTenant_userEmail" translate>TENANT_FIELD_USER_EMAIL</label>
+						<input type='email' class="form-control " ng-model="newTenant.userEmail" ng-required="true" placeholder="{{'TENANT_FIELD_USER_EMAIL'|translate}}" id="newTenant_userEmail"/>
 					</div>
 				  </div>
 				  <div class='form-section form-section-1 col-sm-4'>
 					<legend class='form-section-title'><span translate>TENANT_FORM_CONFIG</span></legend>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_idTenantType" translate>TENANT_FIELD_TYPE</label>
+						<label class="small-label" for="newTenant_tenantType" translate>TENANT_FIELD_TYPE</label>
 					
-						<select class="form-control " ng-model="newTenant.tenantCode" id="newTenant_tenantCode"" ng-change="tenantTypeChange()">
+						<select class="form-control " ng-model="newTenant.tenantType" id="newTenant_tenantType" ng-change="tenantTypeChange()">
 							<option value='default'>default</option>
 							<option value='develop'>develop</option>
 							<option value='plus'>plus</option>
@@ -274,84 +274,66 @@
 					</div>
 					<div class='form-group'>
 						<label class="small-label" for="newTenant_maxOdataResultPerPage" translate>TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE</label>
-						<input type='number'  min="1" class="form-control " ng-model="newTenant.bundles.maxOdataResultPerPage" ng-required="true" placeholder="{{'TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE'|translate}}" id="newTenant_maxOdataResultPerPage"/>
+						<input type='number'  min="1" class="form-control " ng-model="newTenant.maxOdataResultPerPage" ng-required="true" placeholder="{{'TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE'|translate}}" id="newTenant_maxOdataResultPerPage"/>
 					</div>
-					<div class='form-group'>
-						<label class="small-label"  translate>TENANT_FIELD_HAS_STAGE</label>
-						<input type='number'   class="form-control " ng-model="newTenant.bundles.hasstage" ng-required="true" placeholder="{{'TENANT_FIELD_HAS_STAGE'|translate}}" id="newTenant_hasstage"/>
-					</div>
-					<div class='form-group'>
-						<label class="small-label"  translate>TENANT_FIELD_MAX_DATASET_NUM</label>
-						<input type='number'  class="form-control " ng-model="newTenant.bundles.maxdatasetnum" ng-required="true" placeholder="{{'TENANT_FIELD_MAX_DATASET_NUM'|translate}}" id="newTenant_maxdatasetnum"/>
-					</div>
-					<div class='form-group'>
-						<label class="small-label"  translate>TENANT_FIELD_MAX_STREAM_NUM</label>
-						<input type='number'   class="form-control " ng-model="newTenant.bundles.maxstreamsnum" ng-required="true" placeholder="{{'TENANT_FIELD_MAX_STREAM_NUM'|translate}}" id="newTenant_maxstreamsnum"/>
-					</div>
-					<div class='form-group'>
-						<label class="small-label"  translate>TENANT_FIELD_ZEPPELIN</label>
-						<input type='number'  class="form-control " ng-model="newTenant.bundles.zeppelin" ng-required="true" placeholder="{{'TENANT_FIELD_ZEPPELIN'|translate}}" id="newTenant_zeppelin"/>
-					</div>
+				  </div>
 				</div>
 				<div class='row'>
 				  <div class='form-section form-section-2 col-sm-4'>
 					<legend class='form-section-title'><span translate>TENANT_FORM_SOLR_COLLECTION</span></legend>
-					<input type="checkbox" ng-model="checked" /> Modifica campi
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_datasolrcollectionname" translate>Data collection </label>
-						<input type='text' class="form-control " ng-disabled="!checked" ng-model="newTenant.datasolrcollectionname" ng-required="true" placeholder="Data collection name" id="newTenant_datasolrcollectionname"/>
+						<label class="small-label" for="newTenant_dataSolrCollectionName" translate>Data collection </label>
+						<input type='text' class="form-control " ng-model="newTenant.dataSolrCollectionName" ng-required="true" placeholder="Data collection name" id="newTenant_dataSolrCollectionName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_measuresolrcollectionname" translate>Measures collection</label>
-						<input type='text' class="form-control " ng-disabled="!checked" ng-model="newTenant.measuresolrcollectionname" ng-required="true" placeholder="Measures collection name" id="newTenant_measuresolrcollectionname"/>
+						<label class="small-label" for="newTenant_measuresSolrCollectionName" translate>Measures collection</label>
+						<input type='text' class="form-control " ng-model="newTenant.measuresSolrCollectionName" ng-required="true" placeholder="Measures collection name" id="newTenant_measuresSolrCollectionName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_socialsolrcollectionname" translate>Social collection</label>
-						<input type='text' class="form-control " ng-disabled="!checked" ng-model="newTenant.socialsolrcollectionname" ng-required="true" placeholder="Social collection name" id="newTenant_socialsolrcollectionname"/>
+						<label class="small-label" for="newTenant_socialSolrCollectionName" translate>Social collection</label>
+						<input type='text' class="form-control " ng-model="newTenant.socialSolrCollectionName" ng-required="true" placeholder="Social collection name" id="newTenant_socialSolrCollectionName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_mediasolrcollectionname" translate>Media collection</label>
-						<input type='text' class="form-control " ng-disabled="!checked" ng-model="newTenant.mediasolrcollectionname" ng-required="true" placeholder="Media collection name" id="newTenant_mediasolrcollectionname"/>
+						<label class="small-label" for="newTenant_mediaSolrCollectionName" translate>Media collection</label>
+						<input type='text' class="form-control " ng-model="newTenant.mediaSolrCollectionName" ng-required="true" placeholder="Media collection name" id="newTenant_mediaSolrCollectionName"/>
 					</div>
 				  </div>
 			  	  <div class='form-section form-section-3 col-sm-4'>
 					<legend class='form-section-title'><span translate>TENANT_FORM_PHOENIX_SCHEMA</span></legend>
-					<input type="checkbox" ng-model="checkedPh" /> Modifica campi
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_dataphoenixschemaname" translate>Data schema name</label>
-						<input type='text' class="form-control " ng-disabled="!checkedPh" ng-model="newTenant.dataphoenixschemaname" ng-required="true" placeholder="Data schema name" id="newTenant_dataphoenixschemaname"/>
+						<label class="small-label" for="newTenant_dataPhoenixSchemaName" translate>Data schema name</label>
+						<input type='text' class="form-control " ng-model="newTenant.dataPhoenixSchemaName" ng-required="true" placeholder="Data schema name" id="newTenant_dataPhoenixSchemaName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_measuresphoenixschemaname" translate>Measures schema name</label>
-						<input type='text' class="form-control " ng-disabled="!checkedPh" ng-model="newTenant.measuresphoenixschemaname" ng-required="true" placeholder="Measures schema name" id="newTenant_measuresphoenixschemaname"/>
+						<label class="small-label" for="newTenant_measuresPhoenixSchemaName" translate>Measures schema name</label>
+						<input type='text' class="form-control " ng-model="newTenant.measuresPhoenixSchemaName" ng-required="true" placeholder="Measures schema name" id="newTenant_measuresPhoenixSchemaName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_socialphoenixschemaname" translate>Social schema name</label>
-						<input type='text' class="form-control " ng-disabled="!checkedPh" ng-model="newTenant.socialphoenixschemaname" ng-required="true" placeholder="Social schema name" id="newTenant_socialphoenixschemaname"/>
+						<label class="small-label" for="newTenant_socialPhoenixSchemaName" translate>Social schema name</label>
+						<input type='text' class="form-control " ng-model="newTenant.socialPhoenixSchemaName" ng-required="true" placeholder="Social schema name" id="newTenant_socialPhoenixSchemaName"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_mediaphoenixschemaname" translate>Media schema name</label>
-						<input type='text' class="form-control " ng-disabled="!checkedPh" ng-model="newTenant.mediaphoenixschemaname" ng-required="true" placeholder="Media schema name" id="newTenant_mediaphoenixschemaname"/>
+						<label class="small-label" for="newTenant_mediaPhoenixSchemaName" translate>Media schema name</label>
+						<input type='text' class="form-control " ng-model="newTenant.mediaPhoenixSchemaName" ng-required="true" placeholder="Media schema name" id="newTenant_mediaPhoenixSchemaName"/>
 					</div>
 				  </div>
 				  <div class='form-section form-section-4 col-sm-4'>
 					<legend class='form-section-title'><span translate>TENANT_FORM_PHOENIX_TABLE</span></legend>
-					<input type="checkbox" ng-model="checkedPhTable" /> Modifica campi
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_dataphoenixtablename" translate>Data table name</label>
-						<input type='text' class="form-control " ng-disabled="!checkedPhTable" ng-model="newTenant.dataphoenixtablename" ng-required="true" placeholder="Data table name" id="newTenant_dataphoenixtablename" value="DATA"/>
+						<label class="small-label" for="newTenant_dataPhoenixTableName" translate>Data table name</label>
+						<input type='text' class="form-control " ng-model="newTenant.dataPhoenixTableName" ng-required="true" placeholder="Data table name" id="newTenant_dataPhoenixTableName" value="DATA"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_measuresphoenixtablename" translate>Measures table name</label>
-						<input type='text' class="form-control " ng-disabled="!checkedPhTable" ng-model="newTenant.measuresphoenixtablename" ng-required="true" placeholder="Measures table name" id="newTenant_measuresphoenixtablename" value="MEASURES"/>
+						<label class="small-label" for="newTenant_measuresPhoenixTableName" translate>Measures table name</label>
+						<input type='text' class="form-control " ng-model="newTenant.measuresPhoenixTableName" ng-required="true" placeholder="Measures table name" id="newTenant_measuresPhoenixTableName" value="MEASURES"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_socialphoenixtablename" translate>Social table name</label>
-						<input type='text' class="form-control " ng-disabled="!checkedPhTable" ng-model="newTenant.socialphoenixtablename" ng-required="true" placeholder="Social table name" id="newTenant_socialphoenixtablename" value="SOCIAL"/>
+						<label class="small-label" for="newTenant_socialPhoenixTableName" translate>Social table name</label>
+						<input type='text' class="form-control " ng-model="newTenant.socialPhoenixTableName" ng-required="true" placeholder="Social table name" id="newTenant_socialPhoenixTableName" value="SOCIAL"/>
 					</div>
 					<div class='form-group'>
-						<label class="small-label" for="newTenant_mediaphoenixtablename" translate>Media table name</label>
-						<input type='text' class="form-control " ng-disabled="!checkedPhTable" ng-model="newTenant.mediaphoenixtablename" ng-required="true" placeholder="Media table name" id="newTenant_mediaphoenixtablename" value="MEDIA"/>
+						<label class="small-label" for="newTenant_mediaPhoenixTableName" translate>Media table name</label>
+						<input type='text' class="form-control " ng-model="newTenant.mediaPhoenixTableName" ng-required="true" placeholder="Media table name" id="newTenant_mediaPhoenixTableName" value="MEDIA"/>
 					</div>
 				  </div>
 				  <div class='form-group'><div class='col-sm-12'>&nbsp;</div></div>

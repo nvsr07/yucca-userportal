@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +35,6 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
-import org.csi.yucca.userportal.backoffice.utils.AuthorizeUtils;
 
 //@WebServlet(description = "Api proxy Servlet", urlPatterns = { "/api/proxy/*" }, asyncSupported = false)
 public abstract class ApiProxyServlet extends HttpServlet {

@@ -1,18 +1,12 @@
 package org.csi.yucca.userportal.backoffice.service.proxy.admin.v01;
 
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.csi.yucca.userportal.backoffice.info.Info;
-import org.csi.yucca.userportal.backoffice.service.ApiProxyServlet;
-import org.csi.yucca.userportal.backoffice.utils.AuthorizeUtils;
-import org.csi.yucca.userportal.backoffice.utils.Config;
-
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
+
+import org.csi.yucca.userportal.backoffice.service.ApiProxyServlet;
+import org.csi.yucca.userportal.backoffice.utils.Config;
 
 @WebServlet(description = "Api proxy Servlet  for admin manangement", urlPatterns = { "/api/proxy/admin/1/backoffice/*" }, asyncSupported = false)
 public class ApiAdminBackofficeProxyServlet extends ApiProxyServlet {
