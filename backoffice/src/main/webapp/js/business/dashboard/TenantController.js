@@ -168,7 +168,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	
 	$scope.searchCodeFilter = function(row) {
 		var keyword = new RegExp($scope.codeFilter, 'i');
-		return !$scope.codeFilter || keyword.test(row.tenant.tenantCode);
+		return !$scope.codeFilter || keyword.test(row.tenant.tenantcode);
 	};
 
 	$scope.$watch('codeFilter', function(newCode) {
@@ -294,7 +294,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		actionParams.startStep = startStep;
 		actionParams.endStep = endStep;
 		
-		console.log("actionParams",actionParams,"tenantCode",tenant.tenantcode );
+		console.log("actionParams",actionParams,"tenantcode",tenant.tenantcode );
 		adminAPIservice.execAction(actionParams,tenant.tenantcode).success(function(response) {
 			console.log("response",response);
 		});
@@ -395,8 +395,8 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		var steps = startStep;
 		if(endStep && endStep!=null)
 			steps +=":"+endStep;
-		//return operation + "|tenant|" + tenant.tenantCode + "|" + tenant.tenantCode + "|" + tenant.tenantPassword+ "|" + env + "-sdnet-esbin|" + steps; 
-		return operation + "|tenant|" + tenant.tenantCode + "|" + tenant.tenantCode + "|" + tenant.tenantPassword+ "|" + steps; 
+		//return operation + "|tenant|" + tenant.tenantcode + "|" + tenant.tenantcode + "|" + tenant.tenantPassword+ "|" + env + "-sdnet-esbin|" + steps; 
+		return operation + "|tenant|" + tenant.tenantcode + "|" + tenant.tenantcode + "|" + tenant.tenantPassword+ "|" + steps; 
 	}
 
 	function createStepsLogUrl(operation, tenant){
@@ -664,7 +664,7 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 				delete $scope.newTenant.mediaphoenixtablename;
 			}	
 			
-			//Il campo tenantCode viene valorizzato come il name
+			//Il campo tenantcode viene valorizzato come il name
 			$scope.newTenant.tenantcode = $scope.newTenant.name;		
 
 			var promise   = adminAPIservice.createTenant($scope.newTenant);

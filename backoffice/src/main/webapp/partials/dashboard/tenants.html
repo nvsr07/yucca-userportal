@@ -45,14 +45,14 @@
 							</a>
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'tenant.tenantName'; reverse=!reverse"><span translate>TENANT_FIELD_NAME</span> 
-							<span ng-show="predicate=='tenant.tenantName' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='tenant.tenantName' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'tenant.name'; reverse=!reverse"><span translate>TENANT_FIELD_NAME</span> 
+							<span ng-show="predicate=='tenant.name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='tenant.name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						</th>
 						<th>
 							<a href="" ng-click="predicate = 'tenant.tenantCode'; reverse=!reverse"><span translate>TENANT_FIELD_CODE</span> 
-							<span ng-show="predicate=='tenant.tenantCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='tenant.tenantCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<span ng-show="predicate=='tenant.tenantcode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='tenant.tenantcode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
@@ -364,7 +364,7 @@
 
 				<div class='form-group'>
 					<label class="small-label" for="newTenant_tenantName" translate>TENANT_FIELD_CODE</label>
-					<input type='text' class="form-control " ng-model="newTenant.tenantCode" ng-required="true" placeholder="{{'TENANT_FIELD_NAME'|translate}}" id="newTenant_tenantName"/>
+					<input type='text' class="form-control " ng-model="newTenant.tenantcode" ng-required="true" placeholder="{{'TENANT_FIELD_NAME'|translate}}" id="newTenant_tenantName"/>
 				</div>
 				<div class='form-group'>
 					<label class="small-label" for="newTenant_tenantName" translate>TENANT_FIELD_PASSWORD</label>
