@@ -63,10 +63,10 @@
 		<home-header ng-if="isHomepage"></home-header>
 		<div ng-view class='main-body'></div>
 		<main-footer></main-footer>
-	<!-- <iframe ng-src="{{linkLoginToStore}}" width="{{linkLoginToStoreW}}" height="{{linkLoginToStoreH}}"  iframe-onload="iframeStoreLoaded()"></iframe>  -->	
 	</div>
-	<div> <!-- ng-show="ModalDemoCtrl" -->
-	    <script type="text/ng-template" id="HPModalContent.html">
+	
+	<!-- 
+	<script type="text/ng-template" id="HPModalContent.html">
 		<div class="modal-content-panel" modal-transclude>
 	        <div class="modal-header modal-top-panel">
     	        <h1 class="modal-title-container">{{'WARNING_TITLE'|translate}}</h1>
@@ -166,8 +166,59 @@
 				</a>
         	</div>
     	</script>
-	</div>
-	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
+    	 -->
+    	<script type="text/ng-template" id="requestTenant.html">
+			
+    	
+    		<div class="home-page-modal">
+	        	<div class="modal-header">
+    	       		<h1 class="">{{modalTitle|translate}}</h1>
+        		</div>
+	        	<div class="modal-body">
+					<div class="intro" ng-if='hasNoTenant'>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</div>
+	        	    <div class="intro" ng-if='status=="start"'>{{modalIntro|translate}}</div>
+					<form class="form-horizontal" role="form" name="tenantForm" accept-charset="UTF-8" ng-if='status=="start" && missingEmail'>
+						<alert-panel ng-if='validationError.message' message="{{'WARNING_TITLE'|translate}}" detail='{{validationError.message|translate}}'  type='warning'></alert-panel>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><span translate-cloak translate>HOME_TTFORUM_USEREMAIL</span></label>
+							<div class="col-sm-8">
+								<input type="email" class="form-control" ng-model="installationTenantRequest.useremail" id="inputTestUserEmail" placeholder="{{'HOME_TTFORUM_USEREMAIL_PLACEHOLDER'|translate}}" ng-required="true" maxlength="40">
+							</div>
+						</div>
+      	   			</form>
+					<div ng-if='status=="sending"'>
+						<div class='ajax-loading'><span translate-cloak translate>REQUEST_TENANT_SENDING</span></div>
+					</div>
+					<div ng-if='status=="finish"'>
+						<div ng-if='!requestResponse.errorCode'><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate:requestResponse.tenantcode}}</b> <span>{{installationTenantRequest.useremail}}</span></div>
+						<div  ng-if='requestResponse.errorCode'><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b> </div>
+						<alert-panel ng-if='requestResponse.errorCode' message='{{requestResponse.errorName}}'  code="{{requestResponse.errorCode}}" detail="{{requestResponse.description}}" type='danger'></alert-panel>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a ng-click='cancel()' class="btn " translate-cloak translate>HOME_TTFORUM_CLOSE</a>
+					<a ng-if='status=="start"'ng-click='requestTenant()' class="btn btn-default" translate-cloak translate>HOME_TTFORUM_SUBMIT</a>
+				</div>
+			</div>
+		</div>
+	</script>
+	
+	<script type="text/ng-template" id="forceLogout.html">
+    		<div class="home-page-modal">
+	        	<div class="modal-header">
+    	       		<h1 class="">{{'WARNING_TITLE'|translate}}</h1>
+        		</div>
+	        	<div class="modal-body">
+					<div class="intro">{{modalIntro|translate}}</div>
+				</div>
+				<div class="modal-footer">
+					<a  href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor" class="btn btn-default" translate-cloak translate>HOME_FORCE_LOGOUT_BUTTON</a>
+				</div>
+			</div>
+		</div>
+	</script>
+
+  	<script type="text/javascript" src="../ris/userportal/lib/openlayers/ol.js"></script>
 	
 	<script type="text/javascript" src="../ris/userportal/lib/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="../ris/userportal/lib/angular/angular.min.js"></script>
