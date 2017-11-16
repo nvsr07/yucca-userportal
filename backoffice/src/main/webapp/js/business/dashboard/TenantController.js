@@ -1,5 +1,5 @@
-appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice', 'fabricBuildService', '$translate','$modal', '$location', '$timeout','$window',
-                                          function($scope, $route, fabricAPIservice, fabricBuildService, $translate, $modal, $location, $timeout,$window) {
+appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice', 'adminAPIservice', 'fabricBuildService', '$translate','$modal', '$location', '$timeout','$window',
+                                          function($scope, $route, fabricAPIservice, adminAPIservice, fabricBuildService, $translate, $modal, $location, $timeout,$window) {
 	$scope.tenantsList = [];
 	$scope.filteredTenantsList = [];
 	$scope.ecosystemList = [];
@@ -29,18 +29,18 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	 ******/
 	var loadTenants = function(){
 		$scope.tenantsList = [];
-		fabricAPIservice.getTenants().success(function(response) {
+		
+		//20171023 - Modificata chiamata a nuovo metodo loadTenants per nuove API
+		//fabricAPIservice.getTenants().success(function(response) {
+		
+		adminAPIservice.loadTenants().success(function(response) {
 			$scope.showLoading = false;
-			console.debug("loadTenants - response",response);
-	
-			var responseList = Helpers.util.initArrayZeroOneElements(response.tenants.tenant);
-			for (var i = 0; i < responseList.length; i++) {
-				
-				var row = initRow(responseList[i]);
+			console.info("loadTenants - response",response);				
+			for (var i = 0; i < response.length; i++) {				
+				var row = initRow(response[i]);
 				row.rowIndex = i;
 				$scope.tenantsList.push(row);					
-			}
-			
+			}			
 			$scope.totalItems = $scope.tenantsList.length;
 		});
 	}
@@ -66,28 +66,27 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	
 	loadEcosistems();
 	
-<<<<<<< HEAD
-=======
 	/******
 	 * LOAD ORGANIZATIONS
 	 ******/
 	//20171025 - Modifiche per nuove API
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 	var organizationMap =  {};
 	var loadOrganizations = function(){
 		$scope.organizationList = [];
-		fabricAPIservice.getOrganizations().success(function(response) {
+		//fabricAPIservice.getOrganizations().success(function(response) {
+		adminAPIservice.loadOrganizations().success(function(response) {		
 			$scope.showLoading = false;
 			console.debug("loadOrganizations - response",response);
 	
-			var responseList = Helpers.util.initArrayZeroOneElements(response.oranizations.oranization);
-			for (var i = 0; i < responseList.length; i++) {
-				$scope.organizationList.push(responseList[i]);					
-				organizationMap[responseList[i].idOrganization]= responseList[i];					
+			//var responseList = Helpers.util.initArrayZeroOneElements(response.oranizations.oranization);
+			
+			for (var i = 0; i < response.length; i++) {
+				$scope.organizationList.push(response[i]);					
+				organizationMap[response[i].idOrganization]= response[i];					
 			}
 			
 			$scope.organizationList.sort(function(a, b) {
-			    return a.organizationCode.localeCompare(b.organizationCode);
+			    return a.organizationcode.localeCompare(b.organizationcode);
 			});
 			
 		});
@@ -116,36 +115,16 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	
 	var initRow = function(tenantIn){
 		var row = {};
-<<<<<<< HEAD
-		row.tenant = tenantIn;
-		row.statusIcon = Helpers.tenant.statusIcon(row.tenant);
-		row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.codDeploymentStatus);
-=======
 		row.tenant = tenantIn;		
 		//20171024 - NUuove API
 		//row.statusIcon = Helpers.tenant.statusIcon(row.tenant);
 		//row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.codDeploymentStatus);
 		row.statusIcon = Helpers.tenant.statusIconAdmin(row.tenant);
 		row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.tenantStatus.description);
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 		row.isSelected = false;
 		row.isUpdating = false;
 		row.updated = false;
-<<<<<<< HEAD
-		if(!row.tenant.codDeploymentStatus || row.tenant.codDeploymentStatus==null)
-			row.tenant.codDeploymentStatus = "draft";
-=======
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 		
-<<<<<<< HEAD
-		if(row.tenant.codDeploymentStatus=='req_inst'){
-			row.action = 'install';
-		}
-		else if(row.tenant.codDeploymentStatus=='inst'){
-			row.action = 'migrate';
-		}
-		else if(row.tenant.codDeploymentStatus=='req_uninst'){
-=======
 		if(!row.tenant.tenantStatus.tenantstatuscode || row.tenant.tenantStatus.tenantstatuscode==null)
 			row.tenant.tenantStatus.tenantstatuscode = "draft";
 		
@@ -156,7 +135,6 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 			row.action = 'migrate';
 		}
 		else if(row.tenant.tenantStatus.tenantstatuscode=='req_uninst'){
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 			row.action = 'delete';
 		}
 
@@ -179,7 +157,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 
 	$scope.searchNameFilter = function(row) {
 		var keyword = new RegExp($scope.nameFilter, 'i');
-		return !$scope.nameFilter || keyword.test(row.tenant.tenantName);
+		return !$scope.nameFilter || keyword.test(row.tenant.name);
 	};
 
 	$scope.$watch('nameFilter', function(newTenant) {
@@ -596,54 +574,29 @@ appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' 
 
 
 
-<<<<<<< HEAD
-
-appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabricAPIservice', '$filter',"$http", '$location', 'organizationList', 'organizationMap',
-                                           function ($scope, $modalInstance, fabricAPIservice,  $filter, $http, $location,  organizationList,organizationMap) {
-=======
 //20171025 - Modifiche per puntamento a nuove API
 appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabricAPIservice', 'adminAPIservice', '$filter',"$http", '$location', 'organizationList', 'organizationMap', 'tenantTypeList', 'tenantTypeMap',
                                            function ($scope, $modalInstance, fabricAPIservice, adminAPIservice,  $filter, $http, $location,  organizationList,organizationMap,tenantTypeList, tenantTypeMap) {
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 		
 	$scope.warning = null;
-<<<<<<< HEAD
-	$scope.newTenant = {"tenantType":"default", 
-						"maxOdataResultPerPage":1000,
-						"maxDatasetNum":-1,
-			   			"maxStreamsNum":-1,
-			   			"tenantPassword": "XXXX",
-			   			"userTypeAuth":"admin",
-			   			"idEcosystem": 1,};
-
-	//$scope.forms.submitted = false;
-=======
 	
 	$scope.newTenant = {
 			"usertypeauth":"admin",
 			"idEcosystem": 1,};
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 
-
-	$scope.newTenant.dataPhoenixTableName = "DATA";
-	$scope.newTenant.measuresPhoenixTableName = "MEASURES";
-	$scope.newTenant.socialPhoenixTableName = "SOCIAL";
-	$scope.newTenant.mediaPhoenixTableName = "MEDIA";
+	$scope.newTenant.dataphoenixtablename = "DATA";
+	$scope.newTenant.measuresphoenixtablename = "MEASURES";
+	$scope.newTenant.socialphoenixtablename = "SOCIAL";
+	$scope.newTenant.mediaphoenixtablename = "MEDIA";
 	
 	$scope.organizationList = organizationList;
 	$scope.tenantTypeList = tenantTypeList;
 	
 	$scope.tenantTypeChange = function(){
-<<<<<<< HEAD
-		console.log("tenantTypeChange", $scope.newTenant.tenantType);
-		if($scope.newTenant.tenantType == "plus")
-			$scope.newTenant.maxOdataResultPerPage = 10000;
-=======
 		
 		console.log("tenantTypeChange", $scope.newTenant.tenantType.idTenantType);
 		if($scope.newTenant.tenantType.tenanttypecode == "plus")
 			$scope.newTenant.bundles.maxOdataResultperPage = 10000;
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 		else 
 			$scope.newTenant.bundles.maxOdataResultperPage = 1000;
 	};
@@ -656,26 +609,22 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 	
 	$scope.organizationCodeChange = function(){
 		
-		var organization_code = organizationMap[$scope.newTenant.idOrganization].organizationCode;
+		var organization_code = organizationMap[$scope.newTenant.idOrganization].organizationcode;
 		
-		$scope.newTenant.dataSolrCollectionName = "sdp_" + (env + organization_code).toLowerCase() + "_data";
-		$scope.newTenant.measuresSolrCollectionName = "sdp_" + (env + organization_code).toLowerCase() + "_measures";
-		$scope.newTenant.socialSolrCollectionName = "sdp_" + (env + organization_code).toLowerCase() + "_social";
-		$scope.newTenant.mediaSolrCollectionName = "sdp_" + (env + organization_code).toLowerCase() + "_media";
+		$scope.newTenant.datasolrcollectionname = "sdp_" + (env + organization_code).toLowerCase() + "_data";
+		$scope.newTenant.measuresolrcollectionname = "sdp_" + (env + organization_code).toLowerCase() + "_measures";
+		$scope.newTenant.socialsolrcollectionname = "sdp_" + (env + organization_code).toLowerCase() + "_social";
+		$scope.newTenant.mediasolrcollectionname = "sdp_" + (env + organization_code).toLowerCase() + "_media";
 
-		$scope.newTenant.dataPhoenixSchemaName = "SDP_" + (env + organization_code).toUpperCase();
-		$scope.newTenant.measuresPhoenixSchemaName = "SDP_" + (env + organization_code).toUpperCase();
-		$scope.newTenant.socialPhoenixSchemaName = "SDP_" + (env + organization_code).toUpperCase();
-		$scope.newTenant.mediaPhoenixSchemaName = "SDP_" + (env + organization_code).toUpperCase();
+		$scope.newTenant.dataphoenixschemaname = "SDP_" + (env + organization_code).toUpperCase();
+		$scope.newTenant.measuresphoenixschemaname = "SDP_" + (env + organization_code).toUpperCase();
+		$scope.newTenant.socialphoenixschemaname = "SDP_" + (env + organization_code).toUpperCase();
+		$scope.newTenant.mediaphoenixschemaname = "SDP_" + (env + organization_code).toUpperCase();
 
 
 	};
-<<<<<<< HEAD
-	
-=======
 		
 	//20171025 - Modifiche per nuove API
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 	$scope.createNewTenant = function(){
 		console.log("new tenant", $scope.newTenant);
 		$scope.forms.newTenantForm.submitted = true;
@@ -686,17 +635,6 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 		}
 		else{
 			
-<<<<<<< HEAD
-			$scope.newTenant.status = "draft";
-			if(typeof $scope.newTenant.maxDatasetNum == 'undefined' || $scope.newTenant.maxDatasetNum == null || $scope.newTenant.maxDatasetNum == 0)
-				$scope.newTenant.maxDatasetNum = -1;
-			if(typeof $scope.newTenant.maxStreamsNum == 'undefined' || $scope.newTenant.maxStreamsNum == null || $scope.newTenant.maxStreamsNum == 0)
-				$scope.newTenant.maxStreamsNum = -1;
-			
-			var tenant = {"tenant": $scope.newTenant};
-			
-			var promise   = fabricAPIservice.createTenant(tenant);
-=======
 			/*	- ELIMINATO STATUS DA OGGETTO NEW TENANT
 			$scope.newTenant.tenantStatus.tenantstatuscode = "draft";
 			if(typeof $scope.newTenant.bundles.maxdatasetnum == 'undefined' || $scope.newTenant.bundles.maxdatasetnum == null || $scope.newTenant.bundles.maxdatasetnum == 0)
@@ -730,7 +668,6 @@ appControllers.controller('NewTenantCtrl', [ '$scope', '$modalInstance', 'fabric
 			$scope.newTenant.tenantcode = $scope.newTenant.name;		
 
 			var promise   = adminAPIservice.createTenant($scope.newTenant);
->>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 			promise.then(function(result) {
 				console.log("result qui ", result);
 				$scope.info = "Tenant created";
