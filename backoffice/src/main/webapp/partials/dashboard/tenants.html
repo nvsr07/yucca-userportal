@@ -45,14 +45,14 @@
 							</a>
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'tenant.tenantName'; reverse=!reverse"><span translate>TENANT_FIELD_NAME</span> 
-							<span ng-show="predicate=='tenant.tenantName' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='tenant.tenantName' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'tenant.name'; reverse=!reverse"><span translate>TENANT_FIELD_NAME</span> 
+							<span ng-show="predicate=='tenant.name' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='tenant.name' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						</th>
 						<th>
 							<a href="" ng-click="predicate = 'tenant.tenantCode'; reverse=!reverse"><span translate>TENANT_FIELD_CODE</span> 
-							<span ng-show="predicate=='tenant.tenantCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='tenant.tenantCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<span ng-show="predicate=='tenant.tenantcode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='tenant.tenantcode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
@@ -260,9 +260,11 @@
 						<input type='email' class="form-control " ng-model="newTenant.userEmail" ng-required="true" placeholder="{{'TENANT_FIELD_USER_EMAIL'|translate}}" id="newTenant_userEmail"/>
 					</div>
 				  </div>
+				
 				  <div class='form-section form-section-1 col-sm-4'>
 					<legend class='form-section-title'><span translate>TENANT_FORM_CONFIG</span></legend>
 					<div class='form-group'>
+<<<<<<< HEAD
 						<label class="small-label" for="newTenant_tenantType" translate>TENANT_FIELD_TYPE</label>
 					
 						<select class="form-control " ng-model="newTenant.tenantType" id="newTenant_tenantType" ng-change="tenantTypeChange()">
@@ -270,13 +272,38 @@
 							<option value='develop'>develop</option>
 							<option value='plus'>plus</option>
 							<option value='zero'>zero</option>
+=======
+						<label class="small-label" for="newTenant_idTenantType" translate>TENANT_FIELD_TYPE</label>					
+						<select class="form-control " ng-model="newTenant.idTenantType" id="newTenant_idTenantType"  ng-required="true" >
+							<option value="" disabled selected translate>TENANT_FIELD_TYPE</option>
+							<option value='{{tenantType.idTenantType}}' title='{{tenantType.tenanttypecode}}' ng-repeat="tenantType in tenantTypeList track by $index">{{tenantType.tenanttypecode}}</option>
+>>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 						</select>
-					</div>
+					</div> 		
 					<div class='form-group'>
 						<label class="small-label" for="newTenant_maxOdataResultPerPage" translate>TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE</label>
 						<input type='number'  min="1" class="form-control " ng-model="newTenant.maxOdataResultPerPage" ng-required="true" placeholder="{{'TENANT_FIELD_MAX_ODATA_RESULT_PER_PAGE'|translate}}" id="newTenant_maxOdataResultPerPage"/>
 					</div>
+<<<<<<< HEAD
 				  </div>
+=======
+					<div class='form-group'>
+						<label class="small-label"  translate>TENANT_FIELD_HAS_STAGE</label>
+						<input type='text'   class="form-control " ng-model="newTenant.bundles.hasstage" ng-required="true" placeholder="{{'TENANT_FIELD_HAS_STAGE'|translate}}" id="newTenant_hasstage"/>
+					</div>
+					<div class='form-group'>
+						<label class="small-label"  translate>TENANT_FIELD_MAX_DATASET_NUM</label>
+						<input type='number'  class="form-control " ng-model="newTenant.bundles.maxdatasetnum" ng-required="true" placeholder="{{'TENANT_FIELD_MAX_DATASET_NUM'|translate}}" id="newTenant_maxdatasetnum"/>
+					</div>
+					<div class='form-group'>
+						<label class="small-label"  translate>TENANT_FIELD_MAX_STREAM_NUM</label>
+						<input type='number'   class="form-control " ng-model="newTenant.bundles.maxstreamsnum" ng-required="true" placeholder="{{'TENANT_FIELD_MAX_STREAM_NUM'|translate}}" id="newTenant_maxstreamsnum"/>
+					</div>
+					<div class='form-group'>
+						<label class="small-label"  translate>TENANT_FIELD_ZEPPELIN</label>
+						<input type='text'  class="form-control " ng-model="newTenant.bundles.zeppelin" ng-required="true" placeholder="{{'TENANT_FIELD_ZEPPELIN'|translate}}" id="newTenant_zeppelin"/>
+					</div>
+>>>>>>> branch 'userportal-adminapi' of https://github.com/csipiemonte/yucca-userportal.git
 				</div>
 				<div class='row'>
 				  <div class='form-section form-section-2 col-sm-4'>
@@ -348,7 +375,7 @@
 
 				<div class='form-group'>
 					<label class="small-label" for="newTenant_tenantName" translate>TENANT_FIELD_CODE</label>
-					<input type='text' class="form-control " ng-model="newTenant.tenantCode" ng-required="true" placeholder="{{'TENANT_FIELD_NAME'|translate}}" id="newTenant_tenantName"/>
+					<input type='text' class="form-control " ng-model="newTenant.tenantcode" ng-required="true" placeholder="{{'TENANT_FIELD_NAME'|translate}}" id="newTenant_tenantName"/>
 				</div>
 				<div class='form-group'>
 					<label class="small-label" for="newTenant_tenantName" translate>TENANT_FIELD_PASSWORD</label>

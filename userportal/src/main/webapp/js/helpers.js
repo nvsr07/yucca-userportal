@@ -24,14 +24,22 @@ Helpers.stream = {
 		// "/topic/output.ten1.flussoProva.stat"
 		var virtualentity_stream = "";
 
-		if (!Helpers.util.isStringEmpty(stream.codiceVirtualEntity) && !Helpers.util.isStringEmpty(stream.codiceStream))
+		/*if (!Helpers.util.isStringEmpty(stream.codiceVirtualEntity) && !Helpers.util.isStringEmpty(stream.codiceStream))
 			virtualentity_stream = stream.codiceVirtualEntity + "_" + stream.codiceStream;
 		else if (!Helpers.util.isStringEmpty(stream.codiceVirtualEntity))
 			virtualentity_stream = stream.codiceVirtualEntity;
 		else if (!Helpers.util.isStringEmpty(stream.codiceStream))
 			virtualentity_stream += stream.codiceStream;
 
-		var result = "/topic/output." + stream.codiceTenant + "." + virtualentity_stream;
+		var result = "/topic/output." + stream.codiceTenant + "." + virtualentity_stream;*/
+		if (!Helpers.util.isStringEmpty(stream.smartobject.socode) && !Helpers.util.isStringEmpty(stream.streamcode))
+			virtualentity_stream = stream.smartobject.socode + "_" + stream.streamcode;
+		else if (!Helpers.util.isStringEmpty(stream.smartobject.socode ))
+			virtualentity_stream = stream.smartobject.socode ;
+		else if (!Helpers.util.isStringEmpty(stream.streamcode))
+			virtualentity_stream += stream.streamcode;
+
+		var result = "/topic/output." + stream.tenantManager.tenantcode + "." + virtualentity_stream;
 		return result;
 	},
 	wsStatUrl : function(stream) {

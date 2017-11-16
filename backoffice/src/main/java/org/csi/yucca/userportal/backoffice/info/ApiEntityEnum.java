@@ -136,7 +136,7 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
-	},
+	},	
 	API_SERVICES_LIFECYCLE_STREAM_REQ_INST("API_SERVICES_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -239,6 +239,12 @@ public enum ApiEntityEnum {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
+	API_ADMIN_TENANTTYPES("API_ADMIN_TENANTTYPES_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/public/tenant_types") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
+	}
 	;
 
 	private String nameEntity;
