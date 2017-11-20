@@ -59,7 +59,7 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info
 			    return ((a.langit < b.langit) ? -1 : ((a.langit > b.langit) ? 1 : 0));
 			});
 			for (var int = 0; int < response.length; int++) {
-				$scope.subdomainList.push(response[int].subdomaincode);
+				$scope.subdomainList.push(response[int]);
 			}
 		});
 	};
@@ -68,12 +68,15 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info
 	// tags
 
 	$scope.tagList = [];
+	$scope.tagMap = [];
 	var loadTags = function(){
 		adminAPIservice.loadTags().success(function(response) {
 			console.log("loadTags", response);
 			for (var int = 0; int < response.length; int++) {
 				var tagLabel = $translate.use()=='it'?response[int].langit:response[int].langen;
 				$scope.tagList.push({"idTag": response[int].idTag, "tagCode":response[int].tagcode, "tagLabel":tagLabel} );
+				$scope.tagMap[response[int].idTag]={"idTag": response[int].idTag, "tagCode":response[int].tagcode, "tagLabel":tagLabel} ;
+
 			}
 			
 			$scope.tagList.sort(function(a, b) { 

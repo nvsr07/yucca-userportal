@@ -35,7 +35,7 @@
 			</div>
 			<div class="col-sm-5 text-left">
 				<span  ng-repeat="tag in stream.tags">
-					<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
+					<span class="label label-tag label-custom"><span>{{(tag|tagFromId:tagMap).tagLabel|translate}}</span> &nbsp;
 					<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
 					</span> &nbsp;
 				</span>

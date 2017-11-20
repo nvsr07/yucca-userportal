@@ -1,5 +1,5 @@
-appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'adminAPIservice',  'info', '$translate', 
-                                                        function($scope, $route, $location, fabricAPIservice, adminAPIservice, info,  $translate) {
+appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'adminAPIservice', 'sharedAdminResponse', 'info', '$translate', 
+                                                        function($scope, $route, $location, fabricAPIservice, adminAPIservice, sharedAdminResponse, info,  $translate) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 
 	$scope.streamsList = [];
@@ -171,8 +171,8 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 } ]);
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream', '$translate',
-                                                    function($scope, $routeParams, fabricAPIservice, adminAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream, $translate) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'sharedAdminResponse', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream', '$translate',
+                                                    function($scope, $routeParams, fabricAPIservice, adminAPIservice, sharedAdminResponse, info, $timeout, $filter, readFilePreview, $location, sharedStream, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
@@ -278,7 +278,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.extra.isInternal = false;
 	var soInternal = null;
-
+	
 	$scope.selectSoInternal = function(isInternal){
 		console.log("selectSoInternal", $scope.extra.isInternal, isInternal);
 		if(isInternal)
@@ -588,9 +588,15 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 	
 	$scope.measureUnitsList = [];
+	//$scope.extra.measureUnitsMap = {};
+
 	adminAPIservice.loadMeasureUnits().success(function(response) {
 		console.log("loadMeasureUnits",response);
 		$scope.measureUnitsList = response;
+//		for (var muIndex = 0; muIndex < response.length; muIndex++) {
+//			$scope.extra.measureUnitsMap[response[muIndex].idMeasureUnit] = response[muIndex];
+//		}
+//		console.warn("scope.measureUnitsMap",$scope.extra.measureUnitsMap);
 	});
 
 
@@ -981,6 +987,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		if(typeof component.measureUnit == 'undefined' || component.measureUnit == null){
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED');
 		}
+		else{
+			component.idMeasureUnit = component.measureUnit.idMeasureUnit;
+		}
 		
 		if(typeof component.tolerance == 'undefined' || component.tolerance == null){
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED');
@@ -992,9 +1001,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		if(typeof component.phenomenon == 'undefined' || component.phenomenon == null){
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED');
 		}
+		else{
+			component.idPhenomenon = component.phenomenon.idPhenomenon;
+		}
+		
 		
 		if(typeof component.dataType == 'undefined' || component.dataType == null){
 			$scope.insertComponentErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TYPE_REQUIRED');
+		}
+		else{
+			component.idDataType = component.dataType.idDataType;
 		}
 		
 		console.log("validateComponent result ", $scope.insertComponentErrors, $scope.insertComponentErrors.length);
@@ -1020,14 +1036,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			var found = false;	
 			for (var int = 0; int < $scope.stream.tags.length; int++) {
 				var existingTag = $scope.stream.tags[int];
-				if(existingTag.tagCode == newTag.tagCode){
+				if(existingTag == newTag.idTag){
 					found = true;
 					break;
 				}
 
 			}
 			if(!found)
-				$scope.stream.tags.push(newTag);
+				$scope.stream.tags.push(newTag.idTag);
 			$scope.newTag.value = null;
 		}
 		return false;
@@ -1354,16 +1370,33 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			//FIXME internal stream da rivedere
 			
 			
-			if ($scope.stream.visibility=='private'){
-				delete $scope.stream['openData'];
-			} else {
-				$scope.stream.openData.opendataupdatedate =  new Date($scope.stream.openData.opendataupdatedate).opendataDate.getTime();
-			}
+			
+				if ($scope.stream.visibility=='private'){
+					delete $scope.stream['openData'];
+				} else {
+					if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )
+					$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
+				}
+				
+				
+			
 
 			console.log("createStream - stream", $scope.stream);
+			console.log("createStream - selectedSo", $scope.extra.selectedSo);
 
 			$scope.isUpdating = true;
-			adminAPIservice.createStream(info.getActiveTenant(), $scope.selectedso.soCode, $scope.stream).success(function(response) {
+			
+			//Valorizzazione parametri obbligatori richiesti dall'API
+			$scope.stream.idTenant = info.getActiveTenant().idTenant;
+			for (var int = 0; int < $scope.stream.components.length; int++) {
+				$scope.stream.components[int].alias=$scope.stream.components[int].name;
+				$scope.stream.components[int].inorder=int;
+				$scope.stream.components[int].required = false;
+			}
+
+			
+			
+			adminAPIservice.createStream(info.getActiveTenant(), $scope.extra.selectedSo.socode,$scope.stream).success(function(response) {
 				console.log("createStream SUCCESS", response);
 				$scope.admin_response.type = 'success';
 				$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
@@ -1383,7 +1416,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 			});
 
-			
+			/*
 			var promise   = fabricAPIservice.createStream($scope.tenantCode, stream.codiceVirtualEntity,  newStream);
 			promise.then(function(result) {
 				$scope.isUpdating = false;
@@ -1399,73 +1432,73 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				console.log("result.data ", result.data);
 			}, function(result) {
 				console.log('Got notification: ' + result);
-			});
+			});*/
 		}
 	
 	};
 	
-	$scope.createStream_old = function(stream) {
-		console.log("createStream", stream);
-		stream.privacyacceptance=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
-
-		var newStream = new Object();
-		newStream.stream = stream;
-//		if(!newStream.stream.twtGeolocLat || newStream.stream.twtGeolocLat==null || newStream.stream.twtGeolocLat=="") newStream.stream.twtGeolocLat = 0;
-//		if(!newStream.stream.twtGeolocLon || newStream.stream.twtGeolocLon==null || newStream.stream.twtGeolocLon=="") newStream.stream.twtGeolocLon = 0;
-//		if(!newStream.stream.twtGeolocRadius || newStream.stream.twtGeolocRadius==null || newStream.stream.twtGeolocRadius=="") newStream.stream.twtGeolocRadius = 0;
-//		if(!newStream.stream.twtRatePercentage || newStream.stream.twtRatePercentage==null || newStream.stream.twtRatePercentage=="") newStream.stream.twtRatePercentage = 100;
-
-		
-		if($scope.validationRes!=0 && $scope.stream.codiceVirtualEntity=="internal"){
-			$scope.errorMsg='STREAM_SIDDHI_PLEASE_VALIDATE';
-			$scope.validationRes=1;
-			$scope.goToComponents();
-			//Helpers.util.scrollTo("validateMsg");
-		}else{	
-
-			if($scope.stream.codiceVirtualEntity=="internal")
-				newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
-			newStream.stream.streamInternalChildren={};
-			newStream.stream.streamInternalChildren.streamChildren=[];
-			for(var i = 0; i< $scope.internalStreams.length; i++){
-				newStream.stream.streamInternalChildren.streamChildren.push({
-					"aliasChildStream":"input"+i,
-					"idChildStream": $scope.internalStreams[i].idStream
-				});
-			}
-			
-			if (newStream.stream.visibility=='private'){
-				newStream.stream.opendata = {};
-				newStream.stream.opendata.isOpendata = 0;
-				newStream.stream.opendata.author = null;
-				newStream.stream.opendata.dataUpdateDate = 0;
-				newStream.stream.opendata.language = null;
-			} else {
-				var opendataDate = new Date(newStream.stream.opendata.dataUpdateDate);
-				newStream.stream.opendata.dataUpdateDate = opendataDate.getTime();
-			}
-
-			console.log("createStream - newStream", newStream);
-
-			$scope.isUpdating = true;
-			var promise   = fabricAPIservice.createStream($scope.tenantCode, stream.codiceVirtualEntity,  newStream);
-			promise.then(function(result) {
-				$scope.isUpdating = false;
-				console.log("result qui ", result);
-				$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.streamcode);
-			}, function(result) {
-				$scope.isUpdating = false;
-				$scope.creationError = angular.fromJson(result.data);
-				if(result.data && result.data.error_code == "YuccaInternaApiFiledNameException"){
-					result.data.error_message = "MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID";
-					$scope.goToComponents();
-				}
-				console.log("result.data ", result.data);
-			}, function(result) {
-				console.log('Got notification: ' + result);
-			});
-		}
-	};	
+//	$scope.createStream_old = function(stream) {
+//		console.log("createStream", stream);
+//		stream.privacyacceptance=$scope.accettazionePrivacy & $scope.accettazioneResponsability;
+//
+//		var newStream = new Object();
+//		newStream.stream = stream;
+////		if(!newStream.stream.twtGeolocLat || newStream.stream.twtGeolocLat==null || newStream.stream.twtGeolocLat=="") newStream.stream.twtGeolocLat = 0;
+////		if(!newStream.stream.twtGeolocLon || newStream.stream.twtGeolocLon==null || newStream.stream.twtGeolocLon=="") newStream.stream.twtGeolocLon = 0;
+////		if(!newStream.stream.twtGeolocRadius || newStream.stream.twtGeolocRadius==null || newStream.stream.twtGeolocRadius=="") newStream.stream.twtGeolocRadius = 0;
+////		if(!newStream.stream.twtRatePercentage || newStream.stream.twtRatePercentage==null || newStream.stream.twtRatePercentage=="") newStream.stream.twtRatePercentage = 100;
+//
+//		
+//		if($scope.validationRes!=0 && $scope.stream.codiceVirtualEntity=="internal"){
+//			$scope.errorMsg='STREAM_SIDDHI_PLEASE_VALIDATE';
+//			$scope.validationRes=1;
+//			$scope.goToComponents();
+//			//Helpers.util.scrollTo("validateMsg");
+//		}else{	
+//
+//			if($scope.stream.codiceVirtualEntity=="internal")
+//				newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
+//			newStream.stream.streamInternalChildren={};
+//			newStream.stream.streamInternalChildren.streamChildren=[];
+//			for(var i = 0; i< $scope.internalStreams.length; i++){
+//				newStream.stream.streamInternalChildren.streamChildren.push({
+//					"aliasChildStream":"input"+i,
+//					"idChildStream": $scope.internalStreams[i].idStream
+//				});
+//			}
+//			
+//			if (newStream.stream.visibility=='private'){
+//				newStream.stream.opendata = {};
+//				newStream.stream.opendata.isOpendata = 0;
+//				newStream.stream.opendata.author = null;
+//				newStream.stream.opendata.dataUpdateDate = 0;
+//				newStream.stream.opendata.language = null;
+//			} else {
+//				var opendataDate = new Date(newStream.stream.opendata.dataUpdateDate);
+//				newStream.stream.opendata.dataUpdateDate = opendataDate.getTime();
+//			}
+//
+//			console.log("createStream - newStream", newStream);
+//
+//			$scope.isUpdating = true;
+//			var promise   = fabricAPIservice.createStream($scope.tenantCode, stream.codiceVirtualEntity,  newStream);
+//			promise.then(function(result) {
+//				$scope.isUpdating = false;
+//				console.log("result qui ", result);
+//				$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.streamcode);
+//			}, function(result) {
+//				$scope.isUpdating = false;
+//				$scope.creationError = angular.fromJson(result.data);
+//				if(result.data && result.data.error_code == "YuccaInternaApiFiledNameException"){
+//					result.data.error_message = "MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_NAME_INVALID";
+//					$scope.goToComponents();
+//				}
+//				console.log("result.data ", result.data);
+//			}, function(result) {
+//				console.log('Got notification: ' + result);
+//			});
+//		}
+//	};	
 
 	$scope.cloneStream = function(){
 		console.log("cloneStream");

@@ -162,7 +162,7 @@
 		<label for="inputStreamOpendataEmailOrg" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_EMAILORG</span><span class='required-asterisk'>*</span></label>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" id="inputStreamOpendataEmailOrg" placeholder="{{'STREAM_FIELD_METADATA_DCAT_EMAILORG_PLACEHOLDER'|translate}}" 
-			ng-required="true" ng-model="stream.dcatemailorg">
+			ng-required="true" ng-model="stream.dcat.dcatemailorg">
 		</div>	
 	</div>	
 	<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div>
@@ -182,7 +182,7 @@
 	         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="stream.license.licensecode">
 	         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENSE_OTHER</span>
 	       		</label>
-				<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="stream.license" placeholder="{{'STREAM_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenseVisible()' >
+				<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="stream.license.licensecode" placeholder="{{'STREAM_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenseVisible()' >
 				</textarea>
 			</div>
 		</div>			

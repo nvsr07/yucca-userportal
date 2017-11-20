@@ -202,3 +202,27 @@ appFilters.filter('prettifyTweet', function() {
 		return output;
 	};
 });
+
+appFilters.filter('tagFromId', function() {
+	return function(tagId, tagMap) {
+		var tag = null;
+		if ((typeof tagMap != "undefined") && tagMap !=null && (typeof tagMap != "undefined") && tagMap !=null) {
+			tag = tagMap[tagId];
+		
+		}
+		return tag;
+	};
+});
+//appFilters.filter('measureUnitFromId', function() {
+//	return function(measureUnitId, measureUnitMap) {
+//		console.log("measureUnitFromId",measureUnitId, measureUnitMap);
+//		var measureUnit = null;
+//		if ((typeof measureUnitMap != "undefined") && measureUnitMap !=null && (typeof measureUnitMap != "undefined") && measureUnitMap !=null) {
+//			measureUnit = measureUnitMap[measureUnitId];
+//		
+//		}
+//		console.log("measureUnit",measureUnit);
+//
+//		return measureUnit;
+//	};
+//});

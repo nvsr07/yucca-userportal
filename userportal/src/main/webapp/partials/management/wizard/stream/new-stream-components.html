@@ -63,18 +63,18 @@
 					<div class='ajax-loading' ng-if='showLoadingAddStream'><span translate-cloak translate ></span></div>
 				</div>	
 			</div>
-			<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group option-warning">
+			<div ng-if="extra.isInternal" class="form-group option-warning">
 				<i class="fa fa-lightbulb-o"></i> <span translate>MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING</span>
 			</div>
 		
 			<div>
-				<div id="validateMsg" class="col-sm-10 col-sm-offset-2">
+				<div ng-if="extra.isInternal" id="validateMsg" class="col-sm-10 col-sm-offset-2">
 					<div class="alert-danger"><p ng-hide='validationRes!=1'>{{errorMsg|translate}}</p></div>
 					<div class="alert-success"><p ng-hide='validationRes!=0'><span translate-cloak translate>STREAM_SIDDHI_QUERY_SUCCESS</span></p></div>
 				</div>	
 		
 			</div >
-			<div class="form-group">
+			<div ng-if="extra.isInternal" class="form-group">
 				<div class="col-sm-2">
 					<label for="streamSiddhiQueryLabel" class="control-label"><span translate-cloak translate>STREAM_SIDDHI_QUERY</span> <span class='required-asterisk'>*</span></label>
 					<a href="http://developer.smartdatanet.it/docs/specifiche-di-creazione-stream-a-partire-da-stream-esistenti/" target="_blank" class="link-help" >Help <i class="glyphicon glyphicon-question-sign"></i></a>
@@ -98,7 +98,6 @@
 						<strong translate-cloak translate>WARNING_TITLE</strong> <span translate-cloak translate>MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS</span>
 					</div>
 					<!-- <a class="btn btn-default btn-xs"  ng-disabled="true"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_READ_COMPONENT_FROM_STREAM_BUTTON</span></a>-->
-					
 					<table class="table">
 						<thead>
 							<tr>
@@ -113,7 +112,8 @@
 						<tbody>
 							<tr ng-repeat="component in stream.components">
 								<td><span style="display: none"> {{component.idComponente}}</span>{{component.name}}</td>
-								<td>{{component.measureUnit.measureunitcategory}}: {{component.measureUnit.measureunit}}</td>
+								<td>
+								{{component.measureUnit.measureunitcategory}}: {{component.measureUnit.measureunit}}</td>
 								<td>{{component.tolerance}}</td>
 								<td>{{component.phenomenon.phenomenoncetegory}}: {{component.phenomenon.phenomenonname}}</td>
 								<td>{{component.dataType.description}}</td>

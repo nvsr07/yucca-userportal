@@ -189,6 +189,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 			url : urlWithParam
 		});
 	};
+	
 
 	adminAPI.createStream = function(activeTenant, soCode, stream) {
 		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode).replace(new RegExp('{soCode}', 'gi'), soCode);
@@ -199,6 +200,8 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode).replace(new RegExp('{soCode}', 'gi'), soCode) + '/' +streamCode;
 		return $http.put(urlWithParam, stream);
 	};
+	
+	
 
 	return adminAPI;
 } ]);
