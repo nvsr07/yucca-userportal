@@ -242,6 +242,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.goToComponents  = function(){
 		console.log("goToComponents",$scope.extra.selectedSo);
 		console.log("Constants.VIRTUALENTITY_TYPE_TWITTER_ID",Constants.VIRTUALENTITY_TYPE_TWITTER_ID);
+		console.log("ISTWITTER",isTwitter());
+		
 		if(isTwitter()){
 			$scope.currentStep = 'tweetdata';refreshWizardToolbar();
 		}
@@ -250,7 +252,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 	
 	$scope.goToShare  = function(){
-		if($scope.extra.selectedSo !=null && $scope.extra.selectedSo.idSoType != Constants.VIRTUALENTITY_TYPE_TWITTER_ID 
+		if($scope.extra.selectedSo !=null && $scope.extra.selectedSo.soType.idSoType != Constants.VIRTUALENTITY_TYPE_TWITTER_ID 
 				&& (!$scope.stream.components || $scope.stream.components.length==0)){
 			$scope.admin_response.type = 'warning';
 			$scope.admin_response.message = 'MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS';
@@ -259,7 +261,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			//$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 		}
 		else{
-			$scope.currentStep = 'share';
+			
+		$scope.currentStep = 'share';
 			refreshWizardToolbar();
 		}
 
