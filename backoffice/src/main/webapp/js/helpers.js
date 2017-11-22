@@ -60,7 +60,7 @@ Helpers.tenant = {
 				var cssClass = "";
 				switch (status) {
 					case "draft":
-						cssClass = "glyphicon-pencil action-edit";
+						cssClass = "glyphicon-pencil action-draft";
 						break;
 					case "req_inst":
 						cssClass = "glyphicon-cog action-request-installation";
@@ -78,10 +78,10 @@ Helpers.tenant = {
 						cssClass = "glyphicon-remove-circle action-rejected";
 						break;
 					case "prg_inst":
-						cssClass = "glyphicon-flash action-install";
+						cssClass = "glyphicon-flash action-progress";
 						break;
 					case "prg_uninst":
-						cssClass = "glyphicon-flash action-uninstall";
+						cssClass = "glyphicon-flash action-progress";
 						break;
 					case "inst_fail":
 						cssClass = "glyphicon-remove action-rejected";

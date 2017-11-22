@@ -212,12 +212,14 @@ pre{background-color:#f2f5f7; border: none; outline:none;border-radius: 4px;}
 /* button colors */
 .action-new{color: #19aeff;}
 .action-edit{color: #edd400;}
-.action-request-installation{color: #ff9900;}
+.action-request-installation{color: #ffaa00;}
 .action-delete{color: #b50000;}
-.action-install{color: #9ade00;}
+.action-install{color: #8fca40;}
 .action-uninstall{color: #d49725;}
 .action-historical{color: #9955bb;}
 .action-rejected{color: #dc0000;}
+.action-progress{color: #fae03c;}
+.action-draft{color: #a3a328;}
 
 
 .btn-new{color: white!important; background-color: #717b7c;border-color: #717b7c;border-radius: 0px;}

@@ -178,7 +178,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 
 	$scope.searchStatusFilter = function(row) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(tenant.tenantStatus.description) || keyword.test(tenant.tenantStatus.tenantstatuscode);
+		return !$scope.statusFilter || keyword.test(row.tenant.tenantStatus.description) || keyword.test(row.tenant.tenantStatus.tenantstatuscode);
 	};
 
 	$scope.$watch('statusFilter', function(newStatus) {
