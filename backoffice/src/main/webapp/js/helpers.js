@@ -54,29 +54,38 @@ Helpers.stream = {
 };
 
 Helpers.tenant = {
-		statusIcon : function(tenant) {
+		statusIcon : function(status) {
 			var icon = "";
-			if (tenant.codDeploymentStatus) {
+			if (status) {
 				var cssClass = "";
-				switch (tenant.codDeploymentStatus) {
-				case "draft":
-					cssClass = "glyphicon-pencil action-edit";
-					break;
-				case "req_inst":
-					cssClass = "glyphicon-cog action-request-installation";
-					break;
-				case "inst":
-					cssClass = "glyphicon-save action-install";
-					break;
-				case "req_uninst":
-					cssClass = "glyphicon-cog action-uninstall";
-					break;
-				case "uninst":
-					cssClass = "glyphicon-time action-historical";
-					break;
-				case "reject":
-					cssClass = "glyphicon-remove-circle action-rejected";
-					break;
+				switch (status) {
+					case "draft":
+						cssClass = "glyphicon-pencil action-edit";
+						break;
+					case "req_inst":
+						cssClass = "glyphicon-cog action-request-installation";
+						break;
+					case "inst":
+						cssClass = "glyphicon-save action-install";
+						break;
+					case "req_uninst":
+						cssClass = "glyphicon-cog action-uninstall";
+						break;
+					case "uninst":
+						cssClass = "glyphicon-time action-historical";
+						break;
+					case "reject":
+						cssClass = "glyphicon-remove-circle action-rejected";
+						break;
+					case "prg_inst":
+						cssClass = "glyphicon-flash action-install";
+						break;
+					case "prg_uninst":
+						cssClass = "glyphicon-flash action-uninstall";
+						break;
+					case "inst_fail":
+						cssClass = "glyphicon-remove action-rejected";
+						break;
 					
 				}
 				icon = "<span class='glyphicon " + cssClass + "'></span>";
@@ -84,32 +93,32 @@ Helpers.tenant = {
 
 			return icon;
 		},
-		statusIconAdmin : function(stream) {
-			var icon = "";
-			if (stream.tenantStatus.description) {
-				var cssClass = "";
-				switch (stream.tenantStatus.tenantstatuscode) {
-				case "draft":
-					cssClass = "glyphicon-pencil action-edit";
-					break;
-				case "req_inst":
-					cssClass = "glyphicon-cog action-request-installation";
-					break;
-				case "inst":
-					cssClass = "glyphicon-save action-install";
-					break;
-				case "req_uninst":
-					cssClass = "glyphicon-cog action-uninstall";
-					break;
-				case "uninst":
-					cssClass = "glyphicon-time action-historical";
-					break;
-				}
-				icon = "<span class='glyphicon " + cssClass + "'></span>";
-			}
-
-			return icon;
-		}
+//		statusIconAdmin : function(stream) {
+//			var icon = "";
+//			if (stream.tenantStatus.description) {
+//				var cssClass = "";
+//				switch (stream.tenantStatus.tenantstatuscode) {
+//				case "draft":
+//					cssClass = "glyphicon-pencil action-edit";
+//					break;
+//				case "req_inst":
+//					cssClass = "glyphicon-cog action-request-installation";
+//					break;
+//				case "inst":
+//					cssClass = "glyphicon-save action-install";
+//					break;
+//				case "req_uninst":
+//					cssClass = "glyphicon-cog action-uninstall";
+//					break;
+//				case "uninst":
+//					cssClass = "glyphicon-time action-historical";
+//					break;
+//				}
+//				icon = "<span class='glyphicon " + cssClass + "'></span>";
+//			}
+//
+//			return icon;
+//		}
 	};
 
 

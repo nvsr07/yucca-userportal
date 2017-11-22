@@ -98,7 +98,7 @@
 						<td><span title='{{row.tenant.description}}'><small>{{row.tenant.description|string_ellipse:15}}</small></span></td>
 						<td><small>{{row.tenant.bundles.maxdatasetnum}}</small></td>
 						<td><small>{{row.tenant.bundles.maxstreamsnum}}</small></td>
-						<td class='text-left'><span ng-bind-html="row.statusIcon"></span> <small>{{row.codDeploymentStatusTranslated}}</small></td>
+						<td class='text-left'><span ng-bind-html="row.statusIcon"></span> <small>{{row.tenant.tenantStatus.description}}</small></td>
 						<td class='text-right'> 
 							<a class='btn btn-default btn-sm' href ng-click='prepareMail(row)' title="{{'DASHBOARD_TENANT_PREPARE_MAIL_BUTTON_HINT'|translate}}">
 								<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>	<span translate>DASHBOARD_TENANT_PREPARE_MAIL_BUTTON</span>

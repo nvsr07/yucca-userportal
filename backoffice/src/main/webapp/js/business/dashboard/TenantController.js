@@ -119,8 +119,8 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		//20171024 - NUuove API
 		//row.statusIcon = Helpers.tenant.statusIcon(row.tenant);
 		//row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.codDeploymentStatus);
-		row.statusIcon = Helpers.tenant.statusIconAdmin(row.tenant);
-		row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.tenantStatus.description);
+		row.statusIcon = Helpers.tenant.statusIcon(row.tenant.tenantStatus.tenantstatuscode);
+		//row.codDeploymentStatusTranslated =  $translate.instant(row.tenant.tenantStatus.description);
 		row.isSelected = false;
 		row.isUpdating = false;
 		row.updated = false;
@@ -178,7 +178,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 
 	$scope.searchStatusFilter = function(row) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(row.tenant.codDeploymentStatus) || keyword.test(row.codDeploymentStatusTranslated);
+		return !$scope.statusFilter || keyword.test(tenant.tenantStatus.description) || keyword.test(tenant.tenantStatus.tenantstatuscode);
 	};
 
 	$scope.$watch('statusFilter', function(newStatus) {
