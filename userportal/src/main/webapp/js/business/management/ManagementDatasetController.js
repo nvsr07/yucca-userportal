@@ -1898,7 +1898,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.isUploading = false;
 
 	$scope.warningMessages = [];
-	
+
 	$scope.createDataset = function() {
 		$scope.warningMessages = [];
 		$scope.saveError = null;
@@ -1966,9 +1966,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)
 				fileName = $scope.selectedFile.name;
 			$scope.isUploading = true;
+			var createUrl = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), info.getActiveTenant().organizationCode);
 			$scope.upload = $upload.upload({
-				url: Constants.API_MANAGEMENT_DATASET_LIST_URL + $scope.tenantCode + '/', 
-				//headers: { 'Content-Transfer-Encoding': '8bit' },
+				//url: Constants.API_MANAGEMENT_DATASET_LIST_URL + $scope.tenantCode + '/', 
+				url: createUrl,
 				method: 'POST',
 				data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
 				file: $scope.selectedFile, // or list of files ($files) for html5 only

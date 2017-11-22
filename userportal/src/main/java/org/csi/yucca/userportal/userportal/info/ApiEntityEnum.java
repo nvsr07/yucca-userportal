@@ -361,6 +361,14 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
+	API_ADMIN_DATASET("API_ADMIN_DATASET_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/organizations/{organizationCode}/datasets") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+
+	@Deprecated
 	API_MANAGEMENT_DATASET_LIST("API_MANAGEMENT_DATASET_LIST_URL", Config.API_PROXY_MANAGEMENT_BASE_URL + "dataset/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
