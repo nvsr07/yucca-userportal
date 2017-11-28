@@ -192,13 +192,13 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	
 
 	adminAPI.createStream = function(activeTenant, soCode, stream) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode).replace(new RegExp('{soCode}', 'gi'), soCode);
+		var urlWithParam = Constants.API_ADMIN_STREAM_CREATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode).replace(new RegExp('{soCode}', 'gi'), soCode);
 		return $http.post(urlWithParam, stream);
 	};
 	
 	adminAPI.updateStream = function(activeTenant, soCode, stream) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode).replace(new RegExp('{soCode}', 'gi'), soCode) + '/' +streamCode;
-		return $http.put(urlWithParam, stream);
+		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode).replace(new RegExp('{soCode}', 'gi'), soCode) + '/' +stream.idstream;
+		return $http.put(urlWithParam,stream);
 	};
 	
 	

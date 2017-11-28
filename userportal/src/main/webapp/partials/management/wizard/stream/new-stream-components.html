@@ -48,10 +48,11 @@
   					</div>
 				</div>					
 			</div>
+			
 			<div class="form-group" ng-if='admin_response_add_stream.message'>
 				<alert-panel  message='{{admin_response_add_stream.message}}'  code="{{admin_response_add_stream.code}}" detail="{{admin_response_add_stream.detail}}" type='{{admin_response_add_stream.type}}'></alert-panel>
 			</div>
-			<div class="form-group">
+			<div ng-if="extra.isInternal" class="form-group">
 				<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-8">
 					<select class="form-control col-sm-8" ng-model="streamSelectedItem">
@@ -66,7 +67,7 @@
 			<div ng-if="extra.isInternal" class="form-group option-warning">
 				<i class="fa fa-lightbulb-o"></i> <span translate>MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING</span>
 			</div>
-		
+	
 			<div>
 				<div ng-if="extra.isInternal" id="validateMsg" class="col-sm-10 col-sm-offset-2">
 					<div class="alert-danger"><p ng-hide='validationRes!=1'>{{errorMsg|translate}}</p></div>

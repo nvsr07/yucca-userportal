@@ -31,13 +31,13 @@
 			<label for="inputStreamOpendataAuthor" class="col-sm-2 control-label" translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_AUTHOR</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="inputStreamOpendataAuthor" placeholder="{{'STREAM_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER'|translate}}" 
-				ng-model="stream.opendata.opendataauthor" >
+				ng-model="stream.openData.opendataauthor" >
 			</div>
 		</div>
 		<div class="form-group" ng-show="stream.isOpendata">
 			<label for="inputStreamDomain" class="col-sm-2 control-label"translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_LANG</label>
 			<div class="col-sm-10">
-				<select class="input-sm form-control" ng-model="stream.opendata.language" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
+				<select class="input-sm form-control" ng-model="stream.openData.opendatalanguage" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
    					<option value="" translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER</option>
    				</select>
 			</div>
@@ -45,7 +45,7 @@
 		<div class="form-group" ng-show="stream.isOpendata">
 			<label for="inputStreamOpendataDataUpdateDate" class="col-sm-2 control-label" translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</label>
 			<div class="col-sm-3">
-				<input type="date" class="form-control" ng-model="stream.opendata.opendataupdatedate" close-text="Close" />
+				<input type="date" class="form-control" ng-model="stream.openData.opendataupdatedate" close-text="Close" />
 			</div>
 		</div>
 		<div class="form-group" ng-if="stream.visibility=='private'  && canShareStream()">
@@ -93,7 +93,7 @@
 		<div class="form-group">
 			<label for="inputDatasetExternalReference" class="col-sm-2 control-label ng-scope" translate-cloak translate>STREAM_FIELD_METADATA_EXTERNAL_REFERENCE</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control ng-pristine ng-valid" id="inputDatasetExternalReference" placeholder="Riferimento Esterno" ng-model="stream.externalreference">
+				<input type="text" class="form-control ng-pristine ng-valid" id="inputDatasetExternalReference" placeholder="Riferimento Esterno" ng-model="stream.openData.opendataexternalreference">
 			</div>
 		</div>	
 		<div class="form-group">
@@ -197,7 +197,7 @@
 		<div class="form-group" ng-show="stream.visibility=='private'">
 			<label for="inputStreamCopyright" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_COPYRIGHT</span></label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" id="inputStreamCopyright" placeholder="{{'STREAM_FIELD_COPYRIGHT'|translate}}" ng-model="stream.license.description" >
+				<input type="text" class="form-control" id="inputStreamCopyright" placeholder="{{'STREAM_FIELD_COPYRIGHT'|translate}}" ng-model="stream.copyright" >
 			</div>
 		</div>			
 		<div class="form-group">
