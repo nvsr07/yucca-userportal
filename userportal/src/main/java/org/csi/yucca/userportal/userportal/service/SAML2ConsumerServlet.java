@@ -102,7 +102,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 			List<Tenant> tenants = null;
 
-			List<Tenant> allTenant = getAllTenants(); // call without JWT, needed for sandbox
+			List<Tenant> allTenant = getAllTenants(info); // call without JWT, needed for sandbox
 
 			if (responseMessage != null) {
 				log.info("[SAML2ConsumerServlet::doPost] - Response message available");
@@ -295,14 +295,19 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	}
 	
 	
-	private static List<Tenant> getAllTenants() {
+	private static List<Tenant> getAllTenants(Info info) {
 		List<Tenant> allTenants = new ArrayList<Tenant>();
 		String apiBaseUrl = "";
 		try {
 			Properties config = Config.loadServerConfiguration();
-			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY) + "/tenants";
+			apiBaseUrl = config.getProperty(Config.API_ADMIN_URL_KEY) + "/1/management/tenants";
 			HttpClient client = HttpClientBuilder.create().build();
 			HttpGet httpget = new HttpGet(apiBaseUrl);
+			if(info!=null && info.getUser()!=null && info.getUser().getSecretTempJwtRaw()!=null){
+				httpget.setHeader("x-auth-token", info.getUser().getSecretTempJwtRaw());
+			}
+		
+
 
 			HttpResponse r = client.execute(httpget);
 			log.debug("[SAML2ConsumerServlet::getAllTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
