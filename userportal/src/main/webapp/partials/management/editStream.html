@@ -4,11 +4,11 @@
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>STREAM_FIELD_NAME</span></small></div>
-				<div class='main-info'><strong>{{stream.nomeStream}}</strong></div>
+				<div class='main-info'><strong>{{stream.streamname}}</strong></div>
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>STREAM_FIELD_CREATION_DATE</span></small></div>
-				<div><strong>{{stream.registrationDate}}</strong></div>
+				<div><strong>{{stream.registrationdate}}</strong></div>
 			
 			</div>
 		</div>
@@ -19,7 +19,7 @@
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>STREAM_FIELD_VERSION</span></small></div>
-				<div><strong>{{stream.deploymentVersion}}</strong></div>
+				<div><strong>{{stream.version}}</strong></div>
 			
 			</div>
 		</div>
@@ -50,15 +50,15 @@
 				<div class="col-sm-10 col-sm-offset-1">
 					<div class="row card-row">
 						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_CODE</span></strong></div>
-						<div class="col-sm-10">{{stream.codiceStream}}</div>
+						<div class="col-sm-10">{{stream.streamcode}}</div>
 					</div>			
 					<div class="row card-row">
 						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY</span></strong></div>
-						<div class="col-sm-10">{{stream.codiceVirtualEntity}} - {{stream.virtualEntityName}}</div>
+						<div class="col-sm-10">{{stream.smartobject.socode}} - {{stream.smartobject.name}}</div>
 					</div>			
 					<div class="row card-row">
 						<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_STATUS</span></strong></div>
-						<div class="col-sm-10">{{stream.deploymentStatusDesc}}</div>
+						<div class="col-sm-10">{{stream.smartobject.status.descriptionStatus}}</div>
 					</div>			
 				</div>
 			</div>
@@ -70,18 +70,50 @@
 						<div class="form-group">
 							<label for="inputStreamName" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_NAME</span></label>
 							<div class="col-sm-5">
-								<input type="text" class="form-control" ng-model="stream.nomeStream"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME'|translate}}" maxlength="40" >
+								<input type="text" class="form-control" ng-model="stream.streamname"  id="inputStreamName" placeholder="{{'STREAM_FIELD_NAME'|translate}}" maxlength="40" >
 							</div>
 							<div class="col-sm-5 form-hint">
 								<span class='hint-message' ng-bind-html="'MANAGEMENT_DESCRIPTION_ON_STORE_HINT'|translate"></span>  <i class="fa fa-long-arrow-right hint-arrow"></i>  <i class="fa fa-user hint-store-icon"></i>
 							</div>
 						</div>
+															
+						<div class="form-group">
+							<label for="inputStreamAddTag" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_TAGS</span><span class='required-asterisk'>*</span></label>
+							<div class="col-sm-4 text-left">
+								<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
+									<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
+											typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
+									<span class="input-group-addon tag-html-tooltip-button" ng-click="showChooseTagTable()">&quest;</span>
+								</div>	
+							</div>
+							<div class="col-sm-5 text-left">
+								<span  ng-repeat="tag in stream.tags">		
+									<span class="label label-tag label-custom" ng-if="(tag|tagFromId:tagMap)"><span>{{(tag|tagFromId:tagMap).tagLabel|translate}}</span> &nbsp;
+									<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
+									</span> &nbsp;	
+									<span class="label label-tag label-custom" ng-if="!(tag|tagFromId:tagMap)"><span ng-bind-html="tag.tagcode|translate"></span>
+									<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
+									</span>
+								</span>
+							</div>							
+						</div>		
+							<!--  						
+							<div class="col-sm-5 text-left">
+								<span  ng-repeat="tag in stream.tags">
+									<span class="label label-tag label-custom"><span>{{(tag|tagFromId:tagMap).tagLabel|translate}}</span> &nbsp;
+									<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
+									</span> &nbsp;
+								</span>
+							</div></div>-->	
+						
+						
+										<!--  
 						<div class="form-group">
 							<label for="inputStreamAddTag" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_TAGS</span></label>
 							<div class="col-sm-10">
 								<p>
-									<span  ng-repeat="tag in stream.streamTags.tag">
-										<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
+									<span  ng-repeat="tag in stream.tags">
+										<span class="label label-tag label-custom"><span ng-bind-html="tag.tagcode|translate"></span> &nbsp;
 										<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
 										</span> &nbsp;
 									</span>
@@ -90,13 +122,14 @@
     								<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
     								typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
     								<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span>
-		    					</div>								
+		    					</div>			    												
 							</div>
 						</div>		
+						-->
 						<div class="form-group">
 							<label for="inputStreamDomain" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_DOMAIN</span></label>
 							<div class="col-sm-10">
-								<div class='col-sm-10'>{{stream.domain|translate}}<span ng-show='stream.codSubDomain != stream.domain'> - {{stream.codSubDomain|translate}}</span></div>
+								<div class='col-sm-10'>{{stream.domain.domaincode|translate}}<span ng-show='stream.subdomain.subdomaincode!= stream.domain.domaincode'> - {{stream.subdomain.subdomaincode|translate}}</span></div>
 								<!-- 
 								<select ng-disabled="true" class="input-sm form-control" ng-model="stream.domain" ng-options="domain as (domain|translate) for domain in domainList">
 			    					<option value="">{{'MANAGEMENT_EDIT_STREAM_DOMAIN_PLACEHOLDER'|translate}}</option>
@@ -116,7 +149,7 @@
 						<div class="form-group">
 							<label for="inputDatasetExternalReference" class="col-sm-2 control-label ng-scope" translate-cloak translate>STREAM_FIELD_METADATA_EXTERNAL_REFERENCE</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control ng-pristine ng-valid" id="inputDatasetExternalReference" placeholder="Riferimento Esterno" ng-model="stream.externalReference">
+								<input type="text" class="form-control ng-pristine ng-valid" id="inputDatasetExternalReference" placeholder="Riferimento Esterno" ng-model="stream.openData.opendataexternalreference">
 							</div>
 						</div>			
 						<div class="form-group">
@@ -135,19 +168,19 @@
 								</div>
 							</div>
 							<div class="col-sm-3 col-sm-offset-1 text-right">
-								<img ng-src="{{stream.streamIcon}}" alt="logo stream" class='upload-icon-preview-img' >
+								<img ng-src="{{stream.icon}}" alt="logo stream" class='upload-icon-preview-img' >
 							</div>
 						</div>	
-						<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class='form-label-separator'><span translate-cloak translate>STREAM_INPUT_FIELDS</span></div>
-						<div ng-hide='stream.codiceVirtualEntity!="internal" || internalStreams.length==0' class="form-group">
+							<div ng-hide='stream.smartobject.socode!="internal" || internalStreams.length==0' class='form-label-separator'><span translate-cloak translate>STREAM_INPUT_FIELDS</span></div>
+						<div ng-hide='stream.smartobject.socode!="internal" || internalStreams.length==0' class="form-group">
 							<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_INTERNAL_SELECTED_STREAM</span></label>
 							<div class="col-sm-10">
 								<div class="table-responsive">
 		   					 		<table class="table">
 		   					  			<tbody class="internalStreamsBorder" ng-repeat="streamInt in internalStreams track by $index">
 						       				<tr>
-									            <td>{{streamInt.nomeStream}}</td>
-									            <td>{{streamInt.codiceVirtualEntity}}</td>
+									            <td>{{streamInt.streamname}}</td>
+									            <td>{{streamInt.smartobject.socode}}</td>
 									            <td> as input{{$index}}</td>	
 									        	<td><a  ng-click='cancelStreamToArray($index)' class="btn btn-remove btn-sm"><i class='glyphicon glyphicon-trash'></i></a></td>
 						        			</tr>
@@ -166,12 +199,12 @@
 															</tr>
 														</thead>
 														<tbody>
-															<tr ng-repeat="el in streamInt.componenti.element">
-																<td><span style="display: none"> {{el.idComponente}}</span>{{el.nome}}</td>
-																<td>{{el.measureUnitCategory}} : {{el.measureUnit}}</td>
+															<tr ng-repeat="el in stream.components">
+																<td><span style="display: none"> {{el.idComponent}}</span>{{el.name}}</td>
+																<td>{{el.measureUnit.measureunitcategory}} : {{el.measureUnit.measureunit}}</td>
 																<td>{{el.tolerance}} </td>
-																<td>{{el.phenomenonCategory}} : {{el.phenomenon}}</td>
-																<td>{{el.dataType}}</td>									
+																<td>{{el.phenomenon.phenomenoncetegory}} : {{el.phenomenon.phenomenonname}}</td>
+																<td>{{el.dataType.description}}</td>									
 															</tr>
 														</tbody>
 													</table>
@@ -183,7 +216,7 @@
 							</div>					
 						</div>
 					
-						<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
+						<div ng-hide='stream.smartobject.socode!="internal"' class="form-group">
 							<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
 							<div class="col-sm-8">
 								<select class="form-control col-sm-8" ng-model="streamSelectedItem">
@@ -192,12 +225,12 @@
 							</div>
 							<div class="col-sm-2"><a ng-click='addStreamToArray(streamSelectedItem)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></div>	
 						</div>
-						<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group option-warning">
+						<div ng-hide='stream.smartobject.socode!="internal"' class="form-group option-warning">
 							<i class="fa fa-lightbulb-o"></i> <span translate>MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING</span>
 						</div>
 						
 					
-						<div ng-hide='stream.codiceVirtualEntity!="internal"'>
+						<div ng-hide='stream.smartobject.socode!="internal"'>
 							<div id="validateMsg" class="col-sm-10 col-sm-offset-2">
 								<div class="alert-danger"><p ng-hide='validationRes!=1'>{{errorMsg|translate}}</p></div>
 								<div class="alert-success"><p ng-hide='validationRes!=0'><span translate-cloak translate>STREAM_SIDDHI_QUERY_SUCCESS</span></p></div>
@@ -205,7 +238,7 @@
 							</div>	
 					
 						</div >
-						<div ng-hide='stream.codiceVirtualEntity!="internal"' class="form-group">
+						<div ng-hide='stream.smartobject.socode!="internal"' class="form-group">
 							<div class="col-sm-2">
 								<label for="streamSiddhiQueryLabel" class="control-label"><span translate-cloak translate>STREAM_SIDDHI_QUERY</span> <span class='required-asterisk'>*</span></label>
 								<a href="http://developer.smartdatanet.it/docs/specifiche-di-creazione-stream-a-partire-da-stream-esistenti/" target="_blank" class="link-help" >Help <i class="glyphicon glyphicon-question-sign"></i></a>
@@ -217,17 +250,17 @@
 								<button class="btn btn-default" ng-click="valideteSiddhi(streamSiddhiQuery)"><span translate-cloak translate>STREAM_SIDDHI_VALIDATE_BUTTON</span></button>
 							</div>					
 						</div>
-						<div ng-show="stream.idTipoVe == VIRTUALENTITY_TYPE_TWITTER_ID">	
+						<div ng-show="stream.smartobject.soType.idSoType == VIRTUALENTITY_TYPE_TWITTER_ID">	
 							<div class='form-label-separator'><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span></div>
 							<div class="form-group has-feedback">
 								<label for="inputStreamTwtQuery" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span> <span class='required-asterisk'>*</span></label>
 								<div class="col-sm-6">
-									<input type="text" class="form-control" ng-model="stream.twtQuery"  id="inputStreamTwtQuery"  name="inputStreamTwtQuery"
+									<input type="text" class="form-control" ng-model="stream.twitterInfo.twtquery"  id="inputStreamTwtQuery"  name="inputStreamTwtQuery"
 									placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true">
 								</div>
 								<label for="inputStreamTwtLang" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_TWT_LANG</span> </label>
 								<div class="col-sm-2">
-									<select class="input-sm form-control" ng-model="stream.twtLang" ng-options="k as v for (k, v) in Lang_ISO_639_1">
+									<select class="input-sm form-control" ng-model="stream.twitterInfo.twtlang" ng-options="k as v for (k, v) in Lang_ISO_639_1">
 						  				<option value="">{{'CHOOSE'|translate}}</option>
 						  			</select>
 								</div>
@@ -235,19 +268,19 @@
 							<div class="form-group">
 								<label for="inputStreamTwtGeoLat" class="col-sm-2 control-label"><span translate-cloak translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span> </label>
 								<div class="col-sm-3">
-									<input type="text" class="form-control" ng-model="stream.twtGeolocLat"  id="inputStreamTwtGeoLat"  name="inputStreamTwtGeoLat" ng-pattern="validationPatternFloat"
+									<input type="text" class="form-control" ng-model="stream.twitterInfo.twtgeoloclat"  id="inputStreamTwtGeoLat"  name="inputStreamTwtGeoLat" ng-pattern="validationPatternFloat"
 									placeholder="{{'STREAM_FIELD_TWT_GEO_LAT'|translate}}">
 								</div>
 								<div class="col-sm-3">
-									<input type="text" class="form-control" ng-model="stream.twtGeolocLon"  id="inputStreamTwtGeoLon"  name="inputStreamTwtGeoLon" ng-pattern="validationPatternFloat"
+									<input type="text" class="form-control" ng-model="stream.twitterInfo.twtgeoloclon"  id="inputStreamTwtGeoLon"  name="inputStreamTwtGeoLon" ng-pattern="validationPatternFloat"
 									placeholder="{{'STREAM_FIELD_TWT_GEO_LON'|translate}}">
 								</div>
 								<label for="inputStreamTwtGeoRadius" class="col-sm-1  control-label"><span translate-cloak translate>STREAM_FIELD_TWT_GEO_RADIUS</span></label>
 								<div class="col-sm-1">
-									<input type="text" class="form-control" ng-model="stream.twtGeolocRadius"  id="inputStreamTwtGeoRadius"  name="inputStreamTwtGeoRadius" ng-pattern="validationPatternFloat">
+									<input type="text" class="form-control" ng-model="stream.twitterInfo.twtgeolocradius"  id="inputStreamTwtGeoRadius"  name="inputStreamTwtGeoRadius" ng-pattern="validationPatternFloat">
 								</div>
 								<div class="col-sm-2">
-									<select class="input-sm form-control" ng-model="stream.twtUnit" ng-options="k as v for (k, v) in TWITTER_GEO_SEARCH_RADIUS_UNIT">
+									<select class="input-sm form-control" ng-model="stream.twitterInfo.twtuntil" ng-options="k as v for (k, v) in TWITTER_GEO_SEARCH_RADIUS_UNIT">
 						  				<option value="">{{'CHOOSE'|translate}}</option>
 						  			</select>
 								</div>
@@ -299,7 +332,7 @@
 								</div>
 							</div>
 						</div>
-						<div ng-show="stream.idTipoVe != VIRTUALENTITY_TYPE_TWITTER_ID"> 
+						<div ng-show="stream.smartobject.soType.idSoType != VIRTUALENTITY_TYPE_TWITTER_ID"> 
 							<div class='form-label-separator'><span translate-cloak translate>STREAM_FIELD_COMPONENTS_OUTPUT</span></div>
 							<div class="form-group">
 								<div class="col-sm-2" id="management-edit-stream-component-help-fix">
@@ -322,10 +355,10 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr ng-repeat="component in stream.componenti.element">
+												<tr ng-repeat="component in stream.components">
 													<td>
-														<span style="display: none"> {{component.idComponente}}</span>
-														{{component.nome}}
+														<span style="display: none"> {{component.idComponent}}</span>
+														{{component.name}}
 														
 														<!-- <span ng-show="editingComponentIndex!=$index">{{component.nome}}</span>
 														<div class="has-feedback" ng-show="editingComponentIndex==$index">
@@ -336,7 +369,7 @@
 														</div>-->
 													</td>
 													<td>
-														<span ng-show="editingComponentIndex!=$index">{{component.measureUnitCategory}}: {{component.measureUnit}}</span>
+														<span ng-show="editingComponentIndex!=$index">{{component.measureUnit.measureunitcategory}}: {{component.measureUnit.measureunit}}</span>
 														<div class="has-feedback" ng-show="editingComponentIndex==$index">
 															<select class="input-sm form-control" ng-model="editComponentUnitOfMeasurement" id="editComponentUnitOfMeasurement{{$index}}"  ng-required="true"  name="editComponentUnitOfMeasurement{{$index}}"
 						             					 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
@@ -356,7 +389,7 @@
 														</div>
 													</td>
 													<td>
-														<span ng-show="editingComponentIndex!=$index">{{component.phenomenonCategory}}: {{component.phenomenon}}</span>
+														<span ng-show="editingComponentIndex!=$index">{{component.phenomenon.phenomenoncetegory}}: {{component.phenomenon.phenomenonname}}</span>
 														<div class="has-feedback" ng-show="editingComponentIndex==$index">
 															<select class="input-sm form-control" ng-model="editComponentPhenomenon" name="editComponentPhenomenon{{$index}}" ng-required="true"  id="editComponentPhenomenon{{$index}}" 
 						             					 		ng-options="phenomenom.phenomenonname group by phenomenom.phenomenoncetegory for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
@@ -367,7 +400,7 @@
 														</div>
 														
 													</td>
-													<td>{{component.dataType}}</td>
+													<td>{{component.dataType.description}}</td>
 													<td>{{component.sinceVersion}}</td>
 													<td ng-show="editingComponentIndex!=$index">
 														<a href ng-click='startEditComponent($index)' class="btn btn-icon-edit btn-sm" title="{{'EDIT'|translate}}">
@@ -388,33 +421,33 @@
 												</tr>
 												<tr>
 					               					 <td ng-class="{ 'has-error': insertComponentError }">
-					               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponentName" 
+					               					 	<input class="input-sm form-control" type="text" name="newComponentName" id="newComponentName" ng-model="newComponent.name" 
 					               					 		 placeholder="{{'STREAM_FIELD_COMPONENTS_NAME_PLACEHOLDER'|translate}}"></td>
 					             					 <td>
-					             					 	<select class="input-sm form-control" ng-model="newComponentUnitOfMeasurement" 
+					             					 	<select class="input-sm form-control" ng-model="newComponent.measureUnit" 
 					             					 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
 					             					 		<option value="">{{'MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER'|translate}}</option> 
 					             					 	</select>
 													</td>
 									                <td>
 									                	<input class="input-sm form-control" type="text" name="newComponentTolerance" id="newComponentTolerance" 
-									                		ng-model="newComponentTolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
+									                		ng-model="newComponent.tolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
 									                </td>
 					             					<td>
-					             					 	<select class="input-sm form-control" ng-model="newComponentPhenomenon" 
+					             					 	<select class="input-sm form-control" ng-model="newComponent.phenomenon" 
 					             					 		ng-options="phenomenom.phenomenonname group by phenomenom.phenomenoncetegory for phenomenom in phenomenomList track by phenomenom.idPhenomenon" >
 					             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 					             					 	</select>
 													</td>
 					             					 <td>
-					             					 	<select class="input-sm form-control" ng-model="newComponentDataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType" >
+					             					 	<select class="input-sm form-control" ng-model="newComponent.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType" >
 					             						 	<option value="">{{'MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER'|translate}}</option>
 					             					 	</select>
 													</td>
 					             					 <td>
 					             					 	&nbsp;
 													</td>
-					         						<td><a href ng-click='addComponent(newComponentName, newComponentUnitOfMeasurement,newComponentTolerance, newComponentPhenomenon,newComponentDataType)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
+					         						<td><a href ng-click='addComponent(newComponent)' class="btn btn-sm"><i class='glyphicon glyphicon-plus'></i></a></td>
 												</tr>
 											</tbody>
 										</table>
@@ -452,40 +485,61 @@
 							<label for="RadioGroupVisibility" class="col-sm-2 control-label"><span ng-bind-html="'STREAM_FIELD_ISOPENDATA'|translate"></span></label>
 							<div class="col-sm-10  text-left">
 								<label class="radio-inline">
-				             			<input type="radio" name="RadioGroupisOpendata" value="0" id="RadioGroupisOpendata_0" ng-model="stream.opendata.isOpendata"><span translate-cloak translate>STREAM_FIELD_ISOPENDATA_FALSE</span>
+				             			<input type="radio" name="RadioGroupisOpendata" value="0" id="RadioGroupisOpendata_0" ng-model="isOpendata"><span translate-cloak translate>STREAM_FIELD_ISOPENDATA_FALSE</span>
 				           		</label>
 								<label class="radio-inline">
-				             			<input type="radio" name="RadioGroupisOpendata" value="1" id="RadioGroupisOpendata_1" ng-model="stream.opendata.isOpendata"><span translate-cloak translate>STREAM_FIELD_ISOPENDATA_TRUE</span>
+				             			<input type="radio" name="RadioGroupisOpendata" value="1" id="RadioGroupisOpendata_1" ng-model="isOpendata"><span translate-cloak translate>STREAM_FIELD_ISOPENDATA_TRUE</span>
 				           		</label>
 							</div>
 						</div>
-						<div class="form-group" ng-show="stream.opendata.isOpendata == 1">
+						<div class="form-group" ng-show="isOpendata">
 							<label for="inputStreamOpendataAuthor" class="col-sm-2 control-label" translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_AUTHOR</label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" id="inputStreamOpendataAuthor" placeholder="{{'STREAM_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER'|translate}}" 
-								ng-model="stream.opendata.author" >
+								ng-model="stream.openData.opendataauthor" >
 							</div>
 						</div>
-						<div class="form-group" ng-show="stream.opendata.isOpendata == 1">
+						<div class="form-group" ng-show="isOpendata">
 							<label for="inputStreamDomain" class="col-sm-2 control-label"translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_LANG</label>
 							<div class="col-sm-10">
-								<select class="input-sm form-control" ng-model="stream.opendata.language" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
+								<select class="input-sm form-control" ng-model="stream.openData.opendatalanguage" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
 				   					<option value="" translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER</option>
 				   				</select>
 							</div>
 						</div>
-						<div class="form-group" ng-show="stream.opendata.isOpendata == 1">
+						<div class="form-group" ng-show="isOpendata">
 							<label for="inputStreamOpendataDataUpdateDate" class="col-sm-2 control-label" translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</label>
 							<div class="col-sm-3">
-								<input type="date" class="form-control" ng-model="stream.opendata.dataUpdateDate" close-text="Close" />
+								<input type="date" class="form-control" ng-model="stream.openData.opendataupdatedate" close-text="Close" />
 							</div>
 						</div>
+						<div class="form-group" ng-if="stream.visibility=='private'  && canShareStream()">
+							<label for="inputStreamAddTenantSharing" class="col-sm-2 control-label"><span translate-cloak translate>DATASET_FIELD_TENANTSSHARING</span></label>
+							<div class="col-sm-4 text-left">
+								<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
+									<input type="text" ng-model="newTenantSharing.value" typeahead="tenant as tenant.name for tenant in tenantsList | filter:{name:$viewValue} | limitTo:8" class="form-control"
+											typeahead-editable="false" typeahead-on-select="onTenantSharingSelect($item, $model, $label)"/>
+									<span class="input-group-addon tag-html-tooltip-button" ng-click="showChooseTenantTable()">&quest;</span>
+									
+								</div>	
+							</div>
+							<div class="col-sm-6 text-left">
+								<div>
+									<span  ng-repeat="tenantSharing in stream.sharingTenants">
+										<span class="label label-custom label-tenant-sharing"><span title="{{tenantSharing.tenantcode}} - {{tenantSharing.description}}">{{tenantSharing.name}}</span> &nbsp;
+										<a href ng-click='removeTenantSharing($index)' ng-if="tenantSharing.tenantcode!=tenantCode"  class='close-button'>&times;</a>
+										</span> &nbsp;
+									</span>
+								</div>						
+							</div>
+						</div>	
+						<!--  
 						<div class="form-group" ng-show="stream.visibility=='private' && canShareStream()">
 							<label for="inputStreamAddTenantSharing" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_TENANTSSHARING</span></label>
 							<div class="col-sm-10">
 								<p>
 									<span  ng-repeat="tenantSharing in stream.tenantsShare.tenantList">
-										<span class="label label-custom label-tenant-sharing"><span title="{tenantSharing.tenantCode}">{{tenantSharing.tenantName}}</span> &nbsp;
+										<span class="label label-custom label-tenant-sharing"><span title="{tenantSharing.tenantcode}">{{tenantSharing.name}}</span> &nbsp;
 										<a href ng-click='removeTenantSharing($index)' ng-show="tenantSharing.isOwner==0"  class='close-button'>&times;</a>
 										</span> &nbsp;
 									</span>
@@ -500,8 +554,8 @@
 								    	</a>
 								    </span>
 		    					</div>								
-							</div>
-						</div>		
+							</div>		
+						</div>-->
 						<div class="form-group">
 							<label for="RadioGroupPublish" class="col-sm-2 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_PUBLISH_ON_STORE_LABEL</span></label>
 							<div class="col-sm-10">
@@ -517,49 +571,49 @@
 						<div class="form-group">
 							<label for="inputStreamDcatRightHolderName" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span><span class='required-asterisk'>*</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputStreamDcatRightHolderName" ng-model="stream.dcatRightsHolderName" ng-required="true">
+								<input type="text" class="form-control" id="inputStreamDcatRightHolderName" ng-model="stream.dcat.dcatrightsholdername" ng-required="true">
 							</div>	
 						</div>		
 						<div class="form-group">
 							<label for="inputStreamDcatRightHolderType" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputStreamDcatRightHolderType" ng-model="stream.dcatRightsHolderType">
+								<input type="text" class="form-control" id="inputStreamDcatRightHolderType" ng-model="stream.dcat.dcatrightsholdertype">
 							</div>	
 						</div>		
 						<div class="form-group">
 							<label for="inputStreamDcatRightHolderId" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERID</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputStreamDcatRightHolderId" ng-model="stream.dcatRightsHolderId">
+								<input type="text" class="form-control" id="inputStreamDcatRightHolderId" ng-model="stream.dcat.dcatrightsholderid">
 							</div>	
 						</div>		
 						<div class="form-group">
 							<label for="inputDatasetDcatCreatorName" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORNAME</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputDatasetDcatCreatorName" ng-model="dataset.dcatCreatorName">
+								<input type="text" class="form-control" id="inputDatasetDcatCreatorName" ng-model="stream.dcat.dcatcreatorname">
 							</div>	
 						</div>		
 						<div class="form-group">
 							<label for="inputDatasetDcatCreatorType" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputDatasetDcatCreatorType" ng-model="dataset.dcatCreatorType">
+								<input type="text" class="form-control" id="inputDatasetDcatCreatorType" ng-model="stream.dcat.dcatcreatortype">
 							</div>	
 						</div>		
 						<div class="form-group">
 							<label for="inputStreamDcatCreatorId" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORID</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputStreamDcatCreatorId" ng-model="stream.dcatCreatorId">
+								<input type="text" class="form-control" id="inputStreamDcatCreatorId" ng-model="stream.dcat.dcatcreatorid">
 							</div>	
 						</div>		
 						<div class="form-group">
 							<label for="inputStreamOpendataNomeOrg" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_NOMEORG</span><span class='required-asterisk'>*</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputStreamOpendataNomeOrg" ng-model="stream.dcatNomeOrg" ng-required="true">
+								<input type="text" class="form-control" id="inputStreamOpendataNomeOrg" ng-model="stream.dcat.dcatnomeorg" ng-required="true">
 							</div>	
 						</div>		
 						<div class="form-group">
 							<label for="inputStreamOpendataEmailOrg" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_EMAILORG</span><span class='required-asterisk'>*</span></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputStreamOpendataEmailOrg" ng-model="stream.dcatEmailOrg" ng-required="true">
+								<input type="text" class="form-control" id="inputStreamOpendataEmailOrg" ng-model="stream.dcat.dcatemailorg" ng-required="true">
 							</div>	
 						</div>	
 						<div class='form-label-separator'><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_OTHER_INFO</span></div>

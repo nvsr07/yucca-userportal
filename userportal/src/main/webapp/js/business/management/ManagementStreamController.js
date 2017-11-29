@@ -27,7 +27,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	
 	console.log("ManagementStreamListCtrl - info", info.getActiveTenant());
 	
-	adminAPIservice.loadStreams(info.getActiveTenant(), info.getActiveTenant().tenantcode).success(function(response) {
+	adminAPIservice.loadStreams(info.getActiveTenant(), info.getActiveTenant().tenantCode).success(function(response) {
 		console.log("loadStreams SUCCESS", response);
 		$scope.streamsList = response;
 		$scope.showLoading = false;
@@ -187,6 +187,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.updateError = null;
 	$scope.insertComponentErrors = [];
 	$scope.wsUrl ="";
+	$scope.isOpendata =0;
+	
 	$scope.virtualentity = null;
 	$scope.warningMessages = [];
 	
@@ -629,9 +631,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 	
 	$scope.loadStream = function(){
-		console.log("organizationCode = ",info.getActiveTenant().organization.organizationcode);
+		console.log("organizationCode = ",info.getActiveTenant().organizationCode);
 		if(!$scope.isNewStream){
-			//fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).then(function(response) {
 			adminAPIservice.loadStream(info.getActiveTenant(),$routeParams.id_stream).success(function(response) {
 			$scope.stream = response;
 			console.log("loadStream",response);				
@@ -695,7 +696,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				if(!$scope.stream.status.statuscode || $scope.stream.status.statuscode == null)
 					$scope.stream.status.statuscode = Constants.STREAM_STATUS_DRAFT;
 	
-				//$scope.stream.domain = $scope.stream.domainStream;
 				$scope.wsUrl = Helpers.stream.wsOutputUrl($scope.stream);
 				
 				/*
@@ -711,16 +711,24 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				}
 				
 				//if($scope.stream.opendata.isOpendata == 1){ 
-				if($scope.stream.opendata &&  $scope.stream.opendata !=null){
-					var d = new Date($scope.stream.openData.lastupdate);
-					var mm = d.getMonth()+1;
-					var day = (d.getDate() < 10) ? "0" + d.getDate() : d.getDate();
-					if ($routeParams.managementTab == "editStream")
-						$scope.stream.openData.lastupdate = d.getFullYear() + "-" + mm + "-" + day;
-					else 
-						$scope.stream.openData.lastupdate = day + "/" + mm + "/" + d.getFullYear();
+				if($scope.stream.openData && ($scope.stream.openData.opendataupdatedate || $scope.stream.openData.opendataexternalreference || $scope.stream.openData.lastupdate || $scope.stream.openData.opendataauthor || $scope.stream.openData.opendatalanguage)){
+					$scope.isOpendata=1;
+					console.log("isOpendata",$scope.isOpendata);
+					if($scope.stream.openData.opendataupdatedate){
+						var d = new Date($scope.stream.openData.opendataupdatedate);
+						console.log("DateOpenData",d);
+						var mm = ((d.getMonth()+1) < 10) ? "0" + (d.getMonth()+1) :(d.getMonth()+1);
+						var day = ((d.getDate() < 10) ? "0" + d.getDate() : d.getDate()).toString();
+						if ($routeParams.managementTab == "editStream")
+							$scope.stream.openData.opendataupdatedate = (d.getFullYear()).toString() + "-" + mm + "-" + day;
+						else 
+							$scope.stream.openData.opendataupdatedate = day + "/" + mm + "/" + (d.getFullYear()).toString();
+					}
 				}
+				else {$scope.isOpendata=0;
+				console.log("isOpendata",$scope.isOpendata);}
 				console.debug("$routeParams = ",$routeParams);
+				
 			});
 		} else {
 			var streamClone = sharedStream.getStream();
@@ -1176,25 +1184,41 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		$location.path('management/streams/'+$scope.tenantCode);
 	};
 		
+	/*
+	 * UPDATE STREAM
+	 */
 	$scope.updateStream = function() {
-		console.log(" $scope.stream",  $scope.stream);
-
-		if($scope.validationRes!=0 && $scope.stream.codiceVirtualEntity=="internal"){
+		
+		//Ciclo per rivalorizzazione dell'array dei tag (l'API di update richiede un array di IdTag)
+		//Old tag --> tag precedentemente inseriti in fase di creazione dello stream
+		$scope.stream.oldTags= [];
+		if ($scope.stream.tags && $scope.stream.tags.length >0 ) {
+			for (var int = 0; int < $scope.stream.tags.length; int++)  {
+				if ($scope.stream.tags[int].hasOwnProperty('idTag')){
+					$scope.stream.oldTags.push($scope.stream.tags[int].idTag);
+					$scope.removeTag(int);
+					$scope.stream.tags.splice( int, 0, $scope.stream.oldTags[int] );
+				}
+			}
+		}
+			
+		if($scope.validationRes!=0 && $scope.extra.isInternal){
 			$scope.errorMsg='STREAM_SIDDHI_PLEASE_VALIDATE';
 			$scope.validationRes=1;
 			Helpers.util.scrollTo("validateMsg");
-		}else{	
+		}
+		else{	
 			$scope.validationRes=2;
 			$scope.updateInfo = null;
 			$scope.updateWarning = null;
 			$scope.warningMessages = [];
 			$scope.updateError = null;
 	
-			var newStream = new Object();
-	
-			newStream.stream =  $scope.stream;   
-			if($scope.stream.codiceVirtualEntity=="internal")
-				newStream.stream.internalQuery=  $scope.streamSiddhiQuery;
+			var newStream = new Object();	
+			newStream.stream =  $scope.stream;  
+
+			if($scope.extra.isInternal)
+				newStream.stream.internalquery=  $scope.streamSiddhiQuery;
 			
 			newStream.stream.streamInternalChildren={};
 			newStream.stream.streamInternalChildren.streamChildren=[];
@@ -1211,21 +1235,42 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 		}
 		
-		if (newStream.stream.visibility=='private'){
-			newStream.stream.opendata = {};
-			newStream.stream.opendata.isOpendata = 0;
-			newStream.stream.opendata.author = null;
-			newStream.stream.opendata.dataUpdateDate = 0;
-			newStream.stream.opendata.language = null;
+		if(!$scope.stream.openData && !($scope.stream.openData.opendataupdatedate || $scope.stream.openData.opendataexternalreference || $scope.stream.openData.lastupdate || $scope.stream.openData.opendataauthor || $scope.stream.openData.opendatalanguage)){
+			delete newStream.stream['openData'];
 		} else {
-			var opendataDate = new Date(newStream.stream.opendata.dataUpdateDate);
-			newStream.stream.opendata.dataUpdateDate = opendataDate.getTime();
+			if(Helpers.util.has(newStream, 'openData.opendataupdatedate') )	{				
+				//$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
+					var date =  new Date(newStream.openData.opendataupdatedate);	
+					var year = (date.getFullYear()).toString();
+					var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
+					var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
+					newStream.stream.openData.opendataupdatedate= year+month+day;	
+			}
 		}
 
-		if(!$scope.updateWarning){
+		console.log("updateStream - stream",newStream);
+		
+		adminAPIservice.updateStream(info.getActiveTenant(), newStream.stream.smartobject.socode,newStream.stream).success(function(response) {
+			console.log("updateStream SUCCESS", response);
+			$scope.admin_response.type = 'success';
+			$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
+			sharedAdminResponse.setResponse($scope.admin_response);
+			$scope.isUpdating = false;
+			//$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.streamcode);
 
-			var promise   = fabricAPIservice.updateStream(newStream);
-
+		}).error(function(response){
+			console.error("updateStream ERROR", response);
+			$scope.isUpdating = false;
+			$scope.admin_response.type = 'danger';
+			$scope.admin_response.message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
+			if(response && response.errorName)
+				$scope.admin_response.detail= response.errorName;
+			if(response && response.errorCode)
+				$scope.admin_response.code= response.errorCode;
+		});
+	}
+}
+			/*
 			$scope.isUpdating = true;
 
 			promise.then(function(result) {
@@ -1246,8 +1291,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				console.log('Got notification: ' + result);
 			});
 		};
-		}
-	};	
+		}*/
+	
 
 	$scope.requestInstallation = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
@@ -1374,14 +1419,18 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			
 			
 			
-				if ($scope.stream.visibility=='private'){
+				if ($scope.stream.visibility=='private' || ($scope.stream.visibility=='public' && $scope.stream.isOpendata )){
 					delete $scope.stream['openData'];
 				} else {
-					if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )
-					$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
+					if(Helpers.util.has($scope.stream, 'openData.opendataupdatedate') )	{				
+					//$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
+						var date =  new Date($scope.stream.openData.opendataupdatedate);	
+						var year = (date.getFullYear()).toString();
+						var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
+						var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
+						$scope.stream.openData.opendataupdatedate= year+month+day;	
+					}
 				}
-				
-				
 			
 
 			console.log("createStream - stream", $scope.stream);

@@ -5,7 +5,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 	$scope.ecosystemList = [];
 	$scope.nameFilter = null;
 	$scope.codeFilter = null;
-	$scope.statusFilter = 'Installazione in corso';
+	$scope.statusFilter = 'installation requested';
 	$scope.actions = Constants.TENANT_ACTIONS;
 
 	$scope.currentPage = 1;
