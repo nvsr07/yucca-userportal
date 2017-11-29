@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.entity.admin.tenant.Tenant;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 
@@ -62,18 +63,21 @@ public enum ApiEntityEnum {
 		}
 
 	},
-//	@Deprecated
-//	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
-//		@Override
-//		public boolean isAuthorizeAccess(HttpServletRequest request) {
-//
-//			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-//			if (AuthorizeUtils.getElementInPositionByRequest(request, 2).equals(info.getUser().getActiveTenant())) {
-//				return true;
-//			}
-//			return false;
-//		}
-//	},
+	// @Deprecated
+	// API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL",
+	// Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
+	// @Override
+	// public boolean isAuthorizeAccess(HttpServletRequest request) {
+	//
+	// Info info = (Info)
+	// request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
+	// if (AuthorizeUtils.getElementInPositionByRequest(request,
+	// 2).equals(info.getUser().getActiveTenant())) {
+	// return true;
+	// }
+	// return false;
+	// }
+	// },
 	API_SERVICES_TWITTER_AUTH_URL("API_SERVICES_TWITTER_AUTH_URL", Config.API_PROXY_SERVICES_TWITTER_BASE_URL + "auth") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -242,7 +246,6 @@ public enum ApiEntityEnum {
 		}
 	},
 
-	
 	// @Deprecated
 	// API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL",
 	// Config.API_PROXY_SERVICES_BASE_URL + "misc/category/") {
@@ -302,18 +305,21 @@ public enum ApiEntityEnum {
 			return AuthorizeUtils.isReadMethod(request);
 		}
 	},
-//	@Deprecated
-//	API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
-//		@Override
-//		public boolean isAuthorizeAccess(HttpServletRequest request) {
-//			if ("/tenants/".equals(request.getPathInfo()) && AuthorizeUtils.isReadMethod(request))
-//				return true;
-//			else if ("/tenants/newNotDefault/".equals(request.getPathInfo()) && AuthorizeUtils.isWriteMethod(request))
-//				return true;
-//			else
-//				return false;
-//		}
-//	},
+	// @Deprecated
+	// API_SERVICES_TENANT_LIST("API_SERVICES_TENANT_LIST_URL",
+	// Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
+	// @Override
+	// public boolean isAuthorizeAccess(HttpServletRequest request) {
+	// if ("/tenants/".equals(request.getPathInfo()) &&
+	// AuthorizeUtils.isReadMethod(request))
+	// return true;
+	// else if ("/tenants/newNotDefault/".equals(request.getPathInfo()) &&
+	// AuthorizeUtils.isWriteMethod(request))
+	// return true;
+	// else
+	// return false;
+	// }
+	// },
 	API_SERVICES_LIFECYCLE_STREAM_REQ_INST("API_SERVICES_LIFECYCLE_STREAM_REQ_INST", Config.API_PROXY_SERVICES_BASE_URL + "lifecycle/streams/reqinst/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -493,7 +499,7 @@ public enum ApiEntityEnum {
 				String visibleTenant = visibles[i];
 
 				for (Tenant tenant : info.getUser().getTenants()) {
-					if (visibleTenant.equals(tenant.getTenantCode())) {
+					if (visibleTenant.equals(tenant.getTenantcode())) {
 						found = true;
 						break;
 					}
@@ -511,10 +517,10 @@ public enum ApiEntityEnum {
 
 	public boolean isApiCalled(HttpServletRequest request) {
 		String requestURI = request.getRequestURI();
-		String startWith  =baseUrl;
-		if(baseUrl.indexOf("{")>0)
+		String startWith = baseUrl;
+		if (baseUrl.indexOf("{") > 0)
 			startWith = baseUrl.substring(0, baseUrl.indexOf("{"));
-		//return (requestURI).startsWith(request.getContextPath() + baseUrl);
+		// return (requestURI).startsWith(request.getContextPath() + baseUrl);
 		return (requestURI).startsWith(request.getContextPath() + startWith);
 	}
 }

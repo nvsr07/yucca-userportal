@@ -118,7 +118,7 @@ app.factory('info',  function() {
     
     infoService.canManageStream= function() {
     	var activeTenant = this.getActiveTenant();
-    	return activeTenant!=null && activeTenant.maxStreamsNum!=0;
+    	return activeTenant!=null && activeTenant.bundles.maxstreamsnum!=0;
     };    
     infoService.getActiveTenantCode = function(){
     	if(this.info && this.info.activeTenantCode)
@@ -126,7 +126,7 @@ app.factory('info',  function() {
     	else if(this.info && this.info.user && this.info.user.activeTenant)
     		return this.info.user.activeTenant;
     	else if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0)
-    		return this.info.user.tenants[0].tenantCode;
+    		return this.info.user.tenants[0].tenantcode;
     	return null;
     };
     
@@ -134,8 +134,8 @@ app.factory('info',  function() {
     	var activeTenantType = "none";
     	if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0){
     		for (var i = 0; i < this.info.user.tenants.length; i++) {
-				if(this.info.user.tenants[i].tenantCode == this.getActiveTenantCode()){
-					activeTenantType = this.info.user.tenants[i].tenantType; 
+				if(this.info.user.tenants[i].tenantcode == this.getActiveTenantCode()){
+					activeTenantType = this.info.user.tenants[i].tenantType.tenanttypecode; 
 					break;
 				}
 			}
@@ -149,7 +149,7 @@ app.factory('info',  function() {
     	if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0){
     		for (var i = 0; i < this.info.user.tenants.length; i++) {
 				if(this.info.user.tenants[i].tenantCode == this.getActiveTenantCode()){
-					shareInformationType = this.info.user.tenants[i].shareInformationType; 
+					shareInformationType = this.info.user.tenants[i].shareType.description; 
 					break;
 				}
 			}
@@ -165,7 +165,7 @@ app.factory('info',  function() {
     		return this.info.activeTenant;
     	else if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0 && this.getActiveTenantCode()!=null){
     		for (var i = 0; i < this.info.user.tenants.length; i++) {
-				if(this.info.user.tenants[i].tenantCode == this.getActiveTenantCode()){
+				if(this.info.user.tenants[i].tenantcode == this.getActiveTenantCode()){
 					this.info.activeTenant = this.info.user.tenants[i]; 
 					return this.info.activeTenant;
 					break;
@@ -180,7 +180,7 @@ app.factory('info',  function() {
     	var result  = false;
     	if(tenantCode){
     		for (var int = 0; int < this.info.user.tenants.length; int++) {
-				if(this.info.user.tenants[int].tenantCode == tenantCode){
+				if(this.info.user.tenants[int].tenantcode == tenantCode){
 					result = true;
 					break;
 				}

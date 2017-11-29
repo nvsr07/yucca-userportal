@@ -45,18 +45,18 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.JWTDelegate;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
+import org.csi.yucca.userportal.userportal.entity.admin.tenant.Tenant;
 import org.csi.yucca.userportal.userportal.entity.store.AllSubscriptionsResponse;
 import org.csi.yucca.userportal.userportal.entity.store.ApplicationSubscription;
 import org.csi.yucca.userportal.userportal.entity.store.GenerateTokenResponse;
 import org.csi.yucca.userportal.userportal.entity.store.LoadTokenFromApiResponse;
 import org.csi.yucca.userportal.userportal.info.Info;
-import org.csi.yucca.userportal.userportal.info.Tenant;
-import org.csi.yucca.userportal.userportal.info.TenantsContainer;
 import org.csi.yucca.userportal.userportal.info.User;
 import org.csi.yucca.userportal.userportal.utils.AuthorizeUtils;
 import org.csi.yucca.userportal.userportal.utils.Config;
 import org.csi.yucca.userportal.userportal.utils.JWTUtil;
 import org.csi.yucca.userportal.userportal.utils.Util;
+import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
 import org.opensaml.xml.ConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -68,6 +68,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 @WebServlet(name = "AuthorizeServlet", description = "Authorization Servlet", urlPatterns = { "/api/authorize" }, asyncSupported = false)
 public class SAML2ConsumerServlet extends HttpServlet {
@@ -97,16 +98,17 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String responseMessage = request.getParameter("SAMLResponse");
 			log.debug("[SAML2ConsumerServlet::doPost] - responseMessage: " + responseMessage);
 
-			
 			Info info = (Info) request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
 
 			List<Tenant> tenants = null;
 
-			List<Tenant> allTenant = getAllTenants(info); // call without JWT, needed for sandbox
+			List<Tenant> allTenant = getAllTenants(info); // call without JWT,
+															// needed for
+															// sandbox
 
 			if (responseMessage != null) {
 				log.info("[SAML2ConsumerServlet::doPost] - Response message available");
-				
+
 				Map<String, String> result = consumer.processResponseMessage(responseMessage);
 
 				User newUser = info.getUser();
@@ -120,29 +122,28 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					// setting User
 					newUser = new User();
 					try {
-						// OBTAIN TOKEN and JWT FROM WSO2 IS (REPLACEBLE WITH CUSTOM LOCAL JWT GENERATION)
+						// OBTAIN TOKEN and JWT FROM WSO2 IS (REPLACEBLE WITH
+						// CUSTOM LOCAL JWT GENERATION)
 						log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET TOKEN FROM SAML ");
 						String b64SAMLAssertion = result.get(AuthorizeUtils.ASSERTION_KEY);
-						LoadTokenFromApiResponse token =JWTDelegate.loadTokenFromSaml2(b64SAMLAssertion);
-						log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML "+token);
-						if (token==null)
-						{
+						LoadTokenFromApiResponse token = JWTDelegate.loadTokenFromSaml2(b64SAMLAssertion);
+						log.info("[SAML2ConsumerServlet::doPost] END - TOKEN FROM SAML " + token);
+						if (token == null) {
 							newUser.setErrorOnLogin("Unable to get token from SAML");
 							newUser.setLoggedIn(false);
-						}
-						else {
-						//
-						log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET JWT from TOKEN");
-						// NOTE: JWT expires very soon. It will be refreshed 
-						String jwtRaw = JWTDelegate.getJWTFromToken(token);
-						JSONObject jwt =JWTUtil.getJsonFromJwt(jwtRaw);
-						newUser.setLoggedIn(true);
-						newUser.setSecretTokenFromSaml(token);
-						newUser.setSecretTempJwt(jwt);
-						newUser.setSecretTempJwtRaw(jwtRaw);
+						} else {
+							//
+							log.info("[SAML2ConsumerServlet::doPost] BEGIN - GET JWT from TOKEN");
+							// NOTE: JWT expires very soon. It will be refreshed
+							String jwtRaw = JWTDelegate.getJWTFromToken(token);
+							JSONObject jwt = JWTUtil.getJsonFromJwt(jwtRaw);
+							newUser.setLoggedIn(true);
+							newUser.setSecretTokenFromSaml(token);
+							newUser.setSecretTempJwt(jwt);
+							newUser.setSecretTempJwtRaw(jwtRaw);
 						}
 					} catch (Exception e1) {
-						log.error("[SAML2ConsumerServlet::doPost] Unable to get JWT! "+e1.getMessage(),e1);
+						log.error("[SAML2ConsumerServlet::doPost] Unable to get JWT! " + e1.getMessage(), e1);
 						newUser.setErrorOnLogin("Unable to get Jwt");
 						newUser.setLoggedIn(false);
 					}
@@ -152,16 +153,16 @@ public class SAML2ConsumerServlet extends HttpServlet {
 					{
 						newUser.setUsername(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_USERNAME)));
 						newUser.setStrongUser(checkStrongAuthentication(result));
-						
+
 						// BEGIN get tenants
 						List<String> tenantsCode = null;
 						tenantsCode = loadRolesFromJwt(newUser, "_subscriber");
-						// do we need to add sandbox? 
+						// do we need to add sandbox?
 						if (tenantsCode.isEmpty()) {
-							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantCode());
+							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantcode());
 						}
-						
-						log.info("[SAML2ConsumerServlet::doPost] GOT Tenants:"+tenantsCode);
+
+						log.info("[SAML2ConsumerServlet::doPost] GOT Tenants:" + tenantsCode);
 						// filtro sui tenant, data di disattivazione
 						tenants = filterDisabledTenants(tenantsCode, allTenant);
 
@@ -170,26 +171,25 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 						List<String> tenantsCodeForTechincal = loadRolesFromJwt(newUser, "mb-topic-");
 						if (!tenantsCodeForTechincal.isEmpty()) {
-							log.info("[SAML2ConsumerServlet::doPost] Tecnical user!:"+tenantsCodeForTechincal);
+							log.info("[SAML2ConsumerServlet::doPost] Tecnical user!:" + tenantsCodeForTechincal);
 							newUser.setTechnicalUser(true);
 						}
-						
 
 						newUser.setFirstname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_GIVEN_NAME)));
 						newUser.setLastname(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_LASTNAME)));
 						newUser.setEmail(result.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_EMAIL_ADDRESS)));
 
 						detectSocialAndSetFields(newUser);
-						
+
 						newUser.setAcceptTermConditionTenantsFromString(loadTermConditionFromJwt(newUser));
-						newUser.setActiveTenant(tenants.get(0).getTenantCode());
-						
+						newUser.setActiveTenant(tenants.get(0).getTenantcode());
+
 						try {
 							newUser.setPermissions(loadPermissions(newUser));
 						} catch (Exception e) {
-							log.error("[SAML2ConsumerServlet::doPost] - ERROR on load permission" + e.getMessage(),e);
+							log.error("[SAML2ConsumerServlet::doPost] - ERROR on load permission" + e.getMessage(), e);
 						}
-						
+
 						Map<String, String> tokens = new HashMap<String, String>();
 
 						if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0) {
@@ -197,7 +197,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 							tokens.put(newUser.getActiveTenant(), newUser.getToken());
 							for (Tenant tnt : newUser.getTenants()) {
 								if (!tnt.equals(newUser.getActiveTenant())) {
-									tokens.put(tnt.getTenantCode(), getTokenForTenant(tnt.getTenantCode()));
+									tokens.put(tnt.getTenantcode(), getTokenForTenant(tnt.getTenantcode()));
 								}
 							}
 
@@ -217,18 +217,18 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 					}
 
-				info.setUser(newUser);
-				// info.setTenantCode(newUser.getTenant());
+					info.setUser(newUser);
+					// info.setTenantCode(newUser.getTenant());
 
-				request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
-				String returnPath = request.getContextPath() + "/"
-						+ URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
-				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
+					request.getSession().setAttribute(AuthorizeUtils.SESSION_KEY_INFO, info);
+					String returnPath = request.getContextPath() + "/"
+							+ URLDecoder.decode(Util.nvlt(request.getSession().getAttribute(AuthorizeUtils.SESSION_KEY_RETURN_PATH_AFTER_AUTHENTICATION)), "UTF-8");
+					log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
 
-				log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
-				response.sendRedirect(returnPath);
-			}
-		} else {
+					log.debug("[SAML2ConsumerServlet::doPost] - sendRedirect to " + returnPath);
+					response.sendRedirect(returnPath);
+				}
+			} else {
 				try {
 					String returnPath = request.getParameter("returnUrl");
 					String typeAuth = request.getParameter("typeAuth");
@@ -246,20 +246,17 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						if (typeAuth.equals("work"))
 							cssPath = cssPath + "Work.css";
 					}
-					response.sendRedirect(requestMessage + "&issuer="+consumer.getIssuer()+"&customCssPath=" + URLEncoder.encode(cssPath, "UTF-8"));
+					response.sendRedirect(requestMessage + "&issuer=" + consumer.getIssuer() + "&customCssPath=" + URLEncoder.encode(cssPath, "UTF-8"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		} finally {
 			log.debug("[SAML2ConsumerServlet::doPost] - END");
-		}			
+		}
 	}
 
-
-	
-	private void detectSocialAndSetFields(User newUser)
-	{
+	private void detectSocialAndSetFields(User newUser) {
 		String newUsername = newUser.getUsername();
 		if (newUsername.contains("_AT_")) {
 			newUser.setSocialUser(true);
@@ -269,11 +266,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			String firstEmailParts = emailParts[0];
 			String lastEmailParts = emailParts[1];
 			newUser.setEmail(firstEmailParts + "@" + lastEmailParts);
-			
+
 		} else if (newUsername.contains("tw:")) {
 			newUser.setSocialUser(true);
-		} 
-		
+		}
+
 	}
 
 	private boolean checkStrongAuthentication(Map<String, String> result) {
@@ -293,8 +290,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 		return false;
 	}
-	
-	
+
 	private static List<Tenant> getAllTenants(Info info) {
 		List<Tenant> allTenants = new ArrayList<Tenant>();
 		String apiBaseUrl = "";
@@ -303,11 +299,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			apiBaseUrl = config.getProperty(Config.API_ADMIN_URL_KEY) + "/1/management/tenants";
 			HttpClient client = HttpClientBuilder.create().build();
 			HttpGet httpget = new HttpGet(apiBaseUrl);
-			if(info!=null && info.getUser()!=null && info.getUser().getSecretTempJwtRaw()!=null){
+			if (info != null && info.getUser() != null && info.getUser().getSecretTempJwtRaw() != null) {
 				httpget.setHeader("x-auth-token", info.getUser().getSecretTempJwtRaw());
 			}
-		
-
 
 			HttpResponse r = client.execute(httpget);
 			log.debug("[SAML2ConsumerServlet::getAllTenants] call to " + apiBaseUrl + " - status " + r.getStatusLine().toString());
@@ -321,9 +315,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			}
 
 			String inputJson = out.toString();
-
-			TenantsContainer allTenantsContainer = TenantsContainer.fromJson(inputJson);
-			allTenants = allTenantsContainer.getTenants().getTenant();
+			Gson gson = JSonHelper.getInstance();
+			allTenants = gson.fromJson(inputJson, new TypeToken<List<Tenant>>() {
+			}.getType());
 		} catch (IOException e) {
 			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage());
 			e.printStackTrace();
@@ -346,16 +340,17 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		Date singleTenantDate = new Date();
 		for (Tenant singleTenant : allTenants) {
 			singleTenantDate = actualDate;
-			if (singleTenant.getDataDisattivazione() != null) {
+			if (singleTenant.getDeactivationdate() != null) {
 				try {
-					singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
+					singleTenantDate = singleTenant.getDeactivationdateDate();
 				} catch (ParseException e) {
-					log.warn("[SAML2ConsumerServlet::filterTenant] invalid tenant disable date: " + singleTenant.getDataDisattivazione());
+					log.warn("[SAML2ConsumerServlet::filterTenant] invalid tenant disable date: " + singleTenant.getDeactivationdate());
 					e.printStackTrace();
 				}
 			}
-			if ((singleTenant.getTenantType().equals(label)) && (singleTenant.getUserName().equals(username))
-					&& (actualDate.before(singleTenantDate) || actualDate.equals(singleTenantDate)) && (singleTenant.getCodDeploymentStatus().equals("req_inst"))) {
+			if ((singleTenant.getTenantType().getTenanttypecode().equals(label)) && (singleTenant.getUsername().equals(username))
+					&& (actualDate.before(singleTenantDate) || actualDate.equals(singleTenantDate)) && singleTenant.getTenantStatus() != null
+					&& singleTenant.getTenantStatus().getTenantstatuscode() != null && singleTenant.getTenantStatus().getTenantstatuscode().equals("req_inst")) {
 
 				foundTenant = singleTenant;
 			}
@@ -372,18 +367,18 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 			Date singleTenantDate = actualDate;
 
-			if (singleTenant.getDataDisattivazione() != null) {
+			if (singleTenant.getDeactivationdate() != null) {
 				try {
-					singleTenantDate = formatter.parse(singleTenant.getDataDisattivazione());
+					singleTenantDate = singleTenant.getDeactivationdateDate();
 				} catch (ParseException e) {
-					log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: " + singleTenant.getDataDisattivazione());
+					log.warn("[SAML2ConsumerServlet::filterDisabledTenants] invalid tenant disable date: " + singleTenant.getDeactivationdate());
 					e.printStackTrace();
 				}
 			}
 
 			if (singleTenantDate.getTime() >= actualDate.getTime()) {
 				for (String tenantCode : tenantsCode) {
-					if (singleTenant.getTenantCode().equals(tenantCode))
+					if (singleTenant.getTenantcode().equals(tenantCode))
 						tenants.add(singleTenant);
 				}
 
@@ -429,7 +424,6 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
 
 			String access_token = rootObj.get("access_token").getAsString();
-
 
 			return access_token;
 
@@ -493,42 +487,38 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	private String loadTermConditionFromJwt(User newUser) {
 		log.debug("[SAML2ConsumerServlet::loadTermConditionFromJwt] - START");
 		JSONObject jwt = newUser.getSecretTempJwt();
-		
+
 		// it will be ignored expiration
-		
+
 		Object termString = jwt.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
-		if (termString!=null)
+		if (termString != null)
 			return termString.toString();
 		else
 			return null;
 	}
 
-	
-	
 	private List<String> loadRolesFromJwt(User newUser, String filter) {
 
 		log.debug("[SAML2ConsumerServlet::loadRolesFromJwt] - START");
 		List<String> roles = new LinkedList<String>();
 		JSONObject jwt = newUser.getSecretTempJwt();
-		
+
 		// it will be ignored expiration
-		
+
 		String rolesString = jwt.get(AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_ROLE)).toString();
-		if (rolesString!=null)
-		{
+		if (rolesString != null) {
 			String[] rolesToFilter = StringUtils.split(rolesString, ',');
-			
+
 			for (int i = 0; i < rolesToFilter.length; i++) {
 				String role = rolesToFilter[i];
-				if (role.contains(filter))
-				{
+				if (role.contains(filter)) {
 					roles.add(StringUtils.remove(role, filter));
 				}
 			}
 		}
 		return roles;
 	}
-	
+
 	@Deprecated
 	private List<String> loadRoles(User newUser, String filter) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
 
@@ -688,9 +678,10 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		}
 
 		if (defaultApplication == null) {
-			//GenerateTokenResponse generateStoreToken = createAndSubscribeDefaultApplication(storeBaseUrl, username);
+			// GenerateTokenResponse generateStoreToken =
+			// createAndSubscribeDefaultApplication(storeBaseUrl, username);
 			GenerateTokenResponse generateStoreToken = addDefaultApplication(storeBaseUrl, username);
-			
+
 			if (generateStoreToken != null && !generateStoreToken.getError() && generateStoreToken.getData() != null && generateStoreToken.getData().getKey() != null) {
 
 				productConsumerKey = generateStoreToken.getData().getKey().getConsumerKey();
@@ -852,9 +843,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return storeToken;
 
 	}
-	
-	private GenerateTokenResponse addDefaultApplication(String storeBaseUrl, String username) throws HttpException, IOException {
 
+	private GenerateTokenResponse addDefaultApplication(String storeBaseUrl, String username) throws HttpException, IOException {
 
 		HttpClient client = HttpClientBuilder.create().build();
 
@@ -883,12 +873,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 		log.info("[AuthorizeFilter::addDefaultApplication] - add default application create response " + outCreate);
 
-
 		return generateApplicationKey(storeBaseUrl, username);
 
-	
 	}
-
 
 	public static void main(String[] args) {
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"><soapenv:Body><ns:getRolesOfUserResponse xmlns:ns=\"http://org.apache.axis2/xsd\" xmlns:ax2644=\"http://common.mgt.user.carbon.wso2.org/xsd\"><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>all4all_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>circe_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>csp_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>ondeuwc_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>sandbox_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>smartlab_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>true</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>true</ax2644:editable><ax2644:itemDisplayName xsi:nil=\"true\"></ax2644:itemDisplayName><ax2644:itemName>tecnetdati_subscriber</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return><ns:return xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"ax2644:FlaggedName\"><ax2644:dn xsi:nil=\"true\"></ax2644:dn><ax2644:domainName xsi:nil=\"true\"></ax2644:domainName><ax2644:editable>false</ax2644:editable><ax2644:itemDisplayName></ax2644:itemDisplayName><ax2644:itemName>false</ax2644:itemName><ax2644:readOnly>false</ax2644:readOnly><ax2644:roleType xsi:nil=\"true\"></ax2644:roleType><ax2644:selected>false</ax2644:selected><ax2644:shared>false</ax2644:shared></ns:return></ns:getRolesOfUserResponse></soapenv:Body></soapenv:Envelope>";

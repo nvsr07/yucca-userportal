@@ -1060,7 +1060,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 		$scope.showLoadingStreams = true;
 		$scope.streamsToReinstall = [];
 		
-		adminAPIservice.loadStreams(info.getActiveTenant(), info.getActiveTenant().tenantCode).success(function(response) {
+		adminAPIservice.loadStreams(info.getActiveTenant(), info.getActiveTenant().tenantcode).success(function(response) {
 			
 			console.log("loadStreams SUCCESS", response);
 			$scope.showLoadingStreams = false;

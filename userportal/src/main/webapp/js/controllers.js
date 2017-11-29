@@ -525,7 +525,7 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 			  "userfirstname":  user.firstname,
 			  "userlastname": user.lastname,
 			  "username":user.username,
-			  "usertypeauth": info.getActiveTenant().userTypeAuth
+			  "usertypeauth": info.getActiveTenant().usertypeauth
 			};
 	
 	$scope.validationError = {};
@@ -664,7 +664,7 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 //				  "userfirstname":  $scope.userFirstNameTT,
 //				  "userlastname": $scope.userLastNameTT,
 //				  "username": $scope,
-//				  "usertypeauth": info.getActiveTenant().userTypeAuth
+//				  "usertypeauth": info.getActiveTenant().usertypeauth
 //				};
 //		
 //		

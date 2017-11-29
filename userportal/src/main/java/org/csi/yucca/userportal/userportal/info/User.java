@@ -6,6 +6,7 @@ import java.util.Map;
 
 import net.minidev.json.JSONObject;
 
+import org.csi.yucca.userportal.userportal.entity.admin.tenant.Tenant;
 import org.csi.yucca.userportal.userportal.entity.store.LoadTokenFromApiResponse;
 import org.csi.yucca.userportal.userportal.utils.json.IgnoredJSON;
 import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
@@ -25,22 +26,21 @@ public class User {
 	private Map<String, String> tenantsTokens;
 	private List<String> acceptTermConditionTenants;
 	private String storeToken;
-	
+
 	private boolean isSocialUser;
 	private boolean isTechnicalUser;
 	private boolean isStrongUser;
 	private String errorOnLogin;
-	
+
 	// fields starting with secret will not be serialized in json for client
 	@IgnoredJSON
 	private LoadTokenFromApiResponse secretTokenFromSaml;
 	@IgnoredJSON
 	private JSONObject secretTempJwt;
-	
+
 	@IgnoredJSON
 	private String secretTempJwtRaw;
-	
-	
+
 	public String getSecretTempJwtRaw() {
 		return secretTempJwtRaw;
 	}
@@ -56,8 +56,7 @@ public class User {
 	public User() {
 	}
 
-	public User(String username, List<Tenant> tenants, String firstname, String lastname, String email, List<String> permissions,
-			List<String> acceptTermConditionTenants) {
+	public User(String username, List<Tenant> tenants, String firstname, String lastname, String email, List<String> permissions, List<String> acceptTermConditionTenants) {
 		super();
 		this.username = username;
 		this.tenants = tenants;
@@ -67,7 +66,7 @@ public class User {
 		this.loggedIn = false;
 		this.permissions = permissions;
 		if (tenants.size() > 0) {
-			this.activeTenant = tenants.get(0).getTenantCode();
+			this.activeTenant = tenants.get(0).getTenantcode();
 		} else {
 			this.activeTenant = "sandbox";
 		}
@@ -179,7 +178,7 @@ public class User {
 		boolean found = false;
 		if (getTenants() != null && tenantCode != null) {
 			for (Tenant tenant : getTenants()) {
-				if (tenant.getTenantCode().equals(tenantCode)) {
+				if (tenant.getTenantcode().equals(tenantCode)) {
 					found = true;
 					break;
 				}
@@ -199,7 +198,7 @@ public class User {
 	public void addAcceptTermConditionTenants(String tenantCode) {
 		if (this.acceptTermConditionTenants == null)
 			this.acceptTermConditionTenants = new LinkedList<String>();
-		if (!this.acceptTermConditionTenants.contains(tenantCode))
+		if (tenantCode!=null && !tenantCode.trim().equals("") && !this.acceptTermConditionTenants.contains(tenantCode))
 			this.acceptTermConditionTenants.add(tenantCode);
 	}
 

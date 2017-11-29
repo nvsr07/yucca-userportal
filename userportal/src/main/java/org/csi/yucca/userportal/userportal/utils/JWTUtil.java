@@ -11,7 +11,7 @@ import net.minidev.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.csi.yucca.userportal.userportal.delegate.HttpDelegate;
-import org.csi.yucca.userportal.userportal.info.Tenant;
+import org.csi.yucca.userportal.userportal.entity.admin.tenant.Tenant;
 import org.csi.yucca.userportal.userportal.info.User;
 
 import com.nimbusds.jose.JOSEException;
@@ -61,7 +61,7 @@ public class JWTUtil {
 			String subscriberRoles = "";
 			if (user.getTenants() != null) {
 				for (Tenant tenant : user.getTenants()) {
-					subscriberRoles += tenant.getTenantCode() + "_subscriber,";
+					subscriberRoles += tenant.getTenantcode() + "_subscriber,";
 				}
 			}
 

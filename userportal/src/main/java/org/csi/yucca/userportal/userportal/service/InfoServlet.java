@@ -40,9 +40,9 @@ public class InfoServlet extends HttpServlet {
 
 			out.println(infoJson);
 			out.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error("[InfoServlet::doGet] - ERROR " + e.getMessage());
-			throw e;
+			throw new ServletException(e.getMessage(), e.getCause());
 		} finally {
 			log.debug("[InfoServlet::doGet] - END");
 		}

@@ -1,12 +1,13 @@
 package org.csi.yucca.userportal.userportal.info;
 
+import org.csi.yucca.userportal.userportal.entity.admin.tenant.Tenant;
 import org.csi.yucca.userportal.userportal.utils.json.JSonHelper;
 
 import com.google.gson.Gson;
 
 public class Info {
 
-	//private String tenantCode;
+	// private String tenantCode;
 	private User user;
 	private String version;
 	private Tenant personalTenantToActivated;
@@ -53,12 +54,12 @@ public class Info {
 		this.trialTenantToActivated = trialTenantToActivated;
 	}
 
-//	public String getTenantCode() {
-//		return tenantCode;
-//	}
-//
-//	public void setTenantCode(String tenantCode) {
-//		this.tenantCode = tenantCode;
-//	}
+	// public String getTenantCode() {
+	// return tenantCode;
+	// }
+	//
+	// public void setTenantCode(String tenantCode) {
+	// this.tenantCode = tenantCode;
+	// }
 
 }

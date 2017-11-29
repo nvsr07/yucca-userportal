@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.minidev.json.JSONObject;
 
+import org.csi.yucca.userportal.userportal.entity.admin.tenant.Tenant;
 import org.csi.yucca.userportal.userportal.info.ApiEntityEnum;
 import org.csi.yucca.userportal.userportal.info.Info;
-import org.csi.yucca.userportal.userportal.info.Tenant;
 import org.csi.yucca.userportal.userportal.info.User;
 
 import com.nimbusds.jwt.SignedJWT;
@@ -35,7 +35,7 @@ public class AuthorizeUtils {
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/dataexplorer");
 
 	public static final User DEFAULT_USER() {
-		User defaultUser = new User("Guest", Arrays.asList(DEFAULT_TENANT), "Guest1", "Guest", null, DEFAULT_PERMISSIONS, Arrays.asList(DEFAULT_TENANT.getTenantCode()));
+		User defaultUser = new User("Guest", Arrays.asList(DEFAULT_TENANT), "Guest1", "Guest", null, DEFAULT_PERMISSIONS, Arrays.asList(DEFAULT_TENANT.getTenantcode()));
 		SignedJWT signedJWT = JWTUtil.createSecretJwt(defaultUser);
 		JSONObject defaultSecretJwt = signedJWT.getPayload().toJSONObject();
 		
@@ -179,7 +179,7 @@ public class AuthorizeUtils {
 		boolean result = false;
 		if (tenant != null) {
 			for (Tenant t : getTenantsInSession(request)) {
-				if (tenant.equals(t.getTenantCode())) {
+				if (tenant.equals(t.getTenantcode())) {
 					result = true;
 					break;
 				}

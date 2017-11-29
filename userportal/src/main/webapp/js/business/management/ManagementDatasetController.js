@@ -2536,7 +2536,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 			}
 		}
 		
-		$scope.importConfig.organizationCode = info.getActiveTenant().organizationCode;
+		$scope.importConfig.organizationCode = info.getActiveTenant().organization.organizationcode;
 		if($scope.warningMessages.length>0)
 			return;
 		$scope.isLoadingDB = true;

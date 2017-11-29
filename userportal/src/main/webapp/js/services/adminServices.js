@@ -135,7 +135,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	 * SMART OBJECTS
 	 */
 	adminAPI.loadSmartobjectsOfOrganization = function(activeTenant) {
-		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/?callback=JSON_CALLBACK'; 
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/?callback=JSON_CALLBACK'; 
 		return $http({
 			method : 'JSONP',
 			url : urlWithParam
@@ -143,7 +143,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	};
 
 	adminAPI.loadSmartobjects = function(activeTenant) {
-		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/?tenantCode='+activeTenant.tenantCode+'&callback=JSON_CALLBACK'; 
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/?tenantCode='+activeTenant.tenantcode+'&callback=JSON_CALLBACK'; 
 		return $http({
 			method : 'JSONP',
 			url : urlWithParam
@@ -151,7 +151,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	};
 
 	adminAPI.loadSmartobject = function(activeTenant, soode) {
-		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/' +soode + '/?callback=JSON_CALLBACK'; 
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +soode + '/?callback=JSON_CALLBACK'; 
 		return $http({
 			method : 'JSONP',
 			url : urlWithParam
@@ -159,12 +159,12 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	};
 	
 	adminAPI.createSmartobject = function(activeTenant, so) {
-		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode);
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode);
 		return $http.post(urlWithParam, so);
 	};
 
 	adminAPI.updateSmartobject = function(activeTenant, so) {
-		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/' +so.socode;
+		var urlWithParam = Constants.API_ADMIN_SMARTOBJECTS_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +so.socode;
 		return $http.put(urlWithParam, so);
 	};
 
@@ -173,7 +173,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	 * STREAMS
 	 */
 	adminAPI.loadStreams = function(activeTenant, tenantCodeManager) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/?callback=JSON_CALLBACK'; 
+		var urlWithParam = Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/?callback=JSON_CALLBACK'; 
 		if(tenantCodeManager && tenantCodeManager!=null && tenantCodeManager!= "")
 			urlWithParam += "&tenantCodeManager" + tenantCodeManager;
 		return $http({
@@ -183,7 +183,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	};
 	
 	adminAPI.loadStream = function(activeTenant, idstream) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode) + '/' +idstream+ '/?callback=JSON_CALLBACK'; 
+		var urlWithParam = Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +idstream+ '/?callback=JSON_CALLBACK'; 
 		return $http({
 			method : 'JSONP',
 			url : urlWithParam
@@ -192,12 +192,12 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	
 
 	adminAPI.createStream = function(activeTenant, soCode, stream) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode).replace(new RegExp('{soCode}', 'gi'), soCode);
+		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode).replace(new RegExp('{soCode}', 'gi'), soCode);
 		return $http.post(urlWithParam, stream);
 	};
 	
 	adminAPI.updateStream = function(activeTenant, soCode, stream) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organizationCode).replace(new RegExp('{soCode}', 'gi'), soCode) + '/' +streamCode;
+		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode).replace(new RegExp('{soCode}', 'gi'), soCode) + '/' +streamCode;
 		return $http.put(urlWithParam, stream);
 	};
 	

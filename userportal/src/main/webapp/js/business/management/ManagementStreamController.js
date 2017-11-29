@@ -16,7 +16,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	
 	console.log("isOwner", info.isOwner( $scope.tenantCode));
 
-	$scope.organizationCode = info.getActiveTenant().organizationCode;
+	$scope.organizationCode = info.getActiveTenant().organization.organizationcode;
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
@@ -27,7 +27,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	
 	console.log("ManagementStreamListCtrl - info", info.getActiveTenant());
 	
-	adminAPIservice.loadStreams(info.getActiveTenant(), info.getActiveTenant().tenantCode).success(function(response) {
+	adminAPIservice.loadStreams(info.getActiveTenant(), info.getActiveTenant().tenantcode).success(function(response) {
 		console.log("loadStreams SUCCESS", response);
 		$scope.streamsList = response;
 		$scope.showLoading = false;
@@ -629,7 +629,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 	
 	$scope.loadStream = function(){
-		console.log("organizationCode = ",info.getActiveTenant().organizationCode);
+		console.log("organizationCode = ",info.getActiveTenant().organization.organizationcode);
 		if(!$scope.isNewStream){
 			//fabricAPIservice.getStream($routeParams.tenant_code, $routeParams.entity_code, $routeParams.stream_code).then(function(response) {
 			adminAPIservice.loadStream(info.getActiveTenant(),$routeParams.id_stream).success(function(response) {
