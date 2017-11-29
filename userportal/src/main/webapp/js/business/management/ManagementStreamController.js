@@ -482,7 +482,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			return a.streamname.toLowerCase().localeCompare(b.streamname.toLowerCase());
 		} );
 	}).error(function(response){
-		console.error("createSo ERROR", response);
+		console.error("loadStreams ERROR", response);
 		$scope.showLoading = false;
 		$scope.admin_response.type = 'danger';
 		$scope.admin_response.message = 'UNEXPECTED_ERROR';
@@ -1189,6 +1189,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	 */
 	$scope.updateStream = function() {
 		
+		$scope.stream.name=$scope.stream.streamname;
+
 		//Ciclo per rivalorizzazione dell'array dei tag (l'API di update richiede un array di IdTag)
 		//Old tag --> tag precedentemente inseriti in fase di creazione dello stream
 		$scope.stream.oldTags= [];
@@ -1227,49 +1229,58 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					"aliasChildStream":"input"+i,
 					"idChildStream": $scope.internalStreams[i].idStream
 				});
-		}
-
-		console.log("newStream", newStream);
-		if(!$scope.stream.components || $scope.stream.components.length==0){
-			$scope.updateWarning = true;
-			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
-		}
-		
-		if(!$scope.stream.openData && !($scope.stream.openData.opendataupdatedate || $scope.stream.openData.opendataexternalreference || $scope.stream.openData.lastupdate || $scope.stream.openData.opendataauthor || $scope.stream.openData.opendatalanguage)){
-			delete newStream.stream['openData'];
-		} else {
-			if(Helpers.util.has(newStream, 'openData.opendataupdatedate') )	{				
-				//$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
-					var date =  new Date(newStream.openData.opendataupdatedate);	
-					var year = (date.getFullYear()).toString();
-					var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
-					var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
-					newStream.stream.openData.opendataupdatedate= year+month+day;	
 			}
+
+			console.log("newStream", newStream);
+			if(!$scope.stream.components || $scope.stream.components.length==0){
+				$scope.updateWarning = true;
+				$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
+			}
+			
+			if(!$scope.stream.openData && !($scope.stream.openData.opendataupdatedate || $scope.stream.openData.opendataexternalreference || $scope.stream.openData.lastupdate || $scope.stream.openData.opendataauthor || $scope.stream.openData.opendatalanguage)){
+				delete newStream.stream['openData'];
+			} else {
+				if(Helpers.util.has(newStream, 'openData.opendataupdatedate') )	{				
+					//$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
+						var date =  new Date(newStream.openData.opendataupdatedate);	
+						var year = (date.getFullYear()).toString();
+						var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
+						var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
+						newStream.stream.openData.opendataupdatedate= year+month+day;	
+				}
+			}
+	
+			console.log("updateStream - stream",newStream);
+			if($scope.stream.license && $scope.stream.license.description==null && $scope.stream.license.licesecode==null)
+				delete newStream.stream['license'];
+
+			if($scope.stream.visibility == 'public')
+				delete newStream.stream['sharingTenants'];
+			if($scope.stream.visibility != 'private')
+				delete newStream.stream['copyright'];
+				
+			adminAPIservice.updateStream(info.getActiveTenant(), newStream.stream.smartobject.socode,newStream.stream).success(function(response) {
+				console.log("updateStream SUCCESS", response);
+				Helpers.util.scrollTo();
+				$scope.admin_response.type = 'success';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
+				sharedAdminResponse.setResponse($scope.admin_response);
+				$scope.isUpdating = false;
+				//$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.streamcode);
+	
+			}).error(function(response){
+				console.error("updateStream ERROR", response);
+				Helpers.util.scrollTo();
+				$scope.isUpdating = false;
+				$scope.admin_response.type = 'danger';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_STREAM_SAVE_ERROR';
+				if(response && response.errorName)
+					$scope.admin_response.detail= response.errorName;
+				if(response && response.errorCode)
+					$scope.admin_response.code= response.errorCode;
+			});
 		}
-
-		console.log("updateStream - stream",newStream);
-		
-		adminAPIservice.updateStream(info.getActiveTenant(), newStream.stream.smartobject.socode,newStream.stream).success(function(response) {
-			console.log("updateStream SUCCESS", response);
-			$scope.admin_response.type = 'success';
-			$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
-			sharedAdminResponse.setResponse($scope.admin_response);
-			$scope.isUpdating = false;
-			//$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.streamcode);
-
-		}).error(function(response){
-			console.error("updateStream ERROR", response);
-			$scope.isUpdating = false;
-			$scope.admin_response.type = 'danger';
-			$scope.admin_response.message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
-			if(response && response.errorName)
-				$scope.admin_response.detail= response.errorName;
-			if(response && response.errorCode)
-				$scope.admin_response.code= response.errorCode;
-		});
-	}
-}
+	};
 			/*
 			$scope.isUpdating = true;
 
@@ -1451,7 +1462,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			adminAPIservice.createStream(info.getActiveTenant(), $scope.extra.selectedSo.socode,$scope.stream).success(function(response) {
 				console.log("createStream SUCCESS", response);
 				$scope.admin_response.type = 'success';
-				$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_STREAM_SAVED_INFO';
 				sharedAdminResponse.setResponse($scope.admin_response);
 				$scope.isUpdating = false;
 				//$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.streamcode);
@@ -1460,7 +1471,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				console.error("createStream ERROR", response);
 				$scope.isUpdating = false;
 				$scope.admin_response.type = 'danger';
-				$scope.admin_response.message = 'MANAGEMENT_NEW_VIRTUALENTITY_ERROR_MESSAGE';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_STREAM_SAVE_ERROR';
 				if(response && response.errorName)
 					$scope.admin_response.detail= response.errorName;
 				if(response && response.errorCode)

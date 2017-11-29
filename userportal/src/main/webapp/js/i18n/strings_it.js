@@ -823,6 +823,11 @@ var translations_it = {
 	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Fruizione dello stream in real time con MQTT',
     
 	MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING: 'I componenti degli stream  in bozza potrebbero non coincidere con la versione installata',
+	
+	MANAGEMENT_EDIT_STREAM_SAVE_ERROR: 'Errore nel salvataggio dello stream',
+	MANAGEMENT_EDIT_STREAM_SAVED_INFO: 'Stream salvato correttamente',
+
+
 
 	/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Object',
