@@ -103,25 +103,25 @@
 									</a>
 								</td>
 								<td class='text-left no-border-left'>
-									<a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">
-										{{dataset.info.datasetName}}
+									<a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetcode}}">
+										{{dataset.datasetname}}
 									</a>
 								</td>
-								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetCode}}">{{dataset.datasetCode}}</a></td>
+								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetcode}}">{{dataset.datasetcode}}</a></td>
 								<td>
 									<div class='domain-column'>
-										<i ng-if='dataset.info.dataDomain!="MULTI"' class="icon-{{dataset.info.dataDomain}} domain-icon" title="{{dataset.info.dataDomain|translate}}"></i>
-										<div class='domain-multi-icon'  ng-if='dataset.info.dataDomain=="MULTI"'>
+										<i ng-if='dataset.domain.domaincode!="MULTI"' class="icon-{{dataset.domain.domaincode}} domain-icon" title="{{dataset.domain.domaincode|translate}}"></i>
+										<div class='domain-multi-icon'  ng-if='dataset.domain.domaincode=="MULTI"'>
 											<i class='fa fa-circle-o'></i>
 											<small>MULTI</small>
 										</div>
 									</div>
 								</td>
-								<td>{{dataset.configData.type}} / {{dataset.configData.subtype}} 
+								<td>{{dataset.configData.type|translate}} / {{dataset.configData.subtype|translate}} 
 									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-show="dataset.info.attachment" title='Dataset with binary attachment'></i>
 								</td>
-								<td>{{dataset.info.registrationDate|date}}</td>
-								<td><span translate-cloak translate>{{dataset.datasetVersion}}</span> <strong class='entity-uninstalled' ng-show="{{dataset.configData.deleted==1}}" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong></td>
+								<td>{{dataset.registrationdate|dataset_date_format}}</td>
+								<td><span translate-cloak translate>{{dataset.version}}</span> <strong class='entity-uninstalled' ng-show="{{dataset.configData.deleted==1}}" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong></td>
 							</tr>
 						</tbody>
 					</table>
