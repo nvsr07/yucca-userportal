@@ -319,7 +319,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			Gson gson = JSonHelper.getInstance();
 			allTenants = gson.fromJson(inputJson, new TypeToken<List<Tenant>>() {
 			}.getType());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage()+ "json:["+inputJson+"]");
 			e.printStackTrace();
 		}
