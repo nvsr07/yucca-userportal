@@ -1,5 +1,5 @@
-appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'info', '$modal', '$translate',
-                                                         function($scope, $route, $location, fabricAPImanagement, info, $modal, $translate) {
+appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'adminAPIservice', 'info', '$modal', '$translate',
+                                                         function($scope, $route, $location, fabricAPImanagement, adminAPIservice, info, $modal, $translate) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.showLoading = true;
 
@@ -22,7 +22,46 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		return info.isOwner( $scope.tenantCode);
 	};
 	
-	$scope.getDatasets = function(){
+	/*
+	 * LOAD DATASETS
+	 */
+	 $scope.loadDatasets = function(){
+		adminAPIservice.loadDatasets(info.getActiveTenant()).success(function(response) {
+			console.log("loadDatasets SUCCESS", response);
+			$scope.showLoading = false;
+			$scope.datasetList = [];
+			for (var i = 0; i <response.length; i++) {
+					//da verificare test precedente
+					if(response[i].status && response[i].status.statuscode){
+						
+						if(!response[i].info  || response[i].info ==null)
+							response[i].info ={};
+						//ICONA
+						if(typeof response[i].info.icon == 'undefined' || response[i].info.icon == null)
+							response[i].info.icon  = Constants.API_RESOURCES_URL + "dataset/icon/"+ $scope.tenantCode+"/" +response[i].datasetCode;
+						else
+							response[i].info.icon  = "img/dataset-icon-default.png";
+						//data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
+
+						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
+							response[i].info.attachment  = true;
+						
+						/*
+						if(response[i].info.dataDomain &&  response[i].info.dataDomain != null)
+							response[i].info.dataDomainTranslated =  $translate.instant(response[i].info.dataDomain);
+						
+						if(response[i].info.codSubDomain &&  response[i].info.codSubDomain != null)
+							response[i].info.codSubDomainTranslated =  $translate.instant(response[i].info.codSubDomain);*
+						*/
+
+						$scope.datasetList.push(response[i]);
+					}
+				}
+	
+			$scope.totalItems = $scope.datasetList.length;
+		});
+	};
+	/*$scope.getDatasets = function(){
 
 		fabricAPImanagement.getDatasets($scope.tenantCode).success(function(response) {
 			$scope.showLoading = false;
@@ -58,7 +97,9 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 			$scope.totalItems = $scope.datasetList.length;
 		});
 	};
-	$scope.getDatasets();
+	
+	*/
+	$scope.loadDatasets();
 
 	$scope.selectPage = function() {
 		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
@@ -66,12 +107,12 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 
 	$scope.searchNameFilter = function(dataset) {
 		var keyword = new RegExp($scope.nameFilter, 'i');
-		return !$scope.nameFilter || (dataset.info.datasetName && keyword.test(dataset.info.datasetName));
+		return !$scope.nameFilter || (dataset.datasetname && keyword.test(dataset.datasetname));
 	};
 
 	$scope.searchCodeFilter = function(dataset) {
 		var keyword = new RegExp($scope.codeFilter, 'i');
-		return !$scope.codeFilter || (dataset.datasetCode && keyword.test(dataset.datasetCode));
+		return !$scope.codeFilter || (dataset.datasetcode && keyword.test(dataset.datasetcode));
 	};
 
 	$scope.$watch('nameFilter', function(newName) {
@@ -81,7 +122,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	
 	$scope.searchDomainFilter = function(dataset) {
 		var keyword = new RegExp($scope.domainFilter, 'i');
-		return !$scope.domainFilter || keyword.test(dataset.info.dataDomain) || keyword.test(dataset.info.dataDomainTranslated);
+		return !$scope.domainFilter || keyword.test(dataset.domain.domaincode);
 	};
 	
 	$scope.searchSubDomainFilter = function(dataset) {
@@ -111,7 +152,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 
 	$scope.viewUnistalledFilter = function(dataset) {
 		if(!$scope.viewUnistalledCheck){
-			return dataset.configData.deleted!=1;
+			return dataset.deleted!=1;
 		}
 		else
 			return true;

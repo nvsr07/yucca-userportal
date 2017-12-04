@@ -55,6 +55,16 @@ appFilters.filter('smartobject_date_format', function() {
 	};
 });
 
+appFilters.filter('dataset_date_format', function() {
+	return function(input) {
+		if (input && input.length==8) {
+			return new Date(input.substring(0,4), input.substring(4,6)-1, input.substring(6,8)).format("dd/mm/yyyy");
+	    }
+		else
+			return "";
+	};
+});
+
 // remove with new admin api
 //appFilters.filter('subDomainFilter', function () {
 //    return function (subDomainList, domain) {
