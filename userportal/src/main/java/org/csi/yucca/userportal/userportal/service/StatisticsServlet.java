@@ -142,7 +142,7 @@ public class StatisticsServlet extends HttpServlet {
 				
 				statisticsResponse.addSmartobject(row.getVirtualentitycode());
 				
-				System.out.println("org " +row.getOrganizationCode() + " - " + statisticsResponse.getOrganizations().size());
+				log.debug("[StatisticsServlet::loadStatistics] org " +row.getOrganizationCode() + " - " + statisticsResponse.getOrganizations().size());
 			}
 		} 
 		//
