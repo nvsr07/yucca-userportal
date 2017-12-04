@@ -294,6 +294,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	private static List<Tenant> getAllTenants(Info info) {
 		List<Tenant> allTenants = new ArrayList<Tenant>();
 		String apiBaseUrl = "";
+		String inputJson = "";
 		try {
 			Properties config = Config.loadServerConfiguration();
 			apiBaseUrl = config.getProperty(Config.API_ADMIN_URL_KEY) + "/1/management/tenants";
@@ -314,12 +315,12 @@ public class SAML2ConsumerServlet extends HttpServlet {
 				out.append(line);
 			}
 
-			String inputJson = out.toString();
+			inputJson = out.toString();
 			Gson gson = JSonHelper.getInstance();
 			allTenants = gson.fromJson(inputJson, new TypeToken<List<Tenant>>() {
 			}.getType());
 		} catch (IOException e) {
-			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage());
+			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage()+ "json:["+inputJson+"]");
 			e.printStackTrace();
 		}
 		return allTenants;
