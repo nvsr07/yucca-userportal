@@ -36,6 +36,7 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/management/:managementTab', {templateUrl: 'partials/management/choose_tenant.html?'+BuildInfo.timestamp, activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
 	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
+	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code/:id_dataset', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
 	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code/:stream_code/:id_stream', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
 	$routeProvider.when('/dataexplorer/search', {templateUrl: 'partials/dataexplorer/datasearch/search.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
 	$routeProvider.when('/dataexplorer/searchresults', {templateUrl: 'partials/dataexplorer/datasearch/results.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
