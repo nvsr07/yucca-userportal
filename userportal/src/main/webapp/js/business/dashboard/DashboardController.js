@@ -301,8 +301,8 @@ appControllers.controller('DashboardCtrl', [ '$scope','info', 'fabricAPIservice'
 } 
 ]);*/
 
-appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'webSocketService', 'odataAPIservice',  'metadataapiAPIservice', '$filter', '$interval',
-                                                   function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, webSocketService, odataAPIservice, metadataapiAPIservice,  $filter,$interval) {
+appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice','upService', 'fabricAPImanagement', 'webSocketService', 'odataAPIservice',  'metadataapiAPIservice', '$filter', '$interval',
+                                                   function($scope, $routeParams, fabricAPIservice, upService, fabricAPImanagement, webSocketService, odataAPIservice, metadataapiAPIservice,  $filter,$interval) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
 	$scope.chartComponentNames = [];
@@ -328,7 +328,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 	
 	$scope.isTwitter = false;
 	var tenantsTokens = "";
-	fabricAPIservice.getInfo().success(function(info){
+	upService.getInfo().success(function(info){
 		if(info != null && info.user!=null && info.user.tenants !=null){
 			tenantsTokens = info.user.tenantsTokens;
 		}

@@ -1,37 +1,37 @@
 appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,info) {
 
 	var fabricAPI = {};
-
-	fabricAPI.getInfo = function() {
-		return $http({
-			method : 'JSONP',
-			url : Constants.API_INFO_URL + '?callback=JSON_CALLBACK'
-		});
-	};
-
-	fabricAPI.getInfoChangActiveTenant = function(activeTenant) {
-
-		var changeTenantUrl = Constants.API_INFO_URL + '?callback=JSON_CALLBACK';
-
-		if(typeof activeTenant!=undefined)
-			changeTenantUrl = changeTenantUrl+"&activeTenant="+activeTenant.tenantCode;
-
-		return $http({
-			method : 'JSONP',
-			url : changeTenantUrl
-		});
-	};
-	
-	fabricAPI.acceptTermConditionForTenant = function(tenantCode) {
-
-		var acceptUrl = Constants.API_AUTH_TERMCONDITION_URL + '?tenantcode=' + tenantCode +'&callback=JSON_CALLBACK';
-		console.log("acceptTermConditionForTenant",acceptUrl);
-
-		return $http({
-			method : 'JSONP',
-			url : acceptUrl
-		});
-	};
+//
+//	fabricAPI.getInfo = function() {
+//		return $http({
+//			method : 'JSONP',
+//			url : Constants.API_INFO_URL + '?callback=JSON_CALLBACK'
+//		});
+//	};
+//
+//	fabricAPI.getInfoChangActiveTenant = function(activeTenant) {
+//
+//		var changeTenantUrl = Constants.API_INFO_URL + '?callback=JSON_CALLBACK';
+//
+//		if(typeof activeTenant!=undefined)
+//			changeTenantUrl = changeTenantUrl+"&activeTenant="+activeTenant.tenantCode;
+//
+//		return $http({
+//			method : 'JSONP',
+//			url : changeTenantUrl
+//		});
+//	};
+//	
+//	fabricAPI.acceptTermConditionForTenant = function(tenantCode) {
+//
+//		var acceptUrl = Constants.API_AUTH_TERMCONDITION_URL + '?tenantcode=' + tenantCode +'&callback=JSON_CALLBACK';
+//		console.log("acceptTermConditionForTenant",acceptUrl);
+//
+//		return $http({
+//			method : 'JSONP',
+//			url : acceptUrl
+//		});
+//	};
 	
 //	fabricAPI.saveStoreTokenInSession = function(storeToken) {
 //

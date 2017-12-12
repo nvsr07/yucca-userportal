@@ -291,7 +291,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return false;
 	}
 
-	private static List<Tenant> getAllTenants(Info info) {
+	public static List<Tenant> getAllTenants(Info info) {
 		List<Tenant> allTenants = new ArrayList<Tenant>();
 		String apiBaseUrl = "";
 		String inputJson = "";
@@ -326,17 +326,17 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return allTenants;
 	}
 
-	private static Tenant filterPersonalTenant(List<Tenant> allTenants, String username) {
+	public static Tenant filterPersonalTenant(List<Tenant> allTenants, String username) {
 		return filterTenant(allTenants, username, "personal");
 	}
 
-	private static Tenant filterTrialTenant(List<Tenant> allTenants, String username) {
+	public static Tenant filterTrialTenant(List<Tenant> allTenants, String username) {
 		return filterTenant(allTenants, username, "trial");
 	}
 
 	private static Tenant filterTenant(List<Tenant> allTenants, String username, String label) {
 		Tenant foundTenant = null;
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
 		Date actualDate = new Date();
 		Date singleTenantDate = new Date();
 		for (Tenant singleTenant : allTenants) {
@@ -362,7 +362,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	private static List<Tenant> filterDisabledTenants(List<String> tenantsCode, List<Tenant> allTenants) {
 		Date actualDate = new Date();
 		List<Tenant> tenants = new LinkedList<Tenant>();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
 
 		for (Tenant singleTenant : allTenants) {
 

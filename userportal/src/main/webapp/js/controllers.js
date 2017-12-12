@@ -4,8 +4,8 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'fabricAPIservice', 'localStorageService', 'storeAPIservice','$window',
-                                          function($scope, $route, $modal, info, $location, $translate, fabricAPIservice, localStorageService,storeAPIservice,$window) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'fabricAPIservice','upService', 'localStorageService', 'storeAPIservice','$window',
+                                          function($scope, $route, $modal, info, $location, $translate, fabricAPIservice, upService, localStorageService,storeAPIservice,$window) {
 	$scope.$route = $route;
 	
 	$scope.currentLang = function(){return $translate.use();};
@@ -77,39 +77,39 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}
 	};
 	
-	fabricAPIservice.getInfo().success(function(result) {
+	upService.getInfo().success(function(result) {
 		info.setInfo(result);
 		
 		console.log("info", info);
 		
 		$scope.activeTenantCode = info.getActiveTenantCode();
-		$scope.userTenants = info.getInfo().user.tenants;
+		//$scope.userTenants = info.getInfo().user.tenants;
 		$scope.userTenantsToActivate = new Array();
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
 		$scope.user = result.user; 
 
 		$scope.user.haveTrialTenant = false;
-		$scope.user.haveTrialTenantToActivate = false;
+		//$scope.user.haveTrialTenantToActivate = false;
 		$scope.user.havePersonalTenant = false;
-		$scope.user.havePersonalTenantToActivate = false;
-		angular.forEach($scope.userTenants, function(value, key) {
+		//$scope.user.havePersonalTenantToActivate = false;
+		angular.forEach($scope.user.tenants, function(value, key) {
 			if (value.tenantType == "trial")
 				$scope.user.haveTrialTenant = true;
 			});
-		angular.forEach($scope.userTenants, function(value, key) {
+		angular.forEach($scope.user.tenants, function(value, key) {
 			if (value.tenantType == "personal")
 				$scope.user.havePersonalTenant = true;
 			});
 
-		if (typeof info.getInfo().personalTenantToActivated != 'undefined'){
-			$scope.user.havePersonalTenantToActivate = true;
-			$scope.userTenantsToActivate.push(info.getInfo().havePersonalTenantToActivate);
-		}
-
-		if (typeof info.getInfo().trialTenantToActivated != 'undefined'){
-			$scope.user.haveTrialTenantToActivate = true;
-			$scope.userTenantsToActivate.push(info.getInfo().trialTenantToActivated);
-		}
+//		if (typeof info.getInfo().personalTenantToActivated != 'undefined'){
+//			$scope.user.havePersonalTenantToActivate = true;
+//			$scope.userTenantsToActivate.push(info.getInfo().personalTenantToActivated);
+//		}
+//
+//		if (typeof info.getInfo().trialTenantToActivated != 'undefined'){
+//			$scope.user.haveTrialTenantToActivate = true;
+//			$scope.userTenantsToActivate.push(info.getInfo().trialTenantToActivated);
+//		}
 		
 		$scope.user.canChangePassword = false;
 		try {
@@ -136,11 +136,11 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 
 		console.log('info', info);
 		console.log('activeTenantCode', $scope.activeTenantCode);
-		console.log('userTenants', $scope.userTenants);
+		console.log('userTenants', $scope.user.tenants);
 		console.log('userTenantsToActivate', $scope.userTenantsToActivate);
 		console.log('managementUrl', $scope.managementUrl);
 		console.log('user', $scope.user);
-		
+		$scope.info = info.getInfo();
 		if ($scope.user.loggedIn)
 			gestModalWindow();
 		
@@ -159,7 +159,8 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				$scope.user.authType = "tecnical";
 				//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
 			} else if ($scope.user.tenants == 'undefined' || $scope.user.tenants.length == 0 ){
-				if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
+				if(typeof info.getInfo().personalTenantToActivated != 'undefined' && typeof info.getInfo().trialTenantToActivated != 'undefined' ){
+				//if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
 					if ($scope.user.isSocialUser){
 						$scope.user.authType = "social";
 						$scope.openRequestTenant('trial', true);
@@ -187,7 +188,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	};
 
 	$scope.changeActiveTenant = function(newTenant){
-		fabricAPIservice.getInfoChangActiveTenant(newTenant).success(function(result) {
+		upService.getInfo(false, newTenant).success(function(result) {
 			info.setInfo(result);
 			$scope.activeTenantCode = info.getActiveTenantCode();
 //			info.setActiveTenantCode(newTenant);
@@ -284,6 +285,26 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		});
 
 		modalInstance.result.then(function() {
+			console.log("result -> ");
+			upService.getInfo(true).success(function(result) {
+				info.setInfo(result);
+				$scope.info = info.getInfo();
+				//				$scope.userTenantsToActivate = new Array();
+//				$scope.user.haveTrialTenantToActivate = false;
+//				if (typeof info.getInfo().trialTenantToActivated != 'undefined'){
+//					$scope.user.haveTrialTenantToActivate = true;
+//					$scope.userTenantsToActivate.push(info.getInfo().trialTenantToActivated);
+//				}
+//				
+//				$scope.user.havePersonalTenantToActivate = false;
+//				if (typeof info.getInfo().personalTenantToActivated != 'undefined'){
+//					$scope.user.havePersonalTenantToActivate = true;
+//					$scope.userTenantsToActivate.push(info.getInfo().personalTenantToActivated);
+//				}
+
+			}).error(function(result) {
+				console.error("refresh tenants ERROR", response);
+			});
 		}, function() {
 		});
 	};
@@ -311,10 +332,10 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 }]);
 
 
-appControllers.factory("initCtrl", function(fabricAPIservice, info, $q) {
+appControllers.factory("initCtrl", function(upService, info, $q) {
     return {
     	"getInfo": function() {
-    	    	var promise = fabricAPIservice.getInfo();
+    	    	var promise = upService.getInfo();
     	        promise.success(function(result) {
     	    		info.setInfo(result);
     	    		console.log("result", result);
@@ -504,8 +525,8 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 } ]);
 
 
-appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'info', 'adminAPIservice', 'tenantType', 'hasNoTenant', 'user',
-                                                 function($scope, $modalInstance, info, adminAPIservice, tenantType, hasNoTenant, user) {
+appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'info', 'adminAPIservice', 'upService',  'tenantType', 'hasNoTenant', 'user',
+                                                 function($scope, $modalInstance, info, adminAPIservice, upService, tenantType, hasNoTenant, user) {
 	
 	console.log("--->info = ", info);
 	console.log("--->user = ", user);
@@ -551,7 +572,11 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 	};
 	
 	$scope.cancel = function () {
-	    $modalInstance.dismiss('cancel');
+		if($scope.status == 'finish')
+			$modalInstance.close();
+		else
+			$modalInstance.dismiss('cancel');
+			
 	};
 	
 }]);
@@ -727,8 +752,8 @@ appControllers.controller('ForceLogoutCtrl', [ '$scope', '$modalInstance', 'user
 	
 }]);
 
-appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'fabricAPIservice', 'activeTenantType','$translate',
-                                                 function($scope, $routeParams, $location, $modalInstance, info, fabricAPIservice , activeTenantType,$translate) {
+appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams', '$location', '$modalInstance', 'info', 'upService', 'activeTenantType','$translate',
+                                                 function($scope, $routeParams, $location, $modalInstance, info, upService , activeTenantType,$translate) {
 
 	if(typeof activeTenantType == 'undefined' || activeTenantType == null)
 		activeTenantType = 'default';
@@ -738,7 +763,7 @@ appControllers.controller('TermAndConditionModalCtrl', [ '$scope', '$routeParams
 	$scope.termConditionContent = 'partials/common/termCondition/termCondition_'+activeTenantType+'_'+$translate.use() +".html";
 	$scope.acceptTermAndCondition = function () {
 		$scope.showLoading = true;
-		fabricAPIservice.acceptTermConditionForTenant(info.getActiveTenantCode()).success(function(info){
+		upService.acceptTermConditionForTenant(info.getActiveTenantCode()).success(function(info){
 			console.log("acceptTermConditionForTenant a", info);
 			$scope.showLoading = false;
 			$modalInstance.close();
