@@ -214,6 +214,13 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 			url : urlWithParam
 		});
 	};
+	adminAPI.loadDataset = function(activeTenant, iddataset) {
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +iddataset+ '/?callback=JSON_CALLBACK'; 
+		return $http({
+			method : 'JSONP',
+			url : urlWithParam
+		});
+	};
 	
 
 	return adminAPI;

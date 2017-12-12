@@ -44,15 +44,7 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 						//data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
 
 						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
-							response[i].info.attachment  = true;
-						
-						/*
-						if(response[i].info.dataDomain &&  response[i].info.dataDomain != null)
-							response[i].info.dataDomainTranslated =  $translate.instant(response[i].info.dataDomain);
-						
-						if(response[i].info.codSubDomain &&  response[i].info.codSubDomain != null)
-							response[i].info.codSubDomainTranslated =  $translate.instant(response[i].info.codSubDomain);*
-						*/
+							response[i].info.attachment  = true;						
 
 						$scope.datasetList.push(response[i]);
 					}
@@ -295,9 +287,8 @@ appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$l
 	};
 }]);
 
-appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
-                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, $location, $modalInstance, selectedDataset, info, readFilePreview) {
-	
+appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'adminAPIservice', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
+                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, adminAPIservice, $location, $modalInstance, selectedDataset, info, readFilePreview) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	
 	$scope.loadDataset = function(){
@@ -378,6 +369,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
                                                      function($scope, $routeParams, fabricAPIservice, adminAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate,sharedUploadBulkErrors, $route) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
+	
 	$scope.downloadCsvUrl = null;//Constants.API_MANAGEMENT_DATASET_DOWNLOAD_URL + $scope.tenantCode + '/' + $scope.datasetCode + '/csv';
 
 	$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
@@ -539,6 +531,59 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
         	$scope.dataset.opendata.datetimez = $scope.dataset.opendata.datetimez.getTime();
         }
     };
+    
+    /*
+     * LOAD DATASET
+     */
+    
+    $scope.loadDataset = function(){
+		adminAPIservice.loadDataset(info.getActiveTenant(),$routeParams.id_dataset).success(function(response) {
+			console.log("LoadDataset", response);
+			try{
+				console.debug("loadDataset- response",response);
+				$scope.dataset = response;
+				$scope.stream = response.stream;
+				$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+				if(!$scope.dataset)
+					$scope.dataset = new Object();
+				if(!$scope.dataset.info)
+					$scope.dataset.info = new Object();
+				if(!$scope.dataset.info.tags)
+					$scope.dataset.info.tags = [];
+
+				if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
+					$scope.dataset.info.icon  = "img/dataset-icon-default.png";
+
+				if(!$scope.dataset.opendata){
+					$scope.dataset.opendata = {};
+					$scope.dataset.opendata.isOpendata = 'false';
+					$scope.dataset.opendata.language = 'it';
+				}
+				else if($scope.dataset.opendata.isOpendata){
+					$scope.dataset.opendata.isOpendata = 'true';
+					if($scope.dataset.opendata.dataUpdateDate && $scope.dataset.opendata.dataUpdateDate!=null){
+						var dataUpdateDate = new Date($scope.dataset.opendata.dataUpdateDate);
+						$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
+					}
+				}
+				
+				if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
+					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+				
+				$scope.newField = {sourceColumn: $scope.dataset.components.length+1};
+
+//				if(!$scope.canCreatePublicDataset())
+//					$scope.dataset.info.visibility = 'private';
+
+			} catch (e) {
+				console.error("loadDataset ERROR", e);
+			}
+		});
+
+	};
+
+	
+	/*
 	
 	$scope.loadDataset = function(){
 		console.debug("$scope.datasetCode", $scope.datasetCode);
@@ -587,7 +632,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		});
 
 	};
-
+*/
 	$scope.loadDataset();
 
 	$scope.newTag = {value:""};
