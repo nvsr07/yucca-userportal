@@ -1,4 +1,4 @@
-appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, $q, info) {
+appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", function($http, $upload, $q, info) {
 
 	var adminAPI = {};
 
@@ -173,7 +173,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	 * STREAMS
 	 */
 	adminAPI.loadStreams = function(activeTenant, tenantCodeManager) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/?callback=JSON_CALLBACK'; 
+		var urlWithParam = Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/?tenantCodeManager='+activeTenant.tenantcode+'&callback=JSON_CALLBACK'; 
 		if(tenantCodeManager && tenantCodeManager!=null && tenantCodeManager!= "")
 			urlWithParam += "&tenantCodeManager" + tenantCodeManager;
 		return $http({
@@ -197,7 +197,6 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	};
 	
 	adminAPI.updateStream = function(activeTenant, soCode, stream) {
-		console.log("ss ", stream,stream.idStream);
 		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode).replace(new RegExp('{soCode}', 'gi'), soCode) + '/' + stream.idstream;
 		return $http.put(urlWithParam,stream);
 	};
@@ -206,7 +205,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	 * DATASETS
 	 */
 	adminAPI.loadDatasets = function(activeTenant, tenantCodeManager) {
-		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/?callback=JSON_CALLBACK'; 
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/?tenantCodeManager='+activeTenant.tenantcode+'&callback=JSON_CALLBACK'; 
 		if(tenantCodeManager && tenantCodeManager!=null && tenantCodeManager!= "")
 			urlWithParam += "&tenantCodeManager" + tenantCodeManager;
 		return $http({
@@ -222,6 +221,42 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 		});
 	};
 	
+	adminAPI.createDataset = function(activeTenant, dataset) {
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode);
+		return $http.post(urlWithParam, dataset);
+	};
+	
+	adminAPI.addDataToDataset = function(activeTenant, dataset, csvInfo,componentInfoRequests) {
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +dataset.idDataset+ '/addData'; 
+
+		return $upload.upload({
+			url: urlWithParam,
+			method: 'POST',
+			skipFirstRow: csvInfo.skipFirstRow,
+			encoding: csvInfo.fileEncoding,
+			csvSeparator: csvInfo.separator,
+			file: csvInfo.selectedFile, 
+			componentInfoRequests: componentInfoRequests
+
+		});
+		
+		
+	};
+	
+	adminAPI.importMetadata = function(activeTenant,ImportMetadataDatasetRequest) {
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/importMetadata'; 
+		return $http.post(urlWithParam, ImportMetadataDatasetRequest);
+
+		
+//		return $upload.upload({
+//			url: urlWithParam,
+//			method: 'POST',
+//			ImportMetadataDatasetRequest: importConfig,
+//			file: importConfig.sqlSourcefile
+//
+//		});
+		
+	};
 
 	return adminAPI;
 } ]);

@@ -78,7 +78,8 @@
 				</div>
 			</div>
 			<div class="col-sm-3 col-sm-offset-1 text-right">
-				<img ng-src="{{stream.icon}}" alt="logo stream" class='upload-icon-preview-img' >
+				<img src="{{stream.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='stream.icon' >
+				<img src="{{DEFAULT_STREAM_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!stream.icon' >
 			</div>
 			
 		</div>	
@@ -87,7 +88,7 @@
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
 				<a ng-click='goToRequestor()' class="btn " translate-cloak translate>BACK</a>
-				<a ng-click='goToComponents()' class="btn btn-wizard-next" ng-disabled="!isOwner() || detailStreamForm.$invalid || checkTag()" translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+				<a ng-click='goToComponents()' class="btn btn-wizard-next" ng-disabled="!isOwner() || detailStreamForm.$invalid || checkTag(dataset)" translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
 			</div>
 		</div>
 	</form>

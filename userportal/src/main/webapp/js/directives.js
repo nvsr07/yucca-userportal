@@ -113,14 +113,18 @@ appDirectives.directive('alertPanel', [function(){
 	  template: '<div class="alert alert-{{type}}">'+
 				'  <strong>{{message|translate}}</strong>'+
 				'  <div> <span ng-if="code">Code: {{code}} - </span> <span ng-if="detail">{{detail}}</span></div>'+
+				'  <div ng-if="details" ng-repeat="d in details track by $index">&hybull; {{d|translate}}</div>'+
 				'</div>',
 	  scope: {
 		type: '@',
 	    code: '@',
 	    message: '@',
 	    detail: '@',
-	    details: '@'
-	  }
+	    details: '='
+	  },
+	  link: function(scope, element, attrs){
+          scope.details = scope.details;
+      }
 	};
 }]);
 

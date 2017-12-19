@@ -182,7 +182,7 @@
 	         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="stream.license.licensecode">
 	         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENSE_OTHER</span>
 	       		</label>
-				<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="stream.license.licensecode" placeholder="{{'STREAM_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenseVisible()' >
+				<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="stream.license.licensecode" placeholder="{{'STREAM_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenseVisible(stream)' >
 				</textarea>
 			</div>
 		</div>			

@@ -149,7 +149,7 @@ app.factory('info',  function() {
     	var shareInformationType = "none";
     	if(this.info && this.info.user && this.info.user.tenants && this.info.user.tenants !=null && this.info.user.tenants.length>0){
     		for (var i = 0; i < this.info.user.tenants.length; i++) {
-				if(this.info.user.tenants[i].tenantCode == this.getActiveTenantCode()){
+				if(this.info.user.tenants[i].tenantcode == this.getActiveTenantCode()){
 					shareInformationType = this.info.user.tenants[i].shareType.description; 
 					break;
 				}

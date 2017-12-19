@@ -88,7 +88,7 @@
 						</thead>
 						<tbody>
 							<tr ng-show="showLoading">
-								<td colspan='6' >
+								<td colspan='8' >
 									<div class='ajax-loading-container'>
 										<span class='ajax-loading-big'></span>
 										<h4>Loading...</h4>
@@ -99,7 +99,7 @@
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
 								<td class='text-center no-border-right'>
 									<a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}">
-										<img ng-src="{{dataset.info.icon}}" alt="logo dataset" class='list-entity-icon-preview-img' >
+										<img ng-src="{{dataset.icon}}" alt="logo dataset" class='list-entity-icon-preview-img' >
 									</a>
 								</td>
 								<td class='text-left no-border-left'>
@@ -117,8 +117,8 @@
 										</div>
 									</div>
 								</td>
-								<td>{{dataset.datasetType.datasetType|translate}} / {{dataset.datasetSubtype.datasetSubtype|translate}} 
-									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-show="dataset.info.attachment" title='Dataset with binary attachment'></i>
+								<td>{{dataset.datasetType.datasetType|translate}} / {{dataset.datasetSubtype.datasetSubtype|translate}} bn{{dataset.idDataSourceBinary}}nb
+									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-if="dataset.idDataSourceBinary!=null" title='Dataset with binary attachment'></i>
 								</td>
 								<td>{{dataset.registrationdate|dataset_date_format}}</td>
 								<td><span translate-cloak translate>{{dataset.version}}</span> <strong class='entity-uninstalled' ng-show="{{dataset.configData.deleted==1}}" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong></td>

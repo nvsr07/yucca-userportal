@@ -326,6 +326,8 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	
+	DATASET_FIELD_METADATA_FIELD_CSV_COLUMN: 'Colonna del CSV',
+	
 	DATASET_FIELD_UNPUBLISHED_TRUE: 'Non pubblicato',
 	DATASET_FIELD_UNPUBLISHED_FALSE: 'Pubblicato',
 	DATASET_FIELD_UNPUBLISHED_TRUE_HINT: 'Non pubblicato sullo store',
@@ -932,6 +934,8 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT: 'Next', 
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_CREATE_COLUMNS: 'oppure prosegui senza caricare il file',
 	MANAGEMENT_NEW_DATASET_WIZARD_NEXT_IMPORT_COLUMNS: 'Definisci le colonne caricando il file',
+	MANAGEMENT_NEW_DATASET_CREATE_METADATA: 'Creazione del dataset',
+	MANAGEMENT_NEW_DATASET_UPLOAD_DATA: 'Caricamento dei dati',
 	MANAGEMENT_NEW_DATASET_WIZARD_END: 'Crea dataset',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_WITH_ATTACH_TITLE: 'Con allegati',
 	MANAGEMENT_NEW_DATASET_CHOOSE_FILE_NO_ATTACH_TITLE: 'Senza allegati',
@@ -965,6 +969,9 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP: 'Nel caso la prima riga sia l\'intestazione', 
 	MANAGEMENT_NEW_DATASET_COLUMNS_TITLE: 'Colonne da importare',
 	MANAGEMENT_NEW_DATASET_COLUMNS_INTRO: 'Selezionare le colonne di cui si vogliono importare i dati. E\' possibile cambiare l\'ordine di importazione', 
+	MANAGEMENT_NEW_DATASET_CSV_IMPORT_INFO_TITLE: 'Informazione per l\'importazione',
+	MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW: 'Anteprima dei dati',
+	MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW_REFRESH: 'Aggiorna',
 	
 	MANAGEMENT_NEW_DATASET_ADD_COLUMN_DEFINITION: 'Aggiungi colonna',
 	MANAGEMENT_NEW_DATASET_REMOVE_COLUMN_DEFINITION: 'Rimuovi colonna',
@@ -979,7 +986,10 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT: 'Il nome viene ripulito da spazi e caratteri speciali automaticamente  in fase di salvataggio',
 	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME_UNIQUE: 'I nomi colonna devono essere univoci, sono presenti alcuni duplicati',
 	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME: 'I nomi colonna sono obbligatori, sono presenti alcune colonne senza nome',
+	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_ERROR: 'I nomi colonna possono contenere solo caratteri alfanumerici, sono presenti alcune colonne con il nome non conforme',
 	
+	
+	MANAGEMENT_NEW_DATASET_WARNING_TITLE: 'Verificare i dati inseriti', 
 	
 	MANAGEMENT_NEW_DATASET_BINARY_TITLE :'File binari da definire',
 	MANAGEMENT_NEW_DATASET_BINARY_INTRO: 'Aggiungere almeno la definizione di un file binario',
@@ -987,7 +997,7 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_REMOVE_BINARY_DEFINITION: 'Rimuovi definizione file',
 	MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME: 'Il nome file e\' obbligatorio',
 	MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME_UNIQUE: 'Il nome file deve essere univoco',
-	MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY: 'Definire almeno un file',
+	MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY: 'Definire almeno un file binario',
 	MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT: 'Il nome viene ripulito da spazi e caratteri speciali automaticamente  in fase di salvataggio',
 	
 	/* import database*/
@@ -1184,7 +1194,10 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO: 'Dati caricati: ', 
 	
 	MANAGEMENT_EDIT_DATASET_DATA_URLS: 'URL in formato OData (rif. http://www.odata.org/): ', 
-		
+	
+	MANAGEMENT_EDIT_DATASET_SAVE_ERROR: 'Errore nel salvataggio del dataset',
+	MANAGEMENT_EDIT_DATASET_SAVED_INFO: 'Dataset salvato correttamente',
+
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',
 	MANAGEMENT_CHOOSE_TENANT_WARNING: 'Pagina temporanea in attesa del sistema di autenticazione',

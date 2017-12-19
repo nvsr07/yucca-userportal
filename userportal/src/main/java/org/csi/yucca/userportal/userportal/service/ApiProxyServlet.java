@@ -103,7 +103,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		if (contentDisposition != null)
 			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
-		if (response.getContentType() != null && (response.getContentType().startsWith("application/octet-stream") || response.getContentType().startsWith("text/csv"))) {
+		if (response.getContentType() != null && (response.getContentType().startsWith("application/octet-stream") ||response.getContentType().startsWith("image/")|| response.getContentType().startsWith("text/csv"))) {
 			ServletOutputStream out = response.getOutputStream();
 			InputStream in = getMethod.getResponseBodyAsStream();
 			log.info("[ApiProxyServlet::doGet] startcopy");
@@ -115,7 +115,6 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			// String jsonOut = getMethod.getResponseBodyAsString();
 			byte[] responsBytes = getMethod.getResponseBody();
 			response.setCharacterEncoding("UTF-8");
-
 			String jsonOut = new String(responsBytes, "UTF-8");
 			// if(getMethod.getResponseHeader("Content-Type")!=null){
 			// String contentType =

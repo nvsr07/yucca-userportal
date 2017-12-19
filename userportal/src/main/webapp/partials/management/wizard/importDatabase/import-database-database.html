@@ -17,28 +17,28 @@
 			<div class="form-group">
 				<label for="inputJDBCHostname" class="col-sm-2 control-label"><span translate-cloak translate>JDBC_PARAM_HOSTNAME</span></label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="importConfig.jdbc_hostname" id="inputJDBCHostname" placeholder="{{'JDBC_PARAM_HOSTNAME_PLACEHOLDER'|translate}}"
+					<input type="text" class="form-control" ng-model="importConfig.jdbcHostname" id="inputJDBCHostname" placeholder="{{'JDBC_PARAM_HOSTNAME_PLACEHOLDER'|translate}}"
 						ng-required="importConfig.dbType!='HIVE'" ng-disabled="importConfig.dbType=='HIVE'">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="inputJDBCDBName" class="col-sm-2 control-label"><span translate-cloak translate>JDBC_PARAM_DBNAME</span></label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="importConfig.jdbc_dbname" id="inputJDBCDBName" placeholder="{{'JDBC_PARAM_DBNAME_PLACEHOLDER'|translate}}"
+					<input type="text" class="form-control" ng-model="importConfig.jdbcDbname" id="inputJDBCDBName" placeholder="{{'JDBC_PARAM_DBNAME_PLACEHOLDER'|translate}}"
 						ng-required="importConfig.dbType!='HIVE'" ng-disabled="importConfig.dbType=='HIVE'">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="inputJDBCDBUsername" class="col-sm-2 control-label"><span translate-cloak translate>JDBC_PARAM_USERNAME</span></label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" ng-model="importConfig.jdbc_username" id="inputJDBCDBUsername" placeholder="{{'JDBC_PARAM_USERNAME_PLACEHOLDER'|translate}}"
+					<input type="text" class="form-control" ng-model="importConfig.jdbcUsername" id="inputJDBCDBUsername" placeholder="{{'JDBC_PARAM_USERNAME_PLACEHOLDER'|translate}}"
 						ng-required="importConfig.dbType!='HIVE'" ng-disabled="importConfig.dbType=='HIVE'">
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="inputJDBCDBPassword" class="col-sm-2 control-label"><span translate-cloak translate>JDBC_PARAM_PASSWORD</span></label>
 				<div class="col-sm-10">
-					<input type="password" class="form-control" ng-model="importConfig.jdbc_password" id="inputJDBCDBPassword" placeholder="{{'JDBC_PARAM_PASSWORD_PLACEHOLDER'|translate}}"
+					<input type="password" class="form-control" ng-model="importConfig.jdbcPassword" id="inputJDBCDBPassword" placeholder="{{'JDBC_PARAM_PASSWORD_PLACEHOLDER'|translate}}"
 						ng-required="importConfig.dbType!='HIVE'" ng-disabled="importConfig.dbType=='HIVE'">
 					<p class="help-block text-left"><span translate>JDBC_PARAM_PASSWORD_HINT</span></p>
 				</div>

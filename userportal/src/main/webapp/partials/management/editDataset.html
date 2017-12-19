@@ -178,7 +178,8 @@
 										</div>
 									</div>
 									<div class="col-sm-4 text-right">
-										<img src="{{dataset.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
+										<img src="{{dataset.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='dataset.icon' >
+										<img src="{{DEFAULT_DATASET_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!dataset.icon' >
 									</div>
 								</div>		
 								
@@ -291,7 +292,7 @@
 						         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="dataset.info.license">
 						         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_OTHER</span>
 						       		</label>
-									<textarea id="inputDatasetLicence" class="form-control" rows="2" resize="none" ng-model="dataset.info.license" placeholder="{{'DATASET_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenceVisible()' >
+									<textarea id="inputDatasetLicence" class="form-control" rows="2" resize="none" ng-model="dataset.info.license" placeholder="{{'DATASET_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenseVisible(dataset)' >
 									</textarea>
 									</div>
 								</div>			
@@ -489,8 +490,8 @@
 										<span translate>DATASET_FIELD_METADATA_DESCRIPTION</span>
 									</li>
 									<li >
-										<i class='fa fa-square-o' ng-if='checkTag()'></i>
-										<span class='text-success'><i class='fa fa-check-square-o ' ng-if='!checkTag()'></i></span>
+										<i class='fa fa-square-o' ng-if='checkTag(dataset)'></i>
+										<span class='text-success'><i class='fa fa-check-square-o ' ng-if='!checkTag(dataset)'></i></span>
 										<span translate>MANAGEMENT_DATASET_MATADATA_TAG_HINT</span>
 									</li>
 									

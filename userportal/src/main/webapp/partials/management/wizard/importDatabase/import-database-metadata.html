@@ -190,11 +190,11 @@
 		         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_CCBY</span>
 		       		</label>
 					<label class="radio-inline">
-		         		<input type="radio" name="RadioGroupLicence" value="{{'DATASET_FIELD_METADATA_LICENCE_CC0'|translate}}" id="RadioGroupLicence_0" ng-model="defaultMetadata.info.license">
+		         		<input type="radio" name="RadioGroupLicence" value="{{'DATASET_FIELD_METADATA_LICENCE_CC0'|translate}}" id="RadioGroupLicence_1" ng-model="defaultMetadata.info.license">
 		         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_CC0</span>
 		       		</label>
 					<label class="radio-inline">
-		         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="defaultMetadata.info.license">
+		         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_2" ng-model="defaultMetadata.info.license">
 		         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_OTHER</span>
 		       		</label>
 					<textarea id="inputDatasetLicence" class="form-control" rows="2" resize="none" ng-model="defaultMetadata.info.license" placeholder="{{'DATASET_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenceVisible()' >
@@ -276,7 +276,7 @@
 			<div class="row">
 				<div class=" col-sm-12 form-toolbar">
 					<a ng-click='goToRequestor()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-					<a ng-click='goToCustomize()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid || checkTag()" translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+					<a ng-click='goToCustomize()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid || checkTag(defaultMetadata)" translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 				</div>
 			</div>
 		</form>
@@ -305,8 +305,8 @@
 							<span translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span>
 						</li>
 						<li >
-							<i class='fa fa-square-o' ng-if='checkTag()'></i>
-							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='!checkTag()'></i></span>
+							<i class='fa fa-square-o' ng-if='checkTag(defaultMetadata)'></i>
+							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='!checkTag(defaultMetadata)'></i></span>
 							<span translate>MANAGEMENT_DATASET_MATADATA_TAG_HINT</span>
 						</li>
 						

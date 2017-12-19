@@ -1,6 +1,6 @@
 <div class='clearfix wizard-title' ng-cloak>
 	<div class='pull-left'><h3><span translate-cloak translate>MANAGEMENT_NEW_DATASET_TITLE</span> - <span translate-cloak translate>MANAGEMENT_NEW_DATASET_METADATA_SUBTITLE</span></h3></div>
-	<div class='pull-right'><h3><small>Step 3/6</small></h3></div>
+	<div class='pull-right'><h3><small>Step 3/5</small></h3></div>
 </div>
 <form class="form-horizontal" role="form" name="metadataDatasetForm" ng-cloak>
 	<div class='row'>
@@ -8,13 +8,15 @@
 			<div class="form-group">
 				<label for="inputDatasetDesc" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
 				<div class="col-sm-9">
-					<textarea id="inputDatasetDesc" class="form-control" rows="2" resize="none" ng-model="metadata.info.description" placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}"  maxlength="3000">
+					<textarea id="inputDatasetDesc" class="form-control" rows="2" resize="none" ng-model="dataset.description" placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}"  maxlength="3000">
 					</textarea>
-				</div><!-- 
-					<div class="col-sm-5 form-hint">
-						<span class='hint-message' ng-bind-html="'MANAGEMENT_DESCRIPTION_ON_STORE_HINT'|translate"></span>  <i class="fa fa-long-arrow-right hint-arrow"></i>  <i class="fa fa-user hint-store-icon"></i>
-					</div>-->
+				</div>
 			</div>
+			
+			
+			
+			
+			
 			<div class="form-group">
 				<label for="inputDatasetAddTag" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span><span class='required-asterisk'>*</span></label>
 				<div class="col-sm-4 text-left">
@@ -27,9 +29,9 @@
 					</div>	
 				</div>
 				<div class="col-sm-5 text-left">
-					<span  ng-repeat="tag in metadata.info.tags">
-						<span class="label label-tag label-custom"><span ng-bind-html="tag.tagCode|translate"></span> &nbsp;
-						<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
+					<span  ng-repeat="tag in dataset.tags">
+						<span class="label label-tag label-custom"><span>{{(tag|tagFromId:tagMap).tagLabel|translate}}</span> &nbsp;
+							<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
 						</span> &nbsp;
 					</span>
 				</div>
@@ -38,7 +40,7 @@
 				<label for="inputDatasetExternalReference" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</label>
 				<div class="col-sm-9">
 					<input type="text" class="form-control" id="inputDatasetExternalReference" placeholder="{{'DATASET_FIELD_METADATA_EXTERNAL_REFERENCE'|translate}}" 
-					ng-model="metadata.info.externalReference" >
+					ng-model="dataset.openData.opendataexternalreference" >
 				</div>
 			</div>		
 			<div class="form-group">
@@ -63,7 +65,8 @@
 					</div>
 				</div>
 				<div class="col-sm-4 text-right">
-					<img src="{{metadata.info.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
+					<img src="{{dataset.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='dataset.icon' >
+					<img src="{{DEFAULT_DATASET_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!dataset.icon' >
 				</div>
 				
 			</div>		
@@ -71,61 +74,60 @@
 				<label for="RadioGroupVisibility" class="col-sm-3 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
 				<div class="col-sm-4 text-left">
 					<label class="radio-inline">
-		         		<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="metadata.info.visibility" ng-disabled='!canCreatePublicDataset()'>
+		         		<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="dataset.visibility" ng-disabled='!canCreatePublicDataset()'>
 		         		<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC</span>
 		       		</label>
 					<label class="radio-inline">
-		         		<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="metadata.info.visibility" ng-disabled='!canCreatePublicDataset()'>
+		         		<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="dataset.visibility" ng-disabled='!canCreatePublicDataset()'>
 		         		<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE</span>
 		       		</label>
 				</div>
 			</div>
-			<div class="form-group" ng-if="metadata.info.visibility=='private' && canShareDataset()">
+			<div class="form-group" ng-if="dataset.visibility=='private' && canShareDataset()">
 				<label for="inputStreamAddTenantSharing" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_TENANTSSHARING</span></label>
 				<div class="col-sm-4 text-left">
 					<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
 						<input type="text" ng-model="newTenantSharing.value" typeahead="tenant as tenant.name for tenant in tenantsList | filter:{name:$viewValue} | limitTo:8" class="form-control"
 								typeahead-editable="false" typeahead-on-select="onTenantSharingSelect($item, $model, $label)"/>
 						<span class="input-group-addon tag-html-tooltip-button" ng-click="showChooseTenantTable()">&quest;</span>
-						
 					</div>	
 				</div>
 				<div class="col-sm-5 text-left">
 					<div>
-						<span  ng-repeat="tenantSharing in metadata.info.tenantssharing.tenantsharing">
-							<span class="label label-custom label-tenant-sharing"><span title="{tenantSharing.tenantCode}">{{tenantSharing.tenantName}}</span> &nbsp;
-							<a href ng-click='removeTenantSharing($index)' ng-if="tenantSharing.isOwner==0"  class='close-button'>&times;</a>
+						<span  ng-repeat="tenantSharing in dataset.sharingTenants">
+							<span class="label label-custom label-tenant-sharing"><span title="{{tenantSharing.tenantcode}} - {{tenantSharing.description}}">{{tenantSharing.name}}</span> &nbsp;
+							<a href ng-click='removeTenantSharing($index)' ng-if="tenantSharing.tenantcode!=tenantCode"  class='close-button'>&times;</a>
 							</span> &nbsp;
 						</span>
 					</div>						
 				</div>
 			</div>	
-			<div ng-if="metadata.info.visibility=='public'">
+			<div ng-if="dataset.visibility=='public'">
 				<div class="form-group">
 					<label for="RadioGroupOpendata" class="col-sm-3 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span></label>
 					<div class="col-sm-4  text-left">
 						<label class="radio-inline">
-		             			<input type="radio" name="RadioGroupOpendata" value="true" id="RadioGroupOpenadata_0" ng-model="metadata.opendata.isOpendata" ng-disabled="metadata.info.visibility!='public'">
+		             			<input type="radio" name="RadioGroupOpendata" value="true" id="RadioGroupOpenadata_0" ng-model="isOpendata" ng-disabled="dataset.visibility!='public'">
 		             			<span translate-cloak translate>YES</span>
 		           		</label>
 						<label class="radio-inline">
-		             			<input type="radio" name="RadioGroupOpendata" value="false" id="RadioGroupOpenadata_1" ng-model="metadata.opendata.isOpendata" ng-disabled="metadata.info.visibility!='public'">
+		             			<input type="radio" name="RadioGroupOpendata" value="false" id="RadioGroupOpenadata_1" ng-model="isOpendata" ng-disabled="dataset.visibility!='public'">
 		             			<span translate-cloak translate>NO</span>
 		           		</label>
 					</div>
 				</div>
-				<div ng-if="metadata.opendata.isOpendata=='true'">
+				<div ng-if="isOpendata=='true'">
 					<div class="form-group">
 						<label for="inputDatasetOpendataAuthor" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_AUTHOR</label>
 						<div class="col-sm-9">
 							<input type="text" class="form-control" id="inputDatasetOpendataAuthor" placeholder="{{'DATASET_FIELD_METADATA_OPENDATA_AUTHOR_PLACEHOLDER'|translate}}" 
-							ng-model="metadata.opendata.author" >
+							ng-model="dataset.openData.opendataauthor" >
 						</div>
 					</div>	
 					<div class="form-group ">
 						<label for="inputDatasetDomain" class="col-sm-3 control-label"translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_LANG</label>
 						<div class="col-sm-9">
-							<select class="input-sm form-control" ng-model="metadata.opendata.language" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
+							<select class="input-sm form-control" ng-model="dataset.openData.opendatalanguage" ng-options="k as v for (k, v) in OPENDATA_LANGUAGES">
 		    					<option value="" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_LANG_PLACEHOLDER</option>
 		    				</select>
 						</div>
@@ -133,7 +135,7 @@
 					<div class="form-group ">
 						<label for="inputDatasetOpendataDataUpdateDate" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</label>
 						<div class="col-sm-9">
-							<input type="date" class="form-control"  ng-model="metadata.opendata.dataUpdateDate"  close-text="Close" />
+							<input type="date" class="form-control"  ng-model="dataset.openData.opendataupdatedate"  close-text="Close" />
 						</div>
 					</div>
 					
@@ -141,104 +143,105 @@
 			</div>		
 		<!-- 	<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div> -->
 			<h3 class='text-left form-section-title' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</h3>
-			<div class="form-group" ng-if="metadata.info.visibility!='private'">
-				<label for="v" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</label>
+			<div class="form-group" ng-show="dataset.visibility!='private'">
+				<label for="inputStreamLicense" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_LICENCE</span></label>
 				<div class="col-sm-9 text-left">
 					<label class="radio-inline">
-		         		<input type="radio" name="RadioGroupLicence" value="{{'DATASET_FIELD_METADATA_LICENCE_CCBY'|translate}}" id="RadioGroupLicence_0" ng-model="metadata.info.license">
-		         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_CCBY</span>
+		         		<input type="radio" name="RadioGroupLicence" value="{{'STREAM_FIELD_METADATA_LICENSE_CCBY'|translate}}" id="RadioGroupLicence_0" ng-model="dataset.license.licensecode">
+		         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENSE_CCBY</span>
 		       		</label>
 					<label class="radio-inline">
-		         		<input type="radio" name="RadioGroupLicence" value="{{'DATASET_FIELD_METADATA_LICENCE_CC0'|translate}}" id="RadioGroupLicence_0" ng-model="metadata.info.license">
-		         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_CC0</span>
+		         		<input type="radio" name="RadioGroupLicence" value="{{'STREAM_FIELD_METADATA_LICENSE_CC0'|translate}}" id="RadioGroupLicence_0" ng-model="dataset.license.licensecode">
+		         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENSE_CC0</span>
 		       		</label>
 					<label class="radio-inline">
-		         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="metadata.info.license">
-		         		<span translate-cloak translate>DATASET_FIELD_METADATA_LICENCE_OTHER</span>
+		         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="dataset.license.licensecode">
+		         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENSE_OTHER</span>
 		       		</label>
-					<textarea id="inputDatasetLicence" class="form-control" rows="2" resize="none" ng-model="metadata.info.license" placeholder="{{'DATASET_FIELD_METADATA_LICENSE'|translate}}" ng-if='isLicenceVisible()' >
+					<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="dataset.license.licensecode" placeholder="{{'STREAM_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenseVisible(dataset)' >
 					</textarea>
 				</div>
 			</div>			
-			<div class="form-group" ng-if="metadata.info.visibility!='private'">
-				<label for="inputDatasetDisclaimer" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DISCLAIMER</label>
+			<div class="form-group" ng-show="dataset.visibility!='private'">
+				<label for="inputStreamDisclaimer" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_DISCLAIMER</span></label>
 				<div class="col-sm-9">
-					<textarea class="form-control" rows="2" resize="none" ng-model="metadata.info.disclaimer"  placeholder="{{'DATASET_FIELD_METADATA_DISCLAIMER'|translate}}" id="inputDatasetDisclaimer" >
-					</textarea>
+					<textarea class="form-control" rows="4" resize="none" ng-model="dataset.license.disclaimer"  placeholder="{{'STREAM_FIELD_DISCLAIMER'|translate}}" id="inputStreamDisclaimer" >
+					</textarea>					
+					
 				</div>
 			</div>			
-			<div class="form-group" ng-if="metadata.info.visibility=='private'">
-				<label for="inputDatasetCopyright" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_COPYRIGHT</label>
+			<div class="form-group" ng-show="dataset.visibility=='private'">
+				<label for="inputStreamCopyright" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_COPYRIGHT</span></label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputDatasetCopyright" placeholder="{{'DATASET_FIELD_METADATA_COPYRIGHT'|translate}}" ng-model="metadata.info.copyright" >
+					<input type="text" class="form-control" id="inputStreamCopyright" placeholder="{{'STREAM_FIELD_COPYRIGHT'|translate}}" ng-model="dataset.copyright" >
 				</div>
 			</div>			
-			<div  ng-if='!metadata.info.unpublished'>
-				<!-- <div class='form-label-separator' ><span translate-cloak translate>MANAGEMENT_NEW_DATASET_DCAT</span></div>-->	
-				<h3 class='text-left  form-section-title'><span translate-cloak translate>MANAGEMENT_NEW_DATASET_DCAT</span></h3>	
-				<div class="form-group" >
-					<label for=""  class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span><span class='required-asterisk'>*</span></label>
-					<div class='col-sm-9'>
-						<input type="text" class="form-control" id="inputDatasetDCATRightHolderName" placeholder="{{'DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME_PLACEHOLDER'|translate}}" 
-							ng-required="true" ng-model="metadata.dcatRightsHolderName">
-					</div>
-				</div>
-				<div class="form-group" >
-					<label for="inputDatasetDCATRightHolderType" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE</span></label>
+			
+			
+			<div  ng-if='!dataset.unpublished'>
+				<h3 class='text-left form-section-title' ><span translate-cloak translate>MANAGEMENT_NEW_DATASET_DCAT</span></h3>
+		
+				<div class="form-group">
+					<label for="inputStreamDCATRightHolderName" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span><span class='required-asterisk'>*</span></label>
 					<div class="col-sm-9">
-						<input type="text" class="form-control" id="inputDatasetDCATRightHolderType" placeholder="{{'DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_PLACEHOLDER'|translate}}" 
-						ng-model="metadata.dcatRightsHolderType">
-					</div>	
-				</div>
-				<div class="form-group" >
-					<label for="inputDatasetDCATRightHolderId" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID</span></label>
-					<div class="col-sm-9">
-						<input type="text" class="form-control" id="inputDatasetDCATRightHolderId" placeholder="{{'DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID_PLACEHOLDER'|translate}}" 
-						ng-model="metadata.dcatRightsHolderId">
-					</div>	
-				</div>
-				<div class="form-group" >
-					<label for="inputDatasetDCATCreatorName" class="col-sm-3 control-label text-right"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORNAME</span></label>
-					<div class='col-sm-9'>
-						<input type="text" class="form-control" id="inputDatasetDCATCreatorName" placeholder="{{'DATASET_FIELD_METADATA_DCAT_CREATORNAME_PLACEHOLDER'|translate}}" 
-							ng-model="metadata.dcatCreatorName">
-					</div>
-				</div>
-				<div class="form-group" >
-					<label for="inputDatasetDCATCreatorType" class="col-sm-3 control-label text-right"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORTYPE</span></label>							
-					<div class="col-sm-9">
-						<input type="text" class="form-control" id="inputDatasetDCATCreatorType" placeholder="{{'DATASET_FIELD_METADATA_DCAT_CREATORTYPE_PLACEHOLDER'|translate}}" 
-							ng-model="metadata.dcatCreatorType">
-					</div>	
-				</div>
-				<div class="form-group" >
-					<label for="inputDatasetDCATCreatorId" class="col-sm-3 control-label text-right"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORID</span></label>
-					<div class="col-sm-9">
-						<input type="text" class="form-control" id="inputDatasetDCATCreatorId" placeholder="{{'DATASET_FIELD_METADATA_DCAT_CREATORID_PLACEHOLDER'|translate}}" 
-							ng-model="metadata.dcatCreatorId">
+						<input type="text" class="form-control" id="inputStreamDCATRightHolderName" placeholder="{{'STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERNAME_PLACEHOLDER'|translate}}" 
+						ng-required="true" ng-model="dataset.dcat.dcatrightsholdername">
 					</div>	
 				</div>		
-
-				<div class="form-group" >
-					<label for="inputDatasetOpendataNomeOrg" class="col-sm-3 control-label text-right"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</span><span class='required-asterisk'>*</span></label>
-					<div class='col-sm-9'>
-						<input type="text" class="form-control" id="inputDatasetOpendataNomeOrg" placeholder="{{'DATASET_FIELD_METADATA_DCAT_NOMEORG_PLACEHOLDER'|translate}}" 
-							ng-required="true" ng-model="metadata.dcatNomeOrg">
-					</div>
-				</div>
-				<div class="form-group" >
-					<label for="inputDatasetOpendataEmailOrg" class="col-sm-3 control-label text-right"><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_EMAILORG</span><span class='required-asterisk'>*</span></label>
+				<div class="form-group">
+					<label for="inputStreamDCATRightHolderType" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE</span></label>
 					<div class="col-sm-9">
-						<input type="text" class="form-control" id="inputDatasetOpendataEmailOrg" placeholder="{{'DATASET_FIELD_METADATA_DCAT_EMAILORG_PLACEHOLDER'|translate}}" 
-							ng-required="true" ng-model="metadata.dcatEmailOrg">
+						<input type="text" class="form-control" id="inputStreamDCATRightHolderType" placeholder="{{'STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE_PLACEHOLDER'|translate}}" 
+						ng-model="dataset.dcat.dcatrightsholdertype">
 					</div>	
-				</div>
-				
+				</div>		
+				<div class="form-group">
+					<label for="inputStreamDCATRightHolderId" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERID</span></label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="inputStreamDCATRightHolderId" placeholder="{{'STREAM_FIELD_METADATA_DCAT_RIGHTHOLDERID_PLACEHOLDER'|translate}}" 
+						ng-model="dataset.dcat.dcatrightsholderid">
+					</div>	
+				</div>	
+				<div class="form-group">
+					<label for="inputStreamDCATCreatorName" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORNAME</span></label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="inputStreamDCATCreatorName" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORNAME_PLACEHOLDER'|translate}}" 
+						ng-model="dataset.dcat.dcatcreatorname">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputStreamDCATCreatorType" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORTYPE</span></label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="inputStreamDCATCreatorType" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORTYPE_PLACEHOLDER'|translate}}" 
+						ng-model="dataset.dcat.dcatcreatortype">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputStreamDCATCreatorId" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_CREATORID</span></label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="inputStreamDCATCreatorId" placeholder="{{'STREAM_FIELD_METADATA_DCAT_CREATORID_PLACEHOLDER'|translate}}" 
+						ng-model="dataset.dcat.dcatcreatorid">
+					</div>	
+				</div>	
+				<div class="form-group">
+					<label for="inputStreamOpendataNomeOrg" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_NOMEORG</span><span class='required-asterisk'>*</span></label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="inputStreamOpendataNomeOrg" placeholder="{{'STREAM_FIELD_METADATA_DCAT_NOMEORG_PLACEHOLDER'|translate}}" 
+						ng-required="true" ng-model="dataset.dcat.dcatnomeorg">
+					</div>	
+				</div>		
+				<div class="form-group">
+					<label for="inputStreamOpendataEmailOrg" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_METADATA_DCAT_EMAILORG</span><span class='required-asterisk'>*</span></label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="inputStreamOpendataEmailOrg" placeholder="{{'STREAM_FIELD_METADATA_DCAT_EMAILORG_PLACEHOLDER'|translate}}" 
+						ng-required="true" ng-model="dataset.dcat.dcatemailorg">
+					</div>	
+				</div>	
 			</div>
 			<div class="row">
 				<div class=" col-sm-12 form-toolbar">
 					<a ng-click='goToRequestor()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
-					<a ng-click='goToChooseType()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid || checkTag()" translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+					<a ng-click='goToChooseType()' class="btn btn-wizard-next" ng-disabled="!isOwner() || metadataDatasetForm.$invalid || checkTag(dataset)" translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 				</div>
 			</div>
 		</div>
@@ -252,27 +255,27 @@
 						<strong class='hint-message' ng-bind-html="'MANAGEMENT_DATASET_METADATA_MANDATORY_HINT'|translate"></strong>
 						<ul class='fa-ul'>
 							<li >
-								<i class='fa fa-square-o' ng-if='checkTag()'></i>
-								<span class='text-success'><i class='fa fa-check-square-o ' ng-if='!checkTag()'></i></span>
+								<i class='fa fa-square-o' ng-if='checkTag(dataset)'></i>
+								<span class='text-success'><i class='fa fa-check-square-o ' ng-if='!checkTag(dataset)'></i></span>
 								<span translate>MANAGEMENT_DATASET_MATADATA_TAG_HINT</span>
 							</li>
-							<li ng-if='!metadata.info.unpublished'>
+							<li ng-if='!dataset.unpublished'>
 								
 								<strong translate>MANAGEMENT_DATASET_MATADATA_DCAT_HINT</strong>
 							</li>
-							<li ng-if='!metadata.info.unpublished'>
-								<i class='fa fa-square-o' ng-if='metadata.dcatRightsHolderName==null'></i>
-								<span class='text-success'><i class='fa fa-check-square-o ' ng-if='metadata.dcatRightsHolderName!=null'></i></span>
+							<li ng-if='!dataset.unpublished'>
+								<i class='fa fa-square-o' ng-if='dataset.dcat.dcatrightsholdername==null'></i>
+								<span class='text-success'><i class='fa fa-check-square-o ' ng-if='dataset.dcat.dcatrightsholdername!=null'></i></span>
 								<span translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span>
 							</li>
-							<li ng-if='!metadata.info.unpublished'>
-								<i class='fa fa-square-o' ng-if='metadata.dcatNomeOrg==null'></i>
-								<span class='text-success'><i class='fa fa-check-square-o ' ng-if='metadata.dcatNomeOrg!=null'></i></span>
+							<li ng-if='!dataset.unpublished'>
+								<i class='fa fa-square-o' ng-if='dataset.dcat.dcatnomeorg==null'></i>
+								<span class='text-success'><i class='fa fa-check-square-o ' ng-if='dataset.dcat.dcatnomeorg!=null'></i></span>
 								<span translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</span>
 							</li>
-							<li ng-if='!metadata.info.unpublished'>
-								<i class='fa fa-square-o' ng-if='metadata.dcatEmailOrg==null'></i>
-								<span class='text-success'><i class='fa fa-check-square-o ' ng-if='metadata.dcatEmailOrg!=null'></i></span>
+							<li ng-if='!dataset.unpublished'>
+								<i class='fa fa-square-o' ng-if='dataset.dcat.dcatemailorg==null'></i>
+								<span class='text-success'><i class='fa fa-check-square-o ' ng-if='dataset.dcat.dcatemailorg!=null'></i></span>
 								<span translate>DATASET_FIELD_METADATA_DCAT_EMAILORG</span>
 							</li>
 												

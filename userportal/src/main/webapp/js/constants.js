@@ -24,6 +24,9 @@ Constants.VIRTUALENTITY_TYPE_TWITTER_ID = 3;
 Constants.TENANT_TYPE_PERSONAL_ID = 2;  
 Constants.TENANT_TYPE_TRIAL_ID = 4;   
 
+/* column data type */
+Constants.COMPONENT_DATA_TYPE_STRING = 5;
+Constants.COMPONENT_DATA_TYPE_BINARY = 10;
 
 Constants.VIRTUALENTITY_CATEGORY_NONE = 999;
 
@@ -40,7 +43,7 @@ Constants.VALIDATION_PATTERN_NO_SPACE = /^(?!.*(?:[ ]))/;
 Constants.VALIDATION_PATTERN_CODE_VIRTUALENTITY = /^(?!.*(?:[ *./#<>àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]))/;
 Constants.VALIDATION_PATTERN_CODE_STREAM =        /^(?!.*(?:[ *./#<>àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ-]))/;
 Constants.VALIDATION_PATTERN_ACCENT =        /.*[àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ].*/;
-
+Constants.VALIDATION_PATTERN_ALPHANUMERIC = /^[a-zA-Z0-9]*$/;
 
 
 

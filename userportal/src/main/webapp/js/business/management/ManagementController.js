@@ -166,9 +166,38 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info
 		
 	};
 	
+	$scope.measureUnitsList = [];
+
+	adminAPIservice.loadMeasureUnits().success(function(response) {
+		console.log("loadMeasureUnits",response);
+		$scope.measureUnitsList = response;
+	});
+
+	
 	$scope.streamIconUrl= function(organizationCode, idstream){
 		return Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), organizationCode)+"/"+idstream+"/icon";
 	};
+	
+	//FIXME licensecode???
+	$scope.isLicenseVisible = function(datasource){
+		var returnValue = true;
+		if (datasource && datasource.license){
+			if ((datasource.license.licensecode == Constants.STREAM_FIELD_METADATA_LICENSE_CCBY) || (datasource.license.licensecode == Constants.STREAM_FIELD_METADATA_LICENSE_CC0))
+				returnValue = false;
+		}
+		
+		return returnValue;
+	};
+
+	$scope.checkTag = function(datasource){
+		var rslt = true;
+		if (typeof datasource !='undefined' && datasource!=null && datasource.tags && datasource.tags.length > 0){
+			rslt = false;
+		};
+		
+		return rslt;
+	};
+
 
 }]);
 

@@ -40,7 +40,7 @@
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
-				<div><strong>{{dataset.registrationdate|date}}</strong></div>
+				<div><strong>{{dataset.registrationdate|dataset_date_format}}</strong></div>
 			
 			</div>
 		</div>
@@ -100,7 +100,7 @@
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
 							<div class='col-sm-2'>{{dataset.visibility}}</div>
-							<div class='col-sm-2 text-right'card-label" ng-show="dataset.info.visibility=='private'"><strong><span translate-cloak translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
+							<div class='col-sm-2 text-right'card-label" ng-show="dataset.visibility=='private'"><strong><span translate-cloak translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
 							<div class='col-sm-6'>
 								<span  ng-repeat="tenantSharing in dataset.sharingTenants">
 									<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
@@ -109,7 +109,8 @@
 						</div>
 					</div>
 					<div class="col-sm-2 text-right">
-						<img ng-src="{{dataset.icon}}" alt="logo dataset" class='upload-icon-preview-img' >
+						<img src="{{dataset.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='dataset.icon' >
+						<img src="{{DEFAULT_DATASET_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!dataset.icon' >
 					</div>
 				</div>	
 			</div>
@@ -299,7 +300,7 @@
 				</div>
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status7.open" ng-if="dataset.unpublished==-1">
+		<accordion-group is-open="status7.open" ng-if="dataset.unpublished==0">
 			<accordion-heading>
 				<div class='container'>
 					<span translate-cloak translate>DCAT</span>

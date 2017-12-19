@@ -80,7 +80,8 @@
 						</div>	
 					</div>
 					<div class="col-sm-2 text-right">
-						<img ng-src="{{stream.icon}}" alt="logo stream" class='upload-icon-preview-img' >
+						<img src="{{stream.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='stream.icon' >
+						<img src="{{DEFAULT_STREAM_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!stream.icon' >
 					</div>
 				</div>
 			</div>

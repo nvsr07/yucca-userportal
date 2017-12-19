@@ -1124,7 +1124,7 @@ table.import-database-customize-table-columns>tbody>tr>td, .table.import-databas
 .skiprow-disabled{color: #ccc;}
 .import-database-customize-table-column-skiprow .skip-row{color: #dc0000;}
 .import-database-customize-table-column-skiprow .import-database-customize-table-column-drag-icon{background-color:#ccc;}
-.import-database-customize-table-column-droprow{padding: .5em 0 .3em;border-bottom: solid #eee 1px;}
+.import-database-customize-table-column-droprow{padding: .5em 0 .3em;border-bottom: solid #eee 1px; border-left: transparent solid 4px} 
 .import-database-customize-table-column-droprow.drag-enter{background-color: #d8f1ff; border-left: #72ccfd solid 4px; border-radius: 0px;  }
 
 .import-database-customize-table-column-drag-panel{ border-radius: 2px; ;border: dashed 2px transparent;}
@@ -1220,6 +1220,7 @@ text-align: center;text-decoration: none;}
 .management-table-upload-column-skiprow{color: #ccc; background-color: #f0f0f0!important;}
 .management-table-upload-column-skiprow .skip-row{color: #dc0000;}
 .management-table-upload-column-skiprow .management-table-upload-column-drag-icon{background-color:#ccc;}
+/*
 .management-table-upload-column-dragrow{color: #ccc; background-color: #d9f1ff;}
 .management-table-upload-column-droprow{padding: .5em 0; border: solid transparent 2px;}
 .management-table-upload-column-droprow.drag-enter{background-color: #72ccfd; border: #0085cc dashed 2px; border-radius: 2px;  }
@@ -1228,6 +1229,23 @@ text-align: center;text-decoration: none;}
 .management-table-upload-column-drag-panel label{color: #fff; background-color: #72ccfd; padding: 0 .5em; border-radius : 0px;}
 .management-table-upload-column-skiprow .management-table-upload-column-drag-panel label{ background-color: #ccc;}
 .management-table-upload-column-drag-panel.dragging label{background-color: #21a8f1;}
+*/
+.management-table-upload-column-dragrow{color: #ccc; background-color: #d9f1ff;}
+
+.management-table-upload-column-droprow{padding: .5em 0 .3em;border-bottom: solid #eee 1px; border-left: transparent solid 19px;}
+.management-table-upload-column-droprow.drag-enter{background-color: #d8f1ff; border-left: #72ccfd solid 19px; border-radius: 0px;  }
+.management-table-upload-column-drag-panel label{border: solid 1px #ccc;padding: .2em .5em 0em;cursor: s-resize;}
+.management-table-upload-column-drag-panel.dragging label{background-color:rgba(114, 204, 253, 0.5);; border: solid #72ccfd; border-width: 1px 0;}
+.management-table-upload-column-skiprow .management-table-upload-column-drag-panel label{ background-color: #ccc;}
+.management-table-upload-column-drag-panel.dragging label{background-color: #21a8f1;}
+
+
+
+
+
+
+
+
 
 #newDatasetWizard .carousel-control, #newDatasetWizard .carousel-indicators{display: none;}
 

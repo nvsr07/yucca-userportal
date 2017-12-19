@@ -31,24 +31,23 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 			$scope.showLoading = false;
 			$scope.datasetList = [];
 			for (var i = 0; i <response.length; i++) {
-					//da verificare test precedente
-					if(response[i].status && response[i].status.statuscode){
-						
-						if(!response[i].info  || response[i].info ==null)
-							response[i].info ={};
-						//ICONA
-						if(typeof response[i].info.icon == 'undefined' || response[i].info.icon == null)
-							response[i].info.icon  = Constants.API_RESOURCES_URL + "dataset/icon/"+ $scope.tenantCode+"/" +response[i].datasetCode;
-						else
-							response[i].info.icon  = "img/dataset-icon-default.png";
-						//data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
-
-						if(response[i].info.binaryIdDataset || response[i].info.binaryIdDataset != null)
-							response[i].info.attachment  = true;						
-
+//					//da verificare test precedente
+//					if(response[i].status && response[i].status.statuscode){
+//						
+//						//ICONA
+////						if(typeof response[i].info.icon == 'undefined' || response[i].info.icon == null)
+////							response[i].info.icon  = Constants.API_RESOURCES_URL + "dataset/icon/"+ $scope.tenantCode+"/" +response[i].datasetCode;
+////						else
+////							response[i].info.icon  = "img/dataset-icon-default.png";
+//						//data.datasetIcon = Constants.API_RESOURCES_URL + "dataset/icon/"+data.tenantCode+"/"+data.datasetCode;
+//
+////						if(response[i].idDataSourceBinary != null)
+////							response[i].info.attachment  = true;						
+//
+				if(response[i].datasetSubtype.datasetSubtype!='binaryDataset')
 						$scope.datasetList.push(response[i]);
-					}
-				}
+			}
+//				}
 	
 			$scope.totalItems = $scope.datasetList.length;
 		});
@@ -313,8 +312,8 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 				$scope.datasetModalView.dataset.kodo = false;
 	
 				//$scope.dataset.info.visibility = 'public';
-				if(!$scope.datasetModalView.dataset.info.icon || $scope.datasetModalView.dataset.info.icon == null)
-					$scope.datasetModalView.dataset.info.icon  = "img/dataset-icon-default.png";
+//				if(!$scope.datasetModalView.dataset.info.icon || $scope.datasetModalView.dataset.info.icon == null)
+//					$scope.datasetModalView.dataset.info.icon  = "img/dataset-icon-default.png";
 			} catch (e) {
 				console.error(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> getDataset ERROR", e);
 			}
@@ -540,37 +539,39 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		adminAPIservice.loadDataset(info.getActiveTenant(),$routeParams.id_dataset).success(function(response) {
 			console.log("LoadDataset", response);
 			try{
-				console.debug("loadDataset- response",response);
 				$scope.dataset = response;
 				$scope.stream = response.stream;
 				$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
-				if(!$scope.dataset)
-					$scope.dataset = new Object();
-				if(!$scope.dataset.info)
-					$scope.dataset.info = new Object();
-				if(!$scope.dataset.info.tags)
-					$scope.dataset.info.tags = [];
+			//	if(!$scope.dataset)
+			//		$scope.dataset = new Object();
+			//	if(!$scope.dataset.info)
+			//		$scope.dataset.info = new Object();
+			//	if(!$scope.dataset.info.tags)
+			//		$scope.dataset.info.tags = [];
 
-				if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
-					$scope.dataset.info.icon  = "img/dataset-icon-default.png";
+			//	if(!$scope.dataset.info.icon || $scope.dataset.info.icon == null)
+			//		$scope.dataset.info.icon  = "img/dataset-icon-default.png";
 
-				if(!$scope.dataset.opendata){
-					$scope.dataset.opendata = {};
-					$scope.dataset.opendata.isOpendata = 'false';
-					$scope.dataset.opendata.language = 'it';
-				}
-				else if($scope.dataset.opendata.isOpendata){
-					$scope.dataset.opendata.isOpendata = 'true';
-					if($scope.dataset.opendata.dataUpdateDate && $scope.dataset.opendata.dataUpdateDate!=null){
-						var dataUpdateDate = new Date($scope.dataset.opendata.dataUpdateDate);
-						$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
-					}
-				}
+//				if(!$scope.dataset.opendata){
+//					$scope.dataset.opendata = {};
+//					$scope.dataset.opendata.isOpendata = 'false';
+//					$scope.dataset.opendata.language = 'it';
+//				}
+//				else if($scope.dataset.opendata.isOpendata){
+//					$scope.dataset.opendata.isOpendata = 'true';
+//					if($scope.dataset.opendata.dataUpdateDate && $scope.dataset.opendata.dataUpdateDate!=null){
+//						var dataUpdateDate = new Date($scope.dataset.opendata.dataUpdateDate);
+//						$scope.dataset.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(dataUpdateDate);
+//					}
+//				}
 				
-				if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
+//				if(!$scope.dataset.icon|| $scope.dataset.icon == null)
+//					$scope.dataset.icon  = "img/stream-icon-default.png";
+				
+				if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				
-				$scope.newField = {sourceColumn: $scope.dataset.components.length+1};
+				$scope.newField = {sourcecolumn: $scope.dataset.components.length+1};
 
 //				if(!$scope.canCreatePublicDataset())
 //					$scope.dataset.info.visibility = 'private';
@@ -621,7 +622,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 				if(typeof $scope.dataset.idDataset != 'undefuned' && $scope.dataset.idDataset !=null)
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				
-				$scope.newField = {sourceColumn: $scope.dataset.info.fields.length+1};
+				$scope.newField = {sourcecolumn: $scope.dataset.info.fields.length+1};
 
 //				if(!$scope.canCreatePublicDataset())
 //					$scope.dataset.info.visibility = 'private';
@@ -685,16 +686,16 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return false;
 	};
 	
-	$scope.checkTag = function(){ 
-		var rslt = true;
-		if(typeof $scope.dataset.info.tags != "undefined"){
-			if ($scope.dataset.info.tags.length > 0){ 
-				rslt = false;
-			}
-		}
-		
-		return rslt;
-	};
+//	$scope.checkTag = function(){ 
+//		var rslt = true;
+//		if(typeof $scope.dataset.info.tags != "undefined"){
+//			if ($scope.dataset.info.tags.length > 0){ 
+//				rslt = false;
+//			}
+//		}
+//		
+//		return rslt;
+//	};
 	
 	$scope.addTenantSharing = function(newTenantSharing){
 		console.log("addTenantSharing ",newTenantSharing);
@@ -1028,16 +1029,16 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			}			
 		}
 
-		console.log("newField.sourceColumn",newField.sourceColumn);
+		console.log("newField.sourcecolumn",newField.sourcecolumn);
 
-		if(typeof newField.sourceColumn =='undefined' || newField.sourceColumn==null || newField.sourceColumn=="" || isNaN(newField.sourceColumn))
+		if(typeof newField.sourcecolumn =='undefined' || newField.sourcecolumn==null || newField.sourcecolumn=="" || isNaN(newField.sourcecolumn))
 			$scope.insertColumnErrors .push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN');
 		else{
 			for (var int = 0; int < $scope.dataset.info.fields.length; int++) {
 				if($scope.dataset.info.fields[int].fieldName.toUpperCase() == newField.fieldName.toUpperCase()){
 					checkNameDuplicate = true;
 				}
-				if($scope.dataset.info.fields[int].sourceColumn == newField.sourceColumn){
+				if($scope.dataset.info.fields[int].sourcecolumn == newField.sourcecolumn){
 					checkSourceColumnDuplicate = true;
 				}
 			}
@@ -1050,8 +1051,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
 		
 		if($scope.insertColumnErrors.length == 0){
-			if(!newField.fieldAlias || newField.fieldAlias == null || newField.fieldAlias == ""){
-				newField.fieldAlias = newField.fieldName;
+			if(!newField.alias || newField.alias == null || newField.alias == ""){
+				newField.alias = newField.fieldName;
 			}
 			
 			newField.isNew  = true;
@@ -1064,13 +1065,13 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 			
 			
 			$scope.dataset.info.fields.push(newField);
-			$scope.newField = {sourceColumn: $scope.dataset.info.fields.length+1};
+			$scope.newField = {sourcecolumn: $scope.dataset.info.fields.length+1};
 		}
 	};
 	
 	$scope.removeNewField = function(index){
 		$scope.dataset.info.fields.splice(index,1);
-		$scope.newField = {sourceColumn: $scope.dataset.info.fields.length+1};
+		$scope.newField = {sourcecolumn: $scope.dataset.info.fields.length+1};
 
 		return false;
 	};
@@ -1101,8 +1102,8 @@ appControllers.controller('DateFormatHintCtrl', [ '$scope', '$modalInstance', fu
 }]);
 
 
-appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'info', '$upload', 'readFilePreview','$translate',  
-                                                           function($scope, $routeParams, fabricAPImanagement, info, $upload, readFilePreview, $translate) {
+appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'info', '$upload', 'readFilePreview','$translate', 'sharedAdminResponse', 
+                                                           function($scope, $routeParams, fabricAPImanagement, info, $upload, readFilePreview, $translate,sharedAdminResponse) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
 
@@ -1241,15 +1242,15 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 }]);
 
 
-appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors',
-                                                              function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate,$modal,sharedUploadBulkErrors) {
+appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors',
+                                                              function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDataset,$translate,$modal,sharedUploadBulkErrors) {
 	$scope.tenantCode = $route.current.params.tenant_code;
-	$scope.currentStep = 'start';
+	$scope.currentStep = 'columns';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
 	                      {'name':'requestor', 'style':''},
 	                      {'name':'metadata', 'style':''},
 	                      {'name':'choosetype', 'style':''},
-	                      {'name':'upload', 'style':''},
+	                     // {'name':'upload', 'style':''},
 	                      {'name':'columns', 'style':''},
 	                      ];
 
@@ -1264,27 +1265,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		};
 	};
 
-	$scope.isLicenceVisible = function(){
-		var returnValue = true;
-		if ($scope.metadata){
-			if (($scope.metadata.info.license == translations_it.DATASET_FIELD_METADATA_LICENCE_CCBY) || ($scope.metadata.info.license == translations_it.DATASET_FIELD_METADATA_LICENCE_CC0))
-				returnValue = false;
-		}
-		
-		return returnValue;
-	};
-	
-	$scope.checkTag = function(){ 
-		var rslt = true;
-		if(typeof $scope.metadata.info.tags != "undefined"){
-			if ($scope.metadata.info.tags.length > 0){ 
-				rslt = false;
-			}
-		}
-		
-		return rslt;
-	};
-
 	$scope.choosenDatasetType='bulk_upload';
 
 	refreshWizardToolbar();
@@ -1295,150 +1275,14 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 	
 	$scope.canCreatePublicDataset = function(){
-		//return info.getActiveTenantType() != 'trial';
-		return info.getActiveShareInformationType() == "public" &&  !$scope.metadata.info.unpublished;
+		return info.getActiveShareInformationType() == "public" &&  $scope.dataset.unpublished!=1;
 	}; 
 
 	$scope.canShareDataset = function(){
-		//return info.getActiveTenantType() != 'trial';
 		return info.getActiveShareInformationType() == "public";
 	}; 
 
 
-	$scope.domainList = [];
-	adminAPIservice.loadDomains().success(function(response) {
-		response.sort(function(a, b) { 
-		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
-		});
-		for (var int = 0; int < response.length; int++) {
-			$scope.domainList.push(response[int].domaincode);
-		}
-	});
-	
-//	fabricAPIservice.getStreamDomains().success(function(response) {
-//		response.streamDomains.element.sort(function(a, b) { 
-//		    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
-//		});
-//		
-//		for (var int = 0; int < response.streamDomains.element.length; int++) {
-//			$scope.domainList.push(response.streamDomains.element[int].codDomain);
-//		}
-//	});
-
-	$scope.subdomainList = [];
-	$scope.selectSubdomain = function(domain){
-		console.log("selectSubdomain", domain);
-		adminAPIservice.loadSubDomains(domain).success(function(response) {
-			console.log("loadSubDomains", response);
-			response.sort(function(a, b) { 
-			    return ((a.langIt < b.langIt) ? -1 : ((a.langIt > b.langIt) ? 1 : 0));
-			});
-			for (var int = 0; int < response.length; int++) {
-				$scope.subdomainList.push(response[int].subdomaincode);
-			}
-			console.log("loadSubDomains subdomainList", $scope.subdomainList);
-
-		});
-	};
-
-//	$scope.tagList = [];
-//	fabricAPIservice.getStreamTags().success(function(response) {
-//		for (var int = 0; int < response.streamTags.element.length; int++) {
-//			$scope.tagList.push(response.streamTags.element[int].tagCode);
-//		}
-//	});
-	$scope.tagList = [];
-	adminAPIservice.loadTags().success(function(response) {
-		for (var int = 0; int < response.length; int++) {
-			var tagLabel = $translate.use()=='it'?response[int].langit:response[int].langen;
-			$scope.tagList.push({"tagCode":response[int].tagcode, "tagLabel":tagLabel} );
-		}
-		$scope.tagList.sort(function(a, b) { 
-		    return ((a.tagLabel.trim().toUpperCase() < b.tagLabel.trim().toUpperCase()) ? -1 : ((a.tagLabel.trim().toUpperCase() > b.tagLabel.trim().toUpperCase()) ? 1 : 0));
-		});
-		
-//		var delta = Math.trunc($scope.tagList.length/3);
-//		$scope.tagTooltipHtml = "<div class='tag-html-tooltip row'>";
-//		$scope.tagTooltipHtml += "<div class='col-sm-12'><h5>" + $translate.instant('MANAGEMENT_EDIT_STREAM_TAG_TOOLTIP_TITLE') + "</h5></div>";
-//
-//		for (var i = 0; i < delta+1; i++) {
-//			$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i].tagLabel +  "</div>";
-//			if($scope.tagList.length>i+delta+1)
-//				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta+1].tagLabel  +  "</div>";
-//			else
-//				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
-//			if($scope.tagList.length>i+delta*2+2)
-//				$scope.tagTooltipHtml += "<div class='col-sm-4'>" + $scope.tagList[i+delta*2+2].tagLabel  +  "</div>";
-//			else
-//				$scope.tagTooltipHtml += "<div class='col-sm-4'> &nbsp;</div>";
-//		}
-//		$scope.tagTooltipHtml += "</div>";
-//		$scope.tagTooltipHtml += "</div>";
-
-	});	
-
-	$scope.showChooseTagTable = function(){
-		var chooseTagDialog = $modal.open({
-	      templateUrl: 'tagChooerDialog.html',
-	      controller: 'ManagementDatasetChooseTagControllerCtrl',
-	      size: 'lg',
-	      scope: $scope,
-	      resolve: {
-	    	  tagList: function () {return $scope.tagList;},
-	      	}
-    	});
-		
-		chooseTagDialog.result.then(function (selectedTag) {
-			$scope.addTag(selectedTag.tagCode);
-	    }, function () {
-	      $log.info('Modal dismissed at: ' + new Date());
-	    });
-	};
-	
-	$scope.tenantsList = [];
-	adminAPIservice.loadTenants().success(function(response) {
-		console.log("loadTenants",response);
-		try{
-			
-			for (var int = 0; int <  response.length; int++) {
-				var t = response[int];
-				if(t.tenantcode!=$scope.tenantCode && t.name!=null)
-					$scope.tenantsList.push(t);
-			}
-			
-			$scope.tenantsList.sort(function(a, b) { 
-			    return ((a.name.trim().toUpperCase() < b.name.trim().toUpperCase()) ? -1 : ((a.name.trim().toUpperCase() > b.name.trim().toUpperCase()) ? 1 : 0));
-			});
-
-		} catch (e) {
-			console.error("loadTenants ERROR",e);
-		}
-	});
-	
-	
-	$scope.showChooseTenantTable = function(){
-		var chooseTenantDialog = $modal.open({
-	      templateUrl: 'tenantChooerDialog.html',
-	      controller: 'ManagementDatasetChooseTenantControllerCtrl',
-	      size: 'lg',
-	      scope: $scope,
-	      resolve: {
-	    	  tenantsList: function () {return $scope.tenantsList;},
-	      	}
-    	});
-		
-		chooseTenantDialog.result.then(function (selectedTenant) {
-			$scope.addTenantSharing(selectedTenant);
-	    }, function () {
-	      $log.info('Modal dismissed at: ' + new Date());
-	    });
-	};
-
-
-	$scope.measureUnitsList = [];
-	adminAPIservice.loadMeasureUnits().success(function(response) {
-		$scope.measureUnitsList = response;
-	});
 
 	var defaultDataType = null;
 	$scope.dataTypeList = [];
@@ -1453,7 +1297,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		}
 	});
 	
-	$scope.metadata = sharedDataset.getDataset();
+	$scope.dataset = sharedDataset.getDataset();
 	var isClone = false;
 	$scope.previewLines = [];
 	$scope.previewColumns = [];
@@ -1461,14 +1305,9 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	
 	$scope.validationPatternSubdomain = Constants.VALIDATION_PATTERN_NO_SPACE;
 
-	if($scope.metadata==null){
-		$scope.metadata = {info:{}, configData: {}, opendata: {}};
-		$scope.metadata.info.icon  = "img/dataset-icon-default.png";
-		$scope.metadata.info.visibility = "private";
-		$scope.metadata.info.importFileType = "csv";
-		$scope.metadata.opendata.language = 'it';
-		$scope.metadata.opendata.isOpendata = 'false';
-		$scope.metadata.info.publish = true;
+	if($scope.dataset==null){
+		$scope.dataset = {tags: new Array(), unpublished: 0,visibility: 'private', idTenant:info.getActiveTenant().idTenant};
+		console.log("new Dataset start", $scope.dataset);
 	}
 	else{
 		isClone = true;
@@ -1477,149 +1316,128 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			delete $scope.metadata.configData.deleted;
 		$scope.previewColumns = [];
 		$scope.previewBinaries = [];
-		if($scope.metadata.info.fields.length>0){
-			for (var int = 0; int < $scope.metadata.info.fields.length; int++) {
-				var field = $scope.metadata.info.fields[int];
-				if(field.dataType == 'binary')
-					$scope.previewBinaries.push(field);
+		if($scope.dataset.components.length>0){
+			for (var int = 0; int < $scope.dataset.components.length; int++) {
+				var component = $scope.dataset.components[int];
+				if(component.idDataType == Constants.COMPONENT_DATA_TYPE_BINARY)
+					$scope.previewBinaries.push(component);
 				else
-					$scope.previewColumns.push(field);
+					$scope.previewColumns.push(component);
 			}
 		}
 		
 	}
-	$scope.metadata.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(new Date());
+	//$scope.metadata.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(new Date());
 	$scope.useDomainMulti  = function(useDomainMultiFlag){
 		console.log("useDomainMulti", useDomainMultiFlag);
 		if(useDomainMultiFlag){
-			$scope.metadata.info.dataDomain = 'MULTI';
-			$scope.metadata.info.visibility = 'private';
+			$scope.selectedDomain = 'MULTI';
+			$scope.dataset.visibility = 'private';
 		}
 		else
-			$scope.metadata.info.dataDomain = null;
+			$scope.selectedDomain = null;
 		
-		$scope.metadata.info.codSubDomain = null;
+		$scope.dataset.visibility = null;
 	};
 	
-	$scope.user = {};
+	$scope.user = info.getInfo().user;
+	if($scope.user!=undefined && $scope.user.loggedIn==true){
+		$scope.metadata.info.requestorName=$scope.user.firstname;
+		$scope.metadata.info.requestorSurname=$scope.user.lastname;
+		$scope.metadata.info.requestornEmail=$scope.user.email;
+	}
 
-	fabricAPIservice.getInfo().success(function(result) {
-		console.debug("result managementnew stream", result);
-		$scope.user = result.user;
-		console.debug("info user", $scope.user);
-		if($scope.user!=undefined && $scope.user.loggedIn==true){
-			$scope.metadata.info.requestorName=$scope.user.firstname;
-			$scope.metadata.info.requestorSurname=$scope.user.lastname;
-			$scope.metadata.info.requestornEmail=$scope.user.email;
-		}
-	});
 
-	$scope.newTag = {value:""};
-	$scope.addTag = function(newTag){
-		console.log("addTag", newTag);
-		if(newTag){
-			if(! $scope.metadata.info.tags)
-				$scope.metadata.info.tags = [];
+	
+	$scope.$on('addTag', function(e, selectedTag) {  
+	       console.log("addTag child", e, selectedTag);  
+	       addTag(selectedTag);
+	    });
+		
+		$scope.newTag = {};
+		var addTag = function(newTag){
+			console.log("addTag ", newTag);
+			if(newTag){
+				var found = false;	
+				for (var int = 0; int < $scope.dataset.tags.length; int++) {
+					var existingTag = $scope.dataset.tags[int];
+					if(existingTag == newTag.idTag){
+						found = true;
+						break;
+					}
 
-			var found = false;	
-			for (var int = 0; int < $scope.metadata.info.tags.length; int++) {
-				var existingTag = $scope.metadata.info.tags[int];
-				if(existingTag.tagCode == newTag){
-					found = true;
-					break;
 				}
-
+				if(!found)
+					$scope.dataset.tags.push(newTag.idTag);
+				$scope.newTag.value = null;
 			}
-			if(!found)
-				$scope.metadata.info.tags.push({"tagCode":newTag});
-		}
-		$scope.newTag.value = "";
-		return false;
-
-	};
-
-	$scope.onTagSelect = function($item, $model, $label){
-		console.log("onTagSelect",$item, $model, $label);
-		if($item.tagCode!=null)
-			$scope.addTag($item.tagCode);
+			return false;
+		};
 		
-	};
+		$scope.onTagSelect = function($item, $model, $label){
+			console.log("onTagSelect",$item, $model, $label);
+			if($item.tagCode!=null)
+				addTag($item);
+		};
+
+		$scope.removeTag = function(index){
+			$scope.dataset.tags.splice(index,1);
+			return false;
+		};
+		
+		
+		$scope.$on('addTenant', function(e, selectedTenant) {  
+		       console.log("addTenant child", e, selectedTenant);  
+		       addTenantSharing(selectedTenant);
+		 });
+		
+		$scope.newTenantSharing = {};
+		$scope.onTenantSharingSelect = function($item, $model, $label){
+			console.log("onTenantSharingSelect",$item, $model, $label);
+			addTenantSharing($item);
+			$scope.newTenantSharing.value = null;
+		};
 
 
-	$scope.removeTag = function(index){
-		$scope.metadata.info.tags.splice(index,1);
-		return false;
-	};
-	
-	
-	$scope.addTenantSharing = function(newTenantSharing){
-		console.log("addTenantSharing ",newTenantSharing);
-		if(newTenantSharing){
-			var found = false;	
-			if(!$scope.metadata.info.tenantssharing || $scope.metadata.info.tenantssharing == null){
-				$scope.metadata.info.tenantssharing = {};
-			}
-			if(!$scope.metadata.info.tenantssharing.tenantsharing || $scope.metadata.info.tenantssharing.tenantsharing == null){
-				$scope.metadata.info.tenantssharing.tenantsharing = [];
-			}
-			
-			for (var int = 0; int < $scope.metadata.info.tenantssharing.tenantsharing.length; int++) {
-				var existingTenantSharing = $scope.metadata.info.tenantssharing.tenantsharing[int];
-				console.log("existing",existingTenantSharing);
-				if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
-					console.log("found");
-					found = true;
-					break;
+		
+		var addTenantSharing = function(newTenantSharing){
+			console.log("addTenantSharing ",newTenantSharing);
+			if(newTenantSharing){
+				var found = false;	
+				if(typeof $scope.dataset.sharingTenants == 'undefined' || $scope.dataset.sharingTenants == null){
+					$scope.dataset.sharingTenants = [];
 				}
+				
+				for (var int = 0; int < $scope.dataset.sharingTenants.length; int++) {
+					var existingTenantSharing = $scope.dataset.sharingTenants[int];
+					console.log("existing",existingTenantSharing);
+					if(existingTenantSharing.idTenant == newTenantSharing.idTenant){
+						console.log("found");
+						found = true;
+						break;
+					}
 
+				}
+				if(!found){
+					$scope.dataset.sharingTenants.push({idTenant:newTenantSharing.idTenant, name: newTenantSharing.name});
+					console.log("added",$scope.dataset.sharingTenants);
+				}
 			}
-			if(!found){
-				$scope.metadata.info.tenantssharing.tenantsharing.push(
-							{"idTenant":newTenantSharing.idTenant, 
-								"tenantName": newTenantSharing.name, 
-								"tenantDescription": newTenantSharing.description, 
-								"tenantCode": newTenantSharing.tenantcode, 
-								"isOwner": 0
-							});
-				console.log("added", $scope.metadata.info.tenantssharing.tenantsharing );
-			}
-		}
 
-		return false;
-	};
+			return false;
+		};
 
-	$scope.removeTenantSharing = function(index){
-		$scope.metadata.info.tenantssharing.tenantsharing.splice(index,1);
-		return false;
-	};
-	
-	$scope.onTenantSharingSelect = function($item, $model, $label){
-		console.log("onTenantSharingSelect",$item, $model, $label);
-		$scope.addTenantSharing($item);
-		
-	};
-
-
-	$scope.creationError = null;
-	$scope.saveError = null;
-	$scope.saveErrors = null;
-
-	$scope.accettazionePrivacy=0;
-	$scope.accettazioneResponsability=0;
+		$scope.removeTenantSharing = function(index){
+			$scope.dataset.sharingTenants.splice(index,1);
+			return false;
+		};
 
 
 	$scope.selectedFile = null;
-	$scope.uploadDatasetError = null;
-	$scope.uploadDatasetInfo = null;
 
 	$scope.formatList = ["csv"];
 
-	$scope.csvSeparator = ";";
-	$scope.fileEncoding = "UTF-8";
-	$scope.csvSkipFirstRow = true;
-
 	$scope.choosenFileSize = null;
-	$scope.updateWarning = null;
 	$scope.maxFileSize = Constants.BULK_DATASET_MAX_FILE_SIZE;
 	$scope.choosenFileSize = null;
 	
@@ -1639,7 +1457,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		readFilePreview.readImageFile($scope.selectedIcon).then(
 				function(contents){
 					console.log("contents" , contents);
-					$scope.metadata.info.icon = contents;
+					$scope.dataset.icon = contents;
 				}, 
 				function(error){
 					$scope.uploadDatasetError = {error_message: error, error_detail: ""};
@@ -1647,10 +1465,13 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 				}
 		);
 	};
+	
+	$scope.csvInfo = {"separator":";","fileEncoding":"UTF-8","fileType":"csv", selectedFile: null, skipFirstRow:true};
 
 	$scope.onFileSelect = function($files) {
 		$scope.updateWarning = null;
 		$scope.selectedFile = $files[0];
+		console.log("onFileSelect", $scope.selectedFile );
 		if($scope.selectedFile !=null && $scope.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
 			$scope.choosenFileSize = $scope.selectedFile.size; 
 			$scope.updateWarning = true;
@@ -1658,9 +1479,12 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			$scope.previewLines = null;
 		}
 		else
-			readPreview($scope.csvSeparator);
+			readPreview($scope.csvInfo.separator);
 	};
 
+	$scope.refreshPreview  =function(){
+		readPreview($scope.csvInfo.separator);
+	};
 	
 	var readPreview = function(csvSeparator){
 		$scope.uploadDatasetError = null;
@@ -1677,18 +1501,18 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 					$scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator);
 					console.log("$scope.previewLines",$scope.previewLines);
 
-					$scope.metadata.info.fields = [];
+					$scope.dataset.components = [];
 					$scope.previewColumns = [];
 					console.log("defaultDataType",defaultDataType);
 					if($scope.previewLines.length>0){
 						for (var int = 0; int < $scope.previewLines[0].length; int++) {
 							$scope.previewColumns.push(
 									{index: int, 
-										sourceColumn: int+1, 
-										fieldName: $scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
-										fieldAlias: $scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
+										sourcecolumn: int+1, 
+										name: $scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
+										alias: $scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
 										dataType: defaultDataType,
-										isKey: false, 
+										iskey: false, 
 										measureUnit: null,
 										skipColumn: false});
 						}
@@ -1707,23 +1531,22 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		console.log("refreshColumnOrder");
 		if($scope.previewColumns && $scope.previewColumns.length>0){
 			var order = 0;
-			$scope.metadata.info.fields = [];
+			$scope.dataset.components = [];
 			for (var int = 0; int < $scope.previewColumns.length; int++) {
 				var column  = $scope.previewColumns[int];
 				column.index = int;
 				if(!column.skipColumn){
-					//column.sourceColumn = order;
-					var dataType = column.dataType?column.dataType.dataType:'string';
-					var measureUnit = column.measureUnit?column.measureUnit.measureUnit:null;
-					$scope.metadata.info.fields.push(
-							{"sourceColumn":column.sourceColumn, 
-								"fieldName":column.fieldName, 
-								"fieldAlias":column.fieldAlias, 
-								"dataType":dataType, 
-								"isKey":column.isKey?1:0, 
-								"measureUnit":measureUnit,
-								"dateTimeFormat":column.dateTimeFormat,
-								"order":order}
+					//column.sourcecolumn = order;
+					var idDataType = column.dataType?column.dataType.idDataType:Constants.COMPONENT_DATA_TYPE_STRING;
+					var idMeasureUnit = column.measureUnit?column.measureUnit.idMeasureUnit:null;
+					$scope.dataset.components.push(
+							{"sourcecolumn":column.sourcecolumn, 
+								"name":column.name, 
+								"alias":column.alias, 
+								"idDataType":idDataType, 
+								"iskey":column.iskey?1:0, 
+								"idMeasureUnit":idMeasureUnit,
+								"inorder":order}
 					);
 					order++;
 				}
@@ -1737,14 +1560,14 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	
 	$scope.columnsDatasetError = {"hasError": false};
 	
-	$scope.checkColumnName = function(fieldName, columnIndex){
+	$scope.checkColumnName = function(componentName, columnIndex){
 		$scope.insertColumnErrors = [];
 		$scope.columnsDatasetError.hasError = false;
 		var checkNameDuplicate = false;
 		if($scope.previewColumns!=null){
 			for (var int = 0; int < $scope.previewColumns.length; int++) {
-				if(int != columnIndex && !$scope.previewColumns[int].skipColumn &&  typeof $scope.previewColumns[int].fieldName!='undefined' && 
-						 typeof fieldName!='undefined' && $scope.previewColumns[int].fieldName.toUpperCase() == fieldName.toUpperCase()){
+				if(int != columnIndex && !$scope.previewColumns[int].skipColumn &&  typeof $scope.previewColumns[int].componentName!='undefined' && 
+						 typeof componentName!='undefined' && $scope.previewColumns[int].componentName.toUpperCase() == componentName.toUpperCase()){
 					checkNameDuplicate = true;
 				}
 			}
@@ -1753,9 +1576,14 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME_UNIQUE');
 			$scope.columnsDatasetError.hasError = true;
 		}
-		if(fieldName == ""){
+		console.log("componentName", componentName);
+		if(componentName == ""){
 			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME');
-		$scope.columnsDatasetError.hasError = true;
+			$scope.columnsDatasetError.hasError = true;
+		}
+		else if(componentName.match(Constants.VALIDATION_PATTERN_ALPHANUMERIC)){
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME');
+			$scope.columnsDatasetError.hasError = true;
 		}
 	};
 	
@@ -1763,28 +1591,28 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		return $scope.columnsDatasetError.hasError; 
 	};
 	
-	$scope.newColumnDefinition = {sourceColumn: $scope.previewColumns.length+1};
+	$scope.newColumnDefinition = {sourcecolumn: $scope.previewColumns.length+1};
 	$scope.addColumnDefinition = function(){
 		console.log("addColumnDefinition",$scope.newColumnDefinition);
-		//$scope.newColumnDefinition.sourceColumn = $scope.previewColumns.length+1;
+		//$scope.newColumnDefinition.sourcecolumn = $scope.previewColumns.length+1;
 		$scope.insertColumnErrors = [];
 
-		if($scope.newColumnDefinition.fieldName==null || $scope.newColumnDefinition.fieldName=="")
+		if($scope.newColumnDefinition.name==null || $scope.newColumnDefinition.name=="")
 				$scope.insertColumnErrors .push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_NAME');
 
-		console.log("$scope.newColumnDefinition.sourceColumn",$scope.newColumnDefinition.sourceColumn);
-		console.log("$scope.newColumnDefinition.sourceColumn",($scope.newColumnDefinition.sourceColumn==null));
-		console.log("$scope.newColumnDefinition.sourceColumn", ($scope.newColumnDefinition.sourceColumn==""));
-		if($scope.newColumnDefinition.sourceColumn==null || $scope.newColumnDefinition.sourceColumn=="" || isNaN($scope.newColumnDefinition.sourceColumn))
+		console.log("$scope.newColumnDefinition.sourcecolumn",$scope.newColumnDefinition.sourcecolumn);
+		console.log("$scope.newColumnDefinition.sourcecolumn",($scope.newColumnDefinition.sourcecolumn==null));
+		console.log("$scope.newColumnDefinition.sourcecolumn", ($scope.newColumnDefinition.sourcecolumn==""));
+		if($scope.newColumnDefinition.sourcecolumn==null || $scope.newColumnDefinition.sourcecolumn=="" || isNaN($scope.newColumnDefinition.sourcecolumn))
 			$scope.insertColumnErrors .push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN');
 
 		var checkNameDuplicate = false;
 		var checkSourceColumnDuplicate = false;
 		for (var int = 0; int < $scope.previewColumns.length; int++) {
-			if($scope.previewColumns[int].fieldName.toUpperCase() == $scope.newColumnDefinition.fieldName.toUpperCase()){
+			if($scope.previewColumns[int].name.toUpperCase() == $scope.newColumnDefinition.name.toUpperCase()){
 				checkNameDuplicate = true;
 			}
-			if($scope.previewColumns[int].sourceColumn == $scope.newColumnDefinition.sourceColumn){
+			if($scope.previewColumns[int].sourcecolumn == $scope.newColumnDefinition.sourcecolumn){
 				checkSourceColumnDuplicate = true;
 			}
 		}
@@ -1796,13 +1624,13 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
 		
 		if($scope.insertColumnErrors.length == 0){
-			if(!$scope.newColumnDefinition.fieldAlias || $scope.newColumnDefinition.fieldAlias == null || $scope.newColumnDefinition.fieldAlias == ""){
-				$scope.newColumnDefinition.fieldAlias = $scope.newColumnDefinition.fieldName;
+			if(!$scope.newColumnDefinition.alias || $scope.newColumnDefinition.alias == null || $scope.newColumnDefinition.alias == ""){
+				$scope.newColumnDefinition.alias = $scope.newColumnDefinition.name;
 			}
 			
 
 			$scope.previewColumns.push($scope.newColumnDefinition);
-			$scope.newColumnDefinition = {sourceColumn: $scope.previewColumns.length+1};
+			$scope.newColumnDefinition = {sourcecolumn: $scope.previewColumns.length+1};
 			$scope.refreshColumnOrder();
 		}
 	};
@@ -1818,13 +1646,13 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		//$scope.newBinaryDefinition.sourceBinary = $scope.previewBinaries.length+1;
 		$scope.insertBinaryErrors = [];
 
-		if($scope.newBinaryDefinition.fieldName==null || $scope.newBinaryDefinition.fieldName=="")
+		if($scope.newBinaryDefinition.name==null || $scope.newBinaryDefinition.name=="")
 				$scope.insertBinaryErrors.push('MANAGEMENT_NEW_DATASET_ERROR_BINARY_NAME');
 
 		var checkNameDuplicate = false;
 		//var checkSourceBinaryDuplicate = false;
 		for (var int = 0; int < $scope.previewBinaries.length; int++) {
-			if($scope.previewBinaries[int].fieldName == $scope.newBinaryDefinition.fieldName){
+			if($scope.previewBinaries[int].name == $scope.newBinaryDefinition.name){
 				checkNameDuplicate = true;
 			}
 //			if($scope.previewBinaries[int].sourceBinary == $scope.newBinaryDefinition.sourceBinary){
@@ -1839,8 +1667,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 //		if(checkSourceBinaryDuplicate)
 //			$scope.insertBinaryErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
 		if($scope.insertBinaryErrors.length == 0){
-			if(!$scope.newBinaryDefinition.fieldAlias || $scope.newBinaryDefinition.fieldAlias == null || $scope.newBinaryDefinition.fieldAlias == ""){
-				$scope.newBinaryDefinition.fieldAlias = $scope.newBinaryDefinition.fieldName;
+			if(!$scope.newBinaryDefinition.alias || $scope.newBinaryDefinition.alias == null || $scope.newBinaryDefinition.alias == ""){
+				$scope.newBinaryDefinition.alias = $scope.newBinaryDefinition.name;
 			}
 			
 
@@ -1864,13 +1692,13 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	};
 
 	$scope.isDateTimeField = function(field){
-		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "dateTime")
+		if(field && field.dataType && field.dataType.datatypecode && field.dataType.datatypecode == "dateTime")
 			return true;
 		return false;
 	};
 	
 	$scope.isCoordinatesField = function(field){
-		if(field && field.dataType && field.dataType.dataType && field.dataType.dataType == "coordinates")
+		if(field && field.dataType && field.dataType.datatypecode && (field.dataType.datatypecode == "longitude" || field.dataType.datatypecode == "latitude"))
 			return true;
 		return false;
 	};
@@ -1898,22 +1726,23 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			$scope.previewColumns = [];
 			$scope.previewBinaries = [];
 		}
-		$scope.metadata.info.fields = [];
+		$scope.dataset.components = [];
 		
 		
 		$scope.currentStep = 'choosetype';refreshWizardToolbar();
 	};
-	$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
-	$scope.goToColumns  = function(csvSeparator, fileEncoding){
-		$scope.warningMessages = [];
-		$scope.saveError = null;
-		$scope.saveErrors = null;
+	
+	//$scope.goToUpload  = function(){  $scope.currentStep = 'upload';refreshWizardToolbar();};
+	$scope.goToColumns  = function(){
+		//$scope.warningMessages = [];
+		//$scope.saveError = null;
+		//$scope.saveErrors = null;
 
 		$scope.columnDefinitionType = "import";  
-		readPreview(csvSeparator); 
-		console.log("csvSeparator", $scope.csvSeparator, csvSeparator);
-		$scope.csvSeparator=csvSeparator;
-		$scope.fileEncoding=fileEncoding;
+		//readPreview(csvSeparator); 
+		//console.log("csvSeparator", $scope.csvSeparator, csvSeparator);
+		//$scope.csvSeparator=csvSeparator;
+		//$scope.fileEncoding=fileEncoding;
 		$scope.currentStep = 'columns';
 		refreshWizardToolbar();
 	};
@@ -1942,7 +1771,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		console.log("$scope.choosenDatasetTypeVar",choosenDatasetTypeVar);
 
 		if(choosen == 'bulk_upload')
-			$scope.goToUpload();
+			$scope.goToColumns();
 		else if(choosen == 'bulk_no_upload'){
 			$scope.previewBinaries = [];
 			$scope.goToCreateColumns(choosen);
@@ -1953,105 +1782,209 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		
 	};
 	
-	$scope.backFromColumns= function(){
-		if($scope.choosenDatasetType == 'bulk_upload')
-			$scope.goToUpload();
-		else{ //if(choosen == 'bulk_no_upload' || choosen == 'binary_no_upload')
-			$scope.goToChooseType();
-		}
-				
-	};
-	
-	$scope.checkVCard = function(){
-		var VCARD_PREFIX = 'BEGIN:VCARD \n VERSION:2.1';
-		var VCARD_SUFFIX = 'END:VCARD';
-		var VCARD_N = 'N:';
-		var VCARD_FN = 'FN:';
-		var VCARD_TEL = 'TEL;WORK:';
-		var VCARD_EMAIL = 'EMAIL:';
-		var VCARD_URL = 'URL:';
-		//if (($scope.metadata.dcat.vcard == null) || ($scope.metadata.dcat.vcard == '')){
-			$scope.metadata.dcat.vcard = VCARD_PREFIX + 
-										 VCARD_N + ((($scope.metadata.dcat.nomeOrg != '') && ($scope.metadata.dcat.nomeOrg != null)) ? $scope.metadata.dcat.nomeOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_FN + ((($scope.metadata.dcat.nomeOrg != '') && ($scope.metadata.dcat.nomeOrg != null)) ? $scope.metadata.dcat.nomeOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_TEL + ((($scope.metadata.dcat.telOrg != '') && ($scope.metadata.dcat.telOrg != null)) ? $scope.metadata.dcat.telOrg.replace(" ",";") : '+39.011.3168111') + 
-										 VCARD_EMAIL + ((($scope.metadata.dcat.emailOrg != '') && ($scope.metadata.dcat.emailOrg != null)) ? $scope.metadata.dcat.emailOrg.replace(" ",";") : 'info@csi.it') + 
-										 VCARD_URL + ((($scope.metadata.dcat.urlOrg != '') && ($scope.metadata.dcat.urlOrg != null)) ? $scope.metadata.dcat.urlOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_SUFFIX;
-		//}
-	};
-	
-	$scope.isUploading = false;
+//	$scope.backFromColumns= function(){
+//		if($scope.choosenDatasetType == 'bulk_upload')
+//			$scope.goToUpload();
+//		else{ //if(choosen == 'bulk_no_upload' || choosen == 'binary_no_upload')
+//			$scope.goToChooseType();
+//		}
+//				
+//	};
 
-	$scope.warningMessages = [];
+	
+	var addData = function(){
+		console.log("addData");
+		$scope.updateStatus = 'upload';
+		
+		adminAPIservice.loadDataset(info.getActiveTenant(),/*$scope.dataset.idDataset*/3018).success(function(response) {
+			var componentInfoRequests = new Array();
+			var loadedDataset = response;
+			for (var cIndex = 0; cIndex < loadedDataset.components.length; cIndex++) {
+				for (var pIndex = 0; pIndex < $scope.previewColumns.length; pIndex++) {
+					var c = loadedDataset.components[cIndex];
+					var p = $scope.previewColumns[pIndex];
+					if(p.name == c.name){
+						componentInfoRequests.push({"numColumn": p.sourcecolumn, "dateFormat": p.dateTimeFormat, "skipColumn": p.skipColumn, "idComponent": c.idComponent});
+						break;
+					}
+				}
+			}
+			$scope.updateStatus = 'ready';
+
+			console.log("componentInfoRequests", componentInfoRequests);
+			
+			adminAPIservice.addDataToDataset(info.getActiveTenant(), $scope.dataset, $scope.csvInfo,componentInfoRequests).progress(function(evt) {
+				$scope.isUploading = true;
+				console.log('evt');
+				console.log(evt);
+				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+			}).success(function(data, status, headers, config) {
+				$scope.updateStatus = 'finish';
+				$scope.admin_response.type = 'success';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_SAVED_INFO';
+				console.log("data loaded", data);
+			}).error(function(response){
+				$scope.updateStatus = 'ready';
+				console.error("createDataset ERROR", response);
+				$scope.admin_response.type = 'danger';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_SAVE_ERROR';
+				if(response && response.errorName)
+					$scope.admin_response.detail= response.errorName;
+				if(response && response.errorCode)
+					$scope.admin_response.code= response.errorCode;
+
+			});
+			
+			
+			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)
+				fileName = $scope.selectedFile.name;
+			var createUrl = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), info.getActiveTenant().organizationCode);
+			$scope.upload = $upload.upload({
+				//url: Constants.API_MANAGEMENT_DATASET_LIST_URL + $scope.tenantCode + '/', 
+				url: createUrl,
+				method: 'POST',
+				data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
+				file: $scope.selectedFile, // or list of files ($files) for html5 only
+				fileName: fileName,
+
+			}).progress(function(evt) {
+				$scope.isUploading = true;
+				console.log('evt');
+				console.log(evt);
+				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+			}).success(function(data, status, headers, config) {
+				$scope.isUploading = false;
+				console.log("data loaded", data);
+				if(data.errors && data.errors.length>0){
+					$scope.saveError = true;
+					$scope.saveErrors = data.errors;
+					if (data.datasetStatus == 0)
+						Helpers.util.scrollTo();
+					else if ((data.datasetStatus == 1) || (data.datasetStatus == 2)){
+						sharedUploadBulkErrors.setErrors(data.errors);
+						$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);//+"?errorParams="+data.datasetStatus)
+					}
+				} else {
+					$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
+				}
+
+			});
+			
+			
+		}).error(function(result){
+			console.error("addData - loadDataset " +result);
+		});
+
+		
+		
+	
+	};
+	
+	
+	$scope.updateStatus = 'ready';
+
+	//$scope.warningMessages = [];
+	$scope.admin_response = {details: new Array()};
+	
+
 
 	$scope.createDataset = function() {
-		$scope.warningMessages = [];
-		$scope.saveError = null;
-		$scope.saveErrors = null;
+		$scope.admin_response = {details: new Array()};
+		//$scope.warningMessages = [];
+		//$scope.saveError = null;
+		//$scope.saveErrors = null;
 		console.log("createDataset START 1", $scope.metadata);
 		$scope.refreshColumnOrder();
 		console.log("createDataset START 2", $scope.metadata);
-		var newDataset = $scope.metadata;
-		newDataset.configData.tenantCode=$scope.tenantCode;
-		newDataset.configData.type = "dataset";
-		newDataset.configData.subtype = "bulkDataset";
-		newDataset.idDataset = $scope.metadata.idDataset;
-		newDataset.datasetCode = $scope.metadata.datasetCode;
-		newDataset.datasetVersion = $scope.metadata.datasetVersion;
-		console.log("dataset qui ", newDataset);
-		
+
 		var hasErrors = false;
 		
-		if(!$scope.metadata.info.fields || $scope.metadata.info.fields==null || $scope.metadata.info.fields.length == 0){
-			$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN');
-			$scope.metadata.info.fields = [];
+		if(!$scope.dataset.components || $scope.dataset.components==null || $scope.dataset.components == 0){
+			$scope.admin_response.type = 'warning';
+			$scope.admin_response.message = 'MANAGEMENT_NEW_DATASET_WARNING_TITLE';
+			$scope.admin_response.details.push('MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN');
+
+			//$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_COLUMN');
+			$scope.dataset.components = [];
 			hasErrors =true;
 		}
 		console.log("$scope.choosenDatasetType ",$scope.choosenDatasetType );
 		console.log("$scope.previewBinaries ",$scope.previewBinaries );
 		console.log("$scope.previewBinaries.length ",$scope.previewBinaries.length );
 		if($scope.choosenDatasetType == 'binary_no_upload' && $scope.previewBinaries.length==0){
-			$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY');
+			$scope.admin_response.type = 'warning';
+			$scope.admin_response.message = 'MANAGEMENT_NEW_DATASET_WARNING_TITLE';
+			$scope.admin_response.details.push('MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY');
+			//$scope.warningMessages.push('MANAGEMENT_NEW_DATASET_WARNING_NO_BINARY');
 			hasErrors =true;
 		}
 		
-		var startSourceColumn = $scope.metadata.info.fields.length +1;
+		var startSourceColumn = $scope.dataset.components.length +1;
 		for (var i = 0; i < $scope.previewBinaries.length; i++) {
 			var fileDef = $scope.previewBinaries[i];
-			$scope.metadata.info.fields.push(
-					{"sourceColumn":(startSourceColumn + i), 
-						"fieldName":fileDef.fieldName, 
-						"fieldAlias":fileDef.fieldAlias, 
-						"dataType":"binary", 
-						"isKey":0, 
-						"measureUnit":null,
-						"dateTimeFormat":null,
-						"order":(startSourceColumn + i -1)}
+			$scope.dataset.components.push(
+					{"sourcecolumn":(startSourceColumn + i), 
+						"name":fileDef.name, 
+						"alias":fileDef.alias, 
+						"idDataType": Constants.COMPONENT_DATA_TYPE_BINARY, 
+						"iskey":0, 
+						"inorder":(startSourceColumn + i -1)}
 					);
 		}
 		
-		console.log("dataset dopo binary ", newDataset);
-		$scope.openadataDataUpdateDateStyle = "";
-
-		if(typeof newDataset.opendata === 'undefined' || newDataset.opendata==null || newDataset.opendata.isOpendata !='true'){
-			newDataset.opendata = null;
-		}
-		else{
-			if(!newDataset.opendata.language || newDataset.opendata.language == null || newDataset.opendata.language == '')
-				newDataset.opendata.language = 'it';
-
-			if(newDataset.opendata.dataUpdateDate && newDataset.opendata.dataUpdateDate!=null)
-				newDataset.opendata.dataUpdateDate = new Date(newDataset.opendata.dataUpdateDate).getTime();
-
-		}
-
-		console.log("newDataset", newDataset);
+		console.log("dataset dopo binary ", $scope.dataset);
+//		$scope.openadataDataUpdateDateStyle = "";
+//
+//		if(typeof newDataset.opendata === 'undefined' || newDataset.opendata==null || newDataset.opendata.isOpendata !='true'){
+//			newDataset.opendata = null;
+//		}
+//		else{
+//			if(!newDataset.opendata.language || newDataset.opendata.language == null || newDataset.opendata.language == '')
+//				newDataset.opendata.language = 'it';
+//
+//			if(newDataset.opendata.dataUpdateDate && newDataset.opendata.dataUpdateDate!=null)
+//				newDataset.opendata.dataUpdateDate = new Date(newDataset.opendata.dataUpdateDate).getTime();
+//
+//		}
+//
+//		console.log("newDataset", newDataset);
+		console.log("dataset ready", $scope.dataset);
+		hasErrors = true;
 		if(!hasErrors){
+			$scope.updateStatus = 'update';
+			adminAPIservice.createDataset(info.getActiveTenant(), $scope.dataset).success(function(response) {
+				console.log("createDataset SUCCESS", response);
+				$scope.admin_response.type = 'success';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_SAVED_INFO';
+				if($scope.columnDefinitionType == "import"){
+					addData();
+				}
+				else{
+					sharedAdminResponse.setResponse($scope.admin_response);
+					$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+response.datasetcode+"/"+response.idDataset);
+					$scope.updateStatus = 'update';
+				}
+
+			}).error(function(response){
+				$scope.updateStatus = 'ready';
+				console.error("createDataset ERROR", response);
+				$scope.admin_response.type = 'danger';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_SAVE_ERROR';
+				if(response && response.errorName)
+					$scope.admin_response.detail= response.errorName;
+				if(response && response.errorCode)
+					$scope.admin_response.code= response.errorCode;
+
+			});
+
+			
+			
+			
+			/*
+			
 			var fileName = null;
 			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)
 				fileName = $scope.selectedFile.name;
-			$scope.isUploading = true;
 			var createUrl = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), info.getActiveTenant().organizationCode);
 			$scope.upload = $upload.upload({
 				//url: Constants.API_MANAGEMENT_DATASET_LIST_URL + $scope.tenantCode + '/', 
@@ -2082,7 +2015,11 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 					$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
 				}
 	
-			});
+			}); */
+		}
+		else{
+			addData();
+			$scope.updateStatus = 'error';
 		}
 
 	};	
@@ -2178,7 +2115,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	$scope.canCreatePublicDataset = function(){
 		//return info.getActiveTenantType() != 'trial';
-		return info.getActiveShareInformationType() == "public" &&  !$scope.defaultMetadata.info.unpublished;
+		return info.getActiveShareInformationType() == "public" &&  $scope.defaultMetadata.unpublished!=1;
 	}; 
 
 	$scope.canShareDataset = function(){
@@ -2276,17 +2213,26 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	});
 	
 
-	$scope.user = {};
-	fabricAPIservice.getInfo().success(function(result) {
-		console.debug("result managementnew stream", result);
-		$scope.user = result.user;
-		console.debug("info user", $scope.user);
-		if($scope.user!=undefined && $scope.user.loggedIn==true){
-			$scope.defaultMetadata.info.requestorName=$scope.user.firstname;
-			$scope.defaultMetadata.info.requestorSurname=$scope.user.lastname;
-			$scope.defaultMetadata.info.requestornEmail=$scope.user.email;
-		}
-	});
+//	$scope.user = {};
+//	
+//	fabricAPIservice.getInfo().success(function(result) {
+//		console.debug("result managementnew stream", result);
+//		$scope.user = result.user;
+//		console.debug("info user", $scope.user);
+//		if($scope.user!=undefined && $scope.user.loggedIn==true){
+//			$scope.defaultMetadata.info.requestorName=$scope.user.firstname;
+//			$scope.defaultMetadata.info.requestorSurname=$scope.user.lastname;
+//			$scope.defaultMetadata.info.requestornEmail=$scope.user.email;
+//		}
+//	});
+
+	
+	$scope.user = info.getInfo().user;
+	if($scope.user!=undefined && $scope.user.loggedIn==true){
+		$scope.metadata.info.requestorName=$scope.user.firstname;
+		$scope.metadata.info.requestorSurname=$scope.user.lastname;
+		$scope.metadata.info.requestornEmail=$scope.user.email;
+	}
 
 	$scope.newTag = {value:""};
 	$scope.addTag = function(newTag, tags){
@@ -2450,8 +2396,8 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	$scope.saveError = null;
 	$scope.saveErrors = null;
 
-	$scope.accettazionePrivacy=0;
-	$scope.accettazioneResponsability=0;
+//	$scope.accettazionePrivacy=0;
+//	$scope.accettazioneResponsability=0;
 
 
 	$scope.selectedIcon;
@@ -2592,7 +2538,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	var isNewField = function(field, newFields){
 		var res = false;
 		for (var newIndex = 0; newIndex < newFields.length; newIndex++) {
-			if(field.sourceColumnName == newFields[newIndex].sourceColumnName){
+			if(field.sourcecolumnname == newFields[newIndex].sourcecolumnname){
 				res = true;
 				break;
 			}
@@ -2601,6 +2547,8 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		return res;
 	};
 	
+
+	
 	$scope.loadTables = function(){
 		$scope.warningMessages = [];
 		if($scope.importConfig.dbType == "" || $scope.importConfig.dbType == null)
@@ -2608,10 +2556,10 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		
 		if($scope.importConfig.sourceType == "database"){
 			if($scope.importConfig.dbType!='HIVE' && 
-			    ($scope.importConfig.jdbc_hostname == null || $scope.importConfig.jdbc_hostname == "" ||
-				 $scope.importConfig.jdbc_dbname == null || $scope.importConfig.jdbc_dbname == ""  ||
-				 $scope.importConfig.jdbc_username == null || $scope.importConfig.jdbc_username == "" ||
-				 $scope.importConfig.jdbc_password == null || $scope.importConfig.jdbc_password == "")){
+			    ($scope.importConfig.jdbcHostname == null || $scope.importConfig.jdbcHostname == "" ||
+				 $scope.importConfig.jdbcDbname == null || $scope.importConfig.jdbcDbname == ""  ||
+				 $scope.importConfig.jdbcUsername == null || $scope.importConfig.jdbcUsername == "" ||
+				 $scope.importConfig.jdbcPassword == null || $scope.importConfig.jdbcPassword == "")){
 				 $scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_JDBC_PARAMS_WARNING");
 			}
 
@@ -2623,12 +2571,57 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		}
 		
 		$scope.importConfig.organizationCode = info.getActiveTenant().organization.organizationcode;
+		$scope.importConfig.tenantCode = info.getActiveTenant().tenantcode;
+
 		if($scope.warningMessages.length>0)
 			return;
 		$scope.isLoadingDB = true;
+		
+		adminAPIservice.importMetadata(info.getActiveTenant(),$scope.importConfig).success(function(response, status, headers, config) {
+			console.log("importDatabase", response);
+			$scope.isLoadingDB = false;
+
+			$scope.tables = response;
+			$scope.selectTablesFlag = true;
+			for (var tableIndex = 0; tableIndex < $scope.tables.length; tableIndex++) {
+				if(typeof $scope.tables[tableIndex].warnings != 'undefined' && $scope.tables[tableIndex].warnings!=null && $scope.tables[tableIndex].warnings.length>0)
+					$scope.tables[tableIndex].importTable = false;	
+				else
+					$scope.tables[tableIndex].importTable = true;
+				$scope.tables[tableIndex].index = tableIndex;
+				$scope.tables[tableIndex].customized = {"name":false,"domain":false,"visibility":false, "dcat":false, "columns":false};
+				if($scope.tables[tableIndex].status == 'new'){
+					for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.info.fields.length; columnIndex++) {
+						$scope.tables[tableIndex].dataset.info.fields[columnIndex].isNewField = true;
+					}
+				}
+				else if($scope.tables[tableIndex].status == 'existing'){
+					if(typeof $scope.tables[tableIndex].newFields != 'undefined' &&  $scope.tables[tableIndex].newFields.length>0 && 
+							$scope.tables[tableIndex].dataset.info.fields && $scope.tables[tableIndex].dataset.info.fields.length>0){
+						for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.info.fields.length; columnIndex++) {
+							if(isNewField($scope.tables[tableIndex].dataset.info.fields[columnIndex], $scope.tables[tableIndex].newFields)){
+								$scope.tables[tableIndex].dataset.info.fields[columnIndex].isNewField = true;
+								$scope.tables[tableIndex].dataset.info.fields[columnIndex].skipColumn = true;
+							}
+							
+						}
+					}
+				}
+			}
+
+			$scope.goToTables();
+
+		}).error(function(response) {
+			console.error("importDatabase error", response);
+			$scope.isLoadingDB = false;
+			$scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_ERROR_CONNECTION");
+
+		});
+			
 	//if($scope.importConfig.sourceType == 'script'){
+		/*
 		$scope.upload = $upload.upload({
-			url: Constants.API_MANAGEMENT_DATASET_IMPORT_DATABASE_URL+  $scope.tenantCode, 
+			url: Constants.Constants.API_ADMIN_DATASET_URL+  $scope.tenantCode, 
 			method: 'POST',
 			data: $scope.importConfig,
 			file: $scope.importConfig.sqlSourcefile
@@ -2671,7 +2664,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 					
 //					if($scope.tables[tableIndex].dataset.info.fields && $scope.tables[tableIndex].dataset.info.fields.length>0){
 //						for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.info.fields.length; columnIndex++) {
-//							$scope.tables[tableIndex].dataset.info.fields.sourceColumn = columnIndex;
+//							$scope.tables[tableIndex].dataset.info.fields.sourcecolumn = columnIndex;
 //						}
 //					}
 				//$scope.tables[tableIndex].columnsTooltip = createColumnsTooltip($scope.tables[tableIndex].dataset.info.fields);
@@ -2685,7 +2678,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 			$scope.isLoadingDB = false;
 			$scope.warningMessages.push("MANAGEMENT_IMPORT_DATABASE_ERROR_CONNECTION");
 
-		});
+		});*/
 		
 //		}
 //		else {
@@ -2819,24 +2812,24 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 			$scope.tables[tableIndex].customized.columns;
 	};
 
-	$scope.checkVCard = function(){
-		var VCARD_PREFIX = 'BEGIN:VCARD \n VERSION:2.1';
-		var VCARD_SUFFIX = 'END:VCARD';
-		var VCARD_N = 'N:';
-		var VCARD_FN = 'FN:';
-		var VCARD_TEL = 'TEL;WORK:';
-		var VCARD_EMAIL = 'EMAIL:';
-		var VCARD_URL = 'URL:';
-		//if (($scope.defaultMetadata.dcat.vcard == null) || ($scope.defaultMetadata.dcat.vcard == '')){
-			$scope.defaultMetadata.dcat.vcard = VCARD_PREFIX + 
-										 VCARD_N + ((($scope.defaultMetadata.dcat.nomeOrg != '') && ($scope.defaultMetadata.dcat.nomeOrg != null)) ? $scope.defaultMetadata.dcat.nomeOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_FN + ((($scope.defaultMetadata.dcat.nomeOrg != '') && ($scope.defaultMetadata.dcat.nomeOrg != null)) ? $scope.defaultMetadata.dcat.nomeOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_TEL + ((($scope.defaultMetadata.dcat.telOrg != '') && ($scope.defaultMetadata.dcat.telOrg != null)) ? $scope.defaultMetadata.dcat.telOrg.replace(" ",";") : '+39.011.3168111') + 
-										 VCARD_EMAIL + ((($scope.defaultMetadata.dcat.emailOrg != '') && ($scope.defaultMetadata.dcat.emailOrg != null)) ? $scope.defaultMetadata.dcat.emailOrg.replace(" ",";") : 'info@csi.it') + 
-										 VCARD_URL + ((($scope.defaultMetadata.dcat.urlOrg != '') && ($scope.defaultMetadata.dcat.urlOrg != null)) ? $scope.defaultMetadata.dcat.urlOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
-										 VCARD_SUFFIX;
-		//}
-	};
+//	$scope.checkVCard = function(){
+//		var VCARD_PREFIX = 'BEGIN:VCARD \n VERSION:2.1';
+//		var VCARD_SUFFIX = 'END:VCARD';
+//		var VCARD_N = 'N:';
+//		var VCARD_FN = 'FN:';
+//		var VCARD_TEL = 'TEL;WORK:';
+//		var VCARD_EMAIL = 'EMAIL:';
+//		var VCARD_URL = 'URL:';
+//		//if (($scope.defaultMetadata.dcat.vcard == null) || ($scope.defaultMetadata.dcat.vcard == '')){
+//			$scope.defaultMetadata.dcat.vcard = VCARD_PREFIX + 
+//										 VCARD_N + ((($scope.defaultMetadata.dcat.nomeOrg != '') && ($scope.defaultMetadata.dcat.nomeOrg != null)) ? $scope.defaultMetadata.dcat.nomeOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
+//										 VCARD_FN + ((($scope.defaultMetadata.dcat.nomeOrg != '') && ($scope.defaultMetadata.dcat.nomeOrg != null)) ? $scope.defaultMetadata.dcat.nomeOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
+//										 VCARD_TEL + ((($scope.defaultMetadata.dcat.telOrg != '') && ($scope.defaultMetadata.dcat.telOrg != null)) ? $scope.defaultMetadata.dcat.telOrg.replace(" ",";") : '+39.011.3168111') + 
+//										 VCARD_EMAIL + ((($scope.defaultMetadata.dcat.emailOrg != '') && ($scope.defaultMetadata.dcat.emailOrg != null)) ? $scope.defaultMetadata.dcat.emailOrg.replace(" ",";") : 'info@csi.it') + 
+//										 VCARD_URL + ((($scope.defaultMetadata.dcat.urlOrg != '') && ($scope.defaultMetadata.dcat.urlOrg != null)) ? $scope.defaultMetadata.dcat.urlOrg.replace(" ",";") : 'CSI;PIEMONTE') + 
+//										 VCARD_SUFFIX;
+//		//}
+//	};
 	
 	$scope.selectAllTableFlag = true;
 	$scope.toggleSelectTables = function(selectAllTableFlag){
@@ -3145,7 +3138,7 @@ appControllers.controller('ManagementDatasetImportTablesColumnsCtrl', [ '$scope'
 			var newBadge = "";
 			if(columns[columnIndex].isNewField)
 				newBadge="<span class='import-database-column-new' title='"+$translate.instant('MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS_HINT')+"'>"+$translate.instant('MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS')+"</span>&nbsp;&nbsp;";
-			columnsTable += "<tr class='import-database-column-row'><td>" +newBadge + columns[columnIndex].sourceColumnName + "</td><td>" + columns[columnIndex].fieldName + "</td><td>" + columns[columnIndex].dataType + "</td><td>" + columns[columnIndex].fieldAlias + "</td><td>";
+			columnsTable += "<tr class='import-database-column-row'><td>" +newBadge + columns[columnIndex].sourcecolumnname + "</td><td>" + columns[columnIndex].fieldName + "</td><td>" + columns[columnIndex].dataType + "</td><td>" + columns[columnIndex].alias + "</td><td>";
 			if(columns[columnIndex].isKey == 1){
 				columnsTable += "<i class='fa fa-key primary-key'  title='Primary key'></i> &nbsp;&nbsp;";
 				if(typeof columns[columnIndex].foreignKey != 'undefined' && columns[columnIndex].foreignKey != "null")
@@ -3162,7 +3155,7 @@ appControllers.controller('ManagementDatasetImportTablesColumnsCtrl', [ '$scope'
 		if(typeof $scope.table.newFields!='undefined' && $scope.table.newFields.length>0){
 			columnsTable += "<tr class='import-database-column-row'><td colspan='5' class='import-database-column-row-separator'>"+$translate.instant('MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS')+"</td></tr>";
 			for (var columnIndex = 0; columnIndex < $scope.table.newFields.length; columnIndex++) {
-				columnsTable += "<tr><td><span class='import-database-column-new'>New</span>&nbsp;&nbsp;" + $scope.table.newFields[columnIndex].sourceColumnName + "</td><td>" + $scope.table.newFields[columnIndex].fieldName + "</td><td>" + $scope.table.newFields[columnIndex].dataType + "</td><td>" + $scope.table.newFields[columnIndex].fieldAlias + "</td><td>";
+				columnsTable += "<tr><td><span class='import-database-column-new'>New</span>&nbsp;&nbsp;" + $scope.table.newFields[columnIndex].sourcecolumnname + "</td><td>" + $scope.table.newFields[columnIndex].fieldName + "</td><td>" + $scope.table.newFields[columnIndex].dataType + "</td><td>" + $scope.table.newFields[columnIndex].alias + "</td><td>";
 				if(columns[columnIndex].isKey == 1){
 					columnsTable += "<i class='fa fa-key primary-key'></i> &nbsp;&nbsp;&nbsp;&nbsp;";
 					if(typeof columns[columnIndex].foreignKey != 'undefined' && columns[columnIndex].foreignKey != "null")
@@ -3604,18 +3597,18 @@ appControllers.controller('ManagementDatasetImportDatabaseEditColumnsCtrl', [ '$
 			for (var int = 0; int < $scope.previewColumns.length; int++) {
 				var column  = $scope.previewColumns[int];
 				column.index = int;
-				//column.sourceColumn = order;
+				//column.sourcecolumn = order;
 				var dataType = column.dataType?column.dataType:'string';
 				var measureUnit = column.measureUnit?column.measureUnit.measureUnit:null;
 				fields.push(
-						{"sourceColumn":column.sourceColumn, 
+						{"sourcecolumn":column.sourcecolumn, 
 							"fieldName":column.fieldName, 
-							"fieldAlias":column.fieldAlias, 
+							"alias":column.alias, 
 							"dataType":dataType, 
 							"isKey":column.isKey?1:0, 
 							"measureUnit":measureUnit,
 							"dateTimeFormat":column.dateTimeFormat,
-							"sourceColumnName":column.sourceColumnName,
+							"sourcecolumnname":column.sourcecolumnname,
 							"order":order,
 							"skipColumn": column.skipColumn,
 							"isNewField": column.isNewField}

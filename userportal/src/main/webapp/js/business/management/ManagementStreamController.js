@@ -218,17 +218,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				style = '';
 		};
 	};
-	//FIXME licensecode???
-	$scope.isLicenseVisible = function(){
-		var returnValue = true;
-		if ($scope.stream && $scope.stream.license){
-			if (($scope.stream.license.licensecode == Constants.STREAM_FIELD_METADATA_LICENSE_CCBY) || ($scope.stream.license.licensecode == Constants.STREAM_FIELD_METADATA_LICENSE_CC0))
-				returnValue = false;
-		}
-		
-		return returnValue;
-	};
-
+	
 	$scope.extra = {selectedSo:null};
 	var isTwitter = function(){
 		return $scope.extra.selectedSo !=null && $scope.extra.selectedSo.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
@@ -347,16 +337,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.removeStreamFromArray = function(index){
 		$scope.validationRes=2;
 		$scope.internalStreams.splice(index,1);
-	};
-
-	
-	$scope.checkTag = function(){
-		var rslt = true;
-		if ($scope.stream.tags && $scope.stream.tags.length > 0){
-			rslt = false;
-		};
-		
-		return rslt;
 	};
 
 	// The ui-codemirror option
@@ -663,8 +643,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					$scope.loadStreamComponents(existingStream);
 				}*/
 				 
-				if(!$scope.stream.icon|| $scope.stream.icon == null)
-					$scope.stream.icon  = "img/stream-icon-default.png";
+//				if(!$scope.stream.icon|| $scope.stream.icon == null)
+//					$scope.stream.icon  = "img/stream-icon-default.png";
 	
 				if( $scope.stream.internalquery && $scope.stream.internalquery["@nil"]){
 					$scope.stream.internalquery=null;
