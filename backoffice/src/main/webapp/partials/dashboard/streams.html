@@ -27,26 +27,26 @@
 							<input type="checkbox" name="selectAll"  ng-click="selectAll($event)"  />
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'stream.codiceStream'; reverse=!reverse"><span translate>STREAM_FIELD_NAME</span> 
-								<span ng-show="predicate=='stream.codiceStream' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-								<span ng-show="predicate=='stream.codiceStream' && reverse" class="glyphicon glyphicon-chevron-down small"></span>
+							<a href="" ng-click="predicate = 'stream.streamcode'; reverse=!reverse"><span translate>STREAM_FIELD_NAME</span> 
+								<span ng-show="predicate=='stream.streamcode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+								<span ng-show="predicate=='stream.streamcode' && reverse" class="glyphicon glyphicon-chevron-down small"></span>
 							</a>
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'stream.nomeTenant'; reverse=!reverse"><span translate>TENANT</span> 
-							<span ng-show="predicate=='stream.nomeTenant' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='stream.nomeTenant' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'stream.tenantManager.tenantcode'; reverse=!reverse"><span translate>TENANT</span> 
+							<span ng-show="predicate=='stream.tenantManager.tenantcode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='stream.tenantManager.tenantcode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'stream.codiceVirtualEntity'; reverse=!reverse"><span translate>VIRTUALENTITY</span> 
-							<span ng-show="predicate=='stream.codiceVirtualEntity' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='stream.codiceVirtualEntity' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'stream.smartobject.socode'; reverse=!reverse"><span translate>VIRTUALENTITY</span> 
+							<span ng-show="predicate=='stream.smartobject.socode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='stream.smartobject.socode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'stream.virtualEntityDescription'; reverse=!reverse"><span translate>STREAM_FIELD_VIRTUALENTITY_DESCRIPTION</span> 
-							<span ng-show="predicate=='stream.virtualEntityDescription' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='stream.virtualEntityDescription' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'stream.smartobject.description'; reverse=!reverse"><span translate>STREAM_FIELD_VIRTUALENTITY_DESCRIPTION</span> 
+							<span ng-show="predicate=='stream.smartobject.description' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='stream.smartobject.description' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						
 						</th>
 						<th>
@@ -56,9 +56,9 @@
 							<span translate>STREAM_FIELD_VISIBILITY</span> 
 						</th>
 						<th>
-							<a href="" ng-click="predicate = 'stream.deploymentStatusCode'; reverse=!reverse"><span translate>STREAM_FIELD_STATUS</span> 
-							<span ng-show="predicate=='stream.deploymentStatusCode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
-							<span ng-show="predicate=='stream.deploymentStatusCode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+							<a href="" ng-click="predicate = 'stream.status.statuscode'; reverse=!reverse"><span translate>STREAM_FIELD_STATUS</span> 
+							<span ng-show="predicate=='stream.status.statuscode' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+							<span ng-show="predicate=='stream.status.statuscode' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 						</th>
 						<th>
 							&nbsp;
@@ -80,13 +80,14 @@
 						ng-repeat-start="row in filteredStreams = (streamsList | filter: searchCodeFilter | filter: searchTenantsFilter | filter: searchStatusFilter | filter: searchVirtualentityFilter | orderBy:predicate:reverse )|startFrom:(currentPage-1)*pageSize | limitTo:pageSize  ">
 						<td class='table-data-row-first'><input type="checkbox" ng-model="row.isSelected" ng-click="updateSelection($event, row.rowIndex)" /><!-- ng-click="updateSelection($event, row.rowIndex)" /> --> 
 						<td class='text-left'>
-							<img ng-src="{{row.stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >
-							<strong>{{row.stream.codiceStream}}</strong> - {{row.stream.nomeStream|string_ellipse:row.ellipseNameLimit}}
+							<!--<img ng-src="{{row.stream.streamIcon}}" alt="logo stream" class='list-entity-icon-preview-img' >  -->
+							<img ng-src="{{streamIconUrl(row.stream.organization.organizationcode,row.stream.idstream)}}" alt="logo stream" class='list-entity-icon-preview-img' >
+							<strong>{{row.stream.streamcode}}</strong> - {{row.stream.streamname|string_ellipse:row.ellipseNameLimit}}
 						</td>
-						<td><small>{{row.stream.nomeTenant}}</small></td>
-						<td><small>{{row.stream.codiceVirtualEntity}}</small></td>
-						<td><span title='{{row.stream.virtualEntityDescription}}'><small>{{row.stream.virtualEntityDescription|string_ellipse:15}}</small></span></td>
-						<td><small>{{row.stream.deploymentVersion}}-{{row.ellipseNameLimit}}</small></td>
+						<td><small>{{row.stream.tenantManager.tenantcode}}</small></td>
+						<td><small>{{row.stream.smartobject.socode}}</small></td>
+						<td><span title='{{row.stream.smartobject.description}}'><small>{{row.stream.smartobject.description|string_ellipse:15}}</small></span></td>
+						<td><small>{{row.stream.version}}-{{row.ellipseNameLimit}}</small></td>
 						<td><small>{{row.stream.visibility}}</small></td>
 						<td class='text-left'><span ng-bind-html="row.statusIcon"></span> <small>{{row.deploymentStatusCodeTranslated}}</small></td>
 						<td> 

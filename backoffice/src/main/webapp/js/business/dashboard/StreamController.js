@@ -1,5 +1,5 @@
-appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice', 'fabricBuildService', '$translate', '$modal', '$timeout' ,
-                                           function($scope, $route, fabricAPIservice, fabricBuildService, $translate, $modal,$timeout) {
+appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice', 'adminAPIservice', 'fabricBuildService', '$translate', '$modal', '$timeout' ,
+                                           function($scope, $route, fabricAPIservice, adminAPIservice, fabricBuildService, $translate, $modal,$timeout) {
 	console.log("$modal", $modal);
 		
 	$scope.streamsList = [];
@@ -21,6 +21,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 	$scope.actions = Constants.STREAM_ACTIONS;
 	
 	
+	/*
 	fabricAPIservice.getStreams().success(function(response) {
 		$scope.showLoading = false;
 		console.log("response",response);
@@ -34,42 +35,64 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 		}
 		
 		$scope.totalItems = $scope.streamsList.length;
-	});
+	});*/
+	
+	/*
+	 * LOAD STREAMS
+	 */
+	adminAPIservice.loadStreams().success(function(response) {
+		$scope.showLoading = false;
+		console.log("loadStreams - response",response);
+
+		var responseList = Helpers.util.initArrayZeroOneElements(response);
+		for (var i = 0; i < responseList.length; i++) {
+			
+			var row = initRow(responseList[i]);
+			row.rowIndex = i;
+			$scope.streamsList.push(row);					
+		}
+		$scope.totalItems = $scope.streamsList.length;
+	})
 	
 	
 	var initRow = function(streamIn){
 		var row = {};
 		row.stream = streamIn;
-		row.statusIcon = Helpers.stream.statusIcon(row.stream);
-		row.deploymentStatusCodeTranslated =  $translate.instant(row.stream.deploymentStatusCode);
+		//elerow.statusIcon = Helpers.stream.statusIcon(row.stream);
+		row.deploymentStatusCodeTranslated =  $translate.instant(row.stream.status.statuscode);
 		row.isSelected = false;
 		row.isUpdating = false;
 		row.updated = false;
-		row.ellipseNameLimit = 34-row.stream.codiceStream.length;
-		if(!row.stream.deploymentStatusCode || row.stream.deploymentStatusCode==null)
-			row.stream.deploymentStatusCode = "draft";
+		row.ellipseNameLimit = 34-row.stream.streamcode.length;
+		if(!row.stream.status.statuscode || row.stream.status.statuscode==null)
+			row.stream.status.statuscode = "draft";
 		
-		if(row.stream.deploymentStatusCode=='req_inst'){
-			if(row.stream.deploymentVersion === 1)
+		if(row.stream.status.statuscode=='req_inst'){
+			if(row.stream.version === 1)
 				row.action = 'install';
 			else
 				row.action = 'upgrade';
 		}
-		else if(row.stream.deploymentStatusCode=='inst'){
+		else if(row.stream.status.statuscode=='inst'){
 			row.action = 'migrate';
 		}
-		else if(row.stream.deploymentStatusCode=='req_uninst'){
+		else if(row.stream.status.statuscode=='req_uninst'){
 			row.action = 'delete';
 		}
 
 		row.startStep = 0;
 		row.endStep = null;
 		
-		if(!row.stream.streamIcon || row.stream.streamIcon == null)
-			row.stream.streamIcon  = "img/stream-icon-default.png";
+		/*if(!row.stream.streamIcon || row.stream.streamIcon == null)
+			row.stream.streamIcon  = "img/stream-icon-default.png";*/
 	
 		return row;
 	}
+	
+	$scope.streamIconUrl= function(organizationCode, idstream){	
+		console.log("urllllllll",Constants.API_ADMIN_STREAMS_URL+"/"+idstream+"/icon?organizationCode="+organizationCode);
+		return Constants.API_ADMIN_STREAMS_URL+"/"+idstream+"/icon?organizationCode="+organizationCode;
+	};
 	
 	function stepStyle(step){
 		var style = "status_waiting";
@@ -84,7 +107,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 
 	$scope.searchTenantsFilter = function(row) {
 		var keyword = new RegExp($scope.tenantsFilter, 'i');
-		return !$scope.tenantsFilter || keyword.test(row.stream.codiceTenant);
+		return !$scope.tenantsFilter || keyword.test(row.stream.tenantManager.tenantcode);
 	};
 
 	$scope.$watch('tenantsFilter', function(newTenant) {
@@ -95,7 +118,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 	
 	$scope.searchCodeFilter = function(row) {
 		var keyword = new RegExp($scope.codeFilter, 'i');
-		return !$scope.codeFilter || keyword.test(row.stream.codiceStream)|| keyword.test(row.stream.nomeStream);
+		return !$scope.codeFilter || keyword.test(row.stream.streamcode)|| keyword.test(row.stream.streamname);
 	};
 
 	$scope.$watch('codeFilter', function(newCode) {
@@ -105,7 +128,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 
 	$scope.searchStatusFilter = function(row) {
 		var keyword = new RegExp($scope.statusFilter, 'i');
-		return !$scope.statusFilter || keyword.test(row.stream.deploymentStatusCode) || keyword.test(row.deploymentStatusCodeTranslated);
+		return !$scope.statusFilter || keyword.test(row.stream.status.statuscode) || keyword.test(row.deploymentStatusCodeTranslated);
 	};
 
 	$scope.$watch('statusFilter', function(newStatus) {
@@ -116,7 +139,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 
 	$scope.searchVirtualentityFilter = function(row) {
 		var keyword = new RegExp($scope.virtualentityFilter, 'i');
-		return !$scope.virtualentityFilter || keyword.test(row.stream.codiceVirtualEntity);
+		return !$scope.virtualentityFilter || keyword.test(row.stream.smartobject.socode);
 	};
 
 	$scope.$watch('virtualentityFilter', function(newVirtualentity) {

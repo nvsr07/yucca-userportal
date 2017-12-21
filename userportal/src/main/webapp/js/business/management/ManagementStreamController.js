@@ -178,6 +178,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
 	};
+	
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
 	$scope.validationRes=2;
 	$scope.errorMsg="Errore";
@@ -615,6 +616,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		if(!$scope.isNewStream){
 			adminAPIservice.loadStream(info.getActiveTenant(),$routeParams.id_stream).success(function(response) {
 			$scope.stream = response;
+			$scope.stream.deploymentStatusCode = $scope.stream.status.statuscode;
 			console.log("loadStream",response);				
 				
 				//FIXME publishStream forced to true , delete this line when the radio button is enabled.
@@ -1136,10 +1138,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	};
 
 	$scope.canEdit = function() {
+	
 		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_DRAFT)
 			return true;
 		return false;
 	};
+	
 
 	$scope.canCreateNewVersion = function() {
 		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_INST)

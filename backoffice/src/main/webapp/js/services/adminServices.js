@@ -152,6 +152,13 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 			url : Constants.API_SERVICES_VIRTUALENTITY_URL + tenant_code + '/' + virtualentity_code + '/' + '?callback=JSON_CALLBACK'
 		});
 	};
+	
+	adminAPI.loadStreams = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_ADMIN_STREAMS_URL + '?callback=JSON_CALLBACK'
+		});
+	};
 
 	return adminAPI;
 } ]);
