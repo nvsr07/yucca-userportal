@@ -90,7 +90,6 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 	}
 	
 	$scope.streamIconUrl= function(organizationCode, idstream){	
-		console.log("urllllllll",Constants.API_ADMIN_STREAMS_URL+"/"+idstream+"/icon?organizationCode="+organizationCode);
 		return Constants.API_ADMIN_STREAMS_URL+"/"+idstream+"/icon?organizationCode="+organizationCode;
 	};
 	
