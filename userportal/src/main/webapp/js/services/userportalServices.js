@@ -11,7 +11,7 @@ appServices.factory('upService', [ "$http", "$q", "info", function($http, $q, in
 
 		console.log("activeTenant",activeTenant);
 		if(typeof activeTenant!='undefined')
-			infoUrl = infoUrl+"&activeTenant="+activeTenant.tenantCode;
+			infoUrl = infoUrl+"&activeTenant="+activeTenant.tenantcode;
 		
 		return $http({
 			method : 'JSONP',
