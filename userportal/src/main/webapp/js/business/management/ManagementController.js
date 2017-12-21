@@ -177,6 +177,10 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', "$route",'info
 	$scope.streamIconUrl= function(organizationCode, idstream){
 		return Constants.API_ADMIN_STREAM_URL.replace(new RegExp('{organizationCode}', 'gi'), organizationCode)+"/"+idstream+"/icon";
 	};
+
+	$scope.datasetIconUrl= function(organizationCode, iddataset){
+		return Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), organizationCode)+"/"+iddataset+"/icon";
+	};
 	
 	//FIXME licensecode???
 	$scope.isLicenseVisible = function(datasource){

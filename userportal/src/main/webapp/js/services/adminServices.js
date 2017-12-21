@@ -227,17 +227,20 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 	};
 	
 	adminAPI.addDataToDataset = function(activeTenant, dataset, csvInfo,componentInfoRequests) {
-		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +dataset.idDataset+ '/addData'; 
+		console.log("addDataToDataset",activeTenant, dataset, csvInfo,componentInfoRequests);
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +dataset.iddataset+ '/addData'; 
 
+		var postData = {skipFirstRow: csvInfo.skipFirstRow,
+						encoding: csvInfo.fileEncoding,
+						csvSeparator: csvInfo.separator,
+						componentInfoRequests: componentInfoRequests
+					   };
+		
 		return $upload.upload({
 			url: urlWithParam,
 			method: 'POST',
-			skipFirstRow: csvInfo.skipFirstRow,
-			encoding: csvInfo.fileEncoding,
-			csvSeparator: csvInfo.separator,
-			file: csvInfo.selectedFile, 
-			componentInfoRequests: componentInfoRequests
-
+			data: postData,
+			file: csvInfo.selectedFile
 		});
 		
 		

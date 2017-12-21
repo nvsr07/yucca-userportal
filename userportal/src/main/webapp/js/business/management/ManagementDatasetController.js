@@ -1247,7 +1247,7 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors',
                                                               function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDataset,$translate,$modal,sharedUploadBulkErrors) {
 	$scope.tenantCode = $route.current.params.tenant_code;
-	$scope.currentStep = 'columns';
+	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
 	                      {'name':'requestor', 'style':''},
 	                      {'name':'metadata', 'style':''},
@@ -1435,7 +1435,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		};
 
 
-	$scope.selectedFile = null;
+	//$scope.selectedFile = null;
 
 	$scope.formatList = ["csv"];
 
@@ -1472,12 +1472,12 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 	$scope.onFileSelect = function($files) {
 		$scope.updateWarning = null;
-		$scope.selectedFile = $files[0];
-		console.log("onFileSelect", $scope.selectedFile );
-		if($scope.selectedFile !=null && $scope.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
-			$scope.choosenFileSize = $scope.selectedFile.size; 
+		$scope.csvInfo.selectedFile = $files[0];
+		console.log("onFileSelect", $scope.csvInfo.selectedFile );
+		if($scope.csvInfo.selectedFile !=null && $scope.csvInfo.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
+			$scope.choosenFileSize = $scope.csvInfo.selectedFile.size; 
 			$scope.updateWarning = true;
-			$scope.selectedFile = null;
+			$scope.csvInfo.selectedFile = null;
 			$scope.previewLines = null;
 		}
 		else
@@ -1490,7 +1490,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	
 	var readPreview = function(csvSeparator){
 		$scope.uploadDatasetError = null;
-		readFilePreview.readTextFile($scope.selectedFile, 10000, $scope.fileEncoding).then(
+		readFilePreview.readTextFile($scope.csvInfo.selectedFile, 10000, $scope.fileEncoding).then(
 				function(contents){
 					var lines = contents.split(/\r\n|\n/);
 					console.log("nr righe", lines.length);
@@ -1551,10 +1551,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 								"inorder":order}
 					);
 					order++;
+					$scope.checkColumnName(column.name,column.index);
 				}
 
 			}
-			$scope.checkColumnName();
 			
 			
 		}
@@ -1583,8 +1583,8 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME');
 			$scope.columnsDatasetError.hasError = true;
 		}
-		else if(componentName.match(Constants.VALIDATION_PATTERN_ALPHANUMERIC)){
-			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME');
+		else if(componentName.match(Constants.VALIDATION_PATTERN_ALPHANUMERIC)==null){
+			$scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_ERROR');
 			$scope.columnsDatasetError.hasError = true;
 		}
 	};
@@ -1720,7 +1720,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.goToRequestor  = function(){ $scope.currentStep = 'requestor';refreshWizardToolbar();};
 	$scope.goToMetadata  = function(){ $scope.currentStep = 'metadata';refreshWizardToolbar();};
 	$scope.goToChooseType  = function(){
-		$scope.selectedFile = null;
+		$scope.csvInfo.selectedFile = null;
 		$scope.previewLines = [];
 		if(isClone)
 			isClone = false;
@@ -1806,7 +1806,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 					var c = loadedDataset.components[cIndex];
 					var p = $scope.previewColumns[pIndex];
 					if(p.name == c.name){
-						componentInfoRequests.push({"numColumn": p.sourcecolumn, "dateFormat": p.dateTimeFormat, "skipColumn": p.skipColumn, "idComponent": c.idComponent});
+						componentInfoRequests.push({"numColumn": p.sourcecolumn-1, "dateFormat": p.dateTimeFormat, "skipColumn": p.skipColumn, "idComponent": c.idComponent});
 						break;
 					}
 				}
@@ -1815,7 +1815,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 
 			console.log("componentInfoRequests", componentInfoRequests);
 			
-			adminAPIservice.addDataToDataset(info.getActiveTenant(), $scope.dataset, $scope.csvInfo,componentInfoRequests).progress(function(evt) {
+			adminAPIservice.addDataToDataset(info.getActiveTenant(),loadedDataset, $scope.csvInfo,componentInfoRequests).progress(function(evt) {
 				$scope.isUploading = true;
 				console.log('evt');
 				console.log(evt);
@@ -1838,39 +1838,39 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			});
 			
 			
-			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)
-				fileName = $scope.selectedFile.name;
-			var createUrl = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), info.getActiveTenant().organizationCode);
-			$scope.upload = $upload.upload({
-				//url: Constants.API_MANAGEMENT_DATASET_LIST_URL + $scope.tenantCode + '/', 
-				url: createUrl,
-				method: 'POST',
-				data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
-				file: $scope.selectedFile, // or list of files ($files) for html5 only
-				fileName: fileName,
-
-			}).progress(function(evt) {
-				$scope.isUploading = true;
-				console.log('evt');
-				console.log(evt);
-				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-			}).success(function(data, status, headers, config) {
-				$scope.isUploading = false;
-				console.log("data loaded", data);
-				if(data.errors && data.errors.length>0){
-					$scope.saveError = true;
-					$scope.saveErrors = data.errors;
-					if (data.datasetStatus == 0)
-						Helpers.util.scrollTo();
-					else if ((data.datasetStatus == 1) || (data.datasetStatus == 2)){
-						sharedUploadBulkErrors.setErrors(data.errors);
-						$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);//+"?errorParams="+data.datasetStatus)
-					}
-				} else {
-					$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
-				}
-
-			});
+	//			if($scope.selectedFile && $scope.selectedFile != null  && $scope.selectedFile.name && $scope.selectedFile.name!=null)
+	//				fileName = $scope.selectedFile.name;
+	//			var createUrl = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), info.getActiveTenant().organizationCode);
+	//			$scope.upload = $upload.upload({
+	//				//url: Constants.API_MANAGEMENT_DATASET_LIST_URL + $scope.tenantCode + '/', 
+	//				url: createUrl,
+	//				method: 'POST',
+	//				data: {dataset: newDataset, formatType: $scope.metadata.info.importFileType, csvSeparator: $scope.csvSeparator, encoding: $scope.fileEncoding, skipFirstRow: $scope.csvSkipFirstRow },
+	//				file: $scope.selectedFile, // or list of files ($files) for html5 only
+	//				fileName: fileName,
+	//
+	//			}).progress(function(evt) {
+	//				$scope.isUploading = true;
+	//				console.log('evt');
+	//				console.log(evt);
+	//				console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+	//			}).success(function(data, status, headers, config) {
+	//				$scope.isUploading = false;
+	//				console.log("data loaded", data);
+	//				if(data.errors && data.errors.length>0){
+	//					$scope.saveError = true;
+	//					$scope.saveErrors = data.errors;
+	//					if (data.datasetStatus == 0)
+	//						Helpers.util.scrollTo();
+	//					else if ((data.datasetStatus == 1) || (data.datasetStatus == 2)){
+	//						sharedUploadBulkErrors.setErrors(data.errors);
+	//						$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);//+"?errorParams="+data.datasetStatus)
+	//					}
+	//				} else {
+	//					$location.path('/management/viewDataset/'+$scope.tenantCode+"/"+data.metadata.datasetCode);
+	//				}
+	//
+	//			});
 			
 			
 		}).error(function(result){
@@ -1951,7 +1951,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 //
 //		console.log("newDataset", newDataset);
 		console.log("dataset ready", $scope.dataset);
-		hasErrors = true;
+		//hasErrors = true;
 		if(!hasErrors){
 			$scope.updateStatus = 'update';
 			adminAPIservice.createDataset(info.getActiveTenant(), $scope.dataset).success(function(response) {
@@ -2020,7 +2020,6 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			}); */
 		}
 		else{
-			addData();
 			$scope.updateStatus = 'error';
 		}
 

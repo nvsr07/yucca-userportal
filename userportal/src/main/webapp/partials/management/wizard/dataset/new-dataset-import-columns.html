@@ -163,7 +163,7 @@
 	<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewColumns" ng-drop="true" ng-drop-success="onDropCsvFieldComplete($data,$index,$event)" 
 		 ng-class="{'management-table-upload-column-skiprow': column.skipColumn}">
 		<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"><span>{{column.sourcecolumn}}</span></div>
-		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" ><input class="input-sm form-control" type="text" ng-model="column.name" ng-disabled="column.skipColumn"  ng-blur="checkColumnName(column.fieldName, $index)"></div>
+		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" ><input class="input-sm form-control" type="text" ng-model="column.name" ng-disabled="column.skipColumn"  ng-blur="checkColumnName(column.name, $index)"></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><input class="input-sm form-control" type="text" ng-model="column.alias" ng-disabled="column.skipColumn"  ></div>
 		<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
 			<select class="input-sm form-control" ng-model="column.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType" ng-disabled="column.skipColumn"  

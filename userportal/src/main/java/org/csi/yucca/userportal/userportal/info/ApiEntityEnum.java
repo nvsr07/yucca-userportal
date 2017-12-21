@@ -471,7 +471,14 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
 		}
+	},
+	API_ICON("ICON_TEST", Config.API_PROXY_ADMIN_BASE_URL + "1/public/icon") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
 	};
+
 
 	private String nameEntity;
 	private String baseUrl;
