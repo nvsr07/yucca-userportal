@@ -244,6 +244,12 @@ public enum ApiEntityEnum {
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
 		}
+	},
+	API_ADMIN_STREAMS("API_ADMIN_STREAMS_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/backoffice/streams") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
 	}
 	;
 

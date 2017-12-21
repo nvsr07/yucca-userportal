@@ -3,6 +3,7 @@ package org.csi.yucca.userportal.backoffice.service;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +36,7 @@ import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 //@WebServlet(description = "Api proxy Servlet", urlPatterns = { "/api/proxy/*" }, asyncSupported = false)
@@ -89,7 +92,7 @@ public abstract class ApiProxyServlet extends HttpServlet {
 		if(contentDisposition!=null)
 			response.setHeader("Content-Disposition", getMethod.getResponseHeader("Content-Disposition").getValue());
 
-		
+		/*
 		String jsonOut = getMethod.getResponseBodyAsString();
 		if(getMethod.getResponseCharSet()!=null && !getMethod.getResponseCharSet().equals("UTF-8")){
 			byte[] bytes = jsonOut.getBytes(Charset.forName(getMethod.getResponseCharSet()));
@@ -102,7 +105,42 @@ public abstract class ApiProxyServlet extends HttpServlet {
 			jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
 		PrintWriter out = response.getWriter();
 		out.println(jsonOut);
-		out.close();
+		out.close();*/
+		if (response.getContentType() != null && (response.getContentType().startsWith("application/octet-stream") ||response.getContentType().startsWith("image/")|| response.getContentType().startsWith("text/csv"))) {
+			ServletOutputStream out = response.getOutputStream();
+			InputStream in = getMethod.getResponseBodyAsStream();
+			log.info("[ApiProxyServlet::doGet] startcopy");
+			IOUtils.copyLarge(in, out);
+			log.info("[ApiProxyServlet::doGet] stopcopy");
+			in.close();
+			out.close();
+		} else {
+			// String jsonOut = getMethod.getResponseBodyAsString();
+			byte[] responsBytes = getMethod.getResponseBody();
+			response.setCharacterEncoding("UTF-8");
+			String jsonOut = new String(responsBytes, "UTF-8");
+			// if(getMethod.getResponseHeader("Content-Type")!=null){
+			// String contentType =
+			// getMethod.getResponseHeader("Content-Type").getValue();
+			// if(contentType!= null && contentType.lastIndexOf("charset")<0){
+			// byte[] responseISO_8859_1 = getMethod.getResponseBody();
+			// String stringISO_8859_1 = new String(responseISO_8859_1,
+			// "ISO-8859-1");
+			// String stringUTF_8 = new String(responseISO_8859_1, "UTF-8");
+			// byte[] responseUTF_8 = new String(responseISO_8859_1,
+			// "ISO-8859-1").getBytes("UTF-8");
+			// //jsonOut = new String(responseUTF_8);
+			// jsonOut =stringUTF_8;
+			// }
+			// }
+
+			// String jsonOut = getMethod.getResponseBodyAsString();
+			if (isJSONPRequest(request))
+				jsonOut = getCallbackMethod(request) + "(" + jsonOut + ")";
+			PrintWriter out = response.getWriter();
+			out.println(jsonOut);
+			out.close();
+		}
 	}
 
 	@Override
