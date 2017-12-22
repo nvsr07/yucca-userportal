@@ -32,12 +32,12 @@ Helpers.stream = {
 			virtualentity_stream += stream.codiceStream;
 
 		var result = "/topic/output." + stream.codiceTenant + "." + virtualentity_stream;*/
-		if (!Helpers.util.isStringEmpty(stream.smartobject.socode) && !Helpers.util.isStringEmpty(stream.streamcode))
-			virtualentity_stream = stream.smartobject.socode + "_" + stream.streamcode;
-		else if (!Helpers.util.isStringEmpty(stream.smartobject.socode ))
-			virtualentity_stream = stream.smartobject.socode ;
-		else if (!Helpers.util.isStringEmpty(stream.streamcode))
-			virtualentity_stream += stream.streamcode;
+		if (!Helpers.util.isStringEmpty(stream.stream.smartobject.socode) && !Helpers.util.isStringEmpty(stream.stream.streamcode))
+			virtualentity_stream = stream.stream.smartobject.socode + "_" + stream.stream.streamcode;
+		else if (!Helpers.util.isStringEmpty(stream.stream.smartobject.socode ))
+			virtualentity_stream = stream.stream.smartobject.socode ;
+		else if (!Helpers.util.isStringEmpty(stream.stream.streamcode))
+			virtualentity_stream += stream.stream.streamcode;
 
 		var result = "/topic/output." + stream.tenantManager.tenantcode + "." + virtualentity_stream;
 		return result;

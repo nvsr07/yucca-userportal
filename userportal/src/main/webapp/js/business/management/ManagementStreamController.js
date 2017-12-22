@@ -610,14 +610,18 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	if(!$routeParams.entity_code || $routeParams.entity_code == null || $routeParams.entity_code === undefined ||!$routeParams.stream_code || $routeParams.stream_code == null || $routeParams.stream_code === undefined )
 		$scope.isNewStream = true;
 	
-	
+	/*
+	 * LOAD STREAM
+	 */
 	$scope.loadStream = function(){
-		console.log("organizationCode = ",info.getActiveTenant().organizationCode);
+		console.log("getActiveTenant",info.getActiveTenant());
+		console.log("organizationCode = ",info.getActiveTenant().organization.organizationcode);
 		if(!$scope.isNewStream){
 			adminAPIservice.loadStream(info.getActiveTenant(),$routeParams.id_stream).success(function(response) {
-			$scope.stream = response;
+			console.log("loadStream",response);
+			$scope.stream = response;		
 			$scope.stream.deploymentStatusCode = $scope.stream.status.statuscode;
-			console.log("loadStream",response);				
+						
 				
 				//FIXME publishStream forced to true , delete this line when the radio button is enabled.
 				$scope.stream.publishStream=1;	
@@ -629,31 +633,14 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 						$scope.stream.visibility = 'private';
 				}
 				
-				/*
-				console.debug("$scope.stream internal before clean",$scope.stream);
-				if(!$scope.stream.streamInternalChildren || !$scope.stream.streamInternalChildren.streamChildren){
-					$scope.stream.streamInternalChildren={};
-					$scope.stream.streamInternalChildren.streamChildren=[];
+				$scope.stream.icon  = "img/stream-icon-default.png";
+	
+				if( $scope.stream.stream.internalquery && $scope.stream.stream.internalquery["@nil"]){
+					$scope.stream.stream.internalquery=null;
 				}
+				console.debug("$scope.stream.internalQuery ",$scope.stream.stream.internalquery);
 	
-				
-				$scope.stream.streamInternalChildren.streamChildren=Helpers.util.initArrayZeroOneElements($scope.stream.streamInternalChildren.streamChildren);
-	
-				for(var i =0 ; i<$scope.stream.streamInternalChildren.streamChildren.length;i++){
-					var existingStream =  $scope.stream.streamInternalChildren.streamChildren[i];
-	
-					$scope.loadStreamComponents(existingStream);
-				}*/
-				 
-//				if(!$scope.stream.icon|| $scope.stream.icon == null)
-//					$scope.stream.icon  = "img/stream-icon-default.png";
-	
-				if( $scope.stream.internalquery && $scope.stream.internalquery["@nil"]){
-					$scope.stream.internalquery=null;
-				}
-				console.debug("$scope.stream.internalQuery ",$scope.stream.internalquery);
-	
-				$scope.streamSiddhiMirror= $scope.stream.internalQuery;	
+				$scope.streamSiddhiMirror= $scope.stream.stream.internalQuery;	
 				setTimeout(function(){
 					$scope.$apply(function(){
 					  $scope.streamSiddhiQuery=$scope.streamSiddhiMirror;
@@ -661,7 +648,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				}, 100);
 	
 				
-				$scope.internalStreams=$scope.stream.internalStreams;//.streamChildren;
+				$scope.internalStreams=$scope.stream.stream.internalStreams;//.streamChildren;
 	
 				
 				console.debug("$scope.stream internal",$scope.internalStreams);
@@ -688,23 +675,23 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 							$scope.addTenantSharing($scope.stream.tenantssharing.tenantsharing[i]);
 					}
 				}*/
-				if($scope.stream.smartobject.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.stream.smartobject.twtmaxstreams){
+				if($scope.stream.stream.smartobject.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.stream.smartobject.twtmaxstreams){
 					$scope.twitterPollingInterval = $scope.stream.smartobject.twtmaxstreams*5+1;
 				}
 				
 				//if($scope.stream.opendata.isOpendata == 1){ 
-				if($scope.stream.openData && ($scope.stream.openData.opendataupdatedate || $scope.stream.openData.opendataexternalreference || $scope.stream.openData.lastupdate || $scope.stream.openData.opendataauthor || $scope.stream.openData.opendatalanguage)){
+				if($scope.stream.opendata && ($scope.stream.opendata.opendataupdatedate || $scope.stream.opendata.opendataexternalreference || $scope.stream.opendata.lastupdate || $scope.stream.opendata.opendataauthor || $scope.stream.opendata.opendatalanguage)){
 					$scope.isOpendata=1;
 					console.log("isOpendata",$scope.isOpendata);
-					if($scope.stream.openData.opendataupdatedate){
-						var d = new Date($scope.stream.openData.opendataupdatedate);
+					if($scope.stream.opendata.opendataupdatedate){
+						var d = new Date($scope.stream.opendata.opendataupdatedate);
 						console.log("DateOpenData",d);
 						var mm = ((d.getMonth()+1) < 10) ? "0" + (d.getMonth()+1) :(d.getMonth()+1);
 						var day = ((d.getDate() < 10) ? "0" + d.getDate() : d.getDate()).toString();
 						if ($routeParams.managementTab == "editStream")
-							$scope.stream.openData.opendataupdatedate = (d.getFullYear()).toString() + "-" + mm + "-" + day;
+							$scope.stream.opendata.opendataupdatedate = (d.getFullYear()).toString() + "-" + mm + "-" + day;
 						else 
-							$scope.stream.openData.opendataupdatedate = day + "/" + mm + "/" + (d.getFullYear()).toString();
+							$scope.stream.opendata.opendataupdatedate = day + "/" + mm + "/" + (d.getFullYear()).toString();
 					}
 				}
 				else {$scope.isOpendata=0;
@@ -723,8 +710,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 				if(streamClone.smartobject.socode == "internal"){
 					//$scope.extra.inputTypeStream = 0;
-					$scope.internalStreams = $scope.stream.internalStreams;//.streamChildren;
-					$scope.streamSiddhiQuery = $scope.stream.internalquery;
+					$scope.internalStreams = $scope.stream.stream.internalStreams;//.streamChildren;
+					$scope.streamSiddhiQuery = $scope.stream.stream.internalquery;
 				}
 
 				sharedStream.setStream(null);
