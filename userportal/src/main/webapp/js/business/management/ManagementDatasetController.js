@@ -1798,7 +1798,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		console.log("addData");
 		$scope.updateStatus = 'upload';
 		
-		adminAPIservice.loadDataset(info.getActiveTenant(),/*$scope.dataset.idDataset*/3018).success(function(response) {
+		adminAPIservice.loadDataset(info.getActiveTenant(),$scope.dataset.idDataset).success(function(response) {
 			var componentInfoRequests = new Array();
 			var loadedDataset = response;
 			for (var cIndex = 0; cIndex < loadedDataset.components.length; cIndex++) {
@@ -1874,7 +1874,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			
 			
 		}).error(function(result){
-			console.error("addData - loadDataset " +result);
+			console.error("addData - loadDataset ",result);
 		});
 
 		
@@ -1956,6 +1956,10 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 			$scope.updateStatus = 'update';
 			adminAPIservice.createDataset(info.getActiveTenant(), $scope.dataset).success(function(response) {
 				console.log("createDataset SUCCESS", response);
+				$scope.dataset.iddataset=response.iddataset;
+				$scope.dataset.datasetcode=response.datasetcode;
+				$scope.dataset.datasetname=response.datasetname;
+
 				$scope.admin_response.type = 'success';
 				$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_SAVED_INFO';
 				if($scope.columnDefinitionType == "import"){
