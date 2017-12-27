@@ -245,6 +245,7 @@ public enum ApiEntityEnum {
 			return true;
 		}
 	},
+	
 
 	// @Deprecated
 	// API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL",

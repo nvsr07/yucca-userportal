@@ -192,7 +192,7 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 	
 
 	adminAPI.createStream = function(activeTenant, soCode, stream) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_CREATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode).replace(new RegExp('{soCode}', 'gi'), soCode);
+		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode).replace(new RegExp('{soCode}', 'gi'), soCode);
 		return $http.post(urlWithParam, stream);
 	};
 	
