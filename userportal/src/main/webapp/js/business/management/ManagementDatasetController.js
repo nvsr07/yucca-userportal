@@ -244,6 +244,118 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	};
 }]);
 
+
+
+
+appControllers.controller('ManagementDatasetDetailCtrl', [ '$scope', '$route', '$location', '$routeParams','adminAPIservice', 'info', '$modal', '$translate',
+                                                         function($scope, $route, $location,$routeParams,adminAPIservice, info, $modal, $translate) {
+	$scope.tenantCode = $route.current.params.tenant_code;
+	$scope.showLoading = true;
+	$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
+	$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
+
+	
+	adminAPIservice.loadDataset(info.getActiveTenant(),$routeParams.id_dataset).success(function(response) {
+		console.log("LoadDataset", response);
+		$scope.showLoading = false;
+
+		try{
+			$scope.datasource = response;
+			$scope.dataset = response.dataset;
+			$scope.stream = response.stream;
+			$scope.topic = $scope.dataset.datasetcode;
+			$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+			if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
+				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+		} catch (e) {
+			console.error("loadDataset ERROR", e);
+		}
+	}).error(function(data,status){
+		$scope.showLoading = false;
+
+		console.error("loadDataset ERROR", data,status);
+		$scope.admin_response.type = 'danger';
+		if(status==404)
+			$scope.admin_response.message = 'MANAGEMENT_VIEW_DATASET_ERROR_NOT_FOUND';
+		else
+			$scope.admin_response.message = 'UNEXPECTED_ERROR';
+	});
+
+	
+	$scope.canEdit = function() {
+		return ($scope.dataset && 
+				$scope.dataset.datasetType && $scope.dataset.datasetType.datasetType == "dataset" && 
+				$scope.dataset.datasetSubtype && $scope.dataset.datasetSubtype.datasetSubtype == "bulkDataset");
+	};
+
+	$scope.canAddData = function() {
+		return ($scope.dataset && 
+				$scope.dataset.datasetType && $scope.dataset.datasetType.datasetType == "dataset" && 
+				$scope.dataset.datasetSubtype && $scope.dataset.datasetSubtype.datasetSubtype == "bulkDataset");
+	};
+
+	$scope.isOwner = function(){
+		return info.isOwner( $scope.tenantCode);
+	};
+
+	$scope.canDelete = function() {
+		return ($scope.dataset && 
+				$scope.dataset.datasetType && $scope.dataset.datasetType.datasetType == "dataset" && 
+				$scope.dataset.datasetSubtype &&
+					($scope.dataset.datasetSubtype.datasetSubtype == "bulkDataset" ||
+					 $scope.dataset.datasetSubtype.datasetSubtype == "streamDataset" ||
+					 $scope.dataset.datasetSubtype.datasetSubtype == "socialDataset"
+						)
+					
+				);
+	};
+	
+	$scope.canUnistall = function() {
+		return ($scope.dataset && 
+				$scope.dataset.datasetType && $scope.dataset.datasetType.datasetType == "dataset" && 
+				$scope.dataset.datasetSubtype && $scope.dataset.datasetSubtype.datasetSubtype == "bulkDataset" && 
+				$scope.datasource.deleted!=1
+			);
+	};
+	
+
+
+}]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$location', '$modalInstance', 'fabricAPImanagement', 'ds', 'tenant', 
                                                                    function($scope, $location, $modalInstance, fabricAPImanagement, ds, tenant) {
 
@@ -366,7 +478,7 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 }]);
 
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice',  'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate','sharedUploadBulkErrors', '$route',
+appControllers.controller('ManagementDatasetCtrl_', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice',  'fabricAPImanagement', '$location', '$modal', 'info', 'readFilePreview', 'sharedDataset', '$translate','sharedUploadBulkErrors', '$route',
                                                      function($scope, $routeParams, fabricAPIservice, adminAPIservice, fabricAPImanagement, $location, $modal, info, readFilePreview, sharedDataset, $translate,sharedUploadBulkErrors, $route) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = $routeParams.entity_code;
@@ -1244,8 +1356,8 @@ appControllers.controller('ManagementUploadDatasetCtrl', [ '$scope', '$routePara
 }]);
 
 
-appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors',
-                                                              function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDataset,$translate,$modal,sharedUploadBulkErrors) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors',
+                                                              function($scope, $route, $routeParams, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDataset,$translate,$modal,sharedUploadBulkErrors) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -1267,6 +1379,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		};
 	};
 
+	$scope.admin_response = {};
 	$scope.choosenDatasetType='bulk_upload';
 
 	refreshWizardToolbar();
@@ -1299,35 +1412,66 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 		}
 	});
 	
-	$scope.dataset = sharedDataset.getDataset();
-	var isClone = false;
+	$scope.isNewDataset = false;
+	if($routeParams.entity_code == null || typeof $routeParams.entity_code == 'undefined' || $routeParams.id_dataset == null || typeof $routeParams.id_dataset  == 'undefined' )
+		$scope.isNewDataset = true;
+	
+	
 	$scope.previewLines = [];
 	$scope.previewColumns = [];
 	$scope.previewBinaries = [];
 	
 	$scope.validationPatternSubdomain = Constants.VALIDATION_PATTERN_NO_SPACE;
 
-	if($scope.dataset==null){
-		$scope.dataset = {tags: new Array(), unpublished: 0,visibility: 'private', idTenant:info.getActiveTenant().idTenant};
-		console.log("new Dataset start", $scope.dataset);
+	var isClone = false;
+	if(!$scope.isNewDataset){
+		$scope.admin_response = {};
+		adminAPIservice.loadDataset(info.getActiveTenant(),$routeParams.id_dataset).success(function(response) {
+			console.log("LoadDataset", response);
+			try{
+				$scope.dataset = response;
+				$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+				if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
+					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+				
+				$scope.newField = {sourcecolumn: $scope.dataset.components.length+1};
+			} catch (e) {
+				console.error("loadDataset ERROR", e);
+			}
+		}).error(function(data,status){
+			console.error("loadDataset ERROR", data,status);
+			$scope.admin_response.type = 'danger';
+			if(status==404)
+				$scope.admin_response.message = 'MANAGEMENT_VIEW_DATASET_ERROR_NOT_FOUND';
+			else
+				$scope.admin_response.message = 'UNEXPECTED_ERROR';
+		});
+
 	}
 	else{
-		isClone = true;
-		$scope.metadata.info.datasetName = null;
-		if($scope.metadata.configData.deleted)
-			delete $scope.metadata.configData.deleted;
-		$scope.previewColumns = [];
-		$scope.previewBinaries = [];
-		if($scope.dataset.components.length>0){
-			for (var int = 0; int < $scope.dataset.components.length; int++) {
-				var component = $scope.dataset.components[int];
-				if(component.idDataType == Constants.COMPONENT_DATA_TYPE_BINARY)
-					$scope.previewBinaries.push(component);
-				else
-					$scope.previewColumns.push(component);
-			}
+		$scope.dataset = sharedDataset.getDataset();
+		if($scope.dataset==null){
+			$scope.dataset = {tags: new Array(), unpublished: 0,visibility: 'private', idTenant:info.getActiveTenant().idTenant};
+			console.log("new Dataset start", $scope.dataset);
 		}
-		
+		else{
+			isClone = true;
+			$scope.metadata.info.datasetName = null;
+			if($scope.metadata.configData.deleted)
+				delete $scope.metadata.configData.deleted;
+			$scope.previewColumns = [];
+			$scope.previewBinaries = [];
+			if($scope.dataset.components.length>0){
+				for (var int = 0; int < $scope.dataset.components.length; int++) {
+					var component = $scope.dataset.components[int];
+					if(component.idDataType == Constants.COMPONENT_DATA_TYPE_BINARY)
+						$scope.previewBinaries.push(component);
+					else
+						$scope.previewColumns.push(component);
+				}
+			}
+			
+		}
 	}
 	//$scope.metadata.opendata.dataUpdateDate = Helpers.util.formatDateForInputHtml5(new Date());
 	$scope.useDomainMulti  = function(useDomainMultiFlag){

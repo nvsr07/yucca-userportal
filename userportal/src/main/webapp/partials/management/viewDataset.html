@@ -1,37 +1,40 @@
-<div ng-controller="ManagementDatasetCtrl as datasetCtrl" ng-cloak>
+<div ng-controller="ManagementDatasetDetailCtrl as datasetCtrl" ng-cloak>
 	<div class='container'>
-		<div class="alert alert-danger management-upload-column-error-panel " ng-show='saveError'>
-			<div>
-				<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
-				<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
-			</div>
-			<div class='row  text-left' >
-				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><strong><small>Error</small></strong></div>
-				<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"><strong><small>Detail</small></strong></div>
-			</div>
-			<div class='new-dataset-wizard-error-list'>
-				<div class='row  text-left' ng-repeat="error in saveErrors">
-					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
-					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
-				</div>		
-			</div>
-		</div>
-		<div class='row'>
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div class="alert alert-danger" ng-show='updateError'>
-					<strong>{{updateErrorStatus}}</strong> 
-					<div class='row  text-left' ng-repeat="error in updateErrors">
+		<alert-panel ng-if='admin_response.message' message='{{admin_response.message}}'  code="{{admin_response.code}}" detail="{{admin_response.detail}}" type='{{admin_response.type}}'></alert-panel>
+	
+		<!-- 
+			<div class="alert alert-danger management-upload-column-error-panel " ng-show='saveError'>
+				<div>
+					<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</strong> &nbsp;
+					<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong></h3>
+				</div>
+				<div class='row  text-left' >
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><strong><small>Error</small></strong></div>
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"><strong><small>Detail</small></strong></div>
+				</div>
+				<div class='new-dataset-wizard-error-list'>
+					<div class='row  text-left' ng-repeat="error in saveErrors">
 						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
 						<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
 					</div>		
 				</div>
-				<div class="alert alert-success" ng-show='updateInfo'>
-					<strong translate-cloak translate>MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO</strong> {{updateInfo.status}}
+			</div>
+			<div class='row'>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="alert alert-danger" ng-show='updateError'>
+						<strong>{{updateErrorStatus}}</strong> 
+						<div class='row  text-left' ng-repeat="error in updateErrors">
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
+							<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
+						</div>		
+					</div>
+					<div class="alert alert-success" ng-show='updateInfo'>
+						<strong translate-cloak translate>MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO</strong> {{updateInfo.status}}
+					</div>
 				</div>
 			</div>
-		</div>
 
-		
+		 -->
 		<!-- <h3 class='entity-title'><span translate-cloak translate>DATASET</span>  <small>{{dataset.datasetCode}} - {{dataset.info.datasetName}}</small></h3> -->
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
@@ -40,7 +43,7 @@
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
-				<div><strong>{{dataset.registrationdate|dataset_date_format}}</strong></div>
+				<div><strong>{{datasource.registrationdate|dataset_date_format}}</strong></div>
 			
 			</div>
 		</div>
@@ -51,7 +54,7 @@
 			</div>
 			<div class='pull-right text-right'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_VERSION</span></small></div>
-				<div><strong>{{dataset.version}}</strong>  <strong class='entity-uninstalled' ng-show="dataset.configData.deleted==1" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong></div>
+				<div><strong>{{datasource.version}}</strong>  <strong class='entity-uninstalled' ng-show="dataset.configData.deleted==1" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong></div>
 			</div>
 		</div>
 	</div>		
@@ -73,49 +76,49 @@
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_VIEW_DATASET_UNPUBLISHED</span></strong></div>
 							<div class='col-sm-10'>
-								<span ng-if="dataset.unpublished != -1" translate>YES</span>
-								<span ng-if="dataset.unpublished == -1" translate>NO</span>
+								<span ng-if="datasource.unpublished != -1" translate>YES</span>
+								<span ng-if="datasource.unpublished == -1" translate>NO</span>
 							</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span></strong></div>
-							<div class='col-sm-6'><span >{{dataset.domain.domaincode|translate}}</span></div>
+							<div class='col-sm-6'><span >{{datasource.domain.domaincode|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span></strong></div>
-							<div class='col-sm-6'><span >{{dataset.subdomain.subdomaincode|translate}}</span></div>
+							<div class='col-sm-6'><span >{{datasource.subdomain.subdomaincode|translate}}</span></div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span></strong></div>
 							<div class='col-sm-6'>
 								<ul class="list-inline">
-									<li ng-repeat="tag in dataset.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagcode|translate"></span></span></li>
+									<li ng-repeat="tag in datasource.tags"><span class="label label-tag label-custom"><span ng-bind-html="tag.tagcode|translate"></span></span></li>
 								</ul>
 							</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</span></strong></div>
-							<div class='col-sm-10'>{{dataset.openData.opendataexternalreference|nvl:' -'}}</div>
+							<div class='col-sm-10'>{{datasource.externalReference|nvl:' -'}}</div>
 						</div>	
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
-							<div class='col-sm-2'>{{dataset.visibility}}</div>
+							<div class='col-sm-2'>{{datasource.visibility}}</div>
 							<div class='col-sm-2 text-right'card-label" ng-show="dataset.visibility=='private'"><strong><span translate-cloak translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
 							<div class='col-sm-6'>
-								<span  ng-repeat="tenantSharing in dataset.sharingTenants">
+								<span  ng-repeat="tenantSharing in datasource.sharingTenants">
 									<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
 								</span> &nbsp;
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-2 text-right">
-						<img src="{{dataset.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='dataset.icon' >
-						<img src="{{DEFAULT_DATASET_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!dataset.icon' >
+						<img ng-src="{{datasource.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='datasource.icon' >
+						<img ng-src="{{DEFAULT_DATASET_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!datasource.icon' >
 					</div>
 				</div>	
 			</div>
 		</accordion-group>
-		<accordion-group is-open="statusOpendata.open" ng-show="dataset.opendata.isOpendata=='true'">
+		<accordion-group is-open="statusOpendata.open" ng-show="datasource.opendata.isOpendata=='true'">
 		 	<accordion-heading>
 				<div class='container'>
 		 			<span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span>
@@ -125,15 +128,15 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA_AUTHOR'|translate"></span></strong></div>
-					<div class='col-sm-10'>{{dataset.openData.opendataauthor}}</div>
+					<div class='col-sm-10'>{{datasource.opendata.opendataauthor}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_LANG</span></strong></div>
-					<div class='col-sm-10'>{{dataset.openData.opendatalanguage}} - {{dataset.openData.opendatalanguage|translate}}</div>
+					<div class='col-sm-10'>{{datasource.opendata.opendatalanguage}} - {{datasource.opendata.opendatalanguage|translate}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_DATE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.openData.opendataupdatedate|date}}</div>
+					<div class='col-sm-10'>{{datasource.opendata.opendataupdatedate|date}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -147,15 +150,15 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_LICENSE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.license.licensecode|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{datasource.license.licensecode|nvl:' -'}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DISCLAIMER</span></strong></div>
-					<div class='col-sm-10'>{{dataset.disclaimer|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{datasource.disclaimer|nvl:' -'}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_COPYRIGHT</span></strong></div>
-					<div class='col-sm-10'>{{dataset.copyright|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{datasource.copyright|nvl:' -'}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -169,29 +172,29 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_NAME</span></strong></div>
-					<div class='col-sm-10'>{{dataset.smartobject.name|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartobject.name|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CODE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.smartobject.socode|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartobject.socode|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_DESCRIPTION</span></strong></div>
-					<div class='col-sm-10'>{{dataset.smartobject.description|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartobject.description|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_TYPE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.smartobject.soType.sotypecode|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartobject.soType.sotypecode|nvl:''}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_CATEGORY</span></strong></div>
-					<div class='col-sm-10'>{{dataset.smartobject.soCategory.socategorycode|nvl:''}}</div>
+					<div class='col-sm-10'>{{stream.smartobject.soCategory.socategorycode|nvl:''}}</div>
 				</div>	
-				<div class="row card-row"  ng-if="dataset.smartobject.position!=null">
+				<div class="row card-row"  ng-if="stream.smartobject.position!=null">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_POSITION</span></strong></div>
-					<div class='col-sm-4'>[{{dataset.smartobject.position.lat}};{{dataset.smartobject.position.lon}}]</div>
+					<div class='col-sm-4'>[{{stream.smartobject.position.lat}};{{stream.smartobject.position.lon}}]</div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>VIRTUALENTITY_FIELD_ELEVATION</span></strong></div>
-					<div class='col-sm-4'>{{dataset.smartobject.position.elevation|nvl:' -'}}</div>
+					<div class='col-sm-4'>{{stream.smartobject.position.elevation|nvl:' -'}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -205,15 +208,15 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_NAME</span></strong></div>
-					<div class='col-sm-10'>{{dataset.streamname|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{stream.streamname|nvl:' -'}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_CODE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.streamcode|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{stream.streamcode|nvl:' -'}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_FPS</span></strong></div>
-					<div class='col-sm-10'>{{dataset.fps|nvl:' -'}}</div>
+					<div class='col-sm-10'>{{stream.fps|nvl:' -'}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -227,19 +230,19 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
-					<div class='col-sm-6'>{{dataset.twitterInfo.twtquery}}</div>
+					<div class='col-sm-6'>{{stream.twitterInfo.twtquery}}</div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_LANG</span></strong></div>
-					<div class='col-sm-2'>{{dataset.twitterInfo.twtlang}}</div>
+					<div class='col-sm-2'>{{stream.twitterInfo.twtlang}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong></div>
-					<div class='col-sm-6'><span ng-show="dataset.twitterInfo.twtgeoloclat!=0 || dataset.twitterInfo.twtgeoloclon!=0">{{dataset.twitterInfo.twtgeoloclat}},{{dataset.twitterInfo.twtgeoloclon}}</span></div>
+					<div class='col-sm-6'><span ng-show="stream.twitterInfo.twtgeoloclat!=0 || stream.twitterInfo.twtgeoloclon!=0">{{stream.twitterInfo.twtgeoloclat}},{{stream.twitterInfo.twtgeoloclon}}</span></div>
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
-					<div class='col-sm-2'><span ng-show="dataset.twitterInfo.twtgeolocradius!=0">{{dataset.twitterInfo.twtgeolocradius}} {{dataset.twitterInfo.twtgeolocunit}}</span></div>
+					<div class='col-sm-2'><span ng-show="stream.twitterInfo.twtgeolocradius!=0">{{stream.twitterInfo.twtgeolocradius}} {{stream.twitterInfo.twtgeolocunit}}</span></div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_RATE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.twitterInfo.twtratepercentage}}</div>
+					<div class='col-sm-10'>{{stream.twitterInfo.twtratepercentage}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -259,17 +262,15 @@
 								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
 								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
 								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
-								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_SOURCE_COLUMN</th>
 								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
 								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="field in dataset.components">
+							<tr ng-repeat="field in datasource.components">
 								<td>{{field.name}}</td>
 								<td>{{field.alias}}</td>
 								<td>{{field.dataType.datatypecode|nvl:' - '}}</td>
-								<td>{{field.sourcecolumn}}</td>
 								<td ng-if="isDateTimeField(field)">{{field.dateTimeFormat|nvl:' - '}}</td>
 								<td ng-if="!isDateTimeField(field)">{{field.measureUnit.measureunit|nvl:' - '}}</td>
 								<td>{{field.iskey|booleanToString|translate}}</td>
@@ -279,7 +280,7 @@
 				</div>
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status6.open" ng-if="dataset.unpublished==-1">
+		<accordion-group is-open="status6.open" ng-if="datasource.unpublished==-1">
 			<accordion-heading>
 				<div class='container'>
 					<span translate-cloak translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span>
@@ -300,7 +301,7 @@
 				</div>
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status7.open" ng-if="dataset.unpublished==0">
+		<accordion-group is-open="status7.open" ng-if="datasource.unpublished==0">
 			<accordion-heading>
 				<div class='container'>
 					<span translate-cloak translate>DCAT</span>
@@ -310,35 +311,35 @@
 			<div class='container'>
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dcat.dcatrightsholdername}}</div>
+					<div class='col-sm-10'>{{datasource.dcat.dcatrightsholdername}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERTYPE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dcat.dcatrightsholdertype}}</div>
+					<div class='col-sm-10'>{{datasource.dcat.dcatrightsholdertype}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERID</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dcat.dcatrightsholderid}}</div>
+					<div class='col-sm-10'>{{datasource.dcat.dcatrightsholderid}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORNAME</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dcat.dcatcreatorname}}</div>
+					<div class='col-sm-10'>{{datasource.dcat.dcatcreatorname}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORTYPE</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dcat.dcatcreatortype}}</div>
+					<div class='col-sm-10'>{{datasource.dcat.dcatcreatortype}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_CREATORID</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dcat.dcatcreatorid}}</div>
+					<div class='col-sm-10'>{{datasource.dcat.dcatcreatorid}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dcat.dcatnomeorg}}</div>
+					<div class='col-sm-10'>{{datasource.dcat.dcatnomeorg}}</div>
 				</div>	
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>DATASET_FIELD_METADATA_DCAT_EMAILORG</span></strong></div>
-					<div class='col-sm-10'>{{dataset.dcat.dcatemailorg}}</div>
+					<div class='col-sm-10'>{{datasource.dcat.dcatemailorg}}</div>
 				</div>	
 			</div>
 		</accordion-group>
@@ -356,13 +357,13 @@
 					<a  href ng-click='cloneDataset()' class="btn btn-edit">
 						<i class="fa fa-files-o" ></i> <span translate-cloak translate>MANAGEMENT_VIEW_DATASET_CLONE_BUTTON</span>
 					</a>
-					<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
+					<a  href='#/management/editDataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}' class="btn btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
 						<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
 					</a>
 					<a  href='#/management/uploadDataset/{{tenant}}/{{dataset.datasetCode}}' class="btn  btn-new" ng-show="isOwner()  && canAddData() && isAuthorized('management/datasets/upload')">
 						<span class="glyphicon glyphicon-cloud-upload "></span> {{'MANAGEMENT_VIEW_DATASET_ADD_DATA_BUTTON'|translate}}
 					</a>
-					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download') && ng-if='dataset.unpublished==-1'"  >
+					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-show="isAuthorized('management/datasets/download') && datasource.unpublished==-1"  >
 						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 					</a>
 	   				<a href="javascript:void(0)" ng-click='openModalView()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" >
