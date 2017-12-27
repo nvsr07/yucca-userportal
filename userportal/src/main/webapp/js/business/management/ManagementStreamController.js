@@ -1374,6 +1374,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		});
 	};
 	
+	
+	/*
+	 * CREATE STREAM
+	 */
 	$scope.createStream = function(){
 
 		console.log("createStream", $scope.stream);
@@ -1401,7 +1405,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			
 			
 			
-				if ($scope.stream.visibility=='private' || ($scope.stream.visibility=='public' && $scope.stream.isOpendata )){
+				if ($scope.stream.visibility=='private' || ($scope.stream.visibility=='public' && !$scope.stream.isOpendata )){
 					delete $scope.stream['openData'];
 				} else {
 					if(Helpers.util.has($scope.stream, 'openData.opendataupdatedate') )	{				
@@ -1427,6 +1431,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.components[int].inorder=int;
 				$scope.stream.components[int].required = false;
 			}
+			
+			//VALORIZZAZIONE CAMPI LICENSE - INSERIRE SUGGEST
+			$scope.stream.license.description=$scope.stream.license.licensecode;
+			$scope.stream.license.idLicense='43';
 
 			
 			
