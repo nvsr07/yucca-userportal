@@ -675,8 +675,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 							$scope.addTenantSharing($scope.stream.tenantssharing.tenantsharing[i]);
 					}
 				}*/
-				if($scope.stream.stream.smartobject.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.stream.smartobject.twtmaxstreams){
-					$scope.twitterPollingInterval = $scope.stream.smartobject.twtmaxstreams*5+1;
+				if($scope.stream.stream.smartobject.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID && $scope.stream.stream.smartobject.twtmaxstreams){
+					$scope.twitterPollingInterval = $scope.stream.stream.smartobject.twtmaxstreams*5+1;
 				}
 				
 				//if($scope.stream.opendata.isOpendata == 1){ 
