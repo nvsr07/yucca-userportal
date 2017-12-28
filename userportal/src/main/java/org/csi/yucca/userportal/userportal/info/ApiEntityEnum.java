@@ -232,7 +232,7 @@ public enum ApiEntityEnum {
 		}
 	},
 
-	API_ADMIN_STREAMS("API_ADMIN_STREAM_UPDATE_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/organizations/{organizationCode}/smartobject/{soCode}/streams") {
+	API_ADMIN_STREAMS("API_ADMIN_STREAM_UPDATE_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/organizations/{organizationCode}/smartobjects/{soCode}/streams") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return true;
