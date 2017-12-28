@@ -680,7 +680,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				}
 				
 				//if($scope.stream.opendata.isOpendata == 1){ 
-				if($scope.stream.opendata && ($scope.stream.opendata.opendataupdatedate || $scope.stream.opendata.opendataexternalreference || $scope.stream.opendata.lastupdate || $scope.stream.opendata.opendataauthor || $scope.stream.opendata.opendatalanguage)){
+				if($scope.stream.opendata && ($scope.stream.opendata.opendataupdatedate || $scope.stream.opendata.opendataexternalreference ||  $scope.stream.opendata.opendataauthor || $scope.stream.opendata.opendatalanguage)){
 					$scope.isOpendata=1;
 					console.log("isOpendata",$scope.isOpendata);
 					if($scope.stream.opendata.opendataupdatedate){
@@ -725,7 +725,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.tags = [];
 				$scope.stream.components = [];
 				$scope.stream.savedata = true;
-				$scope.stream.unpublished = true;
+				$scope.stream.unpublished = false;
 				$scope.stream.isOpendata = false;
 				// FIXME serve?		// $scope.stream.deploymentVersion = 1;  
 //				$scope.stream.opendata = {};
