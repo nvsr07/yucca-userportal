@@ -725,7 +725,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.tags = [];
 				$scope.stream.components = [];
 				$scope.stream.savedata = true;
-				$scope.stream.unpublished = false;
+				$scope.stream.unpublished = true;
 				$scope.stream.isOpendata = false;
 				// FIXME serve?		// $scope.stream.deploymentVersion = 1;  
 //				$scope.stream.opendata = {};
@@ -1403,13 +1403,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 //			}
 			//FIXME internal stream da rivedere
 			
-			
-			
 				if ($scope.stream.visibility=='private' || ($scope.stream.visibility=='public' && !$scope.stream.isOpendata )){
 					delete $scope.stream['openData'];
 				} else {
 					if(Helpers.util.has($scope.stream, 'openData.opendataupdatedate') )	{				
-					//$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
+					
 						var date =  new Date($scope.stream.openData.opendataupdatedate);	
 						var year = (date.getFullYear()).toString();
 						var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
@@ -1417,11 +1415,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 						$scope.stream.openData.opendataupdatedate= year+month+day;	
 					}
 				}
-			
-
-			console.log("createStream - stream", $scope.stream);
-			console.log("createStream - selectedSo", $scope.extra.selectedSo);
-
+	
 			$scope.isUpdating = true;
 			
 			//Valorizzazione parametri obbligatori richiesti dall'API
@@ -1432,11 +1426,13 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.components[int].required = false;
 			}
 			
-			//VALORIZZAZIONE CAMPI LICENSE - INSERIRE SUGGEST
+			//VALORIZZAZIONE CAMPI LICENCE - INSERIRE SUGGEST
 			$scope.stream.license.description=$scope.stream.license.licensecode;
 			$scope.stream.license.idLicense='43';
 
-			
+			console.log("createStream - stream", $scope.stream);
+			console.log("createStream - selectedSo", $scope.extra.selectedSo);
+
 			
 			adminAPIservice.createStream(info.getActiveTenant(), $scope.extra.selectedSo.socode,$scope.stream).success(function(response) {
 				console.log("createStream SUCCESS", response);
