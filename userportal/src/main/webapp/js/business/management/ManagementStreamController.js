@@ -1412,9 +1412,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.components[int].required = false;
 			}
 			
+			
 			//VALORIZZAZIONE CAMPI LICENCE - INSERIRE SUGGEST
+			if ($scope.stream.visibility=='public') {
 			$scope.stream.license.description=$scope.stream.license.licensecode;
 			$scope.stream.license.idLicense='43';
+			}
 
 			console.log("createStream - stream", $scope.stream);
 			console.log("createStream - selectedSo", $scope.extra.selectedSo);
@@ -1426,7 +1429,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.admin_response.message = 'MANAGEMENT_EDIT_STREAM_SAVED_INFO';
 				sharedAdminResponse.setResponse($scope.admin_response);
 				$scope.isUpdating = false;
-				//$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.streamcode);
+
+				
+				$location.path('management/viewStream/'+$scope.tenantCode +'/'+$scope.extra.selectedSo.socode+'/'+response.streamcode+'/'+response.idStream);
 
 			}).error(function(response){
 				console.error("createStream ERROR", response);
