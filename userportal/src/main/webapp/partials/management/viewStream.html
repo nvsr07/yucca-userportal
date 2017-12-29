@@ -113,14 +113,14 @@
 				</div>	
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status3.open" ng-show="isOpendata">
+		<accordion-group is-open="status3.open" ng-show="stream.opendata.isOpenData">
 			<accordion-heading>
 				<div class='container' >
 		 			<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_OPENDATA</span>
 		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status3.open, 'glyphicon-plus': !status3.open}"></i>
 				</div>
 			</accordion-heading>
-			<div class='container' ng-show="isOpendata">
+			<div class='container' ng-show="stream.opendata.isOpenData">
 
 				<div class="row card-row">
 					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_OPENDATA_AUTHOR</span></strong></div>

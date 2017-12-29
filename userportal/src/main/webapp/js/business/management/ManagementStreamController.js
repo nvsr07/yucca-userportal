@@ -652,15 +652,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 				
 				console.debug("$scope.stream internal",$scope.internalStreams);
-				/*
-				if(!$scope.stream.streamTags)
-					$scope.stream.streamTags = new Object();
-				$scope.stream.streamTags.tag = Helpers.util.initArrayZeroOneElements($scope.stream.streamTags.tag);
-
-				if($scope.stream.componenti == null)
-					$scope.stream.componenti = new Object();
-				$scope.stream.components = Helpers.util.initArrayZeroOneElements($scope.stream.components);
-				*/
 	
 				if(!$scope.stream.status.statuscode || $scope.stream.status.statuscode == null)
 					$scope.stream.status.statuscode = Constants.STREAM_STATUS_DRAFT;
@@ -679,10 +670,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					$scope.twitterPollingInterval = $scope.stream.stream.smartobject.twtmaxstreams*5+1;
 				}
 				
-				//if($scope.stream.opendata.isOpendata == 1){ 
-				if($scope.stream.opendata && ($scope.stream.opendata.opendataupdatedate || $scope.stream.opendata.opendataexternalreference ||  $scope.stream.opendata.opendataauthor || $scope.stream.opendata.opendatalanguage)){
-					$scope.isOpendata=1;
-					console.log("isOpendata",$scope.isOpendata);
+				if($scope.stream.opendata.isOpenData){ 
 					if($scope.stream.opendata.opendataupdatedate){
 						var d = new Date($scope.stream.opendata.opendataupdatedate);
 						console.log("DateOpenData",d);
@@ -694,8 +682,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 							$scope.stream.opendata.opendataupdatedate = day + "/" + mm + "/" + (d.getFullYear()).toString();
 					}
 				}
-				else {$scope.isOpendata=0;
-				console.log("isOpendata",$scope.isOpendata);}
 				console.debug("$routeParams = ",$routeParams);
 				
 			});
@@ -725,7 +711,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.tags = [];
 				$scope.stream.components = [];
 				$scope.stream.savedata = true;
-				$scope.stream.unpublished = false;
+				$scope.stream.unpublished = true;
 				$scope.stream.isOpendata = false;
 				// FIXME serve?		// $scope.stream.deploymentVersion = 1;  
 //				$scope.stream.opendata = {};
