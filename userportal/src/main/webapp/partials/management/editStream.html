@@ -170,8 +170,7 @@
 								</div>
 							</div>
 							<div class="col-sm-3 col-sm-offset-1 text-right">
-								<img src="{{stream.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='stream.icon' >
-								<img src="{{DEFAULT_STREAM_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!stream.icon' >
+								<img ng-src="{{stream.icon}}" alt="logo stream" class='upload-icon-preview-img' >
 							</div>
 						</div>	
 							<div ng-hide='stream.smartobject.socode!="internal" || internalStreams.length==0' class='form-label-separator'><span translate-cloak translate>STREAM_INPUT_FIELDS</span></div>
@@ -636,7 +635,7 @@
 					         		<input type="radio" name="RadioGroupLicence" value="" id="RadioGroupLicence_1" ng-model="stream.licence">
 					         		<span translate-cloak translate>STREAM_FIELD_METADATA_LICENSE_OTHER</span>
 					       		</label>
-								<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="stream.licence" placeholder="{{'STREAM_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenseVisible(stream)' >
+								<textarea id="inputDatasetLicence" class="form-control" rows="4" resize="none" ng-model="stream.licence" placeholder="{{'STREAM_FIELD_METADATA_LICENSE'|translate}}" ng-show='isLicenseVisible()' >
 								</textarea>
 							</div>
 						</div>			

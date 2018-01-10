@@ -217,7 +217,7 @@
 					<div class='col-sm-2 text-right'card-label" ng-show="stream.visibility=='private'"><strong><span translate-cloak translate>STREAM_FIELD_TENANTSSHARED_WITH</span></strong></div>
 					<div class='col-sm-6'>
 						<span  ng-repeat="tenantSharing in stream.sharingTenants">
-							<span ng-if="tenantSharing.isOwner==0" >{{tenantSharing.name}}</span>
+							<span ng-if="tenantSharing.tenantcode!=tenantManager.tenantcode" class="label label-tag label-custom"> {{tenantSharing.name}} </span>	
 						</span> &nbsp;
 					</div>
 				</div>	
@@ -281,7 +281,7 @@
 			<a  href ng-click='cloneStream()' class="btn btn-default">
 				<i class="fa fa-files-o" ></i> <span translate-cloak translate>MANAGEMENT_VIEW_STREAM_CLONE_BUTTON</span>
 			</a>
-			<a  href='#/management/editStream/{{tenant}}/{{stream.stream.smartobject.socode}}/{{stream.stream..streamcode}}' class="btn btn-default btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/streams/update')">
+			<a  href='#/management/editStream/{{tenant}}/{{stream.stream.smartobject.socode}}/{{stream.stream.streamcode}}/{{stream.stream.idstream}}' class="btn btn-default btn-edit" ng-show="isOwner() && canEdit() && isAuthorized('management/streams/update')">
 				<span class="glyphicon glyphicon-pencil "></span> <span translate-cloak translate>MANAGEMENT_VIEW_STREAM_EDIT_BUTTON</span>
 			</a>
 			<a  href='javascript:void(0)' class="btn  btn-uninstall" ng-show="isOwner() && canUnistall() && isAuthorized('management/streams/req_disinst')" ng-click='requestUnistallation()'>
