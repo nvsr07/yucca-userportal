@@ -1,0 +1,104 @@
+<div>
+	<div class='row'>
+		<div class="col-sm-10" ng-show='dropSupported'>
+			<div ng-file-drop="onFileSelect($files)" class='upload-icon-drop-area-compact' ng-file-drag-over-class="upload-icon-drop-area-hover" ng-show="dropSupported">
+				<div translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA</div>
+				<div class='desc'><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE</span><strong>{{maxFileSize|format_filesize}}</strong></div>
+				<div class='desc'>Supported file types:  csv</div>
+				<div class='text-center'>
+					<div ng-file-select="onFileSelect($files)" data-multiple="false" title="select file" onclick="this.value = null" class="browse-button">
+						<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
+					</div>
+				</div>
+			</div>
+			<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+			
+		</div>
+		<div class="col-sm-10" ng-show='!dropSupported'>
+			<div ng-file-select="onFileSelect($files)" data-multiple="false" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
+				<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
+			</div>
+		</div>
+		<div class='col-sm-2 text-left'>
+			<h4>File info</h4>
+			Name: <strong>{{csvInfo.selectedFile.name}}</strong> <br>
+			<small class=''>Type: {{csvInfo.selectedFile.type}}</small><br>
+			<small class=''>Size: {{csvInfo.selectedFile.size|format_filesize}}</small>
+		</div>
+	</div>
+	<div class='row'>
+		<p>&nbsp;</p>
+	</div>
+	<div class='row text-left'>
+		<div class="col-sm-12">
+			<h4 translate-cloak translate>MANAGEMENT_NEW_DATASET_CSV_IMPORT_INFO_TITLE</h4>
+		</div>
+	</div>
+	
+	<div class='row '>
+		<div class="col-sm-3 text-left">
+			<label><input type="checkbox" ng-model="csvInfo.skipFirstRow" ng-click="setCsvSkipFirstRow(csvSkipFirstRow)"> 
+			<span translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
+			<br>
+			<small class='mute' translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
+		</div>
+		<div class="col-sm-3">
+			<div class="form-inline">
+  				<div class="form-group">			
+  					<label class="" for="fileFormatSelect" ><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_FORMAT</span></label>
+  					<select class="form-control" id="fileFormatSelect" ng-model="csvInfo.fileType" ng-options="format for format in formatList"><option>Choose one...</option></select>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="form-inline">
+  				<div class="form-group">			
+			<label class="" for="fileEncoding" ><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING</span></label>
+			<input type="text" class=" form-control" ng-model="csvInfo.fileEncoding" id="fileEncoding">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3 form-group">
+			<div class="form-inline">
+  				<div class="form-group">			
+			<label class="" for="csvSeparator" ><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span> </label>
+			<input type="text" class="input-sm form-control" ng-model="csvInfo.separator" id="csvSeparator">
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class='row'>
+		<p>&nbsp;</p>
+	</div>
+	<div ng-if='csvInfo.selectedFile!=null'>
+		<div class='row text-left'>
+			<div class="col-sm-8">
+				<h4 translate-cloak translate>MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW</h4>
+			</div>
+			<div class="col-sm-4 text-right">
+				<a href ng-click='refreshPreview()' class='btn'><i class='glyphicon glyphicon-refresh'></i> <span translate>MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW_REFRESH</span></a>
+			</div>
+		</div>
+		
+		<!-- 
+		<div class='row  text-left' >
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<p>
+					<label><input type="checkbox" ng-model="csvSkipFirstRow" ng-click="setCsvSkipFirstRow(csvSkipFirstRow)"> <span translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
+					<small class='mute' translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
+				</p>
+			</div>
+		</div>-->
+		<div class='row'>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class='management-upload-preview-table-container'>
+					<table class='table  management-table-upload-preview table-supercondensed'>
+						<tr ng-repeat='line in previewLines ' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
+							<td ng-repeat='item in line track by $index' title="{{item}}">{{item|nvl:' '|string_ellipse:30}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

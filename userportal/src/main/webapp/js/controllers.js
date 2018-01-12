@@ -25,8 +25,9 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	
 	$scope.storeUrl = '/store/';	
 	console.log("storeUrl",$scope.storeUrl);
-	$scope.DEFAULT_STREAM_ICON = "img/stream-icon-default.png";
-	$scope.DEFAULT_DATASET_ICON = "img/dataset-icon-default.png";
+	
+	$scope.DEFAULT_DATASET_ICON = Constants.DEFAULT_DATASET_ICON;
+	$scope.DEFAULT_STREAM_ICON = Constants.DEFAULT_STREAM_ICON;
 
 	var supportedLanguages = ['it', 'en'];
 

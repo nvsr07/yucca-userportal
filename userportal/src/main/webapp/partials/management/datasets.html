@@ -103,11 +103,11 @@
 									</a>
 								</td>
 								<td class='text-left no-border-left'>
-									<a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}">
+									<a href="#/management/viewDatasource/dataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}">
 										{{dataset.datasetname}}
 									</a>
 								</td>
-								<td><a href="#/management/viewDataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}">{{dataset.datasetcode}}</a></td>
+								<td><a href="#/management/viewDatasource/dataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}">{{dataset.datasetcode}}</a></td>
 								<td>
 									<div class='domain-column'>
 										<i ng-if='dataset.domain.domaincode!="MULTI"' class="icon-{{dataset.domain.domaincode}} domain-icon" title="{{dataset.domain.domaincode|translate}}"></i>
@@ -117,8 +117,10 @@
 										</div>
 									</div>
 								</td>
-								<td>{{dataset.datasetType.datasetType|translate}} / {{dataset.datasetSubtype.datasetSubtype|translate}} bn{{dataset.idDataSourceBinary}}nb
+								<td>
 									<i class='glyphicon glyphicon-paperclip management-datasetList-attach-icon' ng-if="dataset.idDataSourceBinary!=null" title='Dataset with binary attachment'></i>
+									<span>{{'DATASET_TYPE_'+dataset.datasetType.datasetType|translate}}</span>/
+									<span>{{'DATASET_SUBTYPE_'+dataset.datasetSubtype.datasetSubtype|translate}}</span>
 								</td>
 								<td>{{dataset.registrationdate|dataset_date_format}}</td>
 								<td><span translate-cloak translate>{{dataset.version}}</span> <strong class='entity-uninstalled' ng-show="{{dataset.configData.deleted==1}}" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong></td>

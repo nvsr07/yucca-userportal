@@ -1,8 +1,11 @@
-<div ng-controller="ManagementUploadDatasetCtrl as uploadDatasetCtrl" ng-cloak>
+<div ng-controller="ManagementDatasetCtrl as datasetCtrl"  ng-cloak>
 	<div class='container'>
 		<h3 class='content-edit-title'>
 			<span translate-cloak translate>DATASET</span> <small><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SUBTITLE</span>  {{dataset.datasetCode}} - {{dataset.info.datasetName}}</small>
 		</h3>
+			<datasource-intro datasource='inputDatasource' ng-if='datasetReady'></datasource-intro>
+		
+		<!--  
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span></small></div>
@@ -24,13 +27,17 @@
 				<div><strong>{{dataset.datasetVersion}}</strong></div>
 			
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<div class='content-gray'>
 		<div class='container'>
 			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING_TITLE</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span></div>
 			<p>&nbsp;</p>
+			<alert-panel ng-if='admin_response.message' message='{{admin_response.message}}'  code="{{admin_response.code}}" detail="{{admin_response.detail}}" details="admin_response.details" type='{{admin_response.type}}'></alert-panel>
 			<form class="form-horizontal" role="form" name="addDatadDatasetForm">
+			<upload-data-csv datasource='dataset' preview='preview' csv-info='csvInfo' ng-if='datasetReady'></upload-data-csv>
+				
+			<!-- 
 				<div class='row'>
 					<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 						<div ng-file-drop="onFileSelect($files)" class='upload-drop-files-area' ng-file-drag-over-class="upload-drop-files-area-hover" ng-show="dropSupported">
@@ -132,14 +139,15 @@
 						<p>&nbsp;</p>
 					</div>
 				</div>
-				<div class="row" ng-show="!isUploading && isAuthorized('management/datasets/upload') ">
+				-->
+				<div class="row" ng-show="updateStatus!='upload' && isAuthorized('management/datasets/upload') ">
 					<div class=" col-sm-12 col-lg-12 form-toolbar" >
-						<a  href='#/management/viewDataset/{{tenant}}/{{datasetCode}}' class="btn" translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON</a>
-						<a ng-click='loadMoreData()' ng-show="!showUploadButton" class="btn btn-default" translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_MORE_BUTTON</a>
-						<a ng-click='uploadData()' ng-show='showUploadButton' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || selectedFile==null" translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>
+						<a  href='#/management/viewDatasource/dataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}' class="btn" translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON</a>
+						<a ng-click='loadMoreData()' ng-if="!showUploadButton" class="btn btn-default" translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_MORE_BUTTON</a>
+						<a ng-click='uploadData()' ng-if='showUploadButton' class="btn btn-default" ng-disabled="!isOwner() || addDatadDatasetForm.$invalid || csvInfo.selectedFile==null" translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_UPLOAD_BUTTON</a>
 					</div>
 				</div>
-				<div class="row"  ng-show="isUploading">
+				<div class="row"  ng-show="updateStatus=='upload'">
 					<div class=" col-sm-12 col-lg-12 form-toolbar">
 						<div class='ajax-loading'><span translate-cloak translate>LOADING</span></div>
 					</div>				

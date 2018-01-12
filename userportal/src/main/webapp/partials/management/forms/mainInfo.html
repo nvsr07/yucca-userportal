@@ -1,0 +1,98 @@
+<div>
+	<div class="form-group">
+		<label for="inputDatasourceName" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_NAME</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" ng-model="datasource.datasetname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}"
+		ng-required="true"  maxlength="255" >
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputDatasourceDesc" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
+		<div class="col-sm-9">
+			<textarea class="form-control" rows="2" resize="none" ng-model="datasource.description"  placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}" id="inputDatasourceDesc" maxlength="3000">
+			</textarea>					
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="inputDatasourceUnpublished" class="col-sm-3 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_UNPUBLISHED</span></label>
+		<div class="col-sm-9">
+			<div class="checkbox text-left">
+				<label>
+					<input type="checkbox" ng-model="datasource.unpublished"  ng-disabled='selectedDomain=="MULTI"'>
+					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+					<strong translate>MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG</strong>
+				</label>
+			</div>
+		</div>
+	</div>
+	<div ng-if='!isNewDatasource'>
+		<div class="form-group" ng-if='datasource.unpublished'>
+			<div class="col-sm-9 col-sm-offset-3">
+				<div class="checkbox text-left">
+					<label>
+						<input type="checkbox" ng-change="useDomainMulti(useDomainMultiFlag)" ng-model='useDomainMultiFlag'>
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<strong translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG</strong>
+					</label>
+				</div>
+				<div class='text-left checkbox-hint'><i class='fa fa fa-exclamation-triangle'></i> <span translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_WARNING</span></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputDatasourceDomain" class="col-sm-3 control-label"translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</label>
+			<div class="col-sm-9">
+				<input class='input-sm form-control' value="{{datasourceDomain}}" disabled="disabled"/>
+			</div>
+		</div>		
+		<div class="form-group">
+			<label for="inputDatasourceDomain" class="col-sm-3 control-label"translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</label>
+			<div class="col-sm-9">
+				<input class='input-sm form-control' value="{{datasourceSubdomain}}" disabled="disabled"/>
+			</div>
+		</div>		
+	</div>
+	<div ng-if='isNewDatasource'>
+		<div class="form-group" ng-if='datasource.unpublished'>
+			<div class="col-sm-9 col-sm-offset-3">
+				<div class="checkbox text-left">
+					<label>
+						<input type="checkbox" ng-change="useDomainMulti(useDomainMultiFlag)" ng-model='useDomainMultiFlag'>
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<strong translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG</strong>
+					</label>
+				</div>
+				<div class='text-left checkbox-hint'><i class='fa fa fa-exclamation-triangle'></i> <span translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_WARNING</span></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputDatasourceDomain" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-9 text-left">
+				<select  ng-if='selectedDomain!="MULTI"' class="input-sm form-control" ng-model="selectedDomain" 
+					ng-options="domain as (domain|translate) for domain in domainList" ng-required="true" ng-change="selectSubdomain(selectedDomain)" >
+					<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
+				</select>
+				<input type="text" ng-if='selectedDomain=="MULTI"' class="form-control" ng-model="selectedDomain" id="inputDatasourceName" disabled='disabled'
+					ng-required="true" maxlength="255" >
+			</div>
+		</div>
+		<div class="form-group   has-feedback">
+			<label for="inputDatasourceSubDomain" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
+			<div class="col-sm-9" >
+				<select ng-if='selectedDomain!="MULTI"'  class="input-sm form-control" name="inputDatasourceSubDomain" ng-model="datasource.idSubdomain" 
+					ng-options="subdomain.idSubdomain as (subdomain.subdomaincode|translate) for subdomain in subdomainList" ng-required="true">
+					<option  value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_SUBDOMAIN_PLACEHOLDER</option>
+				</select>
+				
+				<input type="text" ng-if='selectedDomain=="MULTI"' class="form-control" ng-model="datasource.idsubdomain" id="inputSubdomainCode" 
+					placeholder="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER'|translate}}" name="inputSubdomainCode"
+					ng-required="true" maxlength="255" ng-pattern="validationPatternSubdomain" ng-model-options="{allowInvalid: true}">
+				<!-- <span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION'|translate}}"
+					ng-show="!checkSubdomain(datasource.idsubdomain)"></span>-->
+					
+				<div class='text-left hint mute' ng-if='selectedDomain=="MULTI"'><i class='fa fa-lightbulb-o'></i>&nbsp;<span translate>MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION</span></div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+			

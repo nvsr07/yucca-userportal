@@ -50,9 +50,9 @@ appControllers.controller('ManagementVirtualentityListCtrl', [ '$scope', '$route
 //		//$scope.filteredSoList = $scope.soList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
 //	});
 
-	$scope.selectPage = function() {
-		//$scope.filteredSoList = $scope.soList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
-	};
+//	$scope.selectPage = function() {
+//		//$scope.filteredSoList = $scope.soList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+//	};
 
 	$scope.searchCodeFilter = function(so) {
 		var keyword = new RegExp($scope.codeFilter, 'i');

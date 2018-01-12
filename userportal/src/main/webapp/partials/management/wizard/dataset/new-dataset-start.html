@@ -4,8 +4,8 @@
 </div>
 <div class='row'>
 	<div class="col-sm-6">
-		<form class="form-horizontal" role="form" name="newDatasetForm" ng-cloak>
-		
+		<form class="form-horizontal" role="form" name="newDatasourceForm" ng-cloak>
+		<!-- 
 			<div class="form-group">
 				<label for="inputDatasetName" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span> <span class='required-asterisk'>*</span></label>
 				<div class="col-sm-9">
@@ -64,12 +64,15 @@
 						ng-show="newDatasetForm.inputSubdomainCode.$error.pattern && newDatasetForm.inputSubdomainCode.$dirty"></span>
 						
 				</div>
-			</div>
+			</div>-->
+			
+			<datasource-main-info datasource='dataset' datasource-domain='{{datasetDomain}}' datasource-subdomain='{{datasetSubdomain}}' is-new-datasource='{{isNewDataset}}' ng-if='datasetReady'></datasource-main-info>
+			
 
 			<div class="form-group ">
 				<div class=" col-sm-12 form-toolbar">
 					<a ng-click='cancel()' class="btn " translate-cloak translate>CANCEL</a>
-					<a ng-click='goToRequestor()' class="btn btn-wizard-next" ng-disabled="!isOwner() || newDatasetForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
+					<a ng-click='goToRequestor()' class="btn btn-wizard-next" ng-disabled="!isOwner() || newDatasourceForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_NEXT</a>
 				</div>
 			</div>
 		</form>	

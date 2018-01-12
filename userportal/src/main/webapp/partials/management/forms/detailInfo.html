@@ -1,0 +1,54 @@
+<div>
+	<div class="form-group">
+		<label for="inputDatasourceAddTag" class="col-sm-3 control-label"><span translate-cloak translate>DATASET_FIELD_METADATA_TAGS</span><span class='required-asterisk'>*</span></label>
+		<div class="col-sm-4 text-left">
+			<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
+				<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
+						typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
+				<span class="input-group-addon tag-html-tooltip-button" ng-click="showChooseTagTable()">&quest;</span>
+				
+			</div>	
+		</div>
+		<div class="col-sm-5 text-left">
+			<span  ng-repeat="tag in datasource.tags">
+				<span class="label label-tag label-custom"><span>{{(tag|tagFromId:tagMap).tagLabel|translate}}</span>
+				<a href="javascript:void(0)" ng-click='removeTag($index)'  class='close-button'>&times;</a>
+				</span> &nbsp;
+			</span>
+		</div>
+	</div>			
+	
+	<div class="form-group">
+		<label for="inputDatasourceExternalReference" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_EXTERNAL_REFERENCE</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="inputDatasourceExternalReference" placeholder="{{'DATASET_FIELD_METADATA_EXTERNAL_REFERENCE'|translate}}" 
+			ng-model="datasource.externalReference" >
+		</div>
+	</div>		
+	<div class="form-group">
+		<label for="inputDatasourceIcon" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_ICON</span></label>
+		<div class="col-sm-5" ng-show='dropSupported'>
+			<div ng-file-drop="onIconSelect($files)" class='upload-icon-drop-area-compact' ng-file-drag-over-class="upload-icon-drop-area-hover" ng-show="dropSupported">
+				<div translate-cloak translate>MANAGEMENT_EDIT_DATASET_UPLOAD_ICON_DROPAREA</div>
+				<div class='desc'>256x256</div>
+				<div class='desc'>jpg | png</div>
+				<div class='text-center'>
+					<div ng-file-select="onIconSelect($files)" data-multiple="false" title="select file" onclick="this.value = null" class="browse-button">
+						<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
+					</div>
+				</div>
+			</div>
+			<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+			
+		</div>
+		<div class="col-sm-5" ng-show='!dropSupported'>
+			<div ng-file-select="onIconSelect($files)" data-multiple="false" title="select file" onclick="this.value = null" class="upload-icon-selecticon-button">
+				<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_UPLOAD_ICON_BUTTON_LOAD_FILE</span>
+			</div>
+		</div>
+		<div class="col-sm-4 text-right">
+			<img ng-src="{{datasource.icon}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='datasource.icon' >
+			<img ng-src="{{DEFAULT_DATASET_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!datasource.icon' >
+		</div>
+	</div>		
+</div>

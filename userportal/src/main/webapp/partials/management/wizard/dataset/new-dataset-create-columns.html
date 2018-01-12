@@ -7,6 +7,9 @@
 			
 		</div>
 	</div>
+	<datasource-components datasource='dataset' preview='preview' ng-if='datasetReady' is-new-datasource='{{isNewDataset}}'></datasource-components>
+	
+	<!-- 
 	<div class='row text-left'>
 		<div class="col-lg-12 col-md-12 ">
 			<h4 translate-cloak translate>MANAGEMENT_NEW_DATASET_CREATE_COLUMNS_TITLE</h4>
@@ -23,7 +26,7 @@
 		<div class="col-md-1 ">&nbsp;</div>
 		<div class="col-md-1 ">&nbsp;</div>
 	</div>
-	<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewColumns track by $index" ng-drop="true" ng-drop-success="onDropCsvFieldComplete($data,$index,$event)">
+	<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewColumns track by $index" ng-drop="true" ng-drop-success="onDropColumnComplete($data,$index,$event)">
 		<div class="col-md-1 "><span>{{column.sourcecolumn}}</span></div>
 		<div class="col-md-2  form-group" ><input class="input-sm form-control" type="text" ng-model="column.name" ></div>
 		<div class="col-md-2 "><input class="input-sm form-control" type="text" ng-model="column.alias"  ></div>
@@ -32,19 +35,19 @@
 			 ng-change="refreshColumnOrder(column)">
           	</select>
 		</div>
-		<div class="col-md-2  animate-show" ng-show="isDateTimeField(column)">
+		<div class="col-md-2  animate-show" ng-show="isDateTimeComponent(column)">
 			<div class="input-group input-group-sm popover-html">
 				<input class="form-control" type="text" ng-model="column.dateTimeFormat" >
 			  	<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
 			</div>
 		</div>
-		<div class="col-md-2  animate-show" ng-show="isCommonField(column)">
+		<div class="col-md-2  animate-show" ng-show="isCommonComponent(column)">
 		 	<select class="input-sm form-control" ng-model="column.measureUnit"   ng-change="refreshColumnOrder()"
 		 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
 		 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 		 	</select>
         </div>
-		<div class="col-md-2  animate-show" ng-show="isCoordinatesField(column)">
+		<div class="col-md-2  animate-show" ng-show="isCoordinatesComponent(column)">
 		 	<i><small>Format: <code><strong>[lat,lon]</strong></code></small></i>
         </div>
 		<div class="col-md-1 "><label>
@@ -70,20 +73,16 @@
 		<div class="col-md-2 ">
 			<select class="input-sm form-control" ng-model="newColumnDefinition.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType"></select>
 		</div>
-	 	<div class="col-md-2  animate-show" ng-show="isDateTimeField(newColumnDefinition)">
-			<!--<div class="input-group input-group-sm popover-html">
-				<input class="form-control" type="text" ng-model="newColumnDefinition.dateTimeFormat" >
-			  	<span class="input-group-addon" tooltip-html-unsafe="{{htmlTooltip}}" tooltip-trigger="click">&quest;</span>
-			</div>-->
+	 	<div class="col-md-2  animate-show" ng-show="isDateTimeComponent(newColumnDefinition)">
 			<i><small>-</i>
 		</div>
-		<div class="col-md-2  animate-show" ng-show="isCommonField(newColumnDefinition)">
+		<div class="col-md-2  animate-show" ng-show="isCommonComponent(newColumnDefinition)">
 		 	<select class="input-sm form-control" ng-model="newColumnDefinition.measureUnit"
 		 		ng-options="measureUnit.measureunit group by measureUnit.measureunitcategory for measureUnit in measureUnitsList track by measureUnit.idMeasureUnit">
 		 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_UNIT_OF_MEASUREMENT_PLACEHOLDER</option> 
 		 	</select>
         </div>
-		<div class="col-md-2  animate-show" ng-show="isCoordinatesField(newColumnDefinition)">
+		<div class="col-md-2  animate-show" ng-show="isCommonComponent(newColumnDefinition)">
 		 	<i><small>Format: <code><strong>[lat,lon]</strong></code></small></i>
         </div>
 		<div class="col-md-1 "><label>
@@ -102,7 +101,7 @@
 		<strong>{{updateError.error_message}}</strong>
 		<ul><li ng-repeat="insertColumnError in insertColumnErrors "><span translate-cloak translate>{{insertColumnError}}</span></li></ul>
 	</div>
-	
+	-->
 	
 	
 	
@@ -115,38 +114,88 @@
 				<p translate-cloak translate>MANAGEMENT_NEW_DATASET_BINARY_INTRO</p>
 			</div>
 		</div>
-		<div class='row  management-table-upload-column-header'>
-			<div class="col-md-1 ">&num;</div>
-			<div class="col-md-2  form-group"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
-			<div class="col-md-2 "><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
-			<div class="col-md-1 ">&nbsp;</div>
-		</div>
-		<div  class='row management-table-upload-column-droprow' ng-repeat="column in previewBinaries track by $index">
-			<div class="col-md-1 "><span>{{column.sourceBinary}}</span></div>
-			<div class="col-md-2  form-group" ><input class="input-sm form-control" type="text" ng-model="column.name" ></div>
-			<div class="col-md-2 "><input class="input-sm form-control" type="text" ng-model="column.alias"  ></div>
-			<div class="col-md-1 ">
-		    	<a class="btn  btn-sm btn-remove"  href ng-click='removeBinaryDefinition($index)' title="{{'MANAGEMENT_NEW_DATASET_REMOVE_BINARY_DEFINITION'|translate}}" >
-					<i class='glyphicon glyphicon-trash'></i>
-				</a>
+		<!-- 
+		<table class="table dragDropTable">
+			<thead ng-if="previewBinaries.length>0">
+				<tr>
+					<th translate-cloak translate>&num;</th>
+					<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
+					<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+					<th translate-cloak translate class='nowrap'>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="component in previewBinaries track by $index"  class=' dataset-column-droprow'> 
+					<td>{{component.sourceBinary}}</td>
+					<td><input class="input-sm form-control" type="text" ng-model="component.name" ></td>
+					<td><input class="input-sm form-control" type="text" ng-model="component.alias" ></td>
+					<td>
+						<a class="btn  btn-sm btn-remove"  href ng-click='removeBinaryDefinition($index)' title="{{'MANAGEMENT_NEW_DATASET_REMOVE_BINARY_DEFINITION'|translate}}" >
+							<i class='glyphicon glyphicon-trash'></i>
+						</a>
+					</td>
+				</tr>
+				<tr ><td colspan="4" class='text-left'><strong translate>MANAGEMENT_EDIT_DATASET_NEW_COLUMN</strong></td></tr>
+				<tr> 
+					<td>&nbsp;</td>
+					<td class='has-feedback'>
+						<div class=" " >
+							<input class="input-sm form-control" type="text" ng-model="newBinaryDefinition.name"  title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT'|translate}}">
+							<i class="fa fa-lightbulb-o form-control-feedback input-icon-hint" title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT'|translate}}"></i>
+						</div>
+					</td>
+					<td><input class="input-sm form-control" type="text" ng-model="newBinaryDefinition.alias" ></td>
+					<td>
+						<a class="btn  btn-sm btn-add"  href ng-click='addBinaryDefinition()' title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_DEFINITION'|translate}}" >
+							<i class='glyphicon glyphicon-plus'></i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		 -->
+		
+
+		
+		
+		
+		
+		
+		
+		<div class='upadte-components-panel'>
+			<div class='row row-head'>
+				<div class="col-md-2 ">&num;</div>
+				<div class="col-md-2  form-group"><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</span></div>
+				<div class="col-md-2 "><span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</span></div>
+				<div class="col-md-1 ">&nbsp;</div>
 			</div>
-		</div>
-		<div  class='row' >
-			<div class="col-md-1 ">&nbsp;</div>
-			<div class="col-md-2   form-group has-feedback" >
-				<input class="input-sm form-control" type="text" ng-model="newBinaryDefinition.name"  title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT'|translate}}">
-				<i class="fa fa-lightbulb-o form-control-feedback input-icon-hint" title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT'|translate}}"></i>
+			<div  class='row' ng-repeat="column in previewBinaries track by $index">
+				<div class="col-md-2 "><span>{{column.sourceBinary}}</span></div>
+				<div class="col-md-2  form-group" ><input class="input-sm form-control" type="text" ng-model="column.name" ></div>
+				<div class="col-md-2 "><input class="input-sm form-control" type="text" ng-model="column.alias"  ></div>
+				<div class="col-md-1 ">
+			    	<a class="btn   btn-sm btn-remove"  href ng-click='removeBinaryDefinition($index)' title="{{'MANAGEMENT_NEW_DATASET_REMOVE_BINARY_DEFINITION'|translate}}" >
+						<i class='glyphicon glyphicon-trash'></i><span translate>REMOVE</span> 
+					</a>
+				</div>
 			</div>
-			<div class="col-md-2 "><input class="input-sm form-control" type="text" ng-model="newBinaryDefinition.alias" ></div>
-			<div class="col-md-1 ">
-		    	<a class="btn  btn-sm btn-add"  href ng-click='addBinaryDefinition()' title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_DEFINITION'|translate}}" >
-					<i class='glyphicon glyphicon-plus'></i>
-				</a>
+			<div  class='row' >
+				<div class="col-md-2 "><small><strong translate>MANAGEMENT_EDIT_DATASOURCE_NEW_BINARY</strong></small></div>
+				<div class="col-md-2  form-group has-feedback" >
+					<input class="input-sm form-control" type="text" ng-model="newBinaryDefinition.name"  title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT'|translate}}">
+					<i class="fa fa-lightbulb-o form-control-feedback input-icon-hint" title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_INPUT_NAME_HINT'|translate}}"></i>
+				</div>
+				<div class="col-md-2 "><input class="input-sm form-control" type="text" ng-model="newBinaryDefinition.alias" ></div>
+				<div class="col-md-1 ">
+			    	<a class="btn  btn-default btn-sm btn-add"  href ng-click='addBinaryDefinition()' title="{{'MANAGEMENT_NEW_DATASET_ADD_BINARY_DEFINITION'|translate}}" >
+					 	<i class='glyphicon glyphicon-plus'></i> <span translate>ADD</span> 
+					</a>
+				</div>
 			</div>
-		</div>
-		<div class="alert alert-danger text-left" ng-show='insertBinaryErrors.length>0'>
-			<strong>{{updateError.error_message}}</strong>
-			<ul><li ng-repeat="insertError in insertBinaryErrors "><span translate-cloak translate>{{insertError}}</span></li></ul>
+			<div class="alert alert-danger text-left" ng-show='insertBinaryErrors.length>0'>
+				<strong>{{updateError.error_message}}</strong>
+				<ul><li ng-repeat="insertError in insertBinaryErrors "><span translate-cloak translate>{{insertError}}</span></li></ul>
+			</div>
 		</div>
 	</div>
 	

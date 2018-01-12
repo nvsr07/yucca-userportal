@@ -1,0 +1,28 @@
+<div>
+	<div class='clearfix entity-info entity-info-top'>
+		<div class='pull-left'>
+			<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span></small></div>
+			<div class='main-info'><strong>{{datasource.dataset.datasetname}}</strong></div>
+		</div>
+		<div class='pull-right text-right'>
+			<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
+			<div><strong>{{datasource.registrationdate|dataset_date_format}}</strong></div>
+		
+		</div>
+	</div>
+	<div class='clearfix entity-info entity-info-bottom'>
+		<div class='pull-left'>
+			<div><small><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_CODE</span></small></div>
+			<div class='url'><strong>{{datasource.dataset.datasetcode}}</strong></div>
+		</div>
+		<div class='pull-right text-right'>
+			<div><small><span translate-cloak translate>DATASET_FIELD_VERSION</span></small></div>
+			<div>
+				<strong>{{datasource.version}}</strong>&nbsp;
+				<span class="stream-status stream-status-{{datasource.status.statuscode}}">{{datasource.status.statuscode|translate}}</span>
+				<strong class='entity-uninstalled' ng-if="dataset.configData.deleted==1" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong>
+			</div>
+		</div>
+	</div>
+
+</div>

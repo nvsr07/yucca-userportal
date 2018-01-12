@@ -66,9 +66,9 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 //		$scope.totalItems = $scope.streamsList.length;
 //	});
 
-	$scope.selectPage = function() {
-		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
-	};
+//	$scope.selectPage = function() {
+//		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+//	};
 
 	$scope.searchCodeFilter = function(stream) {
 		var keyword = new RegExp($scope.codeFilter, 'i');

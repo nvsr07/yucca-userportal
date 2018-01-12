@@ -216,13 +216,31 @@ appFilters.filter('prettifyTweet', function() {
 appFilters.filter('tagFromId', function() {
 	return function(tagId, tagMap) {
 		var tag = null;
-		if ((typeof tagMap != "undefined") && tagMap !=null && (typeof tagMap != "undefined") && tagMap !=null) {
+		if ((typeof tagId != "undefined") && tagId !=null && (typeof tagMap != "undefined") && tagMap !=null) {
 			tag = tagMap[tagId];
 		
 		}
 		return tag;
 	};
 });
+
+appFilters.filter('decodeFromId', function() {
+	return function(decodeId, decodes, decodeIdPropName) {
+		var decode = null;
+		if ((typeof decodes != "undefined") && decodes !=null && (typeof decodeId != "undefined") && decodeId !=null && (typeof decodeIdPropName != "undefined") && decodeIdPropName !=null) {
+			for (var dIndex = 0; dIndex < decodes.length; dIndex++) {
+				if(decodeId == decodes[dIndex][decodeIdPropName]){
+					decode  = decodes[dIndex];
+					break;
+				}
+			}
+		}
+		return decode ;
+	};
+});
+
+
+
 //appFilters.filter('measureUnitFromId', function() {
 //	return function(measureUnitId, measureUnitMap) {
 //		console.log("measureUnitFromId",measureUnitId, measureUnitMap);

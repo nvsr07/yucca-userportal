@@ -32,12 +32,15 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/dashboard/stream/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/dashboard/stream-data.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	$routeProvider.when('/dashboard/streamstats/:tenant_code/:virtualentity_code/:stream_code', {templateUrl: 'partials/dashboard/stream-data.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
 	//$routeProvider.when('/dashboard/error_log', {templateUrl: 'partials/dashboard/error-log.html?'+BuildInfo.timestamp, activetab: 'dashboard'});
+
 	$routeProvider.when('/management', {templateUrl: 'partials/management/choose_tenant.html?'+BuildInfo.timestamp, controller: 'ManagementCtrl', activetab: 'management'});
 	$routeProvider.when('/management/:managementTab', {templateUrl: 'partials/management/choose_tenant.html?'+BuildInfo.timestamp, activetab: 'management'});
 	$routeProvider.when('/management/:managementTab/:tenant_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
-	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
-	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code/:id_dataset', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
-	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code/:stream_code/:id_stream', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
+	//$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
+//	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code/:id_dataset', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
+//	$routeProvider.when('/management/:managementTab/:tenant_code/:entity_code/:stream_code/:id_stream', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp, activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
+	$routeProvider.when('/management/:managementTab/:entity_type/:tenant_code/:entity_code/:id_datasource', {templateUrl: 'partials/management/index.html?'+BuildInfo.timestamp,  activetab: 'management', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
+
 	$routeProvider.when('/dataexplorer/search', {templateUrl: 'partials/dataexplorer/datasearch/search.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
 	$routeProvider.when('/dataexplorer/searchresults', {templateUrl: 'partials/dataexplorer/datasearch/results.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer'});
 	$routeProvider.when('/dataexplorer/:tenant_code/:entity_code', {templateUrl: 'partials/dataexplorer/dataExplorer.html?'+BuildInfo.timestamp,  activetab: 'dataexplorer', resolve: {info: function(initCtrl) {return initCtrl.getInfo();}}});
@@ -237,6 +240,7 @@ app.factory('info',  function() {
     infoUser=infoService;
     return infoService;
 });
+
 
 /*
 

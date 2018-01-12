@@ -110,8 +110,9 @@ appDirectives.directive('iframeOnload', [function(){
 appDirectives.directive('alertPanel', [function(){
 	return {
 	  restrict: 'EA',
-	  template: '<div class="alert alert-{{type}}">'+
-				'  <strong>{{message|translate}}</strong>'+
+	  template: '<div class="alert alert-{{type}}" ng-if="message!=null">'+
+	  			'  <div class="alert-close-link" href ng-click="hide()">&times</div>'+
+	  			'  <strong>{{message|translate}}</strong>'+
 				'  <div> <span ng-if="code">Code: {{code}} - </span> <span ng-if="detail">{{detail}}</span></div>'+
 				'  <div ng-if="details" ng-repeat="d in details track by $index">&hybull; {{d|translate}}</div>'+
 				'</div>',
@@ -124,6 +125,9 @@ appDirectives.directive('alertPanel', [function(){
 	  },
 	  link: function(scope, element, attrs){
           scope.details = scope.details;
+          scope.hide = function(){
+        	scope.message=null;  
+          };
       }
 	};
 }]);

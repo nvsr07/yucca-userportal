@@ -5,6 +5,11 @@
 <form class="form-horizontal" role="form" name="metadataDatasetForm" ng-cloak>
 	<div class='row'>
 		<div class="col-sm-7">
+		   	<datasource-detail-info datasource='dataset' ng-if='datasetReady'></datasource-detail-info>
+			<datasource-sharing datasource='dataset' ng-if='datasetReady'></datasource-sharing>
+			<datasource-legal-info datasource='dataset' ng-if='datasetReady'></datasource-legal-info>
+			<datasource-dcat datasource='dataset' ng-if='datasetReady'></datasource-dcat>
+		   <!-- 
 			<div class="form-group">
 				<label for="inputDatasetDesc" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
 				<div class="col-sm-9">
@@ -23,7 +28,6 @@
 					<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
 						<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
 								typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
-					<!-- 	<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span> -->
 						<span class="input-group-addon tag-html-tooltip-button" ng-click="showChooseTagTable()">&quest;</span>
 						
 					</div>	
@@ -141,7 +145,6 @@
 					
 				</div>
 			</div>		
-		<!-- 	<div class='form-label-separator' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</div> -->
 			<h3 class='text-left form-section-title' translate-cloak translate>MANAGEMENT_EDIT_DATASET_LEGAL_INFO</h3>
 			<div class="form-group" ng-show="dataset.visibility!='private'">
 				<label for="inputStreamLicense" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_FIELD_LICENCE</span></label>
@@ -237,7 +240,7 @@
 						ng-required="true" ng-model="dataset.dcat.dcatemailorg">
 					</div>	
 				</div>	
-			</div>
+			</div>-->
 			<div class="row">
 				<div class=" col-sm-12 form-toolbar">
 					<a ng-click='goToRequestor()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>

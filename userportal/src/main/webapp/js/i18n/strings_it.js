@@ -28,6 +28,8 @@ var translations_it = {
 	CLOSE: 'Chiudi',
 	WAIT: 'Attendere...',
 	REFRESH: 'Aggiorna',
+	ADD: 'Aggiungi',
+	REMOVE: 'Elimina',
 
 	DATE_DAY_PLACEHOLDER: 'gg',
 	DATE_MONTH_PLACEHOLDER: 'mm',
@@ -398,7 +400,10 @@ var translations_it = {
 	DATASET_FIELD_NAME_PLACEHOLDER : 'es. musei torino 2015',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER: 'key',
 	
-	
+	DATASET_TYPE_dataset: 'Dataset',
+	DATASET_SUBTYPE_streamDataset: 'Stream',
+	DATASET_SUBTYPE_bulkDataset: 'Bulk',
+	DATASET_SUBTYPE_socialDataset: 'Social', 
 	/* Stream domains */
 	/*AGRICULTURE: 'Agricoltura',
 	ENERGY: 'Energia',
@@ -972,7 +977,7 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_COLUMNS_INTRO: 'Selezionare le colonne di cui si vogliono importare i dati. E\' possibile cambiare l\'ordine di importazione', 
 	MANAGEMENT_NEW_DATASET_CSV_IMPORT_INFO_TITLE: 'Informazione per l\'importazione',
 	MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW: 'Anteprima dei dati',
-	MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW_REFRESH: 'Aggiorna',
+	MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW_REFRESH: 'Ricarica l\'anteprima',
 	
 	MANAGEMENT_NEW_DATASET_ADD_COLUMN_DEFINITION: 'Aggiungi colonna',
 	MANAGEMENT_NEW_DATASET_REMOVE_COLUMN_DEFINITION: 'Rimuovi colonna',
@@ -1199,6 +1204,13 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_SAVE_ERROR: 'Errore nel salvataggio del dataset',
 	MANAGEMENT_EDIT_DATASET_SAVED_INFO: 'Dataset salvato correttamente',
 
+	MANAGEMENT_EDIT_DATASET_ADD_DATA_ERROR: 'Errore durante il caricamento dei dati. Dati non caricati',
+	
+	MANAGEMENT_EDIT_DATASET_SAVED_OK_ADD_DATA_FAILED: 'Dataset creato correttamente, ma si sono verificati degli errori durante il caricamento dei dati. Riprovare con la funzione di aggiunta dati',
+
+	MANAGEMENT_EDIT_DATASOURCE_NEW_COMPONENT: 'Nuovo componente',
+	MANAGEMENT_EDIT_DATASOURCE_NEW_BINARY: 'Nuovo componente binario',
+	
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',
 	MANAGEMENT_CHOOSE_TENANT_WARNING: 'Pagina temporanea in attesa del sistema di autenticazione',

@@ -8,6 +8,9 @@ var API_BASE_SERVICE_URL = '/userportal/api/proxy/service/';
 var API_BASE_DATA_MANAGEMENT_URL = '/userportal/api/proxy/datamanagement';
 
 
+Constants.DATSASET_TYPE_STREAM = 'stream';
+Constants.DATSASET_TYPE_DATASET = 'dataset';
+
 /* stream status */
 Constants.STREAM_STATUS_DRAFT='draft';
 Constants.STREAM_STATUS_REQ_INST='req_inst';
@@ -27,6 +30,7 @@ Constants.TENANT_TYPE_TRIAL_ID = 4;
 /* column data type */
 Constants.COMPONENT_DATA_TYPE_STRING = 5;
 Constants.COMPONENT_DATA_TYPE_BINARY = 10;
+Constants.COMPONENT_DEFAULT_DATA_TYPE = Constants.COMPONENT_DATA_TYPE_STRING;
 
 Constants.VIRTUALENTITY_CATEGORY_NONE = 999;
 
@@ -107,6 +111,10 @@ Constants.LINE_CHART_COLORS = ["#004586","#0084d1", "#d01e2a", "#f37a1f", "#f3c4
 
 Constants.TWITTER_GEO_SEARCH_RADIUS_UNIT = {"mi":"miles","km":"kilometers"};
 
+Constants.DEFAULT_STREAM_ICON = "img/stream-icon-default.png";
+Constants.DEFAULT_DATASET_ICON = "img/dataset-icon-default.png";
+
+
 Constants.OPENDATA_LANGUAGES = {
 		"el":"ελληνικά",
 		"en":"English",
@@ -122,6 +130,9 @@ Constants.ODATA_MAX_RESULT_SORTABLE = 100000;
 // license
 Constants.STREAM_FIELD_METADATA_LICENSE_CCBY = 'CC BY 4.0';
 Constants.STREAM_FIELD_METADATA_LICENSE_CC0 = 'CC 0 1.0';
+
+Constants.LICENSE_CC0_ID = 1;
+Constants.LICENSE_CCBY_ID = 2;
 
 
 // html hint

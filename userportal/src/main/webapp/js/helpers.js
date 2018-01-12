@@ -78,6 +78,121 @@ Helpers.stream = {
 	}
 };
 
+Helpers.yucca = {
+	prepareDatasourceForUpdate: function(dsIn){
+		var dsOut = {};
+		if(typeof dsIn != 'undefined' && dsIn!= null){
+			
+			
+			Helpers.util.copyPropSafe('copyright', dsIn, dsOut);
+			Helpers.util.copyPropSafe('disclaimer', dsIn, dsOut);
+			Helpers.util.copyPropSafe('externalreference', dsIn, dsOut);
+			Helpers.util.copyPropSafe('icon', dsIn, dsOut);
+			Helpers.util.copyPropSafe('jdbcdbname', dsIn, dsOut);
+			Helpers.util.copyPropSafe('jdbcdbtype', dsIn, dsOut);
+			Helpers.util.copyPropSafe('jdbcdburl', dsIn, dsOut);
+			Helpers.util.copyPropSafe('jdbctablename', dsIn, dsOut);
+
+			
+			Helpers.util.copyPropSafe('multiSubdomain', dsIn, dsOut);
+			Helpers.util.copyPropSafe('unpublished', dsIn, dsOut);
+			Helpers.util.copyPropSafe('visibility', dsIn, dsOut);
+			Helpers.util.copyPropSafe('registrationDate', dsIn, dsOut);
+
+			Helpers.util.copyPropSafe('jdbctablename', dsIn, dsOut);
+			Helpers.util.copyPropSafe('jdbctablename', dsIn, dsOut);
+			Helpers.util.copyPropSafe('jdbctablename', dsIn, dsOut);
+			
+			Helpers.util.copyObjPropSafe('dcat', dsIn, dsOut);
+			Helpers.util.copyObjPropSafe('opendata', dsIn, dsOut);
+			Helpers.util.copyObjPropSafe('license', dsIn, dsOut);
+			
+			
+			
+
+
+			dsOut.currentDataSourceVersion = dsIn.version;
+			//dsOut.idDataSource= dsIn.;
+			//dsOut.importfiletype= dsIn.;
+			//dsOut.privacyacceptance": true,
+			//dsOut.requestermail": "string",
+			//dsOut.requestername": "string",
+			//dsOut.requestersurname": "string",
+			
+			
+			
+			if(typeof dsIn.dataset != 'undefined' && dsIn.dataset!= null){
+				dsOut.iddataset = dsIn.dataset.iddataset;
+				dsOut.datasetcode = dsIn.dataset.datasetcode;
+				dsOut.datasetname =  dsIn.dataset.datasetname;
+				dsOut.description= dsIn.dataset.description;
+
+			}
+			
+			if(typeof dsIn.subdomain != 'undefined' && dsIn.subdomain!= null){
+				dsOut.idSubdomain= dsIn.subdomain.idSubdomain;
+			}
+
+			if(typeof dsIn.tenantManager != 'undefined' && dsIn.tenantManager!= null){
+				dsOut.idTenant= dsIn.tenantManager.idTenant;
+			}
+			
+			if(typeof dsIn.tags != 'undefined' && dsIn.tags!= null){
+				dsOut.tags= new Array();
+				for (var tagIndex = 0; tagIndex < dsIn.tags.length; tagIndex++) {
+					dsOut.tags.push(dsIn.tags[tagIndex].idTag);
+				}
+			}
+			
+			if(typeof dsIn.sharingTenants != 'undefined' && dsIn.sharingTenants!= null){
+				dsOut.sharingTenants= new Array();
+				for (var stIndex = 0; stIndex < dsIn.sharingTenants.length; stIndex++) {
+					dsOut.sharingTenants.push(dsIn.sharingTenants[stIndex]);
+				}
+			}
+
+			
+			if(typeof dsIn.components != 'undefined' && dsIn.components!= null){
+				dsOut.components= new Array();
+				for (var componentIndex = 0; componentIndex < dsIn.components.length; componentIndex++) {
+					var cIn = dsIn.components[componentIndex];
+					var cOut = {};
+					Helpers.util.copyPropSafe('alias', cIn, cOut);
+					Helpers.util.copyPropSafe('datetimeformat', cIn, cOut);
+					Helpers.util.copyPropSafe('foreignkey', cIn, cOut);
+					Helpers.util.copyPropSafe('idComponent', cIn, cOut);
+					Helpers.util.copyPropSafe('inorder', cIn, cOut);
+					Helpers.util.copyPropSafe('iskey', cIn, cOut);
+					Helpers.util.copyPropSafe('name', cIn, cOut);
+					Helpers.util.copyPropSafe('required', cIn, cOut);
+					Helpers.util.copyPropSafe('sourcecolumn', cIn, cOut);
+					Helpers.util.copyPropSafe('sourcecolumnname', cIn, cOut);
+					Helpers.util.copyPropSafe('tolerance', cIn, cOut);
+					
+					Helpers.util.copyObjPropSafe('measureUnit', cIn, cOut);
+					Helpers.util.copyObjPropSafe('phenomenon', cIn, cOut);
+
+					
+					if(typeof cIn.dataType != 'undefined' && cIn.dataType!= null)
+						cOut.idDataType = cIn.dataType.idDataType;
+
+					if(typeof cIn.measureUnit != 'undefined' && cIn.measureUnit!= null)
+						cOut.idMeasureUnit = cIn.measureUnit.idMeasureUnit;
+					
+					if(typeof cIn.phenomenon != 'undefined' && cIn.phenomenon!= null)
+						cOut.idPhenomenon = cIn.phenomenon.idPhenomenon;
+					
+					dsOut.components.push(cOut);
+				}
+			}
+			
+
+
+		}
+		return dsOut;
+	}
+};
+
 Helpers.util = {
 	isStringEmpty : function(str) {
 		return (!str || 0 === str.length);
@@ -312,8 +427,32 @@ Helpers.util = {
 	        obj = obj[x];
 	        return true;
 	    });
+	},
+	copyPropSafe : function(prop, objIn, objOut){
+		if(typeof objIn != 'undefined' && 
+			typeof objOut != 'undefined' && 
+			typeof prop != 'undefined' &&
+			typeof objIn[prop] != 'undefined' )
+			objOut[prop] = objIn[prop];
+	},
+	copyObjPropSafe : function(prop, objIn, objOut){
+		if(typeof objIn != 'undefined' && 
+			typeof objOut != 'undefined' && 
+			typeof prop != 'undefined' &&
+			typeof objIn[prop] != 'undefined' &&
+			objIn[prop] != null){
+
+			objOut[prop] = {};
+			for (var innerProp in objIn[prop]) {
+			    if (objIn[prop].hasOwnProperty(innerProp)) {
+			    	objOut[prop][innerProp] = objIn[prop][innerProp];
+			    }
+			}
+			
+		}
 	}
 
+	
 	
 };
 
