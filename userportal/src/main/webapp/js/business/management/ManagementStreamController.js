@@ -66,9 +66,9 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 //		$scope.totalItems = $scope.streamsList.length;
 //	});
 
-//	$scope.selectPage = function() {
-//		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
-//	};
+	$scope.selectPage = function() {
+		//$scope.filteredStreamsList = $scope.streamsList.slice(($scope.currentPage - 1) * $scope.pageSize, $scope.currentPage * $scope.pageSize);
+	};
 
 	$scope.searchCodeFilter = function(stream) {
 		var keyword = new RegExp($scope.codeFilter, 'i');
@@ -1194,16 +1194,16 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 			}
 			
-			if(!$scope.stream.openData && !($scope.stream.openData.opendataupdatedate || $scope.stream.openData.opendataexternalreference || $scope.stream.openData.lastupdate || $scope.stream.openData.opendataauthor || $scope.stream.openData.opendatalanguage)){
+			if(!$scope.stream.opendata.isOpenData){
 				delete newStream.stream['openData'];
 			} else {
-				if(Helpers.util.has(newStream, 'openData.opendataupdatedate') )	{				
+				if(Helpers.util.has(newStream, 'opendata.opendataupdatedate') )	{				
 					//$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
-						var date =  new Date(newStream.openData.opendataupdatedate);	
+						var date =  new Date(newStream.opendata.opendataupdatedate);	
 						var year = (date.getFullYear()).toString();
 						var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
 						var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
-						newStream.stream.openData.opendataupdatedate= year+month+day;	
+						newStream.stream.opendata.opendataupdatedate= year+month+day;	
 				}
 			}
 	
@@ -1216,7 +1216,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			if($scope.stream.visibility != 'private')
 				delete newStream.stream['copyright'];
 				
-			adminAPIservice.updateStream(info.getActiveTenant(), newStream.stream.smartobject.socode,newStream.stream).success(function(response) {
+			adminAPIservice.updateStream(info.getActiveTenant(), newStream.stream.stream.smartobject.socode,newStream.stream).success(function(response) {
 				console.log("updateStream SUCCESS", response);
 				Helpers.util.scrollTo();
 				$scope.admin_response.type = 'success';
