@@ -58,7 +58,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 	var initRow = function(streamIn){
 		var row = {};
 		row.stream = streamIn;
-		//elerow.statusIcon = Helpers.stream.statusIcon(row.stream);
+		row.statusIcon = Helpers.stream.statusIcon(row.stream);
 		row.deploymentStatusCodeTranslated =  $translate.instant(row.stream.status.statuscode);
 		row.isSelected = false;
 		row.isUpdating = false;
@@ -241,6 +241,9 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 
 	}
 	
+	/*********
+	 *EXEC ACTION
+	 **********/
 	var execAction = function(rowIndex){
 		$scope.streamsList[rowIndex].actionIconClass='fa fa-rocket';
 		$scope.streamsList[rowIndex].actionFeedback='Started';
@@ -251,9 +254,14 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 		var startStep = $scope.streamsList[rowIndex].startStep;
 		var endStep = $scope.streamsList[rowIndex].endStep;
 			
-		var actionParams = createActionParams(operation, stream, startStep, endStep);
+		//var actionParams = createActionParams(operation, stream, startStep, endStep);
+		var actionParams = {};
+		actionParams.action = operation;
+		actionParams.startStep = startStep;
+		actionParams.endStep = endStep;
+
 		console.log("actionParams",actionParams);
-		fabricBuildService.execAction(actionParams).success(function(response) {
+		adminAPIservice.execStreamAction(actionParams,stream.idstream).success(function(response) {
 			console.log("response",response);
 		});
 		
@@ -348,14 +356,15 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
     }
     
    
-    
+   
    function createActionParams(operation, stream, startStep, endStep ){
 		var steps = startStep;
 		if(endStep && endStep!=null)
 			steps +=":"+endStep;
 		return operation + "|stream|" + stream.codiceTenant + "|" + stream.codiceVirtualEntity + "|" + stream.codiceStream+ "|" + steps; 
 	}
-
+	
+   
 	function createStepsLogUrl(operation, stream){
 		return "installer_" + operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".json"; 
 	}

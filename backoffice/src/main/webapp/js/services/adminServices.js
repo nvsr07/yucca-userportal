@@ -159,6 +159,16 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 			url : Constants.API_ADMIN_STREAMS_URL + '?callback=JSON_CALLBACK'
 		});
 	};
+	
+	adminAPI.execStreamAction = function(operations,idStream) {
+		console.log("execAction - operations", operations,idStream);
+		
+		return $http({
+			method : 'PUT',
+			data:operations,
+			url : Constants.API_ADMIN_STREAMS_URL+"/"+idStream+"/action"
+		});
+	};
 
 	return adminAPI;
 } ]);
