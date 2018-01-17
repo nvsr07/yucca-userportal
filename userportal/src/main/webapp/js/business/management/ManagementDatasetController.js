@@ -1435,11 +1435,11 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 	var isClone = false;
 	if(!$scope.isNewDataset){
 		$scope.admin_response = {};
-		adminAPIservice.loadDatasource(Constants.DATSASET_TYPE_DATASET,  info.getActiveTenant(),$routeParams.id_datasource).success(function(response) {
+		adminAPIservice.loadDatasource(Constants.DATASOURCE_TYPE_DATASET,  info.getActiveTenant(),$routeParams.id_datasource).success(function(response) {
 			console.log("LoadDataset", response);
 			try{
 				$scope.inputDatasource = response;
-				$scope.dataset = Helpers.yucca.prepareDatasourceForUpdate(response);
+				$scope.dataset = Helpers.yucca.prepareDatasourceForUpdate(Constants.DATASOURCE_TYPE_DATASET,response);
 				$scope.datasetDomain = $scope.inputDatasource.domain['lang'+$translate.use()];
 				$scope.datasetSubdomain = $scope.inputDatasource.subdomain['lang'+$translate.use()];
 
@@ -2160,7 +2160,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 					console.log("adding data");
 					$scope.updateStatus = 'upload'; 
 
-					adminAPIservice.loadDatasource(Constants.DATSASET_TYPE_DATASET, info.getActiveTenant(),$scope.dataset.iddataset).success(function(response2) {
+					adminAPIservice.loadDatasource(Constants.DATASOURCE_TYPE_DATASET, info.getActiveTenant(),$scope.dataset.iddataset).success(function(response2) {
 						addData(response2);
 					}).error(function(result){
 						console.error("addData - loadDataset ",result);

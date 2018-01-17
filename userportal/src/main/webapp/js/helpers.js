@@ -79,8 +79,8 @@ Helpers.stream = {
 };
 
 Helpers.yucca = {
-	prepareDatasourceForUpdate: function(dsIn){
-		var dsOut = {};
+	prepareDatasourceForUpdate: function(datasourceType, dsIn){
+		var dsOut = {"datasourceType": datasourceType};
 		if(typeof dsIn != 'undefined' && dsIn!= null){
 			
 			
@@ -119,6 +119,40 @@ Helpers.yucca = {
 			//dsOut.requestername": "string",
 			//dsOut.requestersurname": "string",
 			
+			
+			
+  			if(typeof dsIn.stream != 'undefined'){
+				dsOut.idstream = dsIn.stream.idstream;
+				dsOut.streamcode = dsIn.stream.streamcode;
+				dsOut.streamname = dsIn.stream.streamname;
+				dsOut.fps = dsIn.stream.fps;
+				dsOut.savedata = dsIn.stream.savedata;
+
+  				// twitter
+  				if(typeof dsIn.stream.smartobject != 'undefined' && dsIn.stream.smartobject.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
+  					Helpers.util.copyObjPropSafe('twitterInfo', dsIn.stream, dsOut);
+  				}
+  				
+				// siddhi
+  				if(typeof dsIn.stream.smartobject != 'undefined' && dsIn.stream.smartobject.soType.idSoType == Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
+  					dsOut.isInternal = true;
+  					dsOut.internalquery = dsIn.stream.internalquery;
+  					dsOut.internalStreams = new Array();
+  					if(typeof dsIn.stream.internalStreams != 'undefined' && dsIn.stream.internalStreams!=null){
+  						for (var internalStreamIndex = 0; internalStreamIndex < dsIn.stream.internalStreams.length; internalStreamIndex++) {
+  							dsOut.internalStreams.push({"idstream": dsIn.stream.internalStreams[internalStreamIndex].idstream, "streamalias": dsIn.stream.internalStreams[internalStreamIndex].streamalias});
+						}
+  					}
+  				}else
+  					dsOut.isInternal = false;
+
+				//$scope.streamSiddhiMirror= $scope.stream.stream.internalQuery;	
+				
+				
+				
+
+  			}
+
 			
 			
 			if(typeof dsIn.dataset != 'undefined' && dsIn.dataset!= null){
@@ -168,6 +202,8 @@ Helpers.yucca = {
 					Helpers.util.copyPropSafe('sourcecolumn', cIn, cOut);
 					Helpers.util.copyPropSafe('sourcecolumnname', cIn, cOut);
 					Helpers.util.copyPropSafe('tolerance', cIn, cOut);
+					Helpers.util.copyPropSafe('sinceVersion', cIn, cOut);
+					
 					
 					Helpers.util.copyObjPropSafe('measureUnit', cIn, cOut);
 					Helpers.util.copyObjPropSafe('phenomenon', cIn, cOut);

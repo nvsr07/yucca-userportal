@@ -1,32 +1,8 @@
 <div ng-controller="ManagementEditCtrl as editCtrl"  ng-cloak>
 	<div ng-controller="ManagementDatasetCtrl as datasetCtrl"  ng-cloak>
 		<div class='container'>
-			<h3 class='content-edit-title'><span translate-cloak translate>DATASET</span> <small><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_SUBTITLE</span>  {{dataset.datasetCode}} - {{dataset.datasetname}}</small></h3>
+			<h3 class='content-edit-title'><span translate-cloak translate>DATASET</span> <small><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_SUBTITLE</span>  {{dataset.datasetcode}} - {{dataset.datasetname}}</small></h3>
 			<datasource-intro datasource='inputDatasource' ng-if='datasetReady'></datasource-intro>
-			
-			<!-- 
-			<div class='clearfix entity-info entity-info-top'>
-				<div class='pull-left'>
-					<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span></small></div>
-					<div class='main-info'><strong>{{dataset.datasetname}}</strong></div>
-				</div>
-				<div class='pull-right text-right'>
-					<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
-					<div><strong>{{dataset.registrationDate|dataset_date_format}}</strong></div>
-				
-				</div>
-			</div>
-			<div class='clearfix entity-info entity-info-bottom'>
-				<div class='pull-left'>
-					<div><small><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_CODE</span></small></div>
-					<div class='url'><strong>{{dataset.datasetcode}}</strong></div>
-				</div>
-				<div class='pull-right text-right'>
-					<div><small><span translate-cloak translate>DATASET_FIELD_VERSION</span></small></div>
-					<div><strong>{{dataset.currentDataSourceVersion}}</strong></div>
-				
-				</div>
-			</div> -->
 		</div>
 		<div class='content-gray'>
 			<div class='container'>
@@ -35,30 +11,15 @@
 						<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING_TITLE</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span></div>
 						<p>&nbsp;</p>
 						 <div class='row'>
-						<!-- 	<div class="col-sm-12">
-								<div class="alert alert-danger" ng-show='updateError'>
-									<div class='row  text-left' ng-repeat="error in updateErrors">
-										<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
-										<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
-									</div>		
-								</div>
-								<div class="alert alert-success" ng-show='updateInfo'>
-									<strong translate-cloak translate>MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO</strong> {{updateInfo.status}}
-								</div>
-							</div>
-						-->
 							<alert-panel ng-if='admin_response.message' message='{{admin_response.message}}'  code="{{admin_response.code}}" detail="{{admin_response.detail}}" details="admin_response.details" type='{{admin_response.type}}'></alert-panel>
 						</div>
 						<div class='row'>
 							<div class="col-sm-12">
 								<form class="form-horizontal" role="form" name="editDatasetForm" accept-charset="UTF-8">
 									<div class='form-group'>
-										<a href ng-click="provaDire();">prova</a>
+										<a href ng-click="provaDire();">debug</a>
 									</div>
 
-
-
-									
 									<datasource-main-info datasource='dataset' datasource-domain='{{datasetDomain}}' datasource-subdomain='{{datasetSubdomain}}' is-new-datasource='{{isNewDataset}}'
 										ng-if='datasetReady'></datasource-main-info>
 									<datasource-detail-info datasource='dataset' ng-if='datasetReady'></datasource-detail-info>

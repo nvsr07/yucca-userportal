@@ -252,11 +252,42 @@
 				</div>	
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status5.open">
+		<accordion-group is-open="status5.open"  ng-if="stream.twitterInfo">
+			<accordion-heading>
+				<div class='container'>
+		 			<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_TWITTER_DATA</span>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+		 		</div>
+			</accordion-heading>
+			<div class='container'>
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_QUERY</span></strong></div>
+					<div class='col-sm-6'>{{stream.twitterInfo.twtquery}}</div>
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_LANG</span></strong></div>
+					<div class='col-sm-2'>{{stream.twitterInfo.twtlang}}</div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>MANAGEMENT_NEW_STREAM_GEO_COORDINATES</span></strong></div>
+					<div class='col-sm-6'><span ng-show="stream.twitterInfo.twtgeoloclat!=0 || stream.twitterInfo.twtgeoloclon!=0">{{stream.twitterInfo.twtgeoloclat}},{{stream.twitterInfo.twtgeoloclon}}</span></div>
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_GEO_RADIUS</span></strong></div>
+					<div class='col-sm-2'><span ng-show="stream.twitterInfo.twtgeolocradius!=0">{{stream.twitterInfo.twtgeolocradius}} {{stream.twitterInfo.twtgeolocunit}}</span></div>
+				</div>	
+				<div class="row card-row">
+					<div class="col-sm-2 card-label"><strong><span translate-cloak translate>STREAM_FIELD_TWT_RATE</span></strong></div>
+					<div class='col-sm-1'>{{stream.twitterInfo.pollingInterval}}</span>
+					</div>
+					<div class="col-sm-9 ">
+						<i><span translate class='' >MANAGEMENT_EDIT_STREAM_TWT_POLLING_HELP</span></i>
+					</div>
+					
+				</div>	
+			</div>
+		</accordion-group>
+		<accordion-group is-open="status6.open">
 			<accordion-heading>
 				<div class='container'>
 					<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_COLUMNS</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status5.open, 'glyphicon-plus': !status5.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status6.open, 'glyphicon-plus': !status6.open}"></i>
 				</div>
 			</accordion-heading>
 			<div class='container'>
@@ -266,31 +297,37 @@
 						<thead>
 							<tr>
 								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_NAME</th>
-								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+								<th translate-cloak translate ng-if='!isStream()'>DATASET_FIELD_METADATA_FIELD_ALIAS</th>
+								<th translate-cloak translate ><span ng-bind-html="'STREAM_FIELD_COMPONENTS_UNIT_OF_MEASUREMENT'|translate"></span></th>
+								<th translate-cloak translate ng-if='isStream()'>STREAM_FIELD_COMPONENTS_TOLERANCE</th>
+								<th translate-cloak translate ng-if='isStream()'>STREAM_FIELD_COMPONENTS_PHENOMENON</th>
 								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_DATATYPE</th>
-								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_UNIT</th>
-								<th translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+								<th translate-cloak translate ng-if='!isStream()'>DATASET_FIELD_METADATA_FIELD_IS_KEY</th>
+								<th translate-cloak translate>STREAM_FIELD_COMPONENTS_SINCE_VERSION</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="field in datasource.components">
-								<td>{{field.name}}</td>
-								<td>{{field.alias}}</td>
-								<td>{{field.dataType.datatypecode|nvl:' - '}}</td>
-								<td ng-if="isDateTimeField(field)">{{field.dateTimeFormat|nvl:' - '}}</td>
-								<td ng-if="!isDateTimeField(field)">{{field.measureUnit.measureunit|nvl:' - '}}</td>
-								<td>{{field.iskey|booleanToString|translate}}</td>
-								
+							<tr ng-repeat="component in datasource.components">
+								<td>{{component.name}}</td>
+								<td ng-if='!isStream()'>{{component.alias}}</td>
+								<td ng-if="isDateTimeField(field)">{{component.dateTimeFormat|nvl:' - '}}</td>
+								<td ng-if="!isDateTimeField(field) && component.measureUnit.measureunit">{{component.measureUnit.measureunitcategory}}: {{component.measureUnit.measureunit}}</td>
+								<td ng-if="!isDateTimeField(field) && !component.measureUnit.measureunit">-</td>
+								<td ng-if='isStream()'>{{component.tolerance}}</td>
+								<td ng-if='isStream()'>{{component.phenomenon.phenomenoncetegory}}: {{component.phenomenon.phenomenonname}}</td>
+								<td>{{component.dataType.description}}</td>
+								<td ng-if='!isStream()'>{{field.iskey|booleanToString|translate}}</td>
+								<td>{{component.sinceVersion}}</td>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status6.open" ng-if="datasource.unpublished==-1">
+		<accordion-group is-open="status7.open" ng-if="datasource.unpublished==-1">
 			<accordion-heading>
 				<div class='container'>
 					<span translate-cloak translate>MANAGEMENT_VIEW_DATASET_DATA_URLS</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status6.open, 'glyphicon-plus': !status6.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status7.open, 'glyphicon-plus': !status7.open}"></i>
 				</div>
 			</accordion-heading>
 			<div class='container'>
@@ -307,11 +344,11 @@
 				</div>
 			</div>
 		</accordion-group>
-		<accordion-group is-open="status7.open" ng-if="datasource.unpublished==0">
+		<accordion-group is-open="status8.open" ng-if="datasource.unpublished==0">
 			<accordion-heading>
 				<div class='container'>
 					<span translate-cloak translate>DCAT</span>
-		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status7.open, 'glyphicon-plus': !status7.open}"></i>
+		 			<i class="pull-right glyphicon" ng-class="{'glyphicon-minus': status8.open, 'glyphicon-plus': !status8.open}"></i>
 				</div>
 			</accordion-heading>
 			<div class='container'>

@@ -174,6 +174,11 @@ app.directive('datasourceMainInfo', function(adminAPIservice) {
 	    	console.info("datasourceMainInfo.link", scope.datasource);
 
 	    	
+	    	scope.isStream = function(){
+	    		return scope.datasource.datasourceType == Constants.DATASOURCE_TYPE_STREAM;
+	    	};
+
+	    	
 	    	
 	    	//scope.domainList = scope.$parent.domainList;
 	    	//scope.subdomainList = scope.$parent.subdomainList;
@@ -252,7 +257,11 @@ app.directive('datasourceDetailInfo', function($modal, readFilePreview, adminAPI
 	    	console.debug("datasourceMainInfo.link", scope.datasource);
 	    	scope.DEFAULT_DATASET_ICON = Constants.DEFAULT_DATASET_ICON;
 	    	scope.DEFAULT_STREAM_ICON = Constants.DEFAULT_STREAM_ICON;
+	    	scope.isStream = function(){
+	    		return scope.datasource.datasourceType == Constants.DATASOURCE_TYPE_STREAM;
+	    	};
 
+	    	scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
 	    	
 	    	// tag
 	    	scope.tagList = [];
@@ -613,7 +622,7 @@ app.directive('datasourceComponents', function(adminAPIservice) {
 	    scope: {datasource: '=', preview : '=', isNewDatasource: '@', isImportDatasource: '@'},
 	    templateUrl : 'partials/management/forms/components.html?'+BuildInfo.timestamp,
 	    link: function(scope, elem, attrs) {
-	    	console.debug("datasourceComponents.link", scope.datasource, scope.preview);
+	    	console.warn("datasourceComponents.link", scope.datasource, scope.preview);
 	    	
 	    	//scope.dataTypeList = scope.$parent.dataTypeList;
 	    	//scope.measureUnitsList = scope.$parent.measureUnitsList;
@@ -623,6 +632,15 @@ app.directive('datasourceComponents', function(adminAPIservice) {
 	    		scope.measureUnitsList = response;
 	    	});
 
+	    	scope.phenomenonList = [];
+	    	adminAPIservice.loadPhenomenons().success(function(response) {
+	    		console.debug("loadPhenomenons",response);
+	    		scope.phenomenonList = response;
+	    	});
+
+	    	scope.isStream = function(){
+	    		return scope.datasource.datasourceType == Constants.DATASOURCE_TYPE_STREAM;
+	    	};
 	    	
 	    	scope.dataTypeList = [];
 	    	adminAPIservice.loadDataTypes().success(function(response) {
@@ -630,6 +648,8 @@ app.directive('datasourceComponents', function(adminAPIservice) {
 	    		scope.dataTypeList = response;
 	    	});
 	    	
+	    	scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
+
 	    	
 	    	
 	    	scope.refreshColumnOrder = function(){
@@ -643,8 +663,8 @@ app.directive('datasourceComponents', function(adminAPIservice) {
 	    				column.inorder = int;
 	    				if(!column.skipColumn){
 	    					//column.sourcecolumn = order;
-	    					var idDataType = column.dataType?column.dataType.idDataType:Constants.COMPONENT_DEFAULT_DATA_TYPE;
-	    					var idMeasureUnit = column.measureUnit?column.measureUnit.idMeasureUnit:null;
+	    					var idDataType = column.dataType?column.dataType.idDataType:(column.idDataType?column.idDataType:Constants.COMPONENT_DEFAULT_DATA_TYPE);
+	    					var idMeasureUnit = column.measureUnit?column.measureUnit.idMeasureUnit:(column.idMeasureUnit?column.idMeasureUnit:null);
 	    					scope.datasource.components.push(
 	    							{"sourcecolumn":column.sourcecolumn, 
 	    								"name":column.name, 
@@ -722,7 +742,7 @@ app.directive('datasourceComponents', function(adminAPIservice) {
 	    		scope.checkColumnName(scope.newComponent.name, -1);
 	    		
 	    		if(scope.newComponent.sourcecolumn==null || scope.newComponent.sourcecolumn=="" || isNaN(scope.newComponent.sourcecolumn))
-	    			scope.insertColumnErrors .push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN');
+	    			scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN');
 
 	    		var checkSourceColumnDuplicate = false;
 	    		for (var int = 0; int < scope.preview.components.length; int++) {
@@ -741,15 +761,33 @@ app.directive('datasourceComponents', function(adminAPIservice) {
 
 	    		if(typeof scope.newComponent.dataType != 'undefined' && scope.newComponent.dataType != null){
 	    			scope.newComponent.idDataType = scope.newComponent.dataType.idDataType;
-	    			//delete scope.newComponent.dataType;
 	    		}
 	    		else{
-	    			scope.newComponent.dataType = Constants.COMPONENT_DATA_TYPE_STRING;
+	    			scope.newComponent.idDataType = Constants.COMPONENT_DATA_TYPE_STRING;
+	    		}
+	    		
+	    		if(scope.isStream()){
+	    			if(scope.newComponent.measureUnit == null)
+		    			scope.insertColumnErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_UNIT_OF_MEASUREMENT_REQUIRED');
+	    			
+	    			if(typeof scope.newComponent.tolerance == 'undefined' || scope.newComponent.tolerance == null){
+	    				scope.insertColumnErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_REQUIRED');
+	    			} else {
+	    				if( !Helpers.util.isNumber(scope.newComponent.tolerance))
+	    					scope.insertColumnErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_TOLLERANCE_NOT_NUMBER');
+	    			}
+
+	    			if(typeof scope.newComponent.phenomenon == 'undefined' || scope.newComponent.phenomenon == null){
+	    				scope.insertColumnErrors.push('MANAGEMENT_EDIT_STREAM_ERROR_COMPONENT_PHENOMENON_REQUIRED');
+	    			}
+
 	    		}
 	    		
 	    		if(checkSourceColumnDuplicate)
 	    			scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_COLUMN_SOURCE_COLUMN_UNIQUE');
 	    		
+	    		console.log("addComponent",scope.newComponent);
+
 	    		if(scope.insertColumnErrors.length == 0){
 	    			if(!scope.newComponent.alias || scope.newComponent.alias == null || scope.newComponent.alias == ""){
 	    				scope.newComponent.alias = scope.newComponent.name;
@@ -758,14 +796,12 @@ app.directive('datasourceComponents', function(adminAPIservice) {
 
 	    			scope.preview.components.push(scope.newComponent);
 	    			scope.newComponent = {sourcecolumn: scope.preview.components.length+1};
-	    			//scope.refreshColumnOrder();
 	    		}
 	    	};
 	    	
 	    			
 	    	scope.removeComponent = function(index){
 	    		scope.preview.components.splice(index,1);
-	    		//scope.refreshColumnOrder();
 	    	};
 	    	
 	    	
@@ -799,3 +835,266 @@ app.directive('datasourceComponents', function(adminAPIservice) {
 });
 
 
+app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabricAPIservice) {
+	return {
+	    restrict: 'E',
+	    scope: {datasource: '=',},
+	    templateUrl : 'partials/management/forms/internalStreams.html?'+BuildInfo.timestamp,
+	    link: function(scope, elem, attrs) {
+	    	console.warn("internalStreams.link", scope.datasource, scope.preview);
+	    	
+	    	
+	    	adminAPIservice.loadStreams(info.getActiveTenant()).success(function(response) {
+	    		console.log("loadStreams SUCCESS", response);
+	    		scope.streamsList = [];
+	    		scope.showLoading = false;
+	    		scope.admin_response = {};
+	    		
+	    		for (var i = 0; i < response.length; i++) {
+	    			response[i].label = response[i].tenantManager.tenantcode + ' - ' + response[i].streamname + ' - ' + response[i].smartobject.name + ' (' +response[i].smartobject.socode + ')';
+	    			if(response[i].status && response[i].status.statuscode){
+	    				if(response[i].status.statuscode == Constants.STREAM_STATUS_INST  && response[i].smartobject.soType.idSoType!=Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
+	    					scope.streamsList.push(response[i]);					
+	    				}
+	    				else if(response[i].status.statuscode == Constants.STREAM_STATUS_DRAFT && response[i].version>1 && response[i].smartobject.soType.idSoType!=Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
+	    					response[i].cssClass= 'option-warning';
+	    					response[i].label += "(bozza)";
+	    					scope.streamsList.push(response[i]);					
+	    				}
+	    			}
+	    		}
+	    		
+	    		
+	    		
+	    		scope.streamsList.sort(function(a,b) { 
+	    			return a.streamname.toLowerCase().localeCompare(b.streamname.toLowerCase());
+	    		} );
+	    	}).error(function(response){
+	    		console.error("loadStreams ERROR", response);
+	    		scope.showLoading = false;
+	    		scope.admin_response_add_stream.type = 'danger';
+	    		scope.admin_response_add_stream.message = 'UNEXPECTED_ERROR';
+	    		if(response && response.errorName)
+	    			scope.admin_response_add_stream.detail= response.errorName;
+	    		if(response && response.errorCode)
+	    			scope.admin_response_add_stream.code= response.errorCode;
+
+	    	});
+	    	
+	    	
+	  		scope.showAddInternalStreamLoading = false;
+	  		scope.admin_response_add_stream = {};
+	    	scope.addInternalStream = function(index){
+	    		console.log("addInternalStream", index);
+	    		if(index){
+	    			console.log("scope.streamsList[index]", scope.streamsList[index]);
+	    			scope.validationRes=2;
+    		  		scope.showAddInternalStreamLoading = true;
+	    		  	adminAPIservice.loadDatasource(Constants.DATASOURCE_TYPE_STREAM,info.getActiveTenant(),scope.streamsList[index].idstream).success(function(response) {
+	    		  		console.log("addInternalStream - loadDatasource", response);
+	    		  		scope.datasource.internalStreams.push(response);
+	    		  		scope.showAddInternalStreamLoading = false;
+	    		  	}).error(function(data,status){
+	    		  		scope.showAddInternalStreamLoading = false;
+	    		  		console.error("loadDataset ERROR", data,status);
+	    		  		scope.admin_response_add_stream.type = 'danger';
+	    		  		if(status==404)
+	    		  			scope.admin_response_add_stream.message = 'MANAGEMENT_VIEW_DATASET_ERROR_NOT_FOUND';
+	    		  		else
+	    		  			scope.admin_response_add_stream.message = 'UNEXPECTED_ERROR';
+	    		  	});
+	    		}
+	    		else{
+	    			scope.admin_response_add_stream = {"type": "warning", "message": "STREAM_INTERNAL_SELECTED_ONE_WARNING"};
+	    		}
+	    		//scope.streamSelectedItem=null;
+	    	};
+
+	    	scope.removeStreamFromArray = function(index){
+	    		scope.validationRes=2;
+	    		scope.datasource.internalStreams.splice(index,1);
+	    	};
+	    	
+	    	
+	    	scope.defaultQuery = Constants.DEFAULT_SIDDHI;
+
+	    	var prepareComponentsForSiddhi = function(components){
+ 				console.log("components[comp]", components);
+
+	    		var siddhiComponentsDefinitions = "(meta_source string, time string ";
+	 	    	if(components!=null ){
+ 	    			for(var comp in components){
+ 	    				var key = components[comp].name;
+ 	    				var value = "string";
+ 	    				console.log("components[comp]", components[comp]);
+ 	    				console.log("components[comp].idDataType", components[comp].idDataType);
+ 	    				var idDataType = components[comp].dataType?components[comp].dataType.idDataType:components[comp].idDataType;
+ 	    				switch (idDataType) {
+							case Constants.COMPONENT_DATA_TYPE_INT:
+								value = "int";
+								break;
+							case Constants.COMPONENT_DATA_TYPE_LONG:
+								value = "long";
+								break;
+							case Constants.COMPONENT_DATA_TYPE_FLOAT:
+								value = "float";
+								break;
+							case Constants.COMPONENT_DATA_TYPE_DOUBLE:
+							case Constants.COMPONENT_DATA_TYPE_LONGITUDE:
+							case Constants.COMPONENT_DATA_TYPE_LONGITUDE:
+								value = "double";
+								break;
+							case Constants.COMPONENT_DATA_TYPE_DATETIME:
+								value = "string";
+								break;
+							case Constants.COMPONENT_DATA_TYPE_BOOLEAN:
+								value = "bool";
+								break;
+							default:
+								value = "string";
+								break;
+						}
+ 	    				siddhiComponentsDefinitions += " ,"+key +" "+value;
+ 	    			}
+	 	    	}
+	 	    	siddhiComponentsDefinitions +=")";
+	 	    	return siddhiComponentsDefinitions; 
+	    	};
+	    	
+	    	scope.valideteSiddhi = function(streamSiddhiQuery){
+	    		scope.streamSiddhiQuery = streamSiddhiQuery;
+
+	    		if(scope.datasource.components==null || scope.datasource.components.length==0){
+	    			scope.validationRes=1;
+	    			scope.validateSiddhiError="STREAM_SIDDHI_INSERT_COMPONENT";
+	    			return;
+	    		}
+	    		if(scope.streamSiddhiQuery==null || scope.streamSiddhiQuery.indexOf("outputStream")==-1){
+	    			scope.validationRes=1;
+	    			scope.validateSiddhiError="STREAM_SIDDHI_PLEASE_OUTPUTSTREAM";
+	    			return;
+	    		}
+	    		
+	    		var siddhiStreamDefinitions = "";
+	    		var siddhiStreamArray = new Array();
+	    		for(var st in scope.datasource.internalStreams){
+	    			console.log("internal", scope.datasource.internalStreams[st]);
+	    			siddhiStreamDefinitions += "define stream input"+st;
+	    			siddhiStreamDefinitions += prepareComponentsForSiddhi(scope.datasource.internalStreams[st].components) + ";";
+	    			siddhiStreamArray.push(siddhiStreamDefinitions);
+	    			siddhiStreamDefinitions="";
+	    		}
+	    		
+	    		//OutputStream Definition
+	    		siddhiStreamDefinitions += " define stream outputStream";
+    			console.log("output", scope.datasource);
+
+    			siddhiStreamDefinitions += prepareComponentsForSiddhi(scope.datasource.components) + ";";
+    			siddhiStreamArray.push(siddhiStreamDefinitions);
+    			siddhiStreamDefinitions="";
+    			
+//	    		if(scope.datasource.components!=null ){
+//	    			for(var comp in scope.datasource.components){
+//    					console.warn("comp", comp, scope.datasource.components[comp]);
+//
+//	    				var key = scope.datasource.components[comp].name;
+//	    				var value =  scope.datasource.components[comp].dataType.datatypecode;
+//	    				if (value == "dateTime") {
+//	    					value = "string";
+//	    				} else if (value == "longitude") {
+//	    					value = "double";
+//	    				} else if (value == "latitude") {
+//	    					value = "double";
+//	    				} else if (value == "boolean") {
+//	    					value = "bool";
+//	    				}
+//	    				siddhiStreamDefinitions += " ,"+key +" "+value;
+//	    			}
+//	    			siddhiStreamDefinitions +=");";
+//	    			siddhiStreamArray.push(siddhiStreamDefinitions);
+//	    			siddhiStreamDefinitions="";
+//	    		}
+	    		
+	    		var validationObj = {
+	    				"inputStreamDefiniitons":siddhiStreamArray,
+	    				"queryExpressions":scope.streamSiddhiQuery + scope.defaultQuery		
+	    		};
+	    		console.info("validationObj : ", validationObj);
+	    		fabricAPIservice.validateSiddhi(validationObj).success(function(response) {
+	    			if(response.faultstring != null){
+	    				scope.validationRes=1;
+	    				scope.validateSiddhiError=response.faultstring;
+	    			} else {
+	    				scope.validationRes=0;
+	    			}
+	    			console.debug(response);
+	    		});
+	    	};
+	    	
+	    	scope.cmOption = {
+	    			lineNumbers: true,
+	    			indentWithTabs: true,
+	    			onLoad : function(_cm){
+	    				_cm.setOption("mode", 'text/x-sql');
+	    			}
+	    	};
+
+	    }
+	};
+});
+
+
+app.directive('datasourceTwitterStream', function(fabricAPIservice) {
+	return {
+	    restrict: 'E',
+	    scope: {datasource: '=', smartobject :'=', tenantcode: '@'},
+	    templateUrl : 'partials/management/forms/twitterStream.html?'+BuildInfo.timestamp,
+	    link: function(scope, elem, attrs) {
+	    	console.debug("datasourceTwitterStream.link", scope.datasource, scope.smartobject);
+	    	console.warn("datasourceTwitterStream  scope.smartobject ", scope.smartobject);
+	    	
+	    	scope.TWITTER_GEO_SEARCH_RADIUS_UNIT = Constants.TWITTER_GEO_SEARCH_RADIUS_UNIT;
+	    	scope.Lang_ISO_639_1 = Lang_ISO_639_1;
+	    	scope.validationPatternFloat = Constants.VALIDATION_PATTERN_FLOAT;
+
+	    	scope.twitterPollingInterval  = scope.smartobject.twtmaxstreams*5+1;
+	    	
+	    	scope.checkTwitterQuery = function(){
+	    		var twitterQuery = {};
+	    		
+	    		twitterQuery.twtQuery = scope.datasource.twitterInfo.twtquery;
+	    		
+	    		if(scope.datasource.twitterInfo.twtgeoloclat && scope.datasource.twitterInfo.twtgeoloclat>0)
+	    			twitterQuery.twtGeolocLat = scope.datasource.twitterInfo.twtgeoloclat;
+	    		if(scope.datasource.twitterInfo.twtgeoloclon && scope.datasource.twitterInfo.twtgeoloclon>0)
+	    			twitterQuery.twtGeolocLon = scope.datasource.twitterInfo.twtgeoloclon;
+	    		if(scope.datasource.twitterInfo.twtgeolocradius && scope.datasource.twitterInfo.twtgeolocradius>0)
+	    			twitterQuery.twtGeolocRadius = scope.datasource.twitterInfo.twtgeolocradius;
+	    		twitterQuery.twtGeolocunit = scope.datasource.twitterInfo.twtgeolocunit;
+	    		twitterQuery.twtLang = scope.datasource.twitterInfo.twtlang;
+	    		
+	    		twitterQuery.twtUserToken = scope.smartobject.twtusertoken;
+	    		twitterQuery.twtTokenSecret = scope.smartobject.twttokensecret;
+	    		
+	    		twitterQuery.streamCode = scope.datasource.streamcode;
+	    		twitterQuery.streamVersion = scope.datasource.version?scope.datasource.version:1;
+	    		twitterQuery.tenatcode = scope.tenantcode; 
+	    		twitterQuery.virtualEntityCode = scope.smartobject.socode;
+	    		
+	    		console.log("checkTwitterQueryResult", twitterQuery);
+	    		
+	    		scope.checkTwitterQueryResult = {};
+	    		scope.checkTwitterQueryResult.result = 'LOADING';
+	    		fabricAPIservice.checkTwitterQuery(twitterQuery).success(function(response) {
+	    			console.log("checkTwitterQuery - success", response);
+	    			scope.checkTwitterQueryResult = response;
+
+	    		}).error(function(data, status, headers, config) {
+	    			console.log("checkTwitterQuery - error", data);
+	    			scope.checkTwitterQueryResult = data;
+	    		});
+	    	};
+	    	
+	    }
+	};
+});

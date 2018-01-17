@@ -8,8 +8,8 @@ var API_BASE_SERVICE_URL = '/userportal/api/proxy/service/';
 var API_BASE_DATA_MANAGEMENT_URL = '/userportal/api/proxy/datamanagement';
 
 
-Constants.DATSASET_TYPE_STREAM = 'stream';
-Constants.DATSASET_TYPE_DATASET = 'dataset';
+Constants.DATASOURCE_TYPE_STREAM = 'stream';
+Constants.DATASOURCE_TYPE_DATASET = 'dataset';
 
 /* stream status */
 Constants.STREAM_STATUS_DRAFT='draft';
@@ -28,7 +28,15 @@ Constants.TENANT_TYPE_PERSONAL_ID = 2;
 Constants.TENANT_TYPE_TRIAL_ID = 4;   
 
 /* column data type */
+Constants.COMPONENT_DATA_TYPE_INT = 1;
+Constants.COMPONENT_DATA_TYPE_LONG = 2;
+Constants.COMPONENT_DATA_TYPE_DOUBLE = 3;
+Constants.COMPONENT_DATA_TYPE_FLOAT = 4;
 Constants.COMPONENT_DATA_TYPE_STRING = 5;
+Constants.COMPONENT_DATA_TYPE_BOOLEAN= 6;
+Constants.COMPONENT_DATA_TYPE_DATETIME = 7;
+Constants.COMPONENT_DATA_TYPE_LONGITUDE = 8;
+Constants.COMPONENT_DATA_TYPE_LATITUDE = 9;
 Constants.COMPONENT_DATA_TYPE_BINARY = 10;
 Constants.COMPONENT_DEFAULT_DATA_TYPE = Constants.COMPONENT_DATA_TYPE_STRING;
 

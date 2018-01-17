@@ -868,7 +868,7 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .navbar-default {background-color: white; border-color: white;margin-top: 1em;}
 .navbar-default .navbar-nav>li>a {}
 
-.link-help{font-size: 17px;}
+.link-help{font-size: 1.4em; text-decoration: none; }
 .nav-pills>li>a{border-radius: 4px; font-size: 17px;border: 0px solid #ccc;}
 .btn-default.disabled, .btn-default[disabled], fieldset[disabled] .btn-default{background-color: #ccc;}
 
@@ -1737,6 +1737,16 @@ height: 100%;
 .clientNotConnected{color: #ff4141;background-color: #ff4141;}
 .clientConnected{color: #9ade00;background-color: #9ade00;}
 .clientConnectBullet{display: inline-block; border-radius: 100%; margin-right: .2em; width: 1em; height: 1em;}
+
+.internal-streams-selected-panel{padding-top: 7px; margin-top: -12px; background-color: #f2f5f7;}
+.internal-streams-selected-panel .internal-streams-selected-panel-first-row{font-size: 1.2em; padding-top: 12px;}
+.internal-streams-selected-panel .internal-streams-selected-panel-last-row{border-bottom: solid 1px #ddd; padding-bottom: 12px;}
+.internal-streams-selected-panel .components-table{font-size: 11px; text-align: left; margin-left: 24px; width: 100%;}
+.internal-streams-selected-panel .components-table > thead > tr > th{ border-bottom: 0px; padding-right: 16px; text-transform: capitalize; }
+.internal-streams-selected-panel .components-table > tbody > tr > td{ border: 0px; padding-right: 16px;}
+
+.highlight-delete{background-color: #f8bdb8;}
+.internal-streams-selected-panel .btn-remove:hover{color: #e51400;}
 
 .internalStreamsBorder{
 	border: 2px solid #a1a1a1;

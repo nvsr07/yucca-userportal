@@ -2,8 +2,8 @@
 	<div class="form-group">
 		<label for="inputDatasourceName" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_NAME</label>
 		<div class="col-sm-9">
-			<input type="text" class="form-control" ng-model="datasource.datasetname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}"
-		ng-required="true"  maxlength="255" >
+			<input type="text" ng-if="!isStream()" class="form-control" ng-model="datasource.datasetname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="255" >
+			<input type="text" ng-if="isStream()" class="form-control" ng-model="datasource.streamname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="255" >
 		</div>
 	</div>
 	<div class="form-group">

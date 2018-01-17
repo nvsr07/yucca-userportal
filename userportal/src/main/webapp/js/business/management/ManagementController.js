@@ -68,10 +68,19 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
   			$scope.datasource = response;
   			$scope.dataset = response.dataset;
   			$scope.stream = response.stream;
-  			$scope.topic = $scope.dataset.datasetcode;
+  			if(typeof $scope.dataset != 'undefined')
+  	  			$scope.topic = $scope.dataset.datasetcode;
+  			if(typeof $scope.stream != 'undefined'){
+  				$scope.datasource.stream.wsUrl = Helpers.stream.wsOutputUrl($scope.datasource);
+  				if(typeof $scope.stream.twitterInfo != 'undefined')
+  					$scope.stream.twitterInfo.pollingInterval = $scope.stream.smartobject.twtmaxstreams*5+1;
+
+  			}
+  			
   			$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
-  			if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
-  				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+  			
+  			if(typeof $scope.dataset!= 'undefined' && typeof $scope.dataset.iddataset != 'undefined' && $scope.dataset.iddataset !=null)
+  				$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.iddataset+ "/current";  
   		} catch (e) {
   			console.error("loadDataset ERROR", e);
   		}
@@ -105,7 +114,7 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
   	
   	$scope.canEdit = function() {
   		if($scope.stream){
-	  		return ($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_DRAFT);
+	  		return ($scope.datasource.status.statuscode == Constants.STREAM_STATUS_DRAFT);
   		}	
 	  	else{
 	  		return ($scope.dataset && 
@@ -341,7 +350,7 @@ appControllers.controller('ManagementEditCtrl', [ '$scope', '$modal', 'adminAPIs
 //	});
 
 	
-	
+
 	
 	//FIXME licensecode???
 	$scope.isLicenseVisible = function(datasource){

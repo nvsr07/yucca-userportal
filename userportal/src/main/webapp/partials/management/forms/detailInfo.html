@@ -51,4 +51,26 @@
 			<img ng-src="{{DEFAULT_DATASET_ICON}}" alt="logo dataset" class='upload-icon-preview-img' ng-if='!datasource.icon' >
 		</div>
 	</div>		
+	<div class="form-group" ng-if='isStream()'>
+		<label for="inputStreamFps" class="col-sm-3 control-label" translate-cloak translate>STREAM_FIELD_FPS</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" id="inputStreamFps" placeholder="{{'STREAM_FIELD_FPS'|translate}}" ng-model="datasource.fps" ng-pattern="validationPatternFloat">
+			<div class='text-left hint mute'><i class='fa fa-lightbulb-o'></i>&nbsp;<span translate>VALIDATION_PATTERN_FLOAT_TOOLTIP</span></div>
+			
+		</div>
+	</div>	
+	<div class="form-group" ng-if='isStream()'>
+		<label for="RadioGroupSaveData" class="col-sm-3 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA_LABEL</span></label>
+		<div class="col-sm-9">
+			<label class="radio-inline">
+            			<input type="radio" name="RadioGroupSaveData" value="true" id="RadioGroupSaveData_0" ng-model="stream.savedata">
+            			<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_SAVE_DATA</span>
+          		</label>
+			<label class="radio-inline">
+            			<input type="radio" name="RadioGroupSaveData" value="false" id="RadioGroupSaveData_1" ng-model="stream.savedata">
+            			<span translate-cloak translate>MANAGEMENT_EDIT_STREAM_DONT_SAVE_DATA</span>
+          		</label>
+		</div>
+	</div>
 </div>
+

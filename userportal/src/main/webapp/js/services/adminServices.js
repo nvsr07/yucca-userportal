@@ -197,7 +197,7 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 	};
 	
 	adminAPI.updateStream = function(activeTenant, soCode, stream) {
-		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode).replace(new RegExp('{soCode}', 'gi'), soCode) + '/' + stream.stream.idstream;
+		var urlWithParam = Constants.API_ADMIN_STREAM_UPDATE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode).replace(new RegExp('{soCode}', 'gi'), soCode) + '/' + stream.idstream;
 		return $http.put(urlWithParam,stream);
 	};
 	
@@ -213,18 +213,36 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 			url : urlWithParam
 		});
 	};
-	adminAPI.loadDataset = function(activeTenant, iddataset) {
-		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +iddataset+ '/?callback=JSON_CALLBACK'; 
+	
+//	adminAPI.loadDataset = function(activeTenant, iddataset) {
+//		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +iddataset+ '/?callback=JSON_CALLBACK'; 
+//		return $http({
+//			method : 'JSONP',
+//			url : urlWithParam
+//		});
+//	};
+
+	adminAPI.loadDatasource = function(datasourceType, activeTenant, iddatasource) {
+		var baseUrl  = datasourceType == Constants.DATASOURCE_TYPE_STREAM? Constants.API_ADMIN_STREAM_URL: Constants.API_ADMIN_DATASET_URL;
+		var urlWithParam = baseUrl.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +iddatasource+ '/?callback=JSON_CALLBACK'; 
 		return $http({
 			method : 'JSONP',
 			url : urlWithParam
 		});
 	};
+
 	
 	adminAPI.createDataset = function(activeTenant, dataset) {
 		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode);
 		return $http.post(urlWithParam, dataset);
 	};
+	
+	adminAPI.updateDataset = function(activeTenant, dataset) {
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' + dataset.iddataset;
+		return $http.put(urlWithParam,dataset);
+	};
+	
+
 	
 	adminAPI.addDataToDataset = function(activeTenant, dataset, csvInfo,componentInfoRequests) {
 		console.log("addDataToDataset",activeTenant, dataset, csvInfo,componentInfoRequests);

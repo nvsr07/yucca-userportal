@@ -1210,6 +1210,7 @@ var translations_it = {
 
 	MANAGEMENT_EDIT_DATASOURCE_NEW_COMPONENT: 'Nuovo componente',
 	MANAGEMENT_EDIT_DATASOURCE_NEW_BINARY: 'Nuovo componente binario',
+	DATASOURCE_TYPE: 'Tipo',
 	
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Scegli un organizzazione',

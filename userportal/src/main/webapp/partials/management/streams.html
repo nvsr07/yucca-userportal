@@ -104,12 +104,13 @@
 							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchNameFilter | filter: searchStatusFilter| filter: viewUnistalledFilter| filter:searchDomainFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/></td>
 								<td class='text-center no-border-right'>
-									<a href="#/management/viewStream/{{tenant}}/{{stream.smartobject.socode}}/{{stream.streamcode}}/{{stream.idstream}}">
+									<a href="#/management/viewDatasource/stream/{{tenant}}/{{stream.streamcode}}/{{stream.idstream}}">
+								<!-- 	<a href="#/management/viewStream/{{tenant}}/{{stream.smartobject.socode}}/{{stream.streamcode}}/{{stream.idstream}}"> -->
 										<img ng-src="{{streamIconUrl(organizationCode,stream.idstream)}}" alt="logo stream" class='list-entity-icon-preview-img' >
 									</a>
 								</td>
 								<td class='text-left no-border-left'>
-									<a href="#/management/viewStream/{{tenant}}/{{stream.smartobject.socode}}/{{stream.streamcode}}/{{stream.idstream}}">
+									<a href="#/management/viewDatasource/stream/{{tenant}}/{{stream.streamcode}}/{{stream.idstream}}">
 										<strong title='{{"STREAM_FIELD_CODE"|translate}}'>{{stream.streamcode}}</strong> <br> 
 										<span title='{{"STREAM_FIELD_NAME"|translate}}'>{{stream.streamname}}</span>
 									</a>
