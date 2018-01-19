@@ -232,6 +232,7 @@ table.dragDropTable>tbody>tr>td{border:solid #dddddd; border-width: 1px 0 0 0;}
 ul .list-spaced li{line-height: 1.2em;}
 
 .error-panel-alone{padding: 64px;}
+.error-hint{color: #b50000;}
 .label a{color: white;}
 .label-custom{font-size:.9em; padding:0.5em 0.8em;margin: .1em; font-weight: normal; line-height: 1.1em; display: inline-block; margin: .3em 0;}
 .label-custom-small{font-size:.9em; padding:0.2em 0.4em;margin: 0 .1em; font-weight: normal; line-height: 1em; display: inline-block; border-radius: 2px;}
@@ -484,6 +485,8 @@ a.input-group-addon:hover{cursor: pointer;}
 
 .panel-stream-realtime-statistics{border: 1px solid #00963d; border-radius: 4px;}
 .panel-stream-realtime-statistics-title{background-color: #00963d;overflow: auto; padding: 0 .5em; color: white; }
+
+.date-time-hint-footer{background-color: #d9edf7; color: #31708f; text-align: left;  border-bottom-left-radius: 6px;  border-bottom-right-radius: 6px; margin:0;}
 
 .form-label-separator{font-size: 1.2em; font-weight: bold; border-bottom: none; background-color:  #717b7c; color: white; margin: 7px 0; padding: .5em; border-radius: 0; color: #fff;  }
 .form-label-separator a{color: white;}

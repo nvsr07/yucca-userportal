@@ -1,7 +1,7 @@
 <div ng-controller="ManagementVirtualentityCtrl as streamCtrl" ng-cloak>
 	<div class='container'>
 		<!-- <h3 class='entity-title'><span translate-cloak translate>VIRTUALENTITY</span> <small> {{so.virtualEntityName}}</small></h3>-->
-		<alert-panel ng-if='admin_response.message' message='{{admin_response.message}}'  code="{{admin_response.code}}" detail="{{admin_response.detail}}" type='{{admin_response.type}}'></alert-panel>
+		<alert-panel content='admin_response'></alert-panel>
 		<div class='clearfix entity-info entity-info-top'>
 			<div class='pull-left'>
 				<div><small><span translate-cloak translate>VIRTUALENTITY_FIELD_NAME</span></small></div>

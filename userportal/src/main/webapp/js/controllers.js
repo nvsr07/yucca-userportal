@@ -557,18 +557,32 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 		console.log("requestTenant - installationTenantRequest", $scope.installationTenantRequest);
 		$scope.validationError = {};
 		if(!Helpers.util.isValidEmail($scope.installationTenantRequest.useremail)){
-			$scope.validationError.message = 'REQUEST_TENANT_EMAIL_ERROR';
+			$scope.validationError.detail = 'WARNING_TITLE';
+			$scope.validationError.detail = 'REQUEST_TENANT_EMAIL_ERROR';
+			$scope.validationError.type='warning';
+
 		}
 		else{
 			$scope.status = 'sending';
 			adminAPIservice.createTenant($scope.installationTenantRequest).success(function(response) {
 				console.log("createTenant SUCCESS", response);
 				$scope.status = 'finish';
-				$scope.requestResponse = response;
+				$scope.requestResponse = {};
+				$scope.requestResponse.message=response.errorName;
+				$scope.requestResponse.code=response.errorCode;
+				$scope.requestResponse.detail=response.description;
+				$scope.requestResponse.type='success';
+				response;
 			}).error(function(response){
 				console.error("createTenant ERROR", response);
 				$scope.status = 'finish';
-				$scope.requestResponse = response;
+				$scope.requestResponse = {};
+				$scope.requestResponse.message=response.errorName;
+				$scope.requestResponse.code=response.errorCode;
+				$scope.requestResponse.detail=response.description;
+				$scope.requestResponse.type='danger';
+				
+
 	
 			});
 		}

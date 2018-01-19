@@ -16,6 +16,7 @@ var translations_it = {
 	EDIT: 'Modifica',
 	SAVE_DRAFT: 'Salva bozza',
 	COMING_SOON: 'Coming soon...', 
+	ERROR_TITLE: 'Si è verificato un errore', 
 	WARNING: 'Attenzione', 
 	WARNING_TITLE: 'Attenzione', 
 	WARNING_SUBTITLE: 'Per proseguire &egrave; necessario correggere le seguenti segnalazioni',
@@ -35,7 +36,7 @@ var translations_it = {
 	DATE_MONTH_PLACEHOLDER: 'mm',
 	DATE_YEAR_PLACEHOLDER: 'aaaa',
 	
-	UNEXPECTED_ERROR: 'Un errore inaspettato',
+	UNEXPECTED_ERROR: 'Si è verificato un errore inaspettato',
 	
 	/* languages */
 	el:"e???????",
@@ -1167,7 +1168,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_TENANT_SHARING_PLACEHOLDER: 'Scegli un tenant...',	
 	MANAGEMENT_EDIT_DATASET_DOMAIN_SUBDOMAIN_HINT: 'Il dominio e il sotto dominio <strong>non saranno pi&ugrave; modificabili</strong>',
 	MANAGEMENT_EDIT_DATASET_UNPUBLISHED: 'Pubblica sullo store',
-	MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG: 'Non pubbblicare',
+	MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG: 'Non pubblicare',
 	MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG_HINT: 'I dataset <strong>non pubblicati</strong> non sono visibili nelle ricerche',
 	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG: 'Usa il dominio speciale MULTI',
 	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG_HINT: 'Nel domino speciale <strong>MULTI</strong> vengono salvati i dataset di supporto condivisi fra i vari domini',

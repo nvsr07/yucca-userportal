@@ -11,7 +11,7 @@
 						<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING_TITLE</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span></div>
 						<p>&nbsp;</p>
 						 <div class='row'>
-							<alert-panel ng-if='admin_response.message' message='{{admin_response.message}}'  code="{{admin_response.code}}" detail="{{admin_response.detail}}" details="admin_response.details" type='{{admin_response.type}}'></alert-panel>
+						 	<alert-panel content='admin_response'></alert-panel>
 						</div>
 						<div class='row'>
 							<div class="col-sm-12">
@@ -109,14 +109,4 @@
 		</div>
 	</div>
 </div>
-<script type="text/ng-template" id="dataFormatHint.html">
-	<div class="modal-body modal-compact">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Date Format</h4>
-        </div>
-		<div class="modal-body">
-			<div ng-bind-html="dataFormatHintTable"></div>
-		</div>
-	</div>
-</script>
+

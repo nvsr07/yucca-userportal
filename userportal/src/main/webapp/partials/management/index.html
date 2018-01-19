@@ -70,10 +70,21 @@
 					</div>
 				</div>
 			</div>	
+		</div>
+	</div>
+</script>
 
-
-
-
+<script type="text/ng-template" id="dataFormatHint.html">
+	<div class="modal-compact">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Date Format</h4>
+        </div>
+		<div class="modal-body">
+			<div ng-bind-html="dataFormatHintTable"></div>
+		</div>
+		<div class='modal-footer date-time-hint-footer'>
+			<div><strong><i class="glyphicon glyphicon-time"></i></strong>&nbsp;Default timezone <strong>Europe/Rome</strong></div>
 		</div>
 	</div>
 </script>

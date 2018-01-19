@@ -35,7 +35,8 @@
 				<strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING_TITLE</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span>
 			</div>
 			
-			<alert-panel ng-if='admin_response.message' message='{{admin_response.message}}'  code="{{admin_response.code}}" detail="{{admin_response.detail}}" type='{{admin_response.type}}'></alert-panel>
+			<alert-panel content='admin_response'></alert-panel>
+
 			<div class='row'>
 				<div class="col-sm-10 col-sm-offset-1">
 					<carousel id='newDatasetWizard' interval="-1">

@@ -5,70 +5,7 @@
 <div class='row'>
 	<div class="col-sm-6">
 		<form class="form-horizontal" role="form" name="newDatasourceForm" ng-cloak>
-		<!-- 
-			<div class="form-group">
-				<label for="inputDatasetName" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span> <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-9">
-					<input type="text" class="form-control" ng-model="dataset.datasetname" id="inputDatasetName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}"
-						ng-required="true" maxlength="255" >
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputDatasetUnpublished" class="col-sm-3 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_UNPUBLISHED</span></label>
-				<div class="col-sm-9">
-					<div class="checkbox text-left">
-						<label>
-							<input type="checkbox" ng-model="dataset.unpublished"  >
-							<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
-							<strong translate>MANAGEMENT_EDIT_DATASET_UNPUBLISHED_FLAG</strong>
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="form-group" ng-if='dataset.unpublished'>
-				<div class="col-sm-9 col-sm-offset-3">
-					<div class="checkbox text-left">
-						<label>
-							<input type="checkbox" ng-change="useDomainMulti(useDomainMultiFlag)" ng-model='useDomainMultiFlag'>
-							<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
-							<strong translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_FLAG</strong>
-						</label>
-					</div>
-					<div class='text-left checkbox-hint'><i class='fa fa fa-exclamation-triangle'></i> <span translate>MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_WARNING</span></div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputDatasetDomain" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-9 text-left">
-					<select  ng-if='selectedDomain!="MULTI"' class="input-sm form-control" ng-model="selectedDomain" 
-						ng-options="domain as (domain|translate) for domain in domainList" ng-required="true" ng-change="selectSubdomain(selectedDomain)" >
-						<option value="" translate-cloak translate>MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER</option>
-					</select>
-					<input type="text" ng-if='selectedDomain=="MULTI"' class="form-control" ng-model="selectedDomain" id="inputDatasetName" disabled='disabled'
-						ng-required="true" maxlength="255" >
-				</div>
-			</div>
-			<div class="form-group   has-feedback">
-				<label for="inputDatasetSubDomain" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
-				<div class="col-sm-9" >
-		
-					<select ng-if='selectedDomain!="MULTI"'  class="input-sm form-control" name="inputDatasetSubDomain" ng-model="dataset.idSubdomain" 
-						ng-options="subdomain.idSubdomain as (subdomain.subdomaincode|translate) for subdomain in subdomainList" ng-required="true">
-						<option  value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_SUBDOMAIN_PLACEHOLDER</option>
-					</select>
-					
-					<input type="text" ng-if='selectedDomain=="MULTI"' class="form-control" ng-model="dataset.idsubdomain" id="inputSubdomainCode" 
-						placeholder="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER'|translate}}" name="inputSubdomainCode"
-						ng-required="true" maxlength="255" ng-pattern="validationPatternSubdomain" >
-					<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION'|translate}}"
-						ng-show="newDatasetForm.inputSubdomainCode.$error.pattern && newDatasetForm.inputSubdomainCode.$dirty"></span>
-						
-				</div>
-			</div>-->
-			
 			<datasource-main-info datasource='dataset' datasource-domain='{{datasetDomain}}' datasource-subdomain='{{datasetSubdomain}}' is-new-datasource='{{isNewDataset}}' ng-if='datasetReady'></datasource-main-info>
-			
-
 			<div class="form-group ">
 				<div class=" col-sm-12 form-toolbar">
 					<a ng-click='cancel()' class="btn " translate-cloak translate>CANCEL</a>

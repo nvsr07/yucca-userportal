@@ -109,14 +109,15 @@ appDirectives.directive('iframeOnload', [function(){
 
 appDirectives.directive('alertPanel', [function(){
 	return {
-	  restrict: 'EA',
-	  template: '<div class="alert alert-{{type}}" ng-if="message!=null">'+
+	  restrict: 'E',
+	  template: '<div class="alert alert-{{content.type}}" ng-if="content.message!=null">'+
 	  			'  <div class="alert-close-link" href ng-click="hide()">&times</div>'+
-	  			'  <strong>{{message|translate}}</strong>'+
-				'  <div> <span ng-if="code">Code: {{code}} - </span> <span ng-if="detail">{{detail}}</span></div>'+
-				'  <div ng-if="details" ng-repeat="d in details track by $index">&hybull; {{d|translate}}</div>'+
+	  			'  <strong>{{content.message|translate}}</strong>'+
+				'  <div> <span ng-if="content.code">Code: {{content.code}} - </span> <span ng-if="content.detail">{{content.detail}}</span></div>'+
+				'  <div ng-if="content.details" ng-repeat="d in content.details track by $index">&hybull; {{d|translate}}</div>'+
 				'</div>',
 	  scope: {
+		content: '=?',
 		type: '@',
 	    code: '@',
 	    message: '@',
@@ -124,9 +125,22 @@ appDirectives.directive('alertPanel', [function(){
 	    details: '='
 	  },
 	  link: function(scope, element, attrs){
-          scope.details = scope.details;
+		  console.warn("scope.alert", scope.content);
+		  //scope.content = scope.content;
+		  if(!scope.content){
+			  console.warn("scope.dentro", scope.content);
+			  scope.content = {type: scope.type,
+					   code: scope.code,
+					    message: scope.message,
+					    detail: scope.detail,
+					    details: scope.details
+					  };
+		  }
+		  console.warn("scope.dopo", scope.content);
+
+		  //scope.details = scope.details;
           scope.hide = function(){
-        	scope.message=null;  
+        	scope.content.message=null;  
           };
       }
 	};

@@ -171,8 +171,7 @@ Constants.HELP_HINT_DATE_FORMAT_TABLE = '<div><table class="table table-supercon
 '	</tbody>'+
 '</table>' + 
 '   </div>'+
-'   <div class="alert">For detail refer to <a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html" target="_blank" class="alert-link">Java Date Format</a></div>' +
-'   <div class="alert alert-info"><strong><i class="glyphicon glyphicon-time"></i></strong>&nbsp;Default timezone <strong>Europe/Rome</strong></div>';
+'   <p>&nbsp;</p><p>For detail refer to <a href="http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html" target="_blank" class="alert-link">Java Date Format</a></p>'; 
 
 
 // domain icon

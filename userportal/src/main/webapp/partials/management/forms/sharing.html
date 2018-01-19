@@ -2,15 +2,31 @@
 	<h3 class='text-left form-section-title'  translate-cloak translate><span ng-bind-html="'MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING'|translate"></span></h3>
 	<div class="form-group">
 		<label for="RadioGroupVisibility" class="col-sm-3 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
-		<div class="col-sm-9">
+		<div class="col-sm-9 text-left">
+			<div class="radio pull-left">
+				<label>
+					<input type="radio" name="RadioGroupVisibility" value="public" ng-model="datasource.visibility" ng-disabled='!canCreatePublicDataset() || datasource.unpublished'>
+					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+					<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC</span>
+				</label>
+			</div>			
+			<div class="radio pull-left">
+				<label>
+					<input type="radio" name="RadioGroupVisibility" value="private" ng-model="datasource.visibility" ng-disabled='!canCreatePublicDataset() || datasource.unpublished'>
+					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+					<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE</span>
+				</label>
+			</div>
+			
+			<!-- 
 			<label class="radio-inline">
-          		<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="datasource.visibility" ng-disabled='!canCreatePublicDataset() || datasource.unpublished'>
+				<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="datasource.visibility" ng-disabled='!canCreatePublicDataset() || datasource.unpublished'>
           		<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC</span>
         	</label>
 			<label class="radio-inline">
       			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="datasource.visibility" ng-disabled='!canCreatePublicDataset() || datasource.unpublished'>
       			<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE</span>
-      		</label>
+      		</label> -->
 		</div>
 	</div>
 	<div class="form-group" ng-show="datasource.visibility=='private' && canShareDataset()">
@@ -35,7 +51,8 @@
 	<div ng-show="datasource.visibility=='public'">
 		<div class="form-group">
 			<label for="RadioGroupOpenadata" class="col-sm-3 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span></label>
-			<div class="col-sm-9">
+			<div class="col-sm-9 text-left">
+			<!-- 
 				<label class="radio-inline">
 	            			<input type="radio" name="RadioGroupOpenadata" value="true" id="RadioGroupOpenadata_0" ng-model="datasource.opendata.isOpendata" ng-disabled="datasource.visibility!='public'">
 	            			<span translate-cloak translate>YES</span>
@@ -43,10 +60,25 @@
 				<label class="radio-inline">
 	            			<input type="radio" name="RadioGroupOpenadata" value="false" id="RadioGroupOpenadata_1" ng-model="datasource.opendata.isOpendata" ng-disabled="datasource.visibility!='public'">
 	            			<span translate-cloak translate>NO</span>
-	          		</label>
+	          		</label>-->
+		    	<div class="radio pull-left">
+					<label>
+						<input type="radio" name="RadioGroupOpenadata" ng-value="true" ng-model="datasource.opendata.isOpendata" ng-disabled="datasource.visibility!='public'">
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<span translate-cloak translate>YES</span>
+					</label>
+				</div>
+		        <div class="radio pull-left">
+					<label>
+						<input type="radio" name="RadioGroupOpenadata" ng-value="false" ng-model="datasource.opendata.isOpendata" ng-disabled="datasource.visibility!='public'">
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<span translate-cloak translate>NO</span>
+					</label>
+				</div>
+	          	
 			</div>
 		</div>
-		<div ng-show="datasource.opendata.isOpendata=='true'">
+		<div ng-show="datasource.opendata.isOpendata">
 			<div class="form-group">
 				<label for="inputDatasetOpendataAuthor" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_AUTHOR</label>
 				<div class="col-sm-9">

@@ -1,4 +1,39 @@
 <div>
+	<div class="form-group text-left" ng-if="isStream()  && isNewDatasource">
+		<label for="inputTypeStream" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
+		<div class="col-sm-3">
+				<!-- span translate-cloak translate>STREAM_NEW_DEFINITION </span> --> 
+			<div class="radio">
+				<label>
+					<input type="radio" name="inputTypeStream" ng-value="false" ng-model="extra.isInternal">
+					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+					<span translate-cloak translate>STREAM_NEW_DEFINITION</span>
+				</label>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="radio">
+				<label>
+					<input type="radio" name="inputTypeStream" ng-value="true" ng-model="extra.isInternal">
+					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+					<span translate-cloak translate>STREAM_AGGREGATE_DEFINITION</span>
+				</label>
+			</div>				
+		</div>
+	</div>
+	<div class="form-group  has-feedback" ng-if="isStream() && isNewDatasource">
+		<label for="inputSo" class="col-sm-3 control-label">
+			<span translate-cloak translate>VIRTUALENTITY</span><span class='required-asterisk' >*</span>
+		</label>
+		<div class="col-sm-9">
+       		<select class="form-control col-sm-10" ng-model="extra.selectedSo" ng-disabled="extra.isInternal"  ng-change="selectSoChange()" name="inputSo"
+       		  ng-options="so.name group by so.soType.description for so in soList track by so.socode" ng-required="!extra.isInternal" >
+       			<option value="" class='mute'>{{'MANAGEMENT_NEW_STREAM_VIRTUALENTITY_PLACEHOLDER'|translate}}</option>
+       		</select>
+       		<div class='text-left hint error-hint' ng-if='maxTweetError'><i class='fa fa-warning'></i>&nbsp;<span translate>VALIDATION_MAX_STREAM_TWITTER_TOOLTIP</span></div>
+		</div>
+	</div>
+
 	<div class="form-group">
 		<label for="inputDatasourceName" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_NAME</label>
 		<div class="col-sm-9">
@@ -6,11 +41,23 @@
 			<input type="text" ng-if="isStream()" class="form-control" ng-model="datasource.streamname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="255" >
 		</div>
 	</div>
-	<div class="form-group">
+	<div class="form-group" ng-if="!isStream()">
 		<label for="inputDatasourceDesc" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
 		<div class="col-sm-9">
-			<textarea class="form-control" rows="2" resize="none" ng-model="datasource.description"  placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}" id="inputDatasourceDesc" maxlength="3000">
-			</textarea>					
+			<textarea  class="form-control" rows="2" resize="none" ng-model="datasource.description"  placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}" id="inputDatasourceDesc" maxlength="3000">
+			</textarea>		
+		</div>
+	</div>
+	<div class="form-group" ng-if="isStream()">
+		<label for="inputDatasourceDesc" class="col-sm-3 control-label" translate-cloak translate>STREAM_FIELD_CODE</label>
+		<div class="col-sm-9" ng-if='isNewDatasource=="true"'>
+			<input type="text" class="form-control" ng-model="datasource.streamcode"  id="inputStreamCode"  name="inputStreamCode" 
+				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternStreamCode">		
+			<div class='text-left hint mute'><i class='fa fa-lightbulb-o'></i>&nbsp;<span translate>VALIDATION_PATTERN_CODE_STREAM_TOOLTIP</span></div>
+		</div>
+		<div class="col-sm-9" ng-if='isNewDatasource=="false"'> 
+			<input type="text" class="form-control" ng-model="datasource.streamcode"  id="inputStreamCode"  name="inputStreamCode" ng-disabled='true'
+				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}">		
 		</div>
 	</div>
 	<div class="form-group">

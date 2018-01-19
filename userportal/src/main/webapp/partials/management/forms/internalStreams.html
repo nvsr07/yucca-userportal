@@ -1,4 +1,4 @@
-<div ng-if='datasource.isInternal'>
+<div ng-if='extra.isInternal'>
 	<h3 class='text-left form-section-title'  translate-cloak translate><span ng-bind-html="'STREAM_INPUT_FIELDS'|translate"></span></h3>
 	<div ng-if='datasource.internalStreams.length>0' class="form-group">
 		<label  class="col-sm-2 control-label"><span translate-cloak translate>STREAM_INTERNAL_SELECTED_STREAM</span></label>
@@ -51,27 +51,26 @@
 			<div class='option-warning'><i class="fa fa-lightbulb-o"></i> <span translate>MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING</span></div>
 		</div>
 		<div class="col-sm-2">
-			<div ng-if='showAddInternalStreamLoading' class='ajax-loading'><span translate-cloak translate>LOADING</span></div>
+			<div ng-if='showAddInternalStreamLoading' class='ajax-loading'><span translate-cloak translate></span></div>
 			<a ng-if='!showAddInternalStreamLoading' href ng-click='addInternalStream(streamSelectedItem)' class="btn btn-sm btn-default "><i class='glyphicon glyphicon-plus'></i>  <span translate>ADD</span></a>
 		</div>	
 	</div>
 						
 					
-	<div>
-		<div id="validateMsg" class="col-sm-10 col-sm-offset-2">
-			<div class="alert-danger"><p ng-hide='validationRes!=1'>{{validateSiddhiError|translate}}</p></div>
-			<div class="alert-success"><p ng-hide='validationRes!=0'><span translate-cloak translate>STREAM_SIDDHI_QUERY_SUCCESS</span></p></div>
-			
-		</div>	
-	</div>
-	<divclass="form-group">
+
+	<div class="form-group">
 		<div class="col-sm-2">
 			<label for="streamSiddhiQueryLabel" class="control-label"><span translate-cloak translate>STREAM_SIDDHI_QUERY</span> <span class='required-asterisk'>*</span></label>
 			<div>
 				<a href="http://developer.smartdatanet.it/docs/specifiche-di-creazione-stream-a-partire-da-stream-esistenti/" target="_blank" class="link-help mute" ><i class="fa fa-question-circle-o"></i> Help</a>
 			</div>
 		</div>
-		<div class="col-sm-8">													
+		<div class="col-sm-8 text-left">		
+		
+			<alert-panel content='siddhiQueryValidationMessages'></alert-panel>
+				
+			<div class="alert alert-danger" ng-hide='validationRes!=1'><p >{{validateSiddhiError|translate}}</p></div>
+			<div class="alert alert-success" ng-hide='validationRes!=0'><p ><span translate-cloak translate>STREAM_SIDDHI_QUERY_SUCCESS</span></p></div>
 			<textarea id="code" class="form-control" ui-codemirror="cmOption" ng-model="streamSiddhiQuery"></textarea>
 		</div>
 		<div class="col-sm-2">
