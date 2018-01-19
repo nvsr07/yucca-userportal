@@ -27,9 +27,9 @@ Helpers.stream = {
 	},
 	statusIcon : function(stream) {
 		var icon = "";
-		if (stream.deploymentStatusDesc) {
+		if (stream.status.statuscode) {
 			var cssClass = "";
-			switch (stream.deploymentStatusCode) {
+			switch (stream.status.statuscode) {
 			case "draft":
 				cssClass = "glyphicon-pencil action-edit";
 				break;
