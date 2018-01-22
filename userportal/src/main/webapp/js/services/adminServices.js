@@ -248,7 +248,8 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 		console.log("addDataToDataset",activeTenant, dataset, csvInfo,componentInfoRequests);
 		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' +dataset.iddataset+ '/addData'; 
 
-		var postData = {skipFirstRow: csvInfo.skipFirstRow,
+		var postData = {tenantCodeManager: activeTenant.tenantCode, 
+						skipFirstRow: csvInfo.skipFirstRow,
 						encoding: csvInfo.fileEncoding,
 						csvSeparator: csvInfo.separator,
 						componentInfoRequests: componentInfoRequests
