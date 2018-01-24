@@ -189,8 +189,39 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 	info.isAuthorized("management/streams/req_disinst");
 	
 	$scope.requestInstallation = function(){
-		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
+		var action = Constants.LIFECYCLE_STREAM_REQ_INST;
+		console.log("updateLifecycle stream", $scope.stream);
+		console.log("updateLifecycle action", action);
+		updateLifecycle(action,$scope.stream);
 	};
+	
+	$scope.requestUnistallation = function(){
+		var action = Constants.LIFECYCLE_STREAM_REQ_UNINST;
+		console.log("updateLifecycle stream", $scope.stream);
+		console.log("updateLifecycle action", action);
+		updateLifecycle(action,$scope.stream);
+	};
+	
+	$scope.createNewVersion = function(){
+		var action = Constants.LIFECYCLE_STREAM_NEW_VERSION;
+		console.log("updateLifecycle stream", $scope.stream);
+		console.log("updateLifecycle action", action);
+		updateLifecycle(action,$scope.stream);
+	};
+	
+	
+	var updateLifecycle = function(action,stream){
+		adminAPIservice.lifecycleStream(action,stream,info.getActiveTenant()).success(function(response) {
+		console.log("result updateLifecycle ", response);
+		$scope.loadDatasource();
+		
+	}).error(function(data,status){
+		$scope.showLoading = false;
+  		console.error("updateLifecycle ERROR", data,status);
+  		$scope.admin_response.message = 'UNEXPECTED_ERROR';
+  		
+  	});
+	}
 
 //	var updateLifecycle = function(action) {
 //		console.log("updateLifecycle stream", $scope.stream);
@@ -214,10 +245,7 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 //		});
 //	};
 	
-	adminAPIservice.lifecycleStream(action, $scope.stream).success(function(response) {
-	}).error(function(data,status){
-  		
-  	});
+	
 	
 	
 	}]);

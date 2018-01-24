@@ -246,6 +246,13 @@ public enum ApiEntityEnum {
 		}
 	},
 	
+	API_ADMIN_STREAM_LIFECYCLE("API_ADMIN_STREAM_LIFECYCLE_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/organizations/{organizationCode}/smartobjects/{soCode}/streams/{idStream}/action") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
+	
 
 	// @Deprecated
 	// API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL",

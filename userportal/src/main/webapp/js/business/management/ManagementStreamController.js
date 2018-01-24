@@ -494,27 +494,6 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		}
 	});
-	var updateLifecycle = function(action) {
-		console.log("updateLifecycle stream", $scope.stream);
-		console.log("updateLifecycle action", action);
-		$scope.updateInfo = null;
-		$scope.updateError = null;
-		Helpers.util.scrollTo();
-		var promise   = fabricAPIservice.lifecycleStream(action, $scope.stream);
-		promise.then(function(result) {
-			console.log("result updateLifecycle ", result);
-			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
-			$scope.updateInfo = {status: result.status};
-			$scope.loadStream();
-		}, function(result) {
-			$scope.updateError = angular.fromJson(result.data);
-			console.log("result.data ", result.data);
-
-			$scope.loadStream();
-		}, function(result) {
-			console.log('Got notification: ' + result);
-		});
-	};
 	
 	
 	/*
