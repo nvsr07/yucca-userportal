@@ -170,6 +170,7 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 			return true;
 		return false;
 	};
+	
 
   	
   	
@@ -186,8 +187,40 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 
 	console.log("info", info);
 	info.isAuthorized("management/streams/req_disinst");
+	
+	$scope.requestInstallation = function(){
+		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_INST);
+	};
 
-  }]);
+//	var updateLifecycle = function(action) {
+//		console.log("updateLifecycle stream", $scope.stream);
+//		console.log("updateLifecycle action", action);
+//		$scope.updateInfo = null;
+//		$scope.updateError = null;
+//		Helpers.util.scrollTo();
+//		var promise   = fabricAPIservice.lifecycleStream(action, $scope.stream);
+//		promise.then(function(result) {
+//			console.log("result updateLifecycle ", result);
+//			//$scope.updateInfo = angular.fromJson(result.data);  //FIXME when the api will be ready
+//			$scope.updateInfo = {status: result.status};
+//			$scope.loadStream();
+//		}, function(result) {
+//			$scope.updateError = angular.fromJson(result.data);
+//			console.log("result.data ", result.data);
+//
+//			$scope.loadStream();
+//		}, function(result) {
+//			console.log('Got notification: ' + result);
+//		});
+//	};
+	
+	adminAPIservice.lifecycleStream(action, $scope.stream).success(function(response) {
+	}).error(function(data,status){
+  		
+  	});
+	
+	
+	}]);
 
 
 

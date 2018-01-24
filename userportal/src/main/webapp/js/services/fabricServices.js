@@ -452,7 +452,7 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 //	};
 
 
-	fabricAPI.lifecycleStream = function(action, stream) {
+/*	fabricAPI.lifecycleStream = function(action, stream) {
 		var deferred = $q.defer();
 		var resultData = null;
 		var urlAction = null;
@@ -481,9 +481,9 @@ appServices.factory('fabricAPIservice',["$http","$q","info", function($http, $q,
 		});
 		return deferred.promise;
 
-	};
+	};*/
 
-
+	
 	return fabricAPI;
 }]);
 

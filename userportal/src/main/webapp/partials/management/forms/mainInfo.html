@@ -5,7 +5,7 @@
 				<!-- span translate-cloak translate>STREAM_NEW_DEFINITION </span> --> 
 			<div class="radio">
 				<label>
-					<input type="radio" name="inputTypeStream" ng-value="false" ng-model="extra.isInternal">
+					<input type="radio" name="inputTypeStream" ng-value="false" ng-model="extra.isInternal" ng-change="selectSoInternal(false)">
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 					<span translate-cloak translate>STREAM_NEW_DEFINITION</span>
 				</label>
@@ -14,7 +14,7 @@
 		<div class="col-sm-3">
 			<div class="radio">
 				<label>
-					<input type="radio" name="inputTypeStream" ng-value="true" ng-model="extra.isInternal">
+					<input type="radio" name="inputTypeStream" ng-value="true" ng-model="extra.isInternal" ng-change="selectSoInternal(true)">
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 					<span translate-cloak translate>STREAM_AGGREGATE_DEFINITION</span>
 				</label>

@@ -170,7 +170,7 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    restrict: 'E',
 	    scope: {datasource: '=', extra: '=', datasourceDomain: '@', datasourceSubdomain: '@', isNewDatasource: '@'},
 	    templateUrl : 'partials/management/forms/mainInfo.html?'+BuildInfo.timestamp,
-	    link: function(scope, elem, attrs, formCtrl) {
+	    link: function(scope, elem, attrs) {
 	    	console.info("datasourceMainInfo.link", scope.datasource);
 
 	    	
@@ -256,17 +256,17 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    	
 
 	    	
-//	    	scope.selectSoInternal = function(isInternal){
-//	    		console.log("selectSoInternal", scope.extra.isInternal, isInternal);
-//	    		if(isInternal){
-//	    			scope.extra.selectedSo = soInternal;
-//	    		}
-//	    		else{
-//	    			scope.extra.selectedSo = null;
-//	    		}
-//	    		scope.extra.isInternal = isInternal;
-//	    		console.log("extra.selectedSo", scope.extra.isInternal, scope.extra.selectedSo );	
-//	    	};
+	    	scope.selectSoInternal = function(isInternal){
+	    		console.log("selectSoInternal", scope.extra.isInternal, isInternal);
+	    		if(isInternal){
+	    			scope.extra.selectedSo = soInternal;
+	    		}
+	    		else{
+	    			scope.extra.selectedSo = null;
+	    		}
+	    		scope.extra.isInternal = isInternal;
+	    		console.log("extra.selectedSo", scope.extra.isInternal, scope.extra.selectedSo );	
+	    	};
 
 	    	var checkMaxTweetofStream = function(streamsList){
     			scope.twitterPollingInterval  = scope.extra.selectedSo.twtmaxstreams*5+1;
@@ -1011,12 +1011,12 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 	    			//scope.validationRes=2;
 	    			
     		  		scope.showAddInternalStreamLoading = true;
-    		  		if(typeof scope.datasource.internalStreams == 'undefined')
-    		  			scope.datasource.internalStreams = new Array();
+    		  		if(typeof scope.datasource.internalStreamsCreate == 'undefined')
+    		  			scope.datasource.internalStreamsCreate = new Array();
     		  		
 	    		  	adminAPIservice.loadDatasource(Constants.DATASOURCE_TYPE_STREAM,info.getActiveTenant(),scope.streamsList[index].idstream).success(function(response) {
 	    		  		console.log("addInternalStream - loadDatasource", response);
-	    		  		scope.datasource.internalStreams.push(response);
+	    		  		scope.datasource.internalStreamsCreate.push(response);
 	    		  		scope.showAddInternalStreamLoading = false;
 	    		  	}).error(function(data,status){
 	    		  		scope.showAddInternalStreamLoading = false;
@@ -1036,7 +1036,7 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 
 	    	scope.removeStreamFromArray = function(index){
 	    		scope.datasource.isSiddhiQueryValid = false;
-	    		scope.datasource.internalStreams.splice(index,1);
+	    		scope.datasource.internalStreamsCreate.splice(index,1);
 	    	};
 	    	
 	    	scope.$watch('streamSiddhiQuery', function() {
@@ -1093,6 +1093,7 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 		  		scope.siddhiQueryValidationMessages = {};
 
 	    		scope.streamSiddhiQuery = streamSiddhiQuery;
+	    		scope.datasource.internalquery = streamSiddhiQuery;
 
 	    		if(scope.datasource.components==null || scope.datasource.components.length==0){
 	    			scope.datasource.isSiddhiQueryValid = false;
@@ -1107,10 +1108,10 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 	    		
 	    		var siddhiStreamDefinitions = "";
 	    		var siddhiStreamArray = new Array();
-	    		for(var st in scope.datasource.internalStreams){
-	    			console.log("internal", scope.datasource.internalStreams[st]);
+	    		for(var st in scope.datasource.internalStreamsCreate){
+	    			console.log("internal", scope.datasource.internalStreamsCreate[st]);
 	    			siddhiStreamDefinitions += "define stream input"+st;
-	    			siddhiStreamDefinitions += prepareComponentsForSiddhi(scope.datasource.internalStreams[st].components) + ";";
+	    			siddhiStreamDefinitions += prepareComponentsForSiddhi(scope.datasource.internalStreamsCreate[st].components) + ";";
 	    			siddhiStreamArray.push(siddhiStreamDefinitions);
 	    			siddhiStreamDefinitions="";
 	    		}

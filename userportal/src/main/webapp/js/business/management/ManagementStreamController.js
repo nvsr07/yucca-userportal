@@ -255,6 +255,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			$scope.admin_response = {};
 			adminAPIservice.loadDatasource(Constants.DATASOURCE_TYPE_STREAM,  info.getActiveTenant(),$routeParams.id_datasource).success(function(response) {
 				console.log("loadDatasource", response);
+				
 				try{
 					$scope.inputDatasource = response;
 					$scope.stream = Helpers.yucca.prepareDatasourceForUpdate(Constants.DATASOURCE_TYPE_STREAM,response);
@@ -557,15 +558,18 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.components[int].required = false;
 			}
 			
-			
-			//VALORIZZAZIONE CAMPI LICENCE - INSERIRE SUGGEST
-			if ($scope.stream.visibility=='public') {
-			$scope.stream.license.description=$scope.stream.license.licensecode;
-			$scope.stream.license.idLicense='43';
+			$scope.stream.internalStreams = new Array();
+			for (var int = 0; int < $scope.stream.internalStreamsCreate.length; int++) {
+				$scope.stream.internalStreams.push({
+					"streamAlias":"input"+int,
+					"idStream": $scope.stream.internalStreamsCreate[int].stream.idstream
+				});
 			}
-
+	
 			console.log("createStream - stream", $scope.stream);
 			console.log("createStream - selectedSo", $scope.extra.selectedSo);
+			
+			
 
 			
 			adminAPIservice.createStream(info.getActiveTenant(), $scope.extra.selectedSo.socode,$scope.stream).success(function(response) {
@@ -576,7 +580,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.isUpdating = false;
 
 				
-				$location.path('management/viewStream/'+$scope.tenantCode +'/'+$scope.extra.selectedSo.socode+'/'+response.streamcode+'/'+response.idStream);
+				$location.path('management/viewDatasource/'+$scope.tenantCode +'/'+$scope.extra.selectedSo.socode+'/'+response.streamcode+'/'+response.idStream);
 
 			}).error(function(response){
 				console.error("createStream ERROR", response);
