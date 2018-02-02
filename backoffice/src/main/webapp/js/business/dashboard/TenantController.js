@@ -368,7 +368,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 		        					$scope.tenantsList[rowIndex].isUpdating = false;
 		        					$scope.tenantsList[rowIndex].updated = true;
 		        					$scope.tenantsList[rowIndex].isSelected=false;
-		        					refreshStream($scope.tenantsList[rowIndex]);
+		        					//refreshStream($scope.tenantsList[rowIndex]);
 		        					
 		        					someOneIsUpdating = false;
 		        				    $timeout.cancel(checkStepTimeout);
