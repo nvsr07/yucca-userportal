@@ -266,7 +266,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 		});
 		
 		$scope.streamsList[rowIndex].stepsLogUrl = createStepsLogUrl(operation, stream);
-		chekStepsLog(rowIndex, $scope.streamsList[rowIndex].stepsLogUrl);
+		//ELEEEEEEEEEEEEEEEchekStepsLog(rowIndex, $scope.streamsList[rowIndex].stepsLogUrl);
 	};
 	
 	var someOneIsUpdating = false;

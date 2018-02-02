@@ -48,8 +48,8 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', '$route','info
 
 }]);
 
-appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$location', '$routeParams','adminAPIservice', 'info', '$modal', '$translate', 'sharedAdminResponse', 
-                                                           function($scope, $route, $location,$routeParams,adminAPIservice, info, $modal, $translate, sharedAdminResponse) {
+appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$location', '$routeParams','adminAPIservice', 'info', '$modal', '$translate', 'sharedAdminResponse', 'sharedStream',
+                                                           function($scope, $route, $location,$routeParams,adminAPIservice, info, $modal, $translate, sharedAdminResponse, sharedStream) {
   	$scope.tenantCode = $route.current.params.tenant_code;
   	console.log("ManagementDetailCtrl " , $route.current.params);
   	$scope.showLoading = true;
@@ -176,10 +176,13 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
   	
 	$scope.cloneDatasource = function(){
 		if($scope.stream){
+			
+			console.log("streammmmm",$scope.stream);
 			sharedStream.setStream($scope.stream);
 			$location.path('management/newStream/'+$scope.tenantCode);
 		}
 		else{
+			console.log("dataset",$scope.dataset);
 			sharedDataset.setDataset($scope.dataset);
 			$location.path('management/newDataset/'+$scope.tenantCode);
 		}
@@ -194,7 +197,6 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 		console.log("updateLifecycle action", action);
 		updateLifecycle(action,$scope.stream);
 	};
-	
 	$scope.requestUnistallation = function(){
 		var action = Constants.LIFECYCLE_STREAM_REQ_UNINST;
 		console.log("updateLifecycle stream", $scope.stream);
@@ -212,9 +214,8 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 	
 	var updateLifecycle = function(action,stream){
 		adminAPIservice.lifecycleStream(action,stream,info.getActiveTenant()).success(function(response) {
-		console.log("result updateLifecycle ", response);
-		$scope.loadDatasource();
-		
+		console.log("result updateLifecycle ", response);	
+		$route.reload();
 	}).error(function(data,status){
 		$scope.showLoading = false;
   		console.error("updateLifecycle ERROR", data,status);

@@ -244,6 +244,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	console.log("isNewStream",$scope.isNewStream);
 
 	$scope.preview= {components:new Array(),"type":"stream"};
+	
+
 	/*
 	 * LOAD STREAM
 	 */
@@ -295,6 +297,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			});
 
 		} else {
+			$scope.datasourceReady = true;
 			var streamClone = sharedStream.getStream();
 			if(streamClone!=null){
 				streamClone.statoStream = null;
@@ -310,7 +313,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				}
 
 				sharedStream.setStream(null);
-			} else {
+			} 
+		else {
 				$scope.stream  = {"datasourceType": Constants.DATASOURCE_TYPE_STREAM};
 				if($scope.canCreatePublicStream())
 					$scope.stream.visibility = 'public';
@@ -327,6 +331,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			}
 		}
 	};
+	
 	
 	$scope.loadStream();
 
@@ -405,7 +410,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			
 			
 			if(typeof $scope.stream.internalStreams != undefined && $scope.stream.internalStreams!=null){
-				for(var i = 0; i< $scope.internalStreams.length; i++){
+				for(var i = 0; i< $scope.stream.internalStreams.length; i++){
 					$scope.stream.internalStreams[i].streamAlias = "input"+i;
 //				newStream.stream.streamInternalChildren.streamChildren.push({
 //					"aliasChildStream":"input"+i,
@@ -538,11 +543,13 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 			}
 			
 			$scope.stream.internalStreams = new Array();
-			for (var int = 0; int < $scope.stream.internalStreamsCreate.length; int++) {
-				$scope.stream.internalStreams.push({
-					"streamAlias":"input"+int,
-					"idStream": $scope.stream.internalStreamsCreate[int].stream.idstream
-				});
+			if ($scope.stream.internalStreamsCreate) {
+				for (var int = 0; int < $scope.stream.internalStreamsCreate.length; int++) {
+					$scope.stream.internalStreams.push({
+						"streamAlias":"input"+int,
+						"idStream": $scope.stream.internalStreamsCreate[int].stream.idstream
+					});
+				}
 			}
 	
 			console.log("createStream - stream", $scope.stream);
@@ -557,10 +564,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.admin_response.message = 'MANAGEMENT_EDIT_STREAM_SAVED_INFO';
 				sharedAdminResponse.setResponse($scope.admin_response);
 				$scope.isUpdating = false;
-
-				
-				$location.path('management/viewDatasource/'+$scope.tenantCode +'/'+$scope.extra.selectedSo.socode+'/'+response.streamcode+'/'+response.idStream);
-
+				$location.path('management/viewDatasource/stream/'+info.getActiveTenant().tenantcode +'/'+response.streamcode+'/'+response.idStream);
 			}).error(function(response){
 				console.error("createStream ERROR", response);
 				$scope.isUpdating = false;
