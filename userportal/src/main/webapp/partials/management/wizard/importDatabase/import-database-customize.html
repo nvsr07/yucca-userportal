@@ -39,10 +39,9 @@
 				</td>
 				<td class='editable-table-cell' ng-click="editDatasetPublishStore(table.index)" ng-class="{'dataset-element-customized': table.customized.publishStore}">
 					<i class='fa f	a-pencil edit-icon'  title='{{"EDIT"|translate}}'></i>
-					<span>{{table.dataset.info.dataDomain|translate}}/{{table.dataset.info.codSubDomain|translate}}</span>
-					<span ng-repeat="tag in table.dataset.tags track by $index">
-						<!--<span class='label-custom-small label-tag' ng-bind-html="tag.tagCode|translate"></span>-->
-						<span class="label label-tag label-custom-small"><span>{{(tag|tagFromId:tagMap).tagLabel|translate}}</span></span>
+					<span>{{table.dataset.domaincode|translate}}/{{table.dataset.subdomaincode|translate}}</span>
+					<span ng-repeat="taglabel in table.dataset.taglabels track by $index">
+						<span class="label label-tag label-custom-small"><span>{{taglabel}}</span></span>
 					</span>
 					<br>
 
@@ -121,7 +120,7 @@
         </div>
 		<div class="modal-body">
 			<form class="form-horizontal" name='importDatasaetPublishStoreForm'>
-				<datasource-main-info datasource='defaultMetadata' datasource-domain='{{datasetDomain}}' datasource-subdomain='{{datasetSubdomain}}' operation='importDatabase'  ng-if='datasetReady'></datasource-main-info>
+				<datasource-main-info datasource='defaultMetadata' operation='importDatabase'  ng-if='datasetReady'></datasource-main-info>
 				<datasource-detail-info datasource='defaultMetadata' ng-if='datasetReady'></datasource-detail-info>
 				<datasource-sharing datasource='defaultMetadata' ng-if='datasetReady'></datasource-sharing>
 				<datasource-legal-info datasource='defaultMetadata' ng-if='datasetReady'></datasource-legal-info>
