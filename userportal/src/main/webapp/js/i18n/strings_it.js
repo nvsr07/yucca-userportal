@@ -392,6 +392,8 @@ var translations_it = {
 	DATASET_BINARY_DETAIL_METADATA_VIEW_BTN: 'Visualizza',
 	DATASET_BINARY_DETAIL_NOT_FOUND :'Non sono presenti file',
 	
+	DATASET_FIELD_METADATA_DOMAIN_SUBDOMAIN: 'Dominio/Sottodominio',
+	
 	/* Cookie */
 	COOKIE_MESSAGE: 'Questo sito fa uso di cookie per migliorare l\'esperienza di navigazione degli utenti. Proseguendo nella navigazione si accetta l\'uso dei cookie.',
 	COOKIE_ACCEPT: 'Ok',

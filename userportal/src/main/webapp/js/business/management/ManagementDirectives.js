@@ -168,10 +168,11 @@ app.directive('datasourceIntro', function() {
 app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	return {
 	    restrict: 'E',
-	    scope: {datasource: '=', extra: '=', datasourceDomain: '@', datasourceSubdomain: '@', isNewDatasource: '@'},
+	    scope: {datasource: '=', extra: '=', datasourceDomain: '@', datasourceSubdomain: '@', operation: '@'},
 	    templateUrl : 'partials/management/forms/mainInfo.html?'+BuildInfo.timestamp,
 	    link: function(scope, elem, attrs) {
-	    	console.info("datasourceMainInfo.link", scope.datasource);
+	    	console.info("datasourceMainInfo.link datasource", scope.datasource);
+	    	console.info("datasourceMainInfo.link operation", scope.operation);
 
 	    	
 	    	scope.validationPatternStreamCode = Constants.VALIDATION_PATTERN_CODE_STREAM;
@@ -181,7 +182,6 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    		return scope.datasource.datasourceType == Constants.DATASOURCE_TYPE_STREAM;
 	    	};
 
-	    	
 	    	var soInternal = null;
 
 	    	if(scope.isStream){
@@ -238,7 +238,7 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 		    	});
 	    	};
 	    	
-	    	if(scope.isNewDatasource)
+	    	if(scope.operation == 'create' || scope.operation == 'importDatabase' )
 	    		loadDomais();
 	    		
 	    	scope.subdomainList = [];

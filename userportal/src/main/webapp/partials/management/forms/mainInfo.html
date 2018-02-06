@@ -1,5 +1,5 @@
 <div>
-	<div class="form-group text-left" ng-if="isStream()  && isNewDatasource">
+	<div class="form-group text-left" ng-if="isStream()  && operation=='create'">
 		<label for="inputTypeStream" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
 		<div class="col-sm-3">
 				<!-- span translate-cloak translate>STREAM_NEW_DEFINITION </span> --> 
@@ -21,7 +21,7 @@
 			</div>				
 		</div>
 	</div>
-	<div class="form-group  has-feedback" ng-if="isStream() && isNewDatasource">
+	<div class="form-group  has-feedback" ng-if="isStream() && operation=='create'">
 		<label for="inputSo" class="col-sm-3 control-label">
 			<span translate-cloak translate>VIRTUALENTITY</span><span class='required-asterisk' >*</span>
 		</label>
@@ -34,14 +34,14 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group" ng-if="operation!='importDatabase'">
 		<label for="inputDatasourceName" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_NAME</label>
 		<div class="col-sm-9">
 			<input type="text" ng-if="!isStream()" class="form-control" ng-model="datasource.datasetname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="255" >
 			<input type="text" ng-if="isStream()" class="form-control" ng-model="datasource.streamname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="255" >
 		</div>
 	</div>
-	<div class="form-group" ng-if="!isStream()">
+	<div class="form-group" ng-if="!isStream() && operation!='importDatabase'">
 		<label for="inputDatasourceDesc" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_DESCRIPTION</label>
 		<div class="col-sm-9">
 			<textarea  class="form-control" rows="2" resize="none" ng-model="datasource.description"  placeholder="{{'DATASET_FIELD_METADATA_DESCRIPTION'|translate}}" id="inputDatasourceDesc" maxlength="3000">
@@ -50,12 +50,12 @@
 	</div>
 	<div class="form-group" ng-if="isStream()">
 		<label for="inputDatasourceDesc" class="col-sm-3 control-label" translate-cloak translate>STREAM_FIELD_CODE</label>
-		<div class="col-sm-9" ng-if='isNewDatasource=="true"'>
+		<div class="col-sm-9" ng-if="operation=='create'">
 			<input type="text" class="form-control" ng-model="datasource.streamcode"  id="inputStreamCode"  name="inputStreamCode" 
 				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternStreamCode">		
 			<div class='text-left hint mute'><i class='fa fa-lightbulb-o'></i>&nbsp;<span translate>VALIDATION_PATTERN_CODE_STREAM_TOOLTIP</span></div>
 		</div>
-		<div class="col-sm-9" ng-if='isNewDatasource=="false"'> 
+		<div class="col-sm-9" ng-if="operation=='update'"> 
 			<input type="text" class="form-control" ng-model="datasource.streamcode"  id="inputStreamCode"  name="inputStreamCode" ng-disabled='true'
 				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}">		
 		</div>
@@ -72,7 +72,7 @@
 			</div>
 		</div>
 	</div>
-	<div ng-if='!isNewDatasource'>
+	<div ng-if="operation=='update'">
 		<div class="form-group" ng-if='datasource.unpublished'>
 			<div class="col-sm-9 col-sm-offset-3">
 				<div class="checkbox text-left">
@@ -98,7 +98,7 @@
 			</div>
 		</div>		
 	</div>
-	<div ng-if='isNewDatasource'>
+	<div ng-if="operation=='create' || operation=='importDatabase' ">
 		<div class="form-group" ng-if='datasource.unpublished'>
 			<div class="col-sm-9 col-sm-offset-3">
 				<div class="checkbox text-left">

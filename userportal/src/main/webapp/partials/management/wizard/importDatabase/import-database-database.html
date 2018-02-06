@@ -9,10 +9,12 @@
 				<div class='icon-hint '><i class='fa fa-lightbulb-o'></i></div>
 				<div class='wizard-step-intro-text' ng-bind-html="'MANAGEMENT_IMPORT_DATABASE_STEP_DB_JDBC_INTRO'|translate"></div>
 			</div>
-			<div class="alert alert-warning text-left" ng-show='warningMessages.length>0'  ng-cloak>
+			<!-- <div class="alert alert-warning text-left" ng-show='warningMessages.length>0'  ng-cloak>
 				<strong translate-cloak translate>WARNING_TITLE</strong> <span translate-cloak translate>{{warningMessage}}</span>
 				<ul><li ng-repeat="warningMessage in warningMessages "><span translate-cloak translate>{{warningMessage}}</span></li></ul>
-			</div>
+			</div>-->
+			<alert-panel content='alert.admin_response'></alert-panel>
+			
 			<h3 translate class='text-left'>JDBC_PARAM_INTRO</h3>
 			<div class="form-group">
 				<label for="inputJDBCHostname" class="col-sm-2 control-label"><span translate-cloak translate>JDBC_PARAM_HOSTNAME</span></label>

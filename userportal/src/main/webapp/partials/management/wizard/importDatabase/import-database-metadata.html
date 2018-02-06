@@ -4,11 +4,14 @@
 </div>
 <div class='row'>
 	<div class='col-sm-7'>
-		<!-- div class='wizard-step-intro'>
-			<div class='icon-hint '><i class='fa fa-lightbulb-o'></i></div>
-			<div class='wizard-step-intro-text' ng-bind-html="'MANAGEMENT_IMPORT_DATABASE_STEP_METADATA_INTRO'|translate"></div>
-		</div-->
 		<form class="form-horizontal" role="form" name="metadataDatasetForm" ng-cloak>
+			<datasource-main-info datasource='defaultMetadata' datasource-domain='{{datasetDomain}}' datasource-subdomain='{{datasetSubdomain}}' operation='importDatabase'  ng-if='datasetReady'></datasource-main-info>
+			<datasource-detail-info datasource='defaultMetadata' ng-if='datasetReady'></datasource-detail-info>
+			<datasource-sharing datasource='defaultMetadata' ng-if='datasetReady'></datasource-sharing>
+			<datasource-legal-info datasource='defaultMetadata' ng-if='datasetReady'></datasource-legal-info>
+			<datasource-dcat datasource='defaultMetadata' ng-if='datasetReady'></datasource-dcat>
+			
+			<!-- 
 			<div class="form-group">
 				<label for="inputDatasetUnpublished" class="col-sm-3 control-label"><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_UNPUBLISHED</span></label>
 				<div class="col-sm-9">
@@ -62,7 +65,6 @@
 					<div class="input-group input-group-sm popover-html tag-html-tooltip-container text-left">
 						<input type="text" ng-model="newTag.value" typeahead="tagCode as tag.tagLabel for tag in tagList | filter:{tagLabel:$viewValue} | limitTo:8" class="form-control"
 								typeahead-editable="false" typeahead-on-select="onTagSelect($item, $model, $label)"/>
-					<!-- 	<span class="input-group-addon tag-html-tooltip-button" tooltip-html-unsafe="{{tagTooltipHtml}}" tooltip-trigger="click" tooltip-placement="bottom">&quest;</span> -->
 						<span class="input-group-addon tag-html-tooltip-button" ng-click="showChooseTagTable()">&quest;</span>
 						
 					</div>	
@@ -272,7 +274,7 @@
 						ng-required="true" ng-model="defaultMetadata.dcatEmailOrg">
 					</div>	
 				</div>	
-			</div>
+			</div> -->
 			<div class="row">
 				<div class=" col-sm-12 form-toolbar">
 					<a ng-click='goToRequestor()' class="btn " translate-cloak translate>MANAGEMENT_NEW_DATASET_WIZARD_PREV</a>
@@ -294,15 +296,15 @@
 					<i class="fa-li fa fa-angle-double-right" aria-hidden="true"></i>
 					<strong class='hint-message' ng-bind-html="'MANAGEMENT_DATASET_METADATA_MANDATORY_HINT'|translate"></strong>
 					<ul class='fa-ul'>
-						<li >
+						<!-- li >
 							<i class='fa fa-square-o' ng-if='defaultMetadata.info.dataDomain==null'></i>
 							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.info.dataDomain!=null'></i></span>
 							<span translate>DATASET_FIELD_METADATA_DATADOMAIN</span>
-						</li>
+						</li -->
 						<li >
-							<i class='fa fa-square-o' ng-if='defaultMetadata.info.codSubDomain==null'></i>
-							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.info.codSubDomain!=null'></i></span>
-							<span translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span>
+							<i class='fa fa-square-o' ng-if='defaultMetadata.idSubdomain==null'></i>
+							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.idSubdomain!=null'></i></span>
+							<span translate>DATASET_FIELD_METADATA_DOMAIN_SUBDOMAIN</span>
 						</li>
 						<li >
 							<i class='fa fa-square-o' ng-if='checkTag(defaultMetadata)'></i>
@@ -311,22 +313,21 @@
 						</li>
 						
 						<li ng-if='!defaultMetadata.info.unpublished'>
-							
 							<strong translate>MANAGEMENT_DATASET_MATADATA_DCAT_HINT</strong>
 						</li>
 						<li ng-if='!defaultMetadata.info.unpublished'>
-							<i class='fa fa-square-o' ng-if='defaultMetadata.dcatRightsHolderName==null'></i>
-							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.dcatRightsHolderName!=null'></i></span>
+							<i class='fa fa-square-o' ng-if='defaultMetadata.dcat.dcatrightsholdername==null'></i>
+							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.dcat.dcatrightsholdername!=null'></i></span>
 							<span translate>DATASET_FIELD_METADATA_DCAT_RIGHTHOLDERNAME</span>
 						</li>
 						<li ng-if='!defaultMetadata.info.unpublished'>
-							<i class='fa fa-square-o' ng-if='defaultMetadata.dcatNomeOrg==null'></i>
-							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.dcatNomeOrg!=null'></i></span>
+							<i class='fa fa-square-o' ng-if='defaultMetadata.dcat.dcatnomeorg==null'></i>
+							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.dcat.dcatnomeorg!=null'></i></span>
 							<span translate>DATASET_FIELD_METADATA_DCAT_NOMEORG</span>
 						</li>
 						<li ng-if='!defaultMetadata.info.unpublished'>
-							<i class='fa fa-square-o' ng-if='defaultMetadata.dcatEmailOrg==null'></i>
-							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.dcatEmailOrg!=null'></i></span>
+							<i class='fa fa-square-o' ng-if='defaultMetadata.dcat.dcatemailorg==null'></i>
+							<span class='text-success'><i class='fa fa-check-square-o ' ng-if='defaultMetadata.dcat.dcatemailorg!=null'></i></span>
 							<span translate>DATASET_FIELD_METADATA_DCAT_EMAILORG</span>
 						</li>
 											

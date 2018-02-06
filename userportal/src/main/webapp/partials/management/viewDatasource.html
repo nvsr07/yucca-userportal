@@ -278,9 +278,9 @@
 							<tr ng-repeat="component in datasource.components">
 								<td>{{component.name}}</td>
 								<td ng-if='!isStream()'>{{component.alias}}</td>
-								<td ng-if="isDateTimeField(field)">{{component.dateTimeFormat|nvl:' - '}}</td>
-								<td ng-if="!isDateTimeField(field) && component.measureUnit.measureunit">{{component.measureUnit.measureunitcategory}}: {{component.measureUnit.measureunit}}</td>
-								<td ng-if="!isDateTimeField(field) && !component.measureUnit.measureunit">-</td>
+								<td ng-if="isDateTimeField(component)">{{component.dateTimeFormat|nvl:' - '}}</td>
+								<td ng-if="!isDateTimeField(component) && component.measureUnit.measureunit">{{component.measureUnit.measureunitcategory}}: {{component.measureUnit.measureunit}}</td>
+								<td ng-if="!isDateTimeField(component) && !component.measureUnit.measureunit">-</td>
 								<td ng-if='isStream()'>{{component.tolerance}}</td>
 								<td ng-if='isStream()'>{{component.phenomenon.phenomenoncetegory}}: {{component.phenomenon.phenomenonname}}</td>
 								<td>{{component.dataType.description}}</td>

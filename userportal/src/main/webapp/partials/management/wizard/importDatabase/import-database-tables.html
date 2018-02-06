@@ -8,10 +8,12 @@
 			<div class='icon-hint '><i class='fa fa-lightbulb-o'></i></div>
 			<div class='wizard-step-intro-text' ng-bind-html="'MANAGEMENT_IMPORT_DATABASE_STEP_TABLES_INTRO'|translate"></div>
 		</div>
-		<div class="alert alert-warning text-left" ng-show='warningMessages.length>0'  ng-cloak>
+		<!-- <div class="alert alert-warning text-left" ng-show='warningMessages.length>0'  ng-cloak>
 			<strong translate-cloak translate>WARNING_TITLE</strong> <span translate-cloak translate>{{warningMessage}}</span>
 			<ul><li ng-repeat="warningMessage in warningMessages "><span translate-cloak translate>{{warningMessage}}</span></li></ul>
-		</div>
+		</div> -->
+		<alert-panel content='alert.admin_response'></alert-panel>
+		
 		<table class='table text-left import-database-choose-table table-condensed'>
 			<thead>
 				<tr>
@@ -72,19 +74,19 @@
 					<td>
 						<div class="form-horizontal">
 							<div class="form-group col-sm-12">  
-								<input type='text' placeholder='Dataset Name' ng-model='table.dataset.info.datasetName' class="form-control"/>
+								<input type='text' placeholder='Dataset Name' ng-model='table.dataset.datasetname' class="form-control"/>
 							</div>
 						</div>
 					</td>
 					<td>
 						<div class="form-horizontal">
 							<div class="form-group col-sm-12">  
-								<input type='text' title='Dataset Description' ng-model='table.dataset.info.description' class="form-control"/>
+								<input type='text' title='Dataset Description' ng-model='table.dataset.description' class="form-control"/>
 							</div>
 						</div>
 					</td>
 					<td class='slim-td info-table-cell'>
-						{{table.dataset.info.fields.length}} 
+						{{table.dataset.components.length}} 
 					<i class="fa fa-info-circle column-info-icon tag-html-tooltip-button" aria-hidden="true" ng-click="showTablesColumns(table.index)"></i>
 						<!-- <i class="fa fa-info-circle column-info-icon tag-html-tooltip-button info-icon" aria-hidden="true" tooltip-html-unsafe="{{table.columnsTooltip}}"  tooltip-trigger="click" tooltip-placement="left"></i>-->
 					</td>

@@ -380,6 +380,8 @@ var translations_en = {
 	DATASET_BINARY_DETAIL_METADATA_VIEW_BTN: 'View',
 	DATASET_BINARY_DETAIL_NOT_FOUND :'No file found',
 	
+	DATASET_FIELD_METADATA_DOMAIN_SUBDOMAIN: 'Domain/Subdomain',
+
 	/* Cookie */
 	COOKIE_MESSAGE: 'This site uses cookies to improve the browsing experience. Continuing navigation you accept the use of cookies',
 	COOKIE_ACCEPT: 'Accept',
