@@ -106,16 +106,20 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	$scope.selectedDatasets = [];
 
 	$scope.isSelected = function(dataset) {
+		//console.log("isSelected", dataset);
+
 		return $scope.selectedDatasets.indexOf(dataset) >= 0;
 	};
 
 	$scope.updateSelection = function($event, dataset) {
+		//console.log("updateSelection", dataset);
 		var checkbox = $event.target;
 		var action = (checkbox.checked ? 'add' : 'remove');
 		updateSelected(action, dataset);
 	};
 
 	var updateSelected = function(action, dataset) {
+		//console.log("updateSelected", action, dataset);
 		if (action === 'add' && $scope.selectedDatasets.indexOf(dataset) === -1) {
 			$scope.selectedDatasets.push(dataset);
 		}
@@ -126,7 +130,8 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 
 	$scope.canEdit = function() {
 		if($scope.selectedDatasets.length==1 && 
-				($scope.selectedDatasets[0].configData && $scope.selectedDatasets[0].configData.type == "dataset" && $scope.selectedDatasets[0].configData.subtype == "bulkDataset")){
+				($scope.selectedDatasets[0].datasetType && $scope.selectedDatasets[0].datasetType.datasetType == "dataset" && 
+						$scope.selectedDatasets[0].datasetSubtype &&	$scope.selectedDatasets[0].datasetSubtype.datasetSubtype == "bulkDataset")){
 			return true;
 		}
 		return false;
@@ -134,7 +139,8 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 
 	$scope.canDelete = function() {
 		if($scope.selectedDatasets.length==1 && 
-				($scope.selectedDatasets[0].configData && $scope.selectedDatasets[0].configData.type == "dataset" && $scope.selectedDatasets[0].configData.subtype == "bulkDataset")){
+				($scope.selectedDatasets[0].datasetType && $scope.selectedDatasets[0].datasetType.datasetType == "dataset" && 
+						$scope.selectedDatasets[0].datasetSubtype && $scope.selectedDatasets[0].datasetSubtype.datasetSubtype == "bulkDataset")){
 			$scope.deleteDS = true;
 			return true;
 		}

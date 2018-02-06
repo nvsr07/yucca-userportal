@@ -315,9 +315,9 @@ a.input-group-addon:hover{cursor: pointer;}
 .stream-status-draft{background-color: #8ae0f8;}
 .stream-status-inst{background-color: #e8e85c;}
 .stream-status-uninst{background-color: #dfdfdf;}
-.stream-status-req_uninst{background-color: #b9dac7;}
-.stream-status-req_inst{background-color: #8cc2a2;}
-
+.stream-status-req_uninst{background-color: #8cc2a2;}
+.stream-status-req_inst{background-color: #b9dac7;}
+.stream-status-prg_inst{background-color: #b9dac7;}
 
 
 

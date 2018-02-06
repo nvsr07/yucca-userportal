@@ -118,7 +118,7 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 	};
 
 	$scope.canEdit = function() {
-		if($scope.selectedStreams.length==1 && $scope.selectedStreams[0].deploymentStatusCode == Constants.STREAM_STATUS_DRAFT){
+		if($scope.selectedStreams.length==1 && $scope.selectedStreams[0].status && $scope.selectedStreams[0].status.statuscode == Constants.STREAM_STATUS_DRAFT){
 			return true;
 		}
 		return false;
@@ -337,27 +337,27 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 
 	$scope.canInstall = function() {
-		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_DRAFT)
+		if($scope.stream && $scope.stream.status && $scope.stream.status.statuscode == Constants.STREAM_STATUS_DRAFT)
 			return true;
 		return false;
 	};
 
 	$scope.canUnistall = function() {
-		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_INST)
+		if($scope.stream && $scope.stream.status && $scope.stream.status.statuscode == Constants.STREAM_STATUS_INST)
 			return true;
 		return false;
 	};
 
 	$scope.canEdit = function() {
 	
-		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_DRAFT)
+		if($scope.stream && $scope.stream.status && $scope.stream.status.statuscode == Constants.STREAM_STATUS_DRAFT)
 			return true;
 		return false;
 	};
 	
 
 	$scope.canCreateNewVersion = function() {
-		if($scope.stream && $scope.stream.deploymentStatusCode == Constants.STREAM_STATUS_INST)
+		if($scope.stream && $scope.stream.status && $scope.stream.status.statuscode == Constants.STREAM_STATUS_INST)
 			return true;
 		return false;
 	};

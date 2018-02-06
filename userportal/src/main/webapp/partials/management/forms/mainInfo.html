@@ -125,7 +125,7 @@
 		<div class="form-group   has-feedback">
 			<label for="inputDatasourceSubDomain" class="col-sm-3 control-label nowrap"><span translate-cloak translate>DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-9" >
-				<select ng-if='selectedDomain!="MULTI"'  class="input-sm form-control" name="inputDatasourceSubDomain" ng-model="datasource.idSubdomain"   ng-change="onSelectSubdomain(datasource.subdomaincode)" 
+				<select ng-if='selectedDomain!="MULTI"'  class="input-sm form-control" name="inputDatasourceSubDomain" ng-model="datasource.idSubdomain"   ng-change="onSelectSubdomain(datasource.idSubdomain)" 
 					ng-options="subdomain.idSubdomain as (subdomain.subdomaincode|translate) for subdomain in subdomainList" ng-required="true">
 					<option  value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_SUBDOMAIN_PLACEHOLDER</option>
 				</select>

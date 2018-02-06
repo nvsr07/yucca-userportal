@@ -264,10 +264,16 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    		});
 	    	};
 	    	
-	    	scope.onSelectSubdomain = function(subdomaincode){
+	    	scope.onSelectSubdomain = function(idSubdomain){
 	    		if(scope.operation=='importDatabase'){
-	    			console.log("onSelectSubdomain", subdomaincode);
-	    			scope.datasource.subdomaincode = subdomaincode;
+	    			console.log("onSelectSubdomain", idSubdomain);
+	    			for (var subdomainIndex = 0; subdomainIndex < scope.subdomainList.length; subdomainIndex++) {
+	    				if(scope.subdomainList[subdomainIndex].idSubdomain == idSubdomain){
+	    					scope.datasource.subdomaincode = scope.subdomainList[subdomainIndex].subdomaincode;
+	    					break;
+	    				}
+						
+					}
 	    		}
 
 	    	};

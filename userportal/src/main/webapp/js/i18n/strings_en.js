@@ -459,11 +459,12 @@ var translations_en = {
 	VALIDATION_MAX_STREAM_TWITTER_TOOLTIP: 'With this Smart Object is not possible create other streams', 
 	
 	/* stream status */
-	draft:'draft',
-    req_inst:'installation in progress',
-    inst:'installed',
-    req_uninst:'uninstall in progress',
-    uninst:'uninstalled and historicized',
+	draft:'Draft',
+    req_inst:'Installation in progress',
+    inst:'Installed',
+    req_uninst:'Uninstall in progress',
+    uninst:'Uninstalled and historicized',
+    prg_inst: 'Installation in progress',
 	
 	/* Virtual Entity List */
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filter by code',
