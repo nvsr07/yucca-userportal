@@ -83,7 +83,16 @@
 						
 						
 						<tr ng-repeat="so in filteredSoList = ( soList | filter: searchCodeFilter | orderBy:predicate:reverse  )  |startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
-							<td><input type="checkbox" name="selected" ng-checked="isSelected(so)"  ng-click="updateSelection($event, so)" ng-show="!isInternal(so)"/>
+							<!-- <td><input type="checkbox" name="selected" ng-checked="isSelected(so)"  ng-click="updateSelection($event, so)" ng-show="!isInternal(so)"/>-->
+							<td>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-checked="isSelected(so)"  ng-click="updateSelection($event, so)" ng-enabled="!isInternal(so)">
+										<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+									</label>
+								</div>
+							</td>
+						
 							<td><a href="#/management/viewVirtualentity/{{tenant}}/{{so.socode}}">{{so.socode}}</a></td>
 							<td>{{so.name}}</td>
 							<td>{{so.soType.description}}</td>

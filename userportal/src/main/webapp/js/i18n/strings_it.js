@@ -475,10 +475,11 @@ var translations_it = {
 	
 	/* stream status */
 	draft:'Bozza',
-    req_inst:'Installazione in corso',
+    req_inst:'Installazione richiesta',
     inst:'Installato',
     req_uninst:'Disinstallazione in corso',
     uninst:'Disinstallato e storicizzato',
+    prg_inst: 'Installazione in corso', 
 	
 	/* Virtual Entity List */
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filtra per codice',

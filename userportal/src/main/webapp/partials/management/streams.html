@@ -102,7 +102,17 @@
 								</td>
 							</tr>
 							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchNameFilter | filter: searchStatusFilter| filter: viewUnistalledFilter| filter:searchDomainFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
-								<td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/></td>
+								<!-- <td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/></td>  -->
+								<td>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)">
+											<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+										</label>
+									</div>
+								</td>
+								
+								
 								<td class='text-center no-border-right'>
 									<a href="#/management/viewDatasource/stream/{{tenant}}/{{stream.streamcode}}/{{stream.idstream}}">
 								<!-- 	<a href="#/management/viewStream/{{tenant}}/{{stream.smartobject.socode}}/{{stream.streamcode}}/{{stream.idstream}}"> -->

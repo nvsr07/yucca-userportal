@@ -8,7 +8,7 @@
 			        	<a href="#/management/newDataset/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/datasets/update') ||!isOwner() ">
 							<span class="glyphicon glyphicon-plus "></span>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_NEW_DATASET</span>
 						</a>
-						<button  href="javascript:void(0)" ng-click='editDataset()' class="btn  btn-edit" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canEdit()" title="{{'MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT'|translate}}">
+						<button  href  ng-click='editDataset()' class="btn  btn-edit" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canEdit()" title="{{'MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT'|translate}}">
 							<span class="glyphicon glyphicon-pencil "></span>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_EDIT_DATASET</span>
 						</button>
 						<!--  <a href="#/management/importDatabase/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/datasets/update') ||!isOwner() " title="{{'MANAGEMENT_DATASET_LIST_IMPORT_DB_BUTTON_HINT'|translate}}"> -->
@@ -96,7 +96,14 @@
 								</td>
 							</tr>
 							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | filter: searchDomainFilter | filter: searchCodeFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
-								<td><input type="checkbox" name="selected" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)"/>
+								<td>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-checked="isSelected(dataset)"  ng-click="updateSelection($event, dataset)">
+											<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+										</label>
+									</div>
+								</td>
 								<td class='text-center no-border-right'>
 									<a href="#/management/viewDatasource/dataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}">
 										<img ng-src="{{datasetIconUrl(organizationCode,dataset.iddataset)}}" alt="logo dataset" class='list-entity-icon-preview-img' >

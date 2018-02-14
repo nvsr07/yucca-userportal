@@ -32,12 +32,12 @@ appDirectives.directive('newDatasetWizardChoosetype', function() {
 	};
 });
 
-appDirectives.directive('newDatasetWizardUpload', function() {
-	return {
-		restrict : 'E',
-		templateUrl : 'partials/management/wizard/dataset/new-dataset-upload.html?'+BuildInfo.timestamp,
-	};
-});
+//appDirectives.directive('newDatasetWizardUpload', function() {
+//	return {
+//		restrict : 'E',
+//		templateUrl : 'partials/management/wizard/dataset/new-dataset-upload.html?'+BuildInfo.timestamp,
+//	};
+//});
 
 appDirectives.directive('newDatasetWizardColumns', function() {
 	return {
@@ -235,6 +235,12 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 		    		for (var int = 0; int < response.length; int++) {
 		    			scope.domainList.push(response[int].domaincode);
 		    		}
+		    		
+		    		if(scope.operation=='importDatabase' && typeof scope.datasource.domaincode != 'undefined' && scope.datasource.domaincode != null){
+		    			scope.selectedDomain = scope.datasource.domaincode;
+		    			scope.selectSubdomain(scope.selectedDomain);
+		    		}
+
 		    	});
 	    	};
 	    	
@@ -243,8 +249,12 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    		
 	    	scope.subdomainList = [];
 	    	scope.selectSubdomain = function(domain){
+	    		console.warn("domani", domain);
+	    		if(scope.operation=='importDatabase')
+	    			scope.datasource.domaincode = domain;
 	    		scope.subdomainList = [];
 	    		adminAPIservice.loadSubDomains(domain).success(function(response) {
+	    			console.warn("response", response);
 	    			response.sort(function(a, b) { 
 	    			    return ((a.langit < b.langit) ? -1 : ((a.langit > b.langit) ? 1 : 0));
 	    			});
@@ -253,6 +263,25 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    			}
 	    		});
 	    	};
+	    	
+	    	scope.onSelectSubdomain = function(idSubdomain){
+	    		if(scope.operation=='importDatabase'){
+	    			console.log("onSelectSubdomain", idSubdomain);
+	    			for (var subdomainIndex = 0; subdomainIndex < scope.subdomainList.length; subdomainIndex++) {
+	    				if(scope.subdomainList[subdomainIndex].idSubdomain == idSubdomain){
+	    					scope.datasource.subdomaincode = scope.subdomainList[subdomainIndex].subdomaincode;
+	    					break;
+	    				}
+						
+					}
+	    		}
+
+	    	};
+	    	
+	    	if(scope.operation=='importDatabase' && typeof scope.datasourceDomain != 'undefined' && scope.datasourceDomain != null){
+	    		scope.selectedDomain = scope.datasourceDomain;
+	    		scope.selectSubdomain(scope.selectedDomain);
+	    	}
 	    	
 
 	    	
@@ -424,10 +453,15 @@ app.directive('datasourceDetailInfo', function($modal, readFilePreview, adminAPI
 		 				}
 	
 		 			}
-		 			if(!found)
+		 			if(!found){
 		 				scope.datasource.tags.push(newTag.idTag);
+		 				if(typeof scope.datasource.taglabels == 'undefined')
+		 					scope.datasource.taglabels = new Array();
+		 				scope.datasource.taglabels.push(newTag.tagLabel);
+	 		    	}
 		 			scope.newTag.value = null;
 		 		}
+		 		
 		 		return false;
 		 	};
 		 	
