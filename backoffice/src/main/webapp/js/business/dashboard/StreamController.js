@@ -366,7 +366,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 	
    
 	function createStepsLogUrl(operation, stream){
-		return "installer_" + operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".json"; 
+		return "installer_" + operation + "_stream_" + stream.idstream+ ".json"; 
 	}
 	
     
