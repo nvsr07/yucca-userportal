@@ -266,7 +266,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 		});
 		
 		$scope.streamsList[rowIndex].stepsLogUrl = createStepsLogUrl(operation, stream);
-		//ELEEEEEEEEEEEEEEEchekStepsLog(rowIndex, $scope.streamsList[rowIndex].stepsLogUrl);
+		chekStepsLog(rowIndex, $scope.streamsList[rowIndex].stepsLogUrl);
 	};
 	
 	var someOneIsUpdating = false;
@@ -366,7 +366,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 	
    
 	function createStepsLogUrl(operation, stream){
-		return "installer_" + operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".json"; 
+		return "installer_" + operation + "_stream_" + stream.idstream+ ".json"; 
 	}
 	
     
@@ -411,7 +411,7 @@ appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 
 	$scope.extendedLog = null;
 	$scope.extendedLogUrl = null;
 	console.log("StreamInstallLogCtrl - row", row)
-	$scope.streamName = row.stream.codiceStream + " - " + row.stream.nomeStream;
+	$scope.streamName = row.stream.streamcode + " - " + row.stream.streamname;
 	$scope.actions = Constants.STREAM_ACTIONS;
 	$scope.error = null;
 	// format log
@@ -467,7 +467,7 @@ appControllers.controller('StreamInstallLogCtrl', [ '$scope', '$modalInstance', 
 	}
 
 	function createActionLogUrl(stream, operation){
-		return operation + "_stream_" + stream.codiceTenant + "_" + stream.codiceVirtualEntity + "_" + stream.codiceStream+ ".log"; 
+		return operation + "_stream_" + stream.idstream+ ".log"; 
 	}
 
 	
