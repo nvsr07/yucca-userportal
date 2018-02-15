@@ -350,11 +350,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 		$scope.showUploadButton = true;
 	};
 
-
-	$scope.datasetReady = false;
-	var isClone = false;
-	if(!$scope.isNewDataset){
-		$scope.admin_response = {};
+	$scope.admin_response = {};
+	var loadDatasource = function(){
 		adminAPIservice.loadDatasource(Constants.DATASOURCE_TYPE_DATASET,  info.getActiveTenant(),$routeParams.id_datasource).success(function(response) {
 			console.log("LoadDataset", response);
 			try{
@@ -374,6 +371,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 				
 				$scope.newField = {sourcecolumn: $scope.dataset.components.length+1};
 				$scope.datasetReady = true;
+				$scope.updateStatus = 'ready';
+
 			} catch (e) {
 				console.error("loadDataset ERROR", e);
 			}
@@ -385,7 +384,12 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 			else
 				$scope.admin_response.message = 'UNEXPECTED_ERROR';
 		});
+	};
 
+	$scope.datasetReady = false;
+	var isClone = false;
+	if(!$scope.isNewDataset){
+		loadDatasource();
 	}
 	else{
 		$scope.dataset = sharedDataset.getDataset();
@@ -717,10 +721,13 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 		adminAPIservice.updateDataset(info.getActiveTenant(), $scope.dataset).success(function(response) {
 			console.log("updateDataset SUCCESS", response);
 			Helpers.util.scrollTo();
-			$scope.updateStatus = 'finish';
+			//$scope.updateStatus = 'finish';
 			$scope.admin_response.type = 'success';
-			$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
+			$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_DATA_SAVED_INFO';
 			sharedAdminResponse.setResponse($scope.admin_response);
+			$scope.preview.components = [];
+			$scope.previewBinaries = [];
+			loadDatasource();
 
 		}).error(function(response){
 			console.error("updateDataset ERROR", response);
@@ -728,7 +735,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 
 			Helpers.util.scrollTo();
 			$scope.admin_response.type = 'danger';
-			$scope.admin_response.message = 'MANAGEMENT_EDIT_STREAM_SAVE_ERROR';
+			$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_SAVE_ERROR';
 			if(response && response.errorName)
 				$scope.admin_response.detail= response.errorName;
 			if(response && response.errorCode)
