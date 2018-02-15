@@ -125,10 +125,8 @@ appDirectives.directive('alertPanel', [function(){
 	    details: '='
 	  },
 	  link: function(scope, element, attrs){
-		  console.warn("scope.alert", scope.content);
 		  //scope.content = scope.content;
 		  if(!scope.content){
-			  console.warn("scope.dentro", scope.content);
 			  scope.content = {type: scope.type,
 					   code: scope.code,
 					    message: scope.message,
@@ -136,7 +134,6 @@ appDirectives.directive('alertPanel', [function(){
 					    details: scope.details
 					  };
 		  }
-		  console.warn("scope.dopo", scope.content);
 
 		  //scope.details = scope.details;
           scope.hide = function(){

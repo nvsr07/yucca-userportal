@@ -304,8 +304,8 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 
 
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDataset', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse',
-             function($scope, $route, $routeParams, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDataset,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse',
+             function($scope, $route, $routeParams, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -349,6 +349,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 	$scope.loadMoreData = function(){
 		$scope.showUploadButton = true;
 	};
+	$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
 
 	$scope.admin_response = {};
 	var loadDatasource = function(){
@@ -365,11 +366,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 				}
 				$scope.newComponent = {sourcecolumn: $scope.preview.components.length+1};
 				console.log("LoadDataset prepared", $scope.dataset);
-				$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
 				if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				
-				$scope.newField = {sourcecolumn: $scope.dataset.components.length+1};
+				//$scope.newField = {sourcecolumn: $scope.dataset.components.length+1};
 				$scope.datasetReady = true;
 				$scope.updateStatus = 'ready';
 
@@ -385,6 +385,22 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 				$scope.admin_response.message = 'UNEXPECTED_ERROR';
 		});
 	};
+	
+	var cleanDatasetBeforeUpdate = function(){
+		if($scope.dataset.opendata && !($scope.dataset.opendata.opendataupdatedate || $scope.dataset.opendata.opendataexternalreference || 
+				$scope.dataset.opendata.lastupdate || $scope.dataset.opendata.opendataauthor || $scope.dataset.opendata.opendatalanguage))
+			delete $scope.dataset['openData'];
+	
+		if($scope.dataset.license && $scope.dataset.license.idLicense==null && $scope.dataset.license.description==null && $scope.dataset.license.licesecode==null)
+			delete $scope.dataset['license'];
+
+		if($scope.dataset.visibility == 'public')
+			delete $scope.dataset['sharingTenants'];
+		if($scope.dataset.visibility != 'private')
+			delete $scope.dataset['copyright'];
+		else
+			delete $scope.dataset['license'];
+	};
 
 	$scope.datasetReady = false;
 	var isClone = false;
@@ -392,27 +408,29 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 		loadDatasource();
 	}
 	else{
-		$scope.dataset = sharedDataset.getDataset();
-		if($scope.dataset==null){				
+		var datasourceClone = sharedDatasource.getDatasource();
+		if(datasourceClone==null){				
+			isClone = false;
 			$scope.dataset = {"datasourceType": Constants.DATASOURCE_TYPE_DATASET,tags: new Array(), unpublished: 0,visibility: 'private', idTenant:info.getActiveTenant().idTenant};
 			console.log("new Dataset start", $scope.dataset);
 			$scope.datasetReady = true;
 		}
 		else{
 			isClone = true;
-			$scope.metadata.info.datasetName = null;
-			if($scope.metadata.configData.deleted)
-				delete $scope.metadata.configData.deleted;
-			$scope.preview.components = [];
-			$scope.previewBinaries = [];
-			if($scope.dataset.components.length>0){
-				for (var int = 0; int < $scope.dataset.components.length; int++) {
-					var component = $scope.dataset.components[int];
-					if(component.idDataType == Constants.COMPONENT_DATA_TYPE_BINARY)
-						$scope.previewBinaries.push(component);
-					else
-						$scope.preview.components.push(component);
-				}
+			$scope.dataset = Helpers.yucca.prepareDatasourceForUpdate(Constants.DATASOURCE_TYPE_DATASET,datasourceClone);
+			$scope.datasetDomain = $scope.dataset.domaincode;
+			delete $scope.dataset.currentDataSourceVersion;
+			delete $scope.dataset.datasetname;
+			delete $scope.dataset.datasetcode;
+			delete $scope.dataset.iddataset;
+			if(Helpers.util.has($scope.dataset, "dcat.idDcat"))
+				delete $scope.dataset.dcat.idDcat;
+			
+			cleanDatasetBeforeUpdate();
+			console.log("LoadDataset prepared", $scope.dataset);
+			for (var cIndex = 0; cIndex < $scope.dataset.components.length; cIndex++) {
+				delete $scope.dataset.components[cIndex].idComponent;
+				$scope.preview.components.push($scope.dataset.components[cIndex]);
 			}
 			$scope.datasetReady = true;
 
@@ -636,6 +654,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 					);
 		}
 		
+		cleanDatasetBeforeUpdate();
+		
 		console.log("dataset dopo binary ", $scope.dataset);
 		console.log("dataset ready", $scope.dataset);
 		if(!hasErrors){
@@ -663,7 +683,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 				}
 				else{
 					sharedAdminResponse.setResponse($scope.admin_response);
-					$location.path('/management/viewDatasource/'+$scope.tenantCode+"/"+response.datasetcode+"/"+response.iddataset);
+					$location.path('/management/viewDatasource/dataset/'+$scope.tenantCode+"/"+response.datasetcode+"/"+response.iddataset);
 
 					$scope.updateStatus = 'update';
 				}
@@ -700,19 +720,21 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 		}
 		
-		if($scope.dataset.opendata && !($scope.dataset.opendata.opendataupdatedate || $scope.dataset.opendata.opendataexternalreference || 
-				$scope.dataset.opendata.lastupdate || $scope.dataset.opendata.opendataauthor || $scope.dataset.opendata.opendatalanguage))
-			delete $scope.dataset['openData'];
-	
-		if($scope.dataset.license && $scope.dataset.license.description==null && $scope.dataset.license.licesecode==null)
-			delete $scope.dataset['license'];
-
-		if($scope.dataset.visibility == 'public')
-			delete $scope.dataset['sharingTenants'];
-		if($scope.dataset.visibility != 'private')
-			delete $scope.dataset['copyright'];
-		else
-			delete $scope.dataset['license'];
+		
+		cleanDatasetBeforeUpdate();
+//		if($scope.dataset.opendata && !($scope.dataset.opendata.opendataupdatedate || $scope.dataset.opendata.opendataexternalreference || 
+//				$scope.dataset.opendata.lastupdate || $scope.dataset.opendata.opendataauthor || $scope.dataset.opendata.opendatalanguage))
+//			delete $scope.dataset['openData'];
+//	
+//		if($scope.dataset.license && $scope.dataset.license.description==null && $scope.dataset.license.licesecode==null)
+//			delete $scope.dataset['license'];
+//
+//		if($scope.dataset.visibility == 'public')
+//			delete $scope.dataset['sharingTenants'];
+//		if($scope.dataset.visibility != 'private')
+//			delete $scope.dataset['copyright'];
+//		else
+//			delete $scope.dataset['license'];
 		
 		console.log("updateDataset - dataset", $scope.dataset);
 		$scope.admin_response = {};

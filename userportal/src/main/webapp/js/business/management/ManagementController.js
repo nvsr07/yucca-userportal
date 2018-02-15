@@ -48,8 +48,8 @@ appControllers.controller('ManagementNavigationCtrl', [ '$scope', '$route','info
 
 }]);
 
-appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$location', '$routeParams','adminAPIservice', 'info', '$modal', '$translate', 'sharedAdminResponse', 'sharedStream',
-                                                           function($scope, $route, $location,$routeParams,adminAPIservice, info, $modal, $translate, sharedAdminResponse, sharedStream) {
+appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$location', '$routeParams','adminAPIservice', 'info', '$modal', '$translate', 'sharedAdminResponse', 'sharedDatasource',
+                                                           function($scope, $route, $location,$routeParams,adminAPIservice, info, $modal, $translate, sharedAdminResponse, sharedDatasource) {
   	$scope.tenantCode = $route.current.params.tenant_code;
   	console.log("ManagementDetailCtrl " , $route.current.params);
   	$scope.showLoading = true;
@@ -175,15 +175,16 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
   	
   	
 	$scope.cloneDatasource = function(){
+		sharedDatasource.setDatasource($scope.datasource);
 		if($scope.stream){
 			
 			console.log("streammmmm",$scope.stream);
-			sharedStream.setStream($scope.stream);
+			//sharedStream.setStream($scope.stream);
 			$location.path('management/newStream/'+$scope.tenantCode);
 		}
 		else{
 			console.log("dataset",$scope.dataset);
-			sharedDataset.setDataset($scope.dataset);
+			//sharedDataset.setDataset($scope.dataset);
 			$location.path('management/newDataset/'+$scope.tenantCode);
 		}
 	};

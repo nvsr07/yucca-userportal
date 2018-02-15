@@ -167,6 +167,10 @@ Helpers.yucca = {
 				dsOut.idSubdomain= dsIn.subdomain.idSubdomain;
 			}
 
+			if(typeof dsIn.domain != 'undefined' && dsIn.domain!= null){
+				dsOut.domaincode= dsIn.domain.domaincode;
+			}
+
 			if(typeof dsIn.tenantManager != 'undefined' && dsIn.tenantManager!= null){
 				dsOut.idTenant= dsIn.tenantManager.idTenant;
 			}

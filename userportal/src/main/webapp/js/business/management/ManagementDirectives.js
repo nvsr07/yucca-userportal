@@ -226,7 +226,7 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    	
 	    	
 	    	scope.domainList = [];
-	    	var loadDomais = function(){
+	    	var loadDomains = function(){
 		    	adminAPIservice.loadDomains().success(function(response) {
 		    		console.debug("loadDomains", response);
 		    		response.sort(function(a, b) { 
@@ -236,7 +236,7 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 		    			scope.domainList.push(response[int].domaincode);
 		    		}
 		    		
-		    		if(scope.operation=='importDatabase' && typeof scope.datasource.domaincode != 'undefined' && scope.datasource.domaincode != null){
+		    		if((scope.operation == 'create' || scope.operation == 'importDatabase' ) && typeof scope.datasource.domaincode != 'undefined' && scope.datasource.domaincode != null){
 		    			scope.selectedDomain = scope.datasource.domaincode;
 		    			scope.selectSubdomain(scope.selectedDomain);
 		    		}
@@ -245,23 +245,23 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    	};
 	    	
 	    	if(scope.operation == 'create' || scope.operation == 'importDatabase' )
-	    		loadDomais();
+	    		loadDomains();
 	    		
 	    	scope.subdomainList = [];
 	    	scope.selectSubdomain = function(domain){
-	    		console.warn("domani", domain);
-	    		if(scope.operation=='importDatabase')
+	    		if(scope.operation=='importDatabase' ||scope.operation=='create')
 	    			scope.datasource.domaincode = domain;
 	    		scope.subdomainList = [];
-	    		adminAPIservice.loadSubDomains(domain).success(function(response) {
-	    			console.warn("response", response);
-	    			response.sort(function(a, b) { 
-	    			    return ((a.langit < b.langit) ? -1 : ((a.langit > b.langit) ? 1 : 0));
-	    			});
-	    			for (var int = 0; int < response.length; int++) {
-	    				scope.subdomainList.push(response[int]);
-	    			}
-	    		});
+	    		if(typeof domain != 'undefuned' && domain!=null && domain!=''){
+		    		adminAPIservice.loadSubDomains(domain).success(function(response) {
+		    			response.sort(function(a, b) { 
+		    			    return ((a.langit < b.langit) ? -1 : ((a.langit > b.langit) ? 1 : 0));
+		    			});
+		    			for (var int = 0; int < response.length; int++) {
+		    				scope.subdomainList.push(response[int]);
+		    			}
+		    		});
+	    		}
 	    	};
 	    	
 	    	scope.onSelectSubdomain = function(idSubdomain){
@@ -278,7 +278,7 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 
 	    	};
 	    	
-	    	if(scope.operation=='importDatabase' && typeof scope.datasourceDomain != 'undefined' && scope.datasourceDomain != null){
+	    	if((scope.operation=='importDatabase' ||scope.operation=='create')  && typeof scope.datasourceDomain != 'undefined' && scope.datasourceDomain != null){
 	    		scope.selectedDomain = scope.datasourceDomain;
 	    		scope.selectSubdomain(scope.selectedDomain);
 	    	}
@@ -943,6 +943,7 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal) {
 	    	scope.removeComponent = function(index){
 	    		scope.preview.components.splice(index,1);
 	    		scope.refreshColumnOrder();
+    			scope.newComponent = {sourcecolumn: scope.preview.components.length+1};
 	    	};
 	    	
 	    	

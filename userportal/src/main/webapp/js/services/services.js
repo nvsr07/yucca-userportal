@@ -54,6 +54,18 @@ appServices.factory('readFilePreview', function($q) {
 	};
 });
 
+
+appServices.factory('sharedDatasource',  function () {
+	var datasource = null;
+	
+	return {
+		getDatasource: function () { return datasource;},
+		setDatasource: function(value) {datasource = value;}
+	};
+});
+
+/*
+
 appServices.factory('sharedStream',  function () {
 	var stream = null;
 	
@@ -79,7 +91,7 @@ appServices.factory('sharedDataset',  function () {
 		}
 	};
 });
-
+*/
 
 appServices.factory('sharedAdminResponse',  function () {
 	var response = null;
