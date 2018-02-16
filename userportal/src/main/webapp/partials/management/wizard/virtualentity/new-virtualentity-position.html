@@ -7,17 +7,32 @@
 		<div class="form-group">
 			<label for="RadioGroupPositionType" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_POSITION_TYPE_MOBILE</span></label>
 			<div class="col-sm-10 text-left">
-				<label class="radio-inline" ng-repeat='lt in locationTypeList track by $index'>
+				<div class="radio pull-left" ng-repeat='lt in locationTypeList track by $index'>
+					<label>
+						<input type="radio" name="RadioGroupPositionType" value="{{lt.idLocationType}}" ng-model="so.idLocationType" id="RadioGroupPositionType_{{$index}}">
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<span translate-cloak translate>{{lt.description}}</span>
+					</label>
+				</div>
+				<!-- <label class="radio-inline" ng-repeat='lt in locationTypeList track by $index'>
 					<input type="radio" name="RadioGroupPositionType" value="{{lt.idLocationType}}" id="RadioGroupPositionType_{{$index}}" ng-model="so.idLocationType">{{lt.description}}
-				</label>
+				</label>-->
 			</div> 
 		</div>
 		<div class="form-group  has-feedback">
 			<label for="RadioGroupEsposition" class="col-sm-2 control-label"><span translate-cloak translate>VIRTUALENTITY_FIELD_ESPOSITION</span> <span class='required-asterisk'>*</span></label>
 			<div class="col-sm-10  text-left">
+				<div class="radio pull-left" ng-repeat='et in exposureTypeList track by $index'>
+					<label>
+						<input type="radio" name="RadioGroupEsposition" value="{{et.idExposureType}}" ng-model="so.idExposureType" id="RadioGroupEsposition_{{$index}}">
+						<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+						<span translate-cloak translate>{{et.description}}</span>
+					</label>
+				</div>
+				<!-- 
 				<label class="radio-inline" ng-repeat="et in exposureTypeList track by $index">
              			<input type="radio" name="RadioGroupEsposition" value="{{et.idExposureType}}" id="RadioGroupEsposition_{{$index}}" ng-model="so.idExposureType" required>{{et.description}}
-           		</label>
+           		</label>-->
 			</div>
 		</div>
 

@@ -145,8 +145,8 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 } ]);
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'sharedAdminResponse', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream', '$translate',
-                                                    function($scope, $routeParams, fabricAPIservice, adminAPIservice, sharedAdminResponse, info, $timeout, $filter, readFilePreview, $location, sharedStream, $translate) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'sharedAdminResponse', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedDatasource', '$translate',
+                                                    function($scope, $routeParams, fabricAPIservice, adminAPIservice, sharedAdminResponse, info, $timeout, $filter, readFilePreview, $location, sharedDatasource, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){
@@ -298,7 +298,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 		} else {
 			$scope.datasourceReady = true;
-			var streamClone = sharedStream.getStream();
+			var streamClone = sharedDatasource.getDatasource();
 			if(streamClone!=null){
 				streamClone.statoStream = null;
 				streamClone.streamcode = null;

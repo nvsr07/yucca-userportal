@@ -16,6 +16,7 @@ var translations_en = {
 	EDIT: 'Edit',
 	SAVE_DRAFT: 'Save draft',
 	COMING_SOON: 'Coming soon...', 
+	ERROR_TITLE: 'An error has occurred', 
 	WARNING: 'Warning', 
 	WARNING_TITLE: 'Warning', 
 	WARNING_SUBTITLE: 'Please verify',
@@ -28,6 +29,8 @@ var translations_en = {
 	CLOSE: 'Close',
 	WAIT: 'Wait...',
 	REFRESH: 'Refresh',
+	ADD: 'Add',
+	REMOVE: 'Remove',
 
 	DATE_DAY_PLACEHOLDER: 'dd',
 	DATE_MONTH_PLACEHOLDER: 'mm',
@@ -69,6 +72,13 @@ var translations_en = {
 	MENU_MODAL_RESPONSE_TEXT_OK: 'The request for the creation of the tenant with code tenantCode { { } } has been sent , you will receive an email to answer that you provided: ',
 	MENU_MODAL_RESPONSE_TEXT_KO: 'We could not handle the request.',
 	
+	REQUEST_TENANT_TRIAL_TITLE: 'Trial Tenant Request',
+	REQUEST_TENANT_TRAIL_INFO: 'Request the creation of a trial tenant to perform tests, once the usual checks have been performed, you will see it in the drop-down list at the top right',
+	REQUEST_TENANT_PERSONAL_INFO: 'Request the creation of a personal tenant, once the usual checks are done, you will see it in the drop-down list at the top right',
+	REQUEST_TENANT_EMAIL_INFO: 'Enter the email address where will be sent the updates related to the tenant creation.',
+	REQUEST_TENANT_EMAIL_ERROR: 'Insert a valid email address',
+	REQUEST_TENANT_PERSONAL_TITLE: 'Personal Tenant Request',
+	REQUEST_TENANT_SENDING: 'Request sent, wait please',
 	/* Entity */
 	STREAM: 'Stream',
 	TENANT: 'Tenant',
@@ -319,6 +329,8 @@ var translations_en = {
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Measurement unit',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with',
 	
+	DATASET_FIELD_METADATA_FIELD_CSV_COLUMN: 'CSV column',
+	
 	DATASET_FIELD_UNPUBLISHED_TRUE: 'Not published',
 	DATASET_FIELD_UNPUBLISHED_FALSE: 'Published',
 	DATASET_FIELD_UNPUBLISHED_TRUE_HINT: 'Not published on the store',
@@ -391,7 +403,10 @@ var translations_en = {
 	DATASET_FIELD_NAME_PLACEHOLDER : 'e.g. museum 2014',
 	DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER: 'key',
 	
-	
+	DATASET_TYPE_dataset: 'Dataset',
+	DATASET_SUBTYPE_streamDataset: 'Stream',
+	DATASET_SUBTYPE_bulkDataset: 'Bulk',
+	DATASET_SUBTYPE_socialDataset: 'Social', 
 	/* Stream domains */
 	/*AGRICULTURE: 'Agriculture',
 	ENERGY: 'Energy',
@@ -704,6 +719,13 @@ var translations_en = {
     MANAGEMENT_DATASET_METADATA_MANDATORY_HINT:'Required fields ',
     MANAGEMENT_DATASET_MATADATA_TAG_HINT: 'At least one tag',
     MANAGEMENT_DATASET_MATADATA_DCAT_HINT: 'Metadata DCat AP',
+
+    MANAGEMENT_STREAM_START_NAME_HINT: 'The <strong>stream name</strong> will be <strong>used  in the store</strong>',
+    MANAGEMENT_STREAM_METADATA_DESCRIPTION_HINT: 'The <strong>stream description</strong> will be <strong>used  in the store</strong>',
+    MANAGEMENT_STREAM_METADATA_MANDATORY_HINT:'Required fields ',
+    MANAGEMENT_STREAM_MATADATA_TAG_HINT: 'At least one tag',
+    MANAGEMENT_STREAM_MATADATA_DCAT_HINT: 'Metadata DCat AP',
+
     
     /* Management Stream  */
 	MANAGEMENT_DASHBOARD_SUBTITLE: 'Dashboard',
@@ -815,6 +837,11 @@ var translations_en = {
 	MANAGEMENT_EDIT_STREAM_MQTT_LBL: 'Use the stream in real time with MQTT',
     
 	MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING: 'The components  of the streams in draft may not match with the installed version',
+	
+	MANAGEMENT_EDIT_STREAM_SAVE_ERROR: 'Error while saving the stream',
+	MANAGEMENT_EDIT_STREAM_SAVED_INFO: 'Stream saved',
+
+
 
 	/* Management Virtual Entity  */
 	MANAGEMENT_VIRTUALENTITY_SUBTITLE: 'Smart Objects',
@@ -952,6 +979,9 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP: 'If the first row contain the name of the columns', 
 	MANAGEMENT_NEW_DATASET_COLUMNS_TITLE: 'Columns to import',
 	MANAGEMENT_NEW_DATASET_COLUMNS_INTRO: 'Choose the columns that you want to import. Is possible to change the order of import', 
+	MANAGEMENT_NEW_DATASET_CSV_IMPORT_INFO_TITLE: 'Import infomations',
+	MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW: 'Data preview',
+	MANAGEMENT_NEW_DATASET_CSV_IMPORT_DATA_PREVIEW_REFRESH: 'Reload preview',
 	
 	MANAGEMENT_NEW_DATASET_ADD_COLUMN_DEFINITION: 'Add column',
 	MANAGEMENT_NEW_DATASET_REMOVE_COLUMN_DEFINITION: 'Remove column',
@@ -966,7 +996,10 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_ADD_COLUMN_INPUT_NAME_HINT: 'The name will be cleaned up by spaces and special characters automatically when saving',
 	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME_UNIQUE: 'The columns name must be unique',
 	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME: 'The columns name are required, there is some column without name',
+	MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_ERROR: 'Column names can only contain alphanumeric characters, there are some columns with the non-conforming name',
 	
+	
+	MANAGEMENT_NEW_DATASET_WARNING_TITLE: 'Check the entered data', 
 	
 	MANAGEMENT_NEW_DATASET_BINARY_TITLE :'Binary file',
 	MANAGEMENT_NEW_DATASET_BINARY_INTRO: 'Define at least one binary file',
@@ -1171,6 +1204,17 @@ var translations_en = {
 	
 	MANAGEMENT_EDIT_DATASET_DATA_URLS: 'OData URL format (ref. http://www.odata.org/): ', 
 		
+	MANAGEMENT_EDIT_DATASET_SAVE_ERROR: 'Error while saving dataset',
+	MANAGEMENT_EDIT_DATASET_SAVED_INFO: 'Dataset saved',
+
+	MANAGEMENT_EDIT_DATASET_ADD_DATA_ERROR: 'Error loading data. Data not loaded',
+	
+	MANAGEMENT_EDIT_DATASET_SAVED_OK_ADD_DATA_FAILED: 'Dataset created successfully, but errors occurred while loading data. Try again with the add data function',
+
+	MANAGEMENT_EDIT_DATASOURCE_NEW_COMPONENT: 'New component',
+	MANAGEMENT_EDIT_DATASOURCE_NEW_BINARY: 'New binary component',
+	DATASOURCE_TYPE: 'Type',
+	
 	/* Choose tenant temp */
 	MANAGEMENT_CHOOSE_TENANT_SUBTITLE: 'Choose tenant',
 	MANAGEMENT_CHOOSE_TENANT_WARNING: 'Temporary page awaiting authentication system',

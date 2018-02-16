@@ -75,7 +75,7 @@ var translations_it = {
 	REQUEST_TENANT_TRIAL_TITLE: 'Richiesta Trial Tenant',
 	REQUEST_TENANT_TRAIL_INFO: 'Richiedi la  creazione di un tenant di prova per effettuare delle prove, una volta effettuate le normali verifiche, lo vedrai nell\'elenco a tendina in alto a destra.',
 	REQUEST_TENANT_PERSONAL_INFO: 'Richiedi la  creazione di un tenant personale, una volta effettuate le normali verifiche, lo vedrai nell\'elenco a tendina in alto a destra.',
-	REQUEST_TENANT_EMAIL_INFO: 'Inserisci l\'indirizzo email a cui verranno inviate gli aggiornamneti relativi alla creazione del tenant.',
+	REQUEST_TENANT_EMAIL_INFO: 'Inserisci l\'indirizzo email a cui verranno inviate gli aggiornamenti relativi alla creazione del tenant.',
 	REQUEST_TENANT_EMAIL_ERROR: 'Per proseguire inserire un\'indirizzo email valido',
 	REQUEST_TENANT_PERSONAL_TITLE: 'Richiesta Tenant Personale',
 	REQUEST_TENANT_SENDING: 'Richiesta inviata, attendere prego',
@@ -723,6 +723,13 @@ var translations_it = {
     MANAGEMENT_DATASET_METADATA_MANDATORY_HINT:'Campi obbligatori',
     MANAGEMENT_DATASET_MATADATA_TAG_HINT: 'Almeno un tag',
     MANAGEMENT_DATASET_MATADATA_DCAT_HINT: 'Metadati DCat AP',
+   
+    MANAGEMENT_STREAM_START_NAME_HINT: 'Il <strong>nome</strong> dello stream sar&agrave; <strong>utilizzato nello store</strong>',
+    MANAGEMENT_STREAM_METADATA_DESCRIPTION_HINT: 'La <strong>descrizione</strong> dello stream sar&agrave; </strong>utilizzato nello store</strong>',
+    MANAGEMENT_STREAM_METADATA_MANDATORY_HINT:'Campi obbligatori',
+    MANAGEMENT_STREAM_MATADATA_TAG_HINT: 'Almeno un tag',
+    MANAGEMENT_STREAM_MATADATA_DCAT_HINT: 'Metadati DCat AP',
+   
     
     /* Management Stream  */
 	MANAGEMENT_DASHBOARD_SUBTITLE: 'Dashboard',

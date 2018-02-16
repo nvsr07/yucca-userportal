@@ -1,18 +1,16 @@
 <div>
 	<div class="form-group text-left" ng-if="isStream()  && operation=='create'">
 		<label for="inputTypeStream" class="col-sm-3 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
-		<div class="col-sm-3">
+		<div class="col-sm-9">
 				<!-- span translate-cloak translate>STREAM_NEW_DEFINITION </span> --> 
-			<div class="radio">
+			<div class="radio pull-left">
 				<label>
 					<input type="radio" name="inputTypeStream" ng-value="false" ng-model="extra.isInternal" ng-change="selectSoInternal(false)">
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 					<span translate-cloak translate>STREAM_NEW_DEFINITION</span>
 				</label>
 			</div>
-		</div>
-		<div class="col-sm-3">
-			<div class="radio">
+			<div class="radio pull-left">
 				<label>
 					<input type="radio" name="inputTypeStream" ng-value="true" ng-model="extra.isInternal" ng-change="selectSoInternal(true)">
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>

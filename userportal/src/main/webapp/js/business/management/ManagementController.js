@@ -177,14 +177,9 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 	$scope.cloneDatasource = function(){
 		sharedDatasource.setDatasource($scope.datasource);
 		if($scope.stream){
-			
-			console.log("streammmmm",$scope.stream);
-			//sharedStream.setStream($scope.stream);
 			$location.path('management/newStream/'+$scope.tenantCode);
 		}
 		else{
-			console.log("dataset",$scope.dataset);
-			//sharedDataset.setDataset($scope.dataset);
 			$location.path('management/newDataset/'+$scope.tenantCode);
 		}
 	};
