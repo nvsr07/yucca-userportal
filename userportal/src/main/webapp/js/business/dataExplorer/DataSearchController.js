@@ -81,15 +81,22 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 		$location.path('dataexplorer/searchresults').search({query:$scope.metadataSearchInput.query});
 	};
 	
+	$scope.selectedDomainTree = null;
+	//$scope.showDomainTree = false;
 	$scope.expandRoot = function(domainIndex){
+		//$scope.showDomainTree = true;
+		console.log("expandRoot", $scope.domainList[domainIndex].tree);
+		$scope.selectedDomainTree ={"treeIndex":domainIndex, "tree": angular.copy($scope.domainList[domainIndex].tree)};
+		//$scope.selectedDomainIndex  = domainIndex;
 		$scope.domainList[domainIndex].isOpen = true;
 		$scope.domainList[domainIndex].forceOpen = true;
-		metadataPivotSearch($scope.domainList[domainIndex], "domainCode,subdomainCode,organizationCode", {"domainCode": [$scope.domainList[domainIndex].domain]}, 16);
+		metadataPivotSearch($scope.selectedDomainTree, "domainCode,subdomainCode,organizationCode", {"domainCode": [$scope.domainList[domainIndex].domain]}, 16);
+		$scope.selectedDomainTree.treeReady = true;
 
 	};
 	
 	$scope.updateTreeCallback = function(isRoot, domainIndex){
-		console.log("updateTreeCallback",isRoot, domainIndex, $scope.domainList[domainIndex]);
+		console.warn("updateTreeCallback",isRoot, domainIndex, $scope.domainList[domainIndex]);
 		console.log("prima",$scope.domainList[domainIndex].isOpen);
 		 $timeout( function(){
 			 if($scope.domainList[domainIndex].forceOpen){
@@ -97,6 +104,12 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 				 $scope.domainList[domainIndex].forceOpen = false;
 			 }else
 	            $scope.domainList[domainIndex].isOpen = !isRoot;
+			if(isRoot){
+				//$scope.showDomainTree = false;
+				//$scope.selectedDomainIndex  = -1;
+				$scope.selectedDomainTree = null;
+			}
+
 	        }, 10);
 		//console.log("dopo",$scope.domainList[domainIndex].isOpen);
 	};
@@ -110,7 +123,7 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 	var metadataPivotSearch  = function(treeContainer, pivotFacetFields, filter, ellipse){
 
 		var pivotFacet = {"pivot": pivotFacetFields};
-		$scope.treeListData =  [{"title": "Data Lake", "parent": "null", "cssClass": "datalake", "icon": "", "children": [], "filter":{}}];
+		$scope.treeListData =  [{"title": "", "parent": "null", "cssClass": "datalake", "icon": "", "children": [], "filter":{}}];
 
 		//$scope.netflixData = {"title": "Data Lake", "parent": "null", "cssClass": "datalake", "children": [], "filter":{}};
 		
@@ -167,6 +180,8 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 	
 	
 	var searchTooltipPrefix = $translate.instant('DATASEARCH_DOMAINS_TOOLTIP_PREFIX');
+	
+	
 	
 	var addPivotToTree = function(tree, pivotList, prevFilter, ellipse){
 		if(typeof tree.children == 'undefined' || tree.children==null)

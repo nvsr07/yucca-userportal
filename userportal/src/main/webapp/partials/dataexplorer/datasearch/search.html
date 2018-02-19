@@ -71,38 +71,43 @@
 				<div class='row' ng-if="browseBy=='domain'">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class='domains-panel'>
-							<table class='table domains-table'>
+							<table class='table domains-table'  ng-if="selectedDomainTree==null">
 								<tbody>
 									<tr ng-repeat='domain in domainList'  ng-if="$index % 2 == 0" >
 										<td class='browsedata-choosing-domain-box text-left domains-table-left-column'> 
-											<div ng-if="!domainList[$index].isOpen" class='domains-closed-cell'>
+											<div class='domains-closed-cell'>
 												<i class="icon-{{domain.domain}} domain-icon search-domain-link" title="{{domain.domain|translate}}" ng-click='search(domainList[$index].domain)'></i> 
 												<small ng-click='search(domainList[$index].domain)' class='search-domain-link'>[{{domain.count}}]</small> 
 												<span translate-cloak translate ng-click='search(domainList[$index].domain)' class='search-domain-link'>{{domain.domain}}</span>
 												<a href ng-click='expandRoot($index)' class='expand_tree_button'><i class='fa fa-plus'></i></a>
 											</div>
-											<div ng-if="domainList[$index].isOpen">
+											<!-- <div ng-if="domainList[$index].isOpen">
 												<browse-tree data="domainList[$index].tree.children[0]" ng-if='domainList[$index].treeReady'   fix_height='true' row_depth='80'
 													margin_left='0' margin_right='0' margin_bottom='0' margin_top='0' radius='7' update_callback="updateTreeCallback(isRoot, $index)" />
-											</div> 
+											</div>--> 
 										</td>
 										<td class='browsedata-choosing-domain-box text-right domains-table-right-column' > 
-											<div ng-if="!domainList[$index+1].isOpen" class='domains-closed-cell'>
+											<div class='domains-closed-cell'>
 												<a href ng-click='expandRoot($index+1)' class='expand_tree_button'><i class='fa fa-plus'></i></a>
 												<small  ng-click='search(domainList[$index+1].domain)' class='search-domain-link'>[{{domainList[$index+1].count}}]</small>	
 												<span translate-cloak translate ng-click='search(domainList[$index+1].domain)' class='search-domain-link'>{{domainList[$index+1].domain}}</span>  
 												<i class="icon-{{domainList[$index+1].domain}} domain-icon search-domain-link" title="domainList[$index+1]"  ng-click='search(domainList[$index+1].domain)'></i>
 											</div>
-											<div ng-if="domainList[$index+1].isOpen" >
+											<!-- <div ng-if="domainList[$index+1].isOpen" >
 												<browse-tree data="domainList[$index+1].tree.children[0]" ng-if='domainList[$index+1].treeReady' fix_height='true' row_depth='80' 
 													margin_left='0' margin_right='0' margin_bottom='0' margin_top='0' radius='7' update_callback="updateTreeCallback(isRoot, $index+1)"/> 
-											</div>
+											</div>-->
 											 
 										</td>
 									</tr>	
 								</tbody>
 							</table>
-							
+							<div ng-if="selectedDomainTree!=null" class='domains-panel-selected'>
+								<div class='' >
+									<browse-tree data="selectedDomainTree.tree.children[0]" ng-if='selectedDomainTree.treeReady'   fix_height='true' row_depth='300'
+										margin_left='0' margin_right='0' margin_bottom='0' margin_top='0' radius='7' update_callback="updateTreeCallback(isRoot, selectedDomainTree.treeIndex)" />
+								</div>
+							</div> 
 						</div>
 					</div>
 				</div>

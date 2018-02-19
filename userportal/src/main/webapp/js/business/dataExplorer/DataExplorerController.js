@@ -81,59 +81,65 @@ appControllers.controller('DataExplorerCtrl', [ '$scope', '$routeParams', 'odata
 				//}
 
 				var measuresMetadata = "";
-				var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;
-				if(entityType!=null && entityType.constructor === Array)
-					measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];		
-				else
-					measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType;		
-				
-				console.log("odataAPIservice.getMetadata - metadata", metadataJson);
-				var entitySet = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet;
-				
-				
-				if(entitySet !=null && entitySet.constructor === Array)
-					datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
-				else
-					datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet._Name;
-		
-				defaultOrderByColumn = "internalId";
-		
-				for (var k = 0; k < measuresMetadata.Property.length; k++) {
-					var prop = measuresMetadata.Property[k];
-					var dataType = Helpers.odata.decodeDataType(prop["_Type"]);
-					var operators = operators_number;
-					switch (dataType) {
-					case "string":
-						operators = operators_string;					
-						break;
-					case "boolean":
-						operators = operators_boolean;					
-						break;
-					case "date":
-						operators = operators_date;					
-						break;
-					default:
-						operators = operators_number;
-						break;
+				if(Helpers.util.has(metadataJson, "Edmx.DataServices.Schema.EntityType")){
+					var entityType = metadataJson.Edmx.DataServices.Schema.EntityType;
+					if(entityType!=null && entityType.constructor === Array)
+						measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType[0];		
+					else
+						measuresMetadata = metadataJson.Edmx.DataServices.Schema.EntityType;		
+					
+					console.log("odataAPIservice.getMetadata - metadata", metadataJson);
+					var entitySet = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet;
+					
+					
+					if(entitySet !=null && entitySet.constructor === Array)
+						datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet[0]._Name;
+					else
+						datasetType = metadataJson.Edmx.DataServices.Schema.EntityContainer.EntitySet._Name;
+			
+					defaultOrderByColumn = "internalId";
+			
+					for (var k = 0; k < measuresMetadata.Property.length; k++) {
+						var prop = measuresMetadata.Property[k];
+						var dataType = Helpers.odata.decodeDataType(prop["_Type"]);
+						var operators = operators_number;
+						switch (dataType) {
+						case "string":
+							operators = operators_string;					
+							break;
+						case "boolean":
+							operators = operators_boolean;					
+							break;
+						case "date":
+							operators = operators_date;					
+							break;
+						default:
+							operators = operators_number;
+							break;
+						}
+						
+						if (prop["_Name"] != "internalId"){
+							$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
+						}
+						if(prop["_Name"] == "time"){
+							defaultOrderByColumn = "time";
+						}
+						$scope.orderBy.column = defaultOrderByColumn;
 					}
 					
-					if (prop["_Name"] != "internalId"){
-						$scope.columnsForFilter.push({"label": prop["_Name"], "operators": operators, "dataType":dataType});
-					}
-					if(prop["_Name"] == "time"){
-						defaultOrderByColumn = "time";
-					}
-					$scope.orderBy.column = defaultOrderByColumn;
+					console.log("$scope.columnsForFilter", $scope.columnsForFilter);
+					$scope.queryOdataLink = "/userportal/api/proxy/odata/" + $scope.datasetCode + "/Measures?$format=json&$top=15&$orderby=time%20desc";
+					$scope.queryOdataCsvLink = "/userportal/api/proxy/odata/" + $scope.datasetCode + "/Measures?$format=csv&$top=15&$orderby=time%20desc";
+	
+					console.log("$scope.queryOdataLink", $scope.queryOdataLink);
+					console.log("$scope.queryOdataCsvLink", $scope.queryOdataCsvLink);
+			
+					$scope.loadData();
 				}
-				
-				console.log("$scope.columnsForFilter", $scope.columnsForFilter);
-				$scope.queryOdataLink = "/userportal/api/proxy/odata/" + $scope.datasetCode + "/Measures?$format=json&$top=15&$orderby=time%20desc";
-				$scope.queryOdataCsvLink = "/userportal/api/proxy/odata/" + $scope.datasetCode + "/Measures?$format=csv&$top=15&$orderby=time%20desc";
-
-				console.log("$scope.queryOdataLink", $scope.queryOdataLink);
-				console.log("$scope.queryOdataCsvLink", $scope.queryOdataCsvLink);
-		
-				$scope.loadData();
+				else{
+					var error = {"message":"Cannot load metadatadata","detail":""};
+					$scope.errors.push(error);
+				}
 			}).error(function(response) {
 				console.log("loadData Error: ", response);
 				$scope.showLoading = false;

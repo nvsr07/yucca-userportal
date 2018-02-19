@@ -39,7 +39,6 @@ appDirectives.directive('browseTree', function() {
 			var iconWidth = (typeof attr.iconWidth != 'undefined' || attr.iconWidth == null) ? 42 : parseInt(attr.iconWidth);
 			var nodeOffsetX = (typeof attr.nodeOffsetX == 'undefined' || attr.nodeOffsetX == null) ? 0 : parseInt(attr.nodeOffsetX);
 
-			nodeOffsetX
 
 
 			scope.$watch('data', function() {

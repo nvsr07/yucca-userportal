@@ -1268,7 +1268,7 @@ text-align: center;text-decoration: none;}
 .modal-hide-button{float: right; display: block; text-decoration: none; font-weight:bold; color: gray;}
 
 .section-store{}
-.section-store .page-top-panel{padding-top: 110px;}
+.section-store .page-top-panel{padding-top: 30px;}
 .dataexplorer-table-grid-container{}
 .dataexplorer-box-grid-container{ margin: auto -10px;}
 .dataexplorer-table-binary-td{text-align: left;}
@@ -1385,11 +1385,25 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 /* data search */
 #datasearch{background-color: #e3e4e6;}
 #datasearch .search-domains{background-color: transparent;}
+#datasearch .domains-panel-selected{display: table; margin: 0 auto 60px auto; min-height: 200px; font-size: 22px;}
+
+
+/*
+#datasearch .domains-panel-selected .browse-tree-container .node text .title{font-size: 22px;}
+*/
+
+.browse-tree-container .node text
+/* big search panel
 #datasearch .search-inputpanel{background-color: #dbdb01; height: 300px; box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);margin-bottom: 32px;}
 #datasearch .search-title{text-transform: uppercase; margin: 90px 0 32px 0; font-size: 26px; text-align: center;}
+
+*/
+#datasearch .search-input-checks{margin-bottom: 32px;}
+#datasearch .search-inputpanel{background-color: #dbdb01;  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);margin-bottom: 32px;}
+#datasearch .search-title{text-transform: uppercase; margin: 32px 0 12px 0; font-size: 26px; text-align: center;}
+#datasearch .search-input-checks .checkbox label{text-transform: uppercase; font-weight: bold;}
 #datasearch .dataseach-input-query i{font-size: 24px; padding-right: 16px; cursor: pointer; z-index:10;}
 
-#datasearch .search-input-checks .checkbox label{text-transform: uppercase; font-weight: bold;}
 #datasearch .search-input-checks .inline{display: inline-block;}
 #datasearch .search-input-checks .checkbox .cr{border-radius: 0; border: solid 2px #000;}
 
@@ -1431,7 +1445,6 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 .browse-tree-container .node text {font: 14px sans-serif;}
 .browse-tree-container .link {fill: none; stroke: #ccc; stroke-width: 2px;}
 
-.browse-tree-container .node text	
 
 .browse-tree-container tspan.domain-icon, .browse-tree-container text.domain-icon{font-family: 'smartdatanet-domains'; font-size: 24px}
 
