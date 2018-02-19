@@ -46,7 +46,7 @@
 		<label for="streamNameToAdd" class="col-sm-2 control-label"><span translate-cloak translate>STREAM_TYPE_DEFINITION</span> <span class='required-asterisk'>*</span></label>
 		<div class="col-sm-8">
 			<select class="form-control col-sm-8" ng-model="streamSelectedItem">
-				  <option ng-repeat="streamItem in streamsList" class="{{streamItem.cssClass}}" value="{{$index}}">{{streamItem.label}}</option>
+				  <option ng-repeat="streamItem in streamsList" class="{{streamItem.cssClass}}" value="{{streamItem.idstream}}">{{streamItem.label}}</option>
 			</select>
 			<div class='option-warning'><i class="fa fa-lightbulb-o"></i> <span translate>MANAGEMENT_EDIT_STREAM_INTERNAL_STREAM_DRAFT_WARNING</span></div>
 		</div>
@@ -71,7 +71,7 @@
 				
 			<div class="alert alert-danger" ng-hide='validationRes!=1'><p >{{validateSiddhiError|translate}}</p></div>
 			<div class="alert alert-success" ng-hide='validationRes!=0'><p ><span translate-cloak translate>STREAM_SIDDHI_QUERY_SUCCESS</span></p></div>
-			<textarea id="code" class="form-control" ui-codemirror="cmOption" ng-model="streamSiddhiQuery"></textarea>
+			<textarea id="code" class="form-control" ui-codemirror="cmOption" ng-model="streamSiddhiQuery" ui-refresh='visible'></textarea>
 		</div>
 		<div class="col-sm-2">
 			<a href  class="btn btn-default" ng-click="valideteSiddhi(streamSiddhiQuery)"><span translate-cloak translate>STREAM_SIDDHI_VALIDATE_BUTTON</span></a>

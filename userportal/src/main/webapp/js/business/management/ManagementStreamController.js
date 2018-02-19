@@ -193,6 +193,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.admin_response = {};
 	
 	refreshWizardToolbar();
+	$scope.componentsVisible = false;
 	$scope.goToRegister  = function(){ $scope.currentStep = 'register'; refreshWizardToolbar();};
 	$scope.goToRequestor  = function(){ $scope.currentStep = 'requestor';refreshWizardToolbar();};
 	$scope.goToDetail  = function(){ $scope.currentStep = 'detail';refreshWizardToolbar();};
@@ -201,10 +202,13 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		console.log("ISTWITTER",isTwitter());
 		
 		if(isTwitter()){
-			$scope.currentStep = 'tweetdata';refreshWizardToolbar();
+			$scope.currentStep = 'tweetdata';
 		}
-		else
-			$scope.currentStep = 'components';refreshWizardToolbar();
+		else{
+			$scope.currentStep = 'components';
+			$scope.componentsVisible = true;
+		}
+		refreshWizardToolbar();
 	};
 	
 	$scope.goToShare  = function(){
@@ -234,6 +238,32 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 	$scope.extra.isInternal = false;
 
+	
+	var cleanStreamBeforeUpdate = function(){
+		if($scope.stream.opendata && !($scope.stream.opendata.opendataupdatedate || $scope.stream.opendata.opendataexternalreference || 
+				$scope.stream.opendata.lastupdate || $scope.stream.opendata.opendataauthor || $scope.stream.opendata.opendatalanguage))
+			delete $scope.stream['openData'];
+		else{
+			if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )	{				
+					var date =  new Date( $scope.stream.opendata.opendataupdatedate);	
+					var year = (date.getFullYear()).toString();
+					var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
+					var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
+					 $scope.stream.opendata.opendataupdatedate= year+month+day;	
+			}
+		}
+	
+		if($scope.stream.license && $scope.stream.license.idLicense==null && $scope.stream.license.description==null && $scope.stream.license.licesecode==null)
+			delete $scope.stream['license'];
+
+		if($scope.stream.visibility == 'public')
+			delete $scope.stream['sharingTenants'];
+		if($scope.stream.visibility != 'private')
+			delete $scope.stream['copyright'];
+		else
+			delete $scope.stream['license'];
+	};
+	
 	$scope.stream = {};
 	
 	$scope.isNewStream = false;
@@ -299,22 +329,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		} else {
 			$scope.datasourceReady = true;
 			var streamClone = sharedDatasource.getDatasource();
-			if(streamClone!=null){
-				streamClone.statoStream = null;
-				streamClone.streamcode = null;
-				$scope.stream = streamClone;
-
-				console.log("streamClone", streamClone);
-
-				if(streamClone.smartobject.socode == "internal"){
-					//$scope.extra.inputTypeStream = 0;
-					$scope.internalStreams = $scope.stream.stream.internalStreams;//.streamChildren;
-					$scope.streamSiddhiQuery = $scope.stream.stream.internalquery;
-				}
-
-				sharedStream.setStream(null);
-			} 
-		else {
+			if(streamClone==null){
 				$scope.stream  = {"datasourceType": Constants.DATASOURCE_TYPE_STREAM};
 				if($scope.canCreatePublicStream())
 					$scope.stream.visibility = 'public';
@@ -327,7 +342,53 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.unpublished = false;
 				$scope.stream.opendata = {"isOpendata":false};
 				$scope.datasourceReady = true;
+			} 
+			else {
+				console.log("streamClone", streamClone);
 
+				$scope.stream = Helpers.yucca.prepareDatasourceForUpdate(Constants.DATASOURCE_TYPE_STREAM,streamClone);
+
+				$scope.streamDomain = $scope.stream.domaincode;
+
+				delete $scope.stream.currentDataSourceVersion;
+				delete $scope.stream.streamname;
+				delete $scope.stream.streamcode;
+				delete $scope.stream.idstream;
+				if(Helpers.util.has($scope.stream, "dcat.idDcat"))
+					delete $scope.stream.dcat.idDcat;
+				
+				delete $scope.stream.datasetcode;
+				delete $scope.stream.datasetname;
+
+				
+				cleanStreamBeforeUpdate();
+				console.log("LoadStream prepared", $scope.stream);
+				for (var cIndex = 0; cIndex < $scope.stream.components.length; cIndex++) {
+					delete $scope.stream.components[cIndex].idComponent;
+					$scope.preview.components.push($scope.stream.components[cIndex]);
+				}
+				
+				$scope.extra.selectedSo = streamClone.stream.smartobject;
+				if(Helpers.util.has(streamClone, "stream.internalStreams.length") && streamClone.stream.internalStreams.length>0){
+					$scope.extra.isInternal = true;
+//					$scope.stream.internalStreamsCreate  = new Array();
+//					for (var internalStreamIndex = 0; internalStreamIndex < streamClone.stream.internalStreams.length; internalStreamIndex++) {
+//						$scope.stream.internalStreamsCreate.push(streamClone.stream.internalStreams[internalStreamIndex]);
+//						
+//					}
+				}
+				
+				$scope.streamReady = true;
+
+			
+//
+//				if(streamClone.smartobject.socode == "internal"){
+//					//$scope.extra.inputTypeStream = 0;
+//					$scope.internalStreams = $scope.stream.stream.internalStreams;//.streamChildren;
+//					$scope.streamSiddhiQuery = $scope.stream.stream.internalquery;
+//				}
+
+				sharedDatasource.setDatasource(null);
 			}
 		}
 	};
@@ -423,27 +484,29 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.updateWarning = true;
 				$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 			}
-			
-			if(!$scope.stream.opendata.isOpenData){
-				delete $scope.stream['openData'];
-			} else {
-				if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )	{				
-					//$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
-						var date =  new Date( $scope.stream.opendata.opendataupdatedate);	
-						var year = (date.getFullYear()).toString();
-						var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
-						var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
-						 $scope.stream.opendata.opendataupdatedate= year+month+day;	
-				}
-			}
-			
-			if($scope.stream.license && $scope.stream.license.description==null && $scope.stream.license.licesecode==null)
-				delete $scope.stream['license'];
 
-			if($scope.stream.visibility == 'public')
-				delete $scope.stream['sharingTenants'];
-			if($scope.stream.visibility != 'private')
-				delete $scope.stream['copyright'];
+			cleanStreamBeforeUpdate();
+//			if(!$scope.stream.opendata.isOpenData){
+//				delete $scope.stream['openData'];
+//			} else {
+//				if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )	{				
+//					//$scope.stream.opendata.opendataupdatedate =  new Date($scope.stream.opendata.opendataupdatedate).getTime();
+//						var date =  new Date( $scope.stream.opendata.opendataupdatedate);	
+//						var year = (date.getFullYear()).toString();
+//						var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
+//						var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
+//						 $scope.stream.opendata.opendataupdatedate= year+month+day;	
+//				}
+//			}
+//			
+			
+//			if($scope.stream.license && $scope.stream.license.description==null && $scope.stream.license.licesecode==null)
+//				delete $scope.stream['license'];
+
+//			if($scope.stream.visibility == 'public')
+//				delete $scope.stream['sharingTenants'];
+//			if($scope.stream.visibility != 'private')
+//				delete $scope.stream['copyright'];
 			
 	
 			console.log("stream ready", $scope.stream );

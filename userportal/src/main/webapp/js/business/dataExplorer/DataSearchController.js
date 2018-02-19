@@ -9,7 +9,7 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 	
 	$scope.domainSingleTreeData = {};
 	$scope.organizationTree = {
-				tree: {"title": "Data Lake", "parent": "null", "cssClass": "datalake", "icon": "", "children": [], "filter":{}},
+				tree: {"title": "", "parent": "null", "cssClass": "datalake", "icon": "", "children": [], "filter":{}},
 				treeReady: false};
 	
 	

@@ -433,6 +433,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 				$scope.preview.components.push($scope.dataset.components[cIndex]);
 			}
 			$scope.datasetReady = true;
+			sharedDatasource.setDatasource(null);
 
 		}
 	}

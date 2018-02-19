@@ -3,9 +3,9 @@
 		<div class='pull-left'><h3><span translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_STEP_COMPONENTS_TITLE</span></h3></div>
 		<div class='pull-right'><h3><small>Step 4/5</small></h3></div>
 	</div>
-	<form class="form-horizontal" role="form" name="componentsStreamForm" ng-cloak>
-		<datasource-internal-streams datasource='stream' extra='extra' ng-if='datasourceReady'></datasource-internal-streams>
-		<datasource-components datasource='stream' preview='preview' ng-if='datasourceReady' is-new-datasource='{{isNewStream}}'></datasource-components>
+	<form class="form-horizontal" role="form" name="componentsStreamForm" ng-cloak>{{componentsVisible}}
+		<datasource-internal-streams datasource='stream' extra='extra' ng-if='datasourceReady' visible='componentsVisible'></datasource-internal-streams>
+		<datasource-components datasource='stream' preview='preview' ng-if='datasourceReady' is-new-datasource='{{isNewStream}}' ></datasource-components>
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
 				<a ng-click='goToDetail()' class="btn " translate-cloak translate>BACK</a>

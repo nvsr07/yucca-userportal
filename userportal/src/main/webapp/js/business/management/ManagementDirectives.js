@@ -173,6 +173,8 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    link: function(scope, elem, attrs) {
 	    	console.info("datasourceMainInfo.link datasource", scope.datasource);
 	    	console.info("datasourceMainInfo.link operation", scope.operation);
+	    	console.info("datasourceMainInfo.link extra", scope.extra);
+
 
 	    	
 	    	scope.validationPatternStreamCode = Constants.VALIDATION_PATTERN_CODE_STREAM;
@@ -312,7 +314,7 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    	
 	    	scope.maxTweetError = false;
 	    	scope.selectSoChange =  function(){
-	    		//console.log("selectSoChange", this.extra);
+	    		console.log("selectSoChange", this.extra);
 		    	scope.maxTweetError = false;
 	    		if(Helpers.util.has(this.extra.selectedSo, 'soType.idSoType') && this.extra.selectedSo.soType.idSoType == Constants.VIRTUALENTITY_TYPE_TWITTER_ID){
 	    			scope.datasource.twitterInfo =  {
@@ -976,7 +978,7 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal) {
 		    		templateUrl: 'dataFormatHint.html',
 		  	      	controller: 'DateFormatHintCtrl',
 		  	      	//size: 'lg',
-		  	      	//scope: $scope,
+		  	      	//scope: scope,
 		  	      	//resolve: {selectedTableIndex: function () {return tableIndex;}}
 	    		});
 	    	};
@@ -990,10 +992,10 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal) {
 app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabricAPIservice, $translate) {
 	return {
 	    restrict: 'E',
-	    scope: {datasource: '=', extra: '='},
+	    scope: {datasource: '=', extra: '=', visible: '='},
 	    templateUrl : 'partials/management/forms/internalStreams.html?'+BuildInfo.timestamp,
 	    link: function(scope, elem, attrs) {
-	    	console.warn("internalStreams.link", scope.datasource, scope.preview);
+	    	console.warn("internalStreams.link", scope.datasource, scope.preview, scope.visible);
 	    	
 	    	
 	    	adminAPIservice.loadStreams(info.getActiveTenant()).success(function(response) {
@@ -1002,6 +1004,7 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 	    		scope.showLoading = false;
 	    		scope.admin_response = {};
 	    		
+	    		var streamMap = {};
 	    		for (var i = 0; i < response.length; i++) {
 	    			response[i].label = response[i].tenantManager.tenantcode + ' - ' + response[i].streamname + ' - ' + response[i].smartobject.name + ' (' +response[i].smartobject.socode + ')';
 	    			if(response[i].status && response[i].status.statuscode){
@@ -1011,7 +1014,8 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 	    				else if(response[i].status.statuscode == Constants.STREAM_STATUS_DRAFT && response[i].version>1 && response[i].smartobject.soType.idSoType!=Constants.VIRTUALENTITY_TYPE_INTERNAL_ID){
 	    					response[i].cssClass= 'option-warning';
 	    					response[i].label += "(bozza)";
-	    					scope.streamsList.push(response[i]);					
+	    					scope.streamsList.push(response[i]);		
+	    					streamMap[response[i].idstream] = response[i];
 	    				}
 	    			}
 	    		}
@@ -1021,6 +1025,13 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 	    		scope.streamsList.sort(function(a,b) { 
 	    			return a.streamname.toLowerCase().localeCompare(b.streamname.toLowerCase());
 	    		} );
+	    		
+//	    		if(Helpers.util.has(scope.datasource, "internalStreams.length") && scope.datasource.internalStreams.length>0){
+//	    			for (var internalStreamIndex = 0; internalStreamIndex < scope.datasource.internalStreams.length; internalStreamIndex++) {
+//	    				scope.addInternalStream
+//	    			}
+//	    			
+//	    		}
 	    	}).error(function(response){
 	    		console.error("loadStreams ERROR", response);
 	    		scope.showLoading = false;
@@ -1033,23 +1044,18 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 
 	    	});
 	    	
-	    	
-	  		scope.showAddInternalStreamLoading = false;
-	  		scope.admin_response_add_stream = {};
-	  		scope.siddhiQueryValidationMessages = {};
-	  		
-	    	scope.addInternalStream = function(index){
-	    		console.log("addInternalStream", index);
+	    	scope.addInternalStream =  function(idstream){
+	    		console.log("addInternalStream", idstream);
 	    		scope.datasource.isSiddhiQueryValid = false;
-	    		if(index){
-	    			console.log("scope.streamsList[index]", scope.streamsList[index]);
+	    		if(idstream){
+	    			//console.log("scope.streamsList[index]", scope.streamsList[index]);
 	    			//scope.validationRes=2;
 	    			
     		  		scope.showAddInternalStreamLoading = true;
     		  		if(typeof scope.datasource.internalStreamsCreate == 'undefined')
     		  			scope.datasource.internalStreamsCreate = new Array();
     		  		
-	    		  	adminAPIservice.loadDatasource(Constants.DATASOURCE_TYPE_STREAM,info.getActiveTenant(),scope.streamsList[index].idstream).success(function(response) {
+	    		  	adminAPIservice.loadDatasource(Constants.DATASOURCE_TYPE_STREAM,info.getActiveTenant(),idstream).success(function(response) {
 	    		  		console.log("addInternalStream - loadDatasource", response);
 	    		  		scope.datasource.internalStreamsCreate.push(response);
 	    		  		scope.showAddInternalStreamLoading = false;
@@ -1068,6 +1074,21 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 	    		}
 	    		//scope.streamSelectedItem=null;
 	    	};
+	    	
+    		scope.streamSiddhiQuery = scope.datasource.internalquery;
+
+    		console.log("streamSiddhiQuery", scope.streamSiddhiQuery);
+    		if(Helpers.util.has(scope.datasource, "internalStreams.length") && scope.datasource.internalStreams.length>0){
+    			for (var internalStreamIndex = 0; internalStreamIndex < scope.datasource.internalStreams.length; internalStreamIndex++) {
+    				scope.addInternalStream(scope.datasource.internalStreams[internalStreamIndex].idstream);
+    			}
+    		}
+
+	  		scope.showAddInternalStreamLoading = false;
+	  		scope.admin_response_add_stream = {};
+	  		scope.siddhiQueryValidationMessages = {};
+	  		
+
 
 	    	scope.removeStreamFromArray = function(index){
 	    		scope.datasource.isSiddhiQueryValid = false;
@@ -1125,6 +1146,7 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 	    	};
 	    	
 	    	scope.valideteSiddhi = function(streamSiddhiQuery){
+
 		  		scope.siddhiQueryValidationMessages = {};
 
 	    		scope.streamSiddhiQuery = streamSiddhiQuery;
