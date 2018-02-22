@@ -1091,6 +1091,7 @@ var translations_en = {
 	JDBC_PARAM_HOSTNAME_PLACEHOLDER: 'db.server.it:5123',
 	JDBC_PARAM_DBNAME: 'Db Name',
 	JDBC_PARAM_DBNAME_PLACEHOLDER: 'db_anagrafiche',
+	JDBC_PARAM_DBNAME_TOOLTIP: 'If you want to import a specific schema, use db_name:schema_name',
 	JDBC_PARAM_USERNAME: 'User',
 	JDBC_PARAM_USERNAME_PLACEHOLDER: 'admin',
 	JDBC_PARAM_PASSWORD: 'Password',

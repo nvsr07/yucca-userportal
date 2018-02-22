@@ -160,6 +160,15 @@ Helpers.yucca = {
 				dsOut.datasetcode = dsIn.dataset.datasetcode;
 				dsOut.datasetname =  dsIn.dataset.datasetname;
 				dsOut.description= dsIn.dataset.description;
+				
+				dsOut.description= dsIn.dataset.description;
+				
+				dsOut.jdbcdbname= dsIn.dataset.jdbcdbname;
+				dsOut.jdbcdbschema= dsIn.dataset.jdbcdbschema;
+				dsOut.jdbcdbtype= dsIn.dataset.jdbcdbtype;
+				dsOut.jdbcdburl= dsIn.dataset.jdbcdburl;
+				dsOut.jdbctablename= dsIn.dataset.jdbctablename;
+
 
 			}
 			

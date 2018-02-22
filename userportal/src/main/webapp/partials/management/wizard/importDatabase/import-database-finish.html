@@ -48,8 +48,8 @@
 				<div  class='col-sm-4'> 
 					<div class='import-database-create-metatada-finish-report-title import-database-create-metatada-finish-report-title-created' translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_CREATED_OK' translate-values="{ datasetCreated: dbImport.totalCreate}"></div>
 					<div class='import-database-create-metatada-finish-report-datalist'>
-						<div ng-repeat='datasetCode in dbImport.datasetCreated track by $index'>
-							<a href="#/management/viewDataset/{{tenantCode}}/{{datasetCode}}" target='_blank'>{{datasetCode}}</a>
+						<div ng-repeat='d in dbImport.datasetCreated track by $index'>
+							<a href="#/management/viewDatasource/dataset/{{tenantCode}}/{{d.datasetcode}}/{{d.iddataset}}" target='_blank'>{{d.datasetcode}}</a>
 						</div>
 					</div>
 				</div>
@@ -57,7 +57,7 @@
 					<div class='import-database-create-metatada-finish-report-title import-database-create-metatada-finish-report-title-updated' translate='MANAGEMENT_IMPORT_DATABASE_FINISH_END_IMPORT_INFO_UPDATED_OK' translate-values="{ datasetUpdated: dbImport.totalUpdate}"></div>
 					<div class='import-database-create-metatada-finish-report-datalist'>
 						<div ng-repeat='datasetCode in dbImport.datasetUpdated track by $index'>
-							<a href="#/management/viewDataset/{{tenantCode}}/{{datasetCode}}" target='_blank'>{{datasetCode}}</a>
+							<a href="#/management/viewDatasource/dataset/{{tenantCode}}/{{d.datasetcode}}/{{d.iddataset}}" target='_blank'>{{d.datasetcode}}</a>
 						</div>
 					</div>
 				</div>

@@ -27,7 +27,8 @@
 				<label for="inputJDBCDBName" class="col-sm-2 control-label"><span translate-cloak translate>JDBC_PARAM_DBNAME</span></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" ng-model="importConfig.jdbcDbname" id="inputJDBCDBName" placeholder="{{'JDBC_PARAM_DBNAME_PLACEHOLDER'|translate}}"
-						ng-required="importConfig.dbType!='HIVE'" ng-disabled="importConfig.dbType=='HIVE'">
+						ng-required="importConfig.dbType!='HIVE'" ng-disabled="importConfig.dbType=='HIVE'"><div class='text-left hint mute'>
+						<i class='fa fa-lightbulb-o'></i>&nbsp;<span translate>JDBC_PARAM_DBNAME_TOOLTIP</span></div>
 				</div>
 			</div>
 			<div class="form-group">

@@ -1,5 +1,5 @@
-appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice' ,'fabricAPImanagement','readFilePreview','info', '$upload', 'sharedDataset', '$translate','$modal', 'devService',
-                                                              function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, $upload, sharedDataset,$translate, $modal, devService) {
+appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice' ,'fabricAPImanagement','readFilePreview','info', '$upload', '$translate','$modal', 'devService',
+                                                              function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, $upload, $translate, $modal, devService) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	
 	$scope.validationPatternSubdomain = Constants.VALIDATION_PATTERN_NO_SPACE;
@@ -32,15 +32,6 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	//$scope.defaultMetadata= {"info":{"visibility":"private","tenantssharing":{"tenantsharing": new Array()},"tags": new Array()}}; 
 	$scope.defaultMetadata = {"datasourceType": Constants.DATASOURCE_TYPE_DATASET,tags: new Array(), unpublished: false, visibility: 'private', idTenant:info.getActiveTenant().idTenant};
-	//REMOVE
-	$scope.importConfig.jdbcHostname='prd-sdp-vdb01.sdp.csi.it:5432';
-	$scope.importConfig.jdbcDbname='INT-SDPCONFIG';
-	$scope.importConfig.jdbcUsername='int_internal';
-	$scope.importConfig.jdbcPassword='mypass01';
-	$scope.importConfig.dbType='POSTGRESQL';
-	$scope.defaultMetadata.requestername='a';
-	$scope.defaultMetadata.requestersurname='a';
-	$scope.defaultMetadata.requestermail='a';
 	//REMOVE
 	$scope.datasetReady = true;
 	
@@ -537,12 +528,17 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 					$scope.tables[tableIndex].importTable = true;
 				$scope.tables[tableIndex].index = tableIndex;
 				$scope.tables[tableIndex].customized = {"name":false,"domain":false,"visibility":false, "dcat":false, "columns":false};
+				var completeDatasource =  angular.copy($scope.tables[tableIndex].dataset);
+				$scope.tables[tableIndex].dataset = {};
+				$scope.tables[tableIndex].dataset =  Helpers.yucca.prepareDatasourceForUpdate(Constants.DATASOURCE_TYPE_DATASET,completeDatasource);
+
 				if($scope.tables[tableIndex].status == 'new'){
 					for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.components.length; columnIndex++) {
 						$scope.tables[tableIndex].dataset.components[columnIndex].isNewField = true;
 					}
 				}
 				else if($scope.tables[tableIndex].status == 'existing'){
+					
 					if(typeof $scope.tables[tableIndex].newFields != 'undefined' &&  $scope.tables[tableIndex].newFields.length>0 && 
 							$scope.tables[tableIndex].dataset.components && $scope.tables[tableIndex].dataset.components.length>0){
 						for (var columnIndex = 0; columnIndex < $scope.tables[tableIndex].dataset.components.length; columnIndex++) {
@@ -983,7 +979,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 					console.log("createDataset SUCCESS", response);
 					$scope.dbImport.totalOk++;
 					$scope.dbImport.totalCreate++;
-					$scope.dbImport.datasetCreated.push(data.metadata.datasetCode);
+					$scope.dbImport.datasetCreated.push({"datasetcode": response.datasetcode,"iddataset": response.iddataset});
 					if($scope.dbImport.datasetList.length==0){
 						console.log("finish!");
 						$scope.dbImport.status = "finish";
@@ -1053,11 +1049,11 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 			}
 			else{
 
-				minAPIservice.updateDataset(info.getActiveTenant(), $scope.dataset).success(function(response) {
+				adminAPIservice.updateDataset(info.getActiveTenant(), dataset).success(function(response) {
 					console.log("updateDataset SUCCESS", response);
 					$scope.dbImport.totalOk++;
 					$scope.dbImport.totalUpdate++;
-					$scope.dbImport.datasetUpdated.push(result.data.metadata.datasetCode);
+					$scope.dbImport.datasetUpdated.push({"datasetcode": response.datasetcode,"iddataset": response.iddataset});
 					if($scope.dbImport.datasetList.length==0){
 						console.log("fine!");
 						$scope.dbImport.status = "finish";
@@ -1170,7 +1166,7 @@ appControllers.controller('ManagementDatasetImportTablesColumnsCtrl', [ '$scope'
 			var newBadge = "";
 			if(columns[columnIndex].isNewField)
 				newBadge="<span class='import-database-column-new' title='"+$translate.instant('MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS_HINT')+"'>"+$translate.instant('MANAGEMENT_IMPORT_DATABASE_TABLES_NEW_COLUMNS')+"</span>&nbsp;&nbsp;";
-			columnsTable += "<tr class='import-database-column-row'><td>" +newBadge + columns[columnIndex].sourcecolumnname + "</td><td>" + columns[columnIndex].name + "</td><td>" + columns[columnIndex].dt_datatypecode + "</td><td>" + columns[columnIndex].alias + "</td><td>";
+			columnsTable += "<tr class='import-database-column-row'><td>" +newBadge + columns[columnIndex].sourcecolumnname + "</td><td>" + columns[columnIndex].name + "</td><td>" + columns[columnIndex].datatypecode + "</td><td>" + columns[columnIndex].alias + "</td><td>";
 			if(columns[columnIndex].iskey == 1){
 				columnsTable += "<i class='fa fa-key primary-key'  title='Primary key'></i> &nbsp;&nbsp;";
 				if(typeof columns[columnIndex].foreignkey != 'undefined' && columns[columnIndex].foreignkey != null && columns[columnIndex].foreignkey != "null")

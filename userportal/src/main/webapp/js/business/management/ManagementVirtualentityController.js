@@ -645,6 +645,14 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 			$scope.so.twtmaxstreams = 5;
 			loadTwitterCredential();
 		}
+		else{
+			delete $scope.so.twtmaxstreams;
+			delete $scope.so.twtname;
+			delete $scope.so.twttokensecret;
+			delete $scope.so.twtuserid;
+			delete $scope.so.twtusername;
+			delete $scope.so.twtusertoken;
+		}
 		$scope.so.slug = '';
 		return true;
 	};

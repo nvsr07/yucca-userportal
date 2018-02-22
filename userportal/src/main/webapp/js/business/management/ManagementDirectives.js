@@ -186,7 +186,7 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 
 	    	var soInternal = null;
 
-	    	if(scope.isStream){
+	    	if(scope.isStream()){
 	    		scope.soList = [];
 	    	
 	    		adminAPIservice.loadSmartobjects(info.getActiveTenant(), info.getActiveTenant().tenantCode).success(function(response) {
