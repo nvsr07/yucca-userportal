@@ -158,9 +158,9 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						List<String> tenantsCode = null;
 						tenantsCode = loadRolesFromJwt(newUser, "_subscriber");
 						// do we need to add sandbox?
-						if (tenantsCode.isEmpty()) {
-							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantcode());
-						}
+//						if (tenantsCode.isEmpty()) {
+//							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantcode());
+//						}
 
 						log.info("[SAML2ConsumerServlet::doPost] GOT Tenants:" + tenantsCode);
 						// filtro sui tenant, data di disattivazione
