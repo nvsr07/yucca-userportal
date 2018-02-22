@@ -162,19 +162,19 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 				$scope.user.authType = "tecnical";
 				//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tecnical', 'notenant');
 			} else if ($scope.user.tenants == 'undefined' || $scope.user.tenants.length == 0 ){
-				if(typeof info.getInfo().personalTenantToActivated != 'undefined' && typeof info.getInfo().trialTenantToActivated != 'undefined' ){
+				//if(typeof info.getInfo().personalTenantToActivated == 'undefined' || typeof info.getInfo().trialTenantToActivated == 'undefined' ){
 				//if ((!$scope.user.haveTrialTenantToActivate) && (!$scope.user.havePersonalTenantToActivate)){
-					if ($scope.user.isSocialUser){
+					if ($scope.user.isSocialUser &&  typeof info.getInfo().trialTenantToActivated == 'undefined'){
 						$scope.user.authType = "social";
 						$scope.openRequestTenant('trial', true);
 						//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
-					} else {
+					} else if(typeof info.getInfo().personalTenantToActivated == 'undefined'){
 						$scope.openRequestTenant('pesonal', true);
 						//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
 					}
-				} else {
+				//} else {
 					//Tutto ok! NO MODAL
-				}
+				//}
 			} else {
 				//Tutto ok! NO MODAL
 			}
