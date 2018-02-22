@@ -12,7 +12,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -182,7 +181,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						detectSocialAndSetFields(newUser);
 
 						newUser.setAcceptTermConditionTenantsFromString(loadTermConditionFromJwt(newUser));
-						newUser.setActiveTenant(tenants.get(0).getTenantcode());
+						if(tenants.size()>0)
+							newUser.setActiveTenant(tenants.get(0).getTenantcode());
 
 						try {
 							newUser.setPermissions(loadPermissions(newUser));
