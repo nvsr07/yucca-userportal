@@ -549,7 +549,8 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 			  "userfirstname":  user.firstname,
 			  "userlastname": user.lastname,
 			  "username":user.username,
-			  "usertypeauth": info.getActiveTenant().usertypeauth
+			  "usertypeauth":  tenantType=='trial'?'social':'default'
+			  //"usertypeauth": info.getActiveTenant().usertypeauth
 			};
 	
 	$scope.validationError = {};
