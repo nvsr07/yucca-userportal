@@ -162,7 +162,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	$scope.warningMessages = [];
 	
 	$scope.forms = {};
-		
+	
+	$scope.user = info.getInfo().user;
+
 	$scope.currentStep = 'register';
 	$scope.wizardSteps = [{'name':'register', 'style':''},
 	                      {'name':'requestor', 'style':''},
@@ -310,6 +312,13 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 					$scope.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
 					//FIXME serve?
 					$scope.newField = {sourcecolumn: $scope.stream.components.length+1};
+					
+					if($scope.user!=undefined && $scope.user.loggedIn==true){
+						$scope.stream.requestername=$scope.user.firstname;
+						$scope.stream.requestersurname=$scope.user.lastname;
+						$scope.stream.requestermail=$scope.user.email;
+					}
+
 					$scope.datasourceReady = true;
 					
 
@@ -390,6 +399,13 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 
 				sharedDatasource.setDatasource(null);
 			}
+			if($scope.user!=undefined && $scope.user.loggedIn==true){
+				$scope.stream.requestername=$scope.user.firstname;
+				$scope.stream.requestersurname=$scope.user.lastname;
+				$scope.stream.requestermail=$scope.user.email;
+			}
+
+
 		}
 	};
 	

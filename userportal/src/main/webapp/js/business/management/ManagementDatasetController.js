@@ -369,6 +369,11 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 				if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
 					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
 				
+				if($scope.user!=undefined && $scope.user.loggedIn==true){
+					$scope.dataset.requestername=$scope.user.firstname;
+					$scope.dataset.requestersurname=$scope.user.lastname;
+					$scope.dataset.requestermail=$scope.user.email;
+				}
 				//$scope.newField = {sourcecolumn: $scope.dataset.components.length+1};
 				$scope.datasetReady = true;
 				$scope.updateStatus = 'ready';
@@ -401,6 +406,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 		else
 			delete $scope.dataset['license'];
 	};
+
+	$scope.user = info.getInfo().user;
 
 	$scope.datasetReady = false;
 	var isClone = false;
@@ -436,14 +443,14 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 			sharedDatasource.setDatasource(null);
 
 		}
+		if($scope.user!=undefined && $scope.user.loggedIn==true){
+			$scope.dataset.requestername=$scope.user.firstname;
+			$scope.dataset.requestersurname=$scope.user.lastname;
+			$scope.dataset.requestermail=$scope.user.email;
+		}
 	}
 	
-	$scope.user = info.getInfo().user;
-	if($scope.user!=undefined && $scope.user.loggedIn==true){
-		$scope.metadata.info.requestorName=$scope.user.firstname;
-		$scope.metadata.info.requestorSurname=$scope.user.lastname;
-		$scope.metadata.info.requestornEmail=$scope.user.email;
-	}
+	
 
 	
 	$scope.showHint = false;
