@@ -175,7 +175,7 @@
     	       		<h1 class="">{{modalTitle|translate}}</h1>
         		</div>
 	        	<div class="modal-body">
-					<div class="intro" ng-if='hasNoTenant'>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</div>
+					<div class="intro" ng-if='hasNoTenant && status=="start"'>{{'HOME_LOGGED_NOT_TENANT_AUTHENTICATION'|translate}}</div>
 	        	    <div class="intro" ng-if='status=="start"'>{{modalIntro|translate}}</div>
 					<form class="form-horizontal" role="form" name="tenantForm" accept-charset="UTF-8" ng-if='status=="start" && missingEmail'>
 						<alert-panel ng-if='validationError.message' message="{{'WARNING_TITLE'|translate}}" detail='{{validationError.message|translate}}'  type='warning'></alert-panel>
@@ -192,12 +192,13 @@
 					<div ng-if='status=="finish"'>
 						<div ng-if='!requestResponse.errorCode'><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate:requestResponse.tenantcode}}</b> <span>{{installationTenantRequest.useremail}}</span></div>
 						<div  ng-if='requestResponse.errorCode'><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b> </div>
-						<alert-panel ng-if='requestResponse.errorCode' message='{{requestResponse.errorName}}'  code="{{requestResponse.errorCode}}" detail="{{requestResponse.description}}" type='danger'></alert-panel>
+						<alert-panel content='requestTenantError' ng-if='requestTenantError'></alert-panel>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<a ng-click='cancel()' class="btn " translate-cloak translate>HOME_TTFORUM_CLOSE</a>
-					<a ng-if='status=="start"'ng-click='requestTenant()' class="btn btn-default" translate-cloak translate>HOME_TTFORUM_SUBMIT</a>
+					<a ng-if='status=="start" || !hasNoTenant' ng-click='cancel()' class="btn " translate-cloak translate>HOME_TTFORUM_CLOSE</a>
+					<a ng-if='status=="start"' ng-click='requestTenant()' class="btn btn-default" translate-cloak translate>HOME_TTFORUM_SUBMIT</a>
+					<a ng-if='status=="finish" && hasNoTenant' href="/userportal/api/authorize?logout={{user.username}}&returnUrl=%23%2Fhome%3FscrollTo%3Dhome-operation-section-anchor" class="btn btn-default" translate-cloak translate>HOME_TTFORUM_CLOSE</a>
 				</div>
 			</div>
 		</div>

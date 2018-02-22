@@ -577,11 +577,11 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 			}).error(function(response){
 				console.error("createTenant ERROR", response);
 				$scope.status = 'finish';
-				$scope.requestResponse = {};
-				$scope.requestResponse.message=response.errorName;
-				$scope.requestResponse.code=response.errorCode;
-				$scope.requestResponse.detail=response.description;
-				$scope.requestResponse.type='danger';
+				$scope.requestTenantError = {};
+				$scope.requestTenantError.message=response.errorName;
+				$scope.requestTenantError.errorCode=response.errorCode;
+				$scope.requestTenantError.detail=response.description;
+				$scope.requestTenantError.type='danger';
 				
 
 	
