@@ -150,7 +150,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 
 	});
 	
-	var gestModalWindow = function(){
+	var gestModalWindow = function(){ 
 
 			$scope.user.authType = $scope.user.authType || "local";
 			if (!$scope.user.isStrongUser){  //Compare la modale perchè non hai credenziali strong!
