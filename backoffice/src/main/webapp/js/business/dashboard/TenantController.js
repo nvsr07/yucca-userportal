@@ -549,7 +549,7 @@ appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' 
 	adminAPIservice.loadTenantInstallationMail(row.tenant.tenantcode).success(function(response) {
 		console.log("response",response);
 		$scope.tenantMail.loading = false;
-		$scope.tenantMail = response.tenantMail.tenantMail;
+		$scope.tenantMail = response;
 
 	
 	
@@ -560,8 +560,8 @@ appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' 
 	});	
 	
 	$scope.sendMail = function(){
-		var mailBody = $scope.tenantMail.mailBody.replace(/\n\r?/g, '%0D%0A');
-		var mailtoLink  = "mailto:"+$scope.tenantMail.userEmail+"?&subject= "+$scope.tenantMail.mailObject+"&body="+mailBody;
+		var mailBody = $scope.tenantMail.testo.replace(/\n\r?/g, '%0D%0A');
+		var mailtoLink  = "mailto:"+$scope.tenantMail.destinatario+"?&subject= "+$scope.tenantMail.soggetto+"&body="+mailBody;
 		console.log("mailtoLink",mailtoLink);
 		var mailer = $window.open(mailtoLink,'Mailer');
 		$scope.close();

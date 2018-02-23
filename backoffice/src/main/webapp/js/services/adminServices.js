@@ -171,7 +171,7 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 	};
 	
 	adminAPI.loadTenantInstallationMail = function(tenant_code) {
-		var urlCreatiomail = Constants.API_SERVICES_TENANT_URL + tenant_code + '?callback=JSON_CALLBACK';
+		var urlCreatiomail = Constants.API_ADMIN_TENANT_MAIL_URL +"/"+ tenant_code + '?callback=JSON_CALLBACK';
  		return $http({
 			method : 'JSONP',
 			url : urlCreatiomail

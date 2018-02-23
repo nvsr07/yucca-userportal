@@ -41,25 +41,7 @@ public enum ApiEntityEnum {
 			return false;
 		}
 	},
-	API_SERVICES_TENANT("API_SERVICES_TENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "mail/") {
-		@Override
-		public boolean isAuthorizeAccess(HttpServletRequest request) {
-
-			String activeTenant = request.getParameter("visibleFrom");
-			Info info = (Info) request.getSession(true).getAttribute(AuthorizeUtils.SESSION_KEY_INFO);
-//			if((activeTenant!=null && !"".equals(activeTenant)) ){				
-//				if(activeTenant.equals(info.getUser().getActiveTenant()) && AuthorizeUtils.isReadMethod(request)){
-//					return true;
-//				}else{
-//					return false;
-//				}				
-//			}
-			if("admin".equals(info.getUser().getUsername())){
-				return true;
-			}
-			return false;
-		}
-	},
+	
 	API_SERVICES_VIRTUALENTITY("API_SERVICES_VIRTUALENTITY_URL", Config.API_PROXY_SERVICES_BASE_URL + "virtualentities/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
@@ -246,6 +228,12 @@ public enum ApiEntityEnum {
 		}
 	},
 	API_ADMIN_STREAMS("API_ADMIN_STREAMS_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/backoffice/streams") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return AuthorizeUtils.isReadMethod(request);
+		}
+	},
+	API_ADMIN_TENANT_MAIL("API_ADMIN_TENANT_MAIL_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/backoffice/mail") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 			return AuthorizeUtils.isReadMethod(request);
