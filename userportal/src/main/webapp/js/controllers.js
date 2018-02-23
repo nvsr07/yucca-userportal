@@ -150,7 +150,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 
 	});
 	
-	var gestModalWindow = function(){
+	var gestModalWindow = function(){ 
 
 			$scope.user.authType = $scope.user.authType || "local";
 			if (!$scope.user.isStrongUser){  //Compare la modale perchè non hai credenziali strong!
@@ -168,7 +168,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 						$scope.user.authType = "social";
 						$scope.openRequestTenant('trial', true);
 						//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'social', 'notenant');
-					} else if(typeof info.getInfo().personalTenantToActivated == 'undefined'){
+					} else if(!$scope.user.isSocialUser && typeof info.getInfo().personalTenantToActivated == 'undefined'){
 						$scope.openRequestTenant('pesonal', true);
 						//$scope.openModalWindow('HPModalContent.html', 'HomePageModalCtrl', 'tenant', 'notenant');
 					}

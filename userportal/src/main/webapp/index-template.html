@@ -190,8 +190,8 @@
 						<div class='ajax-loading'><span translate-cloak translate>REQUEST_TENANT_SENDING</span></div>
 					</div>
 					<div ng-if='status=="finish"'>
-						<div ng-if='!requestResponse.errorCode'><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate:requestResponse.tenantcode}}</b> <span>{{installationTenantRequest.useremail}}</span></div>
-						<div  ng-if='requestResponse.errorCode'><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b> </div>
+						<div ng-if='!requestTenantError'><b>{{'MENU_MODAL_RESPONSE_TEXT_OK'|translate:requestResponse.tenantcode}}</b> <span>{{installationTenantRequest.useremail}}</span></div>
+						<div  ng-if='requestTenantError'><b>{{'MENU_MODAL_RESPONSE_TEXT_KO'|translate}}</b> </div>
 						<alert-panel content='requestTenantError' ng-if='requestTenantError'></alert-panel>
 					</div>
 				</div>
