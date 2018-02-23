@@ -41,7 +41,7 @@ public enum ApiEntityEnum {
 			return false;
 		}
 	},
-	API_SERVICES_TENANT("API_SERVICES_TENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "tenants/") {
+	API_SERVICES_TENANT("API_SERVICES_TENANT_URL", Config.API_PROXY_SERVICES_BASE_URL + "mail/") {
 		@Override
 		public boolean isAuthorizeAccess(HttpServletRequest request) {
 

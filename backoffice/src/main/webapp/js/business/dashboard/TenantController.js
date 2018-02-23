@@ -541,12 +541,12 @@ appControllers.controller('TenantInstallLogCtrl', [ '$scope', '$modalInstance', 
 
 
 
-appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' , 'fabricAPIservice', '$window', function ($scope, $modalInstance, row, fabricAPIservice, $window) {
+appControllers.controller('TenantMailCtrl', [ '$scope', '$modalInstance', 'row' , 'fabricAPIservice', 'adminAPIservice', '$window', function ($scope, $modalInstance, row, fabricAPIservice, adminAPIservice, $window) {
 	console.log("TenantMailCtrl - row", row)
 	
 	$scope.tenantMail = {};
 	$scope.tenantMail.loading = true;
-	fabricAPIservice.loadTenantInstallationMail(row.tenant.tenantcode).success(function(response) {
+	adminAPIservice.loadTenantInstallationMail(row.tenant.tenantcode).success(function(response) {
 		console.log("response",response);
 		$scope.tenantMail.loading = false;
 		$scope.tenantMail = response.tenantMail.tenantMail;

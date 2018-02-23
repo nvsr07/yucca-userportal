@@ -169,6 +169,14 @@ appServices.factory('adminAPIservice', [ "$http", "$q", "info", function($http, 
 			url : Constants.API_ADMIN_STREAMS_URL+"/"+idStream+"/action"
 		});
 	};
+	
+	adminAPI.loadTenantInstallationMail = function(tenant_code) {
+		var urlCreatiomail = Constants.API_SERVICES_TENANT_URL + tenant_code + '?callback=JSON_CALLBACK';
+ 		return $http({
+			method : 'JSONP',
+			url : urlCreatiomail
+		});
+	};
 
 	return adminAPI;
 } ]);
