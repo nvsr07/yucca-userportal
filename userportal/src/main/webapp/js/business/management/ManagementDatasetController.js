@@ -61,7 +61,8 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 	
 	$scope.searchDomainFilter = function(dataset) {
 		var keyword = new RegExp($scope.domainFilter, 'i');
-		return !$scope.domainFilter || keyword.test(dataset.domain.domaincode);
+		return !$scope.domainFilter || keyword.test($translate.instant(dataset.domain.domaincode));
+
 	};
 	
 //	$scope.searchSubDomainFilter = function(dataset) {
