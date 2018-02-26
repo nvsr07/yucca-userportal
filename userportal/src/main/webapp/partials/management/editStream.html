@@ -35,7 +35,7 @@
 								
 									<div class="row" ng-show="!isUpdating">
 										<div class=" col-sm-12 form-toolbar"  ng-show="isAuthorized('management/streams/update')" >
-											<a  href='#/management/viewStream/{{tenant}}/{{stream.codiceVirtualEntity}}/{{stream.codiceStream}}' class="btn"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_FINISH_BUTTON</span></a>
+											<a  href='#/management/viewDatasource/stream/{{tenantCode}}}/{{streamcode}}/{{idstream}}' class="btn"><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_FINISH_BUTTON</span></a>
 											<a  ng-click='save()'  class="btn btn-default" ng-disabled="!isOwner() "><span translate-cloak translate>MANAGEMENT_EDIT_STREAM_SAVE_AS_DRAFT_BUTTON</span></a>
 										</div>
 									</div>

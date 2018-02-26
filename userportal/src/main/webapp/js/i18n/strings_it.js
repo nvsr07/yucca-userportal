@@ -872,7 +872,7 @@ var translations_it = {
 	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGIN: 'Accedi a Twitter',
 	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_LOGOUT: 'Logout',
 	MANAGEMENT_NEW_VIRTUALENTITY_AUTH_TWITTER_CHANGE: 'Cambia Utente Twitter', 
-	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR: 'Per creare uno smart object di tipo Feed Tweet bisogna accedere a Twitter per specificare l\'utente Twitter da utlizzizzare',
+	MANAGEMENT_NEW_VIRTUALENTITY_TWITTER_NOTLOGGED_ERROR: 'Per creare uno smart object di tipo Feed Tweet bisogna accedere a Twitter per specificare l\'utente Twitter da utilizzare',
 	
 	/* Management edit Virtual Entity  */
 	MANAGEMENT_EDIT_VIRTUAL_ENTITY_SUBTITLE: 'Modifica ',

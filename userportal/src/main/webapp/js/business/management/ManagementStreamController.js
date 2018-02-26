@@ -123,16 +123,13 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 		}
 		return false;
 	};
-
-	$scope.editStream = function(){
-		if($scope.selectedStreams.length===1){
-
-			$location.path('management/editStream/'+$scope.selectedStreams[0].codiceTenant +'/'+$scope.selectedStreams[0].codiceVirtualEntity+'/'+$scope.selectedStreams[0].streamcode);
-		}
-		else{
-			// FIXME error message...
-		}
-	};
+	
+  	$scope.editStream  = function(){
+  			var editUrl = "#/management/editStream/stream/"+$scope.selectedStreams[0].tenantManager.tenantcode+"/"+$scope.selectedStreams[0].streamcode +"/" + $scope.selectedStreams[0].idstream;
+  		return editUrl;
+  	};
+  	
+  	
 	$scope.deleteStream = function(){
 		//alert("Funzionalita non ancora abilitata!");
 		if($scope.selectedStreams.length>0){

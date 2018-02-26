@@ -11,10 +11,13 @@
 			        	<a  href="#/management/newStream/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/streams/update') || !isOwner()">
 							<span class="glyphicon glyphicon-plus "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_STREAM_LIST_NEW_STREAM</span>
 						</a>
-						<button  href="javascript:void(0)" ng-click='editStream()' class="btn  btn-edit" ng-disabled="!isAuthorized('management/streams/update') || !isOwner() || !canEdit()" title="{{'MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT'|translate}}">
+						<!-- button  href="javascript:void(0)" ng-click='editStream()' class="btn  btn-edit" ng-disabled="!isAuthorized('management/streams/update') || !isOwner() || !canEdit()" title="{{'MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT'|translate}}">
 							<span class="glyphicon glyphicon-pencil "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_STREAM_LIST_EDIT_STREAM</span>
-						</button>
-						<button href="javascript:void(0)" ng-click='deleteStream()'class="btn  btn-delete" ng-disabled="true" title="{{'MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT'|translate}}">
+						</button> -->
+						<a  ng-href='{{editStream()}}' class="btn btn-edit" ng-if="isOwner() && canEdit() && isAuthorized('management/datasets/update')">
+						<span class="glyphicon glyphicon-pencil "></span> {{'MANAGEMENT_VIEW_DATASET_EDIT_BUTTON'|translate}}
+					</a>
+						<button href="javascript:void(0)" ng-click='deleteStream()'class="btn  btn-delete" ng-hide="true" title="{{'MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT'|translate}}">
 							<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_STREAM_LIST_DELETE_STREAM</span>
 						</button>
 					</div>
