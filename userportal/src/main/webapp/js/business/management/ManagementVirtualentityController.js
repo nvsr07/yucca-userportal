@@ -548,7 +548,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 	//var selectedType = null;
 	//$scope.selectedFeedTweetType=false;virtualentity.idTipoVe
 	//$scope.selectedCategory = null;
-	$scope.creationError = null;
+	//$scope.creationError = null;
 	
 	$scope.isDevice = function() {
 		if(!$scope.so || $scope.so.idSoType == null)

@@ -38,6 +38,7 @@
 						<td>
 							<span ng-if='!isImportDatasource'>{{component.name}}</span>
 							<input ng-if='isImportDatasource' class="input-sm form-control" type="text" ng-model="component.name" ng-disabled="component.skipColumn"  ng-blur="checkColumnName(component.name, $index)">
+							
 						</td>
 						<td  ng-if='!isStream()'><input class="input-sm form-control" type="text" name="alias"ng-model="component.alias" ></td>
 						<td  ng-if='!isStream()'>{{component.sourcecolumn}}</td>
@@ -105,10 +106,13 @@
 					</tr>
 					<tr ng-if='!isImportDatasource'>
 						<td><small><strong translate>MANAGEMENT_EDIT_DATASOURCE_NEW_COMPONENT</strong></small></td>
-						<td><input class="input-sm form-control" type="text" name="newComponentName" ng-model="newComponent.name" ></td>
-						<td ng-if='!isStream()'><input class="input-sm form-control" type="text" name="newComponentAlias" ng-model="newComponent.alias"></td>
-						<td ng-if='!isStream()'><input class="input-sm form-control" type="text" name="newComponentSourceColumn"ng-model="newComponent.sourcecolumn"></td>
-						<td><select class="input-sm form-control" name="newComponentDataType" ng-model="newComponent.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType"></select></td>
+						<td>
+							<input class="input-sm form-control" type="text" name="newComponentName" ng-model="newComponent.name" >
+							<div class='text-left hint mute'><i class='fa fa-lightbulb-o'></i>&nbsp;<span translate>VALIDATION_PATTERN_ALPHANUMERIC_HINT</span></div>
+						</td>
+						<td ng-if='!isStream()'><input class="input-sm form-control" type="text" name="newComponentAlias" ng-model="newComponent.alias"><div class='hint'>&nbsp;</div></td>
+						<td ng-if='!isStream()'><input class="input-sm form-control" type="text" name="newComponentSourceColumn"ng-model="newComponent.sourcecolumn"><div class='hint'>&nbsp;</div></td>
+						<td><select class="input-sm form-control" name="newComponentDataType" ng-model="newComponent.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType"></select><div class='hint'>&nbsp;</div></td>
 						<td >
 							<div class="input-group input-group-sm popover-html" ng-if="isDateTimeComponent(newComponent)">
 								<input class="input-sm form-control" type="text" name="newComponentDateTimeFormat"ng-model="newComponent.dateTimeFormat" >
@@ -123,29 +127,33 @@
 							<div ng-if="isCoordinatesComponent(newComponent)">
 								<i><small>Format: <code><strong>[lat,lon]</strong></code></small></i>
 							</div>
+							<div class='hint'>&nbsp;</div>
 						</td>
 						<td ng-if='isStream()'>
 							<input class="input-sm form-control" type="text" name="newComponentTolerance"   id="newComponentTolerance" 
 								ng-model="newComponent.tolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
+								<div class='hint'>&nbsp;</div>
 						</td>
 						<td ng-if='isStream()'>
 							<select class="input-sm form-control" name="newComponentMeasureUnit" ng-model="newComponent.phenomenon" 
 							 		ng-options="phenomenon.phenomenonname group by phenomenon.phenomenoncetegory for phenomenon in phenomenonList track by phenomenon.idPhenomenon">
 							 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER</option> 
 							 	</select>
+							<div class='hint'>&nbsp;</div>
 						</td>
-						<td ng-if='isStream()'>&nbsp;</td>
+						<td ng-if='isStream()'>&nbsp;<div class='hint'>&nbsp;</div></td>
 						
 						<td ng-if='!isStream()'>
 							<label>
 								<input type="checkbox" name="newComponentIsKey" ng-model="newComponent.isKey">
 								<span translate-cloak translate>DATASET_FIELD_METADATA_FIELD_IS_KEY_PLACEHOLDER</span>
 							</label>
+							<div class='hint'>&nbsp;</div>
 						</td>
 						<td class='text-right'>
 							<a href ng-click='addComponent(newComponent)' class="btn btn-sm btn-default "><i class='glyphicon glyphicon-plus'></i>  <span translate>ADD</span></a>
-						</td>
-															
+							<div class='hint'>&nbsp;</div>
+						</td>															
 					</tr>
 				</tbody>
 			</table>

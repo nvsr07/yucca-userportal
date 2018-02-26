@@ -473,6 +473,13 @@ var translations_it = {
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Inserire un valore decimale utilizzando il punto come separatore',
 	VALIDATION_MAX_STREAM_TWITTER_TOOLTIP: 'Per questo Smart Object non si possono creare altri stream', 
 	
+	VALIDATION_PATTERN_UUID_HINT: 'Il codice deve avere un formato  conforme al pattern: 8-4-4-4-12 con numeri esadecimali. Utilizzare il tasto Genera',
+	VALIDATION_PATTERN_CODE_VIRTUALENTITY_HINT: 'Il codice non puo\' contenere spazi o i caratteri * . / # - ',
+	VALIDATION_PATTERN_ALPHANUMERIC_HINT: 'Alfanumerico',
+	VALIDATION_PATTERN_CODE_STREAM_HINT: 'Il codice deve essere alfanumerico',
+
+	
+	
 	/* stream status */
 	draft:'Bozza',
     req_inst:'Installazione richiesta',

@@ -74,6 +74,13 @@
 						maxlength="38" ng-pattern="validationPatternUUID">
 					<span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{validationCodeTooltip()|translate}}"
 						ng-show="registerVirtualentityForm.inputVirtualentityCode.$error.pattern && registerVirtualentityForm.inputVirtualentityCode.$dirty"></span>
+					<div class='text-left hint mute'>
+						<i class='fa fa-lightbulb-o'></i>&nbsp;
+						<span translate ng-if='isDevice()'>VALIDATION_PATTERN_UUID_HINT</span>
+						<span translate ng-if='!isDevice()'>VALIDATION_PATTERN_CODE_VIRTUALENTITY_HINT</span>
+						
+					</div>
+						
 			</div>
 			<div class="col-sm-2 text-right">
 				<a ng-click='generateUUID()' class="btn btn-default" ng-disabled="!enableCodeGeneateButton()"><span translate-cloak translate>MANAGEMENT_NEW_VIRTUALENTITY_GENERATE_UUID_BUTTON</span></a>

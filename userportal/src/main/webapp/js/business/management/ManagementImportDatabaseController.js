@@ -354,7 +354,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 		return allOk;
 	};
 
-	$scope.creationError = null;
+	//$scope.creationError = null;
 	$scope.saveError = null;
 	$scope.saveErrors = null;
 

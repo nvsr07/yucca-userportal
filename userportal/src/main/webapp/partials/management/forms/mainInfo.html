@@ -51,7 +51,7 @@
 		<div class="col-sm-9" ng-if="operation=='create'">
 			<input type="text" class="form-control" ng-model="datasource.streamcode"  id="inputStreamCode"  name="inputStreamCode" 
 				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternStreamCode">		
-			<div class='text-left hint mute'><i class='fa fa-lightbulb-o'></i>&nbsp;<span translate>VALIDATION_PATTERN_CODE_STREAM_TOOLTIP</span></div>
+			<div class='text-left hint mute'><i class='fa fa-lightbulb-o'></i>&nbsp;<span translate>VALIDATION_PATTERN_CODE_STREAM_HINT</span></div>
 		</div>
 		<div class="col-sm-9" ng-if="operation=='update'"> 
 			<input type="text" class="form-control" ng-model="datasource.streamcode"  id="inputStreamCode"  name="inputStreamCode" ng-disabled='true'

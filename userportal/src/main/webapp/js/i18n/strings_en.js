@@ -472,7 +472,12 @@ var translations_en = {
 	VALIDATION_PATTERN_CODE_STREAM_TOOLTIP: 'The code entered cannot contain white space or * . / # - ',
 	VALIDATION_PATTERN_FLOAT_TOOLTIP: 'Insert a decimal number using dot as separator',
 	VALIDATION_MAX_STREAM_TWITTER_TOOLTIP: 'With this Smart Object is not possible create other streams', 
-	
+
+	VALIDATION_PATTERN_UUID_HINT: 'The code must match with the pattern: 8-4-4-4-12 hexadecimal digits. Use the button Generate',
+	VALIDATION_PATTERN_CODE_VIRTUALENTITY_HINT: 'The code entered cannot contain white space or * . / # - ',
+	VALIDATION_PATTERN_ALPHANUMERIC_HINT: 'Alphanumeric',
+	VALIDATION_PATTERN_CODE_STREAM_HINT: 'The code must be alphanumeric',
+
 	/* stream status */
 	draft:'Draft',
     req_inst:'Installation in progress',
