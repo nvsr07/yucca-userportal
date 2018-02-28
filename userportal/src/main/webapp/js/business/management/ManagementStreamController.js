@@ -408,6 +408,11 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 	
 	
 	$scope.loadStream();
+	
+	$scope.viewStream  = function(){
+			var viewUrl = "#/management/viewDatasource/stream/"+$scope.tenantCode+"/"+$scope.stream.streamcode +"/" + $scope.stream.idstream;
+			return viewUrl;
+	};
 
 
 	$scope.canInstall = function() {
@@ -556,9 +561,9 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 		updateLifecycle(Constants.LIFECYCLE_STREAM_REQ_UNINST);
 	};
 
-	$scope.createNewVersion = function(){
+	/*($scope.createNewVersion = function(){
 		updateLifecycle(Constants.LIFECYCLE_STREAM_NEW_VERSION);
-	};
+	};*/
 	
 	$scope.soList = [];
 	//$scope.extra.inputTypeStream = 1;
