@@ -442,29 +442,18 @@
 	  		</div>
    			<div id="changeQueue" class='modal-body'>
 				<div class="panel panel-default">
-					<span translate='MANAGEMENT_DATASET_CONFIRM_DELETE'></span> <strong>{{ds.info.datasetName}}?</strong>
+					<span translate='MANAGEMENT_DATASET_CONFIRM_DELETE'></span> <strong>{{ds.dataset.datasetname}}?</strong>
     			</div>
-				<div class="panel panel-default" ng-if='update.status == "error"'>
-					<strong class='text-danger' translate='MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO'></strong>
-					<div class='row  text-left' ng-repeat="error in update.errors">
-						<div class="col-sm-12">{{error.message|string_ellipse:50}}</div>
-						<div class="col-sm-12 ">{{error.detail|string_ellipse:120}}</div>
-					</div>		
-    			</div>
-				<div class="panel panel-default" ng-if='update.status == "success"'>
-					<strong class='text-success' translate='MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK'></strong>
-				</div>
-				
-
+				<alert-panel content='admin_response'></alert-panel>
    			</div>
 			<div class="modal-footer" ng-if="update.loading">
 				<div class='text-right' translate>LOADING</div>
 			</div>
-			<div class="modal-footer" ng-if="!update.loading && update.status != 'success'">
+			<div class="modal-footer" ng-if="!update.loading && admin_response.type != 'success'">
 	 			<button class="btn " ng-click="cancel()" translate>CANCEL</button>
 	 			<button type="submit" class="btn btn-default" ng-click="ok()" translate>OK</button>
     		</div>
-			<div class="modal-footer" ng-if="!update.loading && update.status == 'success'">
+			<div class="modal-footer" ng-if="!update.loading && admin_response.type == 'success'">
 	 			<button class="btn " ng-click="close()" translate>CLOSE</button>
     		</div>
 	</script>

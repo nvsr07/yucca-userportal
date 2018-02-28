@@ -209,16 +209,42 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 	
 	
 	var updateLifecycle = function(action,stream){
-		adminAPIservice.lifecycleStream(action,stream,info.getActiveTenant()).success(function(response) {
-		console.log("result updateLifecycle ", response);	
-		$route.reload();
-	}).error(function(data,status){
-		$scope.showLoading = false;
-  		console.error("updateLifecycle ERROR", data,status);
-  		$scope.admin_response.message = 'UNEXPECTED_ERROR';
-  		
-  	});
-	}
+			adminAPIservice.lifecycleStream(action,stream,info.getActiveTenant()).success(function(response) {
+			console.log("result updateLifecycle ", response);	
+			$route.reload();
+		}).error(function(data,status){
+			$scope.showLoading = false;
+	  		console.error("updateLifecycle ERROR", data,status);
+	  		$scope.admin_response.message = 'UNEXPECTED_ERROR';
+	  		
+	  	});
+	};
+	
+	$scope.openUninstalDatasetModal = function(){
+		console.log("openUninstalDatasetModal",$scope.datasource);
+	    var uninstallDatasetModalInstance = $modal.open({
+	      animation: true,
+	      templateUrl: 'unistallDatasetModal.html',
+	      controller: 'ManagementDatasetUninstallModalCtrl',
+	      scope: $scope,
+	      size: 'sm',
+	      resolve: {
+	    	  datasource : function(){
+	    		  return $scope.datasource;
+	    	  }
+	      }
+	    });
+	    
+	    uninstallDatasetModalInstance.result.then(function (unistalled) {
+	    	console.log('unistalled', unistalled);
+	      }, function (unistalled) {
+	    	  console.log('Modal dismissed unistalled: ' + unistalled);
+	    	  if(unistalled)
+	    		  $location.path('management/datasets/'+$scope.tenantCode);
+	      });
+	};
+	
+	
 
 //	var updateLifecycle = function(action) {
 //		console.log("updateLifecycle stream", $scope.stream);

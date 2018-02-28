@@ -29,8 +29,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.minidev.json.JSONObject;
-
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.ssl.Base64;
@@ -42,6 +40,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.delegate.HttpDelegate2;
 import org.csi.yucca.userportal.userportal.delegate.JWTDelegate;
 import org.csi.yucca.userportal.userportal.delegate.WebServiceDelegate;
 import org.csi.yucca.userportal.userportal.entity.admin.tenant.Tenant;
@@ -68,6 +67,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+
+import net.minidev.json.JSONObject;
 
 @WebServlet(name = "AuthorizeServlet", description = "Authorization Servlet", urlPatterns = { "/api/authorize" }, asyncSupported = false)
 public class SAML2ConsumerServlet extends HttpServlet {
@@ -157,9 +158,10 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						List<String> tenantsCode = null;
 						tenantsCode = loadRolesFromJwt(newUser, "_subscriber");
 						// do we need to add sandbox?
-//						if (tenantsCode.isEmpty()) {
-//							tenantsCode = Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantcode());
-//						}
+						// if (tenantsCode.isEmpty()) {
+						// tenantsCode =
+						// Arrays.asList(AuthorizeUtils.DEFAULT_TENANT.getTenantcode());
+						// }
 
 						log.info("[SAML2ConsumerServlet::doPost] GOT Tenants:" + tenantsCode);
 						// filtro sui tenant, data di disattivazione
@@ -181,7 +183,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						detectSocialAndSetFields(newUser);
 
 						newUser.setAcceptTermConditionTenantsFromString(loadTermConditionFromJwt(newUser));
-						if(tenants.size()>0)
+						if (tenants.size() > 0)
 							newUser.setActiveTenant(tenants.get(0).getTenantcode());
 
 						try {
@@ -193,11 +195,11 @@ public class SAML2ConsumerServlet extends HttpServlet {
 						Map<String, String> tokens = new HashMap<String, String>();
 
 						if (newUser != null && newUser.getTenants() != null && newUser.getTenants().size() > 0) {
-							newUser.setToken(getTokenForTenant(newUser.getActiveTenant()));
+							newUser.setToken(getTokenForTenant(newUser.getActiveTenant(), newUser));
 							tokens.put(newUser.getActiveTenant(), newUser.getToken());
 							for (Tenant tnt : newUser.getTenants()) {
 								if (!tnt.equals(newUser.getActiveTenant())) {
-									tokens.put(tnt.getTenantcode(), getTokenForTenant(tnt.getTenantcode()));
+									tokens.put(tnt.getTenantcode(), getTokenForTenant(tnt.getTenantcode(), newUser));
 								}
 							}
 
@@ -320,7 +322,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			allTenants = gson.fromJson(inputJson, new TypeToken<List<Tenant>>() {
 			}.getType());
 		} catch (Exception e) {
-			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage()+ "json:["+inputJson+"]");
+			log.error("[SAML2ConsumerServlet::getAllTenants] - ERROR " + e.getMessage() + "json:[" + inputJson + "]");
 			e.printStackTrace();
 		}
 		return allTenants;
@@ -336,7 +338,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 	private static Tenant filterTenant(List<Tenant> allTenants, String username, String label) {
 		Tenant foundTenant = null;
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
+		// SimpleDateFormat formatter = new
+		// SimpleDateFormat("yyyy-MM-dd+hh:mm");
 		Date actualDate = new Date();
 		Date singleTenantDate = new Date();
 		for (Tenant singleTenant : allTenants) {
@@ -362,7 +365,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	private static List<Tenant> filterDisabledTenants(List<String> tenantsCode, List<Tenant> allTenants) {
 		Date actualDate = new Date();
 		List<Tenant> tenants = new LinkedList<Tenant>();
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd+hh:mm");
+		// SimpleDateFormat formatter = new
+		// SimpleDateFormat("yyyy-MM-dd+hh:mm");
 
 		for (Tenant singleTenant : allTenants) {
 
@@ -395,44 +399,56 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return strDate;
 	}
 
-	public static String getTokenForTenant(String tenant) {
+	public static String getTokenForTenant(String tenant, User user) {
 
 		String apiBaseUrl = "";
+		String access_token = "";
 
 		try {
-			Properties config = Config.loadServerConfiguration();
-			apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
-			apiBaseUrl += Config.SECDATA_NEWTOKEN + tenant;
+			// Properties config = Config.loadServerConfiguration();
+			// apiBaseUrl = config.getProperty(Config.API_SERVICES_URL_KEY);
+			// apiBaseUrl += Config.SECDATA_NEWTOKEN + tenant;
 
-			HttpClient client = HttpClientBuilder.create().build();
-			HttpGet httpget = new HttpGet(apiBaseUrl);
+			// apiBaseUrl = config.getProperty(Config.API_ADMIN_URL_KEY) +
+			// "/1/management/tenant/"+tenant+"/token";
 
-			HttpResponse r = client.execute(httpget);
-			String status = r.getStatusLine().toString();
-			System.out.println("status " + status);
+			// String responseJson = HttpDelegate2.executeGet(apiBaseUrl, null,
+			// null, null, true, info);
+			// HttpClient client = HttpClientBuilder.create().build();
+			// HttpGet httpget = new HttpGet(apiBaseUrl);
+			//
+			// HttpResponse r = client.execute(httpget);
+			// String status = r.getStatusLine().toString();
+			// System.out.println("status " + status);
+			//
+			// StringBuilder out = new StringBuilder();
+			// BufferedReader rd = new BufferedReader(new
+			// InputStreamReader(r.getEntity().getContent()));
+			// String line = "";
+			//
+			// while ((line = rd.readLine()) != null) {
+			// out.append(line);
+			// }
+			//
+			// String inputJson = out.toString();
 
-			StringBuilder out = new StringBuilder();
-			BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
-			String line = "";
+			if (user != null && user.getSecretTempJwtRaw() != null) {
+				Properties config = Config.loadServerConfiguration();
+				apiBaseUrl = config.getProperty(Config.API_ADMIN_URL_KEY) + "/1/management/tenant/" + tenant + "/token";
 
-			while ((line = rd.readLine()) != null) {
-				out.append(line);
+				String responseJson = HttpDelegate2.executeGet(apiBaseUrl, null, null, null, true, user);
+
+				JsonParser parser = new JsonParser();
+				JsonObject rootObj = parser.parse(responseJson).getAsJsonObject();
+
+				access_token = rootObj.get("access_token").getAsString();
 			}
-
-			String inputJson = out.toString();
-
-			JsonParser parser = new JsonParser();
-			JsonObject rootObj = parser.parse(inputJson).getAsJsonObject();
-
-			String access_token = rootObj.get("access_token").getAsString();
-
-			return access_token;
 
 		} catch (IOException e) {
 			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "";
+		return access_token;
 	}
 
 	private List<String> loadPermissions(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
@@ -589,8 +605,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 		return loadUserClaimValue(newUser, AuthorizeUtils.claimsKeys.get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
 	}
 
-	private String loadUserClaimValue(User newUser, String claimKey) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException,
-			SAXException {
+	private String loadUserClaimValue(User newUser, String claimKey)
+			throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
 
 		log.debug("[SAML2ConsumerServlet::loadUserClaimValue] - START");
 		String claimValue = null;
@@ -763,8 +779,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 	}
 
-	private String loadStoreTokenFromApi(String apiBaseUrl, String username, String productConsumerKey, String productConsumerSecret, String storeBaseUrl) throws HttpException,
-			IOException {
+	private String loadStoreTokenFromApi(String apiBaseUrl, String username, String productConsumerKey, String productConsumerSecret, String storeBaseUrl)
+			throws HttpException, IOException {
 
 		HttpPost httpPost = new HttpPost(apiBaseUrl + "/token?grant_type=client_credentials");
 		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -798,8 +814,8 @@ public class SAML2ConsumerServlet extends HttpServlet {
 
 	}
 
-	private String refreshStoreToken(String storeBaseUrl, String username, String productConsumerKey, String productConsumerSecret, String oldStoreToken) throws HttpException,
-			IOException {
+	private String refreshStoreToken(String storeBaseUrl, String username, String productConsumerKey, String productConsumerSecret, String oldStoreToken)
+			throws HttpException, IOException {
 
 		HttpPost httpPost = new HttpPost(storeBaseUrl + "/site/blocks/secure/subscription.jag?");
 		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");

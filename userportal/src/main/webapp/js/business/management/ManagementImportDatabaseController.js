@@ -192,9 +192,9 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	
 	$scope.user = info.getInfo().user;
 	if($scope.user!=undefined && $scope.user.loggedIn==true){
-		$scope.metadata.info.requestorName=$scope.user.firstname;
-		$scope.metadata.info.requestorSurname=$scope.user.lastname;
-		$scope.metadata.info.requestornEmail=$scope.user.email;
+		$scope.defaultMetadata.requestername=$scope.user.firstname;
+		$scope.defaultMetadata.requestersurname=$scope.user.lastname;
+		$scope.defaultMetadata.requestermail=$scope.user.email;
 	}
 //
 //	$scope.newTag = {value:""};

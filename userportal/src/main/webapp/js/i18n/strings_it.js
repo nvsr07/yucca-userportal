@@ -1193,7 +1193,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_USE_MULTIDOMAIN_WARNING: 'Attenzione, scegliendo il dominio speciale MULTI, non sar&agrave; possibile pubblicare il dataset in futuro',
 	MANAGEMENT_EDIT_DATASET_API_URL: 'Url accesso API', 
 	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO: 'Si sono verificati dei problemi durante la disinstallazione del Dataset',
-	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK: 'disinstallazione avvenuta correttamente',
+	MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK: 'Disinstallazione avvenuta correttamente',
 	
 	MANAGEMENT_EDIT_DATASET_GENERAL_INFO: 'Informazioni generali',
 	MANAGEMENT_EDIT_DATASET_VISIBILITY_AND_SHARING: 'Visibilit&agrave; e condivisione', 

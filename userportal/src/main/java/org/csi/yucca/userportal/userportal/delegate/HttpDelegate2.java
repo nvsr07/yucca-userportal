@@ -17,12 +17,17 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.log4j.Logger;
+import org.csi.yucca.userportal.userportal.info.User;
 
 public class HttpDelegate2 {
 
 	static Logger log = Logger.getLogger(HttpDelegate.class);
 	
-	public static String executeGet(String targetUrl, String contentType, String characterEncoding, Map<String, String> parameters) throws IOException {
+//	public static String executeGet(String targetUrl, String contentType, String characterEncoding, Map<String, String> parameters) throws IOException {
+//			return executeGet(targetUrl, contentType, characterEncoding, parameters, false, null);
+//	}
+	
+	public static String executeGet(String targetUrl, String contentType, String characterEncoding, Map<String, String> parameters, boolean useJwtAuth, User user) throws IOException {
 		log.debug("[HttpDelegate::executeGet] START");
 		String result = "";
 		int resultCode = -1;
@@ -47,8 +52,13 @@ public class HttpDelegate2 {
 			GetMethod get = new GetMethod(targetUrl);
 			
 
-			contentType = "application/x-www-form-urlencoded";
+			//contentType = "application/x-www-form-urlencoded";
 			get.setRequestHeader("Content-Type", contentType);
+			
+			if(useJwtAuth && user!=null && user.getSecretTempJwtRaw()!=null){
+				get.addRequestHeader("x-auth-token", user.getSecretTempJwtRaw());
+			}
+
 
 			HttpClient httpclient = new HttpClient();
 			try {

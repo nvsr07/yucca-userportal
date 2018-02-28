@@ -96,11 +96,12 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		$scope.user.havePersonalTenant = false;
 		//$scope.user.havePersonalTenantToActivate = false;
 		angular.forEach($scope.user.tenants, function(value, key) {
-			if (value.tenantType == "trial")
+			console.log("value", value)
+			if (value.tenantType.tenanttypecode == "trial")
 				$scope.user.haveTrialTenant = true;
 			});
 		angular.forEach($scope.user.tenants, function(value, key) {
-			if (value.tenantType == "personal")
+			if (value.tenantType.tenanttypecode == "personal")
 				$scope.user.havePersonalTenant = true;
 			});
 

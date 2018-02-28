@@ -156,81 +156,77 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		}
 	};
 
-	$scope.deleteDataset = function(){
-		if($scope.selectedDatasets.length===1){
-			$scope.detailModal($scope.selectedDatasets[0]);
-		} else {
-			console.error("deleteDataset error selectedDatasets  wrong size: ",$scope.selectedDatasets);
-		}
-	};
+//	$scope.deleteDataset = function(){
+//		if($scope.selectedDatasets.length===1){
+//			$scope.detailModal($scope.selectedDatasets[0]);
+//		} else {
+//			console.error("deleteDataset error selectedDatasets  wrong size: ",$scope.selectedDatasets);
+//		}
+//	};
 	
-	$scope.detailModal = function(ds){
-		console.log('ds', ds);
-	    var detailModalInstance = $modal.open({
-	      animation: true,
-	      templateUrl: 'deleteDatasetUninstall.html',
-	      controller: 'ManagementDatasetUninstallModalCtrl',
-	      size: 'lg',
-	      resolve: {
-	    	  ds : function(){
-	    		console.log('ds 2', ds);
-	        	return ds;
-	    	  },
-	    	  tenant : function(){
-	    		console.log('$scope.tenantCode', $scope.tenantCode);
-	        	return $scope.tenantCode;
-	    	  }
-	      }
-	    });
-	    
-	    detailModalInstance.result.then(function (result) {
-	    	console.log('result', result);
-	        if (result){
-	        	updateSelected('remove', ds);
-	        	$route.reload();
-	        }
-	      }, function () {
-	      	console.log('Modal dismissed at: ' + new Date());
-	      });
-	};
+//	$scope.detailModal = function(ds){
+//		console.log('ds', ds);
+//	    var detailModalInstance = $modal.open({
+//	      animation: true,
+//	      templateUrl: 'deleteDatasetUninstall.html',
+//	      controller: 'ManagementDatasetUninstallModalCtrl',
+//	      size: 'lg',
+//	      resolve: {
+//	    	  ds : function(){
+//	    		console.log('ds 2', ds);
+//	        	return ds;
+//	    	  },
+//	    	  tenant : function(){
+//	    		console.log('$scope.tenantCode', $scope.tenantCode);
+//	        	return $scope.tenantCode;
+//	    	  }
+//	      }
+//	    });
+//	    
+//	    detailModalInstance.result.then(function (result) {
+//	    	console.log('result', result);
+//	        if (result){
+//	        	updateSelected('remove', ds);
+//	        	$route.reload();
+//	        }
+//	      }, function () {
+//	      	console.log('Modal dismissed at: ' + new Date());
+//	      });
+//	};
 }]);
 
 
 
-appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$location', '$modalInstance', 'fabricAPImanagement', 'ds', 'tenant', 
-                                                                   function($scope, $location, $modalInstance, fabricAPImanagement, ds, tenant) {
+appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$location', '$modalInstance', 'adminAPIservice', 'datasource', 'info', 
+                                                                   function($scope, $location, $modalInstance, adminAPIservice, datasource, info) {
 
-	console.log("ManagementDatasetUninstallModalCtrl", ds);
-	console.log("ManagementDatasetUninstallModalCtrl", tenant);
-	$scope.ds = ds; 
-	$scope.tenant = tenant; 
+	console.log("ManagementDatasetUninstallModalCtrl", datasource);
+	console.log("ManagementDatasetUninstallModalCtrl", info);
+	$scope.ds = datasource; 
 	$scope.update = {"loading":false, "status":"", };
 	
 	$scope.ok = function(){
 			
 		$scope.update.loading = true;
-		var promise = fabricAPImanagement.requestUnistallDataset($scope.tenant, $scope.ds.idDataset);
 		
-		promise.then(function(result) {
-			console.log("result ok ", result);
-			if(result.errors && data.errors.length>0){
-				$scope.update.status="error";
-				$scope.errors = data.errors;
-			}
-			else{
-				$scope.update.status = "success";
-			}
+		adminAPIservice.uninstallDataset(info.getActiveTenant(), $scope.dataset).success(function(response) {
+			console.log("uninstallDataset SUCCESS", response);
+			Helpers.util.scrollTo();
+			$scope.admin_response.type = 'success';
+			$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_DELETE_RESULT_OK';
+			sharedAdminResponse.setResponse($scope.admin_response);
 			$scope.update.loading = false;
-			//$modalInstance.close(true);
-		}, function(result) {
-			console.log("result ko", result);
-			$scope.update.status="error";
-			$scope.errors =angular.fromJson(result.data);
+		}).error(function(response){
+			console.error("updateDataset ERROR", response);
+			$scope.admin_response.type = 'danger';
+			$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO';
+			if(response && response.errorName)
+				$scope.admin_response.detail= response.errorName;
+			if(response && response.errorCode)
+				$scope.admin_response.code= response.errorCode;
 			$scope.update.loading = false;
-			//$modalInstance.close(true);
-		}, function(result) {
-			console.log('Got notification: ' + result);
 		});
+		
 	};
 	
 	$scope.cancel = function () {

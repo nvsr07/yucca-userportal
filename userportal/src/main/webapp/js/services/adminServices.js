@@ -253,6 +253,11 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 		return $http.put(urlWithParam,dataset);
 	};
 	
+	adminAPI.uninstallDataset = function(activeTenant, dataset) {
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode);
+		return $http.delete(urlWithParam, dataset);
+	};
+	
 
 	
 	adminAPI.addDataToDataset = function(activeTenant, dataset, csvInfo,componentInfoRequests) {
