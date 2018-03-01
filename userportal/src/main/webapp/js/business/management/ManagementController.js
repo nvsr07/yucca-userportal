@@ -227,7 +227,7 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 	      templateUrl: 'unistallDatasetModal.html',
 	      controller: 'ManagementDatasetUninstallModalCtrl',
 	      scope: $scope,
-	      size: 'sm',
+	      //size: 'sm',
 	      resolve: {
 	    	  datasource : function(){
 	    		  return $scope.datasource;
@@ -243,7 +243,31 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 	    		  $location.path('management/datasets/'+$scope.tenantCode);
 	      });
 	};
-	
+
+	$scope.openDeleteDataDatasetModal = function(){
+		console.log("openDeleteDataDatasetModal",$scope.datasource);
+	    var uninstallDatasetModalInstance = $modal.open({
+	      animation: true,
+	      templateUrl: 'deleteDataDatasetModal.html',
+	      controller: 'ManagementDatasetDeleteDatalModalCtrl',
+	      scope: $scope,
+	      //size: 'sm',
+	      resolve: {
+	    	  datasource : function(){
+	    		  return $scope.datasource;
+	    	  }
+	      }
+	    });
+	    
+//	    uninstallDatasetModalInstance.result.then(function (unistalled) {
+//	    	console.log('unistalled', unistalled);
+//	      }, function (unistalled) {
+//	    	  console.log('Modal dismissed unistalled: ' + unistalled);
+//	    	  if(unistalled)
+//	    		  $location.path('management/datasets/'+$scope.tenantCode);
+//	      });
+	};
+
 	
 
 //	var updateLifecycle = function(action) {

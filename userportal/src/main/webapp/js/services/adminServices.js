@@ -254,7 +254,7 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 	};
 	
 	adminAPI.uninstallDataset = function(activeTenant, dataset) {
-		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode);
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/' + dataset.iddataset;
 		return $http.delete(urlWithParam, dataset);
 	};
 	
@@ -280,6 +280,14 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 		
 		
 	};
+	adminAPI.clearDataset = function(activeTenant, dataset) {
+		console.log("clearDataset",activeTenant, dataset);
+		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + 
+			'/' +dataset.iddataset + '/deleteData?tenantCodeManager='+activeTenant.tenantcode; 
+		return $http.delete(urlWithParam, dataset);
+	};
+
+	
 	
 	adminAPI.importMetadata = function(activeTenant,ImportMetadataDatasetRequest) {
 		var urlWithParam = Constants.API_ADMIN_DATASET_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode) + '/importMetadata'; 

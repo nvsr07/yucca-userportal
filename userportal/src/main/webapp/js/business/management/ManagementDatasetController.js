@@ -237,6 +237,43 @@ appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$l
 	};
 }]);
 
+
+appControllers.controller('ManagementDatasetDeleteDatalModalCtrl', [ '$scope', '$location', '$modalInstance', 'adminAPIservice', 'datasource', 'info', 
+    function($scope, $location, $modalInstance, adminAPIservice, datasource, info) {
+		console.log("ManagementDatasetDeleteDatalModalCtrl", datasource);
+		console.log("ManagementDatasetDeleteDatalModalCtrl", info);
+		$scope.ds = datasource; 
+		$scope.update = {"loading":false, "status":"", };
+		
+		$scope.ok = function(){
+		$scope.update.loading = true;
+		
+		adminAPIservice.clearDataset(info.getActiveTenant(), $scope.dataset).success(function(response) {
+				console.log("clearDataset SUCCESS", response);
+				Helpers.util.scrollTo();
+				$scope.admin_response.type = 'success';
+				$scope.admin_response.message = 'MANAGEMENT_DATASET_MODAL_DELETE_OKMSG';
+				sharedAdminResponse.setResponse($scope.admin_response);
+				$scope.update.loading = false;
+			}).error(function(response){
+				console.error("clearDataset ERROR", response);
+				$scope.admin_response.type = 'danger';
+				$scope.admin_response.message = 'MANAGEMENT_DATASET_MODAL_DELETE_KOMSG';
+				if(response && response.errorName)
+					$scope.admin_response.detail= response.errorName;
+				if(response && response.errorCode)
+					$scope.admin_response.code= response.errorCode;
+				$scope.update.loading = false;
+			});
+		};
+		
+		$scope.cancel = function () {
+			$modalInstance.dismiss(false);
+		};
+}]);
+
+ManagementDatasetDeleteDatalModalCtrl
+
 appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'adminAPIservice', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
                                                      function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, adminAPIservice, $location, $modalInstance, selectedDataset, info, readFilePreview) {
 	$scope.tenantCode = $routeParams.tenant_code;

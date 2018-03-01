@@ -913,8 +913,8 @@ var translations_it = {
 	MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET: 'Cancella i dati',
 	MANAGEMENT_DATASET_LIST_SHOW_UNINSTALLED : 'Mostra Disinstallati',
 	MANAGEMENT_DATASET_CONFIRM_DELETE: 'Disinstallare il Dataset',
-	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Cancellazione dei dati del DATASET selezionato',
-	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'Cancellare tutti i dati del dataset?',
+	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Cancellazione dati',
+	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'Cancellare tutti i dati del dataset ',
 	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dati del Dataset cancellati correttamente',
 	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'Non è stato possibile cancellare i dati del dataset! Riprovare in un secondo momento',
 	

@@ -907,8 +907,8 @@ var translations_en = {
 	MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET: 'Data delete',
 	MANAGEMENT_DATASET_LIST_SHOW_UNINSTALLED : 'Show Unistalled',
 	MANAGEMENT_DATASET_CONFIRM_DELETE: 'You are about to uninstall the selected Dataset(s)! Are you sure?',
-	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Erasing the data of the selected DATASET',
-	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'ARE YOU SURE YOU WANT TO ERASE ALL DATA OF DATASET ?',
+	MANAGEMENT_DATASET_MODAL_DELETE_TITLE : 'Erase data ',
+	MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE : 'Are you sure you want to erase all data of dataset ',
 	MANAGEMENT_DATASET_MODAL_DELETE_OKMSG : 'Dataset data deleted properly',
 	MANAGEMENT_DATASET_MODAL_DELETE_KOMSG : 'It was not possible to delete the dataset data! Try again later',
 	

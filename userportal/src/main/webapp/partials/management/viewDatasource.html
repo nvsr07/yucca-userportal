@@ -377,7 +377,7 @@
 					<a  href='{{downloadCsvUrl}}' class="btn  btn-download-dataset" ng-if="isAuthorized('management/datasets/download') && datasource.unpublished==0"  >
 						<span class="glyphicon glyphicon-cloud-download "></span> {{'MANAGEMENT_VIEW_DATASET_DOWNLOAD_BUTTON'|translate}}
 					</a>
-	   				<a href ng-click='openModalView()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" >
+	   				<a href ng-click='openDeleteDataDatasetModal()' class="btn btn-delete" ng-disabled="!isAuthorized('management/datasets/update') || !isOwner() || !canDelete()" >
 						<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_DELETE_DATA_DATASET</span>
 					</a>
 	   				<a href ng-click='openUninstalDatasetModal()' class="btn btn-delete" ng-if="isAuthorized('management/datasets/update') && isOwner()  && canUnistall() && !isStream()" >
@@ -399,7 +399,7 @@
 	</div>
 </div>
 <div> <!-- ng-show="ModalDemoCtrl" -->
-    <script type="text/ng-template" id="datasetModalContent.html">
+  <!-- <script type="text/ng-template" id="datasetModalContent.html">
 		<div id="datasetModalContent">
         	<div class="modal-header">
             	<h3 class="modal-title">{{'MANAGEMENT_DATASET_MODAL_DELETE_TITLE'|translate}}</h3>
@@ -426,16 +426,32 @@
             	<button class="btn btn-warning" type="button" ng-click="cancel()">NO</button>
         	</div>
         	<div class="modal-footer" ng-show="datasetModalView.dataset.okdo==true">
-				<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
             	<button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
         	</div>
         	<div class="modal-footer" ng-show="datasetModalView.dataset.kodo==true">
-				<!-- bottoni distinti anche se apparentemente uguali per manutenzione -->
             	<button class="btn btn-primary" type="button" ng-click="cancel()">chiudi</button>
         	</div>
 		</div>
-    </script>
+    </script> -->
    	<!-- Modal -->
+   	<script type="text/ng-template" id="deleteDataDatasetModal.html">
+			<div class='modal-header'>
+       	 		<h3 class='modal-title'>{{'MANAGEMENT_DATASET_MODAL_DELETE_TITLE'|translate}}</h3>
+	  		</div>
+   			<div id="changeQueue" class='modal-body'>
+				<div class="panel panel-default">
+					<span translate='MANAGEMENT_DATASET_MODAL_DELETE_SUBTITLE'></span> <strong>{{ds.dataset.datasetname}}?</strong>
+    			</div>
+				<alert-panel content='admin_response'></alert-panel>
+   			</div>
+			<div class="modal-footer" ng-if="update.loading">
+				<div class='text-right' translate>LOADING</div>
+			</div>
+			<div class="modal-footer" ng-if="!update.loading">
+	 			<button class="btn " ng-click="cancel()" translate>CLOSE</button>
+	 			<button type="submit" class="btn btn-default" ng-click="ok()" translate>OK</button>
+    		</div>
+	</script>
 	<script type="text/ng-template" id="unistallDatasetModal.html">
 			<div class='modal-header'>
        	 		<h3 class='modal-title'>{{'MANAGEMENT_DATASET_LIST_DELETE_DATASET'|translate}}</h3>
