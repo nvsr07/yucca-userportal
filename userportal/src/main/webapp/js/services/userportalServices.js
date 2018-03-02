@@ -43,5 +43,35 @@ appServices.factory('upService', [ "$http", "$q", "info", function($http, $q, in
 		});
 	};
 	
+	userportalService.loadTwitterCredential = function() {
+		return $http({
+			method : 'GET',
+			url : Constants.API_SERVICES_TWITTER_USER_URL// + '?callback=JSON_CALLBACK'
+		});
+	};
+	
+	userportalService.clearTwitterCredential = function() {
+		return $http({
+			method : 'GET',
+			url : Constants.API_SERVICES_TWITTER_USER_URL+ '?action=clear'
+		});
+	};
+		
+
+	userportalService.verifyTwitterCredential = function() {
+		return $http({
+			method : 'JSONP',
+			url : Constants.API_SERVICES_TWITTER_AUTH_URL + '?callback=JSON_CALLBACK'
+		});
+	};
+
+	userportalService.checkTwitterQuery = function(tweetQuery) {
+		return $http({
+			method : 'POST',
+			data:tweetQuery,
+			url : Constants.API_SERVICES_TWITTER_QUERY_URL
+		});
+	};
+	
 	return userportalService;
 }]);

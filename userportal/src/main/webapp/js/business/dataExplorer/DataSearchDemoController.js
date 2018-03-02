@@ -1,6 +1,6 @@
 
-appControllers.controller('DataSearchDemoCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', '$location', '$filter', '$http',  'info', 'dataexplorerService', 'metadataapiAPIservice','$translate','$timeout',
-                                                function($scope, $routeParams, fabricAPIservice, $location, $filter,  $http, info,dataexplorerService, metadataapiAPIservice,$translate,$timeout) {
+appControllers.controller('DataSearchDemoCtrl', [ '$scope', '$routeParams',  '$location', '$filter', '$http',  'info', 'dataexplorerService', 'metadataapiAPIservice','$translate','$timeout',
+                                                function($scope, $routeParams,  $location, $filter,  $http, info,dataexplorerService, metadataapiAPIservice,$translate,$timeout) {
 	
 	$scope.domainList = [];
 	$scope.metadataSearchInput = {query:'',filter:{}, start:0, rows: 10, currentPage: 1};

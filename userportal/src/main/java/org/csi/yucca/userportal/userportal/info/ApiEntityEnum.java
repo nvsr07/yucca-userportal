@@ -253,6 +253,12 @@ public enum ApiEntityEnum {
 		}
 	},
 	
+	API_ADMIN_VALIDATION_INTERNAL_STREAM_QUERY("API_ADMIN_VALIDATION_INTERNAL_STREAM_QUERY_URL", Config.API_PROXY_ADMIN_BASE_URL + "1/management/validate/internalStream/query") {
+		@Override
+		public boolean isAuthorizeAccess(HttpServletRequest request) {
+			return true;
+		}
+	},
 
 	// @Deprecated
 	// API_SERVICES_VIRTUALENTITY_CATEGORIES("API_SERVICES_VIRTUALENTITY_CATEGORIES_URL",

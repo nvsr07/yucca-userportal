@@ -203,10 +203,7 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 	
 	
 	adminAPI.lifecycleStream = function(action, stream,activeTenant) {
-		var lifecyclerequest =
-		{
-			"action":action
-		};
+		var lifecyclerequest = {"action":action};
 		var urlWithParam = Constants.API_ADMIN_STREAM_LIFECYCLE_URL.replace(new RegExp('{organizationCode}', 'gi'), activeTenant.organization.organizationcode).replace(new RegExp('{soCode}', 'gi'), stream.smartobject.socode).replace(new RegExp('{idStream}', 'gi'), stream.idstream);
 		return $http.put(urlWithParam, lifecyclerequest);
 		
@@ -302,6 +299,13 @@ appServices.factory('adminAPIservice', [ "$http", "$upload", "$q", "info", funct
 //
 //		});
 		
+	};
+	
+	adminAPI.validateSiddhiQuery = function(queryToValidate) {
+		console.log("validateSiddhiQuery", queryToValidate)
+		var urlWithParam = Constants.API_ADMIN_VALIDATION_INTERNAL_STREAM_QUERY_URL;
+		console.log("validateSiddhiQuery", urlWithParam);
+		return $http.post(urlWithParam, queryToValidate);
 	};
 
 	return adminAPI;

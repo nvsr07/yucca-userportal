@@ -1,5 +1,5 @@
-appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice','adminAPIservice' ,'fabricAPImanagement','readFilePreview','info', '$upload', '$translate','$modal', 'devService',
-                                                              function($scope, $route, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, $upload, $translate, $modal, devService) {
+appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$route', '$location', 'adminAPIservice' ,'fabricAPImanagement','readFilePreview','info', '$upload', '$translate','$modal', 'devService',
+                                                              function($scope, $route, $location, adminAPIservice, fabricAPImanagement,readFilePreview, info, $upload, $translate, $modal, devService) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	
 	$scope.validationPatternSubdomain = Constants.VALIDATION_PATTERN_NO_SPACE;

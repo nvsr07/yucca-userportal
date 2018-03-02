@@ -1,4 +1,4 @@
-appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOCKET_BASE_URL','WEB_SOCKET_USER','WEB_SOCKET_SECRET', function($rootScope,fabricAPIservice, WEB_SOCKET_BASE_URL,WEB_SOCKET_USER,WEB_SOCKET_SECRET) {
+appServices.factory('webSocketService',['$rootScope','upService','WEB_SOCKET_BASE_URL','WEB_SOCKET_USER','WEB_SOCKET_SECRET', function($rootScope,fabricAPIservice, WEB_SOCKET_BASE_URL,WEB_SOCKET_USER,WEB_SOCKET_SECRET) {
 	var stompClient = {};	
 //	var self = this;
 	var root = $rootScope;
@@ -20,7 +20,7 @@ appServices.factory('webSocketService',['$rootScope','fabricAPIservice','WEB_SOC
 	function ConnectTheSocket(on_connect, on_error, vhost, count, updateStatus, tenantStream){
 		console.debug(':::: Unsubscribe for ::tenantStream::', tenantStream);
 
-		fabricAPIservice.getInfo().success(function(infoTenant){
+		upService.getInfo().success(function(infoTenant){
 			if(infoTenant != null && infoTenant.user!=null && infoTenant.user.tenants !=null){
 				console.debug("infoTenant = ", infoTenant);
 				var tenantsTokens = "";

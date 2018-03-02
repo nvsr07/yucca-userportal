@@ -316,6 +316,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 						$scope.stream.requestermail=$scope.user.email;
 					}
 
+					$scope.extra.isInternal = $scope.stream.isInternal;
+
 					$scope.datasourceReady = true;
 					
 

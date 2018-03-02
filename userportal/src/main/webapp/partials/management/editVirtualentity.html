@@ -113,7 +113,7 @@
 										<span title="{{streamRow.stream.streamcode}} - {{streamRow.stream.streamname}}"><strong>{{streamRow.stream.streamcode}}</strong> - {{streamRow.stream.streamname|string_ellipse:20}}</span>
 									</div>
 									<div class='col-sm-1 col-no-padding'>	
-										<span class="stream-status stream-status-{{streamRow.stream.status.statuscode}}">{{streamRow.stream.status.statuscode|translate|translate|string_ellipse:8}}</span>									
+										<span class="stream-status stream-status-{{streamRow.stream.status.statuscode}}">{{streamRow.stream.status.statuscode|translate|string_ellipse:8}}</span>									
 									</div>
 									<div class='col-sm-6 col-sm-6'>
 										<a href class='btn btn-default btn-sm' ng-click='reinstallStream(streamRow)' ng-disabled="streamRow.isUpdating || streamRow.stream.status.statuscode!=STREAM_STATUS_INST">
@@ -122,9 +122,10 @@
 										<a  href class='btn btn-default btn-sm' ng-click='unInstallStream(streamRow)' ng-disabled="streamRow.isUpdating || streamRow.stream.status.statuscode!=STREAM_STATUS_INST">
 											<span class="glyphicon glyphicon-open "></span> <span translate-cloak translate>MANAGEMENT_VIEW_STREAM_UNINSTALL_BUTTON</span>
 										</a>
-										<i class="fa fa-check text-success" ng-show='streamRow.updateOk'></i>
-										<i class="fa fa-times text-danger" ng-show='streamRow.updateKo'></i>
+										<i class="fa fa-check text-success" ng-if='streamRow.updateOk'></i>
+										<i class="fa fa-times text-danger" ng-if='streamRow.updateKo'></i>
 										<span class="ajax-loading" ng-show='streamRow.isUpdating'></span>
+										<!-- <a href ng-click='refreshStream(streamRow, true)'>d</a> -->
 									</div>
 								</div>
 							</div>

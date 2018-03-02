@@ -989,7 +989,7 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal) {
 });
 
 
-app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabricAPIservice, $translate) {
+app.directive('datasourceInternalStreams', function(info, adminAPIservice, $translate) {
 	return {
 	    restrict: 'E',
 	    scope: {datasource: '=', extra: '=', visible: '='},
@@ -1208,7 +1208,8 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 	    				"queryExpressions":scope.streamSiddhiQuery + scope.defaultQuery		
 	    		};
 	    		console.info("validationObj : ", validationObj);
-	    		fabricAPIservice.validateSiddhi(validationObj).success(function(response) {
+	    		adminAPIservice.validateSiddhiQuery(validationObj).success(function(response) {
+	    			console.log("validateSiddhiQuery", response);
 	    			if(response.faultstring != null){
 		    			scope.datasource.isSiddhiQueryValid = false;
 		    			scope.siddhiQueryValidationMessages = {type: "danger", message: 'ERROR_TITLE', detail:response.faultstring};
@@ -1217,6 +1218,16 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 		    			scope.siddhiQueryValidationMessages = {type: "success", message:'STREAM_SIDDHI_QUERY_SUCCESS'};
 	    			}
 	    			console.debug(response);
+	    		}).error(function(response) {
+	    			console.log("validateSiddhiQuery ERROR", response);
+		    		scope.siddhiQueryValidationMessages =  {type: "danger", message: 'ERROR_TITLE', detail:'UNEXPECTED_ERROR'};
+		    		
+		    		if(response && response.errorName)
+		    			scope.siddhiQueryValidationMessages.detail= response.errorName;
+		    		if(response && response.errorCode)
+		    			scope.siddhiQueryValidationMessages.code= response.errorCode;
+
+		    		scope.datasource.isSiddhiQueryValid = false;
 	    		});
 	    	};
 	    	
@@ -1233,7 +1244,7 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, fabri
 });
 
 
-app.directive('datasourceTwitterStream', function(fabricAPIservice) {
+app.directive('datasourceTwitterStream', function(userportalService) {
 	return {
 	    restrict: 'E',
 	    scope: {datasource: '=', smartobject :'=', tenantcode: '@'},
@@ -1274,7 +1285,7 @@ app.directive('datasourceTwitterStream', function(fabricAPIservice) {
 	    		
 	    		scope.checkTwitterQueryResult = {};
 	    		scope.checkTwitterQueryResult.result = 'LOADING';
-	    		fabricAPIservice.checkTwitterQuery(twitterQuery).success(function(response) {
+	    		userportalService.checkTwitterQuery(twitterQuery).success(function(response) {
 	    			console.log("checkTwitterQuery - success", response);
 	    			scope.checkTwitterQueryResult = response;
 

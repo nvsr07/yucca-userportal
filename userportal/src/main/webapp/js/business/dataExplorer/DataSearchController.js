@@ -1,7 +1,7 @@
 
 // TODO start Browse
-appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice',  '$location', '$filter', '$http',  'info', 'dataexplorerService', 'metadataapiAPIservice','$translate', '$timeout',
-                                                function($scope, $routeParams, fabricAPIservice, adminAPIservice,  $location, $filter,  $http, info,dataexplorerService, metadataapiAPIservice,$translate,$timeout) {
+appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', 'adminAPIservice',  '$location', '$filter', '$http',  'info', 'dataexplorerService', 'metadataapiAPIservice','$translate', '$timeout',
+                                                function($scope, $routeParams, adminAPIservice,  $location, $filter,  $http, info,dataexplorerService, metadataapiAPIservice,$translate,$timeout) {
 	
 	var domainList = {};
 	$scope.domainList = [];
@@ -243,8 +243,8 @@ appControllers.controller('DataSearchLandingCtrl', [ '$scope', '$routeParams', '
 	
 }]);
 
-appControllers.controller('DataSearchCtrl', [ '$scope', '$routeParams', 'fabricAPIservice',  '$location', '$filter', '$http',  'info', 'dataexplorerService', 'metadataapiAPIservice','$translate',
-	                                                     function($scope, $routeParams, fabricAPIservice,  $location, $filter,  $http, info,dataexplorerService, metadataapiAPIservice,$translate) {
+appControllers.controller('DataSearchCtrl', [ '$scope', '$routeParams', '$location', '$filter', '$http',  'info', 'dataexplorerService', 'metadataapiAPIservice','$translate',
+	                                                     function($scope, $routeParams, $location, $filter,  $http, info,dataexplorerService, metadataapiAPIservice,$translate) {
 
 
 	

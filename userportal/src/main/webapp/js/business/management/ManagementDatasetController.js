@@ -272,10 +272,8 @@ appControllers.controller('ManagementDatasetDeleteDatalModalCtrl', [ '$scope', '
 		};
 }]);
 
-ManagementDatasetDeleteDatalModalCtrl
-
-appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'fabricAPImanagement', 'adminAPIservice', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
-                                                     function($scope, $routeParams, fabricAPIservice, fabricAPImanagement, adminAPIservice, $location, $modalInstance, selectedDataset, info, readFilePreview) {
+appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'adminAPIservice', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
+                                                     function($scope, $routeParams, fabricAPImanagement, adminAPIservice, $location, $modalInstance, selectedDataset, info, readFilePreview) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	
 	$scope.loadDataset = function(){
@@ -338,8 +336,8 @@ appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParam
 
 
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'fabricAPIservice','adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse',
-             function($scope, $route, $routeParams, $location, fabricAPIservice, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse',
+             function($scope, $route, $routeParams, $location, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
