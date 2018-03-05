@@ -1,5 +1,5 @@
-appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'upService', 'fabricAPImanagement', 'webSocketService', 'odataAPIservice',  'metadataapiAPIservice', '$filter', '$interval',
-                                                   function($scope, $routeParams, upService, fabricAPImanagement, webSocketService, odataAPIservice, metadataapiAPIservice,  $filter,$interval) {
+appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams', 'upService', 'webSocketService', 'odataAPIservice',  'metadataapiAPIservice', '$filter', '$interval',
+                                                   function($scope, $routeParams, upService, webSocketService, odataAPIservice, metadataapiAPIservice,  $filter,$interval) {
 	$scope.stream = null;
 	$scope.wsUrl = "";
 	$scope.chartComponentNames = [];

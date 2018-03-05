@@ -18,6 +18,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	$scope._baseUrl = $scope._origin + $scope._contextPath;
 	
 	$scope.$on("$routeChangeSuccess", function(event, current, previous){
+		console.log("$routeChangeSuccess.current",current);
 	     $scope.isHomepage = current.$$route.isHomepage;
 	     console.log("isHomepage", $scope.isHomepage, current.activetab);
 	 });
@@ -318,8 +319,8 @@ appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','
 
 }]);
 
-appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'odataAPIservice', 'fabricAPImanagement', '$modal', 'info', '$location', 
-                                        function($scope, $route, $http, $filter, odataAPIservice, fabricAPImanagement,  $modal, info, $location) {
+appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 'odataAPIservice', '$modal', 'info', '$location', 
+                                        function($scope, $route, $http, $filter, odataAPIservice, $modal, info, $location) {
 	$scope.$route = $route;
 	$scope.tenant = "";
 	var $translate = $filter('translate');
@@ -333,7 +334,7 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 
 	
 	odataAPIservice.loadDataStatistics().success(function(response) {
-		console.debug("statistics", response);	
+		console.info("statistics", response);	
 		$scope.statistics.total_tenants = response.totalOrganizations;
 		$scope.statistics.total_streams = response.totalStreams;
 		$scope.statistics.total_smart_objects = response.totalSmartobjects;

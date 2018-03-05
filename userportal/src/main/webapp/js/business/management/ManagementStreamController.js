@@ -1,5 +1,5 @@
-appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'fabricAPIservice', 'adminAPIservice', 'sharedAdminResponse', 'info', '$translate', 
-                                                        function($scope, $route, $location, fabricAPIservice, adminAPIservice, sharedAdminResponse, info,  $translate) {
+appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$location', 'adminAPIservice', 'sharedAdminResponse', 'info', '$translate', 
+                                                        function($scope, $route, $location, adminAPIservice, sharedAdminResponse, info,  $translate) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 
 	$scope.streamsList = [];
@@ -142,8 +142,8 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 } ]);
 
 
-appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'adminAPIservice', 'sharedAdminResponse', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedDatasource', '$translate',
-                                                    function($scope, $routeParams, fabricAPIservice, adminAPIservice, sharedAdminResponse, info, $timeout, $filter, readFilePreview, $location, sharedDatasource, $translate) {
+appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'adminAPIservice', 'sharedAdminResponse', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedDatasource', '$translate',
+                                                    function($scope, $routeParams, adminAPIservice, sharedAdminResponse, info, $timeout, $filter, readFilePreview, $location, sharedDatasource, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
 
 	$scope.isOwner = function(){

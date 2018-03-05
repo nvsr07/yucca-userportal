@@ -1244,7 +1244,7 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, $tran
 });
 
 
-app.directive('datasourceTwitterStream', function(userportalService) {
+app.directive('datasourceTwitterStream', function(upService) {
 	return {
 	    restrict: 'E',
 	    scope: {datasource: '=', smartobject :'=', tenantcode: '@'},
@@ -1285,7 +1285,7 @@ app.directive('datasourceTwitterStream', function(userportalService) {
 	    		
 	    		scope.checkTwitterQueryResult = {};
 	    		scope.checkTwitterQueryResult.result = 'LOADING';
-	    		userportalService.checkTwitterQuery(twitterQuery).success(function(response) {
+	    		upService.checkTwitterQuery(twitterQuery).success(function(response) {
 	    			console.log("checkTwitterQuery - success", response);
 	    			scope.checkTwitterQueryResult = response;
 

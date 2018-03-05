@@ -1167,7 +1167,7 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_UPLOAD_ICON_DROPAREA: 'Rilascia qui l\'icona',
 	MANAGEMENT_EDIT_DATASET_DOMAIN_PLACEHOLDER: 'Scegli un dominio...',
 	MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER: 'Scegli un sotto dominio...',
-	MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION: 'Il sottodomino non puo\' contenere spazi',
+	MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION: 'Il sottodomino non puo\' contenere spazi e verr&agrave; convertito in maiuscolo',
 	MANAGEMENT_EDIT_STREAM_DATATYPE_PLACEHOLDER: 'Scegli...',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA_LABEL: 'Salva dati',
 	MANAGEMENT_EDIT_DATASET_SAVE_DATA: 'Salva',

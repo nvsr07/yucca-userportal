@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" ng-app="userportal">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -52,7 +52,7 @@
 			console.debug = window.console.log;
 	</script>
 </head>
-<body lang="en" ng-app="userportal">
+<body lang="en" >
 	<div ng-controller="GlobalCtrl as globalCtrl">
 		<div class='cookie-alert ng-hide' ng-show="showCookieMessage">
 			<span translate translate-cloak>COOKIE_MESSAGE</span>&nbsp;
@@ -280,9 +280,6 @@
 	<!-- build:js js-min/services/services.js -->
 	<script type="text/javascript" src="js/services/services.js"></script>
 	<!-- endbuild -->
-	<!-- build:js js-min/services/fabricServices.js -->
-	<script type="text/javascript" src="js/services/fabricServices.js"></script>
-	<!-- endbuild -->
 	<!-- build:js js-min/services/userportalServices.js -->
 	<script type="text/javascript" src="js/services/userportalServices.js"></script>
 	<!-- endbuild -->
@@ -291,9 +288,6 @@
 	<!-- endbuild -->
 	<!-- build:js js-min/services/metadataapiServices.js -->
 	<script type="text/javascript" src="js/services/metadataapiServices.js"></script>
-	<!-- endbuild -->
-	<!-- build:js js-min/services/managementServices.js -->
-	<script type="text/javascript" src="js/services/managementServices.js"></script>
 	<!-- endbuild -->
 	<!-- build:js js-min/services/websocketServices.js -->
 	<script type="text/javascript" src="js/services/websocketServices.js"></script>

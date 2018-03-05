@@ -330,7 +330,7 @@ a.input-group-addon:hover{cursor: pointer;}
 
 .entity-uninstalled{color: #ff5a5f;}
 
-
+.uppercase-input{text-transform:uppercase}
 /*
 .btn-new{color: white!important; background-color: #19aeff;border-color: #0aa9ff;}
 .btn-new:hover{background-color: #0085cc;}

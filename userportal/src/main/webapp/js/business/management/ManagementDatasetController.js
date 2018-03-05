@@ -1,5 +1,5 @@
-appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'fabricAPImanagement', 'adminAPIservice', 'info', '$modal', '$translate',
-                                                         function($scope, $route, $location, fabricAPImanagement, adminAPIservice, info, $modal, $translate) {
+appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$location', 'adminAPIservice', 'info', '$modal', '$translate',
+                                                         function($scope, $route, $location, adminAPIservice, info, $modal, $translate) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.showLoading = true;
 
@@ -272,72 +272,72 @@ appControllers.controller('ManagementDatasetDeleteDatalModalCtrl', [ '$scope', '
 		};
 }]);
 
-appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams', 'fabricAPImanagement', 'adminAPIservice', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
-                                                     function($scope, $routeParams, fabricAPImanagement, adminAPIservice, $location, $modalInstance, selectedDataset, info, readFilePreview) {
-	$scope.tenantCode = $routeParams.tenant_code;
-	
-	$scope.loadDataset = function(){
-		$scope.selectedDataset = selectedDataset;
-		
-		fabricAPImanagement.getDataset($scope.tenantCode, $scope.selectedDataset.datasetCode).then(function(response) {
-			try{
-				$scope.datasetModalView = {};
-				$scope.datasetModalView.apiMetadataUrl = response.apiMetadataUrl;
-				$scope.datasetModalView.dataset = response.metadata;
-				$scope.datasetModalView.stream = response.stream;
-				$scope.datasetModalView.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
-				if(!$scope.datasetModalView.dataset)
-					$scope.datasetModalView.dataset = new Object();
-				if(!$scope.datasetModalView.dataset.info)
-					$scope.datasetModalView.dataset.info = new Object();
-				if(!$scope.datasetModalView.dataset.info.tags)
-					$scope.datasetModalView.dataset.info.tags = [];
-				
-				$scope.datasetModalView.dataset.todo = true;
-				$scope.datasetModalView.dataset.okdo = false;
-				$scope.datasetModalView.dataset.kodo = false;
-	
-			} catch (e) {
-				console.error(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> getDataset ERROR", e);
-			}
-		}, function(response){
-			console.error(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> server side getDataset ERROR", response);
+//appControllers.controller('ManagementDatasetModalCtrl', [ '$scope', '$routeParams',  'adminAPIservice', '$location', '$modalInstance', 'selectedDataset', 'info', 'readFilePreview',
+//                                                     function($scope, $routeParams, adminAPIservice, $location, $modalInstance, selectedDataset, info, readFilePreview) {
+//	$scope.tenantCode = $routeParams.tenant_code;
+//	
+//	$scope.loadDataset = function(){
+//		$scope.selectedDataset = selectedDataset;
+//		
+//		fabricAPImanagement.getDataset($scope.tenantCode, $scope.selectedDataset.datasetCode).then(function(response) {
+//			try{
+//				$scope.datasetModalView = {};
+//				$scope.datasetModalView.apiMetadataUrl = response.apiMetadataUrl;
+//				$scope.datasetModalView.dataset = response.metadata;
+//				$scope.datasetModalView.stream = response.stream;
+//				$scope.datasetModalView.VIRTUALENTITY_TYPE_TWITTER_ID = Constants.VIRTUALENTITY_TYPE_TWITTER_ID;
+//				if(!$scope.datasetModalView.dataset)
+//					$scope.datasetModalView.dataset = new Object();
+//				if(!$scope.datasetModalView.dataset.info)
+//					$scope.datasetModalView.dataset.info = new Object();
+//				if(!$scope.datasetModalView.dataset.info.tags)
+//					$scope.datasetModalView.dataset.info.tags = [];
+//				
+//				$scope.datasetModalView.dataset.todo = true;
+//				$scope.datasetModalView.dataset.okdo = false;
+//				$scope.datasetModalView.dataset.kodo = false;
+//	
+//			} catch (e) {
+//				console.error(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> getDataset ERROR", e);
+//			}
+//		}, function(response){
+//			console.error(">>>>>>>> ManagementDatasetModalCtrl >>>>>>>> server side getDataset ERROR", response);
+//
+//		});
+//	};
+//	
+//	$scope.deleteDataset = function(){
+//		console.log("$scope.selectedDataset in deleteDataset", $scope.selectedDataset);
+//		
+//		var promiseForDelete = fabricAPImanagement.deleteDataset($scope.datasetModalView.dataset.configData.tenantCode, $scope.datasetModalView.dataset.idDataset, $scope.datasetModalView.dataset.datasetVersion);
+//		promiseForDelete.then(function(result) {
+//			console.log('Got notification 1: ', result);
+//			
+//			$scope.datasetModalView.dataset.todo = false;
+//			$scope.datasetModalView.dataset.okdo = true;
+//			$scope.datasetModalView.dataset.kodo = false;
+//		}, function(result) {
+//			console.error('Got notification 2: ', result);
+//			
+//			$scope.datasetModalView.dataset.todo = false;
+//			$scope.datasetModalView.dataset.okdo = false;
+//			$scope.datasetModalView.dataset.kodo = true;
+//		}, function(result) {
+//			
+//		});
+//	};
+//
+//	$scope.loadDataset();
+//	
+//	$scope.cancel = function () {
+//	    $modalInstance.dismiss('cancel');
+//	};
+//}]);
 
-		});
-	};
-	
-	$scope.deleteDataset = function(){
-		console.log("$scope.selectedDataset in deleteDataset", $scope.selectedDataset);
-		
-		var promiseForDelete = fabricAPImanagement.deleteDataset($scope.datasetModalView.dataset.configData.tenantCode, $scope.datasetModalView.dataset.idDataset, $scope.datasetModalView.dataset.datasetVersion);
-		promiseForDelete.then(function(result) {
-			console.log('Got notification 1: ', result);
-			
-			$scope.datasetModalView.dataset.todo = false;
-			$scope.datasetModalView.dataset.okdo = true;
-			$scope.datasetModalView.dataset.kodo = false;
-		}, function(result) {
-			console.error('Got notification 2: ', result);
-			
-			$scope.datasetModalView.dataset.todo = false;
-			$scope.datasetModalView.dataset.okdo = false;
-			$scope.datasetModalView.dataset.kodo = true;
-		}, function(result) {
-			
-		});
-	};
-
-	$scope.loadDataset();
-	
-	$scope.cancel = function () {
-	    $modalInstance.dismiss('cancel');
-	};
-}]);
 
 
-
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'adminAPIservice', 'fabricAPImanagement','readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse',
-             function($scope, $route, $routeParams, $location, adminAPIservice, fabricAPImanagement,readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'adminAPIservice', 'readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse',
+             function($scope, $route, $routeParams, $location, adminAPIservice, readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},

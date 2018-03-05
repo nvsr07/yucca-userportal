@@ -1,5 +1,5 @@
-appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$routeParams', 'odataAPIservice', 'metadataapiAPIservice', 'fabricAPImanagement', '$filter', 'info', '$location', '$modal', 
-                                                      function($scope, $route, $routeParams, odataAPIservice, metadataapiAPIservice, fabricAPImanagement, $filter, info, $location, $modal) {
+appControllers.controller('DataExplorerDetailCtrl', [ '$scope', '$route', '$routeParams', 'odataAPIservice', 'metadataapiAPIservice',  '$filter', 'info', '$location', '$modal', 
+                                                      function($scope, $route, $routeParams, odataAPIservice, metadataapiAPIservice,  $filter, info, $location, $modal) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.datasetCode = ($routeParams.entity_code) ? $routeParams.entity_code : '';
 	$scope.streamCode = ($routeParams.stream_code) ? $routeParams.stream_code : '';
