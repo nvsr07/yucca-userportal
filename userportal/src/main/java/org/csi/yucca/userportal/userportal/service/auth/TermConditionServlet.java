@@ -50,6 +50,7 @@ public class TermConditionServlet extends HttpServlet {
 			out.close();
 		} catch (Exception e) {
 			log.error("[TermConditionServlet::doGet] - ERROR " + e.getMessage());
+			e.printStackTrace();
 			throw new ServletException(e.getMessage());
 		} finally {
 			log.debug("[TermConditionServlet::doGet] - END");

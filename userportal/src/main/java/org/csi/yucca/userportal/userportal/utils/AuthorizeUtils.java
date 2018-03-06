@@ -2,6 +2,7 @@ package org.csi.yucca.userportal.userportal.utils;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,9 @@ public class AuthorizeUtils {
 			AuthorizeUtils.RBAC_BASE_PERMISSION_PATH + "/dataexplorer");
 
 	public static final User DEFAULT_USER() {
-		User defaultUser = new User("Guest", Arrays.asList(DEFAULT_TENANT), "Guest1", "Guest", null, DEFAULT_PERMISSIONS, Arrays.asList(DEFAULT_TENANT.getTenantcode()));
+		List<String> defaultAcceptTermConditionTenants = new LinkedList<String>();
+		defaultAcceptTermConditionTenants.add(DEFAULT_TENANT.getTenantcode());
+		User defaultUser = new User("Guest", Arrays.asList(DEFAULT_TENANT), "Guest1", "Guest", null, DEFAULT_PERMISSIONS, defaultAcceptTermConditionTenants);
 		SignedJWT signedJWT = JWTUtil.createSecretJwt(defaultUser);
 		JSONObject defaultSecretJwt = signedJWT.getPayload().toJSONObject();
 		
