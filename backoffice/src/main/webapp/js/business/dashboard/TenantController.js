@@ -257,7 +257,7 @@ appControllers.controller('TenantCtrl', ['$scope', "$route", 'fabricAPIservice',
 					if($scope.tenantsList[i].endStep!=null){
 						if($scope.tenantsList[i].endStep<0)
 							errorOnStep = true;
-						if($scope.tenantsList[i].endStep<=$scope.tenantsList[i].startStep)
+						if($scope.tenantsList[i].endStep<$scope.tenantsList[i].startStep)
 							errorOnStep = true;
 					}
 					

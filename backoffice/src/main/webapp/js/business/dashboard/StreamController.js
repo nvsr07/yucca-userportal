@@ -222,7 +222,7 @@ appControllers.controller('StreamCtrl', [ '$scope', "$route", 'fabricAPIservice'
 					if($scope.streamsList[i].endStep!=null){
 						if($scope.streamsList[i].endStep<0)
 							errorOnStep = true;
-						if($scope.streamsList[i].endStep<=$scope.streamsList[i].startStep)
+						if($scope.streamsList[i].endStep<$scope.streamsList[i].startStep)
 							errorOnStep = true;
 					}
 					
