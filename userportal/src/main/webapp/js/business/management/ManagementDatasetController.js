@@ -727,6 +727,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 
 					$scope.updateStatus = 'update';
 				}
+				Helpers.util.scrollTo();
 
 			}).error(function(response){
 				$scope.updateStatus = 'ready';
@@ -737,6 +738,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 					$scope.admin_response.detail= response.errorName;
 				if(response && response.errorCode)
 					$scope.admin_response.code= response.errorCode;
+				Helpers.util.scrollTo();
 
 			});
 

@@ -223,7 +223,7 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 	    		else
 	    			scope.selectedDomain = null;
 	    		
-	    		scope.datasource.visibility = null;
+	    		//scope.datasource.visibility = null;
 	    	};
 	    	
 	    	
