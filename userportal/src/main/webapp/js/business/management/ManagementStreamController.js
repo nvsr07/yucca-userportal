@@ -243,12 +243,12 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 				$scope.stream.opendata.lastupdate || $scope.stream.opendata.opendataauthor || $scope.stream.opendata.opendatalanguage))
 			delete $scope.stream['openData'];
 		else{
-			if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )	{				
+			if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )	{	
 					var date =  new Date( $scope.stream.opendata.opendataupdatedate);	
 					var year = (date.getFullYear()).toString();
 					var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
 					var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
-					 $scope.stream.opendata.opendataupdatedate= year+month+day;	
+					$scope.stream.opendata.opendataupdatedate= year+month+day;	
 			}
 		}
 	
@@ -602,7 +602,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 
 			//FIXME internal stream da rivedere
 			
-				if ($scope.stream.visibility=='private' || ($scope.stream.visibility=='public' && !$scope.stream.isOpendata )){
+				if ($scope.stream.visibility=='private' || ($scope.stream.visibility=='public' && !$scope.stream.isOpenData )){
 					delete $scope.stream['openData'];
 				} else {
 					if(Helpers.util.has($scope.stream, 'openData.opendataupdatedate') )	{				

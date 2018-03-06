@@ -128,8 +128,8 @@
 					<option  value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_SUBDOMAIN_PLACEHOLDER</option>
 				</select>
 				
-				<input type="text" ng-if='selectedDomain=="MULTI"' class="form-control uppercase-input" ng-model="datasource.idsubdomain" id="inputSubdomainCode" 
-					placeholder="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER'|translate}}" name="inputSubdomainCode"
+				<input type="text" ng-if='selectedDomain=="MULTI"' class="form-control uppercase-input" ng-model="datasource.multiSubdomain" id="inputSubdomainCode" 
+					placeholder="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_PLACEHOLDER'|translate}}" name="inputSubdomainCode" ng-change="datasource.multiSubdomain = datasource.multiSubdomain.toUpperCase()"
 					ng-required="true" maxlength="255" ng-pattern="validationPatternSubdomain" ng-model-options="{allowInvalid: true}">
 				<!-- <span class='glyphicon glyphicon-remove  form-control-feedback error-validation-icon' title="{{'MANAGEMENT_EDIT_DATASET_COD_SUB_DOMAIN_MULTI_VALIDATION'|translate}}"
 					ng-show="!checkSubdomain(datasource.idsubdomain)"></span>-->

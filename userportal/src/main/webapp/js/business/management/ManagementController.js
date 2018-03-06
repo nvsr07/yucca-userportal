@@ -132,6 +132,11 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
   	$scope.isOwner = function(){
   		return info.isOwner( $scope.tenantCode);
   	};
+  	
+	$scope.tenantOwner= function(tenantcode){
+		console.log("isOwner",info.isOwner( tenantcode));
+  		return info.isOwner( tenantcode);
+  	};
 
   	$scope.canDelete = function() {
   		return ($scope.dataset && 
@@ -275,7 +280,7 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 
 
 appControllers.controller('ManagementEditCtrl', [ '$scope', '$modal', 'adminAPIservice', '$translate',  function($scope, $modal,adminAPIservice, $translate) {
-	//FIXME licensecode???
+
 	$scope.isLicenseVisible = function(datasource){
 		var returnValue = true;
 		if (datasource && datasource.license){
