@@ -108,10 +108,10 @@
 						<div class="row card-row">
 							<div class="col-sm-2 card-label"><strong><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></strong></div>
 							<div class='col-sm-2'>{{datasource.visibility}}</div>
-							<div class='col-sm-2 text-right'card-label" ng-show="dataset.visibility=='private'"><strong><span translate-cloak translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
+							<div class='col-sm-2 text-right'card-label" ng-show="datasource.visibility=='private'"><strong><span translate-cloak translate>DATASET_FIELD_TENANTSSHARED_WITH</span></strong></div>
 							<div class='col-sm-6'>
 								<span  ng-repeat="tenantSharing in datasource.sharingTenants">
-									<span ng-show="tenantSharing.isOwner==0" >{{tenantSharing.tenantName}}</span>
+									<span ng-show="!tenantOwner(tenantSharing.tenantcode)" >{{tenantSharing.name}}</span>
 								</span> &nbsp;
 							</div>
 						</div>
@@ -123,7 +123,7 @@
 				</div>	
 			</div>
 		</accordion-group>
-		<accordion-group is-open="statusOpendata.open" ng-show="datasource.opendata.isOpendata=='true'">
+		<accordion-group is-open="statusOpendata.open" ng-show="datasource.opendata.isOpenData">
 		 	<accordion-heading>
 				<div class='container'>
 		 			<span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span>
