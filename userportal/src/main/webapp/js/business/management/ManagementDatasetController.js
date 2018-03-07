@@ -391,7 +391,16 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 				$scope.inputDatasource = response;
 				$scope.dataset = Helpers.yucca.prepareDatasourceForUpdate(Constants.DATASOURCE_TYPE_DATASET,response);
 				$scope.datasetDomain = $scope.inputDatasource.domain['lang'+$translate.use()];
-				$scope.datasetSubdomain = $scope.inputDatasource.subdomain['lang'+$translate.use()];
+				for (var property in $scope.inputDatasource.subdomain) {
+				    if ($scope.inputDatasource.subdomain.hasOwnProperty(property)) {
+				        if(property.toLowerCase() == "lang"+$translate.use()){
+				        	$scope.datasetSubdomain = $scope.inputDatasource.subdomain[property];
+				        	break;
+				        }
+				    }
+				}
+				
+				//$scope.datasetSubdomain = $scope.inputDatasource.subdomain['lang'+$translate.use()];
 
 				for (var cIndex = 0; cIndex < $scope.dataset.components.length; cIndex++) {
 					$scope.preview.components.push($scope.dataset.components[cIndex]);

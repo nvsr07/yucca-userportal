@@ -239,6 +239,24 @@ appFilters.filter('decodeFromId', function() {
 	};
 });
 
+appFilters.filter('translateDecode', function() {
+	return function(decode, lang) {
+		var translate = "";
+		if(typeof lang == "undefined" || lang == null) 
+			lang = "it";
+		if (typeof decode != "undefined"){
+			for (var property in decode) {
+			    if (decode.hasOwnProperty(property)) {
+			        if(property.toLowerCase() == "lang"+lang.toLowerCase()){
+			        	translate = decode[property];
+			        	break;
+			        }
+			    }
+			}
+		} 
+		return translate;
+	};
+});
 
 
 //appFilters.filter('measureUnitFromId', function() {
