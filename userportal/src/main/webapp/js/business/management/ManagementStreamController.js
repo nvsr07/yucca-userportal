@@ -239,9 +239,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 
 	
 	var cleanStreamBeforeUpdate = function(){
-		if($scope.stream.opendata && !($scope.stream.opendata.opendataupdatedate || $scope.stream.opendata.opendataexternalreference || 
-				$scope.stream.opendata.lastupdate || $scope.stream.opendata.opendataauthor || $scope.stream.opendata.opendatalanguage))
-			delete $scope.stream['openData'];
+		if(!$scope.stream.opendata.isOpenData)
+			delete $scope.stream['opendata'];
 		else{
 			if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )	{	
 					var date =  new Date( $scope.stream.opendata.opendataupdatedate);	
@@ -261,6 +260,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 			delete $scope.stream['copyright'];
 		else
 			delete $scope.stream['license'];
+		
+		if (isTwitter()) delete $scope.stream['components'];
 	};
 	
 	$scope.stream = {};
@@ -348,7 +349,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 				$scope.stream.components = [];
 				$scope.stream.savedata = true;
 				$scope.stream.unpublished = false;
-				$scope.stream.opendata = {"isOpendata":false};
+				$scope.stream.opendata = {"isOpenData":false};
 				$scope.datasourceReady = true;
 			} 
 			else {
@@ -634,6 +635,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 					});
 				}
 			}
+			
+			if (isTwitter()) delete $scope.stream['components'];
+			
+			
 	
 			console.log("createStream - stream", $scope.stream);
 			console.log("createStream - selectedSo", $scope.extra.selectedSo);
