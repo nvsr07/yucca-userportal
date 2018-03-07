@@ -77,7 +77,7 @@ public class TermConditionServlet extends HttpServlet {
 			xmlInput += "   <soapenv:Body>";
 			xmlInput += "      <ser:setUserClaimValue>";
 			xmlInput += "         <ser:userName>" + loggedUser.getUsername() + "</ser:userName>";
-			xmlInput += "         <ser:claimURI>" + AuthorizeUtils.claimsKeys.get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS) + "</ser:claimURI>";
+			xmlInput += "         <ser:claimURI>" + AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS) + "</ser:claimURI>";
 			xmlInput += "         <ser:claimValue>" + termCoditionsTenants + "</ser:claimValue>";
 			xmlInput += "      </ser:setUserClaimValue>";
 			xmlInput += "   </soapenv:Body>";

@@ -602,7 +602,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	}
 
 	private String loadTermConditionTenantClaim(User newUser) throws KeyManagementException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException {
-		return loadUserClaimValue(newUser, AuthorizeUtils.claimsKeys.get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
+		return loadUserClaimValue(newUser, AuthorizeUtils.getClaimsMap().get(AuthorizeUtils.CLAIM_KEY_TERM_CODITION_TENANTS));
 	}
 
 	private String loadUserClaimValue(User newUser, String claimKey)

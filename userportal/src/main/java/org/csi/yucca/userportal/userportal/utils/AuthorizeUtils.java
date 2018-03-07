@@ -80,7 +80,7 @@ public class AuthorizeUtils {
 	public static final String CLAIM_KEY_SHIB_RISCONTRO = "SHIB-RISCONTRO";
 	public static final String CLAIM_KEY_TERM_CODITION_TENANTS = "TERM_CODITION_TENANTS";
 
-	public static Map<String, String> claimsKeys;
+	private static Map<String, String> claimsKeys;
 
 	public static final String CLAIM_DIALECT_WSO2 = "WSO2";
 	
