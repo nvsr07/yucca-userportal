@@ -409,10 +409,9 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 		console.log("requestTenant - installationTenantRequest", $scope.installationTenantRequest);
 		$scope.validationError = {};
 		if(!Helpers.util.isValidEmail($scope.installationTenantRequest.useremail)){
-			$scope.validationError.detail = 'WARNING_TITLE';
+			$scope.validationError.message = 'WARNING_TITLE';
 			$scope.validationError.detail = 'REQUEST_TENANT_EMAIL_ERROR';
 			$scope.validationError.type='warning';
-
 		}
 		else{
 			$scope.status = 'sending';
