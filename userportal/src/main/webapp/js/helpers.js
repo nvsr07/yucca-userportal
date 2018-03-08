@@ -239,6 +239,33 @@ Helpers.yucca = {
 
 		}
 		return dsOut;
+	},
+	checkTag: function(datasource){
+		var rslt = true;
+		if (typeof datasource !='undefined' && datasource!=null && datasource.tags && datasource.tags.length > 0){
+			console.log("entra");
+			rslt = false;
+		};
+		
+		return rslt;
+	},
+	checkDCat: function(datasource){
+		var rslt = true;
+		if(typeof datasource !='undefined' && datasource!=null && !datasource.unpublished){
+			if(Helpers.util.has(datasource, "dcat.dcatrightsholdername") && datasource.dcat.dcatrightsholdername != null && datasource.dcat.dcatrightsholdername != "" && 
+				Helpers.util.has(datasource, "dcat.dcatemailorg")  && datasource.dcat.dcatemailorg != null && datasource.dcat.dcatemailorg != "" &&
+				Helpers.util.has(datasource, "dcat.dcatemailorg") && datasource.dcat.dcatrightsholdername != null && datasource.dcat.dcatemailorg != "")
+			rslt = false;
+		};
+		
+		return rslt;
+	},
+	checkDatasource: function(datasource){
+		console.log("tag", Helpers.yucca.checkTag(datasource),datasource.tags.length );
+		console.log("dcat", Helpers.yucca.checkDCat(datasource));
+		console.log("domaincode", Helpers.util.has(datasource, "domaincode"));
+		console.log("idSubdomain", Helpers.util.has(datasource, "idSubdomain"));
+		return Helpers.yucca.checkTag(datasource) || Helpers.yucca.checkDCat(datasource) || !Helpers.util.has(datasource, "domaincode") || !Helpers.util.has(datasource, "idSubdomain");
 	}
 };
 

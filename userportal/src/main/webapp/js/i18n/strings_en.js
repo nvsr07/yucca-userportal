@@ -933,6 +933,7 @@ var translations_en = {
 
 	MANAGEMENT_NEW_VIRTUALENTITY_SLUG_WARNING: 'The name of the slug is cleared of spaces and special characters automatically before saving',
 	MANAGEMENT_NEW_VIRTUALENTITY_SLUG_VALID: 'Slug name ok',
+	MANAGEMENT_VIEW_DATASET_WARNING_EDIT_MANDATORY: 'Some mandatory fields are not filled in. To save the changes it is necessary to insert them',
 
 	
 	/* Management new Dataset */

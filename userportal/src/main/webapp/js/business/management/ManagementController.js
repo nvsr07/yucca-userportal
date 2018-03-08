@@ -292,14 +292,35 @@ appControllers.controller('ManagementEditCtrl', [ '$scope', '$modal', 'adminAPIs
 	};
 
 	$scope.checkTag = function(datasource){
-		var rslt = true;
-		if (typeof datasource !='undefined' && datasource!=null && datasource.tags && datasource.tags.length > 0){
-			rslt = false;
-		};
-		
-		return rslt;
+		return Helpers.yucca.checkTag(datasource);
+//		var rslt = true;
+//		if (typeof datasource !='undefined' && datasource!=null && datasource.tags && datasource.tags.length > 0){
+//			rslt = false;
+//		};
+//		
+//		return rslt;
 	};
-
+	
+//	$scope.checkDcat = function(datasource){
+//		var rslt = true;
+//		if(!dataset.unpublished){
+//			if(!Helpers.util.has(datasource, "dcat.dcatrightsholdername") ||
+//				!Helpers.util.has(datasource, "dcat.dcatemailorg") ||
+//				!Helpers.util.has(datasource, "dcat.dcatemailorg"))
+//			rslt = false;
+//		};
+//		
+//		return rslt;
+//	};
+//	
+//	
+//	$scope.showHint = function(datasource){
+//		var showHint = false;
+//		if(checkTag(datasource) && checkDcat(datasource) && Helpers.util.has(datasource, "domaincode") && Helpers.util.has(datasource, "idSubdomain") )
+//			showHint = true;
+//		return showHint;
+//	};
+	
 
 }]);
 

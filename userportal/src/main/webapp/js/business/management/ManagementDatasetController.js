@@ -416,6 +416,15 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 					$scope.dataset.requestermail=$scope.user.email;
 				}
 				//$scope.newField = {sourcecolumn: $scope.dataset.components.length+1};
+				console.warn("prima", Helpers.yucca.checkDatasource($scope.dataset));
+				if(Helpers.yucca.checkDatasource($scope.dataset)){
+					$scope.showHint = true;
+					$scope.admin_response.type = 'warning';
+					$scope.admin_response.message = 'MANAGEMENT_VIEW_DATASET_WARNING_EDIT_MANDATORY';
+				}
+					
+				console.warn("dopo", $scope.showHint)
+
 				$scope.datasetReady = true;
 				$scope.updateStatus = 'ready';
 
