@@ -1,5 +1,5 @@
-<div>
-	<h3 class='text-left form-section-title'  translate-cloak translate  ng-hide='isStream()'><span ng-bind-html="'MANAGEMENT_EDIT_DATASET_COLUMNS'|translate"></span></h3>
+<div ng-if='!isTwitter()'>
+	<h3 class='text-left form-section-title'  translate-cloak translate  ng-hide='isNewStream()'><span ng-bind-html="'MANAGEMENT_EDIT_DATASET_COLUMNS'|translate"></span></h3>
 	<!-- <div class="col-sm-12"  ng-hide='isNewDatasource'><span ng-bind-html="'MANAGEMENT_EDIT_DATASET_COLUMNS_HELP'|translate"></span></div>-->
 	
 	<div class='row'> 
@@ -8,7 +8,7 @@
 			<small><pre pretty-json="componentJsonExample"/></small>
 	
 		</div>
-		<div ng-class="isStream()?'col-sm-10': 'col-sm-12'">
+		<div  ng-class="isStream()?'col-sm-10': 'col-sm-12'">
 			<table class="table dragDropTable text-left" >
 				<thead>
 					<tr>

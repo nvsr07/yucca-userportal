@@ -753,7 +753,7 @@ app.directive('uploadDataCsv', function(readFilePreview) {
 	};
 });
 
-app.directive('datasourceComponents', function(adminAPIservice, $modal) {
+app.directive('datasourceComponents', function(adminAPIservice, $modal, $routeParams) {
 	return {
 	    restrict: 'E',
 	    scope: {datasource: '=', preview : '=', isNewDatasource: '@', isImportDatasource: '@', hideTitle: '@'},
@@ -775,6 +775,14 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal) {
 
 	    	scope.isStream = function(){
 	    		return scope.datasource.datasourceType == Constants.DATASOURCE_TYPE_STREAM;
+	    	};
+	    	
+	     	scope.isTwitter = function(){
+	    		return scope.datasource.twitterInfo != null;
+	    	};
+	    	
+	    	scope.isNewStream = function(){
+	    	return !$routeParams.entity_code || $routeParams.entity_code == null || $routeParams.entity_code === undefined ||!$routeParams.id_datasource || $routeParams.id_datasource == null || $routeParams.id_datasource === undefined 
 	    	};
 	    	
 	    	scope.dataTypeList = [];

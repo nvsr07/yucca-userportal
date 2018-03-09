@@ -603,8 +603,8 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 
 			//FIXME internal stream da rivedere
 			
-				if ($scope.stream.visibility=='private' || ($scope.stream.visibility=='public' && !$scope.stream.isOpenData )){
-					delete $scope.stream['openData'];
+				if (!$scope.stream.isOpenData){
+					delete $scope.stream['opendata'];
 				} else {
 					if(Helpers.util.has($scope.stream, 'openData.opendataupdatedate') )	{				
 					
