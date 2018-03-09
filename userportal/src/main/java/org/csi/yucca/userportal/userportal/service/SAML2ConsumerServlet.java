@@ -400,6 +400,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 	}
 
 	public static String getTokenForTenant(String tenant, User user) {
+		log.info("[SAML2ConsumerServlet::getTokenForTenant] tenant" + tenant);
 
 		String apiBaseUrl = "";
 		String access_token = "";
@@ -433,10 +434,14 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			// String inputJson = out.toString();
 
 			if (user != null && user.getSecretTempJwtRaw() != null) {
+				log.info("[SAML2ConsumerServlet::getTokenForTenant] user" + user.getUsername());
+
 				Properties config = Config.loadServerConfiguration();
 				apiBaseUrl = config.getProperty(Config.API_ADMIN_URL_KEY) + "/1/management/tenant/" + tenant + "/token";
+				log.info("[SAML2ConsumerServlet::getTokenForTenant] apiBaseUrl" + apiBaseUrl);
 
 				String responseJson = HttpDelegate2.executeGet(apiBaseUrl, null, null, null, true, user);
+				log.info("[SAML2ConsumerServlet::getTokenForTenant] responseJson" + responseJson);
 
 				JsonParser parser = new JsonParser();
 				JsonObject rootObj = parser.parse(responseJson).getAsJsonObject();
@@ -445,7 +450,7 @@ public class SAML2ConsumerServlet extends HttpServlet {
 			}
 
 		} catch (IOException e) {
-			log.error("[ApiServiceProxyServlet::setApiBaseUrl] - ERROR " + e.getMessage());
+			log.error("[SAML2ConsumerServlet::getTokenForTenant] - ERROR " + e.getMessage());
 			e.printStackTrace();
 		}
 		return access_token;
