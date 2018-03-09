@@ -243,7 +243,6 @@ Helpers.yucca = {
 	checkTag: function(datasource){
 		var rslt = true;
 		if (typeof datasource !='undefined' && datasource!=null && datasource.tags && datasource.tags.length > 0){
-			console.log("entra");
 			rslt = false;
 		};
 		
@@ -261,10 +260,6 @@ Helpers.yucca = {
 		return rslt;
 	},
 	checkDatasource: function(datasource){
-		console.log("tag", Helpers.yucca.checkTag(datasource),datasource.tags.length );
-		console.log("dcat", Helpers.yucca.checkDCat(datasource));
-		console.log("domaincode", Helpers.util.has(datasource, "domaincode"));
-		console.log("idSubdomain", Helpers.util.has(datasource, "idSubdomain"));
 		return Helpers.yucca.checkTag(datasource) || Helpers.yucca.checkDCat(datasource) || !Helpers.util.has(datasource, "domaincode") || !Helpers.util.has(datasource, "idSubdomain");
 	}
 };

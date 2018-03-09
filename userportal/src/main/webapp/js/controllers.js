@@ -409,8 +409,8 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 		console.log("requestTenant - installationTenantRequest", $scope.installationTenantRequest);
 		$scope.validationError = {};
 		if(!Helpers.util.isValidEmail($scope.installationTenantRequest.useremail)){
-			$scope.validationError.message = 'WARNING_TITLE';
-			$scope.validationError.detail = 'REQUEST_TENANT_EMAIL_ERROR';
+			$scope.validationError.message = 'REQUEST_TENANT_EMAIL_ERROR';
+			//$scope.validationError.detail = 'REQUEST_TENANT_EMAIL_ERROR';
 			$scope.validationError.type='warning';
 		}
 		else{
@@ -455,6 +455,22 @@ appControllers.controller('ForceLogoutCtrl', [ '$scope', '$modalInstance', 'user
                                                  function($scope, $modalInstance, user) {
 	console.log("--->user = ", user);
 	$scope.modalIntro = user.isStrongUser? 'HOME_LOGGED_NOT_STRONG_AUTHENTICATION':'HOME_LOGGED_TECHNICAL_AUTHENTICATION';
+	
+}]);
+
+appControllers.controller('ConfirmDialogCtrl', [ '$scope', '$modalInstance', 'question',
+    function($scope, $modalInstance, question) {
+	
+		$scope.question = question;
+	
+		$scope.yes = function () {
+		    $modalInstance.close("yes");
+		};
+	
+		$scope.no = function () {
+		    $modalInstance.dismiss('cancel');
+		};
+	
 	
 }]);
 

@@ -19,6 +19,7 @@ var translations_en = {
 	ERROR_TITLE: 'An error has occurred', 
 	WARNING: 'Warning', 
 	WARNING_TITLE: 'Warning', 
+	QUESTION_TITLE: 'Confirmation request', 
 	WARNING_SUBTITLE: 'Please verify',
 	LOADING: 'Please wait...',
 	YES: 'Yes',
@@ -1220,6 +1221,8 @@ var translations_en = {
 
 	MANAGEMENT_EDIT_DATASOURCE_NEW_COMPONENT: 'New component',
 	MANAGEMENT_EDIT_DATASOURCE_NEW_BINARY: 'New binary component',
+	MANAGEMENT_EDIT_DATASOURCE_NO_CHANGE_CONFIRM_TITLE: 'The data set is the same as the current version, you want to save it?',
+	MANAGEMENT_EDIT_DATASOURCE_NO_CHANGE_CONFIRM_MESSAGE: 'Saving a dataset will create a new version',
 	DATASOURCE_TYPE: 'Type',
 	
 	/* Choose tenant temp */

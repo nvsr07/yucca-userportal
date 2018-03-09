@@ -217,7 +217,7 @@ appControllers.controller('ManagementDatasetUninstallModalCtrl', [ '$scope', '$l
 			sharedAdminResponse.setResponse($scope.admin_response);
 			$scope.update.loading = false;
 		}).error(function(response){
-			console.error("updateDataset ERROR", response);
+			console.error("uninstallDataset ERROR", response);
 			$scope.admin_response.type = 'danger';
 			$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_DELETE_RESULT_KO';
 			if(response && response.errorName)
@@ -336,8 +336,8 @@ appControllers.controller('ManagementDatasetDeleteDatalModalCtrl', [ '$scope', '
 
 
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'adminAPIservice', 'readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse',
-             function($scope, $route, $routeParams, $location, adminAPIservice, readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'adminAPIservice', 'readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse', '$timeout',
+             function($scope, $route, $routeParams, $location, adminAPIservice, readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse,$timeout) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -441,11 +441,29 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 		});
 	};
 	
-	var cleanDatasetBeforeUpdate = function(){
-		if($scope.dataset.opendata && !($scope.dataset.opendata.opendataupdatedate || $scope.dataset.opendata.opendataexternalreference || 
-				$scope.dataset.opendata.lastupdate || $scope.dataset.opendata.opendataauthor || $scope.dataset.opendata.opendatalanguage))
-			delete $scope.dataset['openData'];
+
+	$scope.$on('managementComponentReady', function(e) {  
+       $scope.originalDataset = JSON.stringify($scope.dataset);
+	 });
 	
+	var cleanDatasetBeforeUpdate = function(){
+		if(!$scope.dataset.opendata.isOpenData)
+			delete $scope.dataset['opendata'];
+		else{
+			if(Helpers.util.has($scope.dataset, 'opendata.opendataupdatedate') )	{	
+					var date =  new Date( $scope.dataset.opendata.opendataupdatedate);	
+					var year = (date.getFullYear()).toString();
+					var month = ((date.getMonth()+1) < 10) ? "0" + (date.getMonth()+1) :(date.getMonth()+1);
+					var day = ((date.getDate() < 10) ? "0" + date.getDate() :date.getDate()).toString();
+					$scope.dataset.opendata.opendataupdatedate= year+month+day;	
+			}
+		}
+		
+		
+//		if($scope.dataset.opendata && !($scope.dataset.opendata.opendataupdatedate || $scope.dataset.opendata.opendataexternalreference || 
+//				$scope.dataset.opendata.lastupdate || $scope.dataset.opendata.opendataauthor || $scope.dataset.opendata.opendatalanguage))
+//			delete $scope.dataset['openData'];
+//	
 		if($scope.dataset.license && $scope.dataset.license.idLicense==null && $scope.dataset.license.description==null && $scope.dataset.license.licesecode==null)
 			delete $scope.dataset['license'];
 
@@ -736,7 +754,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 					}).error(function(result){
 						console.error("addData - loadDataset ",result);
 						sharedAdminResponse.setResponse({type:'danger', message: 'MANAGEMENT_EDIT_DATASET_SAVED_OK_ADD_DATA_FAILED'});
-						$location.path('/management/viewDatasource/'+$scope.tenantCode+"/"+response.datasetcode+"/"+response.iddataset);
+						$location.path('/management/viewDatasource/dataset/'+$scope.tenantCode+"/"+response.datasetcode+"/"+response.iddataset);
 					});
 				}
 				else{
@@ -774,13 +792,74 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 	 */
 	$scope.updateDataset = function() {
 		
-		$scope.dataset.name=$scope.dataset.datasetname;
 		if(!$scope.dataset.components || $scope.dataset.components.length==0){
 			$scope.updateWarning = true;
 			$scope.warningMessages.push("MANAGEMENT_EDIT_STREAM_WARNING_NO_COMPONENTS");
 		}
 		
 		
+		console.log("---------- original -----------------");
+		console.log($scope.originalDataset);
+		console.log("---------- new -----------------");
+		console.log(JSON.stringify($scope.dataset));
+
+		if($scope.originalDataset == JSON.stringify($scope.dataset)){
+			console.log("uguali");
+			console.log("updateDataset - no change");
+			var modalInstance = $modal.open({
+				animation : true,
+				templateUrl : 'confirmDialog.html',
+				controller : 'ConfirmDialogCtrl',
+				backdrop  : 'static',
+				resolve: { 
+					question: function () {
+						return {"title":"MANAGEMENT_EDIT_DATASOURCE_NO_CHANGE_CONFIRM_TITLE","message":"MANAGEMENT_EDIT_DATASOURCE_NO_CHANGE_CONFIRM_MESSAGE"};
+					}
+				}
+			});
+
+			modalInstance.result.then(function() {
+				console.log("confirm Update");
+				confirmUpdateDataset();
+			}, function() {
+			});
+		}		
+		else{
+			console.log("diversi");
+			confirmUpdateDataset();
+		}
+		
+//		if($scope.originalDataset == JSON.stringify($scope.dataset)){
+//			console.log("updateDataset - no change");
+//				$scope.openConfirmDialog = function(){
+//				var modalInstance = $modal.open({
+//					animation : $scope.animationsEnabled,
+//					templateUrl : 'confirmDialog.html',
+//					controller : 'ConfirmDialogCtrl',
+//					backdrop  : 'static',
+//					resolve: { 
+//						question: function () {
+//							return {"title":"Sicuro","message":"ciao"};
+//						}
+//					}
+//				});
+//
+//				modalInstance.result.then(function() {
+//					console.log("confirm Update");
+//					confirmUpdateDataset();
+//				}, function() {
+//				});
+//			};
+//			
+//		}
+//		else{
+//			confirmUpdateDataset();
+//		}
+		
+	};
+	
+	var confirmUpdateDataset = function(){
+		$scope.dataset.name=$scope.dataset.datasetname;
 		cleanDatasetBeforeUpdate();
 //		if($scope.dataset.opendata && !($scope.dataset.opendata.opendataupdatedate || $scope.dataset.opendata.opendataexternalreference || 
 //				$scope.dataset.opendata.lastupdate || $scope.dataset.opendata.opendataauthor || $scope.dataset.opendata.opendatalanguage))
@@ -797,9 +876,9 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 //			delete $scope.dataset['license'];
 		
 		console.log("updateDataset - dataset", $scope.dataset);
+		
 		$scope.admin_response = {};
 		$scope.updateStatus = 'update';
-
 		adminAPIservice.updateDataset(info.getActiveTenant(), $scope.dataset).success(function(response) {
 			console.log("updateDataset SUCCESS", response);
 			Helpers.util.scrollTo();
@@ -823,7 +902,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 			if(response && response.errorCode)
 				$scope.admin_response.code= response.errorCode;
 		});
-		
-	};
+	}
 } ]);
+
+
 

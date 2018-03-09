@@ -20,6 +20,7 @@ var translations_it = {
 	WARNING: 'Attenzione', 
 	WARNING_TITLE: 'Attenzione', 
 	WARNING_SUBTITLE: 'Per proseguire &egrave; necessario correggere le seguenti segnalazioni',
+	QUESTION_TITLE: 'Richiesta conferma', 
 	LOADING: 'Attendere prego...',
 	YES: 'Si',
 	NO: 'No',
@@ -1230,6 +1231,9 @@ var translations_it = {
 
 	MANAGEMENT_EDIT_DATASOURCE_NEW_COMPONENT: 'Nuovo componente',
 	MANAGEMENT_EDIT_DATASOURCE_NEW_BINARY: 'Nuovo componente binario',
+	
+	MANAGEMENT_EDIT_DATASOURCE_NO_CHANGE_CONFIRM_TITLE: 'Il dataset è uguale alla versione in esercizio, vuoi salvare lo stesso?',
+	MANAGEMENT_EDIT_DATASOURCE_NO_CHANGE_CONFIRM_MESSAGE: 'Salvando il dataset verrà creata una nuova versione',
 	DATASOURCE_TYPE: 'Tipo',
 	
 	/* Choose tenant temp */

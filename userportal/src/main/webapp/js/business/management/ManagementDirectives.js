@@ -703,8 +703,9 @@ app.directive('uploadDataCsv', function(readFilePreview) {
 	    					scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator);
 	    					console.log("scope.previewLines",scope.previewLines);
 
-	    					scope.datasource.components = [];
-	    					scope.preview.columns=new Array();
+	    					scope.datasource.components  = new Array();
+	    					scope.preview.columns = new Array();
+	    					scope.preview.components = new Array();
 	    					if(scope.previewLines.length>0){
 	    						for (var int = 0; int < scope.previewLines[0].length; int++) {
 	    							scope.preview.components.push(
@@ -753,7 +754,7 @@ app.directive('uploadDataCsv', function(readFilePreview) {
 	};
 });
 
-app.directive('datasourceComponents', function(adminAPIservice, $modal, $routeParams) {
+app.directive('datasourceComponents', function(adminAPIservice, $modal, $routeParams,$timeout) {
 	return {
 	    restrict: 'E',
 	    scope: {datasource: '=', preview : '=', isNewDatasource: '@', isImportDatasource: '@', hideTitle: '@'},
@@ -782,7 +783,7 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 	    	};
 	    	
 	    	scope.isNewStream = function(){
-	    	return !$routeParams.entity_code || $routeParams.entity_code == null || $routeParams.entity_code === undefined ||!$routeParams.id_datasource || $routeParams.id_datasource == null || $routeParams.id_datasource === undefined 
+	    		return !$routeParams.entity_code || $routeParams.entity_code == null || $routeParams.entity_code === undefined ||!$routeParams.id_datasource || $routeParams.id_datasource == null || $routeParams.id_datasource === undefined 
 	    	};
 	    	
 	    	scope.dataTypeList = [];
@@ -864,7 +865,6 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 	    			scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME_UNIQUE');
 	    			scope.columnsDatasetError.hasError = true;
 	    		}
-	    		console.log("componentName", componentName);
 	    		if(typeof componentName=='undefined' || componentName == ""){
 	    			scope.insertColumnErrors.push('MANAGEMENT_NEW_DATASET_ERROR_MORE_COLUMN_NAME');
 	    			scope.columnsDatasetError.hasError = true;
@@ -990,6 +990,15 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 		  	      	//resolve: {selectedTableIndex: function () {return tableIndex;}}
 	    		});
 	    	};
+	    	
+	    	
+    		console.log("componentReady prima");
+	    	$timeout(function () {
+	    		console.log("componentReady");
+	    		scope.$parent.$parent.$broadcast('managementComponentReady');
+	    	});
+
+
 
 	    }
 	    
