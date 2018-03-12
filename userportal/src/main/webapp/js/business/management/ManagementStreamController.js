@@ -536,7 +536,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 				console.log("updateStream SUCCESS", response);
 				Helpers.util.scrollTo();
 				$scope.admin_response.type = 'success';
-				$scope.admin_response.message = 'MANAGEMENT_EDIT_VIRTUALENTITY_DATA_SAVED_INFO';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_STREAM_DATA_SAVED_INFO';
 				sharedAdminResponse.setResponse($scope.admin_response);
 				$scope.isUpdating = false;
 				//$location.path('management/viewStream/'+$scope.tenantCode +'/'+stream.codiceVirtualEntity+'/'+newStream.stream.streamcode);

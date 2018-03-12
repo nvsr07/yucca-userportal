@@ -506,6 +506,7 @@ a.input-group-addon:hover{cursor: pointer;}
 .card-toolbar{margin: 60px 0 .5em 0; padding: .4em;text-align: right;}
 .mute{color: #ccc;}
 .content-gray .mute{color: #999;}
+.btn-disabled{cursor: not-allowed;}
 
 .ajax-loading{display: inline-block; height: 36px;background: url("../img/loading/loading-small.gif") center right no-repeat;}    /*http://loadergenerator.com/snake */
 .ajax-loading-label{display: inline-block; width: 36px; height: 36px;background: url("../img/loading/loading-small.gif") center left no-repeat;padding-left: 42px; line-height: 36px; font-size: 16pt;}    /*http://loadergenerator.com/snake */
