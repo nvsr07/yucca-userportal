@@ -33,7 +33,9 @@
 	</div>
 
 	<div class="form-group" ng-if="operation!='importDatabase'">
-		<label for="inputDatasourceName" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_NAME</label>
+		<label for="inputDatasourceName" class="col-sm-3 control-label">
+		<span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span><span class='required-asterisk' >*</span>
+		</label>
 		<div class="col-sm-9">
 			<input type="text" ng-if="!isStream()" class="form-control" ng-model="datasource.datasetname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="255" >
 			<input type="text" ng-if="isStream()" class="form-control" ng-model="datasource.streamname" id="inputDatasourceName" placeholder="{{'DATASET_FIELD_NAME_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="255" >
@@ -47,7 +49,9 @@
 		</div>
 	</div>
 	<div class="form-group" ng-if="isStream()">
-		<label for="inputDatasourceDesc" class="col-sm-3 control-label" translate-cloak translate>STREAM_FIELD_CODE</label>
+		<label for="inputDatasourceDesc" class="col-sm-3 control-label">
+		<span  translate-cloak translate>STREAM_FIELD_CODE</span><span class='required-asterisk' >*</span>
+		</label>	
 		<div class="col-sm-9" ng-if="operation=='create'">
 			<input type="text" class="form-control" ng-model="datasource.streamcode"  id="inputStreamCode"  name="inputStreamCode" 
 				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}" ng-required="true"  maxlength="20" ng-pattern="validationPatternStreamCode">		
@@ -55,7 +59,7 @@
 		</div>
 		<div class="col-sm-9" ng-if="operation=='update'"> 
 			<input type="text" class="form-control" ng-model="datasource.streamcode"  id="inputStreamCode"  name="inputStreamCode" ng-disabled='true'
-				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}">		
+				placeholder="{{'STREAM_FIELD_CODE_PLACEHOLDER'|translate}}">
 		</div>
 	</div>
 	<div class="form-group">
