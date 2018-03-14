@@ -237,7 +237,7 @@ ul .list-spaced li{line-height: 1.2em;}
 .label-custom{font-size:.9em; padding:0.5em 0.8em;margin: .1em; font-weight: normal; line-height: 1.1em; display: inline-block; margin: .3em 0;}
 .label-custom-small{font-size:.9em; padding:0.2em 0.4em;margin: 0 .1em; font-weight: normal; line-height: 1em; display: inline-block; border-radius: 2px;}
 .label-custom .close-button{font-size:1.5em; }
-.required-asterisk {color: #009640;}
+.required-asterisk {color: #009640; font-size: 1.4em; padding-left: 0.2em;}
 
 .label-tag{background-color:  #009640;color:white;}
 .label-tag a{text-decoration: none;}
@@ -297,7 +297,9 @@ a.input-group-addon:hover{cursor: pointer;}
 .action-uninstall{color: #d49725;}
 .action-historical{color: #9955bb;}
 
-.entity-uninstalled{color: #ff5a5f;}
+.text-icon{border-radius: 2px; padding: .2em; display: inline-block; height: 1.6em; width: 1.6em; font-size: .8em;  text-align: center; font-weight: normal;}
+.entity-uninstalled-icon{background-color: #ff5a5f;color: white;}
+.entity-unpublished-icon{background-color: #94afb5;color: white;}
 
 
 /* bright colors */
@@ -318,7 +320,7 @@ a.input-group-addon:hover{cursor: pointer;}
 .stream-status-req_uninst{background-color: #8cc2a2;}
 .stream-status-req_inst{background-color: #b9dac7;}
 .stream-status-prg_inst{background-color: #b9dac7;}
-
+.stream-status-inst_fail{background-color:  #ff9598;}
 
 
 .action-edit{color: #edd400;}
@@ -463,7 +465,7 @@ a.input-group-addon:hover{cursor: pointer;}
 .management-virtualentity-update-stream .list-entity-icon-preview-img{width: 32px; height:32px;}
 .management-virtualentity-update-stream .btn{margin-left:12px;}
 
-
+.management-filter-panel .checkbox{}
 
 /* pagination */
 .pagination>.active>a, .pagination>.active>a:hover, .pagination>.active>a:focus{color: #009738;font-weight: bold;border-color:#000; background-color: transparent;}

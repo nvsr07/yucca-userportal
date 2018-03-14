@@ -21,26 +21,39 @@
 							<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_STREAM_LIST_DELETE_STREAM</span>
 						</button>
 					</div>
-					<div class="col-sm-2 text-center">
-						<label>
-  								<input type="checkbox" ng-model="viewUnistalledCheck">
-							<span translate-cloak translate title="{{'MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED_HINT'|translate}}">MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED&nbsp;</span>
-						</label>
-					</div>
-					<div class="col-sm-7">
+
+					<div class="col-sm-9">
 						<form class="form form-horizontal-compact" role="form">   						 	
 							<div class="row">
-								<div class="col-sm-3">
-										<input type="text" class="form-control input-sm " ng-model="domainFilter" placeholder="{{'STREAM_LIST_DOMAIN_FILTER'|translate}}" />
+								<div class="col-sm-2">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="viewUnistalledCheck">
+											<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+											<span translate-cloak translate title="{{'MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED_HINT'|translate}}">MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED&nbsp;</span>
+										</label>
+									</div>
 								</div>
-								<div class="col-sm-3">
-										<input type="text" class="form-control input-sm" ng-model="statusFilter" placeholder="{{'STREAM_LIST_STATUS_FILTER'|translate}}" />
+								<div class="col-sm-2">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="viewUnpublishedCheck">
+											<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+											<span translate-cloak translate title="{{'MANAGEMENT_STREAM_LIST_SHOW_UNPUBLISHED_HINT'|translate}}">MANAGEMENT_STREAM_LIST_SHOW_UNPUBLISHED&nbsp;</span>
+										</label>
+									</div>
 								</div>
-								<div class="col-sm-3">
-										<input type="text" class="form-control input-sm" ng-model="nameFilter" placeholder="{{'STREAM_LIST_NAME_FILTER'|translate}}" />
+								<div class="col-sm-2">
+									<input type="text" class="form-control input-sm " ng-model="domainFilter" placeholder="{{'STREAM_LIST_DOMAIN_FILTER'|translate}}" />
 								</div>
-								<div class="col-sm-3">
-										<input type="text" class="form-control input-sm" ng-model="codeFilter" placeholder="{{'STREAM_LIST_CODE_FILTER'|translate}}" />
+								<div class="col-sm-2">
+									<input type="text" class="form-control input-sm" ng-model="statusFilter" placeholder="{{'STREAM_LIST_STATUS_FILTER'|translate}}" />
+								</div>
+								<div class="col-sm-2">
+									<input type="text" class="form-control input-sm" ng-model="nameFilter" placeholder="{{'STREAM_LIST_NAME_FILTER'|translate}}" />
+								</div>
+								<div class="col-sm-2">
+									<input type="text" class="form-control input-sm" ng-model="codeFilter" placeholder="{{'STREAM_LIST_CODE_FILTER'|translate}}" />
 								</div>
 							</div>
 						</form>
@@ -73,7 +86,7 @@
 									<span ng-show="predicate=='domain.domaincode|translate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
-									<a href="" ng-click="predicate = 'registrationdate'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_LASTUPDATE</span> 
+									<a href="" ng-click="predicate = 'registrationdate'; reverse=!reverse"><span translate-cloak translate>STREAM_FIELD_CREATION_DATE</span> 
 									<span ng-show="predicate=='registrationdate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='registrationdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								
@@ -88,11 +101,16 @@
 									<span ng-show="predicate=='version' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='version' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
+								<th>
+									<a href="" ng-click="predicate = 'visibility'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_METADATA_VISIBILITY</span>
+									<span ng-show="predicate=='version' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='version' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								</th>
 							</tr>
 						</thead>
 						<tbody  >
 							<tr ng-if="showLoading">
-								<td colspan='8' >
+								<td colspan='9' >
 									<div class='ajax-loading-container'>
 										<span class='ajax-loading-big'></span>
 										<h4>Loading...</h4>
@@ -104,7 +122,7 @@
 									<alert-panel content='admin_response'></alert-panel>
 								</td>
 							</tr>
-							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchNameFilter | filter: searchStatusFilter| filter: viewUnistalledFilter| filter:searchDomainFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+							<tr ng-repeat="stream in filteredStreamsList = (streamsList | filter: searchCodeFilter | filter: searchNameFilter | filter: viewUnpublishedFilter | filter: searchStatusFilter| filter: viewUnistalledFilter| filter:searchDomainFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<!-- <td><input type="checkbox" name="selected" ng-checked="isSelected(stream)"  ng-click="updateSelection($event, stream)"/></td>  -->
 								<td>
 									<div class="checkbox">
@@ -136,7 +154,9 @@
 								<td><div class='domain-column'><i class="icon-{{stream.domain.domaincode}} domain-icon" title="{{stream.domain.domaincode|translate}}"></i></div></td>
 								<td>{{stream.registrationdate|smartobject_date_format}}</td>
 								<td class='text-left'><span class="stream-status stream-status-{{stream.status.statuscode}}">{{stream.status.statuscode|translate}}</span></td>
-								<td>{{stream.version}}</td>
+								<td><span>{{stream.version}}</span> <strong class='text-icon entity-uninstalled-icon' ng-if="stream.status.idStatus==5 || stream.status.idStatus==4" title='{{"DATASET_FIELD_CONFIGDATA_DELETED"|translate}}'>D</strong></td>
+								<td><span translate-cloak translate>{{stream.visibility}}</span> <strong class='text-icon entity-unpublished-icon' ng-if="stream.unpublished" title='{{"DATASET_FIELD_UNPUBLISHED_TRUE"|translate}}'>NP</strong></td>
+								
 							</tr>
 						</tbody>
 					</table>

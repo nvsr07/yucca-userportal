@@ -4,7 +4,7 @@
 		<div class='row'>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
 				<div class='row  content-toolbar row-compact'>
-					<div class="col-sm-5">
+					<div class="col-sm-4">
 			        	<a href="#/management/newDataset/{{tenantCode}}" class="btn  btn-new" ng-disabled="!isAuthorized('management/datasets/update') ||!isOwner() ">
 							<span class="glyphicon glyphicon-plus "></span>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_NEW_DATASET</span>
 						</a>
@@ -20,19 +20,31 @@
 							<span class="glyphicon glyphicon-trash "></span>&nbsp;<span translate-cloak translate>MANAGEMENT_DATASET_LIST_DELETE_DATASET</span>
 						</button>  -->
 					</div>
-					<div class="col-sm-7">
-						<form class="form form-horizontal-compact" role="form">   						 	
+					<div class="col-sm-8">
+						<form class="form form-horizontal-compact management-filter-panel" role="form">   						 	
 							<div class="row">
-								<div class="col-sm-3 text-right">
-									<label>
-			  							<input type="checkbox" ng-model="viewUnistalledCheck">
-										<span translate-cloak translate title="{{'MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED_HINT'|translate}}">MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED&nbsp;</span>
-									</label>
+								<div class="col-sm-2">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="viewUnistalledCheck">
+											<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+											<span translate-cloak translate title="{{'MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED_HINT'|translate}}">MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED&nbsp;</span>
+										</label>
+									</div>
 								</div>
-								<div class="col-sm-3">
+								<div class="col-sm-2">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="viewUnpublishedCheck">
+											<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+											<span translate-cloak translate title="{{'MANAGEMENT_STREAM_LIST_SHOW_UNPUBLISHED_HINT'|translate}}">MANAGEMENT_STREAM_LIST_SHOW_UNPUBLISHED&nbsp;</span>
+										</label>
+									</div>
+								</div>
+								<div class="col-sm-2">
 									<input type="text" class="form-control input-sm " ng-model="domainFilter" placeholder="{{'DATASET_LIST_DOMAIN_FILTER'|translate}}" />
 								</div>
-								<!-- <div class="col-sm-3">
+								<!-- <div class="col-sm-2">
 									<input type="text" class="form-control input-sm" ng-model="typeFilter" placeholder="{{'DATASET_LIST_TYPE_FILTER'|translate}}" />
 								</div> -->
 								<div class="col-sm-3">
@@ -80,7 +92,17 @@
 									<span ng-show="predicate=='registrationdate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
 								<th>
+									<a href="" ng-click="predicate = 'status.statuscode|translate'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_STATUS</span> 
+									<span ng-show="predicate=='status.statuscode|translate' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='status.statuscode|translate' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								</th>
+								<th>
 									<a href="" ng-click="predicate = 'version'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_DATAVERSION</span>
+									<span ng-show="predicate=='version' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
+									<span ng-show="predicate=='version' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
+								</th>
+								<th>
+									<a href="" ng-click="predicate = 'visibility'; reverse=!reverse"><span translate-cloak translate>DATASET_FIELD_METADATA_VISIBILITY</span>
 									<span ng-show="predicate=='version' && !reverse" class="glyphicon glyphicon-chevron-up small"></span>
 									<span ng-show="predicate=='version' && reverse" class="glyphicon glyphicon-chevron-down small"></span></a>
 								</th>
@@ -88,14 +110,14 @@
 						</thead>
 						<tbody>
 							<tr ng-show="showLoading">
-								<td colspan='8' >
+								<td colspan='10' >
 									<div class='ajax-loading-container'>
 										<span class='ajax-loading-big'></span>
 										<h4>Loading...</h4>
 									</div>
 								</td>
 							</tr>
-							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | filter: searchDomainFilter | filter: searchCodeFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
+							<tr ng-repeat="dataset in filteredDatasetsList = (datasetList | filter: searchNameFilter | filter: viewUnistalledFilter | filter: viewUnpublishedFilter | filter: searchDomainFilter | filter: searchCodeFilter | orderBy:predicate:reverse) |startFrom:(currentPage-1)*pageSize | limitTo:pageSize ">
 								<td>
 									<div class="checkbox">
 										<label>
@@ -130,7 +152,9 @@
 									<span>{{'DATASET_SUBTYPE_'+dataset.datasetSubtype.datasetSubtype|translate}}</span>
 								</td>
 								<td>{{dataset.registrationdate|dataset_date_format}}</td>
-								<td><span translate-cloak translate>{{dataset.version}}</span> <strong class='entity-uninstalled' ng-show="{{dataset.configData.deleted==1}}" translate-cloak translate>DATASET_FIELD_CONFIGDATA_DELETED</strong></td>
+								<td class='text-left'><span class="stream-status stream-status-{{dataset.status.statuscode}}">{{dataset.status.statuscode|translate}}</span></td>
+								<td><span translate-cloak translate>{{dataset.version}}</span> <strong class='text-icon entity-uninstalled-icon' ng-if="dataset.status.idStatus==5 || dataset.status.idStatus==4" title='{{"DATASET_FIELD_CONFIGDATA_DELETED"|translate}}'>D</strong></td>
+								<td><span translate-cloak translate>{{dataset.visibility}}</span> <strong class='text-icon entity-unpublished-icon' ng-if="dataset.unpublished" title='{{"DATASET_FIELD_UNPUBLISHED_TRUE"|translate}}'>NP</strong></td>
 							</tr>
 						</tbody>
 					</table>

@@ -306,7 +306,7 @@ var translations_en = {
 	DATASET_FIELD_METADATA_LICENCE_OTHER: 'Other',
 	DATASET_FIELD_METADATA_COPYRIGHT: 'Copyright',
 	DATASET_FIELD_METADATA_VISIBILITY: 'Visibility',
-	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Registration date',
+	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Created',
 	DATASET_FIELD_METADATA_DATADOMAIN: 'Domain',
 	DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN: 'Sub Domain',
 	DATASET_FIELD_METADATA_FPS: 'FPS',
@@ -486,6 +486,7 @@ var translations_en = {
     req_uninst:'Uninstall in progress',
     uninst:'Uninstalled and historicized',
     prg_inst: 'Installation in progress',
+    inst_fail: 'Installation failed', 
 	
 	/* Virtual Entity List */
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filter by code',
@@ -747,7 +748,9 @@ var translations_en = {
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'To enable deleting select at least one stream',
 	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED: 'Uninstalled',
 	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED_HINT : 'Show Uninstalled',
-	
+	MANAGEMENT_STREAM_LIST_SHOW_UNPUBLISHED : 'Unpublished',
+	MANAGEMENT_STREAM_LIST_SHOW_UNPUBLISHED_HINT : 'Show unpublished',
+
 	/* view stream */
 	MANAGEMENT_VIEW_STREAM: 'Stream',
 	MANAGEMENT_VIEW_STREAM_INSTALL_BUTTON: 'Request Installation',
@@ -898,7 +901,7 @@ var translations_en = {
 	
 	/* Management dataset */
 	MANAGEMENT_DATASET_SUBTITLE: 'Dataset',
-	MANAGEMENT_DATASET_LIST_NEW_DATASET: 'Load new Dataset',
+	MANAGEMENT_DATASET_LIST_NEW_DATASET: 'New',
 	MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT: 'To enable editing select a single Dataset',
 	MANAGEMENT_DATASET_LIST_EDIT_DATASET: 'Edit',
 	MANAGEMENT_DATASET_LIST_DELETE_DATASET_BUTTON_HINT: 'To enable deleting select at least one Dataset',

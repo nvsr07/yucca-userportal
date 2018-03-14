@@ -72,6 +72,16 @@ appControllers.controller('ManagementStreamListCtrl', [ '$scope', '$route', '$lo
 			return true;
 	};
 	
+	$scope.viewUnpublishedCheck = false;
+	$scope.viewUnpublishedFilter = function(stream) {
+		if(!$scope.viewUnpublishedCheck){
+			return (!stream.unpublished);
+		}
+		else
+			return true;
+	};
+
+	
 	$scope.$watch('viewUnistalledCheck', function(newCode) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredStreamsList.length;
@@ -239,7 +249,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 
 	
 	var cleanStreamBeforeUpdate = function(){
-		if(!$scope.stream.opendata.isOpenData)
+		if(Helpers.util.has($scope.stream, 'opendata') && !$scope.stream.opendata.isOpenData)
 			delete $scope.stream['opendata'];
 		else{
 			if(Helpers.util.has($scope.stream, 'opendata.opendataupdatedate') )	{	

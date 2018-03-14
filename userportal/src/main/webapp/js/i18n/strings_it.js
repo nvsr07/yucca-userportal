@@ -306,13 +306,14 @@ var translations_it = {
 	DATASET_FIELD_METADATA_LICENCE_OTHER: 'Altro',
 	DATASET_FIELD_METADATA_COPYRIGHT: 'Copyright',
 	DATASET_FIELD_METADATA_VISIBILITY: 'Visibilit&agrave;',
-	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Registrazione',
+	DATASET_FIELD_METADATA_REGISTRATIONDATE: 'Creato',
 	DATASET_FIELD_METADATA_DATADOMAIN: 'Dominio',
 	DATASET_FIELD_METADATA_COD_SUB_DATADOMAIN: 'Sotto Dominio',
 	DATASET_FIELD_METADATA_FPS: 'FPS',
 	DATASET_FIELD_TENANTSSHARING: 'Condividi con ',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	DATASET_FIELD_METADATA_EXTERNAL_REFERENCE: 'Riferimento Esterno',
+	DATASET_FIELD_STATUS: 'Stato',
 		
 	DATASET_FIELD_METADATA_STARTINGESTIONDATE: 'Inizio caricamento',
 	DATASET_FIELD_METADATA_ENDINGESTIONDATE: 'Fine caricamento',
@@ -488,7 +489,8 @@ var translations_it = {
     req_uninst:'Disinstallazione in corso',
     uninst:'Disinstallato e storicizzato',
     prg_inst: 'Installazione in corso', 
-	
+    inst_fail: 'Installazione fallita', 
+    
 	/* Virtual Entity List */
 	VIRTUALENTITY_LIST_CODE_FILTER: 'Filtra per codice',
 	VIRTUALENTITY_LIST_STATUS_FILTER: 'Filtra per stato',
@@ -752,7 +754,9 @@ var translations_it = {
 	MANAGEMENT_STREAM_LIST_EDIT_STREAM_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo stream',
 	MANAGEMENT_STREAM_LIST_DELETE_STREAM_BUTTON_HINT: 'Per abilitare l\'eliminazione selezionare almeno uno stream',
 	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED : 'Disinstallati',
-	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED_HINT : 'Mostra Disinstallati',
+	MANAGEMENT_STREAM_LIST_SHOW_UNINSTALLED_HINT : 'Mostra disinstallati',
+	MANAGEMENT_STREAM_LIST_SHOW_UNPUBLISHED : 'Non pubblicati',
+	MANAGEMENT_STREAM_LIST_SHOW_UNPUBLISHED_HINT : 'Mostra non pubblicati',
 	
 	/* view stream */
 	MANAGEMENT_VIEW_STREAM: 'Stream',
@@ -904,7 +908,7 @@ var translations_it = {
 
 	/* Management dataset */
 	MANAGEMENT_DATASET_SUBTITLE: 'Dataset',
-	MANAGEMENT_DATASET_LIST_NEW_DATASET: 'Carica nuovo Dataset',
+	MANAGEMENT_DATASET_LIST_NEW_DATASET: 'Nuovo',
 	MANAGEMENT_DATASET_LIST_EDIT_DATASET_BUTTON_HINT: 'Per abilitare la modifica selezionare un solo Dataset',
 	MANAGEMENT_DATASET_LIST_EDIT_DATASET: 'Modifica',
 	MANAGEMENT_DATASET_LIST_IMPORT_DB_BUTTON_HINT: 'Importa Metadati: connettiti a un database e crea un dataset per ogni tabella ',

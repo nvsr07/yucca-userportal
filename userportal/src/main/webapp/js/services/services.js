@@ -98,7 +98,9 @@ appServices.factory('sharedAdminResponse',  function () {
 	
 	return {
 		getResponse: function () {
-			return response;
+			var tmpResponse = angular.copy(response);
+			response = null;
+			return tmpResponse;
 		},
 		setResponse: function(value) {
 			response = value;

@@ -99,6 +99,16 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 			return true;
 	};
 
+	$scope.viewUnpublishedCheck = false;
+	$scope.viewUnpublishedFilter = function(dataset) {
+		if(!$scope.viewUnpublishedCheck){
+			return (!dataset.unpublished);
+		}
+		else
+			return true;
+	};
+
+	
 	$scope.$watch('viewUnistalledCheck', function(newCode) {
 		$scope.currentPage = 1;
 		$scope.totalItems = $scope.filteredDatasetsList.length;
@@ -425,6 +435,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 					
 				console.warn("dopo", $scope.showHint)
 
+				$scope.originalDataset = JSON.stringify($scope.dataset);
 				$scope.datasetReady = true;
 				$scope.updateStatus = 'ready';
 
@@ -447,7 +458,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 	 });
 	
 	var cleanDatasetBeforeUpdate = function(){
-		if(!$scope.dataset.opendata.isOpenData)
+		if(Helpers.util.has($scope.dataset, 'opendata') && !$scope.dataset.opendata.isOpenData)
 			delete $scope.dataset['opendata'];
 		else{
 			if(Helpers.util.has($scope.dataset, 'opendata.opendataupdatedate') )	{	
