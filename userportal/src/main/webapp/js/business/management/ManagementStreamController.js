@@ -637,6 +637,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 			}
 			
 			if (isTwitter()) delete $scope.stream['components'];
+			if ($scope.stream.visibility == 'private') delete $scope.stream['license'];
 			
 			
 	
