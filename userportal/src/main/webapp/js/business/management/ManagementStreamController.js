@@ -350,10 +350,10 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 			var streamClone = sharedDatasource.getDatasource();
 			if(streamClone==null){
 				$scope.stream  = {"datasourceType": Constants.DATASOURCE_TYPE_STREAM};
-				if($scope.canCreatePublicStream())
-					$scope.stream.visibility = 'public';
-				else
-					$scope.stream.visibility = 'private';
+				//if($scope.canCreatePublicStream())
+				//	$scope.stream.visibility = 'public';
+				//else
+				$scope.stream.visibility = 'private';
 				$scope.stream.icon  = "img/stream-icon-default.png";
 				$scope.stream.tags = [];
 				$scope.stream.components = [];

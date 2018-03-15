@@ -69,10 +69,10 @@
 												                		ng-model="component.tolerance" placeholder="{{'STREAM_FIELD_COMPONENTS_TOLERANCE_PLACEHOLDER'|translate}}">
 						</td>
 						<td ng-if='isStream()'>
-							<select class="input-sm form-control" name="componentMeasureUnit" ng-model="component.phenomenon" 
+							<select class="input-sm form-control" name="componentPhenomenon" ng-model="component.phenomenon" 
 							 		ng-options="phenomenon.phenomenonname group by phenomenon.phenomenoncetegory for phenomenon in phenomenonList track by phenomenon.idPhenomenon">
 							 		<option value="" translate-cloak translate>MANAGEMENT_EDIT_STREAM_PHENOMENOM_PLACEHOLDER</option> 
-							 	</select>
+							 </select>
 						</td>
 						
 						<td ng-if='isStream()'>{{component.sinceVersion}}</td>

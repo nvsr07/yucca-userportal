@@ -361,8 +361,8 @@ app.directive('datasourceMainInfo', function(adminAPIservice, info) {
 //	    				scope.forms.registerStreamForm.inputSo.$setValidity("streamCount", true);
 	    		
 	    		}
-	    		else if(scope.stream){
-	    			delete scope.stream["twitterInfo"];
+	    		else if(scope.datasource){
+	    			delete scope.datasource["twitterInfo"];
 	    		}
 	    	};
 
@@ -812,6 +812,8 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 	    					//column.sourcecolumn = order;
 	    					var idDataType = column.dataType?column.dataType.idDataType:(column.idDataType?column.idDataType:Constants.COMPONENT_DEFAULT_DATA_TYPE);
 	    					var idMeasureUnit = column.measureUnit?column.measureUnit.idMeasureUnit:(column.idMeasureUnit?column.idMeasureUnit:null);
+	    					var idPhenomenon = column.phenomenon?column.phenomenon.idPhenomenon:(column.idPhenomenon?column.idPhenomenon:null);
+	    					var required = typeof column.required == 'undefined'?true:column.required;
 	    					scope.datasource.components.push(
 	    							{"sourcecolumn":column.sourcecolumn, 
 	    								"name":column.name, 
@@ -824,8 +826,8 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 	    								"inorder":column.inorder,
 	    								"foreignkey":column.foreignkey,
 	    								"idComponent":column.idComponent,
-	    								"idPhenomenon":column.idPhenomenon,
-	    								"required":column.required,
+	    								"idPhenomenon":idPhenomenon,
+	    								"required":required,
 	    								"sourcecolumn":column.sourcecolumn,
 	    								"sourcecolumnname":column.sourcecolumnname,
 	    								"tolerance":column.tolerance

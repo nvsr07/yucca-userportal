@@ -24,6 +24,8 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 		return info.isOwner( $scope.tenantCode);
 	};
 	
+	$scope.admin_response = {};
+
 	/*
 	 * LOAD DATASETS
 	 */
@@ -38,7 +40,17 @@ appControllers.controller('ManagementDatasetListCtrl', [ '$scope', '$route', '$l
 			}
 	
 			$scope.totalItems = $scope.datasetList.length;
-		});
+		}).error(function(response){
+			console.error("loadDatasets ERROR", response);
+			$scope.showLoading = false;
+			$scope.admin_response.type = 'danger';
+			$scope.admin_response.message = 'UNEXPECTED_ERROR';
+			if(response && response.errorName)
+				$scope.admin_response.detail= response.errorName;
+			if(response && response.errorCode)
+				$scope.admin_response.code= response.errorCode;
+
+		});;
 	};
 
 
