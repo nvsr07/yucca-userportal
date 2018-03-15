@@ -153,7 +153,7 @@
 								</td>
 								<td><div class='domain-column'><i class="icon-{{stream.domain.domaincode}} domain-icon" title="{{stream.domain.domaincode|translate}}"></i></div></td>
 								<td>{{stream.registrationdate|smartobject_date_format}}</td>
-								<td class='text-left'><span class="stream-status stream-status-{{stream.status.statuscode}}">{{stream.status.statuscode|translate}}</span></td>
+								<td class='text-left'><span class="stream-status stream-status-{{stream.status.statuscode}}" title="{{stream.status.statuscode|translate}}">{{stream.status.statuscode|translate|string_ellipse:12}}</span></td>
 								<td><span>{{stream.version}}</span> <strong class='text-icon entity-uninstalled-icon' ng-if="stream.status.idStatus==5 || stream.status.idStatus==4" title='{{"DATASET_FIELD_CONFIGDATA_DELETED"|translate}}'>D</strong></td>
 								<td><span translate-cloak translate>{{stream.visibility}}</span> <strong class='text-icon entity-unpublished-icon' ng-if="stream.unpublished" title='{{"DATASET_FIELD_UNPUBLISHED_TRUE"|translate}}'>NP</strong></td>
 								

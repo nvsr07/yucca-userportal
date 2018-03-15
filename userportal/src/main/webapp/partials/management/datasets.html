@@ -152,7 +152,7 @@
 									<span>{{'DATASET_SUBTYPE_'+dataset.datasetSubtype.datasetSubtype|translate}}</span>
 								</td>
 								<td>{{dataset.registrationdate|dataset_date_format}}</td>
-								<td class='text-left'><span class="stream-status stream-status-{{dataset.status.statuscode}}">{{dataset.status.statuscode|translate}}</span></td>
+								<td class='text-left'><span class="stream-status stream-status-{{dataset.status.statuscode}}" title="{{dataset.status.statuscode|translate}}">{{dataset.status.statuscode|translate|string_ellipse:12}}</span></td>
 								<td><span translate-cloak translate>{{dataset.version}}</span> <strong class='text-icon entity-uninstalled-icon' ng-if="dataset.status.idStatus==5 || dataset.status.idStatus==4" title='{{"DATASET_FIELD_CONFIGDATA_DELETED"|translate}}'>D</strong></td>
 								<td><span translate-cloak translate>{{dataset.visibility}}</span> <strong class='text-icon entity-unpublished-icon' ng-if="dataset.unpublished" title='{{"DATASET_FIELD_UNPUBLISHED_TRUE"|translate}}'>NP</strong></td>
 							</tr>
