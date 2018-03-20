@@ -686,9 +686,11 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 		}).success(function(data, status, headers, config) {
 			$scope.updateStatus = 'finish';
-			$scope.admin_response.type = 'success';
-			$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO';
 			console.log("data loaded", data);
+			//$scope.admin_response.type = 'success';
+			//$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO';
+			sharedAdminResponse.setResponse({type:'success', message: 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO'});
+			$location.path("#/management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
 		}).error(function(response){
 			$scope.updateStatus = 'ready';
 			console.error("addDataToDataset ERROR", response);

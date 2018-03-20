@@ -26,8 +26,16 @@
 			<small class=''>Size: {{csvInfo.selectedFile.size|format_filesize}}</small>
 		</div>
 	</div>
+	<p>&nbsp;</p>
 	<div class='row'>
-		<p>&nbsp;</p>
+		<div ng-show='datasource.importedfiles.length>0' class="col-sm-2">
+			<strong translate>MANAGEMENT_NEW_DATASET_FILE_ALREADY_UPLOADED</strong> 
+		</div>
+		<div ng-show='datasource.importedfiles.length>0' class="col-sm-10">
+			{{datasource.importedfiles}}
+			<!-- <div ng-repeat="fileName in datasource.importedfiles track by $index">&nbsp;{{fileName}} </div> -->
+			<p>&nbsp;</p>
+		</div>
 	</div>
 	<div class='row text-left'>
 		<div class="col-sm-12">

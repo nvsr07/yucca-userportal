@@ -168,6 +168,11 @@ Helpers.yucca = {
 				dsOut.jdbcdbtype= dsIn.dataset.jdbcdbtype;
 				dsOut.jdbcdburl= dsIn.dataset.jdbcdburl;
 				dsOut.jdbctablename= dsIn.dataset.jdbctablename;
+				
+				dsOut.importedfiles = dsIn.dataset.importedfiles
+				//if(typeof dsIn.dataset.importedfiles != 'undefined' && dsIn.dataset.importedfiles!= null){
+					//dsOut.importedfiles = dsIn.dataset.importedfiles.split(",");
+				//}
 
 
 			}
@@ -250,10 +255,11 @@ Helpers.yucca = {
 	},
 	checkDCat: function(datasource){
 		var rslt = true;
-		if(typeof datasource !='undefined' && datasource!=null && !datasource.unpublished){
-			if(Helpers.util.has(datasource, "dcat.dcatrightsholdername") && datasource.dcat.dcatrightsholdername != null && datasource.dcat.dcatrightsholdername != "" && 
+		if(typeof datasource !='undefined' && datasource!=null){
+			if(datasource.unpublished === true ||
+				(Helpers.util.has(datasource, "dcat.dcatrightsholdername") && datasource.dcat.dcatrightsholdername != null && datasource.dcat.dcatrightsholdername != "" && 
 				Helpers.util.has(datasource, "dcat.dcatemailorg")  && datasource.dcat.dcatemailorg != null && datasource.dcat.dcatemailorg != "" &&
-				Helpers.util.has(datasource, "dcat.dcatemailorg") && datasource.dcat.dcatrightsholdername != null && datasource.dcat.dcatemailorg != "")
+				Helpers.util.has(datasource, "dcat.dcatemailorg") && datasource.dcat.dcatrightsholdername != null && datasource.dcat.dcatemailorg != ""))
 			rslt = false;
 		};
 		

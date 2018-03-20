@@ -1454,12 +1454,12 @@ table.dataexplorer-table-grid{border-collapse: collapse; font-size: 10pt;border:
 .expand_tree_button{color: #999;text-decoration: none;}
 .expand_tree_button:hover, .expand_tree_button:active {text-decoration: none;}
 
-#datasearch .search-domains .search-domain-link{cursor: url(/img/cursor/search.png),pointer;}
+#datasearch .search-domains .search-domain-link{cursor: url(../img/cursor/search.png),pointer;}
 
 #datasearch .search-domains .domains-table .title{font-weight: normal;}
 #datasearch .search-domains .domains-table .domain .title{font-size: 16px;font-weight: bold;}
 #datasearch .search-domains .domains-table tspan.subtitle {font-size: 16px; line-height: 1em; fill: #8a8a8a;font-weight: normal;}
-#datasearch .search-domains text{cursor: url(/img/cursor/search.png),pointer;}
+#datasearch .search-domains text{cursor: url(../img/cursor/search.png),pointer;}
 #datasearch .search-domains  circle{cursor: pointer;}
 
 
