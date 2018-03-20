@@ -81,12 +81,17 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}
 	};
 	
-	upService.getInfo().success(function(result) {
+	var lastActiveTenant = localStorageService.get("lastActiveTenant")==null?null: {tenantcode:localStorageService.get("lastActiveTenant")};
+	upService.getInfo(false,lastActiveTenant).success(function(result) {
 		info.setInfo(result);
 		
 		console.log("info", info);
 		
+		
 		$scope.activeTenantCode = info.getActiveTenantCode();
+
+		
+		
 		//$scope.userTenants = info.getInfo().user.tenants;
 		$scope.userTenantsToActivate = new Array();
 		$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
@@ -177,6 +182,8 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		upService.getInfo(false, newTenant).success(function(result) {
 			info.setInfo(result);
 			$scope.activeTenantCode = info.getActiveTenantCode();
+    		localStorageService.set("lastActiveTenant",info.getActiveTenantCode());
+
 			$scope.managementUrl = '#/management/virtualentities/'+info.getActiveTenantCode();
 			$location.path("#/");
 			checkTermCondition();
@@ -271,10 +278,11 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 }]);
 
 
-appControllers.factory("initCtrl", function(upService, info, $q) {
+appControllers.factory("initCtrl", function(upService, info, $q, localStorageService) {
     return {
     	"getInfo": function() {
-    	    	var promise = upService.getInfo();
+    		var lastActiveTenant = localStorageService.get("lastActiveTenant");
+    		var promise = upService.getInfo(false,lastActiveTenant);
     	        promise.success(function(result) {
     	    		info.setInfo(result);
     	    		console.log("result", result);

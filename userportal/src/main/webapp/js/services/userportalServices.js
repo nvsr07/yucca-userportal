@@ -10,7 +10,7 @@ appServices.factory('upService', [ "$http", "$q", "info", function($http, $q, in
 			infoUrl = infoUrl+"&refreshRequestedTenant=true";
 
 		console.log("activeTenant",activeTenant);
-		if(typeof activeTenant!='undefined')
+		if(typeof activeTenant!='undefined' && activeTenant!=null)
 			infoUrl = infoUrl+"&activeTenant="+activeTenant.tenantcode;
 		
 		return $http({

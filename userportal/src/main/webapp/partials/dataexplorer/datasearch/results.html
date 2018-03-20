@@ -84,11 +84,11 @@
 							<div class='result-item-icon' ng-click="openDetail(data)"><img ng-src="{{metadataSearchOutput.datasetList[$index].icon}}" alt="logo dataset" class="img-responsive" ></div>
 							<div class='result-item-type' ng-click="openDetail(data)">{{data['type']}} </div>
 							<div class='result-item-description' ng-if='!data["description_show_all"]'>
-								<span ng-click="openDetail(data)">{{data["description"]|string_ellipse:300}}</span> 
+								<span ng-click="openDetail(data)" class='multiline-panel'>{{data["description"]|string_ellipse:300}}</span> 
 								<a href ng-click='data["description_show_all"]=true' ng-if='data["description"].length>300' translate class='read_all_link'>DATASEARCHRESULT_SHOWALL_DESCRIPTION</a>
 							</div>
 							<div class='result-item-description' ng-if='data["description"].length>300 && data["description_show_all"]'>
-								<span ng-click="openDetail(data)">{{data["description"]}}</span> 
+								<span ng-click="openDetail(data)"  class='multiline-panel'>{{data["description"]}}</span> 
 								<a href ng-click='data["description_show_all"]=false' translate class='read_all_link'>DATASEARCHRESULT_COMPACT_DESCRIPTION</a>
 							</div>
 							<div class='result-item-organization' ng-click="openDetail(data)">{{data["tenantCode"]}}</div>

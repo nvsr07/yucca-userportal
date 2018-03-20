@@ -430,7 +430,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 				$scope.newComponent = {sourcecolumn: $scope.preview.components.length+1};
 				console.log("LoadDataset prepared", $scope.dataset);
 				if(typeof $scope.dataset.idDataset != 'undefined' && $scope.dataset.idDataset !=null)
-					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/current";  
+					$scope.downloadCsvUrl = Constants.API_ODATA_URL+$scope.datasetCode+"/download/"+$scope.dataset.idDataset+ "/all";  
 				
 				if($scope.user!=undefined && $scope.user.loggedIn==true){
 					$scope.dataset.requestername=$scope.user.firstname;
