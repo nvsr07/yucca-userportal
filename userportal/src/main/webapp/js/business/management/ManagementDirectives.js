@@ -1192,13 +1192,14 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, $tran
 	    			siddhiStreamDefinitions="";
 	    		}
 	    		
+	    		/*
 	    		//OutputStream Definition
 	    		siddhiStreamDefinitions += " define stream outputStream";
     			console.log("output", scope.datasource);
 
     			siddhiStreamDefinitions += prepareComponentsForSiddhi(scope.datasource.components) + ";";
     			siddhiStreamArray.push(siddhiStreamDefinitions);
-    			siddhiStreamDefinitions="";
+    			siddhiStreamDefinitions="";*/
     			
 //	    		if(scope.datasource.components!=null ){
 //	    			for(var comp in scope.datasource.components){
@@ -1224,7 +1225,7 @@ app.directive('datasourceInternalStreams', function(info, adminAPIservice, $tran
 	    		
 	    		var validationObj = {
 	    				"inputStreamDefiniitons":siddhiStreamArray,
-	    				"queryExpressions":scope.streamSiddhiQuery + scope.defaultQuery		
+	    				"queryExpressions":scope.streamSiddhiQuery + scope.defaultQuery	
 	    		};
 	    		console.info("validationObj : ", validationObj);
 	    		adminAPIservice.validateSiddhiQuery(validationObj).success(function(response) {
