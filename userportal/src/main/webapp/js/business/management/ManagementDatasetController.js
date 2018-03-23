@@ -358,8 +358,8 @@ appControllers.controller('ManagementDatasetDeleteDatalModalCtrl', [ '$scope', '
 
 
 
-appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'adminAPIservice', 'readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse', '$timeout',
-             function($scope, $route, $routeParams, $location, adminAPIservice, readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse,$timeout) {
+appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$routeParams', '$location', 'adminAPIservice', 'readFilePreview','info', 'sharedDatasource', '$translate','$modal', 'sharedUploadBulkErrors', 'sharedAdminResponse', '$timeout','localStorageService',
+             function($scope, $route, $routeParams, $location, adminAPIservice, readFilePreview, info, sharedDatasource,$translate,$modal,sharedUploadBulkErrors,sharedAdminResponse,$timeout,localStorageService) {
 	$scope.tenantCode = $route.current.params.tenant_code;
 	$scope.currentStep = 'start';
 	$scope.wizardSteps = [{'name':'start', 'style':''},
@@ -496,6 +496,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 			delete $scope.dataset['copyright'];
 		else
 			delete $scope.dataset['license'];
+		
+		if($scope.dataset.unpublished)
+			delete $scope.dataset['dcat'];
+
 	};
 
 	$scope.user = info.getInfo().user;
@@ -509,7 +513,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 		var datasourceClone = sharedDatasource.getDatasource();
 		if(datasourceClone==null){				
 			isClone = false;
-			$scope.dataset = {"datasourceType": Constants.DATASOURCE_TYPE_DATASET,tags: new Array(), unpublished: 0,visibility: 'private', idTenant:info.getActiveTenant().idTenant};
+			$scope.dataset = {"datasourceType": Constants.DATASOURCE_TYPE_DATASET,tags: new Array(), unpublished: false,visibility: 'private', idTenant:info.getActiveTenant().idTenant};
 			console.log("new Dataset start", $scope.dataset);
 			$scope.datasetReady = true;
 		}
@@ -663,48 +667,79 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 		addData($scope.inputDatasource);
 	};
 	
+	$scope.componentInfoRequests = {"info":new Array()};
+	
+	$scope.debu = function(){
+		console.log("componentInfoRequests", $scope.componentInfoRequests)
+		console.log("csvInfo", $scope.csvInfo)
+	};
+	
 	var addData = function(loadedDatasource){
 		console.log("addData", loadedDatasource);
+		console.log("componentInfoRequests", $scope.componentInfoRequests)
 
+		var componentInfoRequests  = new Array(); 
 		$scope.updateStatus = 'upload';
-		var componentInfoRequests = new Array();
-		for (var cIndex = 0; cIndex < loadedDatasource.components.length; cIndex++) {
-			for (var pIndex = 0; pIndex < $scope.preview.components.length; pIndex++) {
-				var c = loadedDatasource.components[cIndex];
-				var p = $scope.preview.components[pIndex];
-				if(p.name == c.name){
-					componentInfoRequests.push({"numColumn": p.sourcecolumn-1, "dateFormat": p.dateTimeFormat, "skipColumn": p.skipColumn, "idComponent": c.idComponent});
-					break;
+		if($scope.componentInfoRequests.info.length==0){  // new dataset
+			for (var cIndex = 0; cIndex < loadedDatasource.components.length; cIndex++) {
+				for (var pIndex = 0; pIndex < $scope.preview.components.length; pIndex++) {
+					var c = loadedDatasource.components[cIndex];
+					var p = $scope.preview.components[pIndex];
+					if(p.name == c.name){
+						componentInfoRequests.push({"numColumn": p.sourcecolumn-1, "dateFormat": p.dateTimeFormat, "skipColumn": p.skipColumn, "idComponent": c.idComponent});
+						if(Helpers.util.has(p, "dateTimeFormat"))
+							localStorageService.set("addCSvDateFormat_"+c.idComponent, p.dateTimeFormat);
+						//var isDate = c.idDataType == Constants.COMPONENT_DATA_TYPE_DATETIME;
+						//$scope.componentInfoRequests.info.push({"numColumn": p.sourcecolumn-1, "dateFormat": p.dateTimeFormat, "skipColumn": p.skipColumn, "idComponent": c.idComponent,  "isDate": isDate, "name": c.name, "idDataType": c.idDataType});
+						break;
+					}
 				}
 			}
 		}
+		else{ // add data
+			for (var cIndex = 0; cIndex < $scope.componentInfoRequests.info.length; cIndex++) {
+				var c = $scope.componentInfoRequests.info[cIndex];
+				componentInfoRequests.push({"numColumn": c.numColumn, "dateFormat":  c.dateFormat, "skipColumn": c.skipColumn, "idComponent": c.idComponent});
+				if(Helpers.util.has(c, "dateFormat") && c.dateFormat!=null)
+					localStorageService.set("addCSvDateFormat_"+loadedDatasource.dataset.datasetcode+"_"+c.numColumn, c.dateFormat);
+			}
+		}
+		
+		//localStorageService.set("addCSvDateFormat_"+loadedDatasource.dataset.datasetcode, JSON.stringify($scope.componentInfoRequests.info));
 
-		console.log("componentInfoRequests", componentInfoRequests);
+		//console.log("componentInfoRequests", $scope.componentInfoRequests.info);
+		
 		
 		adminAPIservice.addDataToDataset(info.getActiveTenant(),loadedDatasource.dataset, $scope.csvInfo,componentInfoRequests).progress(function(evt) {
-			console.log(evt);
-			console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+			console.debug(evt);
+			console.debug('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 		}).success(function(data, status, headers, config) {
 			$scope.updateStatus = 'finish';
 			console.log("data loaded", data);
 			//$scope.admin_response.type = 'success';
 			//$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO';
 			sharedAdminResponse.setResponse({type:'success', message: 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO'});
-			$location.path("#/management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
+			console.log("iiii "+"management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
+			if($scope.isNewDataset)
+				$location.path("management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
+			else
+				Helpers.util.scrollTo();
 		}).error(function(response){
 			$scope.updateStatus = 'ready';
 			console.error("addDataToDataset ERROR", response);
 			if($scope.isNewDataset){
-				sharedAdminResponse.setResponse({type:'danger', message: 'MANAGEMENT_EDIT_DATASET_SAVED_OK_ADD_DATA_FAILED'});
-				console.warn("redirect to -> " +  "#/management/viewDataset/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
-				$location.path("#/management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
+				sharedAdminResponse.setResponse({type:'danger', message: 'MANAGEMENT_EDIT_DATASET_SAVED_OK_ADD_DATA_FAILED', details: response.args});
+				console.warn("redirect to -> " +  "#/management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
+				$location.path("management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
 			} else{
 				$scope.admin_response.type = 'danger';
 				$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_ADD_DATA_ERROR';
+				$scope.admin_response.details =  response.args;
 				if(response && response.errorName)
 					$scope.admin_response.detail= response.errorName;
 				if(response && response.errorCode)
 					$scope.admin_response.code= response.errorCode;
+				Helpers.util.scrollTo();
 			}
 
 		});

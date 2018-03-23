@@ -982,7 +982,9 @@ var translations_en = {
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_INFO: 'If you do not have the file to upload, you can directly define the columns',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_LINK: 'Define columns',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ERROR_FROM_SERVER: 'Could not load data, unexpected error on a server, try clicking on the Add Data',
-	
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN: 'The number of columns in the selected file is different from the number of components required',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_MAX_SIZE: 'The file exceeds the maximum expected size',
+
 	MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT: 'Skip column', 
 	MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT: 'Change column order',
 	MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW: 'Skip first row',
@@ -1217,6 +1219,10 @@ var translations_en = {
 		
 	MANAGEMENT_EDIT_DATASET_SAVE_ERROR: 'Error while saving dataset',
 	MANAGEMENT_EDIT_DATASET_SAVED_INFO: 'Dataset saved',
+	
+	MANAGEMENT_ADD_DATA_PREVIEW_COMPONETS_INFO: 'Corresponding components',
+	MANAGEMENT_ADD_DATA_PREVIEW_COMPONETS_COL_SKIPPED: 'Column not imported',
+
 
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_ERROR: 'Error loading data. Data not loaded',
 	

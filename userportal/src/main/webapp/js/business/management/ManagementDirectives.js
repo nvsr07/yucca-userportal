@@ -676,38 +676,51 @@ app.directive('datasourceDcat', function() {
 });
 
 
-app.directive('uploadDataCsv', function(readFilePreview) {
+app.directive('uploadDataCsv', function(readFilePreview, adminAPIservice, localStorageService, $modal) {
 	return {
 	    restrict: 'E',
-	    scope: {datasource: '=', csvInfo : '=', preview : '='},
+	    scope: {datasource: '=', csvInfo : '=', preview : '=', componentInfoRequests : '='},
 	    templateUrl : 'partials/management/forms/uploadDataCsv.html?'+BuildInfo.timestamp,
 	    link: function(scope, elem, attrs) {
-	    	console.debug("uploadDataCsv.link", scope.datasource);
+	    	console.log("uploadDataCsv.link", scope.datasource);
 	    	scope.formatList = ["csv"];
 
 	    	scope.choosenFileSize = null;
 	    	scope.maxFileSize = Constants.BULK_DATASET_MAX_FILE_SIZE;
 
+	    	
+	    	
+	    	scope.dataTypeList = new Array();
+	    	adminAPIservice.loadDataTypes().success(function(response) {
+	    		console.debug("loadDataTypes",response);
+	    		for (var dtIndex = 0; dtIndex < response.length; dtIndex++) {
+					if(response[dtIndex].idDataType != Constants.COMPONENT_DATA_TYPE_BINARY)
+						scope.dataTypeList.push(response[dtIndex]);
+				}
+	    	});
+
 	    	scope.readPreview = function(csvSeparator){
 	    		scope.uploadDatasetError = null;
+	    		scope.uploadMessage = null;
 	    		readFilePreview.readTextFile(scope.csvInfo.selectedFile, 10000, scope.fileEncoding).then(
 	    				function(contents){
 	    					var lines = contents.split(/\r\n|\n/);
 	    					console.log("nr righe", lines.length);
 	    					//console.log(lines);
 	    					var firstRows = lines.slice(0, 5);
-	    					scope.previewLines = [];
+	    					scope.previewLines = new Array();
 	    					console.log("(firstRows.join",firstRows.join("\n"));
 	    					console.log("CSVtoArrayAll",Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator));
 
 	    					scope.previewLines = Helpers.util.CSVtoArray(firstRows.join("\n"),csvSeparator);
 	    					console.log("scope.previewLines",scope.previewLines);
 
-	    					scope.datasource.components  = new Array();
+	    					//scope.datasource.components  = new Array();
 	    					scope.preview.columns = new Array();
 	    					scope.preview.components = new Array();
 	    					if(scope.previewLines.length>0){
 	    						for (var int = 0; int < scope.previewLines[0].length; int++) {
+	    							console.log("qui", int, scope.previewLines[0]);
 	    							scope.preview.components.push(
 	    									{index: int, 
 	    										sourcecolumn: int+1, 
@@ -718,10 +731,52 @@ app.directive('uploadDataCsv', function(readFilePreview) {
 	    										iskey: false, 
 	    										idMeasureUnit: null,
 	    										skipColumn: false});
+	    							
+	    							
+	    							
+	    	
+	    							
+	    							
 	    						}
 	    					}
-	    					scope.$parent.$parent.$broadcast('csvPreviewReady', {});
+	    					
+							console.log(" scope.datasource.components",  scope.datasource.components);
+							console.log(" scope.preview.components",  scope.preview.components);
+							
+							scope.componentInfoRequests.info  =new Array();
+							var totalSkipped = 0;
+							for (var pIndex = 0; pIndex < scope.preview.components.length; pIndex++) {
+								var columnFound = false;
+								
+								for (var cIndex = 0; cIndex < scope.datasource.components.length; cIndex++) {
+									var c = scope.datasource.components[cIndex];
+									//console.log("c,cIndex", c.sourcecolumn,cIndex,pIndex+1);
+									if(c.sourcecolumn == pIndex+1){
+										var isDate = c.idDataType == Constants.COMPONENT_DATA_TYPE_DATETIME;
+										var dateformat = null;
+										if(isDate && localStorageService.get("addCSvDateFormat_"+scope.datasource.datasetcode+"_"+(c.sourcecolumn-1))!=null)
+											dateformat = localStorageService.get("addCSvDateFormat_"+scope.datasource.datasetcode+"_"+(c.sourcecolumn-1));
+										scope.componentInfoRequests.info.push({"numColumn": c.sourcecolumn-1, "dateFormat": dateformat, "skipColumn": false, "idComponent": c.idComponent, "isDate": isDate, "name": c.name, "idDataType": c.idDataType});
+										columnFound = true;
+									}
+								}		
+								if(!columnFound){
+									scope.componentInfoRequests.info.push({"numColumn": pIndex, "dateFormat": null, "skipColumn": true, "idComponent": null, "isDate": false});
+									totalSkipped++;
+								}
+							}
+							
+							if(scope.preview.components.length-totalSkipped!=scope.datasource.components.length){
+								scope.uploadMessage = {type:'warning', message: 'MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN'};
+								scope.updateWarning = true;
+				    			scope.csvInfo.selectedFile = null;
+				    			scope.previewLines = null;
+							}
+								
+							scope.$parent.$parent.$broadcast('csvPreviewReady', {});
 	    					console.log("scope.preview.components",scope.preview.components);
+	    					console.log("componentInfoRequests",scope.componentInfoRequests);
+	    					
 	    				}, 
 	    				function(error){
 	    					scope.uploadDatasetError = {error_message: error, error_detail: ""};
@@ -735,6 +790,7 @@ app.directive('uploadDataCsv', function(readFilePreview) {
 	    		scope.csvInfo.selectedFile = $files[0];
 	    		console.log("onFileSelect", scope.csvInfo.selectedFile );
 	    		if(scope.csvInfo.selectedFile !=null && scope.csvInfo.selectedFile.size>Constants.BULK_DATASET_MAX_FILE_SIZE){
+					scope.uploadMessage = {type:'warning', message: 'MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_MAX_SIZE'};
 	    			scope.choosenFileSize = scope.csvInfo.selectedFile.size; 
 	    			scope.updateWarning = true;
 	    			scope.csvInfo.selectedFile = null;
@@ -748,6 +804,14 @@ app.directive('uploadDataCsv', function(readFilePreview) {
 	    		scope.readPreview(scope.csvInfo.separator);
 	    	};
 	    	
+	    	scope.showDateFormatHint = function(){
+	    		$modal.open({
+		    		templateUrl: 'dataFormatHint.html',
+		  	      	controller: 'DateFormatHintCtrl',
+	    		});
+	    	};
+
+	    	
 	    	
 	    }
 
@@ -757,7 +821,7 @@ app.directive('uploadDataCsv', function(readFilePreview) {
 app.directive('datasourceComponents', function(adminAPIservice, $modal, $routeParams,$timeout) {
 	return {
 	    restrict: 'E',
-	    scope: {datasource: '=', preview : '=', isNewDatasource: '@', isImportDatasource: '@', hideTitle: '@'},
+	    scope: {datasource: '=', preview : '=', action: '@', hideTitle: '@'},
 	    templateUrl : 'partials/management/forms/components.html?'+BuildInfo.timestamp,
 	    link: function(scope, elem, attrs) {
 	    	console.warn("datasourceComponents.link", scope.datasource, scope.preview);
@@ -796,6 +860,42 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 	    	});
 	    	
 	    	scope.componentJsonExample = "{\"stream\": \"....\",\n \"sensor\": \"....\",\n \"values\":\n  [{\"time\": \"....\",\n    \"components\":\n     {\"wind\":\"1.4\"}\n  }]\n}";
+	    	
+	    	
+	    	// ACTION
+	    	// createDatasourceDefineColumn
+	    	// createDatasourceDefineFromCSV
+	    	// importMetadata
+	    	// editDatasource
+	    	// uploadData
+	    	scope.editField = function(field){
+	    		var res = false;
+	    		switch (field) {
+				case "name":
+				case "dataType":
+				case "isKey":
+				case "dragComponent":
+					res = scope.action=="createDatasourceDefineFromCSV" || scope.action=="importMetadata";
+					break;
+				case "alias":
+				case "measureUnit":
+				case "tolerance":
+				case "phenomenon":
+					res = scope.action!="uploadData";
+					break;
+				case "dateFormat":
+				case "skipColumn":
+					res = scope.action == "uploadData" || scope.action=="createDatasourceDefineFromCSV"; 
+					break;
+				case "newComponent":
+				case "deleteComponent":
+					res = scope.action == "createDatasourceDefineColumn" || scope.action=="editDatasource"; 
+					break;
+				default:
+					break;
+				}
+	    		return res;
+	    	}
 
 	    	
 	    	
@@ -881,7 +981,11 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 	    		return scope.columnsDatasetError.hasError; 
 	    	};
 	    	
-	    	scope.newComponent = {sourcecolumn: scope.preview.components.length+1};
+	    	var sourcecolumn = 1;
+    		if(scope.preview.components!=null)
+    			sourcecolumn = Math.max.apply(Math,scope.preview.components.map(function(o){ console.log("o",o);return o.sourcecolumn;}));
+    		
+	    	scope.newComponent = {"sourcecolumn": sourcecolumn+1};
 	    	scope.addComponent = function(){
 	    		console.log("addComponent",scope.newComponent);
 	    		//scope.newComponent.sourcecolumn = scope.preview.components.length+1;

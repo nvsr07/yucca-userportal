@@ -1,7 +1,7 @@
 <div ng-cloak>
 
 	
-	<upload-data-csv datasource='dataset' preview='preview' csv-info='csvInfo' ng-if='datasetReady'></upload-data-csv>
+	<upload-data-csv datasource='dataset' preview='preview' csv-info='csvInfo'  component-info-requests='componentInfoRequests' ng-if='datasetReady'></upload-data-csv>
 	<div ng-if='csvInfo.selectedFile!=null'>
 		<div class="alert alert-danger management-upload-column-error-panel " ng-show='saveError'>
 			<div>
@@ -35,6 +35,6 @@
 			<ul><li ng-repeat="insertColumnError in insertColumnErrors "><span translate-cloak translate>{{insertColumnError}}</span></li></ul>
 		</div>
 		
-		<datasource-components datasource='dataset' preview='preview' ng-if='datasetReady' is-new-datasource='{{isNewDataset}}' is-import-datasource='{{isImportDataset}}'></datasource-components>
+		<datasource-components datasource='dataset' preview='preview' ng-if='datasetReady'  action='createDatasourceDefineFromCSV'></datasource-components>
 	</div>
 </div>

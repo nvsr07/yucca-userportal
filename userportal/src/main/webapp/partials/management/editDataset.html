@@ -26,7 +26,7 @@
 									<datasource-sharing datasource='dataset' ng-if='datasetReady'></datasource-sharing>
 									<datasource-legal-info datasource='dataset' ng-if='datasetReady'></datasource-legal-info>
 									<datasource-dcat datasource='dataset' ng-if='datasetReady'></datasource-dcat>
-									<datasource-components datasource='dataset' preview='preview' ng-if='datasetReady' is-new-datasource='{{isNewDataset}}'></datasource-components>
+									<datasource-components datasource='dataset' preview='preview' ng-if='datasetReady'  action='editDatasource'></datasource-components>
 									
 									<div class="row"  ng-show="updateStatus!='update'">
 										<div class=" col-sm-12 form-toolbar" ng-show="isAuthorized('management/datasets/update')">

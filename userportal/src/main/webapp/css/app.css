@@ -1002,6 +1002,7 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .management-table-upload-preview { border-collapse: collapse; border: none; margin-bottom: 0; }
 .management-table-upload-preview .data-row td { background-color: #fff; color: #555; font-size: 11px; }
 .management-table-upload-preview .skip-row td { font-style: italic; background-color: #eee;}
+.management-table-upload-preview .data-row td.skip-col{font-style: italic; background-color: #eee;}
 .management-upload-column-association-field { border: solid 1px #ccc; border-radius: 4px; padding: .5em 1em; margin: 1em; overflow: hidden; }
 .management-upload-column-association-field-desc-panel { float: left;}
 .management-upload-column-association-field-index-panel{ float: left; margin: 0 1em; line-height: 2em;}
@@ -1009,6 +1010,7 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .management-upload-column-association-field-drop-panel.drag-enter{ background-color: #72ccfd; border-color: #0085cc; color: #0085cc; }
 .management-upload-column-association-csv-drag-icon { border: solid 2px #ddd; padding: .5em; border-radius : 4px; float: left; border-radius: 4px; margin-right: 1em; }
 .management-upload-column-association-csv-desc-panel { float: left; }
+.management-table-upload-preview .row-title{font-size: larger; text-align: left; text-transform: uppercase;}
 
 .management-upload-column-error-panel{margin: 20px 0; text-align: left;}
 .new-dataset-wizard-error-list{font-size: 9pt;max-height: 15em; overflow-y: auto;   overflow-x: hidden; }

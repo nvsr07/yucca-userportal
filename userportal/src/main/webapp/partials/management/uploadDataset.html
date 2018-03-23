@@ -3,143 +3,16 @@
 		<h3 class='content-edit-title'>
 			<span translate-cloak translate>DATASET</span> <small><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SUBTITLE</span>  {{dataset.datasetCode}} - {{dataset.info.datasetName}}</small>
 		</h3>
-			<datasource-intro datasource='inputDatasource' ng-if='datasetReady'></datasource-intro>
-		
-		<!--  
-		<div class='clearfix entity-info entity-info-top'>
-			<div class='pull-left'>
-				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_NAME</span></small></div>
-				<div class='main-info'><strong>{{dataset.info.datasetName}}</strong></div>
-			</div>
-			<div class='pull-right text-right'>
-				<div><small><span translate-cloak translate>DATASET_FIELD_METADATA_REGISTRATIONDATE</span></small></div>
-				<div><strong>{{dataset.info.registrationDate|date}}</strong></div>
-			
-			</div>
-		</div>
-		<div class='clearfix entity-info entity-info-bottom'>
-			<div class='pull-left'>
-				<div><small><span translate-cloak translate>DATASET_FIELD_CONFIGDATA_CODE</span></small></div>
-				<div class='url'><strong>{{dataset.datasetCode}}</strong></div>
-			</div>
-			<div class='pull-right text-right'>
-				<div><small><span translate-cloak translate>DATASET_FIELD_VERSION</span></small></div>
-				<div><strong>{{dataset.datasetVersion}}</strong></div>
-			
-			</div>
-		</div> -->
+		<datasource-intro datasource='inputDatasource' ng-if='datasetReady'></datasource-intro>
 	</div>
 	<div class='content-gray'>
 		<div class='container'>
 			<div class='alert alert-sandbox ng-hide' ng-show='tenant=="sandbox"'><strong><i class="fa fa-exclamation-triangle"></i>&nbsp;<span translate-cloak translate>WARNING_TITLE</span></strong>&nbsp;&nbsp;<span translate-cloak translate>MANAGEMENT_SANDBOX_WARNING</span></div>
-			<p>&nbsp;</p>
+			<!-- <p>&nbsp;<a href ng-click="debu()">debug</a></p>-->
 			<alert-panel content='admin_response'></alert-panel>
 			<form class="form-horizontal" role="form" name="addDatadDatasetForm">
-			<upload-data-csv datasource='dataset' preview='preview' csv-info='csvInfo' ng-if='datasetReady'></upload-data-csv>
-				
-			<!-- 
-				<div class='row'>
-					<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-						<div ng-file-drop="onFileSelect($files)" class='upload-drop-files-area' ng-file-drag-over-class="upload-drop-files-area-hover" ng-show="dropSupported">
-							<span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_DROPAREA</span></div>
-						<div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
-					</div>
-					<div class="col-lg-2 col-md-2 col-sm-1 col-xs-1 text-center">
-					</div>
-					<div class="col-lg-5 col-md-5 col-sm-11 col-xs-11">
-						<div ng-file-select="onFileSelect($files)" data-multiple="true" title="select file" onclick="this.value = null" class="management-upload-selectfile-button">
-						<span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_BUTTON_LOAD_FILE</span>
-					</div>
-					</div>
-				</div>
-				<div class='row'>
-					<p>&nbsp;</p>
-				</div>
-				<div class='row' >
-					<div class="col-sm-8">
-						<div ng-show='dataset.info.fileNames.length>0'>
-							<strong translate>MANAGEMENT_NEW_DATASET_FILE_ALREADY_UPLOADED</strong>
-							<div ng-repeat="fileName in dataset.info.fileNames track by $index">&nbsp;{{fileName}} </div>
-						</div>
-					</div>
-					<div class="col-sm-4 text-right">
-						<small><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE</span><strong>{{maxFileSize|format_filesize}}</strong></small>
-					</div>
-				</div>
-				<div class='row'>
-					<p>&nbsp;</p>
-				</div>
-				<div class='row'>
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<p>File: <strong>{{selectedFile.name}}</strong> <small><span class='mute'> - Type: {{selectedFile.type}} - Size:
-								{{selectedFile.size|format_filesize}}</span></small></p>
-					</div>
-				</div>
-				<div class="alert alert-success" ng-show='updateInfo'>
-					<strong translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO</strong> {{updateInfo.status}}
-				</div>
-				<div class="alert alert-warning" ng-show='updateWarning'>
-					<strong translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE</strong>  <span>{{updateWarningMessage|translate}}</span> - {{choosenFileSize|format_filesize}}
-				</div>
-				
-				<div class="alert alert-danger management-upload-column-error-panel " ng-show='updateError'>
-					<div>
-						<strong><span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN</span></strong> &nbsp;
-						<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_ERROR_IMPORT_COLUMN_NUM_ERR</span>: <strong>{{saveErrors.length}}</strong>
-					</div>
-					<div class='row  text-left' >
-						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"><strong><small>Error</small></strong></div>
-						<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"><strong><small>Detail</small></strong></div>
-					</div>
-					<div class='new-dataset-wizard-error-list'>
-						<div class='row  text-left' ng-repeat="error in updateErrors">
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">{{error.message|string_ellipse:50}}</div>
-							<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">{{error.detail|string_ellipse:120}}</div>
-						</div>		
-					</div>
-				</div>
-				<div class='row'>
-					<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
-						<label class="control-label" for="fileFormatSelect" ><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_FORMAT</span></label>
-						<select class="input-sm form-control" id="fileFormatSelect" ng-model="importFileType" ng-options="format for format in formatList"><option>Choose one...</option></select>
-					</div>
-					<div class="col-lg-4 col-md-1 col-sm-2 col-xs-2">
-						<label class="control-label" for="fileEncoding" ><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING</span></label>
-						<input type="text" class="form-control" ng-model="fileEncoding" id="fileEncoding">
-					</div>
-					<div class="col-lg-4 col-md-2 col-sm-2 col-xs-2">
-						<label class="control-label" for="csvSeparator" ><span translate-cloak translate>MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR</span></label>
-						<input type="text" class="form-control" ng-model="csvSeparator" id="csvSeparator">
-					</div>
-				</div>
-				<div class='row'>
-					<p>&nbsp;</p>
-				</div>
-				<div ng-show="previewLines!=null && previewLines.length>0">
-					<div class='row  text-left' >
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<p>
-								<label><input type="checkbox" ng-model="csvSkipFirstRow"> <span translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW</span></label>
-								<small class='mute' translate-cloak translate>MANAGEMENT_NEW_DATASET_SKIP_FIRST_ROW_HELP</small>
-							</p>
-						</div>
-					</div>
-					<div class='row'>
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class='management-upload-preview-table-container'>
-								<table class='table  management-table-upload-preview table-supercondensed'>
-									<tr ng-repeat='line in previewLines' class='data-row  {{$index==0 && csvSkipFirstRow?"skip-row":""}}'>
-										<td ng-repeat='item in line track by $index' title="{{item}}">{{item|nvl:' '|string_ellipse:30}}</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
-					<div class='row'>
-						<p>&nbsp;</p>
-					</div>
-				</div>
-				-->
+			<upload-data-csv datasource='dataset' preview='preview' csv-info='csvInfo' ng-if='datasetReady' component-info-requests='componentInfoRequests'></upload-data-csv>
+
 				<div class="row" ng-show="updateStatus!='upload' && isAuthorized('management/datasets/upload') ">
 					<div class=" col-sm-12 col-lg-12 form-toolbar" >
 						<a  href='#/management/viewDatasource/dataset/{{tenant}}/{{dataset.datasetcode}}/{{dataset.iddataset}}' class="btn" translate-cloak translate>MANAGEMENT_EDIT_DATASET_ADD_DATA_FINISH_BUTTON</a>

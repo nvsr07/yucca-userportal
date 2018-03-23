@@ -331,6 +331,7 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	
+	
 	DATASET_FIELD_METADATA_FIELD_CSV_COLUMN: 'Colonna del CSV',
 	
 	DATASET_FIELD_UNPUBLISHED_TRUE: 'Non pubblicato',
@@ -985,13 +986,17 @@ var translations_it = {
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ENCODING: 'Encoding',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SEPARATOR: 'Separatore',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_MAX_SIZE: 'Dimensione massima dei file supportata: ',
+	
 	MANAGEMENT_NEW_DATASET_FILE_ALREADY_UPLOADED: 'File caricati in precedenza',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_TITLE: 'Attenzione',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_FILE_TOO_BIG: 'La dimensione del file selezionato supera la quota limite',
-	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN: 'Il numero di colonne presenti nel file non corrisponde al numero di colonne definito. Selezionare un\'altro file',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN: 'Il numero di colonne presenti nel file non corrisponde al numero di colonne definito. Selezionare un altro file',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_INFO: 'Se non hai il file da caricare, puoi definire direttamente le colonne',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_SKIP_UPLOAD_LINK: 'Definisci colonne',
 	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_ERROR_FROM_SERVER: 'Non è stato possibile caricare i dati, errore imprevisto sul server, riprovare cliccando su \'Aggiungi Dati\'',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN: 'Il numero di colonne del file selezionato è diverso rispetto al numero di componenti necessari',
+	MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_MAX_SIZE: 'Il file supera la dimensione massima prevista',
+	
 	
 	MANAGEMENT_NEW_DATASET_SKIP_COLUMN_HINT: 'Salta colonna', 
 	MANAGEMENT_NEW_DATASET_MOVE_COLUMN_HINT: 'Modifica ordine colonne',
@@ -1229,6 +1234,9 @@ var translations_it = {
 	MANAGEMENT_EDIT_DATASET_SAVE_ERROR: 'Errore nel salvataggio del dataset',
 	MANAGEMENT_EDIT_DATASET_SAVED_INFO: 'Dataset salvato correttamente',
 
+	
+	MANAGEMENT_ADD_DATA_PREVIEW_COMPONETS_INFO: 'Componenti corrispondenti',
+	MANAGEMENT_ADD_DATA_PREVIEW_COMPONETS_COL_SKIPPED: 'Colonna non importata',
 	MANAGEMENT_EDIT_DATASET_ADD_DATA_ERROR: 'Errore durante il caricamento dei dati. Dati non caricati',
 	
 	MANAGEMENT_EDIT_DATASET_SAVED_OK_ADD_DATA_FAILED: 'Dataset creato correttamente, ma si sono verificati degli errori durante il caricamento dei dati. Riprovare con la funzione di aggiunta dati',
@@ -1317,7 +1325,7 @@ var translations_it = {
 	DATA_EXPLORER_FILTER_QUERY_ODATA_DOWNLOAD: 'Scarica i risultati di questa pagina',
 	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_LABEL: 'Clicca su "Scarica" per il download completo dei dati in formato csv',
 	//DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Eventuali dati caricati nelle ultime 24 ore potrebbero non essere presenti',
-	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limitato ai dati presenti all fine del giorno precedente',
+	DATA_EXPLORER_FILTER_DOWNLOAD_CSV_HINT: 'Download limitato ai dati presenti alla fine del giorno precedente',
 	DATA_EXPLORER_BINARY_SHOW_DETAIL: 'Dettagli',
 	DATA_EXPLORER_BINARY_HIDE_DETAIL: 'Nascondi',
 	
