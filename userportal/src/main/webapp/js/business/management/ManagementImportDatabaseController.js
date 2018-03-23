@@ -955,10 +955,18 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 
 			if(dataset.visibility == 'public')
 				delete dataset['sharingTenants'];
-			if(dataset.visibility != 'private')
-				delete dataset['copyright'];
+			if(dataset.visibility != 'private') 
+				delete dataset['copyright'];				
 			else
+			{
 				delete dataset['license'];
+				delete dataset['opendata'];
+			}
+			
+			for (var int = 0; int < dataset.components.length; int++) {
+				if (dataset.components[int].alias == null || dataset.components[int].alias == '')
+				dataset.components[int].alias=dataset.components[int].name;
+			}
 			
 			console.log("crate - dataset", dataset);
 			$scope.admin_response = {};
