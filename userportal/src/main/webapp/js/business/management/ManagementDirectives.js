@@ -875,7 +875,7 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 				case "dataType":
 				case "isKey":
 				case "dragComponent":
-					res = scope.action=="createDatasourceDefineFromCSV" || scope.action=="importMetadata";
+					res = scope.action=="createDatasourceDefineFromCSV" || scope.action=="importMetadata" || scope.action == "createStream";
 					break;
 				case "alias":
 				case "measureUnit":
@@ -889,7 +889,7 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 					break;
 				case "newComponent":
 				case "deleteComponent":
-					res = scope.action == "createDatasourceDefineColumn" || scope.action=="editDatasource"; 
+					res = scope.action == "createDatasourceDefineColumn" || scope.action=="editDatasource" || scope.action == "createStream";
 					break;
 				default:
 					break;

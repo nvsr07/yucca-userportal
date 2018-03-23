@@ -5,7 +5,7 @@
 	</div>
 	<form class="form-horizontal" role="form" name="componentsStreamForm" ng-cloak>
 		<datasource-internal-streams datasource='stream' extra='extra' ng-if='datasourceReady' visible='componentsVisible'></datasource-internal-streams>
-		<datasource-components datasource='stream' preview='preview' ng-if='datasourceReady' is-new-datasource='{{isNewStream}}' ></datasource-components>
+		<datasource-components datasource='stream' preview='preview' ng-if='datasourceReady' action='createStream' ></datasource-components>
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
 				<a ng-click='goToDetail()' class="btn " translate-cloak translate>BACK</a>
