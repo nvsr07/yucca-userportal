@@ -656,7 +656,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 			
 			
 
-			
+			cleanStreamBeforeUpdate();
 			adminAPIservice.createStream(info.getActiveTenant(), $scope.extra.selectedSo.socode,$scope.stream).success(function(response) {
 				console.log("createStream SUCCESS", response);
 				$scope.admin_response.type = 'success';
