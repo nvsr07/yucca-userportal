@@ -59,26 +59,28 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 			var colorCounter = 0;
 			var view = false;
 			var foundFirstToDisplay = false;
-			for (var int = 0; int < $scope.metadata.components.length; int++) {
-				var component = $scope.metadata.components[int];
-				var dataType = component.datatype;
-				var isEnabled = false;
-				var color = "#ccc";
-				var display = "none";
-				if( "int" == dataType || "long" == dataType || "double" == dataType || "float" == dataType || "longitude" == dataType || "latitude" == dataType){
-					isEnabled = true;
-					display = "normal";
-					if(!foundFirstToDisplay){
-						view = true;
-						foundFirstToDisplay = true;
-					} else
-						view = false;
-					color = Constants.LINE_CHART_COLORS[colorCounter];
-					colorCounter++;
-					if(colorCounter>= Constants.LINE_CHART_COLORS.length)
-						colorCounter = 0;
+			if(typeof $scope.metadata.components != 'undefined' && $scope.metadata.components!=null ){
+				for (var int = 0; int < $scope.metadata.components.length; int++) {
+					var component = $scope.metadata.components[int];
+					var dataType = component.datatype;
+					var isEnabled = false;
+					var color = "#ccc";
+					var display = "none";
+					if( "int" == dataType || "long" == dataType || "double" == dataType || "float" == dataType || "longitude" == dataType || "latitude" == dataType){
+						isEnabled = true;
+						display = "normal";
+						if(!foundFirstToDisplay){
+							view = true;
+							foundFirstToDisplay = true;
+						} else
+							view = false;
+						color = Constants.LINE_CHART_COLORS[colorCounter];
+						colorCounter++;
+						if(colorCounter>= Constants.LINE_CHART_COLORS.length)
+							colorCounter = 0;
+					}
+					$scope.chartComponentNames.push({name:component.name, view: view, enabled: isEnabled, display: display, color: color, dataType: component.datatype });
 				}
-				$scope.chartComponentNames.push({name:component.name, view: view, enabled: isEnabled, display: display, color: color, dataType: component.datatype });
 			}
 			if(!$scope.metadata.icon || $scope.metadata.icon == null)
 				$scope.metadata.icon  = "img/stream-icon-default.png";
@@ -87,7 +89,7 @@ appControllers.controller('DashboardDataStreamCtrl', [ '$scope', '$routeParams',
 				$scope.twitterPollingInterval  = $scope.metadata.stream.twitter.twtMaxStreamsOfVE*5+1;
 			}
 			
-			if(typeof $scope.metadata.dataset!= 'undefined') 
+			if(typeof $scope.metadata.dataset != 'undefined') 
 				loadPastData();  
 			var keepGoing = true;
 			if(typeof tenantDelegateCodes != 'undefined'){

@@ -1,4 +1,5 @@
-appServices.factory('webSocketService',['$rootScope','upService','WEB_SOCKET_BASE_URL','WEB_SOCKET_USER','WEB_SOCKET_SECRET', function($rootScope,fabricAPIservice, WEB_SOCKET_BASE_URL,WEB_SOCKET_USER,WEB_SOCKET_SECRET) {
+appServices.factory('webSocketService',['$rootScope','upService','WEB_SOCKET_BASE_URL','WEB_SOCKET_USER','WEB_SOCKET_SECRET', 
+		function($rootScope,upService, WEB_SOCKET_BASE_URL,WEB_SOCKET_USER,WEB_SOCKET_SECRET) {
 	var stompClient = {};	
 //	var self = this;
 	var root = $rootScope;
