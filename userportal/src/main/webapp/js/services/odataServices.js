@@ -43,10 +43,12 @@ appServices.factory('odataAPIservice', function($http, $q,info) {
 		
 		var tokenForRequest = null;
 		
-		angular.forEach(info.info.user.tenantsTokens, function(value, key) {
-			if (dstenantactive == key)
-				tokenForRequest = value;
-		});
+		if(typeof info.info.user.tenantsTokens != 'undefined' && info.info.user.tenantsTokens!=null){
+			angular.forEach(info.info.user.tenantsTokens, function(value, key) {
+				if (dstenantactive == key)
+					tokenForRequest = value;
+			});
+		}
 		
 		if (tokenForRequest == null && typeof dstenantsharing != 'undefined' && dstenantsharing!=null){
 			//var dstenantsharingArr = dstenantsharing.split(',');
