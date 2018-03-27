@@ -981,8 +981,8 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 	    		return scope.columnsDatasetError.hasError; 
 	    	};
 	    	
-	    	var sourcecolumn = 1;
-    		if(scope.preview.components!=null)
+	    	var sourcecolumn = 0;
+    		if(typeof scope.preview.components != 'undefined' && scope.preview.components!=null && scope.preview.components.length>0)
     			sourcecolumn = Math.max.apply(Math,scope.preview.components.map(function(o){ console.log("o",o);return o.sourcecolumn;}));
     		
 	    	scope.newComponent = {"sourcecolumn": sourcecolumn+1};
