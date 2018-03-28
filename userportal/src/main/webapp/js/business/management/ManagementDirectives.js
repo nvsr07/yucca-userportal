@@ -1074,11 +1074,17 @@ app.directive('datasourceComponents', function(adminAPIservice, $modal, $routePa
 	    	scope.isDateTimeComponent = function(component){
 	    		if(component && component.dataType && component.dataType.datatypecode && component.dataType.datatypecode == "dateTime")
 	    			return true;
+	    		//Per update
+	    		if(component && component.idDataType && (component.idDataType == "7"))
+	    			return true;
 	    		return false;
 	    	};
 	    	
 	    	scope.isCoordinatesComponent = function(component){
 	    		if(component && component.dataType && component.dataType.datatypecode && (component.dataType.datatypecode == "longitude" || component.dataType.datatypecode == "latitude"))
+	    			return true;
+	    		//Per update
+	    		if(component  && component.idDataType && (component.idDataType == "8" || component.idDataType == "9"))
 	    			return true;
 	    		return false;
 	    	};
