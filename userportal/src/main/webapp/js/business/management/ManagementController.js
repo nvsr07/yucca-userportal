@@ -123,6 +123,16 @@ appControllers.controller('ManagementDetailCtrl', [ '$scope', '$route', '$locati
 	  	}
   	};
 
+  	
+  	$scope.canDownload = function() {
+  		return !$scope.datasource.unpublished && ($scope.datasource.version>1 || ($scope.datasource.version==1 && $scope.datasource.status.statuscode == Constants.STREAM_STATUS_INST ));
+  	};
+
+  	$scope.canExploreData = function() {
+  		return !$scope.datasource.unpublished && ($scope.datasource.version>1 || ($scope.datasource.version==1 && $scope.datasource.status.statuscode == Constants.STREAM_STATUS_INST ));
+  	};
+
+  	
   	$scope.canAddData = function() {
   		return ($scope.dataset && 
   				$scope.dataset.datasetType && $scope.dataset.datasetType.datasetType == "dataset" && 
