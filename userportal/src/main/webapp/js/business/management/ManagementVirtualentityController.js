@@ -110,8 +110,8 @@ appControllers.controller('ManagementVirtualentityWizardCtrl', [ '$scope', funct
 
 } ]);
 
-appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'adminAPIservice', 'sharedAdminResponse', 'info', '$location', 
-                                                           function($scope, $routeParams, adminAPIservice, sharedAdminResponse, info, $location) {
+appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routeParams', 'adminAPIservice', 'sharedAdminResponse', 'info', '$location', 'upService', 
+                                                           function($scope, $routeParams, adminAPIservice, sharedAdminResponse, info, $location, upService) {
 	$scope.tenantCode = $routeParams.tenant_code;
 	$scope.organizationCode = info.getActiveTenant().organization.organizationcode;
 
@@ -344,6 +344,7 @@ appControllers.controller('ManagementVirtualentityCtrl', [ '$scope', '$routePara
 				$scope.twtMiniProfileImageURLHttps = response.twitterUser.twtMiniProfileImageURLHttps;
 			}
 			else{
+				console.log("non autenticato ", response);
 				$scope.twitterCredentialFound = false;
 				$scope.so.twtusername = null;
 				$scope.so.twtusertoken = null;
