@@ -601,7 +601,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 	$scope.createStream = function(){
 
 		console.log("createStream", $scope.stream);
-		$scope.stream.privacyacceptance=$scope.privacyAcceptance & $scope.responsabilityAcceptance;
+		//$scope.stream.privacyacceptance=$scope.privacyAcceptance & $scope.responsabilityAcceptance;
 		$scope.stream.name=$scope.stream.streamname;
 		
 		if($scope.validationRes!=0 && $scope.stream.codiceVirtualEntity=="internal"){

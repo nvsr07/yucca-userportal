@@ -331,6 +331,7 @@ var translations_en = {
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Shared with',
 	
 	DATASET_FIELD_METADATA_FIELD_CSV_COLUMN: 'CSV column',
+	DATASET_FIELD_METADATA_FIELD_NAME_CHANGE_INFO: 'The component name has been modified to ensure uniqueness and alphanumeric',
 	
 	DATASET_FIELD_UNPUBLISHED_TRUE: 'Not published',
 	DATASET_FIELD_UNPUBLISHED_FALSE: 'Published',

@@ -300,6 +300,7 @@ appControllers.controller('ManagementEditCtrl', [ '$scope', '$modal', 'adminAPIs
 		
 		return returnValue;
 	};
+	
 
 	$scope.checkTag = function(datasource){
 		return Helpers.yucca.checkTag(datasource);

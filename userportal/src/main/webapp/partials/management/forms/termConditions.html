@@ -32,7 +32,7 @@
 		<div class="col-sm-2 text-left">
 			<div class="radio">
 				<label>
-					<input type="radio" name="privacyAcceptance" value="1" ng-model="privacyAcceptance" ng-required="true">
+					<input type="radio" name="privacyAcceptance" value="1" ng-model="privacyAcceptance" ng-required="true" ng-change='changePrivacy(privacyAcceptance)'>
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 					<span translate-cloak translate>USER_FIELD_ACCEPT_YES</span>
 				</label>
@@ -43,7 +43,7 @@
 		<div class="col-sm-5 text-left">
 			<div class="radio">
 				<label>
-					<input type="radio" name="privacyAcceptance" value="0" ng-model="privacyAcceptance" ng-required="true">
+					<input type="radio" name="privacyAcceptance" value="0" ng-model="privacyAcceptance" ng-required="true" ng-change='changePrivacy(privacyAcceptance)'>
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 					<span translate-cloak translate>USER_FIELD_ACCEPT_NO</span>
 				</label>
@@ -66,7 +66,7 @@
 		<div class="col-sm-2 text-left">
 			<div class="radio">
 				<label>
-					<input type="radio" name="responsabilityAcceptance" value="1" ng-model="responsabilityAcceptance" ng-required="true">
+					<input type="radio" name="responsabilityAcceptance" value="1" ng-model="responsabilityAcceptance" ng-required="true" ng-change='changeResponsabilty(responsabilityAcceptance)'>
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 					<span translate-cloak translate>USER_FIELD_ACCEPT_YES</span>
 				</label>
@@ -75,7 +75,7 @@
 		<div class="col-sm-5 text-left">
 			<div class="radio">
 				<label>
-					<input type="radio" name="responsabilityAcceptance" value="0" ng-model="responsabilityAcceptance" ng-required="true">
+					<input type="radio" name="responsabilityAcceptance" value="0" ng-model="responsabilityAcceptance" ng-required="true" ng-change='changeResponsabilty(responsabilityAcceptance)'>
 					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
 					<span translate-cloak translate>USER_FIELD_ACCEPT_NO</span>
 				</label>

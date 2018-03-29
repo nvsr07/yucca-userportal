@@ -7,7 +7,7 @@
 			<small><pre pretty-json="componentJsonExample"/></small>
 	
 		</div>
-		<div  ng-class="isStream()?'col-sm-10': 'col-sm-12'">
+		<div  ng-class="isStream()?'col-sm-10': 'col-sm-12'" class='form form-horizontal'>
 			<table class="table dragDropTable text-left" >
 				<thead>
 					<tr>
@@ -32,19 +32,25 @@
 				<tbody>
 					<tr ng-repeat="component in preview.components track by $index"  ng-drop="true" ng-drop-success="onDropColumnComplete($data,$index,$event)"
 						 class=' dataset-column-droprow'  ng-class='component.skipColumn?"mute": ""'> 
-						<td><div class='edit-column-counter'>{{$index+1}}.</div></td>
+						<td>
+							<div class='edit-column-counter'>{{$index+1}}.</div>
+						<!-- 	<i class='fa fa-info-cirlce' ng-if='component.warning' title='{{"DATASET_FIELD_METADATA_FIELD_NAME_CHANGE_INFO"|translate}}'></i> -->
+						</td>
 						
-						<td>{{isImportDatasource}}
+						<td >{{isImportDatasource}}
 							<span ng-if='!editField("name")'>{{component.name}}</span>
-							<input ng-if='editField("name")' class="input-sm form-control" type="text" ng-model="component.name" ng-disabled="component.skipColumn"  ng-change="refreshColumnOrder(column)"
-								ng-blur="checkColumnName(component.name, $index)">
+							<div class=' has-feedback' ng-if='editField("name")'>
+								<input  class="input-sm form-control" type="text" ng-model="component.name" ng-disabled="component.skipColumn"  ng-change="refreshColumnOrder(column)"
+									ng-blur="checkColumnName(component.name, $index)">
+								<i class="fa fa-info input-icon-hint form-control-feedback edit-column-info" ng-if='component.warning' title='{{"DATASET_FIELD_METADATA_FIELD_NAME_CHANGE_INFO"|translate}}'></i>
+							</div>
 							
 						</td>
 						<td  ng-if='!isStream()'>
 							<span ng-if='!editField("alias")'>{{component.alias}}</span>
-							<input ng-if='editField("alias")' class="input-sm form-control" type="text" name="alias"ng-model="component.alias" ng-disabled="component.skipColumn" ng-change="refreshColumnOrder(column)">
+							<input class="input-sm form-control" ng-if='editField("alias")' type="text" name="alias"ng-model="component.alias" ng-disabled="component.skipColumn" ng-change="refreshColumnOrder(column)">
 						</td>
-						<td  ng-if='!isStream()'>{{component.sourcecolumn}}</td>
+						<td  ng-if='!isStream()' class='text-center'>{{component.sourcecolumn}}</td>
 						<td>
 							<span ng-if='!editField("dataType")'>{{(component.idDataType|decodeFromId:dataTypeList:'idDataType').description |nvl:' - '}}</span>
 							<select ng-if='editField("dataType")' class="input-sm form-control" ng-model="component.dataType" ng-options="dataType.datatypecode for dataType in dataTypeList track by dataType.idDataType" 

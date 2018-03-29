@@ -375,7 +375,26 @@ app.directive('datasourceTermConditions', function() {
 	return {
 	    restrict: 'E',
 	    scope: {datasource: '=',},
-	    templateUrl : 'partials/management/forms/termConditions.html?'+BuildInfo.timestamp
+	    templateUrl : 'partials/management/forms/termConditions.html?'+BuildInfo.timestamp,
+	    link: function(scope, elem, attrs) {
+	    	console.debug("datasourceMainInfo.link", scope.datasource);
+	    	
+	    	scope.privacyacceptance = 0;
+	    	scope.responsabilityAcceptance = 0;
+	    	
+	    	scope.changePrivacy = function(newPrivacy){
+	    		scope.datasource.privacyacceptance = newPrivacy & scope.responsabilityAcceptance;
+	    	};
+
+	    	scope.changeResponsabilty = function(newResponsabilty){
+	    		scope.datasource.privacyacceptance = newResponsabilty & scope.privacyAcceptance;
+	    	};
+
+	    	
+	    }
+	    
+	    
+	    
 	};
 });
 
@@ -679,7 +698,7 @@ app.directive('datasourceDcat', function() {
 app.directive('uploadDataCsv', function(readFilePreview, adminAPIservice, localStorageService, $modal) {
 	return {
 	    restrict: 'E',
-	    scope: {datasource: '=', csvInfo : '=', preview : '=', componentInfoRequests : '='},
+	    scope: {datasource: '=', csvInfo : '=', preview : '=', componentInfoRequests : '=', action: '@'},
 	    templateUrl : 'partials/management/forms/uploadDataCsv.html?'+BuildInfo.timestamp,
 	    link: function(scope, elem, attrs) {
 	    	console.log("uploadDataCsv.link", scope.datasource);
@@ -698,13 +717,15 @@ app.directive('uploadDataCsv', function(readFilePreview, adminAPIservice, localS
 						scope.dataTypeList.push(response[dtIndex]);
 				}
 	    	});
-
+	    	
+	    	
+	
 	    	scope.readPreview = function(csvSeparator){
 	    		scope.uploadDatasetError = null;
 	    		scope.uploadMessage = null;
-	    		readFilePreview.readTextFile(scope.csvInfo.selectedFile, 10000, scope.fileEncoding).then(
+	    		readFilePreview.readTextFile(scope.csvInfo.selectedFile, 100000, scope.fileEncoding).then(
 	    				function(contents){
-	    					var lines = contents.split(/\r\n|\n/);
+	    					var lines = contents.split(/\r\n|\n|\r/g);
 	    					console.log("nr righe", lines.length);
 	    					//console.log(lines);
 	    					var firstRows = lines.slice(0, 5);
@@ -718,19 +739,34 @@ app.directive('uploadDataCsv', function(readFilePreview, adminAPIservice, localS
 	    					//scope.datasource.components  = new Array();
 	    					scope.preview.columns = new Array();
 	    					scope.preview.components = new Array();
+	    					
+	    					// clean name
+	    					var usedNames = {};
 	    					if(scope.previewLines.length>0){
 	    						for (var int = 0; int < scope.previewLines[0].length; int++) {
-	    							console.log("qui", int, scope.previewLines[0]);
+	    							var name = scope.previewLines[0][int].replace(/[^A-Za-z0-9]/g, '');
+	    							var warning = name != scope.previewLines[0][int].trim();
+	    							if(typeof usedNames[name] == 'undefined'){
+	    								usedNames[name] = 0;
+	    							}
+	    							else{
+	    								usedNames[name]++;
+	    								name += usedNames[name];
+	    								warning = true;
+	    							}
+	    							
+	    							
 	    							scope.preview.components.push(
 	    									{index: int, 
 	    										sourcecolumn: int+1, 
-	    										name: scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
+	    										name: name,//scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'), 
 	    										alias: scope.previewLines[0][int].replace(/^"(.*)"$/, '$1'),
 	    										dataType: {idDataType: Constants.COMPONENT_DEFAULT_DATA_TYPE},
 	    										idDataType: Constants.COMPONENT_DEFAULT_DATA_TYPE,
 	    										iskey: false, 
 	    										idMeasureUnit: null,
-	    										skipColumn: false});
+	    										skipColumn: false,
+	    										warning: warning});
 	    							
 	    							
 	    							
@@ -744,35 +780,37 @@ app.directive('uploadDataCsv', function(readFilePreview, adminAPIservice, localS
 							console.log(" scope.preview.components",  scope.preview.components);
 							
 							scope.componentInfoRequests.info  =new Array();
-							var totalSkipped = 0;
-							for (var pIndex = 0; pIndex < scope.preview.components.length; pIndex++) {
-								var columnFound = false;
-								
-								for (var cIndex = 0; cIndex < scope.datasource.components.length; cIndex++) {
-									var c = scope.datasource.components[cIndex];
-									//console.log("c,cIndex", c.sourcecolumn,cIndex,pIndex+1);
-									if(c.sourcecolumn == pIndex+1){
-										var isDate = c.idDataType == Constants.COMPONENT_DATA_TYPE_DATETIME;
-										var dateformat = null;
-										if(isDate && localStorageService.get("addCSvDateFormat_"+scope.datasource.datasetcode+"_"+(c.sourcecolumn-1))!=null)
-											dateformat = localStorageService.get("addCSvDateFormat_"+scope.datasource.datasetcode+"_"+(c.sourcecolumn-1));
-										scope.componentInfoRequests.info.push({"numColumn": c.sourcecolumn-1, "dateFormat": dateformat, "skipColumn": false, "idComponent": c.idComponent, "isDate": isDate, "name": c.name, "idDataType": c.idDataType});
-										columnFound = true;
+
+							if(scope.action == 'uploadData'){
+								var totalSkipped = 0;
+								for (var pIndex = 0; pIndex < scope.preview.components.length; pIndex++) {
+									var columnFound = false;
+									
+									for (var cIndex = 0; cIndex < scope.datasource.components.length; cIndex++) {
+										var c = scope.datasource.components[cIndex];
+										//console.log("c,cIndex", c.sourcecolumn,cIndex,pIndex+1);
+										if(c.sourcecolumn == pIndex+1){
+											var isDate = c.idDataType == Constants.COMPONENT_DATA_TYPE_DATETIME;
+											var dateformat = null;
+											if(isDate && localStorageService.get("addCSvDateFormat_"+scope.datasource.datasetcode+"_"+(c.sourcecolumn-1))!=null)
+												dateformat = localStorageService.get("addCSvDateFormat_"+scope.datasource.datasetcode+"_"+(c.sourcecolumn-1));
+											scope.componentInfoRequests.info.push({"numColumn": c.sourcecolumn-1, "dateFormat": dateformat, "skipColumn": false, "idComponent": c.idComponent, "isDate": isDate, "name": c.name, "idDataType": c.idDataType});
+											columnFound = true;
+										}
+									}		
+									if(!columnFound){
+										scope.componentInfoRequests.info.push({"numColumn": pIndex, "dateFormat": null, "skipColumn": true, "idComponent": null, "isDate": false});
+										totalSkipped++;
 									}
-								}		
-								if(!columnFound){
-									scope.componentInfoRequests.info.push({"numColumn": pIndex, "dateFormat": null, "skipColumn": true, "idComponent": null, "isDate": false});
-									totalSkipped++;
+								}
+								
+								if(scope.preview.components.length-totalSkipped!=scope.datasource.components.length){
+									scope.uploadMessage = {type:'warning', message: 'MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN'};
+									scope.updateWarning = true;
+					    			scope.csvInfo.selectedFile = null;
+					    			scope.previewLines = null;
 								}
 							}
-							
-							if(scope.preview.components.length-totalSkipped!=scope.datasource.components.length){
-								scope.uploadMessage = {type:'warning', message: 'MANAGEMENT_NEW_DATASET_UPLOAD_FILE_WARNING_NUM_COLUMN'};
-								scope.updateWarning = true;
-				    			scope.csvInfo.selectedFile = null;
-				    			scope.previewLines = null;
-							}
-								
 							scope.$parent.$parent.$broadcast('csvPreviewReady', {});
 	    					console.log("scope.preview.components",scope.preview.components);
 	    					console.log("componentInfoRequests",scope.componentInfoRequests);

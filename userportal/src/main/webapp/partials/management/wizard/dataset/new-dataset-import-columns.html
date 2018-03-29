@@ -1,7 +1,7 @@
 <div ng-cloak>
 
 	
-	<upload-data-csv datasource='dataset' preview='preview' csv-info='csvInfo'  component-info-requests='componentInfoRequests' ng-if='datasetReady'></upload-data-csv>
+	<upload-data-csv datasource='dataset' preview='preview' csv-info='csvInfo'  component-info-requests='componentInfoRequests' ng-if='datasetReady' action='createDatasourceDefineFromCSV'></upload-data-csv>
 	<div ng-if='csvInfo.selectedFile!=null'>
 		<div class="alert alert-danger management-upload-column-error-panel " ng-show='saveError'>
 			<div>

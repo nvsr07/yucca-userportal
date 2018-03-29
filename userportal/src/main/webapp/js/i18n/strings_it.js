@@ -331,6 +331,7 @@ var translations_it = {
 	DATASET_FIELD_METADATA_FIELD_UNIT: 'Unit&agrave; di misura',
 	DATASET_FIELD_TENANTSSHARED_WITH: 'Condiviso con',
 	
+	DATASET_FIELD_METADATA_FIELD_NAME_CHANGE_INFO: 'Il nome del componente é stato modificato per renderlo alfanumerico e garantirne l\'unicità',
 	
 	DATASET_FIELD_METADATA_FIELD_CSV_COLUMN: 'Colonna del CSV',
 	

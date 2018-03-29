@@ -206,7 +206,8 @@ table.dragDropTable>tbody>tr>td{border:solid #dddddd; border-width: 1px 0 0 0;}
 .upadte-components-panel{ text-align: left;}
 .upadte-components-panel .row{ border:solid #dddddd; border-width: 1px 0 0 0; padding:12px 0;}
 .upadte-components-panel .row-head{font-weight: bold;     border-width: 0 0 0 0; text-transform: uppercase;}
-.edit-column-counter{color: #aaa; }
+.edit-column-counter{color: #aaa; display: inline-block; font-size:1.2em;}
+.form-horizontal .has-feedback .form-control-feedback.edit-column-info{right:0;}
 
 .nowrap{white-space: nowrap;}
 .col-no-padding{padding: 0;}
@@ -1000,9 +1001,12 @@ accordion .panel-default>.panel-heading i{background-color: #717B7C;padding: .5e
 .management-upload-label-before-button { text-align: center; padding-top: 3em; font-size: 16pt;}
 .management-upload-preview-table-container { border: solid 1px #ccc; border-radius: 4px; min-height: 20px; overflow-x: auto;overflow-y: hidden;}
 .management-table-upload-preview { border-collapse: collapse; border: none; margin-bottom: 0; }
+.management-table-upload-preview  tr:first-child td {white-space: nowrap;}
 .management-table-upload-preview .data-row td { background-color: #fff; color: #555; font-size: 11px; }
 .management-table-upload-preview .skip-row td { font-style: italic; background-color: #eee;}
 .management-table-upload-preview .data-row td.skip-col{font-style: italic; background-color: #eee;}
+
+ table.management-table-upload-preview>tbody>tr>td, .table.management-table-upload-preview>tbody>tr>td{border-width: 1px;}
 .management-upload-column-association-field { border: solid 1px #ccc; border-radius: 4px; padding: .5em 1em; margin: 1em; overflow: hidden; }
 .management-upload-column-association-field-desc-panel { float: left;}
 .management-upload-column-association-field-index-panel{ float: left; margin: 0 1em; line-height: 2em;}

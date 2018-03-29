@@ -8,7 +8,7 @@
 		<div class="form-group">
 			<div class=" col-sm-12 form-toolbar">
 				<a ng-click='goToStart()' class="btn " translate-cloak translate>BACK</a>
-				<a ng-click='goToMetadata()' class="btn btn-wizard-next" ng-disabled="!isOwner() || requestorDatasetForm.$invalid " translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
+				<a ng-click='goToMetadata()' class="btn btn-wizard-next" ng-disabled="!isOwner() || requestorDatasetForm.$invalid  || dataset.privacyacceptance!=1 " translate-cloak translate>MANAGEMENT_NEW_STREAM_WIZARD_NEXT</a>
 			</div>
 		</div>
 </form>
