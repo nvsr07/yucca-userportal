@@ -4,8 +4,8 @@
 
 var appControllers = angular.module('userportal.controllers', []);
 
-appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'upService', 'localStorageService', 'storeAPIservice','$window',
-                                          function($scope, $route, $modal, info, $location, $translate, upService, localStorageService,storeAPIservice,$window) {
+appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','$location', '$translate', 'upService', 'localStorageService', 'storeAPIservice','$window', '$rootScope', 'idleTimer',
+                                          function($scope, $route, $modal, info, $location, $translate, upService, localStorageService,storeAPIservice,$window,$rootScope, idleTimer) {
 	$scope.$route = $route;
 	
 	$scope.currentLang = function(){return $translate.use();};
@@ -276,6 +276,31 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		}, function() {
 		});
 	};
+	
+	$rootScope.$on('sessionExpiring', function (event) {
+		console.log("sessionExpiring");
+		idleTimer.stopTimer();
+		var modalInstance = $modal.open({
+			animation : true,
+			templateUrl : 'confirmDialog.html',
+			controller : 'ConfirmDialogCtrl',
+			backdrop  : 'static',
+			resolve: { 
+				question: function () {
+					return {"title":"SESSION_EXPIRING_DIALOG_TITLE","message":"SESSION_EXPIRING_DIALOG_MESSAGE"};
+				}
+			}
+		});
+
+		modalInstance.result.then(function() {
+			console.log("confirm Update");
+			upService.getInfo(false).success(function(result) {console.log("refresh session");});
+		}, function() {
+		});
+
+		
+		
+	});
 
 }]);
 

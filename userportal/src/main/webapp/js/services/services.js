@@ -177,3 +177,39 @@ appServices.factory('devService', function($q) {
 });
 
 
+app.factory('idleTimer',  function($rootScope, $timeout) {
+	var idleTimer = null;
+	var idleTimerService = {};
+	
+	idleTimerService.startTimer = function () {
+        console.debug('Starting timer');
+        this.idleTimer = $timeout(this.timerExpiring, 840000); // 14 minutes
+     };
+    
+    idleTimerService.stopTimer = function () {
+        if (this.idleTimer) {
+            console.debug('stopTimer timer');
+
+            $timeout.cancel(this.idleTimer);
+        }
+    };
+    
+    idleTimerService.resetTimer = function () {
+        this.stopTimer();
+        this.startTimer();
+    };
+    
+    idleTimerService.timerExpiring = function () {
+        //this.stopTimer();
+        $rootScope.$broadcast('sessionExpiring');
+        console.debug('Timer expiring ..');
+    };
+ 
+    //startTimer();
+ 
+    return idleTimerService;
+});
+
+
+
+

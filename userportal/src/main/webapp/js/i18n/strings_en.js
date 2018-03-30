@@ -39,6 +39,10 @@ var translations_en = {
 	
 	UNEXPECTED_ERROR: 'An unsuspected error occurred.',
 	
+	SESSION_EXPIRING_DIALOG_TITLE: 'Expiring session',
+	SESSION_EXPIRING_DIALOG_MESSAGE: 'In a minute the session will expire and you will have to log in again. Do you want to stay authenticated?',
+
+	
 	/* languages */
 	el:"ελληνικά",
 	en:"English",

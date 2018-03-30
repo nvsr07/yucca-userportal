@@ -858,10 +858,10 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 		}
 		
 		
-		console.log("---------- original -----------------");
-		console.log($scope.originalDataset);
-		console.log("---------- new -----------------");
-		console.log(JSON.stringify($scope.dataset));
+		console.debug("---------- original -----------------");
+		console.debug($scope.originalDataset);
+		console.debug("---------- new -----------------");
+		console.debug(JSON.stringify($scope.dataset));
 
 		if($scope.originalDataset == JSON.stringify($scope.dataset)){
 			console.log("uguali");

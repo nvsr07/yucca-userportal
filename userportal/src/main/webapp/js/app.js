@@ -17,6 +17,7 @@ var app = angular.module('userportal', [
   'ngDraggable',
   'ui.codemirror',
   'LocalStorageModule'
+  //'ngIdle'
   //'akoenig.deckgrid'
   //'ngCookies'
   //'ngDragDrop'
@@ -98,10 +99,23 @@ app.config(['$translateProvider', function ($translateProvider) {
 }]);
 
 app.config(['$httpProvider', function($httpProvider) {
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-}
-]);
+//    $httpProvider.defaults.useXDomain = true;
+//    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+	$httpProvider.interceptors.push(function($q, idleTimer,info) {
+		return {
+			'request': function(config) {
+				if(config.url.startsWith("http") && info.getActiveTenantCode()!= null && info.getActiveTenantCode() != 'sandbox'){
+					console.log("resetTimer", info.getActiveTenantCode() );  
+					idleTimer.resetTimer();
+				}
+				return config;
+			},
+			'response': function(response) { return response;}
+		};
+	});
+
+}]);
+
 
 var infoUser = {};
 app.factory('info',  function() {

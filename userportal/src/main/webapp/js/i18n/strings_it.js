@@ -39,6 +39,9 @@ var translations_it = {
 	
 	UNEXPECTED_ERROR: 'Si è verificato un errore inaspettato',
 	
+	SESSION_EXPIRING_DIALOG_TITLE: 'Sessione in scadenza',
+	SESSION_EXPIRING_DIALOG_MESSAGE: 'Fra un minuto scadrà la sessione e sarà necessario autenticarsi nuovamente. Vuoi restare autenticato?',
+	
 	/* languages */
 	el:"e???????",
 	en:"English",
