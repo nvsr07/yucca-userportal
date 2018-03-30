@@ -11,21 +11,22 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	$scope.currentLang = function(){return $translate.use();};
 	
 	
-	console.log("$location", $location);
+	console.debug("$location", $location);
 	
 	$scope._origin = $window.location.origin;
 	$scope._contextPath = $window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
 	$scope._baseUrl = $scope._origin + $scope._contextPath;
 	
 	$scope.$on("$routeChangeSuccess", function(event, current, previous){
-		console.log("$routeChangeSuccess.current",current);
-	     $scope.isHomepage = current.$$route.isHomepage;
-	     console.log("isHomepage", $scope.isHomepage, current.activetab);
+		console.debug("$routeChangeSuccess.current",current);
+		if(typeof current.$$route != 'undefined')
+			$scope.isHomepage = current.$$route.isHomepage;
+	     console.debug("isHomepage", $scope.isHomepage, current.activetab);
 	 });
 
 	
 	$scope.storeUrl = '/store/';	
-	console.log("storeUrl",$scope.storeUrl);
+	console.debug("storeUrl",$scope.storeUrl);
 	
 	$scope.DEFAULT_DATASET_ICON = Constants.DEFAULT_DATASET_ICON;
 	$scope.DEFAULT_STREAM_ICON = Constants.DEFAULT_STREAM_ICON;
@@ -82,11 +83,12 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 	};
 	
 	var lastActiveTenant = localStorageService.get("lastActiveTenant")==null?null: {tenantcode:localStorageService.get("lastActiveTenant")};
+	
 	upService.getInfo(false,lastActiveTenant).success(function(result) {
 		info.setInfo(result);
 		
 		console.log("info", info);
-		
+
 		
 		$scope.activeTenantCode = info.getActiveTenantCode();
 
@@ -102,7 +104,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		$scope.user.havePersonalTenant = false;
 		//$scope.user.havePersonalTenantToActivate = false;
 		angular.forEach($scope.user.tenants, function(value, key) {
-			console.log("value", value)
+			console.debug("value", value)
 			if (value.tenantType.tenanttypecode == "trial")
 				$scope.user.haveTrialTenant = true;
 			});
@@ -134,12 +136,12 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		
 		checkTermCondition();
 
-		console.log('info', info);
-		console.log('activeTenantCode', $scope.activeTenantCode);
-		console.log('userTenants', $scope.user.tenants);
-		console.log('userTenantsToActivate', $scope.userTenantsToActivate);
-		console.log('managementUrl', $scope.managementUrl);
-		console.log('user', $scope.user);
+		console.debug('info', info);
+		console.debug('activeTenantCode', $scope.activeTenantCode);
+		console.debug('userTenants', $scope.user.tenants);
+		console.debug('userTenantsToActivate', $scope.userTenantsToActivate);
+		console.debug('managementUrl', $scope.managementUrl);
+		console.debug('user', $scope.user);
 		$scope.info = info.getInfo();
 		if ($scope.user.loggedIn)
 			gestModalWindow();
@@ -170,7 +172,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 			if ($scope.user.isSocialUser)
 				$scope.user.authType = "social";
 			
-			console.log("user.authType", $scope.user.authType);
+			console.debug("user.authType", $scope.user.authType);
 	
 	};
 	
@@ -219,7 +221,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		$scope.showCookieMessage = false;
 	};
 		
-	console.log('location', $location.$$url);
+	console.debug('location', $location.$$url);
 	
 	$scope.openRequestTenant = function(tenantType, hasNoTenant){
 		var modalInstance = $modal.open({
@@ -243,7 +245,7 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 		});
 
 		modalInstance.result.then(function() {
-			console.log("result -> ");
+			console.debug("result -> ");
 			upService.getInfo(true).success(function(result) {
 				info.setInfo(result);
 				$scope.info = info.getInfo();
@@ -278,19 +280,23 @@ appControllers.controller('GlobalCtrl', [ '$scope', "$route", '$modal', 'info','
 }]);
 
 
+var initCtrlInfoPromise = null;
+
 appControllers.factory("initCtrl", function(upService, info, $q, localStorageService) {
     return {
     	"getInfo": function() {
     		var lastActiveTenant = localStorageService.get("lastActiveTenant");
-    		var promise = upService.getInfo(false,lastActiveTenant);
-    	        promise.success(function(result) {
-    	    		info.setInfo(result);
-    	    		console.log("result", result);
-    	    		console.log("info", info);
-    	    	});
-    	        return promise;
-    	      }
-    	};
+    		if(initCtrlInfoPromise == null){
+	    		initCtrlInfoPromise = upService.getInfo(false,lastActiveTenant);
+	    		initCtrlInfoPromise.success(function(result) {
+		    		info.setInfo(result);
+		    		console.debug("result", result);
+		    		console.debug("info", info);
+		    	});
+    		}
+	        return initCtrlInfoPromise;
+    	}
+    };
 });
 
 appControllers.controller('NavigationCtrl', [ '$scope', "$route", '$translate','webSocketService', '$modal', 'info', '$location', 
@@ -390,8 +396,8 @@ appControllers.controller('HomeCtrl', [ '$scope', '$route', '$http', '$filter', 
 appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'info', 'adminAPIservice', 'upService',  'tenantType', 'hasNoTenant', 'user',
                                                  function($scope, $modalInstance, info, adminAPIservice, upService, tenantType, hasNoTenant, user) {
 	
-	console.log("--->info = ", info);
-	console.log("--->user = ", user);
+	console.debug("--->info = ", info);
+	console.debug("--->user = ", user);
 	$scope.status = 'start';
 	$scope.modalTitle = tenantType == 'trial'? 'REQUEST_TENANT_TRIAL_TITLE':'REQUEST_TENANT_PERSONAL_TITLE';
 	$scope.modalIntro = tenantType == 'trial'? 'REQUEST_TENANT_TRAIL_INFO':'REQUEST_TENANT_PERSONAL_INFO';
@@ -414,7 +420,7 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 	
 	$scope.validationError = {};
 	$scope.requestTenant = function(){
-		console.log("requestTenant - installationTenantRequest", $scope.installationTenantRequest);
+		console.debug("requestTenant - installationTenantRequest", $scope.installationTenantRequest);
 		$scope.validationError = {};
 		if(!Helpers.util.isValidEmail($scope.installationTenantRequest.useremail)){
 			$scope.validationError.message = 'REQUEST_TENANT_EMAIL_ERROR';
@@ -424,7 +430,7 @@ appControllers.controller('RequestTenantCtrl', [ '$scope', '$modalInstance', 'in
 		else{
 			$scope.status = 'sending';
 			adminAPIservice.createTenant($scope.installationTenantRequest).success(function(response) {
-				console.log("createTenant SUCCESS", response);
+				console.debug("createTenant SUCCESS", response);
 				$scope.status = 'finish';
 				$scope.requestResponse = {};
 				$scope.requestResponse.message=response.errorName;
