@@ -56,7 +56,10 @@
 					<small ng-if="table.dataset.sharingTenants.length>0">
 						<span translate>MANAGEMENT_IMPORT_DATABASE_TENANT_SHARED</span>{{table.dataset.sharingTenants.length}}<br>
 					</small>
-					<small translate>{{table.dataset.license.licensecode}}</small>
+					
+					<small translate ng-if='table.dataset.license.idLicense && table.dataset.visibility == "public"' title='License'>{{table.dataset.license.idLicense|decodeLicense}}</small>
+					<small translate ng-if='table.dataset.license.licensecode && table.dataset.visibility == "public"' title='License'>{{table.dataset.license.licensecode}}</small>
+					<small translate ng-if='table.dataset.copyright && table.dataset.visibility == "private"' title='Copyright'>{{table.dataset.copyright}}</small>
 				</td>
 				<td class='editable-table-cell' ng-click="editDatasetDCat(table.index)" ng-class="{'dataset-element-customized': table.customized.dcat}">
 					 <i class='fa fa-pencil edit-icon'  title='{{"EDIT"|translate}}' ng-if='!table.dataset.unpublished'></i>

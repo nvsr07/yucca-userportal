@@ -239,6 +239,27 @@ appFilters.filter('decodeFromId', function() {
 	};
 });
 
+appFilters.filter('decodeLicense', function() {
+	return function(idLicense) {
+		var licenseDesc = "";
+		if (typeof idLicense != "undefined" && idLicense !=null ) {
+			switch (idLicense) {
+				case Constants.LICENSE_CC0_ID:
+					licenseDesc = Constants.STREAM_FIELD_METADATA_LICENSE_CC0;
+					break;
+				case Constants.LICENSE_CCBY_ID:
+					licenseDesc = Constants.STREAM_FIELD_METADATA_LICENSE_CCBY;
+					break;
+	
+				default:
+					licenseDesc = "";
+					break;
+				}
+		}
+		return licenseDesc ;
+	};
+});
+
 appFilters.filter('translateDecode', function() {
 	return function(decode, lang) {
 		var translate = "";
