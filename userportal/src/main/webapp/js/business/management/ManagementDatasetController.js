@@ -718,12 +718,16 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 			console.log("data loaded", data);
 			//$scope.admin_response.type = 'success';
 			//$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO';
-			sharedAdminResponse.setResponse({type:'success', message: 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO'});
 			console.log("iiii "+"management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
-			if($scope.isNewDataset)
+			if($scope.isNewDataset){
+				sharedAdminResponse.setResponse({type:'success', message: 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO'});
 				$location.path("management/viewDatasource/dataset/"+$scope.tenantCode+"/"+loadedDatasource.dataset.datasetcode +"/" + loadedDatasource.dataset.iddataset);
-			else
+			}
+			else{
+				$scope.admin_response.type = 'success';
+				$scope.admin_response.message = 'MANAGEMENT_EDIT_DATASET_ADD_DATA_SAVED_INFO';
 				Helpers.util.scrollTo();
+			}
 		}).error(function(response){
 			$scope.updateStatus = 'ready';
 			console.error("addDataToDataset ERROR", response);

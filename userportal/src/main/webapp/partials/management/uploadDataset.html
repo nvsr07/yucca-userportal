@@ -11,6 +11,7 @@
 			<!-- <p>&nbsp;<a href ng-click="debu()">debug</a></p>-->
 			<alert-panel content='admin_response'></alert-panel>
 			<form class="form-horizontal" role="form" name="addDatadDatasetForm">
+			<p>&nbsp;</p>
 			<upload-data-csv datasource='dataset' preview='preview' csv-info='csvInfo' ng-if='datasetReady' component-info-requests='componentInfoRequests' action='uploadData'></upload-data-csv>
 
 				<div class="row" ng-show="updateStatus!='upload' && isAuthorized('management/datasets/upload') ">
