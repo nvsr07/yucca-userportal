@@ -261,7 +261,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 			}
 		}
 	
-		if($scope.stream.license && $scope.stream.license.idLicense==null && $scope.stream.license.description==null && $scope.stream.license.licesecode==null)
+		if($scope.stream.license && $scope.stream.license.idLicense==null && $scope.stream.license.description==null && $scope.stream.license.licensecode==null)
 			delete $scope.stream['license'];
 
 		if($scope.stream.visibility == 'public')

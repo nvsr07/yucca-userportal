@@ -487,7 +487,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 //				$scope.dataset.opendata.lastupdate || $scope.dataset.opendata.opendataauthor || $scope.dataset.opendata.opendatalanguage))
 //			delete $scope.dataset['openData'];
 //	
-		if($scope.dataset.license && $scope.dataset.license.idLicense==null && $scope.dataset.license.description==null && $scope.dataset.license.licesecode==null)
+		if($scope.dataset.license && $scope.dataset.license.idLicense==null && $scope.dataset.license.description==null && $scope.dataset.license.licensecode==null)
 			delete $scope.dataset['license'];
 
 		if($scope.dataset.visibility == 'public')
