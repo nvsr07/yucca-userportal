@@ -354,7 +354,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 				//	$scope.stream.visibility = 'public';
 				//else
 				$scope.stream.visibility = 'private';
-				$scope.stream.icon  = "img/stream-icon-default.png";
+				//$scope.stream.icon  = "img/stream-icon-default.png";
 				$scope.stream.tags = [];
 				$scope.stream.components = [];
 				$scope.stream.savedata = true;
