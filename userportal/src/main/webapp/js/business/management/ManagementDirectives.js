@@ -614,6 +614,15 @@ app.directive('datasourceSharing', function($modal, info, adminAPIservice) {
 					scope.datasource.opendata.opendataupdatedate= year+month+day;	
 	    		}
 	    	};
+	    	
+	    	scope.setOpenData = function(visibility){
+	    		if(visibility == 'public')
+	    			scope.datasource.opendata.isOpenData= true;
+	    		else 
+	    			scope.datasource.opendata.isOpenData= false;
+	    		
+	 
+	    	};
 
 
 	    	

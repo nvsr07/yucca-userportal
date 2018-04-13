@@ -610,10 +610,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'a
 			$scope.goToComponents();
 			//Helpers.util.scrollTo("validateMsg");
 		}else{	
-
-			//FIXME internal stream da rivedere
-			
-				if (!$scope.stream.isOpenData){
+				if (!$scope.stream.opendata.isOpenData){
 					delete $scope.stream['opendata'];
 				} else {
 					if(Helpers.util.has($scope.stream, 'openData.opendataupdatedate') )	{				

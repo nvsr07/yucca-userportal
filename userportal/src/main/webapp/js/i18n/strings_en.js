@@ -41,7 +41,7 @@ var translations_en = {
 	
 	SESSION_EXPIRING_DIALOG_TITLE: 'Expiring session',
 	SESSION_EXPIRING_DIALOG_MESSAGE: 'In a minute the session will expire and you will have to log in again. Do you want to stay authenticated?',
-
+	VISIBILITY_STREAM_DATASET_OPENDATA: 'Public visibility automatically implies that the data is Opendata',
 	
 	/* languages */
 	el:"ελληνικά",

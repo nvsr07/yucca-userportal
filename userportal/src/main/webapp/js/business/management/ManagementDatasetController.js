@@ -512,8 +512,9 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$route', '$route
 	else{
 		var datasourceClone = sharedDatasource.getDatasource();
 		if(datasourceClone==null){				
-			isClone = false;
+			isClone = false;			
 			$scope.dataset = {"datasourceType": Constants.DATASOURCE_TYPE_DATASET,tags: new Array(), unpublished: false,visibility: 'private', idTenant:info.getActiveTenant().idTenant};
+			$scope.dataset.opendata = {"isOpenData":false};
 			console.log("new Dataset start", $scope.dataset);
 			$scope.datasetReady = true;
 		}

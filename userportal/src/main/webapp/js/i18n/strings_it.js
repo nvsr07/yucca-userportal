@@ -41,6 +41,7 @@ var translations_it = {
 	
 	SESSION_EXPIRING_DIALOG_TITLE: 'Sessione in scadenza',
 	SESSION_EXPIRING_DIALOG_MESSAGE: 'Fra un minuto scadrà la sessione e sarà necessario autenticarsi nuovamente. Vuoi restare autenticato?',
+	VISIBILITY_STREAM_DATASET_OPENDATA: 'La visibilità pubblica implica automaticamente che il dato sia Opendata',
 	
 	/* languages */
 	el:"e???????",
