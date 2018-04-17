@@ -101,6 +101,16 @@
 				<div class="col-sm-9">
 					<input type="date" value="{{datasource.opendata.opendataupdatedate|date}} class="form-control" id="inputDatasetOpendataDataUpdateDate" ng-model="datasource.opendata.opendataupdatedate" ng-change='formatOpendataUpdateDate(opendataupdatedate)' close-text="Close" />
 				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputDatasetOpendataUpdateFrequency" class="col-sm-3 control-label"translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_DATA_UPDATE_FREQUENCY</label>
+				<div class="col-sm-9">
+				<!-- Vocabolario: http://publications.europa.eu/mdr/resource/authority/frequency/skos/frequencies-skos.rdf -->
+					<select id="inputDatasetDomain" class="input-sm form-control" ng-model="datasource.opendata.opendataupdatefrequency" ng-options="frequency as {{'(OPENDATA_UPDATE_FREQUENCY_)+frequency'|translate}}  for frequency in OPENDATA_UPDATE_FREQUENCY">
+	   					<option value="" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_UPDATE_FREQUENCY_PLACEHOLDER</option>
+	   				
+	   				</select>
+				</div>
 			</div>				
 		</div>
 	</div>

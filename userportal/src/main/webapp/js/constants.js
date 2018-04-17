@@ -58,10 +58,10 @@ Constants.VALIDATION_PATTERN_FLOAT = /^\s*[-+]?(\d*\.?\d+|\d+\.)(e[-+]?[0-9]+)?\
 Constants.VALIDATION_PATTERN_UUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 Constants.VALIDATION_PATTERN_NO_SPACE = /^(?!.*(?:[ ]))/;
 Constants.VALIDATION_PATTERN_CODE_VIRTUALENTITY = /^(?!.*(?:[ *./#<>àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]))/;
-//Constants.VALIDATION_PATTERN_CODE_STREAM =        /^(?!.*(?:[ *./#<>àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ-]))/;
+Constants.VALIDATION_PATTERN_CODE_STREAM =        /^(?!.*(?:[ *./#<>àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ-]))/;
 Constants.VALIDATION_PATTERN_ACCENT =        /.*[àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ].*/;
 Constants.VALIDATION_PATTERN_ALPHANUMERIC = /^[a-zA-Z0-9]*$/;
-Constants.VALIDATION_PATTERN_CODE_STREAM  = Constants.VALIDATION_PATTERN_ALPHANUMERIC;
+
 
 
 /* Numero di elementi nella Error Log */
@@ -137,6 +137,35 @@ Constants.OPENDATA_LANGUAGES = {
 		"sl":"Slovenščina",
 		"sr":"Српски"
 };
+
+Constants.OPENDATA_UPDATE_FREQUENCY = ["TRIENNIAL", "BIENNAL", "ANNUAL","ANNUAL_2","ANNUAL_3","QUARTERLY","BIMONTHLY","MONTHLY","MONTHLY_2","BIWEEKLY","MONTHLY_3","WEEKLY","WEEKLY_2","WEEKLY_3","DAILY","UPDATE_CONT","IRREG","UNKNOWN","OTHER","DAILY_2","CONT","NEVER","OP_DATPRO"];
+
+/*Constants.OPENDATA_UPDATE_FREQUENCY = {
+		"tr":"OPENDATA_UPDATE_FREQUENCY_tr",
+		"bn":"OPENDATA_UPDATE_FREQUENCY_bn",
+		"an":"OPENDATA_UPDATE_FREQUENCY_an",
+		"an2":"OPENDATA_UPDATE_FREQUENCY_an2",
+		"an3":"OPENDATA_UPDATE_FREQUENCY_an3",
+		"quar":"OPENDATA_UPDATE_FREQUENCY_quar",
+		"bim":"OPENDATA_UPDATE_FREQUENCY_bim",
+		"mon":"OPENDATA_UPDATE_FREQUENCY_mon",
+		"mon2":"OPENDATA_UPDATE_FREQUENCY_mon2",
+		"biw":"OPENDATA_UPDATE_FREQUENCY_biw",
+		"mon3":"OPENDATA_UPDATE_FREQUENCY_mon3",
+		"week":"OPENDATA_UPDATE_FREQUENCY_week",
+		"week2":"OPENDATA_UPDATE_FREQUENCY_week2",
+		"week3":"OPENDATA_UPDATE_FREQUENCY_week3",
+		"day":"OPENDATA_UPDATE_FREQUENCY_day",
+		"contupd":"OPENDATA_UPDATE_FREQUENCY_contupd",
+		"irreg":"OPENDATA_UPDATE_FREQUENCY_irreg",
+		"unk":"OPENDATA_UPDATE_FREQUENCY_unk",
+		"oth":"OPENDATA_UPDATE_FREQUENCY_oth",
+		"day2":"OPENDATA_UPDATE_FREQUENCY_day2",
+		"cont":"OPENDATA_UPDATE_FREQUENCY_cont",
+		"nev":"OPENDATA_UPDATE_FREQUENCY_nev",
+		"datpro":"OPENDATA_UPDATE_FREQUENCY_datpro",
+		
+};*/
 
 Constants.ODATA_MAX_RESULT_SORTABLE = 100000;
 

@@ -562,6 +562,7 @@ app.directive('datasourceSharing', function($modal, info, adminAPIservice) {
 	    link: function(scope, elem, attrs) {
 	    	console.debug("datasourceSharing.link", scope.datasource);
 	    	scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
+	    	scope.OPENDATA_UPDATE_FREQUENCY = Constants.OPENDATA_UPDATE_FREQUENCY;
 	    	//scope.tenantsList = scope.$parent.tenantsList;
 	    	
 	    	scope.tenantsList = [];
