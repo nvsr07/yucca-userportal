@@ -187,11 +187,11 @@
 									<label for="RadioGroupVisibility" class="col-sm-3 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_VISIBILITY'|translate"></span></label>
 									<div class="col-sm-9">
 										<label class="radio-inline">
-					              			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="dataset.info.visibility" ng-disabled='!canCreatePublicDataset() || dataset.info.unpublished'>
+					              			<input type="radio" name="RadioGroupVisibility" value="public" id="RadioGroupVisibility_0" ng-model="dataset.info.visibility" ng-change="setOpenData(dataset.info.visibility)" ng-disabled='!canCreatePublicDataset() || dataset.info.unpublished'>
 					              			<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PUBLIC</span>
 					            		</label>
 										<label class="radio-inline">
-					              			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="dataset.info.visibility" ng-disabled='!canCreatePublicDataset() || dataset.info.unpublished'>
+					              			<input type="radio" name="RadioGroupVisibility" value="private" id="RadioGroupVisibility_1" ng-model="dataset.info.visibility" ng-change="setOpenData(dataset.info.visibility)" ng-disabled='!canCreatePublicDataset() || dataset.info.unpublished'>
 					              			<span translate-cloak translate>MANAGEMENT_EDIT_DATASET_VISIBILITY_PRIVATE</span>
 					            		</label>
 									</div>
@@ -237,6 +237,7 @@
 										</div>						
 									</div>									
 								</div>
+								<!--  
 								<div ng-show="dataset.info.visibility=='public'">
 									<div class="form-group">
 										<label for="RadioGroupOpenadata" class="col-sm-3 control-label"><span ng-bind-html="'DATASET_FIELD_METADATA_OPENDATA'|translate"></span></label>
@@ -251,7 +252,8 @@
 						            		</label>
 										</div>
 									</div>
-									<div ng-show="dataset.opendata.isOpendata=='true'">
+									-->
+									<div ng-show="dataset.info.visibility=='public'">
 										<div class="form-group">
 											<label for="inputDatasetOpendataAuthor" class="col-sm-3 control-label" translate-cloak translate>DATASET_FIELD_METADATA_OPENDATA_AUTHOR</label>
 											<div class="col-sm-9">
@@ -272,8 +274,17 @@
 											<div class="col-sm-9">
 												<input type="date" class="form-control" id="inputDatasetOpendataDataUpdateDate" ng-model="dataset.opendata.dataUpdateDate"  close-text="Close" />
 											</div>
-										</div>				
-									</div>
+										</div>	
+										<div class="form-group" >
+											<label for="inputDatasetOpendataUpdateFrequency" class="col-sm-3 control-label"translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_DATA_UPDATE_FREQUENCY</label>
+											<div class="col-sm-9">
+												<!-- Vocabolario: http://publications.europa.eu/mdr/resource/authority/frequency/skos/frequencies-skos.rdf -->
+												<select id="inputDatasetDomain" class="input-sm form-control" ng-model="dataset.opendata.opendataupdatefrequency" 
+													ng-options="frequency as 'OPENDATA_UPDATE_FREQUENCY_'+frequency|translate  for frequency in OPENDATA_UPDATE_FREQUENCY">
+	   												<option value="" translate-cloak translate>STREAM_FIELD_METADATA_OPENDATA_UPDATE_FREQUENCY_PLACEHOLDER</option>
+	   											</select>
+											</div>			
+										</div>
 								</div>
 								<h3 class='text-left form-section-title'  translate-cloak translate><span ng-bind-html="'MANAGEMENT_EDIT_DATASET_LEGAL_INFO'|translate"></span></h3>
 								<div class="form-group" ng-show="dataset.info.visibility!='private'">

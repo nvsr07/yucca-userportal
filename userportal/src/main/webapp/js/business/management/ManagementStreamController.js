@@ -157,6 +157,14 @@ appControllers.controller('ManagementStreamWizardCtrl', [ '$scope', function($sc
 appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'fabricAPIservice', 'info', '$timeout', "$filter", 'readFilePreview', '$location', 'sharedStream', '$translate',
                                                     function($scope, $routeParams, fabricAPIservice, info, $timeout, $filter, readFilePreview, $location, sharedStream, $translate) {
 	$scope.tenantCode = $routeParams.tenant_code;
+	
+	$scope.setOpenData = function(visibility){
+		if(visibility == 'public'){
+			$scope.stream.opendata.isOpendata = 1;
+		}
+		else 
+			$scope.stream.opendata.isOpendata = 0;		
+	};
 
 	$scope.isOwner = function(){
 		return info.isOwner( $scope.tenantCode);
@@ -615,7 +623,7 @@ appControllers.controller('ManagementStreamCtrl', [ '$scope', '$routeParams', 'f
 				$scope.stream.publishStream = 1;
 				$scope.stream.deploymentVersion = 1;
 				$scope.stream.opendata = {};
-				$scope.stream.opendata.isOpendata = 0;
+				$scope.stream.opendata.isOpendata = 1;
 				$scope.stream.opendata.author = null;
 				$scope.stream.opendata.dataUpdateDate = 0;
 				$scope.stream.opendata.language = null;

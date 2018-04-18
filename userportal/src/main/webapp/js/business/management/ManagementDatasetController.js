@@ -342,6 +342,8 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	$scope.apiMetdataUrl = "api.smartdatanet.it:80/api/";
 	$scope.apiMetdataSecureUrl = "api.smartdatanet.it:443/api/";
 	$scope.topic = $scope.datasetCode;
+	
+
 
 	$scope.validationPatternSubdomain = Constants.VALIDATION_PATTERN_NO_SPACE;
 
@@ -374,6 +376,7 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 	}; 
 
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
+	$scope.OPENDATA_UPDATE_FREQUENCY = Constants.OPENDATA_UPDATE_FREQUENCY;
 	$scope.updateInfo = null;
 	$scope.updateError = null;
 	
@@ -723,6 +726,12 @@ appControllers.controller('ManagementDatasetCtrl', [ '$scope', '$routeParams', '
 		return ($scope.dataset && $scope.dataset.configData && $scope.dataset.configData.type == "dataset" && $scope.dataset.configData.subtype == "bulkDataset");
 	};
 
+	$scope.setOpenData = function(visibility){
+		if(visibility == 'public')
+			$scope.dataset.opendata.isOpendata = 'true';
+		else 
+			$scope.dataset.opendata.isOpendata = 'false';		
+	};
 	$scope.updateDataset = function() {
 		var newDataset =  $scope.dataset;
 		$scope.updateInfo = null;
@@ -1868,6 +1877,15 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	$scope.isUploading = false;
 
 	$scope.warningMessages = [];
+	
+	$scope.setOpenData = function(visibility){
+		if(visibility == 'public'){
+			console.log("PUBLICCCCCCCCCCCCCCCCCCCCCC");
+			$scope.metadata.opendata.isOpendata = 'true';
+		}
+		else 
+			$scope.metadata.opendata.isOpendata = 'false';		
+	};
 	
 	$scope.createDataset = function() {
 		$scope.warningMessages = [];
