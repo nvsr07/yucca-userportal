@@ -1162,6 +1162,7 @@ appControllers.controller('ManagementNewDatasetWizardCtrl', [ '$scope', '$route'
 	                      ];
 
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
+	$scope.OPENDATA_UPDATE_FREQUENCY = Constants.OPENDATA_UPDATE_FREQUENCY;
 
 	var refreshWizardToolbar = function(){
 		var style = 'step-done';
@@ -2017,6 +2018,7 @@ appControllers.controller('ManagemenImportDatabasetWizardCtrl', [ '$scope', '$ro
 	};
 	
 	$scope.OPENDATA_LANGUAGES = Constants.OPENDATA_LANGUAGES;
+	$scope.OPENDATA_UPDATE_FREQUENCY = Constants.OPENDATA_UPDATE_FREQUENCY;
 	
 	$scope.importConfig = {};
 	$scope.defaultMetadata= {"info":{"visibility":"private","tenantssharing":{"tenantsharing": new Array()},"tags": new Array()}}; 
